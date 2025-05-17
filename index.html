@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohr HaTorah Messianic Congregation</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2.0">
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo"><img src="images/logo.png" alt="Ohr HaTorah Logo" class="logo-image"></div>
+        <div class="header-info">
+            <div class="time-date-container">
+                <div class="hebrew-date" id="hebrew-date"></div>
+                <div class="time-date-divider"></div>
+                <div class="israel-time" id="israel-time"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav class="navigation">
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#" aria-label="Welcome"><i class="fas fa-home"></i> Welcome</a>
+                    <div class="dropdown-content">
+                        <a href="#" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
+                        <a href="#" aria-label="Leadership"><i class="fas fa-user-friends"></i> Leadership</a>
+                        <a href="#" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
+                        <a href="#" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
+                        <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                        <a href="#" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
+                        <a href="#" aria-label="Contact Us"><i class="fas fa-phone"></i> Contact Us</a>
+                        <a href="#" aria-label="Mailing List"><i class="fas fa-envelope-open-text"></i> Sign Up for Mailing List</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-label="Events & Services"><i class="fas fa-calendar-check"></i> Events & Services</a>
+                    <div class="dropdown-content">
+                        <a href="#" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
+                        <a href="#" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
+                        <a href="#" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
+                        <a href="#" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
+                        <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-label="Community"><i class="fas fa-users"></i> Community</a>
+                    <div class="dropdown-content">
+                        <a href="#" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                        <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
+                        <a href="#" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-label="Learn"><i class="fas fa-graduation-cap"></i> Learn</a>
+                    <div class="dropdown-content">
+                        <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
+                        <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
+                        <a href="#" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
+                        <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
+                        <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-label="Resources"><i class="fas fa-archive"></i> Resources</a>
+                    <div class="dropdown-content">
+                        <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
+                        <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
+                        <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
+                        <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
+                    </div>
+                </li>
+                <li><a href="#" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                <li><a href="#" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <div class="widget-header"><i class="fas fa-hand-peace"></i> Shalom Visitor!</div>
+                <div class="widget-content">
+                    <ul class="sidebar-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Welcome Message</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> What We Believe</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Worship Times</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Leadership</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <div class="widget-header"><i class="fas fa-calendar-check"></i> Upcoming Events</div>
+                <div class="widget-content">
+                    <ul class="sidebar-list">
+                        <li><a href="#"><i class="fas fa-star"></i> Shabbat Services - Weekly</a></li>
+                        <li><a href="#"><i class="fas fa-star"></i> Torah Study - TBD</a></li>
+                        <li><a href="#"><i class="fas fa-star"></i> Youth Group - TBD</a></li>
+                        <li><a href="#"><i class="fas fa-star"></i> Israeli Dance - TBD</a></li>
+                        <li><a href="#"><i class="fas fa-star"></i> Passover Seder - Annual</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <div class="widget-header"><i class="fas fa-book"></i> Resources</div>
+                <div class="widget-content">
+                    <ul class="sidebar-list">
+                        <li><a href="#"><i class="fas fa-scroll"></i> Weekly Parashah</a></li>
+                        <li><a href="#"><i class="fas fa-hands"></i> Prayer Resources</a></li>
+                        <li><a href="#"><i class="fas fa-language"></i> Hebrew Classes</a></li>
+                        <li><a href="#"><i class="fas fa-headphones"></i> Audio Teachings</a></li>
+                        <li><a href="#"><i class="fas fa-video"></i> Livestream Services</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <div class="widget-header"><i class="fas fa-clock"></i> Prayer Times</div>
+                <div class="widget-content">
+                    <div class="prayer-times">
+                        <div class="prayer-row">
+                            <div class="prayer-name"><i class="fas fa-sun"></i> Shacharit</div>
+                            <div class="prayer-time">7:00 AM</div>
+                        </div>
+                        <div class="prayer-row">
+                            <div class="prayer-name"><i class="fas fa-cloud-sun"></i> Mincha</div>
+                            <div class="prayer-time">5:00 PM</div>
+                        </div>
+                        <div class="prayer-row">
+                            <div class="prayer-name"><i class="fas fa-moon"></i> Ma'ariv</div>
+                            <div class="prayer-time">8:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <div class="widget-content text-center">
+                    <button class="btn"><i class="fas fa-envelope-open-text"></i> Sign Up for Newsletter</button>
+                    <div class="mt-md">
+                        <img src="images/Torah.PNG" alt="Torah" class="rounded-md shadow-sm" style="width: 100%; max-width: 200px; height: auto; margin: 0 auto;">
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="content">
+            <h1><i class="fas fa-star-of-david"></i> Welcome to Ohr HaTorah Messianic Congregation</h1>
+            
+            <div class="infobox">
+                <i class="fas fa-info-circle"></i>
+                <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parasha Kedoshim), and fellowship meal at our Tustin location.
+            </div>
+            
+            <p>Ohr HaTorah ("Light of the Torah") is Orange County's vibrant congregation of Jewish and non-Jewish believers in Yeshua as the Messiah of Israel. We observe the biblical Sabbath and festivals while embracing the completed work of Messiah.</p>
+            
+            <p>Our congregation honors the Torah and celebrates the Jewish roots of our faith while recognizing Yeshua as the fulfillment of the Messianic prophecies. We welcome all who seek to explore the Hebrew roots of faith!</p>
+            
+            <div class="quote-box">
+                <p class="quote-text">The Torah is a tree of life to those who take hold of it, and those who support it are praiseworthy. Its ways are ways of pleasantness, and all its paths are peace.</p>
+                <p class="quote-author">— Proverbs 3:17-18</p>
+            </div>
+            
+            <h3><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
+            
+            <!-- Google Calendar Embed Placeholder -->
+            <div class="calendar-container">
+                <div class="responsive-calendar">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=drburton369%40gmail.com&ctz=America%2FLos_Angeles" 
+                            style="border: 0" 
+                            width="100%" 
+                            height="650" 
+                            frameborder="0" 
+                            scrolling="yes">
+                    </iframe>
+                </div>
+            </div>
+            
+            <h3><i class="fas fa-comment-alt"></i> Rabbi's Message</h3>
+            <p>Shalom friends! As we approach Passover, we remember the deliverance of our people from Egypt and the greater deliverance we have through our Messiah Yeshua. Join us for our community Seder as we celebrate this special time together in our beautiful Orange County facility.</p>
+            
+            <div class="testimonial">
+                <p class="testimonial-text">Finding Ohr HaTorah has been a blessing for our family. The blend of Jewish traditions and faith in Yeshua has enriched our spiritual journey in ways we never expected.</p>
+                <div class="testimonial-author">
+                    <img src="https://source.unsplash.com/100x100/?elderly,jewish,woman" alt="Community Member" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <span class="testimonial-name">Rachel Cohen</span>
+                        <span class="testimonial-role">Congregation Member since 2020</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4><i class="fas fa-clock"></i> Service Times</h4>
+                    <p>Shabbat: 10:00 AM<br>
+                    Torah Study: Tuesday 7:00 PM<br>
+                    Prayer Meeting: Wed 6:30 PM</p>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                    <p>12345 Torah Way<br>
+                    Tustin, CA 92618<br>
+                    (555) 987-6543</p>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-envelope"></i> Contact Us</h4>
+                    <p>Email: info@ohrhatorah-oc.org<br>
+                    Phone: (555) 987-6543<br>
+                    Fax: (555) 987-6544</p>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-heart"></i> Warm Invitation</h4>
+                    <p>All are welcome to join our<br>
+                    vibrant community celebrating<br>
+                    Jewish heritage and faith</p>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-blue"><i class="fas fa-envelope"></i> Contact Us</button>
+                <button class="btn"><i class="fas fa-directions"></i> Get Directions</button>
+                <button class="btn btn-gold"><i class="fas fa-play-circle"></i> Live Streaming</button>
+                <button class="btn"><i class="fas fa-calendar-plus"></i> Add to Calendar</button>
+            </div>
+        </main>
+        
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <!-- Weekly Parashah Card - API Integration Placeholder -->
+            <div class="feature-card">
+                <div class="card-header">
+                    <i class="fas fa-torah"></i>
+                    <span>Weekly Parashah</span>
+                </div>
+                <div class="card-body">
+                    <div class="parashah-info">
+                        <i class="fas fa-bookmark"></i>
+                        <span class="parashah-label">Parashah:</span>
+                        <span id="parashah-name">Kedoshim (Holy)</span>
+                    </div>
+                    <div class="parashah-info">
+                        <i class="fas fa-book"></i>
+                        <span class="parashah-label">Torah:</span>
+                        <span id="torah-reading">Leviticus 19:1-20:27</span>
+                    </div>
+                    <div class="parashah-info">
+                        <i class="fas fa-book-open"></i>
+                        <span class="parashah-label">Haftarah:</span>
+                        <span id="haftarah-reading">Amos 9:7-15</span>
+                    </div>
+                    <div class="parashah-info">
+                        <i class="fas fa-book-reader"></i>
+                        <span class="parashah-label">Brit:</span>
+                        <span id="brit-reading">Matthew 5:33-37</span>
+                    </div>
+                    <div class="loader" id="parashah-loader" style="display: none;"></div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn"><i class="fas fa-external-link-alt"></i> Full Study Notes</button>
+                </div>
+            </div>
+            
+            <!-- Candle Lighting Times Card - API Integration Placeholder -->
+            <div class="feature-card">
+                <div class="card-header">
+                    <i class="fas fa-menorah"></i>
+                    <span>Shabbat Candle Lighting</span>
+                </div>
+                <div class="card-body">
+                    <div class="candle-times">
+                        <div class="candle-row">
+                            <div>
+                                <div class="candle-day">This Friday</div>
+                                <div class="candle-date" id="next-friday-date">Apr 19, 2025</div>
+                            </div>
+                            <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-1">7:14 PM</span></div>
+                        </div>
+                        <div class="candle-row">
+                            <div>
+                                <div class="candle-day">Havdalah</div>
+                                <div class="candle-date" id="havdalah-date">Apr 20, 2025</div>
+                            </div>
+                            <div class="candle-time"><i class="fas fa-moon"></i> <span id="havdalah-time">8:15 PM</span></div>
+                        </div>
+                        <div class="candle-row">
+                            <div>
+                                <div class="candle-day">Next Friday</div>
+                                <div class="candle-date" id="following-friday-date">Apr 26, 2025</div>
+                            </div>
+                            <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">7:19 PM</span></div>
+                        </div>
+                    </div>
+                    <div class="loader" id="candle-times-loader" style="display: none;"></div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn"><i class="fas fa-calendar-alt"></i> View Full Calendar</button>
+                </div>
+            </div>
+            
+            <!-- Leadership Card -->
+            <div class="feature-card leader-card">
+                <div class="card-header">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Meet Our Rabbi</span>
+                </div>
+                <div class="card-body text-center">
+                    <div class="leader-img">
+                        <img src="images/rabbi.avif" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                    </div>
+                    <div class="leader-name">Rabbi Charles Ott</div>
+                    <div class="leader-title">Senior Rabbi &amp; Teacher</div>
+                    <p class="leader-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn"><i class="fas fa-user-friends"></i> Meet Our Team</button>
+                </div>
+            </div>
+            
+            <!-- Community Life Card -->
+            <div class="feature-card">
+                <div class="card-header">
+                    <i class="fas fa-images"></i>
+                    <span>Community Life</span>
+                </div>
+                <div class="card-body">
+                    <div class="community-grid">
+                        <div class="community-item">
+                            <img src="images/Dancing.PNG" alt="Israeli Dancing" class="community-image">
+                            <p class="community-caption">Israeli Dance</p>
+                        </div>
+                        <div class="community-item">
+                            <img src="images/Passover.PNG" alt="Passover Seder" class="community-image">
+                            <p class="community-caption">Passover Seder</p>
+                        </div>
+                        <div class="community-item">
+                            <img src="images/Location.PNG" alt="Our Synagogue" class="community-image">
+                            <p class="community-caption">Our Facility</p>
+                        </div>
+                        <div class="community-item">
+                            <img src="images/Community.PNG" alt="Community Gathering" class="community-image">
+                            <p class="community-caption">Fellowship</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4><i class="fas fa-star-of-david"></i> Ohr HaTorah</h4>
+                    <p>Ohr HaTorah is a Messianic Jewish congregation dedicated to exploring the Jewish roots of our faith while embracing Yeshua as the promised Messiah of Israel.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4><i class="fas fa-link"></i> Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Services &amp; Times</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Calendar</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Resources</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Donate</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4><i class="fas fa-envelope"></i> Stay Connected</h4>
+                    <p>Subscribe to our newsletter for updates on events, teachings, and community news.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address" aria-label="Email address">
+                        <button class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 12345 Torah Way, Tustin, CA 92618</li>
+                        <li><i class="fas fa-phone"></i> (555) 987-6543</li>
+                        <li><i class="fas fa-envelope"></i> info@ohrhatorah-oc.org</li>
+                        <li><i class="fas fa-clock"></i> Office Hours: TBD</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Ohr HaTorah Messianic Congregation. All rights reserved.</p>
+                <p>
+                    <a href="#">Privacy Policy</a> |
+                    <a href="#">Terms of Use</a> |
+                    <a href="#">Accessibility</a> |
+                    <a href="#">Site Map</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>

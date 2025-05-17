@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (if any)
+node_modules/
+
+# Logs
+*.log
+
+# Build directories
+dist/
+build/
+
+# Archives
+*.zip
+faithcommunity.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+.env.local
