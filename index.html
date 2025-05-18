@@ -7,11 +7,49 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2.0">
+    <script>
+     (function () {
+       var script = document.createElement("script");
+       script.type = "text/javascript";
+       script.src = "https://bringthemhomenow.net/1.3.0/hostages-ticker.js";
+       script.setAttribute(
+         "integrity",
+         "sha384-MmP7bD5QEJWvJccg9c0lDnn3LjjqQWDiRCxRV+NU8hij15icuwb29Jfw1TqJwuSv"
+       );
+       script.setAttribute("crossorigin", "anonymous");
+       
+       // Success handler - show the container when script loads
+       script.onload = function() {
+         var hostageInfo = document.querySelector('.hostage-info');
+         if (hostageInfo) {
+           hostageInfo.style.display = 'block';
+         }
+       };
+       
+       // Error handler - hide the container if script fails
+       script.onerror = function() {
+         var hostageInfo = document.querySelector('.hostage-info');
+         if (hostageInfo) {
+           hostageInfo.style.display = 'none';
+         }
+       };
+       
+       document.getElementsByTagName("head")[0].appendChild(script);
+     })();
+    </script>
 </head>
 <body>
 
     <!-- Header -->
     <div class="header">
+        <button class="mobile-menu-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="hostage-info">
+            <div id="bthn" lang="en"></div>
+        </div>
         <div class="logo"><img src="images/logo.png" alt="Ohr HaTorah Logo" class="logo-image"></div>
         <div class="header-info">
             <div class="time-date-container">
@@ -22,68 +60,66 @@
         </div>
     </div>
     
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" onclick="closeMenu()"></div>
+    
     <!-- Navigation -->
-    <div class="nav-container">
-        <nav class="navigation">
-            <button class="mobile-menu-btn" aria-label="Toggle menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <a href="#" aria-label="Welcome"><i class="fas fa-home"></i> Welcome</a>
-                    <div class="dropdown-content">
-                        <a href="#" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
-                        <a href="#" aria-label="Leadership"><i class="fas fa-user-friends"></i> Leadership</a>
-                        <a href="#" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
-                        <a href="#" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
-                        <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
-                        <a href="#" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
-                        <a href="#" aria-label="Contact Us"><i class="fas fa-phone"></i> Contact Us</a>
-                        <a href="#" aria-label="Mailing List"><i class="fas fa-envelope-open-text"></i> Sign Up for Mailing List</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" aria-label="Events & Services"><i class="fas fa-calendar-check"></i> Events & Services</a>
-                    <div class="dropdown-content">
-                        <a href="#" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
-                        <a href="#" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
-                        <a href="#" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
-                        <a href="#" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
-                        <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" aria-label="Community"><i class="fas fa-users"></i> Community</a>
-                    <div class="dropdown-content">
-                        <a href="#" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
-                        <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
-                        <a href="#" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" aria-label="Learn"><i class="fas fa-graduation-cap"></i> Learn</a>
-                    <div class="dropdown-content">
-                        <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
-                        <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
-                        <a href="#" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
-                        <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
-                        <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" aria-label="Resources"><i class="fas fa-archive"></i> Resources</a>
-                    <div class="dropdown-content">
-                        <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
-                        <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
-                        <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
-                        <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
-                    </div>
-                </li>
-                <li><a href="#" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
-                <li><a href="#" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
-            </ul>
-        </nav>
-    </div>
+    <nav class="nav-container">
+        <ul class="nav-links">
+            <li class="dropdown">
+                <a href="#" aria-label="Welcome"><i class="fas fa-home"></i> Welcome</a>
+                <div class="dropdown-content">
+                    <a href="#" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
+                    <a href="#" aria-label="Leadership"><i class="fas fa-user-friends"></i> Leadership</a>
+                    <a href="#" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
+                    <a href="#" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
+                    <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                    <a href="#" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
+                    <a href="#" aria-label="Contact Us"><i class="fas fa-phone"></i> Contact Us</a>
+                    <a href="#" aria-label="Mailing List"><i class="fas fa-envelope-open-text"></i> Sign Up for Mailing List</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" aria-label="Events & Services"><i class="fas fa-calendar-check"></i> Events & Services</a>
+                <div class="dropdown-content">
+                    <a href="#" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
+                    <a href="#" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
+                    <a href="#" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
+                    <a href="#" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
+                    <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" aria-label="Community"><i class="fas fa-users"></i> Community</a>
+                <div class="dropdown-content">
+                    <a href="#" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                    <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
+                    <a href="#" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" aria-label="Learn"><i class="fas fa-graduation-cap"></i> Learn</a>
+                <div class="dropdown-content">
+                    <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
+                    <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
+                    <a href="#" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
+                    <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
+                    <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" aria-label="Resources"><i class="fas fa-archive"></i> Resources</a>
+                <div class="dropdown-content">
+                    <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
+                    <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
+                    <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
+                    <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
+                </div>
+            </li>
+            <li><a href="#" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            <li><a href="#" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
+        </ul>
+    </nav>
     
     <!-- Main Container -->
     <div class="container">
@@ -171,9 +207,19 @@
             
             <p>Our congregation honors the Torah and celebrates the Jewish roots of our faith while recognizing Yeshua as the fulfillment of the Messianic prophecies. We welcome all who seek to explore the Hebrew roots of faith!</p>
             
-            <div class="quote-box">
-                <p class="quote-text">The Torah is a tree of life to those who take hold of it, and those who support it are praiseworthy. Its ways are ways of pleasantness, and all its paths are peace.</p>
-                <p class="quote-author">— Proverbs 3:17-18</p>
+            <div class="ticker-banner">
+                <div class="ticker-content">
+                    <span class="ticker-item">
+                        <i class="fas fa-scroll"></i>
+                        Torah is a tree of life to those who take hold of her, and blessed will be all who hold firmly to her. Her ways are pleasant ways and all her paths are shalom.
+                        <span class="ticker-author">— Proverbs 3:17-18 (Liturgical)</span>
+                    </span>
+                    <span class="ticker-item">
+                        <i class="fas fa-scroll"></i>
+                        Torah is a tree of life to those who take hold of her, and blessed will be all who hold firmly to her. Her ways are pleasant ways and all her paths are shalom.
+                        <span class="ticker-author">— Proverbs 3:17-18 (Liturgical)</span>
+                    </span>
+                </div>
             </div>
             
             <h3><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
@@ -197,7 +243,7 @@
             <div class="testimonial">
                 <p class="testimonial-text">Finding Ohr HaTorah has been a blessing for our family. The blend of Jewish traditions and faith in Yeshua has enriched our spiritual journey in ways we never expected.</p>
                 <div class="testimonial-author">
-                    <img src="https://source.unsplash.com/100x100/?elderly,jewish,woman" alt="Community Member" class="testimonial-avatar">
+                    <img src="images/rachelcohen.webp" alt="Rachel Cohen" class="testimonial-avatar">
                     <div class="testimonial-info">
                         <span class="testimonial-name">Rachel Cohen</span>
                         <span class="testimonial-role">Congregation Member since 2020</span>
