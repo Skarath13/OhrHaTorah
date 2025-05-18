@@ -1,5 +1,42 @@
-// Mobile Menu Toggle
+// Mobile menu toggle functions
+function toggleMenu() {
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navContainer = document.querySelector('.nav-container');
+    const navOverlay = document.querySelector('.nav-overlay');
+    
+    menuBtn.classList.toggle('active');
+    navContainer.classList.toggle('active');
+    navOverlay.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (navContainer.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+function closeMenu() {
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navContainer = document.querySelector('.nav-container');
+    const navOverlay = document.querySelector('.nav-overlay');
+    
+    menuBtn.classList.remove('active');
+    navContainer.classList.remove('active');
+    navOverlay.classList.remove('active');
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu click handler for nav links
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            closeMenu();
+        });
+    });
     // Load Hebrew date from Hebcal API
     const loadHebrewDate = async () => {
         const hebrewDateElement = document.getElementById('hebrew-date');
@@ -135,32 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load prayer times on page load
     loadPrayerTimes();
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
-        });
-    }
-    
-    // Dropdown menu toggle for mobile
-    const dropdowns = document.querySelectorAll('.dropdown');
-    
-    dropdowns.forEach(dropdown => {
-        const link = dropdown.querySelector('a');
-        
-        if (link) {
-            link.addEventListener('click', function(e) {
-                // Only handle the click if we're in mobile view
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdown.classList.toggle('active');
-                }
-            });
-        }
-    });
     
     // Back to top button functionality
     const backToTopButton = document.getElementById('backToTop');
@@ -338,8 +349,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const lng = -117.8311;
             const tzid = 'America/Los_Angeles';
             
-            // Fetch candle lighting times
-            const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=${lat}&longitude=${lng}&tzid=${tzid}&start=${formatDate(nextFriday)}&end=${formatDate(followingFriday)}`);
+            // Fetch candle lighting times (using the correct endpoint)
+            const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lng}&tzid=${tzid}&geo=pos`);
+            
+            if (!response.ok) {
+                throw new Error(`API responded with status: ${response.status}`);
+            }
+            
             const data = await response.json();
             
             // Parse the response
@@ -376,11 +392,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
         } catch (error) {
-            console.error('Error loading candle times:', error);
+            console.error('Error loading candle times:', error.message);
             // Use fallback times
-            document.getElementById('candle-time-1').textContent = '7:00 PM';
-            document.getElementById('candle-time-2').textContent = '7:00 PM';
-            document.getElementById('havdalah-time').textContent = '8:00 PM';
+            const candleTime1El = document.getElementById('candle-time-1');
+            const candleTime2El = document.getElementById('candle-time-2');
+            const havdalahTimeEl = document.getElementById('havdalah-time');
+            
+            if (candleTime1El) candleTime1El.textContent = '7:00 PM';
+            if (candleTime2El) candleTime2El.textContent = '7:00 PM';
+            if (havdalahTimeEl) havdalahTimeEl.textContent = '8:00 PM';
         } finally {
             candleLoader.style.display = 'none';
         }
