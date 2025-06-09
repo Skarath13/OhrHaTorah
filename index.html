@@ -7,36 +7,6 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2.0">
-    <script>
-     (function () {
-       var script = document.createElement("script");
-       script.type = "text/javascript";
-       script.src = "https://bringthemhomenow.net/1.3.0/hostages-ticker.js";
-       script.setAttribute(
-         "integrity",
-         "sha384-MmP7bD5QEJWvJccg9c0lDnn3LjjqQWDiRCxRV+NU8hij15icuwb29Jfw1TqJwuSv"
-       );
-       script.setAttribute("crossorigin", "anonymous");
-       
-       // Success handler - show the container when script loads
-       script.onload = function() {
-         var hostageInfo = document.querySelector('.hostage-info');
-         if (hostageInfo) {
-           hostageInfo.style.display = 'block';
-         }
-       };
-       
-       // Error handler - hide the container if script fails
-       script.onerror = function() {
-         var hostageInfo = document.querySelector('.hostage-info');
-         if (hostageInfo) {
-           hostageInfo.style.display = 'none';
-         }
-       };
-       
-       document.getElementsByTagName("head")[0].appendChild(script);
-     })();
-    </script>
 </head>
 <body>
 
@@ -48,7 +18,36 @@
             <span></span>
         </button>
         <div class="hostage-info">
-            <div id="bthn" lang="en"></div>
+            <div class="hostage-counter">
+                <div class="hostage-header">
+                    <span class="hostage-text">🇮🇱 HOSTAGES</span>
+                    <span class="hostage-subtext">HELD BY HAMAS</span>
+                </div>
+                <div class="hostage-timer">
+                    <div class="timer-segment">
+                        <span class="timer-number" id="hostage-days">000</span>
+                        <span class="timer-label">DAYS</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-segment">
+                        <span class="timer-number" id="hostage-hours">00</span>
+                        <span class="timer-label">HOURS</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-segment">
+                        <span class="timer-number" id="hostage-minutes">00</span>
+                        <span class="timer-label">MINUTES</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-segment">
+                        <span class="timer-number" id="hostage-seconds">00</span>
+                        <span class="timer-label">SECONDS</span>
+                    </div>
+                </div>
+                <div class="hostage-footer">
+                    <span class="bring-them-home">BRING THEM HOME NOW</span>
+                </div>
+            </div>
         </div>
         <div class="logo"><img src="images/logo.png" alt="Ohr HaTorah Logo" class="logo-image"></div>
         <div class="header-info">
@@ -126,7 +125,7 @@
         <!-- Left Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-widget">
-                <div class="widget-header"><i class="fas fa-hand-peace"></i> Shalom Visitor!</div>
+                <div class="widget-header" data-editable="sidebar-welcome-header"><i class="fas fa-hand-peace"></i> <span data-editable="sidebar-welcome-title">Shalom Visitor!</span></div>
                 <div class="widget-content">
                     <ul class="sidebar-list">
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Welcome Message</a></li>
@@ -139,46 +138,46 @@
             </div>
             
             <div class="sidebar-widget">
-                <div class="widget-header"><i class="fas fa-calendar-check"></i> Upcoming Events</div>
+                <div class="widget-header" data-editable="sidebar-events-header"><i class="fas fa-calendar-check"></i> <span data-editable="sidebar-events-title">Upcoming Events</span></div>
                 <div class="widget-content">
                     <ul class="sidebar-list">
-                        <li><a href="#"><i class="fas fa-star"></i> Shabbat Services - Weekly</a></li>
-                        <li><a href="#"><i class="fas fa-star"></i> Torah Study - TBD</a></li>
-                        <li><a href="#"><i class="fas fa-star"></i> Youth Group - TBD</a></li>
-                        <li><a href="#"><i class="fas fa-star"></i> Israeli Dance - TBD</a></li>
-                        <li><a href="#"><i class="fas fa-star"></i> Passover Seder - Annual</a></li>
+                        <li><a href="#" data-editable="event-shabbat"><i class="fas fa-star"></i> Shabbat Services - Weekly</a></li>
+                        <li><a href="#" data-editable="event-torah-study"><i class="fas fa-star"></i> Torah Study - TBD</a></li>
+                        <li><a href="#" data-editable="event-youth-group"><i class="fas fa-star"></i> Youth Group - TBD</a></li>
+                        <li><a href="#" data-editable="event-israeli-dance"><i class="fas fa-star"></i> Israeli Dance - TBD</a></li>
+                        <li><a href="#" data-editable="event-passover"><i class="fas fa-star"></i> Passover Seder - Annual</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="sidebar-widget">
-                <div class="widget-header"><i class="fas fa-book"></i> Resources</div>
+                <div class="widget-header" data-editable="sidebar-resources-header"><i class="fas fa-book"></i> <span data-editable="sidebar-resources-title">Resources</span></div>
                 <div class="widget-content">
                     <ul class="sidebar-list">
-                        <li><a href="#"><i class="fas fa-scroll"></i> Weekly Parashah</a></li>
-                        <li><a href="#"><i class="fas fa-hands"></i> Prayer Resources</a></li>
-                        <li><a href="#"><i class="fas fa-language"></i> Hebrew Classes</a></li>
-                        <li><a href="#"><i class="fas fa-headphones"></i> Audio Teachings</a></li>
-                        <li><a href="#"><i class="fas fa-video"></i> Livestream Services</a></li>
+                        <li><a href="#" data-editable="resource-parashah"><i class="fas fa-scroll"></i> Weekly Parashah</a></li>
+                        <li><a href="#" data-editable="resource-prayer"><i class="fas fa-hands"></i> Prayer Resources</a></li>
+                        <li><a href="#" data-editable="resource-hebrew"><i class="fas fa-language"></i> Hebrew Classes</a></li>
+                        <li><a href="#" data-editable="resource-audio"><i class="fas fa-headphones"></i> Audio Teachings</a></li>
+                        <li><a href="#" data-editable="resource-livestream"><i class="fas fa-video"></i> Livestream Services</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="sidebar-widget">
-                <div class="widget-header"><i class="fas fa-clock"></i> Prayer Times</div>
+                <div class="widget-header" data-editable="sidebar-prayer-header"><i class="fas fa-clock"></i> <span data-editable="sidebar-prayer-title">Prayer Times</span></div>
                 <div class="widget-content">
                     <div class="prayer-times">
                         <div class="prayer-row">
-                            <div class="prayer-name"><i class="fas fa-sun"></i> Shacharit</div>
-                            <div class="prayer-time">7:00 AM</div>
+                            <div class="prayer-name" data-editable="prayer-shacharit-name"><i class="fas fa-sun"></i> Shacharit</div>
+                            <div class="prayer-time" data-editable="prayer-shacharit-time">7:00 AM</div>
                         </div>
                         <div class="prayer-row">
-                            <div class="prayer-name"><i class="fas fa-cloud-sun"></i> Mincha</div>
-                            <div class="prayer-time">5:00 PM</div>
+                            <div class="prayer-name" data-editable="prayer-mincha-name"><i class="fas fa-cloud-sun"></i> Mincha</div>
+                            <div class="prayer-time" data-editable="prayer-mincha-time">5:00 PM</div>
                         </div>
                         <div class="prayer-row">
-                            <div class="prayer-name"><i class="fas fa-moon"></i> Ma'ariv</div>
-                            <div class="prayer-time">8:00 PM</div>
+                            <div class="prayer-name" data-editable="prayer-maariv-name"><i class="fas fa-moon"></i> Ma'ariv</div>
+                            <div class="prayer-time" data-editable="prayer-maariv-time">8:00 PM</div>
                         </div>
                     </div>
                 </div>
@@ -196,16 +195,16 @@
         
         <!-- Main Content -->
         <main class="content">
-            <h1><i class="fas fa-star-of-david"></i> Welcome to Ohr HaTorah Messianic Congregation</h1>
+            <h1 data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Ohr HaTorah Messianic Congregation</span></h1>
             
             <div class="infobox">
                 <i class="fas fa-info-circle"></i>
                 <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parasha Kedoshim), and fellowship meal at our Tustin location.
             </div>
             
-            <p>Ohr HaTorah ("Light of the Torah") is Orange County's vibrant congregation of Jewish and non-Jewish believers in Yeshua as the Messiah of Israel. We observe the biblical Sabbath and festivals while embracing the completed work of Messiah.</p>
+            <p data-editable="intro-text-1">Ohr HaTorah ("Light of the Torah") is Orange County's vibrant congregation of Jewish and non-Jewish believers in Yeshua as the Messiah of Israel. We observe the biblical Sabbath and festivals while embracing the completed work of Messiah.</p>
             
-            <p>Our congregation honors the Torah and celebrates the Jewish roots of our faith while recognizing Yeshua as the fulfillment of the Messianic prophecies. We welcome all who seek to explore the Hebrew roots of faith!</p>
+            <p data-editable="intro-text-2">Our congregation honors the Torah and celebrates the Jewish roots of our faith while recognizing Yeshua as the fulfillment of the Messianic prophecies. We welcome all who seek to explore the Hebrew roots of faith!</p>
             
             <div class="ticker-banner">
                 <div class="ticker-content">
@@ -237,16 +236,16 @@
                 </div>
             </div>
             
-            <h3><i class="fas fa-comment-alt"></i> Rabbi's Message</h3>
-            <p>Shalom friends! As we approach Passover, we remember the deliverance of our people from Egypt and the greater deliverance we have through our Messiah Yeshua. Join us for our community Seder as we celebrate this special time together in our beautiful Orange County facility.</p>
+            <h3 data-editable="rabbi-message-title"><i class="fas fa-comment-alt"></i> <span data-editable="rabbi-message-title-text">Rabbi's Message</span></h3>
+            <p data-editable="rabbi-message-text">Shalom friends! As we approach Passover, we remember the deliverance of our people from Egypt and the greater deliverance we have through our Messiah Yeshua. Join us for our community Seder as we celebrate this special time together in our beautiful Orange County facility.</p>
             
             <div class="testimonial">
-                <p class="testimonial-text">Finding Ohr HaTorah has been a blessing for our family. The blend of Jewish traditions and faith in Yeshua has enriched our spiritual journey in ways we never expected.</p>
+                <p class="testimonial-text" data-editable="testimonial-text">Finding Ohr HaTorah has been a blessing for our family. The blend of Jewish traditions and faith in Yeshua has enriched our spiritual journey in ways we never expected.</p>
                 <div class="testimonial-author">
                     <img src="images/rachelcohen.webp" alt="Rachel Cohen" class="testimonial-avatar">
                     <div class="testimonial-info">
-                        <span class="testimonial-name">Rachel Cohen</span>
-                        <span class="testimonial-role">Congregation Member since 2020</span>
+                        <span class="testimonial-name" data-editable="testimonial-name">Rachel Cohen</span>
+                        <span class="testimonial-role" data-editable="testimonial-role">Congregation Member since 2020</span>
                     </div>
                 </div>
             </div>
@@ -254,25 +253,25 @@
             <div class="info-grid">
                 <div class="info-box">
                     <h4><i class="fas fa-clock"></i> Service Times</h4>
-                    <p>Shabbat: 10:00 AM<br>
+                    <p data-editable="service-times">Shabbat: 10:00 AM<br>
                     Torah Study: Tuesday 7:00 PM<br>
                     Prayer Meeting: Wed 6:30 PM</p>
                 </div>
                 <div class="info-box">
                     <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
-                    <p>12345 Torah Way<br>
+                    <p data-editable="location-info">12345 Torah Way<br>
                     Tustin, CA 92618<br>
                     (555) 987-6543</p>
                 </div>
                 <div class="info-box">
                     <h4><i class="fas fa-envelope"></i> Contact Us</h4>
-                    <p>Email: info@ohrhatorah-oc.org<br>
+                    <p data-editable="contact-info">Email: info@ohrhatorah-oc.org<br>
                     Phone: (555) 987-6543<br>
                     Fax: (555) 987-6544</p>
                 </div>
                 <div class="info-box">
                     <h4><i class="fas fa-heart"></i> Warm Invitation</h4>
-                    <p>All are welcome to join our<br>
+                    <p data-editable="invitation-text">All are welcome to join our<br>
                     vibrant community celebrating<br>
                     Jewish heritage and faith</p>
                 </div>
@@ -292,28 +291,28 @@
             <div class="feature-card">
                 <div class="card-header">
                     <i class="fas fa-torah"></i>
-                    <span>Weekly Parashah</span>
+                    <span id="parashah-header" data-editable="parashah-card-title">Weekly Parashah</span>
                 </div>
                 <div class="card-body">
                     <div class="parashah-info">
                         <i class="fas fa-bookmark"></i>
-                        <span class="parashah-label">Parashah:</span>
+                        <span class="parashah-label" data-editable="parashah-label-text">Parashah:</span>
                         <span id="parashah-name">Kedoshim (Holy)</span>
                     </div>
                     <div class="parashah-info">
                         <i class="fas fa-book"></i>
-                        <span class="parashah-label">Torah:</span>
+                        <span class="parashah-label" data-editable="torah-label-text">Torah:</span>
                         <span id="torah-reading">Leviticus 19:1-20:27</span>
                     </div>
                     <div class="parashah-info">
                         <i class="fas fa-book-open"></i>
-                        <span class="parashah-label">Haftarah:</span>
+                        <span class="parashah-label" data-editable="haftarah-label-text">Haftarah:</span>
                         <span id="haftarah-reading">Amos 9:7-15</span>
                     </div>
                     <div class="parashah-info">
                         <i class="fas fa-book-reader"></i>
-                        <span class="parashah-label">Brit:</span>
-                        <span id="brit-reading">Matthew 5:32-33</span>
+                        <span class="parashah-label" data-editable="brit-label-text">Brit:</span>
+                        <span id="brit-reading">Loading...</span>
                     </div>
                     <div class="loader" id="parashah-loader" style="display: none;"></div>
                 </div>
@@ -326,30 +325,30 @@
             <div class="feature-card">
                 <div class="card-header">
                     <i class="fas fa-menorah"></i>
-                    <span>Shabbat Candle Lighting</span>
+                    <span data-editable="candle-card-title">Shabbat Candle Lighting</span>
                 </div>
                 <div class="card-body">
                     <div class="candle-times">
                         <div class="candle-row">
                             <div>
                                 <div class="candle-day">This Friday</div>
-                                <div class="candle-date" id="next-friday-date">Apr 19, 2025</div>
+                                <div class="candle-date" id="next-friday-date">Loading...</div>
                             </div>
-                            <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-1">7:14 PM</span></div>
+                            <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-1">Loading...</span></div>
                         </div>
                         <div class="candle-row">
                             <div>
                                 <div class="candle-day">Havdalah</div>
-                                <div class="candle-date" id="havdalah-date">Apr 20, 2025</div>
+                                <div class="candle-date" id="havdalah-date">Loading...</div>
                             </div>
-                            <div class="candle-time"><i class="fas fa-moon"></i> <span id="havdalah-time">8:15 PM</span></div>
+                            <div class="candle-time"><i class="fas fa-moon"></i> <span id="havdalah-time">Loading...</span></div>
                         </div>
                         <div class="candle-row">
                             <div>
                                 <div class="candle-day">Next Friday</div>
-                                <div class="candle-date" id="following-friday-date">Apr 26, 2025</div>
+                                <div class="candle-date" id="following-friday-date">Loading...</div>
                             </div>
-                            <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">7:19 PM</span></div>
+                            <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">Loading...</span></div>
                         </div>
                     </div>
                     <div class="loader" id="candle-times-loader" style="display: none;"></div>
@@ -363,15 +362,15 @@
             <div class="feature-card leader-card">
                 <div class="card-header">
                     <i class="fas fa-user-tie"></i>
-                    <span>Meet Our Rabbi</span>
+                    <span data-editable="rabbi-card-title">Meet Our Rabbi</span>
                 </div>
                 <div class="card-body text-center">
                     <div class="leader-img">
                         <img src="images/rabbi.avif" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
                     </div>
-                    <div class="leader-name">Rabbi Charles Ott</div>
-                    <div class="leader-title">Senior Rabbi &amp; Teacher</div>
-                    <p class="leader-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
+                    <div class="leader-name" data-editable="rabbi-name">Rabbi Charles Ott</div>
+                    <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
+                    <p class="leader-bio" data-editable="rabbi-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
                 </div>
                 <div class="card-footer">
                     <button class="btn"><i class="fas fa-user-friends"></i> Meet Our Team</button>
@@ -382,7 +381,7 @@
             <div class="feature-card">
                 <div class="card-header">
                     <i class="fas fa-images"></i>
-                    <span>Community Life</span>
+                    <span data-editable="community-card-title">Community Life</span>
                 </div>
                 <div class="card-body">
                     <div class="community-grid">
@@ -426,6 +425,7 @@
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Resources</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Donate</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#" id="admin-link"><i class="fas fa-chevron-right"></i> Admin</a></li>
                     </ul>
                 </div>
                 
@@ -466,8 +466,62 @@
         <i class="fas fa-chevron-up"></i>
     </a>
     
+    <!-- Admin Login Modal -->
+    <div id="admin-modal" class="admin-modal" style="display: none;">
+        <div class="admin-modal-overlay"></div>
+        <div class="admin-modal-content">
+            <button class="admin-modal-close">&times;</button>
+            <div id="admin-login-form">
+                <h3><i class="fas fa-lock"></i> Admin Access</h3>
+                <div class="admin-form-group">
+                    <label for="admin-username">Username:</label>
+                    <input type="text" id="admin-username" placeholder="Enter username">
+                </div>
+                <div class="admin-form-group">
+                    <label for="admin-password">Password:</label>
+                    <input type="password" id="admin-password" placeholder="Enter password">
+                </div>
+                <button id="admin-login-btn" class="btn btn-blue">Login</button>
+                <div id="admin-error" class="admin-error" style="display: none;"></div>
+            </div>
+            <div id="admin-panel" style="display: none;">
+                <h3><i class="fas fa-cog"></i> Admin Panel</h3>
+                <div class="admin-section">
+                    <h4><i class="fas fa-edit"></i> Content Edit Mode</h4>
+                    <p>Toggle edit mode to modify text content directly on the page.</p>
+                    <div class="admin-buttons">
+                        <button id="toggle-edit-mode" class="btn btn-blue">
+                            <i class="fas fa-edit"></i> Enable Edit Mode
+                        </button>
+                        <button id="save-all-content" class="btn btn-gold" style="display: none;">
+                            <i class="fas fa-save"></i> Save All Changes
+                        </button>
+                    </div>
+                </div>
+                <div class="admin-section">
+                    <h4><i class="fas fa-book"></i> Weekly Parashah - Brit Chadashah Override</h4>
+                    <div class="admin-form-group">
+                        <label for="current-parashah">Current Parashah:</label>
+                        <input type="text" id="current-parashah" readonly>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="brit-override">Brit Chadashah Reading:</label>
+                        <input type="text" id="brit-override" placeholder="Enter custom Brit reading">
+                    </div>
+                    <div class="admin-buttons">
+                        <button id="save-brit-btn" class="btn btn-blue">Save Override</button>
+                        <button id="clear-brit-btn" class="btn">Clear Override</button>
+                    </div>
+                </div>
+                <div class="admin-section">
+                    <button id="admin-logout-btn" class="btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
     <!-- JavaScript -->
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=2.6"></script>
 </body>
 </html>

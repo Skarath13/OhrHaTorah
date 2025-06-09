@@ -650,7 +650,7 @@ p {
 .header-info {
     position: absolute;
     right: var(--space-xl);
-    bottom: 20px;
+    top: 20px;
     padding: 8px 16px;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -674,75 +674,10 @@ p {
     left: var(--space-xl);
     bottom: 20px;
     z-index: 100;
-    display: none; /* Hidden by default, shown only when script loads successfully */
+    display: block; /* Always visible for our hostage counter */
 }
 
-/* Override widget styles for consistency */
-#bthn {
-    position: relative !important;
-    background: rgba(0, 0, 0, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 10px !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    padding: 8px 16px !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    bottom: auto !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-}
 
-#bthn:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    background: rgba(0, 0, 0, 0.5) !important;
-}
-
-/* Ensure the widget text is visible */
-#bthn * {
-    color: var(--white) !important;
-}
-
-/* Override any fixed positioning from the widget */
-.hostage-info #bthn[style] {
-    position: relative !important;
-}
-
-/* Hide the close button in the hostage counter */
-#bthn .bthn-close,
-#bthn .close-button,
-#bthn [class*="close"],
-#bthn button[aria-label*="close" i],
-#bthn button[aria-label*="exit" i],
-#bthn button[title*="close" i],
-#bthn button[title*="exit" i] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Disable all clicks and links in the hostage counter */
-#bthn,
-#bthn * {
-    pointer-events: none !important;
-    cursor: default !important;
-}
-
-/* Disable any links specifically */
-#bthn a,
-#bthn a * {
-    pointer-events: none !important;
-    cursor: default !important;
-    text-decoration: none !important;
-}
-
-/* Disable any buttons */
-#bthn button,
-#bthn input[type="button"],
-#bthn input[type="submit"] {
-    pointer-events: none !important;
-    cursor: default !important;
-}
 
 .time-date-container {
     display: flex;
@@ -794,6 +729,509 @@ p {
     content: '🇮🇱';
     font-size: 1.4em;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Hostage Counter */
+.hostage-counter {
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-md);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    min-width: 240px;
+    transition: var(--transition-standard);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hostage-counter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hostage-header {
+    margin-bottom: 6px;
+}
+
+.hostage-text {
+    display: block;
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    margin-bottom: 2px;
+}
+
+.hostage-count {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 1.1em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.hostage-subtext {
+    display: block;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+}
+
+.hostage-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    margin: 6px 0;
+}
+
+.timer-segment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 28px;
+}
+
+.timer-number {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-hover));
+    color: var(--white);
+    padding: 3px 4px;
+    border-radius: 3px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 26px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-variant-numeric: tabular-nums;
+}
+
+.timer-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.6rem;
+    font-weight: 500;
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.timer-separator {
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 2px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.hostage-footer {
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bring-them-home {
+    color: var(--gold);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    animation: gentle-glow 3s ease-in-out infinite;
+}
+
+@keyframes gentle-glow {
+    0%, 100% { 
+        opacity: 1;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    50% { 
+        opacity: 0.85;
+        text-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+    }
+}
+
+/* Admin Portal Styles */
+.admin-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.admin-modal-content {
+    position: relative;
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-xl);
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 10001;
+}
+
+.admin-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    font-size: 1.5rem;
+    color: var(--gray-700);
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50%;
+    transition: var(--transition-standard);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002;
+    line-height: 1;
+}
+
+.admin-modal-close:hover {
+    background: var(--gray-200);
+    color: var(--gray-900);
+    border-color: var(--gray-400);
+    transform: scale(1.1);
+}
+
+.admin-form-group {
+    margin-bottom: var(--space-lg);
+}
+
+.admin-form-group label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.admin-form-group input {
+    width: 100%;
+    padding: var(--space-md);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    transition: var(--transition-standard);
+}
+
+.admin-form-group input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.1);
+}
+
+.admin-form-group input[readonly] {
+    background: var(--gray-100);
+    color: var(--gray-600);
+}
+
+.admin-error {
+    background: #fee;
+    color: #c53030;
+    padding: var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    margin-top: var(--space-sm);
+    border: 1px solid #fecaca;
+}
+
+.admin-section {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.admin-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.admin-section h4 {
+    color: var(--primary-blue);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-md);
+}
+
+.admin-buttons {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.admin-buttons .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+#admin-panel h3 {
+    color: var(--primary-blue);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+#admin-login-form h3 {
+    color: var(--primary-blue);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+/* Edit Mode Styles */
+body.edit-mode {
+    position: relative;
+}
+
+body.edit-mode::before {
+    content: '✏️ EDIT MODE ACTIVE - Click elements to edit them';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(45deg, #ff6b6b, #ffa500);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-weight: bold;
+    z-index: 9999;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+}
+
+body.edit-mode [data-editable] {
+    position: relative !important;
+    transition: all 0.3s ease !important;
+    border: 2px dashed #ccc !important;
+    padding: 4px !important;
+    margin: 2px !important;
+    min-height: 20px !important;
+}
+
+body.edit-mode [data-editable]:hover {
+    border-color: var(--primary-blue) !important;
+    background: rgba(58, 110, 165, 0.1) !important;
+    cursor: pointer !important;
+}
+
+body.edit-mode [data-editable].editing {
+    border-color: var(--gold) !important;
+    background: rgba(255, 215, 0, 0.1) !important;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important;
+}
+
+/* Special handling for sidebar and card elements */
+body.edit-mode .sidebar-widget [data-editable],
+body.edit-mode .feature-card [data-editable],
+body.edit-mode .widget-header[data-editable],
+body.edit-mode .card-header [data-editable],
+body.edit-mode .testimonial [data-editable] {
+    position: relative !important;
+    border: 2px dashed #ccc !important;
+    padding: 4px !important;
+    margin: 2px !important;
+    min-height: 20px !important;
+}
+
+body.edit-mode .sidebar-widget [data-editable]:hover,
+body.edit-mode .feature-card [data-editable]:hover,
+body.edit-mode .widget-header[data-editable]:hover,
+body.edit-mode .card-header [data-editable]:hover,
+body.edit-mode .testimonial [data-editable]:hover {
+    border-color: var(--primary-blue) !important;
+    background: rgba(58, 110, 165, 0.1) !important;
+    cursor: pointer !important;
+}
+
+/* Ensure edit icons appear in complex layouts */
+body.edit-mode .sidebar-widget .edit-icon,
+body.edit-mode .feature-card .edit-icon,
+body.edit-mode .testimonial .edit-icon {
+    z-index: 10000 !important;
+    position: absolute !important;
+}
+
+.edit-icon {
+    position: absolute !important;
+    top: -8px !important;
+    right: -8px !important;
+    background: var(--primary-blue) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.8rem !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    z-index: 9999 !important;
+    border: 2px solid white !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+
+.edit-icon:hover {
+    background: var(--primary-blue-hover) !important;
+    transform: scale(1.1) !important;
+}
+
+body.edit-mode [data-editable]:hover .edit-icon {
+    opacity: 1 !important;
+}
+
+.edit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-dialog {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-xl);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+}
+
+.edit-dialog h3 {
+    color: var(--primary-blue);
+    margin-bottom: var(--space-lg);
+}
+
+.edit-dialog textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: var(--space-md);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-sm);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    resize: vertical;
+}
+
+.edit-dialog textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.1);
+}
+
+.edit-dialog-buttons {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.edit-dialog-buttons .btn {
+    flex: 1;
+}
+
+.edit-mode-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-blue);
+    color: white;
+    padding: 16px 20px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 9998;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-width: 200px;
+}
+
+.edit-mode-controls {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.edit-mode-controls .btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-width: auto;
+}
+
+.exit-edit-btn {
+    background: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+.exit-edit-btn:hover {
+    background: #c82333 !important;
+    border-color: #c82333 !important;
+    transform: scale(1.05) !important;
+}
+
+.save-all-edit-btn {
+    background: var(--gold) !important;
+    border-color: var(--gold) !important;
+    color: var(--gray-800) !important;
+    font-weight: bold !important;
+}
+
+.save-all-edit-btn:hover {
+    background: var(--gold-hover) !important;
+    border-color: var(--gold-hover) !important;
+}
+
+.btn-gold {
+    background: var(--gold);
+    color: var(--gray-800);
+    border: 1px solid var(--gold-hover);
+}
+
+.btn-gold:hover {
+    background: var(--gold-hover);
+    border-color: var(--gold-hover);
+    color: var(--gray-900);
 }
 
 /* Navigation */

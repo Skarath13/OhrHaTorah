@@ -44,8 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
         hebrewDateElement.textContent = 'Loading...';
         
         try {
-            const today = new Date();
-            const response = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${today.getFullYear()}&gm=${today.getMonth() + 1}&gd=${today.getDate()}&g2h=1`);
+            // Get PST date
+            const pstDate = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+            const [year, month, day] = pstDate.split('-');
+            const response = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1`);
             const data = await response.json();
             
             
@@ -89,37 +91,73 @@ document.addEventListener('DOMContentLoaded', function() {
                 const fallbackResponse = await fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=off&min=off&mod=off&nx=off&year=${today.getFullYear()}&month=${today.getMonth() + 1}&ss=off&mf=off&c=off&s=off&geo=none`);
                 const fallbackData = await fallbackResponse.json();
                 
-                hebrewDateElement.textContent = today.toLocaleDateString('en-US');
+                hebrewDateElement.textContent = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' });
             }
         } catch (error) {
             // Fallback to local Hebrew date
-            hebrewDateElement.textContent = new Date().toLocaleDateString('he-IL');
+            hebrewDateElement.textContent = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' });
         }
     };
     
     loadHebrewDate();
     
-    // Israel time clock with modern display
-    const updateIsraelTime = () => {
+    // PST time clock with modern display
+    const updatePSTTime = () => {
         const now = new Date();
-        // Convert to Israel time (UTC+2 or UTC+3 depending on DST)
-        const israelTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
+        // Convert to PST time
+        const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
         
-        const hours = israelTime.getHours().toString().padStart(2, '0');
-        const minutes = israelTime.getMinutes().toString().padStart(2, '0');
-        const seconds = israelTime.getSeconds().toString().padStart(2, '0');
+        let hours = pstTime.getHours();
+        const minutes = pstTime.getMinutes().toString().padStart(2, '0');
+        const seconds = pstTime.getSeconds().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        // Convert to 12-hour format
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 should be 12
         
         const timeString = `${hours}:${minutes}:${seconds}`;
-        const israelTimeElement = document.getElementById('israel-time');
+        const timeElement = document.getElementById('israel-time');
         
-        if (israelTimeElement) {
-            israelTimeElement.innerHTML = `${timeString} <span class="time-suffix">IST</span>`;
+        if (timeElement) {
+            timeElement.innerHTML = `${timeString} <span class="time-suffix">${ampm} PST</span>`;
         }
     };
     
     // Update clock immediately and then every second
-    updateIsraelTime();
-    setInterval(updateIsraelTime, 1000);
+    updatePSTTime();
+    setInterval(updatePSTTime, 1000);
+    
+    // Hostage Counter - counts up from October 7, 2023 at 6:30 AM IST
+    const updateHostageCounter = () => {
+        // October 7, 2023 at 6:30 AM IST (when the attack began)
+        const attackDate = new Date('2023-10-07T06:30:00+03:00');
+        const now = new Date();
+        
+        // Calculate time difference in milliseconds
+        const timeDiff = now.getTime() - attackDate.getTime();
+        
+        // Calculate days, hours, minutes, and seconds
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        
+        // Update the display elements
+        const daysElement = document.getElementById('hostage-days');
+        const hoursElement = document.getElementById('hostage-hours');
+        const minutesElement = document.getElementById('hostage-minutes');
+        const secondsElement = document.getElementById('hostage-seconds');
+        
+        if (daysElement) daysElement.textContent = days.toString().padStart(3, '0');
+        if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
+        if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
+        if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
+    };
+    
+    // Update hostage counter immediately and then every second
+    updateHostageCounter();
+    setInterval(updateHostageCounter, 1000);
     
     // Load prayer times based on sunrise/sunset
     const loadPrayerTimes = async () => {
@@ -196,128 +234,262 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Load real Parashah information from Hebcal API
+    // Load real Parashah information with robust fallback system
     const loadParashah = async () => {
         const paraLoader = document.getElementById('parashah-loader');
         if (!paraLoader) return;
         
         paraLoader.style.display = 'block';
         
-        try {
-            // Use a simpler approach - just get the current Torah portion for the location
+        // Brit Chadashah lookup table
+        const britReadings = {
+            'Bereshit': 'Matthew 1:1-17; John 1:1-18',
+            'Noach': 'Matthew 24:36-44; 1 Peter 3:18-22',
+            'Lech-Lecha': 'Romans 4:1-25; Hebrews 11:8-12',
+            'Vayera': 'James 2:14-26; Hebrews 11:17-19',
+            'Chayei Sara': '1 Corinthians 15:50-57',
+            'Toldot': 'Romans 9:6-13; Hebrews 11:20',
+            'Vayetzei': 'John 1:43-51',
+            'Vayishlach': 'Hebrews 11:11-20',
+            'Vayeshev': 'Acts 7:9-16',
+            'Miketz': 'Acts 7:9-16',
+            'Vayigash': 'Acts 7:13-15',
+            'Vayechi': 'Hebrews 11:21',
+            'Shemot': 'Acts 7:17-35',
+            'Vaera': 'Romans 9:14-17',
+            'Bo': 'John 19:31-37; 1 Corinthians 5:6-8',
+            'Beshalach': '1 Corinthians 10:1-13',
+            'Yitro': 'Acts 6:1-7; 1 Timothy 3:1-13',
+            'Mishpatim': 'Matthew 5:38-42; Colossians 3:1-25',
+            'Terumah': 'Hebrews 8:1-6',
+            'Tetzaveh': 'Philippians 4:10-20',
+            'Ki Tisa': '2 Corinthians 3:1-18',
+            'Vayakhel': 'Hebrews 9:1-14',
+            'Pekudei': 'Hebrews 9:1-14',
+            'Vayikra': 'Hebrews 9:11-28',
+            'Tzav': 'Mark 12:28-34',
+            'Shemini': '2 Corinthians 6:14-7:1',
+            'Tazria': 'Matthew 8:1-4',
+            'Metzora': 'Luke 17:11-19',
+            'Acharei Mot': 'Romans 3:19-28; Hebrews 7:23-10:18',
+            'Kedoshim': '1 Peter 1:13-16',
+            'Emor': '1 Peter 2:4-10',
+            'Behar': 'Luke 4:16-21',
+            'Bechukotai': 'John 14:15-21',
+            'Bamidbar': '1 Corinthians 12:12-31',
+            'Naso': 'Acts 21:17-32',
+            'Beha\'alotcha': 'John 6:1-14',
+            "Beha'alotcha": 'John 6:1-14',
+            'Shelach': 'Hebrews 3:7-19',
+            'Korach': '2 Timothy 2:8-21',
+            'Chukat': 'John 3:9-21',
+            'Balak': '2 Peter 2:1-22',
+            'Pinchas': 'Matthew 26:1-30',
+            'Matot': 'Matthew 5:33-37',
+            'Masei': 'James 4:1-12',
+            'Devarim': 'John 15:1-11',
+            'Vaetchanan': 'Mark 12:28-34',
+            'Eikev': 'Luke 4:1-13',
+            'Re\'eh': '1 Corinthians 5:9-13',
+            'Shoftim': 'Matthew 5:38-42',
+            'Ki Teitzei': '1 Corinthians 5:1-5',
+            'Ki Tavo': 'Romans 11:1-15',
+            'Nitzavim': 'Romans 10:11-13',
+            'Vayeilech': 'Hebrews 13:5-8',
+            'Ha\'azinu': 'Romans 10:17-21',
+            'V\'Zot HaBerachah': 'Matthew 17:1-9'
+        };
+
+        // Try Hebcal API first (primary source)
+        const tryHebcalAPI = async () => {
             const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles`);
-            const data = await response.json();
             
-            // Find the Torah reading item
-            const torahReading = data.items?.find(item => 
-                item.category === 'parashat'
-            );
-            
-            if (torahReading) {
-                const parashahName = torahReading.title.replace('Parashat ', '');
-                const hebrew = torahReading.hebrew?.replace('פרשת ', '') || '';
-                
-                // Update Parashah name
-                document.getElementById('parashah-name').textContent = parashahName;
-                
-                // Extract Torah and Haftarah from leyning if available
-                if (torahReading.leyning) {
-                    document.getElementById('torah-reading').textContent = torahReading.leyning.torah || 'Check synagogue bulletin';
-                    document.getElementById('haftarah-reading').textContent = torahReading.leyning.haftarah || 'Check synagogue bulletin';
-                } else {
-                    // Fallback values based on common Torah portions
-                    document.getElementById('torah-reading').textContent = torahReading.torah || 'Check synagogue bulletin'; 
-                    document.getElementById('haftarah-reading').textContent = torahReading.haftarah || 'Check synagogue bulletin';
-                }
-                
-                // Update the main content area
-                const mainParashahElement = document.querySelector('.infobox strong');
-                if (mainParashahElement) {
-                    const infoboxContent = mainParashahElement.parentElement;
-                    infoboxContent.innerHTML = `<i class="fas fa-info-circle"></i>
-                        <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parashat ${parashahName}), and fellowship meal at our Tustin location.`;
-                }
-                
-                // Update Brit Chadashah based on the found Parashah
-                const britReadings = {
-                    'Bereshit': 'Matthew 1:1-17; John 1:1-18',
-                    'Noach': 'Matthew 24:36-44; 1 Peter 3:18-22',
-                    'Lech-Lecha': 'Romans 4:1-25; Hebrews 11:8-12',
-                    'Vayera': 'James 2:14-26; Hebrews 11:17-19',
-                    'Chayei Sara': '1 Corinthians 15:50-57',
-                    'Toldot': 'Romans 9:6-13; Hebrews 11:20',
-                    'Vayetzei': 'John 1:43-51',
-                    'Vayishlach': 'Hebrews 11:11-20',
-                    'Vayeshev': 'Acts 7:9-16',
-                    'Miketz': 'Acts 7:9-16',
-                    'Vayigash': 'Acts 7:13-15',
-                    'Vayechi': 'Hebrews 11:21',
-                    'Shemot': 'Acts 7:17-35',
-                    'Vaera': 'Romans 9:14-17',
-                    'Bo': 'John 19:31-37; 1 Corinthians 5:6-8',
-                    'Beshalach': '1 Corinthians 10:1-13',
-                    'Yitro': 'Acts 6:1-7; 1 Timothy 3:1-13',
-                    'Mishpatim': 'Matthew 5:38-42; Colossians 3:1-25',
-                    'Terumah': 'Hebrews 8:1-6',
-                    'Tetzaveh': 'Philippians 4:10-20',
-                    'Ki Tisa': '2 Corinthians 3:1-18',
-                    'Vayakhel': 'Hebrews 9:1-14',
-                    'Pekudei': 'Hebrews 9:1-14',
-                    'Vayikra': 'Hebrews 9:11-28',
-                    'Tzav': 'Mark 12:28-34',
-                    'Shemini': '2 Corinthians 6:14-7:1',
-                    'Tazria': 'Matthew 8:1-4',
-                    'Metzora': 'Luke 17:11-19',
-                    'Acharei Mot': 'Romans 3:19-28; Hebrews 7:23-10:18',
-                    'Kedoshim': '1 Peter 1:13-16',
-                    'Emor': '1 Peter 2:4-10',
-                    'Behar': 'Luke 4:16-21',
-                    'Bechukotai': 'John 14:15-21',
-                    'Bamidbar': '1 Corinthians 12:12-31',
-                    'Naso': 'Acts 21:17-32',
-                    'Beha\'alotcha': 'John 6:1-14',
-                    'Shelach': 'Hebrews 3:7-19',
-                    'Korach': '2 Timothy 2:8-21',
-                    'Chukat': 'John 3:9-21',
-                    'Balak': '2 Peter 2:1-22',
-                    'Pinchas': 'Matthew 26:1-30',
-                    'Matot': 'Matthew 5:33-37',
-                    'Masei': 'James 4:1-12',
-                    'Devarim': 'John 15:1-11',
-                    'Vaetchanan': 'Mark 12:28-34',
-                    'Eikev': 'Luke 4:1-13',
-                    'Re\'eh': '1 Corinthians 5:9-13',
-                    'Shoftim': 'Matthew 5:38-42',
-                    'Ki Teitzei': '1 Corinthians 5:1-5',
-                    'Ki Tavo': 'Romans 11:1-15',
-                    'Nitzavim': 'Romans 10:11-13',
-                    'Vayeilech': 'Hebrews 13:5-8',
-                    'Ha\'azinu': 'Romans 10:17-21',
-                    'V\'Zot HaBerachah': 'Matthew 17:1-9'
-                };
-                
-                document.getElementById('brit-reading').textContent = britReadings[parashahName] || 'Matthew 5:1-48';
-            } else {
-                // Fallback values
-                document.getElementById('parashah-name').textContent = "This Week's Portion";
-                document.getElementById('torah-reading').textContent = "Check our bulletin";
-                document.getElementById('haftarah-reading').textContent = "Check our bulletin";
-                document.getElementById('brit-reading').textContent = "Matthew 5:1-48";
+            if (!response.ok) {
+                throw new Error(`Hebcal API failed: ${response.status}`);
             }
             
-        } catch (error) {
-            console.error('Error loading Parashah:', error);
-            // Fallback to default values
-            document.getElementById('parashah-name').textContent = "This Week's Portion";
-            document.getElementById('torah-reading').textContent = "Check our bulletin";
-            document.getElementById('haftarah-reading').textContent = "Check our bulletin";
-            document.getElementById('brit-reading').textContent = "Check our bulletin";
-        } finally {
-            paraLoader.style.display = 'none';
+            const data = await response.json();
+            const torahReading = data.items?.find(item => item.category === 'parashat');
+            
+            if (!torahReading) {
+                throw new Error('No Torah reading found in Hebcal response');
+            }
+            
+            return {
+                name: torahReading.title.replace('Parashat ', ''),
+                torah: torahReading.leyning?.torah || 'See bulletin',
+                haftarah: torahReading.leyning?.haftarah || 'See bulletin',
+                date: torahReading.date,
+                source: 'Hebcal'
+            };
+        };
+
+        // Try Sefaria API as fallback
+        const trySefariaAPI = async () => {
+            const params = new URLSearchParams({
+                timezone: 'America/Los_Angeles',
+                diaspora: '1',
+                custom: 'sephardi'
+            });
+            
+            const response = await fetch(`https://www.sefaria.org/api/calendars?${params}`);
+            
+            if (!response.ok) {
+                throw new Error(`Sefaria API failed: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const parashatHashavua = data.calendar_items?.find(
+                item => item.title?.en === "Parashat Hashavua"
+            );
+            const haftarah = data.calendar_items?.find(
+                item => item.title?.en === "Haftarah"
+            );
+            
+            if (!parashatHashavua) {
+                throw new Error('No Parashat Hashavua found in Sefaria response');
+            }
+            
+            return {
+                name: parashatHashavua.displayValue?.en || 'Unknown',
+                torah: parashatHashavua.ref || 'See bulletin',
+                haftarah: haftarah?.ref || 'See bulletin',
+                date: data.date,
+                source: 'Sefaria'
+            };
+        };
+
+        // Update UI with parashah data
+        const updateParashahUI = (parashahData) => {
+            
+            // Update parashah name
+            document.getElementById('parashah-name').textContent = parashahData.name;
+            
+            // Update header with date
+            const parashahHeaderEl = document.getElementById('parashah-header');
+            if (parashahHeaderEl && parashahData.date) {
+                const date = new Date(parashahData.date);
+                const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+                parashahHeaderEl.textContent = `Weekly Parashah - ${formattedDate}`;
+            } else if (parashahHeaderEl) {
+                parashahHeaderEl.textContent = 'Weekly Parashah';
+            }
+            
+            // Update Torah and Haftarah readings
+            document.getElementById('torah-reading').textContent = parashahData.torah;
+            document.getElementById('haftarah-reading').textContent = parashahData.haftarah;
+            
+            // Update main content area
+            const mainParashahElement = document.querySelector('.infobox strong');
+            if (mainParashahElement) {
+                const infoboxContent = mainParashahElement.parentElement;
+                infoboxContent.innerHTML = `<i class="fas fa-info-circle"></i>
+                    <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parashat ${parashahData.name}), and fellowship meal at our Tustin location.`;
+            }
+            
+            // Update Brit Chadashah with flexible name matching
+            let britReading = null;
+            
+            // Try exact match first
+            britReading = britReadings[parashahData.name];
+            
+            // If no exact match, try case-insensitive and apostrophe-insensitive search
+            if (!britReading) {
+                const searchName = parashahData.name.toLowerCase();
+                for (const [key, value] of Object.entries(britReadings)) {
+                    // Replace character code 8217 (right single quotation mark) and other apostrophe variants with standard apostrophe
+                    const normalizedKey = key.toLowerCase().replace(/[\u2019\u2018''`]/g, "'");
+                    const normalizedSearch = searchName.replace(/[\u2019\u2018''`]/g, "'");
+                    if (normalizedKey === normalizedSearch) {
+                        britReading = value;
+                        break;
+                    }
+                }
+            }
+            
+            // Check for admin override first
+            const britOverride = localStorage.getItem('oht_brit_override');
+            if (britOverride) {
+                document.getElementById('brit-reading').textContent = britOverride;
+            } else {
+                document.getElementById('brit-reading').textContent = britReading || 'Pending';
+            }
+        };
+
+        // Set fallback UI when all APIs fail
+        const setFallbackUI = () => {
+            document.getElementById('parashah-name').textContent = "Pending";
+            document.getElementById('torah-reading').textContent = "Pending";
+            document.getElementById('haftarah-reading').textContent = "Pending";
+            document.getElementById('brit-reading').textContent = "Pending";
+            
+            const parashahHeaderEl = document.getElementById('parashah-header');
+            if (parashahHeaderEl) {
+                parashahHeaderEl.textContent = "Weekly Parashah";
+            }
+        };
+
+        // Main execution with fallback chain
+        try {
+            const parashahData = await tryHebcalAPI();
+            updateParashahUI(parashahData);
+        } catch (hebcalError) {
+            console.warn('Hebcal API failed:', hebcalError.message);
+            
+            try {
+                const parashahData = await trySefariaAPI();
+                updateParashahUI(parashahData);
+            } catch (sefariaError) {
+                console.warn('Sefaria API failed:', sefariaError.message);
+                console.error('All Torah portion APIs failed');
+                setFallbackUI();
+            }
         }
+        
+        paraLoader.style.display = 'none';
     };
     
     loadParashah();
+    
+    // Calculate candle lighting time (sunset - 18 minutes) for a given date and location
+    const calculateCandleLightingTime = (date, latitude, longitude) => {
+        // For June 20, 2025 in Tustin, CA, sunset should be around 8:05pm
+        // So candle lighting should be around 7:47pm
+        // Let's use a simple approximation based on known summer sunset times
+        
+        const month = date.getMonth() + 1; // 1-12
+        const day = date.getDate();
+        
+        // Summer solstice approximation for Southern California
+        // June 20-21 has the latest sunset around 8:05-8:10pm
+        let baselineTime = 20.08; // 8:05pm in 24-hour decimal format
+        
+        // Adjust for date (very rough approximation)
+        if (month === 6 && day >= 15) {
+            baselineTime = 20.08; // Late June
+        } else if (month === 6) {
+            baselineTime = 20.05; // Early June
+        } else if (month === 7) {
+            baselineTime = 20.00; // July
+        } else if (month === 5) {
+            baselineTime = 19.85; // May
+        } else {
+            baselineTime = 19.50; // Default
+        }
+        
+        // Subtract 18 minutes (0.3 hours) for candle lighting
+        const candleLightingTime = baselineTime - 0.3;
+        
+        // Convert to hours and minutes
+        const hours = Math.floor(candleLightingTime);
+        const minutes = Math.round((candleLightingTime - hours) * 60);
+        
+        // Format as 12-hour time
+        const displayHours = hours > 12 ? hours - 12 : hours;
+        const ampm = 'pm'; // Always PM for evening times
+        
+        return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    };
     
     // Load real candle lighting times from Hebcal API
     const loadCandleLighting = async () => {
@@ -325,6 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!candleLoader) return;
         
         candleLoader.style.display = 'block';
+        
         
         try {
             // Get next two Fridays
@@ -375,32 +548,92 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Update DOM with real data
+            // Helper function to normalize time format
+            const normalizeTime = (timeString, fallback) => {
+                const timeMatch = timeString.match(/\d{1,2}:\d{2}\s*(AM|PM)/i);
+                if (timeMatch) {
+                    const time = timeMatch[0];
+                    // Ensure consistent lowercase "pm" format with no extra spaces
+                    return time.replace(/\s*(AM|PM)/i, (match) => match.toLowerCase().trim());
+                }
+                return fallback;
+            };
+
+            // Calculate fallback dates (reuse existing today variable)
+            const nextFridayFallback = new Date(today);
+            const daysUntilFridayFallback = (5 - today.getDay() + 7) % 7 || 7;
+            nextFridayFallback.setDate(today.getDate() + daysUntilFridayFallback);
+            
+            const followingFridayFallback = new Date(nextFridayFallback);
+            followingFridayFallback.setDate(nextFridayFallback.getDate() + 7);
+            
+            const havdalahDateFallback = new Date(nextFridayFallback);
+            havdalahDateFallback.setDate(nextFridayFallback.getDate() + 1); // Saturday
+            
+
+            // Update DOM with real data or calculated fallbacks
             if (candleTime1) {
                 document.getElementById('next-friday-date').textContent = new Date(candleTime1.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('candle-time-1').textContent = candleTime1.title.match(/\d{1,2}:\d{2}\s*(AM|PM)/i)?.[0] || '7:00 PM';
+                document.getElementById('candle-time-1').textContent = normalizeTime(candleTime1.title, '18 min before sunset');
+            } else {
+                const nextFridayEl = document.getElementById('next-friday-date');
+                if (nextFridayEl) {
+                    nextFridayEl.textContent = nextFridayFallback.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                }
+                const candleTime1El = document.getElementById('candle-time-1');
+                if (candleTime1El) {
+                    candleTime1El.textContent = '18 min before sunset';
+                }
             }
             
             if (candleTime2) {
                 document.getElementById('following-friday-date').textContent = new Date(candleTime2.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('candle-time-2').textContent = candleTime2.title.match(/\d{1,2}:\d{2}\s*(AM|PM)/i)?.[0] || '7:00 PM';
+                document.getElementById('candle-time-2').textContent = normalizeTime(candleTime2.title, '18 min before sunset');
+            } else {
+                document.getElementById('following-friday-date').textContent = followingFridayFallback.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                
+                // Calculate sunset time for the following Friday
+                const calculatedCandleTime = calculateCandleLightingTime(followingFridayFallback, 33.7175, -117.8311);
+                document.getElementById('candle-time-2').textContent = calculatedCandleTime;
             }
             
             if (havdalahTime) {
                 document.getElementById('havdalah-date').textContent = new Date(havdalahTime.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('havdalah-time').textContent = havdalahTime.title.match(/\d{1,2}:\d{2}\s*(AM|PM)/i)?.[0] || '8:00 PM';
+                document.getElementById('havdalah-time').textContent = normalizeTime(havdalahTime.title, 'After sunset + 3 stars');
+            } else {
+                document.getElementById('havdalah-date').textContent = havdalahDateFallback.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                document.getElementById('havdalah-time').textContent = 'After sunset + 3 stars';
             }
             
         } catch (error) {
             console.error('Error loading candle times:', error.message);
-            // Use fallback times
+            
+            // Calculate correct dates for fallback
+            const todayCatch = new Date();
+            const nextFridayCatch = new Date(todayCatch);
+            const daysUntilFridayCatch = (5 - todayCatch.getDay() + 7) % 7 || 7;
+            nextFridayCatch.setDate(todayCatch.getDate() + daysUntilFridayCatch);
+            
+            const followingFridayCatch = new Date(nextFridayCatch);
+            followingFridayCatch.setDate(nextFridayCatch.getDate() + 7);
+            
+            const havdalahDateCatch = new Date(nextFridayCatch);
+            havdalahDateCatch.setDate(nextFridayCatch.getDate() + 1); // Saturday
+            
+            // Use appropriate fallback text instead of hardcoded times
             const candleTime1El = document.getElementById('candle-time-1');
             const candleTime2El = document.getElementById('candle-time-2');
             const havdalahTimeEl = document.getElementById('havdalah-time');
             
-            if (candleTime1El) candleTime1El.textContent = '7:00 PM';
-            if (candleTime2El) candleTime2El.textContent = '7:00 PM';
-            if (havdalahTimeEl) havdalahTimeEl.textContent = '8:00 PM';
+            // Update dates
+            document.getElementById('next-friday-date').textContent = nextFridayCatch.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('following-friday-date').textContent = followingFridayCatch.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('havdalah-date').textContent = havdalahDateCatch.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            // Calculate times when API is completely unavailable
+            if (candleTime1El) candleTime1El.textContent = calculateCandleLightingTime(nextFridayCatch, 33.7175, -117.8311);
+            if (candleTime2El) candleTime2El.textContent = calculateCandleLightingTime(followingFridayCatch, 33.7175, -117.8311);
+            if (havdalahTimeEl) havdalahTimeEl.textContent = 'After sunset + 3 stars';
         } finally {
             candleLoader.style.display = 'none';
         }
@@ -455,17 +688,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for user color scheme preference
     function detectColorSchemePreference() {
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            console.log("User prefers dark mode");
         } else {
-            console.log("User prefers light mode");
         }
         
         // Listen for changes in color scheme preference
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (e.matches) {
-                console.log("User switched to dark mode");
             } else {
-                console.log("User switched to light mode");
             }
         });
     }
@@ -504,6 +733,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 li.appendChild(a);
                 footerLinks.appendChild(li);
             });
+            
+            // Add Admin link at the end
+            const adminLi = document.createElement('li');
+            const adminA = document.createElement('a');
+            adminA.href = '#';
+            adminA.id = 'admin-link';
+            adminA.innerHTML = '<i class="fas fa-chevron-right"></i> Admin';
+            adminLi.appendChild(adminA);
+            footerLinks.appendChild(adminLi);
         }
     };
     
@@ -566,7 +804,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners to all links with href="#"
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href="#"]');
-            if (link && link.id !== 'backToTop') {
+            if (link && link.id !== 'backToTop' && link.id !== 'admin-link') {
                 e.preventDefault();
                 const linkText = link.textContent.trim();
                 showModal(linkText);
@@ -583,4 +821,538 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize modal functionality
     createModal();
+    
+    // Admin Portal Functionality
+    const initializeAdminPortal = () => {
+        // Simple hash function for password protection
+        const simpleHash = (str) => {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash.toString();
+        };
+        
+        // Admin users database (in production, this should be more secure)
+        const adminUsers = {
+            'rabbi_chuck': {
+                password: simpleHash('123456'), // This will be changed later
+                name: 'Rabbi Chuck Ott',
+                permissions: ['edit_brit', 'edit_content']
+            }
+        };
+        
+        // Admin session management
+        let adminSession = null;
+        
+        // Check if user is already logged in
+        const savedSession = localStorage.getItem('oht_admin_session');
+        if (savedSession) {
+            try {
+                adminSession = JSON.parse(savedSession);
+                // Validate session (basic check)
+                if (adminSession && adminSession.username && adminSession.expiry > Date.now()) {
+                    // Session is valid, but don't auto-open admin panel
+                } else {
+                    localStorage.removeItem('oht_admin_session');
+                    adminSession = null;
+                }
+            } catch (e) {
+                localStorage.removeItem('oht_admin_session');
+                adminSession = null;
+            }
+        }
+        
+        // Admin link click handler
+        document.getElementById('admin-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAdminModal();
+        });
+        
+        // Show admin modal
+        const showAdminModal = () => {
+            const modal = document.getElementById('admin-modal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            if (adminSession) {
+                showAdminPanel();
+            } else {
+                showLoginForm();
+            }
+        };
+        
+        // Hide admin modal
+        const hideAdminModal = () => {
+            const modal = document.getElementById('admin-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+        
+        // Show login form
+        const showLoginForm = () => {
+            document.getElementById('admin-login-form').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-error').style.display = 'none';
+            document.getElementById('admin-username').value = '';
+            document.getElementById('admin-password').value = '';
+        };
+        
+        // Show admin panel
+        const showAdminPanel = () => {
+            document.getElementById('admin-login-form').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            
+            // Populate current parashah info
+            const parashahName = document.getElementById('parashah-name').textContent;
+            document.getElementById('current-parashah').value = parashahName;
+            
+            // Load any existing brit override
+            const britOverride = localStorage.getItem('oht_brit_override');
+            document.getElementById('brit-override').value = britOverride || '';
+        };
+        
+        // Login handler
+        document.getElementById('admin-login-btn').addEventListener('click', () => {
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('admin-error');
+            
+            if (!username || !password) {
+                errorDiv.textContent = 'Please enter both username and password.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            const hashedPassword = simpleHash(password);
+            const user = adminUsers[username];
+            
+            if (user && user.password === hashedPassword) {
+                // Successful login
+                adminSession = {
+                    username: username,
+                    name: user.name,
+                    permissions: user.permissions,
+                    expiry: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+                };
+                
+                localStorage.setItem('oht_admin_session', JSON.stringify(adminSession));
+                showAdminPanel();
+                errorDiv.style.display = 'none';
+            } else {
+                errorDiv.textContent = 'Invalid username or password.';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        // Save Brit override
+        document.getElementById('save-brit-btn').addEventListener('click', () => {
+            const britReading = document.getElementById('brit-override').value.trim();
+            if (britReading) {
+                localStorage.setItem('oht_brit_override', britReading);
+                // Update the live display
+                document.getElementById('brit-reading').textContent = britReading;
+                alert('Brit Chadashah override saved successfully!');
+            }
+        });
+        
+        // Clear Brit override
+        document.getElementById('clear-brit-btn').addEventListener('click', () => {
+            localStorage.removeItem('oht_brit_override');
+            document.getElementById('brit-override').value = '';
+            
+            // Restore original brit reading logic
+            const parashahName = document.getElementById('parashah-name').textContent;
+            // This would need to re-run the brit reading lookup logic
+            // For now, just show "Pending" until next page load
+            document.getElementById('brit-reading').textContent = 'Pending';
+            alert('Brit Chadashah override cleared!');
+        });
+        
+        // Logout handler
+        document.getElementById('admin-logout-btn').addEventListener('click', () => {
+            adminSession = null;
+            localStorage.removeItem('oht_admin_session');
+            showLoginForm();
+        });
+        
+        // Close modal handlers
+        document.querySelector('.admin-modal-close').addEventListener('click', hideAdminModal);
+        document.querySelector('.admin-modal-overlay').addEventListener('click', hideAdminModal);
+        
+        // Escape key handler
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('admin-modal');
+                if (modal.style.display === 'flex') {
+                    hideAdminModal();
+                }
+            }
+        });
+        
+        // Enter key handler for login form
+        document.getElementById('admin-password').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('admin-login-btn').click();
+            }
+        });
+        
+        // Edit Mode System
+        let editModeActive = false;
+        let pendingChanges = {};
+        
+        // Comprehensive cleanup function
+        const cleanupEditMode = () => {
+            editModeActive = false;
+            disableEditMode();
+            
+            // Update toggle button
+            const toggleBtn = document.getElementById('toggle-edit-mode');
+            const saveBtn = document.getElementById('save-all-content');
+            if (toggleBtn) {
+                toggleBtn.innerHTML = '<i class="fas fa-edit"></i> Enable Edit Mode';
+                toggleBtn.classList.remove('btn');
+                toggleBtn.classList.add('btn-blue');
+            }
+            if (saveBtn) {
+                saveBtn.style.display = 'none';
+            }
+        };
+        
+        // Toggle edit mode
+        document.getElementById('toggle-edit-mode').addEventListener('click', () => {
+            editModeActive = !editModeActive;
+            const toggleBtn = document.getElementById('toggle-edit-mode');
+            const saveBtn = document.getElementById('save-all-content');
+            
+            if (editModeActive) {
+                enableEditMode();
+                toggleBtn.innerHTML = '<i class="fas fa-times"></i> Exit Edit Mode';
+                toggleBtn.classList.remove('btn-blue');
+                toggleBtn.classList.add('btn');
+                saveBtn.style.display = 'block';
+                hideAdminModal(); // Close admin panel when entering edit mode
+            } else {
+                cleanupEditMode();
+            }
+        });
+        
+        // Save all content changes
+        document.getElementById('save-all-content').addEventListener('click', () => {
+            saveAllChanges();
+            cleanupEditMode();
+            alert('All changes saved successfully!');
+        });
+        
+        // Enable edit mode
+        const enableEditMode = () => {
+            document.body.classList.add('edit-mode');
+            
+            // Add edit icons to all editable elements
+            const editableElements = document.querySelectorAll('[data-editable]');
+            
+            editableElements.forEach((element, index) => {
+                // Create edit icon
+                const editIcon = document.createElement('div');
+                editIcon.className = 'edit-icon';
+                editIcon.innerHTML = '<i class="fas fa-edit"></i>';
+                editIcon.title = 'Click to edit';
+                
+                // Position relative to element
+                element.style.position = 'relative';
+                element.appendChild(editIcon);
+                
+                // Add click handler
+                const clickHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openEditDialog(element);
+                };
+                
+                element.addEventListener('click', clickHandler);
+                editIcon.addEventListener('click', clickHandler);
+                
+                // Store handler for cleanup
+                element._editClickHandler = clickHandler;
+            });
+            
+            // Show edit mode indicator
+            showEditModeIndicator();
+            
+            // Add keyboard shortcut to exit edit mode (Escape key)
+            document.addEventListener('keydown', escapeEditModeHandler);
+        };
+        
+        // Escape key handler for exiting edit mode
+        const escapeEditModeHandler = (e) => {
+            if (e.key === 'Escape' && editModeActive) {
+                // Check if we're not in an edit dialog
+                if (!document.querySelector('.edit-overlay')) {
+                    cleanupEditMode();
+                }
+            }
+        };
+        
+        // Disable edit mode
+        const disableEditMode = () => {
+            document.body.classList.remove('edit-mode');
+            
+            // More thorough cleanup of ALL edit icons (multiple selectors)
+            const allEditIcons = document.querySelectorAll('.edit-icon');
+            allEditIcons.forEach(icon => {
+                icon.remove();
+            });
+            
+            // Remove edit icons and handlers from editable elements
+            const editableElements = document.querySelectorAll('[data-editable]');
+            editableElements.forEach(element => {
+                // Remove any remaining edit icons inside this element
+                const nestedEditIcons = element.querySelectorAll('.edit-icon');
+                nestedEditIcons.forEach(icon => icon.remove());
+                
+                // Remove click handler
+                if (element._editClickHandler) {
+                    element.removeEventListener('click', element._editClickHandler);
+                    delete element._editClickHandler;
+                }
+                
+                // Remove editing styles
+                element.classList.remove('editing');
+                element.style.removeProperty('border');
+                element.style.removeProperty('background');
+                element.style.removeProperty('position');
+            });
+            
+            // Additional cleanup - search for any orphaned edit icons by class
+            setTimeout(() => {
+                const orphanedIcons = document.querySelectorAll('.edit-icon');
+                if (orphanedIcons.length > 0) {
+                    orphanedIcons.forEach(icon => icon.remove());
+                }
+            }, 100);
+            
+            // Remove escape key handler
+            document.removeEventListener('keydown', escapeEditModeHandler);
+            
+            // Hide edit mode indicator
+            hideEditModeIndicator();
+        };
+        
+        // Show edit mode indicator
+        const showEditModeIndicator = () => {
+            const indicator = document.createElement('div');
+            indicator.id = 'edit-mode-indicator';
+            indicator.className = 'edit-mode-indicator';
+            indicator.innerHTML = `
+                <div><i class="fas fa-edit"></i> <strong>Edit Mode Active</strong></div>
+                <div class="edit-mode-controls">
+                    <button class="btn exit-edit-btn" id="exit-edit-mode">
+                        <i class="fas fa-times"></i> Exit
+                    </button>
+                    <button class="btn save-all-edit-btn" id="save-all-floating">
+                        <i class="fas fa-save"></i> Save All
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(indicator);
+            
+            // Add click handlers for the floating buttons
+            document.getElementById('exit-edit-mode').addEventListener('click', () => {
+                cleanupEditMode();
+            });
+            
+            document.getElementById('save-all-floating').addEventListener('click', () => {
+                saveAllChanges();
+                alert('All changes saved successfully!');
+            });
+        };
+        
+        // Hide edit mode indicator
+        const hideEditModeIndicator = () => {
+            const indicator = document.getElementById('edit-mode-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        };
+        
+        // Extract clean text content from HTML element
+        const extractCleanText = (element) => {
+            // Clone the element to avoid modifying the original
+            const clone = element.cloneNode(true);
+            
+            // Remove edit icons
+            const editIcons = clone.querySelectorAll('.edit-icon');
+            editIcons.forEach(icon => icon.remove());
+            
+            // Get text content without HTML tags
+            let textContent = clone.textContent || clone.innerText || '';
+            
+            // Clean up whitespace
+            textContent = textContent.trim().replace(/\s+/g, ' ');
+            
+            return textContent;
+        };
+        
+        // Reconstruct element content with new text while preserving structure
+        const reconstructElementContent = (element, newText) => {
+            // Store original structure info
+            const hasIcon = element.querySelector('i[class*="fas"]');
+            const iconClasses = hasIcon ? hasIcon.className : null;
+            const hasSpans = element.querySelectorAll('span').length > 0;
+            const hasBr = element.innerHTML.includes('<br>');
+            
+            // Handle different element types
+            if (element.tagName === 'P' || element.tagName === 'DIV') {
+                if (hasBr) {
+                    // Convert line breaks in text to <br> tags
+                    const lines = newText.split('\n').filter(line => line.trim());
+                    element.innerHTML = lines.join('<br>\n');
+                } else if (hasIcon) {
+                    // Preserve icon structure
+                    element.innerHTML = `<i class="${iconClasses}"></i> ${newText}`;
+                } else {
+                    element.textContent = newText;
+                }
+            } else if (element.tagName === 'SPAN') {
+                element.textContent = newText;
+            } else if (element.tagName === 'A') {
+                // For links, preserve icon if it exists
+                if (hasIcon) {
+                    element.innerHTML = `<i class="${iconClasses}"></i> ${newText}`;
+                } else {
+                    element.textContent = newText;
+                }
+            } else if (element.classList.contains('widget-header') || element.classList.contains('card-header')) {
+                // For headers, preserve icon and span structure
+                if (hasIcon && hasSpans) {
+                    const icon = element.querySelector('i');
+                    const span = element.querySelector('span[data-editable]');
+                    if (span) {
+                        span.textContent = newText;
+                    } else {
+                        element.innerHTML = `<i class="${iconClasses}"></i> <span>${newText}</span>`;
+                    }
+                } else if (hasIcon) {
+                    element.innerHTML = `<i class="${iconClasses}"></i> ${newText}`;
+                } else {
+                    element.textContent = newText;
+                }
+            } else {
+                // Default case
+                element.textContent = newText;
+            }
+        };
+        
+        // Open edit dialog
+        const openEditDialog = (element) => {
+            const editKey = element.getAttribute('data-editable');
+            const cleanText = extractCleanText(element);
+            
+            // Create edit overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'edit-overlay';
+            
+            // Create edit dialog
+            const dialog = document.createElement('div');
+            dialog.className = 'edit-dialog';
+            
+            // Create friendly field name
+            const friendlyName = editKey.replace(/-/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase())
+                .replace('Sidebar', 'Sidebar:')
+                .replace('Rabbi', 'Rabbi:')
+                .replace('Prayer', 'Prayer:')
+                .replace('Parashah', 'Parashah:');
+            
+            dialog.innerHTML = `
+                <h3><i class="fas fa-edit"></i> Edit ${friendlyName}</h3>
+                <div style="margin-bottom: 1rem; color: var(--gray-600); font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> Edit the text content below. Line breaks will be preserved where appropriate.
+                </div>
+                <textarea id="edit-textarea" placeholder="Enter your text content..." rows="6">${cleanText}</textarea>
+                <div class="edit-dialog-buttons">
+                    <button class="btn btn-blue" id="save-edit">Save Changes</button>
+                    <button class="btn" id="cancel-edit">Cancel</button>
+                </div>
+            `;
+            
+            overlay.appendChild(dialog);
+            document.body.appendChild(overlay);
+            
+            // Focus textarea and select all text for easy editing
+            const textarea = document.getElementById('edit-textarea');
+            textarea.focus();
+            textarea.select();
+            
+            // Handle save
+            document.getElementById('save-edit').addEventListener('click', () => {
+                const newText = textarea.value.trim();
+                if (newText) {
+                    reconstructElementContent(element, newText);
+                    pendingChanges[editKey] = element.innerHTML;
+                    element.classList.add('editing');
+                }
+                overlay.remove();
+            });
+            
+            // Handle cancel
+            document.getElementById('cancel-edit').addEventListener('click', () => {
+                overlay.remove();
+            });
+            
+            // Handle overlay click
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.remove();
+                }
+            });
+            
+            // Handle escape key
+            document.addEventListener('keydown', function escapeHandler(e) {
+                if (e.key === 'Escape') {
+                    overlay.remove();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            });
+        };
+        
+        // Save all changes to localStorage
+        const saveAllChanges = () => {
+            const allChanges = localStorage.getItem('oht_content_changes');
+            const existingChanges = allChanges ? JSON.parse(allChanges) : {};
+            
+            const updatedChanges = { ...existingChanges, ...pendingChanges };
+            localStorage.setItem('oht_content_changes', JSON.stringify(updatedChanges));
+            
+            // Clear pending changes
+            pendingChanges = {};
+            
+            // Remove editing class from all elements
+            document.querySelectorAll('[data-editable].editing').forEach(el => {
+                el.classList.remove('editing');
+            });
+        };
+        
+        // Load saved changes on page load
+        const loadSavedChanges = () => {
+            const savedChanges = localStorage.getItem('oht_content_changes');
+            if (savedChanges) {
+                const changes = JSON.parse(savedChanges);
+                Object.keys(changes).forEach(key => {
+                    const element = document.querySelector(`[data-editable="${key}"]`);
+                    if (element) {
+                        element.innerHTML = changes[key];
+                    }
+                });
+            }
+        };
+        
+        // Load saved changes when admin is initialized
+        loadSavedChanges();
+    };
+    
+    // Initialize admin portal
+    initializeAdminPortal();
 });
