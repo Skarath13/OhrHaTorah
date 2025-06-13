@@ -234,7 +234,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Load real Parashah information with robust fallback system
+    // Initialize triennial cycle toggle functionality
+    const initializeTriennialToggle = () => {
+        const annualBtn = document.getElementById('annual-cycle-btn');
+        const triennialBtn = document.getElementById('triennial-cycle-btn');
+        const annualReadings = document.getElementById('annual-readings');
+        const triennialReadings = document.getElementById('triennial-readings');
+        
+        if (!annualBtn || !triennialBtn || !annualReadings || !triennialReadings) return;
+        
+        // Switch to annual cycle
+        annualBtn.addEventListener('click', () => {
+            annualBtn.classList.add('active');
+            triennialBtn.classList.remove('active');
+            annualReadings.style.display = 'block';
+            triennialReadings.style.display = 'none';
+        });
+        
+        // Switch to triennial cycle
+        triennialBtn.addEventListener('click', () => {
+            triennialBtn.classList.add('active');
+            annualBtn.classList.remove('active');
+            annualReadings.style.display = 'none';
+            triennialReadings.style.display = 'block';
+        });
+    };
+    
+    // Load real Parashah information with triennial support
     const loadParashah = async () => {
         const paraLoader = document.getElementById('parashah-loader');
         if (!paraLoader) return;
@@ -300,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'V\'Zot HaBerachah': 'Matthew 17:1-9'
         };
 
-        // Try Hebcal API first (primary source)
+        // Try Hebcal API first (primary source) - Annual readings
         const tryHebcalAPI = async () => {
             const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles`);
             
@@ -321,6 +347,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 haftarah: torahReading.leyning?.haftarah || 'See bulletin',
                 date: torahReading.date,
                 source: 'Hebcal'
+            };
+        };
+
+        // Try Hebcal API for triennial readings
+        const tryHebcalTriennialAPI = async () => {
+            const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&tri=on`);
+            
+            if (!response.ok) {
+                throw new Error(`Hebcal Triennial API failed: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const torahReading = data.items?.find(item => item.category === 'parashat');
+            
+            if (!torahReading) {
+                throw new Error('No triennial Torah reading found in Hebcal response');
+            }
+            
+            // Determine triennial year (1, 2, or 3)
+            const currentYear = new Date().getFullYear();
+            const triennialYear = ((currentYear - 5784) % 3) + 1; // 5784 is a reference year
+            
+            return {
+                name: torahReading.title.replace('Parashat ', ''),
+                torah: torahReading.leyning?.torah || 'See bulletin',
+                haftarah: torahReading.leyning?.haftarah || 'Same as Annual',
+                triennialYear: triennialYear,
+                date: torahReading.date,
+                source: 'Hebcal Triennial'
             };
         };
 
@@ -359,43 +414,67 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         };
 
-        // Update UI with parashah data
-        const updateParashahUI = (parashahData) => {
+        // Update UI with parashah data (both annual and triennial)
+        const updateParashahUI = (annualData, triennialData = null) => {
             
             // Update parashah name
-            document.getElementById('parashah-name').textContent = parashahData.name;
+            document.getElementById('parashah-name').textContent = annualData.name;
             
             // Update header with date
             const parashahHeaderEl = document.getElementById('parashah-header');
-            if (parashahHeaderEl && parashahData.date) {
-                const date = new Date(parashahData.date);
+            if (parashahHeaderEl && annualData.date) {
+                const date = new Date(annualData.date);
                 const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
                 parashahHeaderEl.textContent = `Weekly Parashah - ${formattedDate}`;
             } else if (parashahHeaderEl) {
                 parashahHeaderEl.textContent = 'Weekly Parashah';
             }
             
-            // Update Torah and Haftarah readings
-            document.getElementById('torah-reading').textContent = parashahData.torah;
-            document.getElementById('haftarah-reading').textContent = parashahData.haftarah;
+            // Update Annual Torah and Haftarah readings
+            document.getElementById('torah-reading').textContent = annualData.torah;
+            document.getElementById('haftarah-reading').textContent = annualData.haftarah;
+            
+            // Update Triennial readings if available
+            if (triennialData) {
+                document.getElementById('triennial-torah-reading').textContent = triennialData.torah;
+                document.getElementById('triennial-haftarah-reading').textContent = triennialData.haftarah;
+                
+                // Update triennial year info
+                const triennialYearSpan = document.getElementById('triennial-year');
+                const triennialCycleInfo = document.getElementById('triennial-cycle-info');
+                if (triennialYearSpan) triennialYearSpan.textContent = triennialData.triennialYear;
+                if (triennialCycleInfo) triennialCycleInfo.textContent = `Year ${triennialData.triennialYear} of 3`;
+            } else {
+                // Fallback if triennial data is not available
+                document.getElementById('triennial-torah-reading').textContent = 'Unable to load triennial data';
+                document.getElementById('triennial-haftarah-reading').textContent = 'Same as Annual';
+                
+                // Calculate current triennial year as fallback
+                const currentYear = new Date().getFullYear();
+                const fallbackTriennialYear = ((currentYear - 5784) % 3) + 1;
+                const triennialYearSpan = document.getElementById('triennial-year');
+                const triennialCycleInfo = document.getElementById('triennial-cycle-info');
+                if (triennialYearSpan) triennialYearSpan.textContent = fallbackTriennialYear;
+                if (triennialCycleInfo) triennialCycleInfo.textContent = `Year ${fallbackTriennialYear} of 3`;
+            }
             
             // Update main content area
             const mainParashahElement = document.querySelector('.infobox strong');
             if (mainParashahElement) {
                 const infoboxContent = mainParashahElement.parentElement;
                 infoboxContent.innerHTML = `<i class="fas fa-info-circle"></i>
-                    <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parashat ${parashahData.name}), and fellowship meal at our Tustin location.`;
+                    <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parashat ${annualData.name}), and fellowship meal at our Tustin location.`;
             }
             
             // Update Brit Chadashah with flexible name matching
             let britReading = null;
             
             // Try exact match first
-            britReading = britReadings[parashahData.name];
+            britReading = britReadings[annualData.name];
             
             // If no exact match, try case-insensitive and apostrophe-insensitive search
             if (!britReading) {
-                const searchName = parashahData.name.toLowerCase();
+                const searchName = annualData.name.toLowerCase();
                 for (const [key, value] of Object.entries(britReadings)) {
                     // Replace character code 8217 (right single quotation mark) and other apostrophe variants with standard apostrophe
                     const normalizedKey = key.toLowerCase().replace(/[\u2019\u2018''`]/g, "'");
@@ -429,16 +508,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        // Main execution with fallback chain
+        // Main execution with fallback chain - load both annual and triennial
         try {
-            const parashahData = await tryHebcalAPI();
-            updateParashahUI(parashahData);
+            // Load annual data first
+            const annualData = await tryHebcalAPI();
+            
+            // Try to load triennial data
+            let triennialData = null;
+            try {
+                triennialData = await tryHebcalTriennialAPI();
+            } catch (triennialError) {
+                console.warn('Triennial API failed, will use fallback:', triennialError.message);
+            }
+            
+            updateParashahUI(annualData, triennialData);
+            
         } catch (hebcalError) {
             console.warn('Hebcal API failed:', hebcalError.message);
             
             try {
-                const parashahData = await trySefariaAPI();
-                updateParashahUI(parashahData);
+                const annualData = await trySefariaAPI();
+                updateParashahUI(annualData, null); // No triennial support from Sefaria
             } catch (sefariaError) {
                 console.warn('Sefaria API failed:', sefariaError.message);
                 console.error('All Torah portion APIs failed');
@@ -449,6 +539,8 @@ document.addEventListener('DOMContentLoaded', function() {
         paraLoader.style.display = 'none';
     };
     
+    // Initialize triennial toggle and load parashah data
+    initializeTriennialToggle();
     loadParashah();
     
     // Calculate candle lighting time (sunset - 18 minutes) for a given date and location

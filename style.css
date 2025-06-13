@@ -47,6 +47,147 @@
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
     --border-radius-lg: 12px;
+}
+
+/* ===== TRIENNIAL CYCLE TOGGLE STYLES ===== */
+.reading-cycle-toggle {
+    display: flex;
+    background: var(--gray-100);
+    border-radius: var(--border-radius-md);
+    padding: 4px;
+    gap: 4px;
+    margin: var(--space-md) 0;
+}
+
+.cycle-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    background: transparent;
+    color: var(--gray-600);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.cycle-btn:hover {
+    background: var(--white);
+    color: var(--primary-blue);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cycle-btn.active {
+    background: var(--primary-blue);
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(58, 110, 165, 0.3);
+}
+
+.cycle-btn i {
+    font-size: 0.85em;
+}
+
+
+.reading-section {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.reading-section.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.triennial-note {
+    background: var(--primary-blue-lightest);
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--space-sm);
+    border-left: 3px solid var(--primary-blue);
+}
+
+.triennial-note .parashah-label {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.triennial-year-info {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--primary-blue);
+}
+
+/* Header layout improvements */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+}
+
+/* Reading layout improvements */
+.reading-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.reading-icon {
+    display: inline-flex;
+    width: 16px;
+    justify-content: center;
+}
+
+.reading-label {
+    font-weight: 600;
+    color: var(--gray-700);
+    white-space: nowrap;
+}
+
+.reading-text {
+    color: var(--gray-800);
+    font-weight: 500;
+    margin-left: 22px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.triennial-year-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.triennial-movement {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.triennial-year-text {
+    font-size: var(--font-size-xs);
+    color: var(--primary-blue);
+    opacity: 0.8;
+}
+
+/* Mobile responsiveness for cycle toggle */
+@media (max-width: 768px) {
+    .cycle-btn {
+        font-size: var(--font-size-xs);
+        padding: 6px 8px;
+    }
+    
+    
+    .reading-text {
+        margin-left: 0;
+        margin-top: 2px;
+    }
+}
     
     /* Transitions */
     --transition-standard: all 0.3s ease;
@@ -84,6 +225,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 
 img {
@@ -671,9 +813,9 @@ p {
 /* Hostage Counter - Bring Them Home Now Widget */
 .hostage-info {
     position: absolute;
-    left: var(--space-xl);
-    bottom: 20px;
-    z-index: 100;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
     display: block; /* Always visible for our hostage counter */
 }
 
@@ -884,9 +1026,9 @@ p {
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
     padding: var(--space-xl);
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
+    max-width: 550px;
+    width: 95%;
+    max-height: 85vh;
     overflow-y: auto;
     z-index: 10001;
 }
@@ -920,23 +1062,26 @@ p {
 }
 
 .admin-form-group {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
 }
 
 .admin-form-group label {
     display: block;
-    margin-bottom: var(--space-sm);
+    margin-bottom: 6px;
     font-weight: 600;
     color: var(--gray-700);
+    font-size: var(--font-size-sm);
 }
 
 .admin-form-group input {
     width: 100%;
-    padding: var(--space-md);
+    padding: 10px 12px;
     border: 1px solid var(--gray-300);
     border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     transition: var(--transition-standard);
+    box-sizing: border-box;
+    min-height: 40px;
 }
 
 .admin-form-group input:focus {
@@ -960,14 +1105,41 @@ p {
 }
 
 .admin-section {
-    margin-bottom: var(--space-xl);
-    padding-bottom: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
     border-bottom: 1px solid var(--gray-200);
 }
 
 .admin-section:last-child {
     border-bottom: none;
     margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.admin-section h4 {
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-md);
+    color: var(--primary-blue);
+}
+
+.admin-section p {
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.admin-buttons .btn {
+    flex: 1;
+    min-height: 40px;
+    font-size: var(--font-size-sm);
+    padding: 10px 16px;
 }
 
 .admin-section h4 {

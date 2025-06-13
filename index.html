@@ -10,6 +10,40 @@
 </head>
 <body>
 
+    <!-- Hostage Counter - Top Left Corner -->
+    <div class="hostage-info">
+        <div class="hostage-counter">
+            <div class="hostage-header">
+                <span class="hostage-text">🇮🇱 HOSTAGES</span>
+                <span class="hostage-subtext">HELD BY HAMAS</span>
+            </div>
+            <div class="hostage-timer">
+                <div class="timer-segment">
+                    <span class="timer-number" id="hostage-days">000</span>
+                    <span class="timer-label">DAYS</span>
+                </div>
+                <div class="timer-separator">:</div>
+                <div class="timer-segment">
+                    <span class="timer-number" id="hostage-hours">00</span>
+                    <span class="timer-label">HOURS</span>
+                </div>
+                <div class="timer-separator">:</div>
+                <div class="timer-segment">
+                    <span class="timer-number" id="hostage-minutes">00</span>
+                    <span class="timer-label">MINUTES</span>
+                </div>
+                <div class="timer-separator">:</div>
+                <div class="timer-segment">
+                    <span class="timer-number" id="hostage-seconds">00</span>
+                    <span class="timer-label">SECONDS</span>
+                </div>
+            </div>
+            <div class="hostage-footer">
+                <span class="bring-them-home">BRING THEM HOME NOW</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
         <button class="mobile-menu-btn" onclick="toggleMenu()">
@@ -17,38 +51,6 @@
             <span></span>
             <span></span>
         </button>
-        <div class="hostage-info">
-            <div class="hostage-counter">
-                <div class="hostage-header">
-                    <span class="hostage-text">🇮🇱 HOSTAGES</span>
-                    <span class="hostage-subtext">HELD BY HAMAS</span>
-                </div>
-                <div class="hostage-timer">
-                    <div class="timer-segment">
-                        <span class="timer-number" id="hostage-days">000</span>
-                        <span class="timer-label">DAYS</span>
-                    </div>
-                    <div class="timer-separator">:</div>
-                    <div class="timer-segment">
-                        <span class="timer-number" id="hostage-hours">00</span>
-                        <span class="timer-label">HOURS</span>
-                    </div>
-                    <div class="timer-separator">:</div>
-                    <div class="timer-segment">
-                        <span class="timer-number" id="hostage-minutes">00</span>
-                        <span class="timer-label">MINUTES</span>
-                    </div>
-                    <div class="timer-separator">:</div>
-                    <div class="timer-segment">
-                        <span class="timer-number" id="hostage-seconds">00</span>
-                        <span class="timer-label">SECONDS</span>
-                    </div>
-                </div>
-                <div class="hostage-footer">
-                    <span class="bring-them-home">BRING THEM HOME NOW</span>
-                </div>
-            </div>
-        </div>
         <div class="logo"><img src="images/logo.png" alt="Ohr HaTorah Logo" class="logo-image"></div>
         <div class="header-info">
             <div class="time-date-container">
@@ -286,7 +288,7 @@
         
         <!-- Right Sidebar -->
         <aside class="right-sidebar">
-            <!-- Weekly Parashah Card - API Integration Placeholder -->
+            <!-- Weekly Parashah Card - API Integration with Triennial -->
             <div class="feature-card">
                 <div class="card-header">
                     <i class="fas fa-torah"></i>
@@ -298,21 +300,69 @@
                         <span class="parashah-label" data-editable="parashah-label-text">Parashah:</span>
                         <span id="parashah-name">Kedoshim (Holy)</span>
                     </div>
-                    <div class="parashah-info">
-                        <i class="fas fa-book"></i>
-                        <span class="parashah-label" data-editable="torah-label-text">Torah:</span>
-                        <span id="torah-reading">Leviticus 19:1-20:27</span>
+                    
+                    <!-- Reading Cycle Toggle -->
+                    <div class="reading-cycle-toggle" style="margin: 12px 0; text-align: center;">
+                        <button id="annual-cycle-btn" class="cycle-btn active">
+                            <i class="fas fa-calendar-alt"></i> Annual Cycle
+                        </button>
+                        <button id="triennial-cycle-btn" class="cycle-btn">
+                            <i class="fas fa-calendar-week"></i> Triennial
+                        </button>
                     </div>
-                    <div class="parashah-info">
-                        <i class="fas fa-book-open"></i>
-                        <span class="parashah-label" data-editable="haftarah-label-text">Haftarah:</span>
-                        <span id="haftarah-reading">Amos 9:7-15</span>
+                    
+                    <!-- Annual Readings -->
+                    <div id="annual-readings" class="reading-section">
+                        <div class="parashah-info">
+                            <div class="reading-row">
+                                <span class="reading-icon"><i class="fas fa-book"></i></span>
+                                <span class="reading-label" data-editable="torah-label-text">Torah:</span>
+                            </div>
+                            <div class="reading-text" id="torah-reading">Leviticus 19:1-20:27</div>
+                        </div>
+                        <div class="parashah-info">
+                            <div class="reading-row">
+                                <span class="reading-icon"><i class="fas fa-book-open"></i></span>
+                                <span class="reading-label" data-editable="haftarah-label-text">Haftarah:</span>
+                            </div>
+                            <div class="reading-text" id="haftarah-reading">Amos 9:7-15</div>
+                        </div>
                     </div>
-                    <div class="parashah-info">
-                        <i class="fas fa-book-reader"></i>
-                        <span class="parashah-label" data-editable="brit-label-text">Brit:</span>
-                        <span id="brit-reading">Loading...</span>
+                    
+                    <!-- Triennial Readings -->
+                    <div id="triennial-readings" class="reading-section" style="display: none;">
+                        <div class="parashah-info triennial-note">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="triennial-year-info">
+                                <div class="triennial-movement">Conservative Movement</div>
+                                <div class="triennial-year-text"><span id="triennial-cycle-info">Year 3 of 3</span></div>
+                            </div>
+                        </div>
+                        <div class="parashah-info">
+                            <div class="reading-row">
+                                <span class="reading-icon"><i class="fas fa-book"></i></span>
+                                <span class="reading-label">Torah (Triennial):</span>
+                            </div>
+                            <div class="reading-text" id="triennial-torah-reading">Loading...</div>
+                        </div>
+                        <div class="parashah-info">
+                            <div class="reading-row">
+                                <span class="reading-icon"><i class="fas fa-book-open"></i></span>
+                                <span class="reading-label">Haftarah:</span>
+                            </div>
+                            <div class="reading-text" id="triennial-haftarah-reading">Same as Annual</div>
+                        </div>
                     </div>
+                    
+                    <!-- Brit Chadashah (shared between cycles) -->
+                    <div class="parashah-info">
+                        <div class="reading-row">
+                            <span class="reading-icon"><i class="fas fa-book-reader"></i></span>
+                            <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
+                        </div>
+                        <div class="reading-text" id="brit-reading">Loading...</div>
+                    </div>
+                    
                     <div class="loader" id="parashah-loader" style="display: none;"></div>
                 </div>
                 <div class="card-footer">

@@ -1,0 +1,25 @@
+{
+  "name": "ohrhatorah",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server --port=3005 --host=0.0.0.0 --open=/",
+    "start": "live-server --port=3005 --host=0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skarath13/OhrHaTorah.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Skarath13/OhrHaTorah/issues"
+  },
+  "homepage": "https://github.com/Skarath13/OhrHaTorah#readme",
+  "description": "",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
