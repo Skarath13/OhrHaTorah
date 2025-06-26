@@ -610,8 +610,8 @@ p {
     position: relative;
     background: #000000;
     color: var(--white);
-    padding: var(--space-xl) var(--space-xl);
-    min-height: 210px;
+    padding: 0 var(--space-xl);
+    height: 224px;
     display: flex;
     justify-content: center;
     align-items: center;
