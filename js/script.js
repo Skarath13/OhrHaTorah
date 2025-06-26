@@ -445,38 +445,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Try Hebcal API first (primary source) - Annual readings
         const tryHebcalAPI = async () => {
-            const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles`);
+            const apiUrl = `https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles`;
+            
+            const response = await fetch(apiUrl);
             
             if (!response.ok) {
                 throw new Error(`Hebcal API failed: ${response.status}`);
             }
             
             const data = await response.json();
+            
             const torahReading = data.items?.find(item => item.category === 'parashat');
+            
             
             if (!torahReading) {
                 throw new Error('No Torah reading found in Hebcal response');
             }
             
-            return {
+            const result = {
                 name: torahReading.title.replace('Parashat ', ''),
                 torah: torahReading.leyning?.torah || 'See bulletin',
                 haftarah: torahReading.leyning?.haftarah || 'See bulletin',
                 date: torahReading.date,
                 source: 'Hebcal'
             };
+            
+            return result;
         };
 
         // Try Hebcal API for triennial readings
         const tryHebcalTriennialAPI = async () => {
-            const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&tri=on`);
+            const apiUrl = `https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&triennial=on`;
+            
+            const response = await fetch(apiUrl);
             
             if (!response.ok) {
                 throw new Error(`Hebcal Triennial API failed: ${response.status}`);
             }
             
             const data = await response.json();
+            
             const torahReading = data.items?.find(item => item.category === 'parashat');
+            
             
             if (!torahReading) {
                 throw new Error('No triennial Torah reading found in Hebcal response');
@@ -486,14 +496,48 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentYear = new Date().getFullYear();
             const triennialYear = ((currentYear - 5784) % 3) + 1; // 5784 is a reference year
             
-            return {
+            // Extract actual triennial readings from the nested triennial object
+            let triennialTorah = 'See bulletin';
+            let triennialHaftarah = 'Same as Annual';
+            
+            if (torahReading.leyning?.triennial) {
+                
+                // The triennial object contains aliyot (1,2,3,4,5,6,7) - construct Torah range from first and last
+                const triennial = torahReading.leyning.triennial;
+                if (triennial['1'] && triennial['7']) {
+                    // Extract start verse from aliyah 1 and end verse from aliyah 7
+                    const firstAliyah = triennial['1']; // e.g., "Numbers 17:25-18:7"
+                    const lastAliyah = triennial['7'];   // e.g., "Numbers 18:30-18:32"
+                    
+                    // Get start from first aliyah (before the dash)
+                    const startVerse = firstAliyah.split('-')[0];
+                    // Get end from last aliyah (after the dash)  
+                    const endVerse = lastAliyah.split('-')[1];
+                    
+                    triennialTorah = `${startVerse}-${endVerse}`;
+                }
+                
+                // Check for triennial haftarah in multiple possible locations
+                if (torahReading.leyning.triHaftara) {
+                    triennialHaftarah = torahReading.leyning.triHaftara;
+                } else if (torahReading.leyning.triHaft) {
+                    triennialHaftarah = torahReading.leyning.triHaft;
+                } else {
+                    // Use annual haftarah if no specific triennial haftarah
+                    triennialHaftarah = torahReading.leyning?.haftarah || 'Same as Annual';
+                }
+            }
+            
+            const result = {
                 name: torahReading.title.replace('Parashat ', ''),
-                torah: torahReading.leyning?.torah || 'See bulletin',
-                haftarah: torahReading.leyning?.haftarah || 'Same as Annual',
+                torah: triennialTorah,
+                haftarah: triennialHaftarah,
                 triennialYear: triennialYear,
                 date: torahReading.date,
                 source: 'Hebcal Triennial'
             };
+            
+            return result;
         };
 
         // Try Sefaria API as fallback
@@ -580,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (mainParashahElement) {
                 const infoboxContent = mainParashahElement.parentElement;
                 infoboxContent.innerHTML = `<i class="fas fa-info-circle"></i>
-                    <strong>Shabbat Service This Week:</strong> Join us Saturday at 10:00 AM for worship, Torah reading (Parashat ${annualData.name}), and fellowship meal at our Tustin location.`;
+                    <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.`;
             }
             
             // Update Brit Chadashah with flexible name matching
@@ -626,32 +670,50 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Main execution with fallback chain - load both annual and triennial
+        console.log('\ud83d\ude80 DEBUG: Starting parashah data loading process...');
+        
         try {
+            console.log('\ud83d\udd0d DEBUG: Attempting to load annual data from Hebcal...');
             // Load annual data first
             const annualData = await tryHebcalAPI();
+            console.log('\u2705 DEBUG: Annual data loaded successfully:', annualData);
             
             // Try to load triennial data
             let triennialData = null;
+            console.log('\ud83d\udd0d DEBUG: Attempting to load triennial data from Hebcal...');
             try {
                 triennialData = await tryHebcalTriennialAPI();
+                console.log('\u2705 DEBUG: Triennial data loaded successfully:', triennialData);
             } catch (triennialError) {
-                console.warn('Triennial API failed, will use fallback:', triennialError.message);
+                console.warn('\u26a0\ufe0f DEBUG: Triennial API failed, will use fallback:', triennialError.message);
+                console.log('\ud83d\udd0d DEBUG: Triennial error details:', triennialError);
             }
             
+            console.log('\ud83d\udd0d DEBUG: Calling updateParashahUI with:');
+            console.log('\ud83d\udd0d DEBUG: - Annual data available:', !!annualData);
+            console.log('\ud83d\udd0d DEBUG: - Triennial data available:', !!triennialData);
             updateParashahUI(annualData, triennialData);
+            console.log('\u2705 DEBUG: UI update completed successfully');
             
         } catch (hebcalError) {
-            console.warn('Hebcal API failed:', hebcalError.message);
+            console.warn('\u274c DEBUG: Hebcal API failed completely:', hebcalError.message);
+            console.log('\ud83d\udd0d DEBUG: Hebcal error details:', hebcalError);
             
             try {
+                console.log('\ud83d\udd0d DEBUG: Attempting fallback to Sefaria API...');
                 const annualData = await trySefariaAPI();
+                console.log('\u2705 DEBUG: Sefaria data loaded successfully:', annualData);
+                console.log('\u26a0\ufe0f DEBUG: No triennial support from Sefaria - triennial data will be null');
                 updateParashahUI(annualData, null); // No triennial support from Sefaria
             } catch (sefariaError) {
-                console.warn('Sefaria API failed:', sefariaError.message);
-                console.error('All Torah portion APIs failed');
+                console.warn('\u274c DEBUG: Sefaria API also failed:', sefariaError.message);
+                console.log('\ud83d\udd0d DEBUG: Sefaria error details:', sefariaError);
+                console.error('\u274c DEBUG: All Torah portion APIs failed - using fallback UI');
                 setFallbackUI();
             }
         }
+        
+        console.log('\u2705 DEBUG: Parashah loading process completed');
         
         paraLoader.style.display = 'none';
     };
@@ -1016,7 +1078,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (link && link.id !== 'backToTop' && link.id !== 'admin-link') {
                 e.preventDefault();
                 const linkText = link.textContent.trim();
-                showModal(linkText);
+                
+                // Check if this is the Worship Times link
+                if (linkText.includes('Worship Times')) {
+                    showWorshipTimesModal();
+                } else {
+                    showModal(linkText);
+                }
             }
         });
         
@@ -1030,6 +1098,42 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize modal functionality
     createModal();
+    
+    // Worship Times Modal functionality
+    const showWorshipTimesModal = () => {
+        const modal = document.getElementById('worship-times-modal');
+        const modalClose = modal.querySelector('.modal-close');
+        const modalBtn = modal.querySelector('.modal-btn');
+        const modalOverlay = modal.querySelector('.modal-overlay');
+        
+        // Close modal function
+        const closeWorshipModal = () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+        
+        // Show modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // Close modal events (remove existing listeners first to avoid duplicates)
+        modalClose.removeEventListener('click', closeWorshipModal);
+        modalBtn.removeEventListener('click', closeWorshipModal);
+        modalOverlay.removeEventListener('click', closeWorshipModal);
+        
+        modalClose.addEventListener('click', closeWorshipModal);
+        modalBtn.addEventListener('click', closeWorshipModal);
+        modalOverlay.addEventListener('click', closeWorshipModal);
+        
+        // Close modal on Escape key
+        const handleEscapeKey = (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeWorshipModal();
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+        };
+        document.addEventListener('keydown', handleEscapeKey);
+    };
     
     // Admin Portal Functionality
     const initializeAdminPortal = () => {

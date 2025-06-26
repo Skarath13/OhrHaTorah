@@ -135,6 +135,8 @@
     align-items: center;
     gap: 6px;
     margin-bottom: 4px;
+    min-width: 0;
+    flex-wrap: wrap;
 }
 
 .reading-icon {
@@ -152,9 +154,35 @@
 .reading-text {
     color: var(--gray-800);
     font-weight: 500;
-    margin-left: 22px;
     line-height: 1.4;
-    word-break: break-word;
+}
+
+/* Special styling only for Torah/Haftarah/Brit readings */
+.reading-section .reading-text,
+.parashah-info:has(.reading-text) .reading-text {
+    margin-top: 2px;
+    border-left: 3px solid var(--primary-blue);
+    background: var(--primary-blue-lightest);
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+    margin-left: 16px;
+    position: relative;
+}
+
+/* Mobile refinements */
+@media (max-width: 320px) {
+    .reading-section .reading-text,
+    .parashah-info:has(.reading-text) .reading-text {
+        font-size: 0.9rem;
+        margin-left: 8px;
+        padding: 6px 10px;
+    }
+    
+    .reading-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
 }
 
 .triennial-year-info {
@@ -312,7 +340,7 @@ p {
 
 .responsive-calendar {
     width: 100%;
-    height: 650px;
+    height: 600px !important;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -327,7 +355,7 @@ p {
 /* Mobile adjustments for calendar */
 @media (max-width: 768px) {
     .responsive-calendar {
-        height: 400px;
+        height: 400px !important;
     }
 }
 
@@ -2062,10 +2090,17 @@ body.edit-mode [data-editable]:hover .edit-icon {
     margin-bottom: var(--space-sm);
     padding-bottom: var(--space-sm);
     border-bottom: 1px dotted var(--gray-300);
-    display: grid;
-    grid-template-columns: auto auto 1fr;
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
     gap: var(--space-xs);
+}
+
+/* Only stack the readings (Torah, Haftarah, Brit), not the main parashah name */
+.reading-section .parashah-info,
+.parashah-info:has(.reading-text) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
 }
 
 .parashah-info:last-child {
@@ -2706,8 +2741,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
     
     .responsive-calendar {
         position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
+        height: 600px !important;
         overflow: hidden;
         max-width: 100%;
     }
@@ -3571,8 +3605,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
 
 .responsive-calendar {
     position: relative;
-    padding-bottom: 75%;
-    height: 0;
+    height: 600px !important;
     overflow: hidden;
     border-radius: var(--border-radius-sm);
     max-width: 100%;
@@ -3873,6 +3906,70 @@ body.edit-mode [data-editable]:hover .edit-icon {
     75% { transform: rotate(10deg); }
 }
 
+/* Worship Times Modal Styles */
+.worship-modal {
+    max-width: 600px;
+    width: 90%;
+}
+
+.service-section {
+    margin: var(--space-lg) 0;
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--gold);
+}
+
+.service-section h4 {
+    color: var(--primary-blue);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.service-section h4 i {
+    color: var(--gold);
+}
+
+.service-announcement {
+    font-size: var(--font-size-md);
+    color: var(--text-dark);
+    font-style: italic;
+    margin: 0;
+}
+
+.schedule-item {
+    display: flex;
+    margin: var(--space-sm) 0;
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-sm);
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.schedule-item .time {
+    font-weight: bold;
+    color: var(--primary-blue);
+    min-width: 80px;
+    font-size: var(--font-size-md);
+}
+
+.schedule-item .activity {
+    color: var(--text-dark);
+    line-height: 1.4;
+    flex: 1;
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 /* Mobile modal adjustments */
 @media (max-width: 768px) {
     .modal-content {
@@ -3888,5 +3985,76 @@ body.edit-mode [data-editable]:hover .edit-icon {
         width: 28px;
         height: 28px;
         font-size: 20px;
+    }
+    
+    .worship-modal {
+        width: 95%;
+    }
+    
+    .schedule-item {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+    
+    .schedule-item .time {
+        min-width: auto;
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* Service Info Box Styles */
+.service-section-info {
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.service-section-info:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.service-section-info h5 {
+    color: var(--primary-blue);
+    font-size: var(--font-size-sm);
+    margin: 0 0 var(--space-xs) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.service-section-info h5 i {
+    color: var(--gold);
+    font-size: var(--font-size-xs);
+}
+
+.service-announcement-small {
+    font-size: var(--font-size-xs);
+    color: var(--text-gray);
+    font-style: italic;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.schedule-compact {
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.schedule-compact strong {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* Mobile adjustments for service info */
+@media (max-width: 768px) {
+    .service-section-info h5 {
+        font-size: var(--font-size-xs);
+    }
+    
+    .service-announcement-small,
+    .schedule-compact {
+        font-size: 11px;
     }
 }
