@@ -37,69 +37,186 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMenu();
         });
     });
-    // Load Hebrew date from Hebcal API
+    // Load Hebrew date from Hebcal API with better date handling
     const loadHebrewDate = async () => {
         const hebrewDateElement = document.getElementById('hebrew-date');
         if (!hebrewDateElement) return;
         hebrewDateElement.textContent = 'Loading...';
         
         try {
-            // Get PST date
-            const pstDate = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
-            const [year, month, day] = pstDate.split('-');
-            const response = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1`);
-            const data = await response.json();
+            // Try multiple approaches for getting the correct Hebrew date
+            let hebrewDateString = null;
             
-            
-            // Check different possible response formats
-            if (data.hm !== undefined && data.hd !== undefined && data.hy !== undefined) {
-                // Convert Hebrew month number to English name
-                const hebrewMonths = [
-                    'Tishrei', 'Cheshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar',
-                    'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul'
-                ];
+            // Method 1: Use today's Hebrew date from Shabbat API (most reliable)
+            try {
+                const shabbatResponse = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles`);
+                const shabbatData = await shabbatResponse.json();
                 
-                let monthName;
-                
-                // Handle Adar in leap years
-                if (data.leap) {
-                    // In leap years, months are numbered differently
-                    if (data.hm === 12) {
-                        monthName = 'Adar I';
-                    } else if (data.hm === 13) {
-                        monthName = 'Adar II';
-                    } else if (data.hm < 6) {
-                        // Months after Adar II
-                        monthName = hebrewMonths[data.hm + 6];
-                    } else {
-                        // Months before Adar I
-                        monthName = hebrewMonths[data.hm - 1];
+                if (shabbatData.items && shabbatData.items.length > 0) {
+                    // Find today's Hebrew date in the response
+                    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+                    for (const item of shabbatData.items) {
+                        if (item.date === today && item.hebrew) {
+                            hebrewDateString = item.hebrew;
+                            break;
+                        }
                     }
-                } else {
-                    // Regular year - month numbers correspond to array indices
-                    monthName = hebrewMonths[data.hm - 1];
                 }
-                
-                // Add safety check
-                if (!monthName) {
-                    monthName = hebrewMonths[0]; // Default to Tishrei if something goes wrong
-                }
-                
-                hebrewDateElement.textContent = `${data.hd} ${monthName} ${data.hy}`;
-            } else {
-                // Use a fallback API endpoint
-                const fallbackResponse = await fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=off&min=off&mod=off&nx=off&year=${today.getFullYear()}&month=${today.getMonth() + 1}&ss=off&mf=off&c=off&s=off&geo=none`);
-                const fallbackData = await fallbackResponse.json();
-                
-                hebrewDateElement.textContent = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' });
+            } catch (shabbatError) {
+                console.warn('Shabbat API failed:', shabbatError);
             }
+            
+            // Method 2: Use converter API if Shabbat API didn't work
+            if (!hebrewDateString) {
+                // Get current PST time and check if it's after sunset
+                const now = new Date();
+                const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+                
+                // Get actual sunset time for today to determine Hebrew day boundary
+                let isAfterSunset = false;
+                try {
+                    const lat = 33.7175; // Tustin, CA
+                    const lng = -117.8311;
+                    const sunsetResponse = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`);
+                    const sunsetData = await sunsetResponse.json();
+                    
+                    if (sunsetData.status === 'OK') {
+                        const sunset = new Date(sunsetData.results.sunset);
+                        
+                        // Get current time in PST as hours and minutes
+                        const currentPSTTime = pstTime.getHours() * 100 + pstTime.getMinutes();
+                        
+                        // Get sunset time in PST as hours and minutes
+                        const sunsetPSTDate = new Date(sunset.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+                        const sunsetPSTTime = sunsetPSTDate.getHours() * 100 + sunsetPSTDate.getMinutes();
+                        
+                        isAfterSunset = currentPSTTime >= sunsetPSTTime;
+                        
+                        console.log(`Sunset today: ${sunset.toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}`);
+                        console.log(`Current PST: ${currentPSTTime} (${pstTime.getHours()}:${pstTime.getMinutes()}), Sunset PST: ${sunsetPSTTime} (${sunsetPSTDate.getHours()}:${sunsetPSTDate.getMinutes()})`);
+                    } else {
+                        // Fallback to rough estimate if sunset API fails
+                        isAfterSunset = pstTime.getHours() >= 20;
+                    }
+                } catch (sunsetError) {
+                    console.warn('Sunset API failed, using rough estimate');
+                    isAfterSunset = pstTime.getHours() >= 20;
+                }
+                
+                let dateToConvert = pstTime;
+                if (isAfterSunset) {
+                    dateToConvert = new Date(pstTime);
+                    dateToConvert.setDate(pstTime.getDate() + 1);
+                }
+                
+                const dateString = dateToConvert.toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+                const [year, month, day] = dateString.split('-');
+                
+                console.log(`Current PST time: ${pstTime.toLocaleTimeString()}, After sunset: ${isAfterSunset}`);
+                console.log(`Converting date: ${year}-${month}-${day}`);
+                
+                const converterResponse = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1`);
+                const converterData = await converterResponse.json();
+                console.log('Converter API response:', converterData); // Debug log
+                
+                if (converterData.hm !== undefined && converterData.hd !== undefined && converterData.hy !== undefined) {
+                    // Check if hm is already a month name (string) or a number
+                    if (typeof converterData.hm === 'string') {
+                        // API returned month name directly
+                        hebrewDateString = `${converterData.hd} ${converterData.hm} ${converterData.hy}`;
+                    } else if (converterData.hms) {
+                        // Use the Hebrew month name directly from API if available
+                        hebrewDateString = `${converterData.hd} ${converterData.hms} ${converterData.hy}`;
+                    } else {
+                        // Fallback to manual mapping - corrected for Hebrew calendar order
+                        const hebrewMonths = [
+                            '', // 0 - unused
+                            'Tishrei',    // 1 (Sep/Oct)
+                            'Cheshvan',   // 2 (Oct/Nov) 
+                            'Kislev',     // 3 (Nov/Dec)
+                            'Tevet',      // 4 (Dec/Jan)
+                            'Shevat',     // 5 (Jan/Feb)
+                            'Adar',       // 6 (Feb/Mar) - or Adar I in leap years
+                            'Nisan',      // 7 (Mar/Apr) - or Adar II in leap years, then Nisan
+                            'Iyyar',      // 8 (Apr/May)
+                            'Sivan',      // 9 (May/Jun) ← This should be the correct month
+                            'Tammuz',     // 10 (Jun/Jul)
+                            'Av',         // 11 (Jul/Aug)
+                            'Elul'        // 12 (Aug/Sep)
+                        ];
+                        
+                        let monthName = hebrewMonths[converterData.hm];
+                        
+                        // Handle leap years
+                        if (converterData.leap && converterData.hm >= 6) {
+                            if (converterData.hm === 6) monthName = 'Adar I';
+                            else if (converterData.hm === 7) monthName = 'Adar II';
+                            else if (converterData.hm > 7) monthName = hebrewMonths[converterData.hm - 1];
+                        }
+                        
+                        if (!monthName) {
+                            console.error('Could not map month number:', converterData.hm);
+                            monthName = `Month ${converterData.hm}`;
+                        }
+                        
+                        hebrewDateString = `${converterData.hd} ${monthName} ${converterData.hy}`;
+                    }
+                }
+            }
+            
+            // Method 3: Try the today API as final fallback
+            if (!hebrewDateString) {
+                const todayResponse = await fetch('https://www.hebcal.com/converter?cfg=json&today=1&g2h=1');
+                const todayData = await todayResponse.json();
+                
+                if (todayData.hebrew) {
+                    hebrewDateString = todayData.hebrew;
+                } else if (todayData.hm !== undefined && todayData.hd !== undefined && todayData.hy !== undefined) {
+                    const hebrewMonths = {
+                        1: 'Tishrei', 2: 'Cheshvan', 3: 'Kislev', 4: 'Tevet', 
+                        5: 'Shevat', 6: 'Adar', 7: 'Nisan', 8: 'Iyyar', 
+                        9: 'Sivan', 10: 'Tammuz', 11: 'Av', 12: 'Elul'
+                    };
+                    
+                    const monthName = hebrewMonths[todayData.hm] || 'Unknown';
+                    hebrewDateString = `${todayData.hd} ${monthName} ${todayData.hy}`;
+                }
+            }
+            
+            // Display the result
+            if (hebrewDateString) {
+                hebrewDateElement.textContent = hebrewDateString;
+            } else {
+                throw new Error('All Hebrew date methods failed');
+            }
+            
         } catch (error) {
-            // Fallback to local Hebrew date
-            hebrewDateElement.textContent = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' });
+            console.error('Error loading Hebrew date:', error);
+            // Final fallback - show a placeholder
+            hebrewDateElement.textContent = 'Hebrew Date Available Soon';
         }
     };
     
     loadHebrewDate();
+    
+    // Load Gregorian date
+    const loadGregorianDate = () => {
+        const gregorianDateElement = document.getElementById('gregorian-date');
+        if (!gregorianDateElement) return;
+        
+        const today = new Date();
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'America/Los_Angeles'
+        };
+        
+        gregorianDateElement.textContent = today.toLocaleDateString('en-US', options);
+    };
+    
+    loadGregorianDate();
     
     // PST time clock with modern display
     const updatePSTTime = () => {
