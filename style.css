@@ -861,7 +861,7 @@ p {
 .time-date-container .date-section {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 1px;
     align-items: flex-start;
 }
 

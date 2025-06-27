@@ -49,16 +49,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Method 1: Use today's Hebrew date from Shabbat API (most reliable)
             try {
-                const shabbatResponse = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles`);
+                const shabbatResponse = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en`);
                 const shabbatData = await shabbatResponse.json();
                 
                 if (shabbatData.items && shabbatData.items.length > 0) {
                     // Find today's Hebrew date in the response
                     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
                     for (const item of shabbatData.items) {
-                        if (item.date === today && item.hebrew) {
-                            hebrewDateString = item.hebrew;
-                            break;
+                        if (item.date === today) {
+                            // Prefer English transliteration over Hebrew text
+                            if (item.hdate) {
+                                hebrewDateString = item.hdate;
+                                break;
+                            } else if (item.hebrew) {
+                                hebrewDateString = item.hebrew;
+                                break;
+                            }
                         }
                     }
                 }
@@ -115,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(`Current PST time: ${pstTime.toLocaleTimeString()}, After sunset: ${isAfterSunset}`);
                 console.log(`Converting date: ${year}-${month}-${day}`);
                 
-                const converterResponse = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1`);
+                const converterResponse = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1&lg=en`);
                 const converterData = await converterResponse.json();
                 console.log('Converter API response:', converterData); // Debug log
                 
@@ -166,10 +172,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Method 3: Try the today API as final fallback
             if (!hebrewDateString) {
-                const todayResponse = await fetch('https://www.hebcal.com/converter?cfg=json&today=1&g2h=1');
+                const todayResponse = await fetch('https://www.hebcal.com/converter?cfg=json&today=1&g2h=1&lg=en');
                 const todayData = await todayResponse.json();
                 
-                if (todayData.hebrew) {
+                if (todayData.hdate) {
+                    hebrewDateString = todayData.hdate;
+                } else if (todayData.hebrew) {
                     hebrewDateString = todayData.hebrew;
                 } else if (todayData.hm !== undefined && todayData.hd !== undefined && todayData.hy !== undefined) {
                     const hebrewMonths = {
