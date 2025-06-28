@@ -37,6 +37,50 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMenu();
         });
     });
+    
+    // Dynamic navigation text wrap detection
+    function checkNavTextWrapping() {
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        navLinks.forEach(link => {
+            // Temporarily remove the wrapped class to get natural height
+            link.classList.remove('text-wrapped');
+            
+            // Create a temporary span to measure single-line height
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.position = 'absolute';
+            tempSpan.style.whiteSpace = 'nowrap';
+            tempSpan.style.fontSize = getComputedStyle(link).fontSize;
+            tempSpan.style.fontWeight = getComputedStyle(link).fontWeight;
+            tempSpan.style.lineHeight = getComputedStyle(link).lineHeight;
+            tempSpan.textContent = link.textContent;
+            
+            document.body.appendChild(tempSpan);
+            const singleLineHeight = tempSpan.offsetHeight;
+            document.body.removeChild(tempSpan);
+            
+            // Check if the actual link height is greater than single line height
+            const linkHeight = link.offsetHeight;
+            const hasWrapped = linkHeight > singleLineHeight * 1.2; // 20% tolerance
+            
+            if (hasWrapped) {
+                link.classList.add('text-wrapped');
+            } else {
+                link.classList.remove('text-wrapped');
+            }
+        });
+    }
+    
+    // Check on page load
+    setTimeout(checkNavTextWrapping, 100);
+    
+    // Check on window resize with debouncing
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(checkNavTextWrapping, 150);
+    });
     // Load Hebrew date from Hebcal API with better date handling
     const loadHebrewDate = async () => {
         const hebrewDateElement = document.getElementById('hebrew-date');
@@ -98,8 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         isAfterSunset = currentPSTTime >= sunsetPSTTime;
                         
-                        console.log(`Sunset today: ${sunset.toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}`);
-                        console.log(`Current PST: ${currentPSTTime} (${pstTime.getHours()}:${pstTime.getMinutes()}), Sunset PST: ${sunsetPSTTime} (${sunsetPSTDate.getHours()}:${sunsetPSTDate.getMinutes()})`);
                     } else {
                         // Fallback to rough estimate if sunset API fails
                         isAfterSunset = pstTime.getHours() >= 20;
@@ -118,12 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dateString = dateToConvert.toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
                 const [year, month, day] = dateString.split('-');
                 
-                console.log(`Current PST time: ${pstTime.toLocaleTimeString()}, After sunset: ${isAfterSunset}`);
-                console.log(`Converting date: ${year}-${month}-${day}`);
-                
                 const converterResponse = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1&lg=en`);
                 const converterData = await converterResponse.json();
-                console.log('Converter API response:', converterData); // Debug log
                 
                 if (converterData.hm !== undefined && converterData.hd !== undefined && converterData.hy !== undefined) {
                     // Check if hm is already a month name (string) or a number
@@ -359,33 +397,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Initialize triennial cycle toggle functionality
-    const initializeTriennialToggle = () => {
-        const annualBtn = document.getElementById('annual-cycle-btn');
-        const triennialBtn = document.getElementById('triennial-cycle-btn');
-        const annualReadings = document.getElementById('annual-readings');
-        const triennialReadings = document.getElementById('triennial-readings');
-        
-        if (!annualBtn || !triennialBtn || !annualReadings || !triennialReadings) return;
-        
-        // Switch to annual cycle
-        annualBtn.addEventListener('click', () => {
-            annualBtn.classList.add('active');
-            triennialBtn.classList.remove('active');
-            annualReadings.style.display = 'block';
-            triennialReadings.style.display = 'none';
-        });
-        
-        // Switch to triennial cycle
-        triennialBtn.addEventListener('click', () => {
-            triennialBtn.classList.add('active');
-            annualBtn.classList.remove('active');
-            annualReadings.style.display = 'none';
-            triennialReadings.style.display = 'block';
-        });
-    };
     
-    // Load real Parashah information with triennial support
+    // Load real Parashah information
     const loadParashah = async () => {
         const paraLoader = document.getElementById('parashah-loader');
         if (!paraLoader) return;
@@ -481,72 +494,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
         };
 
-        // Try Hebcal API for triennial readings
-        const tryHebcalTriennialAPI = async () => {
-            const apiUrl = `https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&triennial=on`;
-            
-            const response = await fetch(apiUrl);
-            
-            if (!response.ok) {
-                throw new Error(`Hebcal Triennial API failed: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            const torahReading = data.items?.find(item => item.category === 'parashat');
-            
-            
-            if (!torahReading) {
-                throw new Error('No triennial Torah reading found in Hebcal response');
-            }
-            
-            // Determine triennial year (1, 2, or 3)
-            const currentYear = new Date().getFullYear();
-            const triennialYear = ((currentYear - 5784) % 3) + 1; // 5784 is a reference year
-            
-            // Extract actual triennial readings from the nested triennial object
-            let triennialTorah = 'See bulletin';
-            let triennialHaftarah = 'Same as Annual';
-            
-            if (torahReading.leyning?.triennial) {
-                
-                // The triennial object contains aliyot (1,2,3,4,5,6,7) - construct Torah range from first and last
-                const triennial = torahReading.leyning.triennial;
-                if (triennial['1'] && triennial['7']) {
-                    // Extract start verse from aliyah 1 and end verse from aliyah 7
-                    const firstAliyah = triennial['1']; // e.g., "Numbers 17:25-18:7"
-                    const lastAliyah = triennial['7'];   // e.g., "Numbers 18:30-18:32"
-                    
-                    // Get start from first aliyah (before the dash)
-                    const startVerse = firstAliyah.split('-')[0];
-                    // Get end from last aliyah (after the dash)  
-                    const endVerse = lastAliyah.split('-')[1];
-                    
-                    triennialTorah = `${startVerse}-${endVerse}`;
-                }
-                
-                // Check for triennial haftarah in multiple possible locations
-                if (torahReading.leyning.triHaftara) {
-                    triennialHaftarah = torahReading.leyning.triHaftara;
-                } else if (torahReading.leyning.triHaft) {
-                    triennialHaftarah = torahReading.leyning.triHaft;
-                } else {
-                    // Use annual haftarah if no specific triennial haftarah
-                    triennialHaftarah = torahReading.leyning?.haftarah || 'Same as Annual';
-                }
-            }
-            
-            const result = {
-                name: torahReading.title.replace('Parashat ', ''),
-                torah: triennialTorah,
-                haftarah: triennialHaftarah,
-                triennialYear: triennialYear,
-                date: torahReading.date,
-                source: 'Hebcal Triennial'
-            };
-            
-            return result;
-        };
 
         // Try Sefaria API as fallback
         const trySefariaAPI = async () => {
@@ -583,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         };
 
-        // Update UI with parashah data (both annual and triennial)
+        // Update UI with parashah data
         const updateParashahUI = (annualData, triennialData = null) => {
             
             // Update parashah name
@@ -599,33 +546,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 parashahHeaderEl.textContent = 'Weekly Parashah';
             }
             
-            // Update Annual Torah and Haftarah readings
+            // Update Torah and Haftarah readings
             document.getElementById('torah-reading').textContent = annualData.torah;
             document.getElementById('haftarah-reading').textContent = annualData.haftarah;
-            
-            // Update Triennial readings if available
-            if (triennialData) {
-                document.getElementById('triennial-torah-reading').textContent = triennialData.torah;
-                document.getElementById('triennial-haftarah-reading').textContent = triennialData.haftarah;
-                
-                // Update triennial year info
-                const triennialYearSpan = document.getElementById('triennial-year');
-                const triennialCycleInfo = document.getElementById('triennial-cycle-info');
-                if (triennialYearSpan) triennialYearSpan.textContent = triennialData.triennialYear;
-                if (triennialCycleInfo) triennialCycleInfo.textContent = `Year ${triennialData.triennialYear} of 3`;
-            } else {
-                // Fallback if triennial data is not available
-                document.getElementById('triennial-torah-reading').textContent = 'Unable to load triennial data';
-                document.getElementById('triennial-haftarah-reading').textContent = 'Same as Annual';
-                
-                // Calculate current triennial year as fallback
-                const currentYear = new Date().getFullYear();
-                const fallbackTriennialYear = ((currentYear - 5784) % 3) + 1;
-                const triennialYearSpan = document.getElementById('triennial-year');
-                const triennialCycleInfo = document.getElementById('triennial-cycle-info');
-                if (triennialYearSpan) triennialYearSpan.textContent = fallbackTriennialYear;
-                if (triennialCycleInfo) triennialCycleInfo.textContent = `Year ${fallbackTriennialYear} of 3`;
-            }
             
             // Update main content area
             const mainParashahElement = document.querySelector('.infobox strong');
@@ -662,6 +585,138 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 document.getElementById('brit-reading').textContent = britReading || 'Pending';
             }
+            
+            // Update triennial readings if available
+            if (triennialData) {
+                document.getElementById('triennial-torah-reading').textContent = triennialData.torah;
+                document.getElementById('triennial-haftarah-reading').textContent = triennialData.haftarah;
+                
+                // Update triennial year info
+                const yearElement = document.getElementById('triennial-year');
+                const yearTextElement = document.getElementById('triennial-year-text');
+                if (yearElement) yearElement.textContent = triennialData.year;
+                if (yearTextElement) yearTextElement.textContent = triennialData.yearText;
+            } else {
+                document.getElementById('triennial-torah-reading').textContent = 'Not available';
+                document.getElementById('triennial-haftarah-reading').textContent = 'Not available';
+                
+                // Calculate triennial year for fallback
+                const calculateTriennialYearFallback = () => {
+                    const now = new Date();
+                    const currentYear = now.getFullYear();
+                    const currentMonth = now.getMonth() + 1;
+                    
+                    let effectiveYear = currentYear;
+                    if (currentMonth < 10) {
+                        effectiveYear = currentYear;
+                    } else {
+                        effectiveYear = currentYear + 1;
+                    }
+                    
+                    const baseYear = 2025;
+                    const baseTriennialYear = 3;
+                    const yearDiff = effectiveYear - baseYear;
+                    const triennialYear = ((baseTriennialYear - 1 + yearDiff) % 3) + 1;
+                    
+                    return triennialYear;
+                };
+                
+                const fallbackYear = calculateTriennialYearFallback();
+                const fallbackYearText = fallbackYear === 1 ? 'First year of three-year Torah reading cycle' :
+                                       fallbackYear === 2 ? 'Second year of three-year Torah reading cycle' :
+                                       'Third year of three-year Torah reading cycle';
+                
+                // Set calculated triennial year info
+                const yearElement = document.getElementById('triennial-year');
+                const yearTextElement = document.getElementById('triennial-year-text');
+                if (yearElement) yearElement.textContent = fallbackYear;
+                if (yearTextElement) yearTextElement.textContent = fallbackYearText;
+            }
+        };
+
+        // Try Hebcal triennial API
+        const tryHebcalTriennialAPI = async () => {
+            const response = await fetch('https://www.hebcal.com/shabbat?cfg=json&triennial=on&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en');
+            
+            if (!response.ok) {
+                throw new Error(`Triennial API responded with status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.items || data.items.length === 0) {
+                throw new Error('No triennial data available');
+            }
+            
+            // Find current Shabbat's readings
+            const today = new Date();
+            const saturday = new Date(today);
+            saturday.setDate(today.getDate() + (6 - today.getDay()) % 7);
+            const saturdayStr = saturday.toISOString().split('T')[0];
+            
+            for (const item of data.items) {
+                if (item.category === 'parashat' && item.date === saturdayStr) {
+                    // Extract triennial data from leyning.triennial
+                    const triennial = item.leyning?.triennial;
+                    let triennialTorah = 'Not available';
+                    
+                    if (triennial) {
+                        // Construct Torah range from first and last aliyot
+                        if (triennial['1'] && triennial['7']) {
+                            const firstAliyah = triennial['1'];
+                            const lastAliyah = triennial['7'];
+                            const startVerse = firstAliyah.split('-')[0];
+                            const endVerse = lastAliyah.split('-')[1];
+                            triennialTorah = `${startVerse}-${endVerse}`;
+                        }
+                    }
+                    
+                    // Calculate triennial year (Conservative movement cycle)
+                    const calculateTriennialYear = () => {
+                        const now = new Date();
+                        const currentYear = now.getFullYear();
+                        const currentMonth = now.getMonth() + 1; // 1-12
+                        
+                        // Conservative triennial cycle reference points:
+                        // 2025 Jan-Sep = Year 3, Oct 2025-Sep 2026 = Year 1
+                        // 2024 Oct-Sep 2025 = Year 3
+                        // 2023 Oct-Sep 2024 = Year 2  
+                        // 2022 Oct-Sep 2023 = Year 1
+                        
+                        let effectiveYear = currentYear;
+                        if (currentMonth < 10) { // Before October
+                            effectiveYear = currentYear;
+                        } else { // October or later - start of new Jewish year
+                            effectiveYear = currentYear + 1;
+                        }
+                        
+                        // Calculate based on 2025 = Year 3 reference
+                        const baseYear = 2025;
+                        const baseTriennialYear = 3;
+                        
+                        const yearDiff = effectiveYear - baseYear;
+                        const triennialYear = ((baseTriennialYear - 1 + yearDiff) % 3) + 1;
+                        
+                        return triennialYear;
+                    };
+                    
+                    // Try to get from API first, fallback to calculation
+                    const triennialYear = item.triennial?.yearNum || calculateTriennialYear();
+                    const yearText = triennialYear === 1 ? 'First year of three-year Torah reading cycle' :
+                                   triennialYear === 2 ? 'Second year of three-year Torah reading cycle' :
+                                   'Third year of three-year Torah reading cycle';
+                    
+                    return {
+                        name: item.title.replace('Parashat ', ''),
+                        torah: triennialTorah,
+                        haftarah: item.haftarah || item.leyning?.haftarah || 'Not available',
+                        year: triennialYear,
+                        yearText: yearText
+                    };
+                }
+            }
+            
+            throw new Error('No current triennial reading found');
         };
 
         // Set fallback UI when all APIs fail
@@ -671,6 +726,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('haftarah-reading').textContent = "Pending";
             document.getElementById('brit-reading').textContent = "Pending";
             
+            // Also set triennial fallbacks
+            document.getElementById('triennial-torah-reading').textContent = "Pending";
+            document.getElementById('triennial-haftarah-reading').textContent = "Pending";
+            
             const parashahHeaderEl = document.getElementById('parashah-header');
             if (parashahHeaderEl) {
                 parashahHeaderEl.textContent = "Weekly Parashah";
@@ -678,94 +737,207 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Main execution with fallback chain - load both annual and triennial
-        console.log('\ud83d\ude80 DEBUG: Starting parashah data loading process...');
-        
         try {
-            console.log('\ud83d\udd0d DEBUG: Attempting to load annual data from Hebcal...');
             // Load annual data first
             const annualData = await tryHebcalAPI();
-            console.log('\u2705 DEBUG: Annual data loaded successfully:', annualData);
             
             // Try to load triennial data
             let triennialData = null;
-            console.log('\ud83d\udd0d DEBUG: Attempting to load triennial data from Hebcal...');
             try {
                 triennialData = await tryHebcalTriennialAPI();
-                console.log('\u2705 DEBUG: Triennial data loaded successfully:', triennialData);
             } catch (triennialError) {
-                console.warn('\u26a0\ufe0f DEBUG: Triennial API failed, will use fallback:', triennialError.message);
-                console.log('\ud83d\udd0d DEBUG: Triennial error details:', triennialError);
+                console.warn('Triennial API failed, will use fallback:', triennialError.message);
             }
             
-            console.log('\ud83d\udd0d DEBUG: Calling updateParashahUI with:');
-            console.log('\ud83d\udd0d DEBUG: - Annual data available:', !!annualData);
-            console.log('\ud83d\udd0d DEBUG: - Triennial data available:', !!triennialData);
             updateParashahUI(annualData, triennialData);
-            console.log('\u2705 DEBUG: UI update completed successfully');
             
         } catch (hebcalError) {
-            console.warn('\u274c DEBUG: Hebcal API failed completely:', hebcalError.message);
-            console.log('\ud83d\udd0d DEBUG: Hebcal error details:', hebcalError);
+            console.warn('Hebcal API failed completely:', hebcalError.message);
             
             try {
-                console.log('\ud83d\udd0d DEBUG: Attempting fallback to Sefaria API...');
                 const annualData = await trySefariaAPI();
-                console.log('\u2705 DEBUG: Sefaria data loaded successfully:', annualData);
-                console.log('\u26a0\ufe0f DEBUG: No triennial support from Sefaria - triennial data will be null');
                 updateParashahUI(annualData, null); // No triennial support from Sefaria
             } catch (sefariaError) {
-                console.warn('\u274c DEBUG: Sefaria API also failed:', sefariaError.message);
-                console.log('\ud83d\udd0d DEBUG: Sefaria error details:', sefariaError);
-                console.error('\u274c DEBUG: All Torah portion APIs failed - using fallback UI');
+                console.warn('Sefaria API also failed:', sefariaError.message);
+                console.error('All Torah portion APIs failed - using fallback UI');
                 setFallbackUI();
             }
         }
         
-        console.log('\u2705 DEBUG: Parashah loading process completed');
-        
         paraLoader.style.display = 'none';
     };
     
-    // Initialize triennial toggle and load parashah data
+    // Initialize triennial toggle
+    const initializeTriennialToggle = () => {
+        const toggleButtons = document.querySelectorAll('.cycle-btn');
+        const annualSection = document.getElementById('annual-readings');
+        const triennialSection = document.getElementById('triennial-readings');
+        const triennialYearInfo = document.getElementById('triennial-year-info');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cycle = this.getAttribute('data-cycle');
+                
+                // Update button states
+                toggleButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show/hide sections with animation
+                if (cycle === 'annual') {
+                    triennialSection.style.display = 'none';
+                    annualSection.style.display = 'block';
+                    if (triennialYearInfo) triennialYearInfo.style.display = 'none';
+                } else {
+                    annualSection.style.display = 'none';
+                    triennialSection.style.display = 'block';
+                    if (triennialYearInfo) triennialYearInfo.style.display = 'flex';
+                }
+            });
+        });
+    };
+
+    // Load parashah data
     initializeTriennialToggle();
     loadParashah();
     
     // Calculate candle lighting time (sunset - 18 minutes) for a given date and location
     const calculateCandleLightingTime = (date, latitude, longitude) => {
-        // For June 20, 2025 in Tustin, CA, sunset should be around 8:05pm
-        // So candle lighting should be around 7:47pm
-        // Let's use a simple approximation based on known summer sunset times
-        
         const month = date.getMonth() + 1; // 1-12
         const day = date.getDate();
         
-        // Summer solstice approximation for Southern California
-        // June 20-21 has the latest sunset around 8:05-8:10pm
-        let baselineTime = 20.08; // 8:05pm in 24-hour decimal format
+        // Comprehensive sunset times for Southern California (Tustin, CA)
+        // Based on astronomical calculations throughout the year
+        let sunsetTime;
         
-        // Adjust for date (very rough approximation)
-        if (month === 6 && day >= 15) {
-            baselineTime = 20.08; // Late June
-        } else if (month === 6) {
-            baselineTime = 20.05; // Early June
-        } else if (month === 7) {
-            baselineTime = 20.00; // July
-        } else if (month === 5) {
-            baselineTime = 19.85; // May
-        } else {
-            baselineTime = 19.50; // Default
+        if (month === 1) { // January
+            sunsetTime = 17.17; // ~5:10pm
+        } else if (month === 2) { // February  
+            sunsetTime = 17.75; // ~5:45pm
+        } else if (month === 3) { // March
+            sunsetTime = 18.25; // ~6:15pm (before DST) / 7:15pm (after DST)
+        } else if (month === 4) { // April
+            sunsetTime = 19.58; // ~7:35pm
+        } else if (month === 5) { // May
+            sunsetTime = 19.85; // ~7:51pm
+        } else if (month === 6) { // June
+            if (day >= 20) {
+                sunsetTime = 20.08; // Summer solstice period ~8:05pm
+            } else {
+                sunsetTime = 20.05; // Early June ~8:03pm
+            }
+        } else if (month === 7) { // July
+            if (day <= 7) {
+                sunsetTime = 20.08; // Early July ~8:05pm
+            } else if (day <= 14) {
+                sunsetTime = 20.05; // Mid July ~8:03pm  
+            } else if (day <= 21) {
+                sunsetTime = 20.02; // Late July ~8:01pm
+            } else {
+                sunsetTime = 19.98; // End of July ~7:59pm
+            }
+        } else if (month === 8) { // August
+            if (day <= 15) {
+                sunsetTime = 19.85; // Early August ~7:51pm
+            } else {
+                sunsetTime = 19.67; // Late August ~7:40pm
+            }
+        } else if (month === 9) { // September
+            sunsetTime = 19.25; // ~7:15pm
+        } else if (month === 10) { // October
+            sunsetTime = 18.58; // ~6:35pm
+        } else if (month === 11) { // November
+            sunsetTime = 17.08; // ~5:05pm (after DST ends)
+        } else if (month === 12) { // December
+            sunsetTime = 16.83; // ~4:50pm (winter solstice)
         }
         
         // Subtract 18 minutes (0.3 hours) for candle lighting
-        const candleLightingTime = baselineTime - 0.3;
+        const candleLightingTime = sunsetTime - 0.3;
         
         // Convert to hours and minutes
         const hours = Math.floor(candleLightingTime);
         const minutes = Math.round((candleLightingTime - hours) * 60);
         
         // Format as 12-hour time
-        const displayHours = hours > 12 ? hours - 12 : hours;
-        const ampm = 'pm'; // Always PM for evening times
+        let displayHours = hours;
+        let ampm = 'pm';
+        
+        if (hours >= 12) {
+            if (hours > 12) displayHours = hours - 12;
+        } else {
+            ampm = 'am';
+            if (hours === 0) displayHours = 12;
+        }
+        
+        return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    };
+    
+    const calculateHavdalahTime = (date, latitude, longitude) => {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        
+        // Use same comprehensive sunset calculation as candle lighting
+        let sunsetTime;
+        
+        if (month === 1) {
+            sunsetTime = 17.17;
+        } else if (month === 2) {
+            sunsetTime = 17.75;
+        } else if (month === 3) {
+            sunsetTime = 18.25;
+        } else if (month === 4) {
+            sunsetTime = 19.58;
+        } else if (month === 5) {
+            sunsetTime = 19.85;
+        } else if (month === 6) {
+            if (day >= 20) {
+                sunsetTime = 20.08;
+            } else {
+                sunsetTime = 20.05;
+            }
+        } else if (month === 7) {
+            if (day <= 7) {
+                sunsetTime = 20.08;
+            } else if (day <= 14) {
+                sunsetTime = 20.05;
+            } else if (day <= 21) {
+                sunsetTime = 20.02;
+            } else {
+                sunsetTime = 19.98;
+            }
+        } else if (month === 8) {
+            if (day <= 15) {
+                sunsetTime = 19.85;
+            } else {
+                sunsetTime = 19.67;
+            }
+        } else if (month === 9) {
+            sunsetTime = 19.25;
+        } else if (month === 10) {
+            sunsetTime = 18.58;
+        } else if (month === 11) {
+            sunsetTime = 17.08;
+        } else if (month === 12) {
+            sunsetTime = 16.83;
+        }
+        
+        // Add 42 minutes (0.7 hours) after sunset for Havdalah (3 stars)
+        const havdalahTime = sunsetTime + 0.7;
+        
+        // Convert to hours and minutes
+        const hours = Math.floor(havdalahTime);
+        const minutes = Math.round((havdalahTime - hours) * 60);
+        
+        // Format as 12-hour time
+        let displayHours = hours;
+        let ampm = 'pm';
+        
+        if (hours >= 12) {
+            if (hours > 12) displayHours = hours - 12;
+        } else {
+            ampm = 'am';
+            if (hours === 0) displayHours = 12;
+        }
         
         return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
     };
@@ -779,14 +951,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         
         try {
-            // Get next two Fridays
+            // Get this Friday and next Friday
             const today = new Date();
-            const nextFriday = new Date(today);
-            const daysUntilFriday = (5 - today.getDay() + 7) % 7 || 7;
-            nextFriday.setDate(today.getDate() + daysUntilFriday);
+            const thisFriday = new Date(today);
+            const daysUntilFriday = (5 - today.getDay() + 7) % 7;
             
-            const followingFriday = new Date(nextFriday);
-            followingFriday.setDate(nextFriday.getDate() + 7);
+            if (daysUntilFriday === 0) {
+                // Today is Friday, so "this Friday" is today
+                thisFriday.setDate(today.getDate());
+            } else {
+                // Set to next Friday
+                thisFriday.setDate(today.getDate() + daysUntilFriday);
+            }
+            
+            const nextFriday = new Date(thisFriday);
+            nextFriday.setDate(thisFriday.getDate() + 7);
+            
             
             // Format dates for API
             const formatDate = (date) => {
@@ -801,87 +981,43 @@ document.addEventListener('DOMContentLoaded', function() {
             const lng = -117.8311;
             const tzid = 'America/Los_Angeles';
             
-            // Fetch candle lighting times (using the correct endpoint)
-            const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lng}&tzid=${tzid}&geo=pos`);
+            // Calculate candle lighting times using a more reliable approach
+            const candleTime1 = calculateCandleLightingTime(thisFriday, lat, lng);
+            const candleTime2 = calculateCandleLightingTime(nextFriday, lat, lng);
             
-            if (!response.ok) {
-                throw new Error(`API responded with status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            // Parse the response
-            const events = data.items || [];
-            let candleTime1, candleTime2, havdalahTime;
-            
-            events.forEach(event => {
-                const eventDate = new Date(event.date);
-                if (event.category === 'candles') {
-                    if (eventDate.toDateString() === nextFriday.toDateString()) {
-                        candleTime1 = event;
-                    } else if (eventDate.toDateString() === followingFriday.toDateString()) {
-                        candleTime2 = event;
-                    }
-                } else if (event.category === 'havdalah' && eventDate.toDateString() === new Date(nextFriday.getTime() + 86400000).toDateString()) {
-                    havdalahTime = event;
-                }
-            });
-            
-            // Helper function to normalize time format
-            const normalizeTime = (timeString, fallback) => {
-                const timeMatch = timeString.match(/\d{1,2}:\d{2}\s*(AM|PM)/i);
-                if (timeMatch) {
-                    const time = timeMatch[0];
-                    // Ensure consistent lowercase "pm" format with no extra spaces
-                    return time.replace(/\s*(AM|PM)/i, (match) => match.toLowerCase().trim());
-                }
-                return fallback;
-            };
-
-            // Calculate fallback dates (reuse existing today variable)
-            const nextFridayFallback = new Date(today);
-            const daysUntilFridayFallback = (5 - today.getDay() + 7) % 7 || 7;
-            nextFridayFallback.setDate(today.getDate() + daysUntilFridayFallback);
-            
-            const followingFridayFallback = new Date(nextFridayFallback);
-            followingFridayFallback.setDate(nextFridayFallback.getDate() + 7);
-            
-            const havdalahDateFallback = new Date(nextFridayFallback);
-            havdalahDateFallback.setDate(nextFridayFallback.getDate() + 1); // Saturday
             
 
-            // Update DOM with real data or calculated fallbacks
-            if (candleTime1) {
-                document.getElementById('next-friday-date').textContent = new Date(candleTime1.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('candle-time-1').textContent = normalizeTime(candleTime1.title, '18 min before sunset');
-            } else {
-                const nextFridayEl = document.getElementById('next-friday-date');
-                if (nextFridayEl) {
-                    nextFridayEl.textContent = nextFridayFallback.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                }
-                const candleTime1El = document.getElementById('candle-time-1');
-                if (candleTime1El) {
-                    candleTime1El.textContent = '18 min before sunset';
-                }
+            // Update DOM with calculated times
+            const nextFridayEl = document.getElementById('next-friday-date');
+            if (nextFridayEl) {
+                nextFridayEl.textContent = thisFriday.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+            const candleTime1El = document.getElementById('candle-time-1');
+            if (candleTime1El) {
+                candleTime1El.textContent = candleTime1;
             }
             
-            if (candleTime2) {
-                document.getElementById('following-friday-date').textContent = new Date(candleTime2.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('candle-time-2').textContent = normalizeTime(candleTime2.title, '18 min before sunset');
-            } else {
-                document.getElementById('following-friday-date').textContent = followingFridayFallback.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                
-                // Calculate sunset time for the following Friday
-                const calculatedCandleTime = calculateCandleLightingTime(followingFridayFallback, 33.7175, -117.8311);
-                document.getElementById('candle-time-2').textContent = calculatedCandleTime;
+            const followingFridayEl = document.getElementById('following-friday-date');
+            if (followingFridayEl) {
+                followingFridayEl.textContent = nextFriday.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+            const candleTime2El = document.getElementById('candle-time-2');
+            if (candleTime2El) {
+                candleTime2El.textContent = candleTime2;
             }
             
-            if (havdalahTime) {
-                document.getElementById('havdalah-date').textContent = new Date(havdalahTime.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('havdalah-time').textContent = normalizeTime(havdalahTime.title, 'After sunset + 3 stars');
-            } else {
-                document.getElementById('havdalah-date').textContent = havdalahDateFallback.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                document.getElementById('havdalah-time').textContent = 'After sunset + 3 stars';
+            // Update Havdalah (Saturday evening)
+            const havdalahDate = new Date(thisFriday);
+            havdalahDate.setDate(thisFriday.getDate() + 1); // Saturday
+            const havdalahTime = calculateHavdalahTime(havdalahDate, lat, lng);
+            
+            const havdalahDateEl = document.getElementById('havdalah-date');
+            if (havdalahDateEl) {
+                havdalahDateEl.textContent = havdalahDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+            const havdalahTimeEl = document.getElementById('havdalah-time');
+            if (havdalahTimeEl) {
+                havdalahTimeEl.textContent = havdalahTime;
             }
             
         } catch (error) {

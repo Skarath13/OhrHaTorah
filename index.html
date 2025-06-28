@@ -6,7 +6,7 @@
     <title>Ohr HaTorah Messianic Congregation</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.1">
+    <link rel="stylesheet" href="style.css?v=3.7">
 </head>
 <body>
 
@@ -16,8 +16,8 @@
         <div class="hostage-info">
             <div class="hostage-counter">
                 <div class="hostage-header">
-                    <span class="hostage-text">🇮🇱 HOSTAGES</span>
-                    <span class="hostage-subtext">HELD BY HAMAS</span>
+                    <span class="hostage-text"><img src="images/Flag_of_Israel.svg.png" alt="Israeli Flag" class="hostage-flag">HOSTAGES</span>
+                    <span class="hostage-subtext">HELD BY HAMAS FOR</span>
                 </div>
                 <div class="hostage-timer">
                     <div class="timer-segment">
@@ -275,6 +275,7 @@
                     <p data-editable="contact-info">Mailing Address:<br>
                     360 E. 1st Street, #856<br>
                     Tustin, CA 92780<br>
+                    <br>
                     Email: OhrHaTorahOC@gmail.com<br>
                     Phone: (714) 406-1513</p>
                 </div>
@@ -294,7 +295,7 @@
         
         <!-- Right Sidebar -->
         <aside class="right-sidebar">
-            <!-- Weekly Parashah Card - API Integration with Triennial -->
+            <!-- Weekly Parashah Card - API Integration -->
             <div class="feature-card">
                 <div class="card-header">
                     <i class="fas fa-torah"></i>
@@ -308,13 +309,24 @@
                     </div>
                     
                     <!-- Reading Cycle Toggle -->
-                    <div class="reading-cycle-toggle" style="margin: 12px 0; text-align: center;">
-                        <button id="annual-cycle-btn" class="cycle-btn active">
-                            <i class="fas fa-calendar-alt"></i> Annual
+                    <div class="reading-cycle-toggle">
+                        <button class="cycle-btn active" data-cycle="annual">
+                            <i class="fas fa-calendar-alt"></i>
+                            Annual
                         </button>
-                        <button id="triennial-cycle-btn" class="cycle-btn">
-                            <i class="fas fa-calendar-week"></i> Triennial
+                        <button class="cycle-btn" data-cycle="triennial">
+                            <i class="fas fa-calendar-week"></i>
+                            Triennial
                         </button>
+                    </div>
+                    
+                    <!-- Triennial Year Info (shown only when triennial is selected) -->
+                    <div id="triennial-year-info" class="triennial-note" style="display: none;">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="triennial-year-info">
+                            <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">2</span></span>
+                            <span class="triennial-year-text" id="triennial-year-text">Second year of three-year Torah reading cycle</span>
+                        </div>
                     </div>
                     
                     <!-- Annual Readings -->
@@ -337,26 +349,19 @@
                     
                     <!-- Triennial Readings -->
                     <div id="triennial-readings" class="reading-section" style="display: none;">
-                        <div class="parashah-info triennial-note">
-                            <i class="fas fa-info-circle"></i>
-                            <div class="triennial-year-info">
-                                <div class="triennial-movement">Conservative Movement</div>
-                                <div class="triennial-year-text"><span id="triennial-cycle-info">Year 3 of 3</span></div>
-                            </div>
-                        </div>
                         <div class="parashah-info">
                             <div class="reading-row">
                                 <span class="reading-icon"><i class="fas fa-book"></i></span>
-                                <span class="reading-label">Torah (Triennial):</span>
+                                <span class="reading-label" data-editable="torah-label-text">Torah:</span>
                             </div>
                             <div class="reading-text" id="triennial-torah-reading">Loading...</div>
                         </div>
                         <div class="parashah-info">
                             <div class="reading-row">
                                 <span class="reading-icon"><i class="fas fa-book-open"></i></span>
-                                <span class="reading-label">Haftarah:</span>
+                                <span class="reading-label" data-editable="haftarah-label-text">Haftarah:</span>
                             </div>
-                            <div class="reading-text" id="triennial-haftarah-reading">Same as Annual</div>
+                            <div class="reading-text" id="triennial-haftarah-reading">Loading...</div>
                         </div>
                     </div>
                     
