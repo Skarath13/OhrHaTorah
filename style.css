@@ -2275,6 +2275,9 @@ body.edit-mode [data-editable]:hover .edit-icon {
 
 .footer-links {
     list-style: none;
+    text-align: left;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .footer-links li {
@@ -2297,10 +2300,16 @@ body.edit-mode [data-editable]:hover .edit-icon {
     margin-right: var(--space-sm);
     color: var(--gold);
     font-size: var(--font-size-sm);
+    min-width: 20px;
+    text-align: left;
+    display: inline-block;
 }
 
 .footer-contact {
     list-style: none;
+    text-align: left;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .footer-contact li {
@@ -2314,7 +2323,9 @@ body.edit-mode [data-editable]:hover .edit-icon {
 .footer-contact li i {
     margin-right: var(--space-sm);
     color: var(--gold);
-    min-width: 16px;
+    min-width: 20px;
+    text-align: left;
+    display: inline-block;
 }
 
 .social-icons {
@@ -3736,7 +3747,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
     }
 
     .footer-links a, .footer-contact li {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .newsletter-form {
