@@ -2535,6 +2535,17 @@ body.edit-mode [data-editable]:hover .edit-icon {
     display: inline-block;
 }
 
+.footer-contact li a {
+    color: #4A90E2;
+    text-decoration: none;
+    transition: var(--transition-standard);
+}
+
+.footer-contact li a:hover {
+    color: #357ABD;
+    text-decoration: underline;
+}
+
 .social-icons {
     display: flex;
     gap: var(--space-sm);
