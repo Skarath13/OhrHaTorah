@@ -40,7 +40,7 @@
     --font-size-md: 1.125rem;
     --font-size-lg: 1.25rem;
     --font-size-xl: 1.5rem;
-    --font-size-xxl: 1.75rem;
+    --font-size-xxl: 1.225rem;
     --font-size-xxxl: 2rem;
     
     /* Border Radius */
@@ -296,6 +296,199 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size: var(--font-size-xxl);
+}
+
+/* Specific override for main title */
+.content h1[data-editable="main-title"] {
+    font-size: 1.25rem !important;
+}
+
+/* FAQ Modal Styles */
+.faq-modal {
+    max-width: 700px !important;
+    width: 85% !important;
+    max-height: 85vh !important;
+    overflow-y: auto;
+}
+
+.faq-intro {
+    text-align: center;
+    color: var(--gray-600);
+    margin-bottom: var(--space-lg);
+    font-style: italic;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.faq-item {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    transition: var(--transition-standard);
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--gray-50);
+    cursor: pointer;
+    transition: var(--transition-standard);
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.faq-question:hover {
+    background: var(--primary-blue-lightest);
+    color: var(--primary-blue);
+}
+
+.faq-icon {
+    color: var(--primary-blue);
+    transition: transform var(--transition-standard);
+    font-size: 0.9rem;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 var(--space-md);
+    max-height: 0;
+    overflow: hidden;
+    transition: all var(--transition-standard);
+    background: var(--white);
+    text-align: left;
+}
+
+.faq-item.active .faq-answer {
+    padding: var(--space-md);
+    max-height: 200px;
+    text-align: left;
+}
+
+.faq-answer p {
+    margin: 0;
+    color: var(--gray-700);
+    line-height: 1.6;
+    text-align: left !important;
+}
+
+/* Rabbi Modal Styles */
+.rabbi-modal {
+    max-width: 500px !important;
+    width: 90% !important;
+}
+
+.rabbi-modal .feature-card {
+    margin: 0;
+    box-shadow: none;
+    border: none;
+}
+
+/* Mission, Vision, and Core Values Panel Styles */
+.mission-text, .vision-text {
+    text-align: left;
+}
+
+.mission-text p, .vision-text p {
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+    color: var(--gray-700);
+}
+
+.mission-highlights, .vision-goals {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.highlight-item, .goal-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    background: var(--primary-blue-lightest);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9rem;
+    color: var(--primary-blue);
+}
+
+.highlight-item i, .goal-item i {
+    color: var(--primary-blue);
+    width: 16px;
+    text-align: center;
+}
+
+.values-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    border-left: 3px solid var(--primary-blue);
+    background: var(--gray-50);
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+.value-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-blue);
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 0.9rem;
+}
+
+.value-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.95rem;
+    color: var(--gray-800);
+    font-weight: 600;
+}
+
+.value-content p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.4;
+}
+
+/* Community Life Collage Styles */
+.community-collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.collage-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: transform var(--transition-standard);
+    cursor: pointer;
+}
+
+.collage-image:hover {
+    transform: scale(1.05);
 }
 
 h2 {
@@ -1795,8 +1988,8 @@ body.edit-mode [data-editable]:hover .edit-icon {
     flex-direction: column;
     gap: var(--space-lg);
     width: 100%;
-    max-width: 300px;
-    min-width: 220px;
+    max-width: 335px;
+    min-width: 255px;
 }
 
 .sidebar-widget {
@@ -1980,14 +2173,21 @@ body.edit-mode [data-editable]:hover .edit-icon {
 }
 
 .map-container {
+    position: relative;
     width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Taller aspect ratio to fill available space */
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
     display: block;
 }
 
@@ -2005,8 +2205,8 @@ body.edit-mode [data-editable]:hover .edit-icon {
     flex-direction: column;
     gap: var(--space-lg);
     width: 100%;
-    max-width: 300px;
-    min-width: 220px;
+    max-width: 335px;
+    min-width: 255px;
 }
 
 .feature-card {
@@ -2118,6 +2318,13 @@ body.edit-mode [data-editable]:hover .edit-icon {
     border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+/* Ensure Haftarah sections always have their separator line */
+.reading-section .parashah-info:last-child {
+    border-bottom: 1px dotted var(--gray-300);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
 }
 
 .parashah-info i {

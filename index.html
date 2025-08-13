@@ -6,7 +6,7 @@
     <title>Ohr HaTorah Messianic Congregation</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.7">
+    <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
 
@@ -132,38 +132,121 @@
                 <div class="widget-header" data-editable="sidebar-welcome-header"><i class="fas fa-hand-peace"></i> <span data-editable="sidebar-welcome-title">Shalom Visitor!</span></div>
                 <div class="widget-content">
                     <ul class="sidebar-list">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Welcome Message</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> What We Believe</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Worship Times</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Leadership</a></li>
+                        <li><a href="#" id="faq-link"><i class="fas fa-chevron-right"></i> Frequently Asked Questions</a></li>
+                        <li><a href="#" id="rabbi-link"><i class="fas fa-chevron-right"></i> Our Rabbi</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-events-header"><i class="fas fa-calendar-check"></i> <span data-editable="sidebar-events-title">Upcoming Events</span></div>
+                <div class="widget-header" data-editable="sidebar-mission-header"><i class="fas fa-bullseye"></i> <span data-editable="sidebar-mission-title">Our Mission</span></div>
                 <div class="widget-content">
-                    <ul class="sidebar-list">
-                        <li><a href="#" data-editable="event-shabbat"><i class="fas fa-star"></i> Shabbat Services - Weekly</a></li>
-                        <li><a href="#" data-editable="event-torah-study"><i class="fas fa-star"></i> Torah Study - TBD</a></li>
-                        <li><a href="#" data-editable="event-youth-group"><i class="fas fa-star"></i> Youth Group - TBD</a></li>
-                        <li><a href="#" data-editable="event-israeli-dance"><i class="fas fa-star"></i> Israeli Dance - TBD</a></li>
-                        <li><a href="#" data-editable="event-passover"><i class="fas fa-star"></i> Passover Seder - Annual</a></li>
-                    </ul>
+                    <div class="mission-text">
+                        <p data-editable="mission-statement">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel. We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding.</p>
+                        <div class="mission-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-heart"></i>
+                                <span>Welcoming Community</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-torah"></i>
+                                <span>Torah Living</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-hands-praying"></i>
+                                <span>Faithful Worship</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-resources-header"><i class="fas fa-book"></i> <span data-editable="sidebar-resources-title">Resources</span></div>
+                <div class="widget-header" data-editable="sidebar-vision-header"><i class="fas fa-eye"></i> <span data-editable="sidebar-vision-title">Our Vision</span></div>
                 <div class="widget-content">
-                    <ul class="sidebar-list">
-                        <li><a href="#" data-editable="resource-parashah"><i class="fas fa-scroll"></i> Weekly Parashah</a></li>
-                        <li><a href="#" data-editable="resource-prayer"><i class="fas fa-hands"></i> Prayer Resources</a></li>
-                        <li><a href="#" data-editable="resource-hebrew"><i class="fas fa-language"></i> Hebrew Classes</a></li>
-                        <li><a href="#" data-editable="resource-audio"><i class="fas fa-headphones"></i> Audio Teachings</a></li>
-                        <li><a href="#" data-editable="resource-livestream"><i class="fas fa-video"></i> Livestream Services</a></li>
-                    </ul>
+                    <div class="vision-text">
+                        <p data-editable="vision-statement">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua. We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples.</p>
+                        <div class="vision-goals">
+                            <div class="goal-item">
+                                <i class="fas fa-globe-americas"></i>
+                                <span>Light to Nations</span>
+                            </div>
+                            <div class="goal-item">
+                                <i class="fas fa-bridge"></i>
+                                <span>Unity in Messiah</span>
+                            </div>
+                            <div class="goal-item">
+                                <i class="fas fa-crown"></i>
+                                <span>Kingdom Living</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <div class="widget-header" data-editable="sidebar-values-header"><i class="fas fa-gem"></i> <span data-editable="sidebar-values-title">Core Values</span></div>
+                <div class="widget-content">
+                    <div class="values-list">
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-scroll"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-torah-title">Torah Faithfulness</h4>
+                                <p data-editable="value-torah-desc">Living according to God's eternal instructions</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-star-of-david"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-identity-title">Jewish Identity</h4>
+                                <p data-editable="value-identity-desc">Celebrating our rich Jewish heritage and traditions</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-cross"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-messiah-title">Yeshua as Messiah</h4>
+                                <p data-editable="value-messiah-desc">Embracing Jesus as Israel's promised Redeemer</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-hands-helping"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-community-title">Loving Community</h4>
+                                <p data-editable="value-community-desc">Welcoming all who seek to grow in faith</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-study-title">Biblical Study</h4>
+                                <p data-editable="value-study-desc">Commitment to deep Scripture learning and understanding</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-pray"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-worship-title">Authentic Worship</h4>
+                                <p data-editable="value-worship-desc">Heartfelt praise through Jewish liturgy and tradition</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-seedling"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-growth-title">Spiritual Growth</h4>
+                                <p data-editable="value-growth-desc">Encouraging maturity in faith and character</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-heart"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-compassion-title">Compassionate Service</h4>
+                                <p data-editable="value-compassion-desc">Serving others with love and practical care</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -186,20 +269,11 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="sidebar-widget">
-                <div class="widget-content text-center">
-                    <button class="btn"><i class="fas fa-envelope-open-text"></i> Sign Up for Newsletter</button>
-                    <div class="mt-md">
-                        <img src="images/Torah.PNG" alt="Torah" class="rounded-md shadow-sm" style="width: 100%; max-width: 200px; height: auto; margin: 0 auto;">
-                    </div>
-                </div>
-            </div>
         </aside>
         
         <!-- Main Content -->
         <main class="content">
-            <h1 data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Ohr HaTorah Messianic Synagogue</span></h1>
+            <h1 data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Kehilat Ohr HaTorah Messianic Jewish Synagogue</span></h1>
             
             <div class="infobox">
                 <i class="fas fa-info-circle"></i>
@@ -250,38 +324,66 @@
             
             <div class="info-grid">
                 <div class="info-box">
-                    <h4><i class="fas fa-clock"></i> Shabbat Activities and Service (Mincha)</h4>
-                    <p data-editable="service-times">Friday Evening: festive Shabbat meals in the home<br>
-                    2:30 Messianic Jewish Music and Dance<br>
-                    3:00 Traditional prayers and Torah Service<br>
-                    4:30 Discussion on Weekly Readings<br>
-                    We plan soon to offer a morning service (Shacharit)</p>
+                    <h4><i class="fas fa-clock"></i> Shabbat Activities and Service</h4>
+                    <div data-editable="service-times">
+                        <p><strong>Friday Evening:</strong><br>
+                        Festive Shabbat meals in the home</p>
+                        
+                        <p><strong>Saturday Service Schedule:</strong></p>
+                        <ul>
+                            <li><strong>2:30 PM</strong> - Messianic Jewish Music and Dance</li>
+                            <li><strong>3:00 PM</strong> - Traditional prayers and Torah Service (Mincha)</li>
+                            <li><strong>4:30 PM</strong> - Discussion on Weekly Readings</li>
+                        </ul>
+                        
+                        <p><em>We plan soon to offer a morning service (Shacharit)</em></p>
+                    </div>
                 </div>
                 <div class="info-box">
-                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                    <h4><i class="fas fa-map"></i> Google Maps</h4>
                     <div class="map-container">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.1234567890123!2d-117.9534567!3d33.7089012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dd2b7c5e1234a6%3A0x1234567890abcdef!2sFountain%20Valley%20Center!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus" 
+                        <iframe src="https://maps.google.com/maps?q=10460%20Slate%20Ave,%20Fountain%20Valley,%20CA%2092708&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                                 width="100%" 
-                                height="200" 
+                                height="100%" 
                                 style="border:0;" 
                                 allowfullscreen="" 
                                 loading="lazy" 
                                 referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
+                    <div class="map-directions-container" style="width: 100%; overflow: hidden;">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slate%20Ave,%20Fountain%20Valley,%20CA%2092708" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="btn btn-blue"
+                           style="margin-top: var(--space-sm); padding: 0.5rem 1rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; font-size: var(--font-size-sm); box-sizing: border-box;">
+                            <i class="fas fa-directions"></i>
+                            Get Directions
+                        </a>
+                    </div>
                 </div>
                 <div class="info-box">
                     <h4><i class="fas fa-envelope"></i> Contact Us</h4>
-                    <p data-editable="contact-info">Mailing Address:<br>
-                    360 E. 1st Street, #856<br>
-                    Tustin, CA 92780<br>
-                    <br>
-                    Email: OhrHaTorahOC@gmail.com<br>
-                    Phone: (714) 406-1513</p>
+                    <div data-editable="contact-info">
+                        <p><strong>Mailing Address:</strong><br>
+                        360 E. 1st Street, #856<br>
+                        Tustin, CA 92780</p>
+                        
+                        <p><strong><i class="fas fa-envelope"></i> Email:</strong><br>
+                        <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p>
+                        
+                        <p><strong><i class="fas fa-phone"></i> Phone:</strong><br>
+                        <a href="tel:+17144061513">(714) 406-1513</a></p>
+                    </div>
                 </div>
                 <div class="info-box">
-                    <h4><i class="fas fa-heart"></i> Warm Invitation</h4>
-                    <p data-editable="invitation-text">While some of our prayers and readings are in Hebrew, we are committed to helping you feel welcomed and loved. We will do everything necessary to assist you in understanding and navigating our services.</p>
+                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                    <p data-editable="location-text"><strong>Service Location:</strong><br>
+                    10460 Slate Ave<br>
+                    Fountain Valley, CA 92708<br>
+                    <br>
+                    <strong>Service Times:</strong><br>
+                    Saturdays at 2:30 PM</p>
                 </div>
             </div>
             
@@ -370,9 +472,6 @@
                     
                     <div class="loader" id="parashah-loader" style="display: none;"></div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn"><i class="fas fa-external-link-alt"></i> Full Study Notes</button>
-                </div>
             </div>
             
             <!-- Candle Lighting Times Card - API Integration Placeholder -->
@@ -407,9 +506,6 @@
                     </div>
                     <div class="loader" id="candle-times-loader" style="display: none;"></div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn"><i class="fas fa-calendar-alt"></i> View Full Calendar</button>
-                </div>
             </div>
             
             <!-- Leadership Card -->
@@ -426,9 +522,6 @@
                     <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
                     <p class="leader-bio" data-editable="rabbi-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
                 </div>
-                <div class="card-footer">
-                    <button class="btn"><i class="fas fa-user-friends"></i> Meet Our Team</button>
-                </div>
             </div>
             
             <!-- Community Life Card -->
@@ -440,20 +533,19 @@
                 <div class="card-body">
                     <div class="community-grid">
                         <div class="community-item">
-                            <img src="images/Dancing.PNG" alt="Israeli Dancing" class="community-image">
-                            <p class="community-caption">Israeli Dance</p>
-                        </div>
-                        <div class="community-item">
                             <img src="images/Passover.PNG" alt="Passover Seder" class="community-image">
-                            <p class="community-caption">Passover Seder</p>
                         </div>
                         <div class="community-item">
                             <img src="images/Location.PNG" alt="Our Synagogue" class="community-image">
-                            <p class="community-caption">Our Facility</p>
                         </div>
                         <div class="community-item">
                             <img src="images/Community.PNG" alt="Community Gathering" class="community-image">
-                            <p class="community-caption">Fellowship</p>
+                        </div>
+                        <div class="community-item">
+                            <img src="images/Torah.PNG" alt="Torah" class="community-image">
+                        </div>
+                        <div class="community-item">
+                            <img src="images/Dancing.PNG" alt="Israeli Dancing" class="community-image">
                         </div>
                     </div>
                 </div>
@@ -574,6 +666,147 @@
         </div>
     </div>
     
+    <!-- Rabbi Modal -->
+    <div id="rabbi-modal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content rabbi-modal">
+            <button class="modal-close">&times;</button>
+            <div class="feature-card leader-card">
+                <div class="card-header">
+                    <i class="fas fa-user-tie"></i>
+                    <span data-editable="rabbi-card-title">Meet Our Rabbi</span>
+                </div>
+                <div class="card-body text-center">
+                    <div class="leader-img">
+                        <img src="images/rabbi.avif" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                    </div>
+                    <div class="leader-name" data-editable="rabbi-name">Rabbi Charles Ott</div>
+                    <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
+                    <p class="leader-bio" data-editable="rabbi-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div id="faq-modal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content faq-modal">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
+            <p class="faq-intro">Welcome to Messianic Judaism! Here are answers to common questions for newcomers.</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>What is Messianic Judaism?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Messianic Judaism is a movement of Jewish people who believe that Yeshua (Jesus) is the promised Messiah of Israel, while maintaining Jewish identity, traditions, and observance of Torah.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>Do I need to be Jewish to attend?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely not! We welcome all people - Jewish, non-Jewish, and interfaith families. Everyone is invited to learn and grow in understanding of our Jewish Messiah.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>What should I expect during a service?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our services include contemporary Messianic music, traditional Hebrew prayers, Torah reading, and teaching. Services are conducted in both Hebrew and English with explanations provided.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>Do you follow Jewish holidays and traditions?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We observe Shabbat, biblical holidays like Passover and Yom Kippur, and maintain Jewish traditions while recognizing Yeshua as our Messiah.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>Is Hebrew required?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Not at all! While we use Hebrew in prayers and readings, everything is explained in English. We offer Hebrew classes for those interested in learning.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>What is the Torah?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The Torah is the first five books of the Bible (Genesis through Deuteronomy), containing God's instructions for living. We believe Torah remains relevant for believers today.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>How is Messianic Judaism different from Christianity?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>While we believe in Yeshua as Messiah, we maintain Jewish practices, celebrate biblical feasts, and emphasize the Jewish context of faith rather than adopting Gentile Christian traditions.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>What should I wear to services?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Come as you are! We welcome casual to semi-formal attire. Men may wear a kippah (yarmulke) if desired, but it's not required for visitors.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>Can children attend?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Families with children are very welcome. We have Shabbat School for youth and work to make our services family-friendly and educational.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-plus faq-icon"></i>
+                        <span>How can I learn more?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Visit us for Shabbat services, speak with Rabbi Charles, join our Hebrew classes, or contact us with any specific questions. We're here to help you on your journey!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Worship Times Modal -->
     <div id="worship-times-modal" class="modal" style="display: none;">
         <div class="modal-overlay"></div>

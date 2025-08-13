@@ -1219,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners to all links with href="#"
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href="#"]');
-            if (link && link.id !== 'backToTop' && link.id !== 'admin-link') {
+            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link') {
                 e.preventDefault();
                 const linkText = link.textContent.trim();
                 
@@ -1812,4 +1812,71 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize admin portal
     initializeAdminPortal();
+    
+    // FAQ Modal functionality
+    const faqLink = document.getElementById('faq-link');
+    const faqModal = document.getElementById('faq-modal');
+    const faqModalClose = faqModal.querySelector('.modal-close');
+    const faqModalBtn = faqModal.querySelector('.modal-btn');
+    const faqModalOverlay = faqModal.querySelector('.modal-overlay');
+    
+    // Open FAQ modal
+    faqLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        faqModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close FAQ modal functions
+    function closeFaqModal() {
+        faqModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    faqModalClose.addEventListener('click', closeFaqModal);
+    faqModalBtn.addEventListener('click', closeFaqModal);
+    faqModalOverlay.addEventListener('click', closeFaqModal);
+    
+    // FAQ accordion functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', function() {
+            // Close other open items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+        });
+    });
+    
+    // Rabbi Modal functionality
+    const rabbiLink = document.getElementById('rabbi-link');
+    const rabbiModal = document.getElementById('rabbi-modal');
+    const rabbiModalClose = rabbiModal.querySelector('.modal-close');
+    const rabbiModalBtn = rabbiModal.querySelector('.modal-btn');
+    const rabbiModalOverlay = rabbiModal.querySelector('.modal-overlay');
+    
+    // Open Rabbi modal
+    rabbiLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        rabbiModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Rabbi modal functions
+    function closeRabbiModal() {
+        rabbiModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    rabbiModalClose.addEventListener('click', closeRabbiModal);
+    rabbiModalBtn.addEventListener('click', closeRabbiModal);
+    rabbiModalOverlay.addEventListener('click', closeRabbiModal);
 });
