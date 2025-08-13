@@ -88,16 +88,15 @@
                     <a href="#" id="shabbat-services-link" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
                     <a href="#" id="holidays-link" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
                     <a href="#" id="special-events-link" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
-                    <a href="#" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
-                    <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                    <a href="#" id="shabbat-school-link" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
                 </div>
             </li>
             <li class="dropdown">
                 <a href="#" id="community-header" aria-label="Community"><i class="fas fa-users"></i> Community</a>
                 <div class="dropdown-content">
-                    <a href="#" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                    <a href="#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
                     <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
-                    <a href="#" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
+                    <a href="#" id="stand-with-israel-link" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
                 </div>
             </li>
             <li class="dropdown">
@@ -133,7 +132,7 @@
                 <div class="widget-content">
                     <ul class="sidebar-list">
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Worship Times</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
+                        <li><a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slate%20Ave,%20Fountain%20Valley,%20CA%2092708" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
                         <li><a href="#" id="faq-link"><i class="fas fa-chevron-right"></i> Frequently Asked Questions</a></li>
                         <li><a href="#" id="rabbi-link"><i class="fas fa-chevron-right"></i> Our Rabbi</a></li>
                     </ul>
@@ -297,7 +296,7 @@
                 </div>
             </div>
             
-            <h3><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
+            <h3 id="congregation-calendar"><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
             
             <!-- Google Calendar Embed Placeholder -->
             <div class="calendar-container">
@@ -997,6 +996,163 @@
                     
                     <div class="contact-info-highlight" style="text-align: left; margin-top: 15px; padding: 10px; background-color: var(--gray-100); border-radius: 6px;">
                         <p><i class="fas fa-heart"></i> <strong>Visit Us:</strong> Join us for Shabbat services on Saturdays - no advance notice required!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shabbat School for Youth Modal -->
+    <div id="shabbat-school-modal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content shabbat-school-modal" style="max-width: 700px; width: 90vw;">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-child"></i> Shabbat School for Youth</h3>
+            <div class="shabbat-school-container">
+                <div class="shabbat-school-message">
+                    <p style="text-align: center; margin-bottom: 20px;"><strong>Building the Next Generation in Faith and Heritage</strong></p>
+                    
+                    <div class="priority-section" style="background-color: var(--gray-100); padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: left; border-left: 4px solid var(--primary-blue);">
+                        <h4 style="color: var(--primary-blue); text-align: left; margin-bottom: 15px;"><i class="fas fa-seedling"></i> Our Priority & Vision</h4>
+                        <p style="text-align: left; margin-bottom: 15px;">We are making Shabbat School for Youth a <strong>top priority</strong> to found and grow within our congregation. We believe in nurturing young hearts and minds in both their Jewish heritage and faith in Yeshua.</p>
+                        <p style="text-align: left; margin: 0;"><strong>We warmly welcome youth of all ages</strong> and are excited to build this vital ministry together as our community grows.</p>
+                    </div>
+                    
+                    <div class="future-programs" style="text-align: left;">
+                        <h4 style="color: var(--gold); text-align: left; margin-bottom: 15px;"><i class="fas fa-star"></i> What We're Planning</h4>
+                        <ul style="text-align: left; margin: 0 0 20px 20px;">
+                            <li style="text-align: left; margin-bottom: 8px;">Age-appropriate Torah study and Jewish history</li>
+                            <li style="text-align: left; margin-bottom: 8px;">Hebrew language learning and prayer</li>
+                            <li style="text-align: left; margin-bottom: 8px;">Biblical holidays and traditions</li>
+                            <li style="text-align: left; margin-bottom: 8px;">Music, crafts, and interactive learning</li>
+                            <li style="text-align: left; margin-bottom: 8px;">Understanding Yeshua as our Jewish Messiah</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="welcome-section" style="background-color: rgba(255, 215, 0, 0.1); padding: 15px; border-radius: 8px; text-align: left; border-left: 4px solid var(--gold);">
+                        <h4 style="color: var(--gold); text-align: left; margin-bottom: 10px;"><i class="fas fa-heart"></i> Get Involved</h4>
+                        <p style="text-align: left; margin-bottom: 10px;">If you have children or youth, or if you're passionate about youth ministry, we'd love to hear from you! Help us shape this important program.</p>
+                        <p style="text-align: left; margin: 0;"><i class="fas fa-phone"></i> Contact us at <a href="tel:+17144061513">(714) 406-1513</a> or <i class="fas fa-envelope"></i> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stand With Israel Modal -->
+    <div id="stand-with-israel-modal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content stand-with-israel-modal" style="max-width: 900px; width: 95vw;">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-flag"></i> Stand With Israel - Supporting Ministries</h3>
+            <div class="israel-ministries-container">
+                <div class="israel-intro">
+                    <p style="text-align: center; margin-bottom: 20px;"><strong>Supporting trusted ministries that serve Israel with humanitarian aid and the Gospel of Yeshua.</strong></p>
+                </div>
+                
+                <div class="ministries-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px; text-align: left;">
+                    
+                    <!-- Hope for Israel -->
+                    <div class="ministry-item" style="text-align: left;">
+                        <div class="ministry-header" style="text-align: left;">
+                            <i class="fas fa-heart" style="color: #0066cc; font-size: 24px;"></i>
+                            <h4 style="text-align: left; color: var(--primary-blue); margin: 0 0 10px 0;">Hope for Israel</h4>
+                        </div>
+                        <div class="ministry-content" style="text-align: left;">
+                            <p style="text-align: left; margin-bottom: 10px;"><strong>Founded:</strong> 2000 | <strong>Director:</strong> Moran Rosenblit | <strong>Location:</strong> Jerusalem</p>
+                            <p style="text-align: left;">A discipleship and service-oriented ministry bringing the hope of Messiah back to Israel. Provides humanitarian aid including food, clothing, and bomb shelters to both Jews and Arabs. Moran reaches out with the Besorah (Good News) of Yeshua and disciples many throughout Israel.</p>
+                            <div class="ministry-activities" style="text-align: left; margin-top: 10px;">
+                                <h5 style="text-align: left; color: var(--gold); margin: 0;"><i class="fas fa-hands-helping"></i> Current Activities:</h5>
+                                <ul style="text-align: left; margin: 5px 0 10px 20px;">
+                                    <li style="text-align: left;">Humanitarian relief aid (food, clothing, bomb shelters)</li>
+                                    <li style="text-align: left;">Outreach to Jews and Arabs with the Gospel</li>
+                                    <li style="text-align: left;">Daily prayer alerts and Bible teachings</li>
+                                    <li style="text-align: left;">Experience Israel tours for believers</li>
+                                </ul>
+                            </div>
+                            <a href="https://hope4israel.org/" target="_blank" rel="noopener noreferrer" class="ministry-link" style="text-align: left;">Visit Hope for Israel <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Israel Relief Aid -->
+                    <div class="ministry-item" style="text-align: left;">
+                        <div class="ministry-header" style="text-align: left;">
+                            <i class="fas fa-medkit" style="color: #cc6600; font-size: 24px;"></i>
+                            <h4 style="text-align: left; color: var(--primary-blue); margin: 0 0 10px 0;">Israel Relief Aid</h4>
+                        </div>
+                        <div class="ministry-content" style="text-align: left;">
+                            <p style="text-align: left; margin-bottom: 10px;"><strong>CEO:</strong> Jo Kaplan | <strong>Founded by:</strong> Jo & Gary Kaplan</p>
+                            <p style="text-align: left;">Cost-effective humanitarian ministry reaching Israelis in need with both material aid and the Besorah (Good News) of Yeshua. Committed to ensuring donations go directly to their intended purpose with minimal overhead.</p>
+                            <div class="ministry-activities" style="text-align: left; margin-top: 10px;">
+                                <h5 style="text-align: left; color: var(--gold); margin: 0;"><i class="fas fa-hands-helping"></i> Ministry Focus:</h5>
+                                <ul style="text-align: left; margin: 5px 0 10px 20px;">
+                                    <li style="text-align: left;">Direct humanitarian aid to Israelis in poverty</li>
+                                    <li style="text-align: left;">Sharing the Gospel with Israeli recipients</li>
+                                    <li style="text-align: left;">Cost-effective operations with low overhead</li>
+                                    <li style="text-align: left;">Shipping containers of relief supplies</li>
+                                </ul>
+                            </div>
+                            <a href="https://israelrelief.org.il/" target="_blank" rel="noopener noreferrer" class="ministry-link" style="text-align: left;">Visit Israel Relief Aid <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Chevra USA -->
+                    <div class="ministry-item" style="text-align: left;">
+                        <div class="ministry-header" style="text-align: left;">
+                            <i class="fas fa-handshake" style="color: #009933; font-size: 24px;"></i>
+                            <h4 style="text-align: left; color: var(--primary-blue); margin: 0 0 10px 0;">Chevra USA - Humanitarian Relief Ministry</h4>
+                        </div>
+                        <div class="ministry-content" style="text-align: left;">
+                            <p style="text-align: left; margin-bottom: 10px;"><strong>Director:</strong> Dr. Michael Schiffman (Messianic Rabbi, Professor, Sofer) | <strong>Focus:</strong> Jewish Ukrainian Refugees</p>
+                            <p style="text-align: left;">Chevra means "friendship" - serving displaced Jewish people, especially Ukrainian refugees. Provides food security, immigration aid to Israel, and humanitarian support across Eastern Europe.</p>
+                            <div class="ministry-activities" style="text-align: left; margin-top: 10px;">
+                                <h5 style="text-align: left; color: var(--gold); margin: 0;"><i class="fas fa-hands-helping"></i> Current Impact:</h5>
+                                <ul style="text-align: left; margin: 5px 0 10px 20px;">
+                                    <li style="text-align: left;"><strong>$33 feeds one person for a month</strong></li>
+                                    <li style="text-align: left;">35 soup kitchens serving 145,000 meals/year</li>
+                                    <li style="text-align: left;">Immigration assistance to Israel</li>
+                                    <li style="text-align: left;">Crisis response for hundreds of thousands</li>
+                                </ul>
+                            </div>
+                            <p style="text-align: left; font-style: italic; color: var(--text-secondary);">Note: Ministry operates under different names due to political resistance in some regions.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Shiloh Israel Children's Fund -->
+                    <div class="ministry-item" style="text-align: left;">
+                        <div class="ministry-header" style="text-align: left;">
+                            <i class="fas fa-child" style="color: #cc0066; font-size: 24px;"></i>
+                            <h4 style="text-align: left; color: var(--primary-blue); margin: 0 0 10px 0;">Shiloh Israel Children's Fund</h4>
+                        </div>
+                        <div class="ministry-content" style="text-align: left;">
+                            <p style="text-align: left; margin-bottom: 10px;"><strong>Founded:</strong> 2004 | <strong>Founder:</strong> David Rubin (Former Mayor of Shiloh)</p>
+                            <p style="text-align: left;">Specialized ministry healing Israeli children traumatized by terrorism. Featured on Fox News and recognized by Dennis Prager for their vital work with child victims of terror attacks.</p>
+                            <div class="ministry-activities" style="text-align: left; margin-top: 10px;">
+                                <h5 style="text-align: left; color: var(--gold); margin: 0;"><i class="fas fa-hands-helping"></i> Healing Programs:</h5>
+                                <ul style="text-align: left; margin: 5px 0 10px 20px;">
+                                    <li style="text-align: left;">Post-Trauma Emotional Therapy for PTSD</li>
+                                    <li style="text-align: left;">Art, music, and animal therapy</li>
+                                    <li style="text-align: left;">Movement therapy for healing</li>
+                                    <li style="text-align: left;">Specialized treatments for terror victims</li>
+                                </ul>
+                            </div>
+                            <p style="text-align: left; font-style: italic; color: var(--text-secondary);">Since October 7th, thousands more children need healing from trauma.</p>
+                            <a href="https://www.shilohisraelchildren.org/" target="_blank" rel="noopener noreferrer" class="ministry-link" style="text-align: left;">Visit Shiloh Children's Fund <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="support-note" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: left; border-left: 4px solid #0066cc;">
+                        <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-praying-hands"></i> Our Heart for Israel</h4>
+                        <p style="text-align: left; margin: 10px 0;">These ministries represent personal relationships and trusted partnerships built over decades. Each organization demonstrates fiscal responsibility, authentic faith in Yeshua, and genuine love for both the Jewish people and all who call Israel home.</p>
+                        <p style="text-align: left; margin: 0;"><strong>Pray for Israel, support these ministries, and consider how God might use you to bless His chosen people.</strong></p>
                     </div>
                 </div>
             </div>

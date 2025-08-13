@@ -1219,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners to all links with href="#"
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href="#"]');
-            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link' && link.id !== 'holidays-link' && link.id !== 'special-events-link' && link.id !== 'shabbat-services-link' && link.id !== 'welcome-header' && link.id !== 'events-header' && link.id !== 'community-header' && link.id !== 'learn-header' && link.id !== 'resources-header' && link.id !== 'contact-us-link' && link.id !== 'donate-link' && link.id !== 'messianic-resources-link') {
+            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link' && link.id !== 'holidays-link' && link.id !== 'special-events-link' && link.id !== 'shabbat-services-link' && link.id !== 'welcome-header' && link.id !== 'events-header' && link.id !== 'community-header' && link.id !== 'learn-header' && link.id !== 'resources-header' && link.id !== 'contact-us-link' && link.id !== 'donate-link' && link.id !== 'messianic-resources-link' && link.id !== 'stand-with-israel-link' && link.id !== 'shabbat-school-link') {
                 e.preventDefault();
                 const linkText = link.textContent.trim();
                 
@@ -2023,4 +2023,52 @@ document.addEventListener('DOMContentLoaded', function() {
     messianicResourcesModalClose.addEventListener('click', closeMessianicResourcesModal);
     messianicResourcesModalBtn.addEventListener('click', closeMessianicResourcesModal);
     messianicResourcesModalOverlay.addEventListener('click', closeMessianicResourcesModal);
+    
+    // Stand With Israel Modal functionality
+    const standWithIsraelLink = document.getElementById('stand-with-israel-link');
+    const standWithIsraelModal = document.getElementById('stand-with-israel-modal');
+    const standWithIsraelModalClose = standWithIsraelModal.querySelector('.modal-close');
+    const standWithIsraelModalBtn = standWithIsraelModal.querySelector('.modal-btn');
+    const standWithIsraelModalOverlay = standWithIsraelModal.querySelector('.modal-overlay');
+    
+    // Open Stand With Israel modal
+    standWithIsraelLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        standWithIsraelModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Stand With Israel modal functions
+    function closeStandWithIsraelModal() {
+        standWithIsraelModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    standWithIsraelModalClose.addEventListener('click', closeStandWithIsraelModal);
+    standWithIsraelModalBtn.addEventListener('click', closeStandWithIsraelModal);
+    standWithIsraelModalOverlay.addEventListener('click', closeStandWithIsraelModal);
+    
+    // Shabbat School for Youth Modal functionality
+    const shabbatSchoolLink = document.getElementById('shabbat-school-link');
+    const shabbatSchoolModal = document.getElementById('shabbat-school-modal');
+    const shabbatSchoolModalClose = shabbatSchoolModal.querySelector('.modal-close');
+    const shabbatSchoolModalBtn = shabbatSchoolModal.querySelector('.modal-btn');
+    const shabbatSchoolModalOverlay = shabbatSchoolModal.querySelector('.modal-overlay');
+    
+    // Open Shabbat School modal
+    shabbatSchoolLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        shabbatSchoolModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Shabbat School modal functions
+    function closeShabbatSchoolModal() {
+        shabbatSchoolModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    shabbatSchoolModalClose.addEventListener('click', closeShabbatSchoolModal);
+    shabbatSchoolModalBtn.addEventListener('click', closeShabbatSchoolModal);
+    shabbatSchoolModalOverlay.addEventListener('click', closeShabbatSchoolModal);
 });

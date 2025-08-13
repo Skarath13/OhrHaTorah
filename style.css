@@ -4435,3 +4435,197 @@ body.edit-mode [data-editable]:hover .edit-icon {
         font-size: var(--font-size-sm);
     }
 }
+
+/* Stand With Israel Modal Styles */
+.stand-with-israel-modal {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.israel-ministries-container {
+    padding: 0;
+}
+
+.israel-intro {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.ministries-grid {
+    text-align: left;
+}
+
+.ministry-item {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 102, 204, 0.2);
+    border-radius: 12px;
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.ministry-item:hover {
+    background-color: rgba(0, 102, 204, 0.05);
+    border-color: rgba(0, 102, 204, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.ministry-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid rgba(0, 102, 204, 0.1);
+}
+
+.ministry-header i {
+    min-width: 32px;
+    text-align: center;
+}
+
+.ministry-header h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin: 0;
+}
+
+.ministry-content p {
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.ministry-activities {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    padding: var(--space-md);
+    margin: var(--space-md) 0;
+}
+
+.ministry-activities h5 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.ministry-activities ul {
+    margin: var(--space-sm) 0 0 var(--space-lg);
+    padding: 0;
+}
+
+.ministry-activities li {
+    margin-bottom: var(--space-xs);
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.ministry-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    transition: all 0.3s ease;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 4px;
+    background-color: rgba(0, 102, 204, 0.1);
+}
+
+.ministry-link:hover {
+    color: var(--gold);
+    background-color: rgba(0, 102, 204, 0.2);
+    text-decoration: none;
+    transform: translateX(3px);
+}
+
+.ministry-link i {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.ministry-link:hover i {
+    transform: translateX(2px);
+}
+
+.support-note {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(255, 255, 255, 0.8));
+    border: 1px solid rgba(0, 102, 204, 0.2);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.support-note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #0066cc, #004499);
+}
+
+.support-note h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.support-note p {
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Mobile adjustments for Stand With Israel modal */
+@media (max-width: 768px) {
+    .stand-with-israel-modal {
+        width: 98%;
+        max-height: 85vh;
+    }
+    
+    .ministry-item {
+        padding: var(--space-md);
+        margin-bottom: var(--space-md);
+    }
+    
+    .ministry-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+        text-align: left;
+    }
+    
+    .ministry-header h4 {
+        font-size: var(--font-size-md);
+    }
+    
+    .ministry-activities {
+        padding: var(--space-sm);
+    }
+    
+    .ministry-activities h5 {
+        font-size: var(--font-size-sm);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+    }
+    
+    .support-note {
+        padding: var(--space-sm);
+    }
+    
+    .support-note h4 {
+        font-size: var(--font-size-sm);
+    }
+}
