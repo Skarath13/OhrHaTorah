@@ -38,6 +38,11 @@ The website uses a carefully selected color palette defined in CSS variables:
 - High contrast text for readability
 - Gold accents for calls-to-action
 
+## Todo
+
+### High Priority
+- **Migrate Admin Override System to Cloudflare**: Replace localStorage-based Brit Chadasha overrides with Cloudflare D1 database or KV store to make admin edits visible to all site visitors. Current system only saves changes locally on the admin's device.
+
 ## Contributing
 
 1. Fork the repository
