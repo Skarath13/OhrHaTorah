@@ -1219,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners to all links with href="#"
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href="#"]');
-            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link') {
+            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link' && link.id !== 'holidays-link' && link.id !== 'special-events-link' && link.id !== 'shabbat-services-link' && link.id !== 'welcome-header' && link.id !== 'events-header' && link.id !== 'community-header' && link.id !== 'learn-header' && link.id !== 'resources-header' && link.id !== 'contact-us-link' && link.id !== 'donate-link' && link.id !== 'messianic-resources-link') {
                 e.preventDefault();
                 const linkText = link.textContent.trim();
                 
@@ -1879,4 +1879,148 @@ document.addEventListener('DOMContentLoaded', function() {
     rabbiModalClose.addEventListener('click', closeRabbiModal);
     rabbiModalBtn.addEventListener('click', closeRabbiModal);
     rabbiModalOverlay.addEventListener('click', closeRabbiModal);
+    
+    // Holidays Modal functionality
+    const holidaysLink = document.getElementById('holidays-link');
+    const holidaysModal = document.getElementById('holidays-modal');
+    const holidaysModalClose = holidaysModal.querySelector('.modal-close');
+    const holidaysModalBtn = holidaysModal.querySelector('.modal-btn');
+    const holidaysModalOverlay = holidaysModal.querySelector('.modal-overlay');
+    
+    // Open Holidays modal
+    holidaysLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        holidaysModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Holidays modal functions
+    function closeHolidaysModal() {
+        holidaysModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    holidaysModalClose.addEventListener('click', closeHolidaysModal);
+    holidaysModalBtn.addEventListener('click', closeHolidaysModal);
+    holidaysModalOverlay.addEventListener('click', closeHolidaysModal);
+    
+    // Special Events Modal functionality
+    const specialEventsLink = document.getElementById('special-events-link');
+    const specialEventsModal = document.getElementById('special-events-modal');
+    const specialEventsModalClose = specialEventsModal.querySelector('.modal-close');
+    const specialEventsModalBtn = specialEventsModal.querySelector('.modal-btn');
+    const specialEventsModalOverlay = specialEventsModal.querySelector('.modal-overlay');
+    
+    // Open Special Events modal
+    specialEventsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        specialEventsModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Special Events modal functions
+    function closeSpecialEventsModal() {
+        specialEventsModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    specialEventsModalClose.addEventListener('click', closeSpecialEventsModal);
+    specialEventsModalBtn.addEventListener('click', closeSpecialEventsModal);
+    specialEventsModalOverlay.addEventListener('click', closeSpecialEventsModal);
+    
+    // Shabbat Services Modal functionality
+    const shabbatServicesLink = document.getElementById('shabbat-services-link');
+    const shabbatServicesModal = document.getElementById('shabbat-services-modal');
+    const shabbatServicesModalClose = shabbatServicesModal.querySelector('.modal-close');
+    const shabbatServicesModalBtn = shabbatServicesModal.querySelector('.modal-btn');
+    const shabbatServicesModalOverlay = shabbatServicesModal.querySelector('.modal-overlay');
+    
+    // Open Shabbat Services modal
+    shabbatServicesLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        shabbatServicesModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Shabbat Services modal functions
+    function closeShabbatServicesModal() {
+        shabbatServicesModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    shabbatServicesModalClose.addEventListener('click', closeShabbatServicesModal);
+    shabbatServicesModalBtn.addEventListener('click', closeShabbatServicesModal);
+    shabbatServicesModalOverlay.addEventListener('click', closeShabbatServicesModal);
+    
+    // Contact Us Modal functionality
+    const contactUsLink = document.getElementById('contact-us-link');
+    const contactUsModal = document.getElementById('contact-us-modal');
+    const contactUsModalClose = contactUsModal.querySelector('.modal-close');
+    const contactUsModalBtn = contactUsModal.querySelector('.modal-btn');
+    const contactUsModalOverlay = contactUsModal.querySelector('.modal-overlay');
+    
+    // Open Contact Us modal
+    contactUsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        contactUsModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Contact Us modal functions
+    function closeContactUsModal() {
+        contactUsModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    contactUsModalClose.addEventListener('click', closeContactUsModal);
+    contactUsModalBtn.addEventListener('click', closeContactUsModal);
+    contactUsModalOverlay.addEventListener('click', closeContactUsModal);
+    
+    // Donate Modal functionality
+    const donateLink = document.getElementById('donate-link');
+    const donateModal = document.getElementById('donate-modal');
+    const donateModalClose = donateModal.querySelector('.modal-close');
+    const donateModalBtn = donateModal.querySelector('.modal-btn');
+    const donateModalOverlay = donateModal.querySelector('.modal-overlay');
+    
+    // Open Donate modal
+    donateLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        donateModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Donate modal functions
+    function closeDonateModal() {
+        donateModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    donateModalClose.addEventListener('click', closeDonateModal);
+    donateModalBtn.addEventListener('click', closeDonateModal);
+    donateModalOverlay.addEventListener('click', closeDonateModal);
+    
+    // Messianic Jewish Resources Modal functionality
+    const messianicResourcesLink = document.getElementById('messianic-resources-link');
+    const messianicResourcesModal = document.getElementById('messianic-resources-modal');
+    const messianicResourcesModalClose = messianicResourcesModal.querySelector('.modal-close');
+    const messianicResourcesModalBtn = messianicResourcesModal.querySelector('.modal-btn');
+    const messianicResourcesModalOverlay = messianicResourcesModal.querySelector('.modal-overlay');
+    
+    // Open Messianic Resources modal
+    messianicResourcesLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        messianicResourcesModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close Messianic Resources modal functions
+    function closeMessianicResourcesModal() {
+        messianicResourcesModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    messianicResourcesModalClose.addEventListener('click', closeMessianicResourcesModal);
+    messianicResourcesModalBtn.addEventListener('click', closeMessianicResourcesModal);
+    messianicResourcesModalOverlay.addEventListener('click', closeMessianicResourcesModal);
 });
