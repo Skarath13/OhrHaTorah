@@ -4813,9 +4813,9 @@ body.edit-mode [data-editable]:hover .edit-icon {
     color: var(--text-secondary) !important;
 }
 
-/* FORCE horizontal layout for mission and vision cards */
-.mission-highlights,
-.vision-goals {
+/* FORCE horizontal layout for mission and vision cards IN MODALS ONLY */
+.modal .mission-highlights,
+.modal .vision-goals {
     display: flex !important;
     flex-direction: row !important;
     justify-content: center !important;
@@ -4825,8 +4825,8 @@ body.edit-mode [data-editable]:hover .edit-icon {
     width: 100% !important;
 }
 
-.mission-highlights .highlight-item,
-.vision-goals .goal-item {
+.modal .mission-highlights .highlight-item,
+.modal .vision-goals .goal-item {
     display: flex !important;
     flex-direction: column !important;
     width: 150px !important;
