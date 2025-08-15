@@ -1219,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners to all links with href="#"
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href="#"]');
-            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link' && link.id !== 'holidays-link' && link.id !== 'special-events-link' && link.id !== 'shabbat-services-link' && link.id !== 'welcome-header' && link.id !== 'events-header' && link.id !== 'community-header' && link.id !== 'learn-header' && link.id !== 'resources-header' && link.id !== 'contact-us-link' && link.id !== 'donate-link' && link.id !== 'messianic-resources-link' && link.id !== 'stand-with-israel-link' && link.id !== 'shabbat-school-link') {
+            if (link && link.id !== 'backToTop' && link.id !== 'admin-link' && link.id !== 'faq-link' && link.id !== 'rabbi-link' && link.id !== 'holidays-link' && link.id !== 'special-events-link' && link.id !== 'shabbat-services-link' && link.id !== 'welcome-header' && link.id !== 'events-header' && link.id !== 'community-header' && link.id !== 'learn-header' && link.id !== 'resources-header' && link.id !== 'contact-us-link' && link.id !== 'donate-link' && link.id !== 'messianic-resources-link' && link.id !== 'stand-with-israel-link' && link.id !== 'shabbat-school-link' && link.id !== 'who-are-we-link' && link.id !== 'what-to-expect-link' && link.id !== 'mission-vision-link' && link.id !== 'our-location-link' && link.id !== 'umjc-affiliation-link') {
                 e.preventDefault();
                 const linkText = link.textContent.trim();
                 
@@ -2071,4 +2071,130 @@ document.addEventListener('DOMContentLoaded', function() {
     shabbatSchoolModalClose.addEventListener('click', closeShabbatSchoolModal);
     shabbatSchoolModalBtn.addEventListener('click', closeShabbatSchoolModal);
     shabbatSchoolModalOverlay.addEventListener('click', closeShabbatSchoolModal);
+
+    // Who Are We Modal Handler
+    const whoAreWeModal = document.getElementById('who-are-we-modal');
+    const whoAreWeModalClose = whoAreWeModal.querySelector('.modal-close');
+    const whoAreWeModalBtn = whoAreWeModal.querySelector('.modal-btn');
+    const whoAreWeModalOverlay = whoAreWeModal.querySelector('.modal-overlay');
+
+    // Open Who Are We modal
+    document.getElementById('who-are-we-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        whoAreWeModal.style.display = 'block';
+    });
+
+    // Close Who Are We modal functions
+    function closeWhoAreWeModal() {
+        whoAreWeModal.style.display = 'none';
+    }
+    
+    whoAreWeModalClose.addEventListener('click', closeWhoAreWeModal);
+    whoAreWeModalBtn.addEventListener('click', closeWhoAreWeModal);
+    whoAreWeModalOverlay.addEventListener('click', closeWhoAreWeModal);
+
+    // What to Expect Modal Handler
+    const whatToExpectModal = document.getElementById('what-to-expect-modal');
+    const whatToExpectModalClose = whatToExpectModal.querySelector('.modal-close');
+    const whatToExpectModalBtn = whatToExpectModal.querySelector('.modal-btn');
+    const whatToExpectModalOverlay = whatToExpectModal.querySelector('.modal-overlay');
+
+    // Open What to Expect modal
+    document.getElementById('what-to-expect-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        whatToExpectModal.style.display = 'block';
+    });
+
+    // Close What to Expect modal functions
+    function closeWhatToExpectModal() {
+        whatToExpectModal.style.display = 'none';
+    }
+    
+    whatToExpectModalClose.addEventListener('click', closeWhatToExpectModal);
+    whatToExpectModalBtn.addEventListener('click', closeWhatToExpectModal);
+    whatToExpectModalOverlay.addEventListener('click', closeWhatToExpectModal);
+
+    // Mission Vision Modal Handler
+    const missionVisionModal = document.getElementById('mission-vision-modal');
+    const missionVisionModalClose = missionVisionModal.querySelector('.modal-close');
+    const missionVisionModalBtn = missionVisionModal.querySelector('.modal-btn');
+    const missionVisionModalOverlay = missionVisionModal.querySelector('.modal-overlay');
+
+    // Open Mission Vision modal
+    document.getElementById('mission-vision-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        missionVisionModal.style.display = 'block';
+    });
+
+    // Close Mission Vision modal functions
+    function closeMissionVisionModal() {
+        missionVisionModal.style.display = 'none';
+    }
+    
+    missionVisionModalClose.addEventListener('click', closeMissionVisionModal);
+    missionVisionModalBtn.addEventListener('click', closeMissionVisionModal);
+    missionVisionModalOverlay.addEventListener('click', closeMissionVisionModal);
+
+    // Our Location Modal Handler
+    const ourLocationModal = document.getElementById('our-location-modal');
+    const ourLocationModalClose = ourLocationModal.querySelector('.modal-close');
+    const ourLocationModalBtn = ourLocationModal.querySelector('.modal-btn');
+    const ourLocationModalOverlay = ourLocationModal.querySelector('.modal-overlay');
+
+    // Open Our Location modal
+    document.getElementById('our-location-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        ourLocationModal.style.display = 'block';
+    });
+
+    // Close Our Location modal functions
+    function closeOurLocationModal() {
+        ourLocationModal.style.display = 'none';
+    }
+    
+    ourLocationModalClose.addEventListener('click', closeOurLocationModal);
+    ourLocationModalBtn.addEventListener('click', closeOurLocationModal);
+    ourLocationModalOverlay.addEventListener('click', closeOurLocationModal);
+
+    // UMJC Affiliation Modal Handler
+    const umjcAffiliationModal = document.getElementById('umjc-affiliation-modal');
+    const umjcAffiliationModalClose = umjcAffiliationModal.querySelector('.modal-close');
+    const umjcAffiliationModalBtn = umjcAffiliationModal.querySelector('.modal-btn');
+    const umjcAffiliationModalOverlay = umjcAffiliationModal.querySelector('.modal-overlay');
+
+    // Open UMJC Affiliation modal
+    document.getElementById('umjc-affiliation-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        umjcAffiliationModal.style.display = 'block';
+    });
+
+    // Close UMJC Affiliation modal functions
+    function closeUmjcAffiliationModal() {
+        umjcAffiliationModal.style.display = 'none';
+    }
+    
+    umjcAffiliationModalClose.addEventListener('click', closeUmjcAffiliationModal);
+    umjcAffiliationModalBtn.addEventListener('click', closeUmjcAffiliationModal);
+    umjcAffiliationModalOverlay.addEventListener('click', closeUmjcAffiliationModal);
+
+    // Add Escape key handling for all new modals
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (whoAreWeModal.style.display === 'block') {
+                closeWhoAreWeModal();
+            }
+            if (whatToExpectModal.style.display === 'block') {
+                closeWhatToExpectModal();
+            }
+            if (missionVisionModal.style.display === 'block') {
+                closeMissionVisionModal();
+            }
+            if (ourLocationModal.style.display === 'block') {
+                closeOurLocationModal();
+            }
+            if (umjcAffiliationModal.style.display === 'block') {
+                closeUmjcAffiliationModal();
+            }
+        }
+    });
 });

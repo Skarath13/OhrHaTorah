@@ -70,16 +70,13 @@
     <nav class="nav-container">
         <ul class="nav-links">
             <li class="dropdown">
-                <a href="#" id="welcome-header" aria-label="Welcome"><i class="fas fa-home"></i> Welcome</a>
+                <a href="index.html" id="welcome-header" aria-label="Welcome"><i class="fas fa-home"></i> Welcome</a>
                 <div class="dropdown-content">
-                    <a href="#" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
-                    <a href="#" aria-label="Leadership"><i class="fas fa-user-friends"></i> Leadership</a>
-                    <a href="#" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
-                    <a href="#" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
-                    <a href="#" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
-                    <a href="#" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
-                    <a href="#" aria-label="Contact Us"><i class="fas fa-phone"></i> Contact Us</a>
-                    <a href="#" aria-label="Mailing List"><i class="fas fa-envelope-open-text"></i> Sign Up for Mailing List</a>
+                    <a href="#" id="who-are-we-link" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
+                    <a href="#" id="what-to-expect-link" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
+                    <a href="#" id="mission-vision-link" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
+                    <a href="#" id="our-location-link" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                    <a href="#" id="umjc-affiliation-link" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
                 </div>
             </li>
             <li class="dropdown">
@@ -515,7 +512,7 @@
                 </div>
                 <div class="card-body text-center">
                     <div class="leader-img">
-                        <img src="images/rabbi.avif" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                        <img src="images/rabbi.jpg" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
                     </div>
                     <div class="leader-name" data-editable="rabbi-name">Rabbi Charles Ott</div>
                     <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
@@ -677,7 +674,7 @@
                 </div>
                 <div class="card-body text-center">
                     <div class="leader-img">
-                        <img src="images/rabbi.avif" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                        <img src="images/rabbi.jpg" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
                     </div>
                     <div class="leader-name" data-editable="rabbi-name">Rabbi Charles Ott</div>
                     <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
@@ -1332,6 +1329,586 @@
                         <h4 style="text-align: left;"><i class="fas fa-hand-holding-heart"></i> Questions? Contact Us</h4>
                         <p style="text-align: left;"><i class="fas fa-phone"></i> <a href="tel:+17144061513">(714) 406-1513</a> | <i class="fas fa-envelope"></i> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p>
                     </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Who Are We Modal -->
+    <div id="who-are-we-modal" class="modal who-are-we-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-info-circle"></i> Who Are We</h3>
+            <div class="who-are-we-container">
+                <div class="who-are-we-message">
+                    <p style="text-align: center; margin-bottom: 20px;"><strong>Welcome to Kehilat Ohr HaTorah - A Community of Faith, Heritage, and Hope</strong></p>
+                    
+                    <div class="identity-section" style="text-align: left; margin-bottom: 20px;">
+                        <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-star-of-david"></i> Our Identity</h4>
+                        <p style="text-align: left;">We are a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua (Jesus).</p>
+                        <p style="text-align: left;">Our name "Ohr HaTorah" means "Light of the Torah" - reflecting our commitment to illuminating God's eternal Word through both the Hebrew Scriptures and the New Testament as one unified message of redemption.</p>
+                    </div>
+                    
+                    <div class="community-section" style="text-align: left; margin-bottom: 20px;">
+                        <h4 style="color: var(--gold); text-align: left;"><i class="fas fa-users"></i> Our Community</h4>
+                        <p style="text-align: left;">We warmly welcome all people - Jewish, non-Jewish, and interfaith couples and families. Whether you're:</p>
+                        <ul style="text-align: left; margin: 10px 0 15px 20px;">
+                            <li style="text-align: left;">Exploring your Jewish roots</li>
+                            <li style="text-align: left;">Seeking to understand Yeshua as the Jewish Messiah</li>
+                            <li style="text-align: left;">Curious about Messianic Judaism</li>
+                            <li style="text-align: left;">Looking for authentic biblical worship</li>
+                            <li style="text-align: left;">Wanting to deepen your faith journey</li>
+                        </ul>
+                        <p style="text-align: left;">You belong here! Our community is ideal for both inquirers and those seeking to deepen their understanding and walk with our Jewish Messiah.</p>
+                    </div>
+                    
+                    <div class="worship-section" style="text-align: left; margin-bottom: 20px;">
+                        <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-pray"></i> Our Worship</h4>
+                        <p style="text-align: left;">We blend traditional and contemporary Jewish practices, emphasizing:</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                            <div style="background-color: var(--gray-100); padding: 12px; border-radius: 6px; text-align: left;">
+                                <strong><i class="fas fa-language"></i> Community Prayer</strong><br>
+                                <span style="font-size: 0.9em;">Hebrew and English liturgy</span>
+                            </div>
+                            <div style="background-color: var(--gray-100); padding: 12px; border-radius: 6px; text-align: left;">
+                                <strong><i class="fas fa-book-open"></i> Scripture Teaching</strong><br>
+                                <span style="font-size: 0.9em;">Torah and New Testament study</span>
+                            </div>
+                            <div style="background-color: var(--gray-100); padding: 12px; border-radius: 6px; text-align: left;">
+                                <strong><i class="fas fa-music"></i> Vibrant Music</strong><br>
+                                <span style="font-size: 0.9em;">Contemporary Messianic worship</span>
+                            </div>
+                            <div style="background-color: var(--gray-100); padding: 12px; border-radius: 6px; text-align: left;">
+                                <strong><i class="fas fa-menorah"></i> Biblical Festivals</strong><br>
+                                <span style="font-size: 0.9em;">Celebrating God's appointed times</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mission-highlight" style="background-color: var(--gold-light); padding: 15px; border-radius: 8px; text-align: left; border-left: 4px solid var(--gold-dark);">
+                        <h4 style="color: var(--gold-dark); text-align: left;"><i class="fas fa-heart"></i> Our Heart</h4>
+                        <p style="text-align: left; margin: 0;">We believe that Torah and the teachings of Yeshua come together as one, where we as life-long learners of the Bible and Judaism can grow together with love, respect, and mutual understanding. Come experience the richness of your biblical heritage!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- What to Expect Modal -->
+    <div id="what-to-expect-modal" class="modal what-to-expect-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-door-open"></i> What to Expect In Our Services</h3>
+            <div class="what-to-expect-container">
+                <div class="expect-intro">
+                    <p style="text-align: center; margin-bottom: 25px;"><strong>First time visiting? Here's everything you need to know to feel comfortable and prepared!</strong></p>
+                </div>
+                
+                <!-- Service Flow -->
+                <div class="service-flow" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-clock"></i> Saturday Service Flow</h4>
+                    <div class="timeline" style="text-align: left;">
+                        <div class="timeline-item" style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; background-color: var(--gray-100); border-radius: 6px;">
+                            <div style="background-color: var(--primary-blue); color: white; padding: 5px 10px; border-radius: 4px; margin-right: 15px; font-weight: bold;">2:30 PM</div>
+                            <div style="text-align: left;">
+                                <strong>Contemporary Messianic Music & Dance</strong><br>
+                                <span style="font-size: 0.9em; color: var(--text-secondary);">Uplifting worship with Hebrew and English songs. Join in or simply listen!</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item" style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; background-color: var(--gray-100); border-radius: 6px;">
+                            <div style="background-color: var(--gold); color: white; padding: 5px 10px; border-radius: 4px; margin-right: 15px; font-weight: bold;">3:00 PM</div>
+                            <div style="text-align: left;">
+                                <strong>Traditional Mincha Service</strong><br>
+                                <span style="font-size: 0.9em; color: var(--text-secondary);">Hebrew prayers, Torah reading, and blessings. All explained in English.</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item" style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; background-color: var(--gray-100); border-radius: 6px;">
+                            <div style="background-color: var(--accent-green); color: white; padding: 5px 10px; border-radius: 4px; margin-right: 15px; font-weight: bold;">4:30 PM</div>
+                            <div style="text-align: left;">
+                                <strong>Interactive Scripture Discussion</strong><br>
+                                <span style="font-size: 0.9em; color: var(--text-secondary);">Weekly Torah portion, Haftarah, and Brit Chadashah study with Q&A.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- What You'll Experience -->
+                <div class="experience-section" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--gold); text-align: left;"><i class="fas fa-star"></i> What You'll Experience</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                        <div class="experience-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--primary-blue); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-language"></i> Hebrew & English</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Services blend Hebrew prayers with English explanations. Prayer books provided with transliteration.</p>
+                        </div>
+                        <div class="experience-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--primary-blue); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-music"></i> Joyful Music</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Contemporary Israeli and Messianic songs with guitar, keyboard, and vocals. Dancing encouraged!</p>
+                        </div>
+                        <div class="experience-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--primary-blue); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-scroll"></i> Torah Reading</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Weekly Torah portion read in Hebrew with English translation and commentary.</p>
+                        </div>
+                        <div class="experience-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--primary-blue); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-comments"></i> Discussion Time</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Interactive study where questions are welcomed and insights are shared together.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Practical Information -->
+                <div class="practical-info" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-info-circle"></i> Practical Information</h4>
+                    <div class="info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-tshirt"></i> What to Wear</h5>
+                            <ul style="margin: 0 0 15px 20px; text-align: left;">
+                                <li style="text-align: left;">Casual to semi-formal attire</li>
+                                <li style="text-align: left;">Modest clothing preferred</li>
+                                <li style="text-align: left;">Men may wear kippah (optional for visitors)</li>
+                                <li style="text-align: left;">Comfortable shoes for dancing</li>
+                            </ul>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-book"></i> What's Provided</h5>
+                            <ul style="margin: 0 0 15px 20px; text-align: left;">
+                                <li style="text-align: left;">Siddur (prayer book) with transliteration</li>
+                                <li style="text-align: left;">Torah reading handouts</li>
+                                <li style="text-align: left;">Visitor welcome packet</li>
+                                <li style="text-align: left;">Explanation of customs and prayers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- First-Time Visitor Tips -->
+                <div class="visitor-tips" style="background-color: var(--gold-light); padding: 20px; border-radius: 8px; text-align: left; border-left: 4px solid var(--gold-dark);">
+                    <h4 style="color: var(--gold-dark); text-align: left;"><i class="fas fa-lightbulb"></i> First-Time Visitor Tips</h4>
+                    <ul style="margin: 10px 0 0 20px; text-align: left;">
+                        <li style="text-align: left;"><strong>Arrive 10-15 minutes early</strong> to get settled and receive a welcome packet</li>
+                        <li style="text-align: left;"><strong>Don't worry about knowing Hebrew</strong> - everything is explained in English</li>
+                        <li style="text-align: left;"><strong>Participate as much or as little as you're comfortable</strong> - no pressure!</li>
+                        <li style="text-align: left;"><strong>Ask questions</strong> - we love explaining our traditions and beliefs</li>
+                        <li style="text-align: left;"><strong>Stay for fellowship</strong> after the service to meet our community</li>
+                        <li style="text-align: left;"><strong>No advance notice needed</strong> - just come as you are!</li>
+                    </ul>
+                </div>
+                
+                <div class="welcome-note" style="text-align: center; margin-top: 20px; padding: 15px; background-color: var(--primary-blue); color: white; border-radius: 8px;">
+                    <p style="margin: 0; font-size: 1.1em;"><strong>We can't wait to welcome you into our family! Every person who walks through our doors is a gift from HaShem.</strong></p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission Vision & Core Values Modal -->
+    <div id="mission-vision-modal" class="modal mission-vision-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-bullseye"></i> Mission, Vision & Core Values</h3>
+            <div class="mission-vision-container">
+                <!-- Mission Section -->
+                <div class="mission-section" style="text-align: left; margin-bottom: 30px; background-color: rgba(0, 102, 204, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                    <h4 style="color: var(--primary-blue); text-align: left; margin-bottom: 15px;"><i class="fas fa-heart"></i> Our Mission</h4>
+                    <p style="font-size: 1.1em; font-weight: 500; text-align: left; margin-bottom: 15px;">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel.</p>
+                    <p style="text-align: left; margin-bottom: 15px;">We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding. Our heart is to demonstrate the unity of Scripture and the beauty of our Jewish Messiah.</p>
+                    
+                    <div class="mission-highlights" style="display: flex !important; justify-content: center !important; gap: 12px !important; margin-top: 20px; flex-wrap: nowrap !important; width: 100% !important;">
+                        <div class="highlight-item" style="text-align: center; background-color: white; padding: 12px 8px; border-radius: 6px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; width: 150px !important; flex-shrink: 0 !important; flex-grow: 0 !important;">
+                            <div style="margin-bottom: 12px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-users" style="font-size: 24px; color: var(--primary-blue);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--primary-blue); margin-bottom: 4px; font-size: 0.9rem;">Welcoming</div>
+                            <div style="font-size: 0.8em; line-height: 1.3; color: var(--text-secondary);">All peoples welcome</div>
+                        </div>
+                        <div class="highlight-item" style="text-align: center; background-color: white; padding: 12px 8px; border-radius: 6px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; width: 150px !important; flex-shrink: 0 !important; flex-grow: 0 !important;">
+                            <div style="margin-bottom: 12px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-scroll" style="font-size: 24px; color: var(--primary-blue);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--primary-blue); margin-bottom: 4px; font-size: 0.9rem;">Torah Living</div>
+                            <div style="font-size: 0.8em; line-height: 1.3; color: var(--text-secondary);">Biblical principles</div>
+                        </div>
+                        <div class="highlight-item" style="text-align: center; background-color: white; padding: 12px 8px; border-radius: 6px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; width: 150px !important; flex-shrink: 0 !important; flex-grow: 0 !important;">
+                            <div style="margin-bottom: 12px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-star-of-david" style="font-size: 24px; color: var(--primary-blue);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--primary-blue); margin-bottom: 4px; font-size: 0.9rem;">Messiah Yeshua</div>
+                            <div style="font-size: 0.8em; line-height: 1.3; color: var(--text-secondary);">Israel's Redeemer</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vision Section -->
+                <div class="vision-section" style="text-align: left; margin-bottom: 30px; background-color: var(--gold-light); padding: 20px; border-radius: 8px; border-left: 4px solid var(--gold-dark);">
+                    <h4 style="color: var(--gold-dark); text-align: left; margin-bottom: 15px;"><i class="fas fa-eye"></i> Our Vision</h4>
+                    <p style="font-size: 1.1em; font-weight: 500; text-align: left; margin-bottom: 15px;">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua.</p>
+                    <p style="text-align: left; margin-bottom: 15px;">We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples. Our goal is to see revival in Israel and the nations through the revelation of Yeshua as the Jewish Messiah.</p>
+                    
+                    <div class="vision-goals" style="display: flex !important; justify-content: center !important; gap: 12px !important; margin-top: 20px; flex-wrap: nowrap !important; width: 100% !important;">
+                        <div class="goal-item" style="text-align: center; background-color: white; padding: 12px 8px; border-radius: 6px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; width: 150px !important; flex-shrink: 0 !important; flex-grow: 0 !important;">
+                            <div style="margin-bottom: 12px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-globe-americas" style="font-size: 24px; color: var(--gold-dark);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--gold-dark); margin-bottom: 4px; font-size: 0.9rem;">Light to Nations</div>
+                            <div style="font-size: 0.8em; line-height: 1.3; color: var(--text-secondary);">Global impact</div>
+                        </div>
+                        <div class="goal-item" style="text-align: center; background-color: white; padding: 12px 8px; border-radius: 6px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; width: 150px !important; flex-shrink: 0 !important; flex-grow: 0 !important;">
+                            <div style="margin-bottom: 12px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-hands-helping" style="font-size: 24px; color: var(--gold-dark);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--gold-dark); margin-bottom: 4px; font-size: 0.9rem;">Unity in Messiah</div>
+                            <div style="font-size: 0.8em; line-height: 1.3; color: var(--text-secondary);">Bridging communities</div>
+                        </div>
+                        <div class="goal-item" style="text-align: center; background-color: white; padding: 12px 8px; border-radius: 6px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; width: 150px !important; flex-shrink: 0 !important; flex-grow: 0 !important;">
+                            <div style="margin-bottom: 12px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-crown" style="font-size: 24px; color: var(--gold-dark);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--gold-dark); margin-bottom: 4px; font-size: 0.9rem;">Kingdom Living</div>
+                            <div style="font-size: 0.8em; line-height: 1.3; color: var(--text-secondary);">Biblical lifestyle</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Core Values Section -->
+                <div class="values-section" style="text-align: left;">
+                    <h4 style="color: var(--primary-blue); text-align: left; margin-bottom: 20px;"><i class="fas fa-gem"></i> Our Core Values</h4>
+                    <div class="values-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div class="value-card" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="fas fa-scroll" style="font-size: 20px; color: var(--primary-blue); margin-right: 10px;"></i>
+                                <h5 style="margin: 0; color: var(--primary-blue); text-align: left;">Torah Faithfulness</h5>
+                            </div>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Living according to God's eternal instructions while embracing the freedom found in Yeshua.</p>
+                        </div>
+                        
+                        <div class="value-card" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="fas fa-star-of-david" style="font-size: 20px; color: var(--primary-blue); margin-right: 10px;"></i>
+                                <h5 style="margin: 0; color: var(--primary-blue); text-align: left;">Jewish Identity</h5>
+                            </div>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Celebrating and preserving our rich Jewish heritage, culture, and traditions.</p>
+                        </div>
+                        
+                        <div class="value-card" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="fas fa-cross" style="font-size: 20px; color: var(--primary-blue); margin-right: 10px;"></i>
+                                <h5 style="margin: 0; color: var(--primary-blue); text-align: left;">Yeshua as Messiah</h5>
+                            </div>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Embracing Jesus as Israel's promised Redeemer and the fulfillment of Scripture.</p>
+                        </div>
+                        
+                        <div class="value-card" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="fas fa-hands-helping" style="font-size: 20px; color: var(--primary-blue); margin-right: 10px;"></i>
+                                <h5 style="margin: 0; color: var(--primary-blue); text-align: left;">Loving Community</h5>
+                            </div>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Welcoming all who seek to grow in faith with love, respect, and acceptance.</p>
+                        </div>
+                        
+                        <div class="value-card" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="fas fa-book-open" style="font-size: 20px; color: var(--primary-blue); margin-right: 10px;"></i>
+                                <h5 style="margin: 0; color: var(--primary-blue); text-align: left;">Biblical Study</h5>
+                            </div>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Commitment to deep Scripture learning and understanding through Jewish context.</p>
+                        </div>
+                        
+                        <div class="value-card" style="background-color: var(--gray-100); padding: 15px; border-radius: 8px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="fas fa-praying-hands" style="font-size: 20px; color: var(--primary-blue); margin-right: 10px;"></i>
+                                <h5 style="margin: 0; color: var(--primary-blue); text-align: left;">Authentic Worship</h5>
+                            </div>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Heartfelt praise through traditional Jewish liturgy and contemporary expression.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Call to Action -->
+                <div class="values-cta" style="background-color: var(--primary-blue); color: white; padding: 20px; border-radius: 8px; text-align: center; margin-top: 30px;">
+                    <h4 style="color: white; margin: 0 0 10px 0;"><i class="fas fa-praying-hands" style="margin-right: 8px;"></i> Live These Values With Us</h4>
+                    <p style="margin: 0; font-size: 1.1em; color: white;">Join our community as we seek to live out these biblical values together, growing in faith, fellowship, and service to our Messiah Yeshua and the world around us.</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Location Modal -->
+    <div id="our-location-modal" class="modal our-location-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-map-marker-alt"></i> Our Location & Facilities</h3>
+            <div class="location-container">
+                <div class="location-intro">
+                    <p style="text-align: center; margin-bottom: 25px;"><strong>Located in the heart of Orange County, we serve the greater Los Angeles area with convenient access and welcoming facilities.</strong></p>
+                </div>
+                
+                <!-- Service Location -->
+                <div class="service-location" style="text-align: left; margin-bottom: 25px; background-color: rgba(0, 102, 204, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-synagogue"></i> Worship Services Location</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-map-pin"></i> Address</h5>
+                            <p style="text-align: left; margin: 5px 0 15px 0; font-size: 1.1em;">
+                                <strong>10460 Slate Ave<br>
+                                Fountain Valley, CA 92708</strong>
+                            </p>
+                            
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-clock"></i> Service Times</h5>
+                            <p style="text-align: left; margin: 5px 0;">
+                                <strong>Saturdays at 2:30 PM</strong><br>
+                                <span style="font-size: 0.9em; color: var(--text-secondary);">Contemporary worship, traditional prayers, and Torah study</span>
+                            </p>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-car"></i> Parking & Access</h5>
+                            <ul style="text-align: left; margin: 5px 0 15px 20px;">
+                                <li style="text-align: left;">Free on-site parking available</li>
+                                <li style="text-align: left;">Wheelchair accessible entrance</li>
+                                <li style="text-align: left;">Easy freeway access from 405 & 22</li>
+                                <li style="text-align: left;">Well-lit, safe neighborhood</li>
+                            </ul>
+                            
+                            <div style="margin-top: 15px;">
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slate%20Ave,%20Fountain%20Valley,%20CA%2092708" 
+                                   target="_blank" rel="noopener noreferrer" 
+                                   class="btn btn-blue" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 10px 20px; background-color: var(--primary-blue); color: white; border-radius: 6px; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.1); max-width: 180px; justify-content: center;">
+                                    <i class="fas fa-directions"></i> Get Directions
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mailing Address -->
+                <div class="mailing-address" style="text-align: left; margin-bottom: 25px; background-color: var(--gold-light); padding: 20px; border-radius: 8px; border-left: 4px solid var(--gold-dark);">
+                    <h4 style="color: var(--gold-dark); text-align: left;"><i class="fas fa-envelope"></i> Mailing Address & Contact</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-mailbox"></i> Mail & Correspondence</h5>
+                            <p style="text-align: left; margin: 5px 0; font-size: 1.1em;">
+                                <strong>360 E. 1st Street, #856<br>
+                                Tustin, CA 92780</strong>
+                            </p>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-phone"></i> Contact Information</h5>
+                            <p style="text-align: left; margin: 5px 0;">
+                                <strong>Phone:</strong> <a href="tel:+17144061513">(714) 406-1513</a><br>
+                                <strong>Email:</strong> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Area Information -->
+                <div class="area-info" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-map"></i> Orange County Location Benefits</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div class="benefit-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--gold); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-road"></i> Central Location</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Easy access from throughout Orange County and LA County via major freeways.</p>
+                        </div>
+                        <div class="benefit-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--gold); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-users"></i> Jewish Community</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Located near established Jewish communities in Orange County.</p>
+                        </div>
+                        <div class="benefit-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--gold); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-utensils"></i> Kosher Dining</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Close to kosher restaurants and Jewish markets for community meals.</p>
+                        </div>
+                        <div class="benefit-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; text-align: left;">
+                            <h5 style="color: var(--gold); margin: 0 0 8px 0; text-align: left;"><i class="fas fa-graduation-cap"></i> Learning Centers</h5>
+                            <p style="margin: 0; font-size: 0.9em; text-align: left;">Near universities and libraries for continued Jewish education.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Google Map -->
+                <div class="map-section" style="text-align: left;">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-map-marked-alt"></i> Find Us</h4>
+                    <div class="map-container" style="width: 100%; height: 300px; border-radius: 8px; overflow: hidden; margin-top: 15px;">
+                        <iframe src="https://maps.google.com/maps?q=10460%20Slate%20Ave,%20Fountain%20Valley,%20CA%2092708&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- Future Plans -->
+                <div class="future-plans" style="background-color: rgba(0, 102, 204, 0.1); padding: 20px; border-radius: 8px; text-align: left; margin-top: 25px; border-left: 4px solid var(--primary-blue);">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-seedling"></i> Looking Ahead</h4>
+                    <p style="text-align: left; margin-bottom: 15px;">As our congregation grows, we're prayerfully considering:</p>
+                    <ul style="text-align: left; margin: 0 0 15px 20px;">
+                        <li style="text-align: left;"><strong>Morning Shacharit services</strong> for traditional morning worship</li>
+                        <li style="text-align: left;"><strong>Expanded youth facilities</strong> for our growing Shabbat School</li>
+                        <li style="text-align: left;"><strong>Community event space</strong> for holidays and celebrations</li>
+                        <li style="text-align: left;"><strong>Study rooms</strong> for Hebrew classes and small group learning</li>
+                    </ul>
+                    <p style="text-align: left; margin: 0; font-style: italic;">Your participation helps us build a permanent home for Messianic Jewish worship in Orange County!</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UMJC Affiliation Modal -->
+    <div id="umjc-affiliation-modal" class="modal umjc-affiliation-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3><i class="fas fa-handshake"></i> UMJC Affiliation</h3>
+            <div class="umjc-container">
+                <div class="umjc-intro">
+                    <p style="text-align: center; margin-bottom: 25px;"><strong>Proud to be newly affiliated with the Union of Messianic Jewish Congregations</strong></p>
+                </div>
+                
+                <!-- About UMJC -->
+                <div class="about-umjc" style="text-align: left; margin-bottom: 25px; background-color: rgba(0, 102, 204, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-synagogue"></i> About the UMJC</h4>
+                    <p style="text-align: left; margin-bottom: 15px;">The Union of Messianic Jewish Congregations (UMJC) is a network of about 70 Messianic congregations worldwide that honor Yeshua as Messiah while maintaining Jewish identity and practice.</p>
+                    
+                    <div class="umjc-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div class="stat-item" style="background-color: white; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 2em; font-weight: bold; color: var(--primary-blue);">~70</div>
+                            <div style="font-size: 0.9em; color: var(--text-secondary);">Congregations Worldwide</div>
+                        </div>
+                        <div class="stat-item" style="background-color: white; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 2em; font-weight: bold; color: var(--primary-blue);">50+</div>
+                            <div style="font-size: 0.9em; color: var(--text-secondary);">Years of Ministry</div>
+                        </div>
+                        <div class="stat-item" style="background-color: white; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 2em; font-weight: bold; color: var(--primary-blue);">Global</div>
+                            <div style="font-size: 0.9em; color: var(--text-secondary);">International Reach</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- UMJC Vision Statement -->
+                <div class="umjc-vision" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--gold-dark); text-align: left;"><i class="fas fa-eye"></i> UMJC Vision Statement</h4>
+                    <div style="background-color: var(--gray-100); padding: 20px; border-radius: 8px; border-left: 4px solid var(--gold-dark); text-align: left;">
+                        <p style="font-size: 1.1em; font-style: italic; margin: 0; text-align: left;">"The UMJC spearheads a movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
+                    </div>
+                </div>
+                
+                <!-- What This Means for Us -->
+                <div class="affiliation-benefits" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-star"></i> What This Affiliation Means for Ohr HaTorah</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-shield-alt"></i> Accountability & Standards</h5>
+                            <ul style="text-align: left; margin: 5px 0 15px 20px;">
+                                <li style="text-align: left;">Theological oversight and guidance</li>
+                                <li style="text-align: left;">Adherence to biblical and Jewish standards</li>
+                                <li style="text-align: left;">Rabbinic training and certification</li>
+                                <li style="text-align: left;">Community support and accountability</li>
+                            </ul>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--gold); text-align: left;"><i class="fas fa-network-wired"></i> Community & Resources</h5>
+                            <ul style="text-align: left; margin: 5px 0 15px 20px;">
+                                <li style="text-align: left;">Access to UMJC conferences and events</li>
+                                <li style="text-align: left;">Educational resources and curricula</li>
+                                <li style="text-align: left;">Connection with sister congregations</li>
+                                <li style="text-align: left;">Shared wisdom and best practices</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Core Commitments -->
+                <div class="umjc-commitments" style="text-align: left; margin-bottom: 25px;">
+                    <h4 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-hand-holding-heart"></i> Our Shared Commitments</h4>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                        <div class="commitment-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; display: flex; align-items: center; text-align: left;">
+                            <i class="fas fa-scroll" style="font-size: 24px; color: var(--primary-blue); margin-right: 15px;"></i>
+                            <div style="text-align: left;">
+                                <h5 style="margin: 0 0 5px 0; color: var(--primary-blue); text-align: left;">Torah Observance</h5>
+                                <p style="margin: 0; font-size: 0.9em; text-align: left;">Embracing the covenantal responsibility of Jewish life rooted in Torah principles</p>
+                            </div>
+                        </div>
+                        <div class="commitment-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; display: flex; align-items: center; text-align: left;">
+                            <i class="fas fa-star-of-david" style="font-size: 24px; color: var(--primary-blue); margin-right: 15px;"></i>
+                            <div style="text-align: left;">
+                                <h5 style="margin: 0 0 5px 0; color: var(--primary-blue); text-align: left;">Jewish Identity</h5>
+                                <p style="margin: 0; font-size: 0.9em; text-align: left;">Maintaining and celebrating Jewish tradition and cultural heritage</p>
+                            </div>
+                        </div>
+                        <div class="commitment-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; display: flex; align-items: center; text-align: left;">
+                            <i class="fas fa-cross" style="font-size: 24px; color: var(--primary-blue); margin-right: 15px;"></i>
+                            <div style="text-align: left;">
+                                <h5 style="margin: 0 0 5px 0; color: var(--primary-blue); text-align: left;">Yeshua as Messiah</h5>
+                                <p style="margin: 0; font-size: 0.9em; text-align: left;">Commitment to Yeshua as the promised Messiah of Israel and all nations</p>
+                            </div>
+                        </div>
+                        <div class="commitment-item" style="background-color: var(--gray-100); padding: 15px; border-radius: 6px; display: flex; align-items: center; text-align: left;">
+                            <i class="fas fa-book-open" style="font-size: 24px; color: var(--primary-blue); margin-right: 15px;"></i>
+                            <div style="text-align: left;">
+                                <h5 style="margin: 0 0 5px 0; color: var(--primary-blue); text-align: left;">New Covenant Context</h5>
+                                <p style="margin: 0; font-size: 0.9em; text-align: left;">Understanding and applying Jewish tradition within the New Covenant framework</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Benefits for Our Community -->
+                <div class="community-benefits" style="background-color: var(--gold-light); padding: 20px; border-radius: 8px; text-align: left; border-left: 4px solid var(--gold-dark);">
+                    <h4 style="color: var(--gold-dark); text-align: left;"><i class="fas fa-gifts"></i> Benefits for Our Community</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-certificate"></i> Quality Assurance</h5>
+                            <p style="font-size: 0.9em; margin: 0; text-align: left;">You can trust that our teaching and practices align with established Messianic Jewish standards.</p>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-graduation-cap"></i> Continued Learning</h5>
+                            <p style="font-size: 0.9em; margin: 0; text-align: left;">Access to UMJC educational programs, conferences, and learning opportunities.</p>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-globe"></i> Global Connection</h5>
+                            <p style="font-size: 0.9em; margin: 0; text-align: left;">Part of a worldwide movement of Messianic Jewish congregations and believers.</p>
+                        </div>
+                        <div style="text-align: left;">
+                            <h5 style="color: var(--primary-blue); text-align: left;"><i class="fas fa-hands-helping"></i> Mutual Support</h5>
+                            <p style="font-size: 0.9em; margin: 0; text-align: left;">Sharing resources, wisdom, and support with sister congregations globally.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Learn More -->
+                <div class="learn-more" style="text-align: center; margin-top: 25px; padding: 20px; background-color: var(--primary-blue); color: white; border-radius: 8px;">
+                    <h4 style="color: white; margin: 0 0 15px 0;"><i class="fas fa-external-link-alt"></i> Learn More About UMJC</h4>
+                    <p style="margin: 0 0 20px 0; font-size: 1.1em; color: white;">Discover the rich history and vision of the Union of Messianic Jewish Congregations</p>
+                    <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer" 
+                       class="btn" style="background-color: var(--gold); color: var(--primary-blue); text-decoration: none; padding: 12px 24px; border-radius: 6px; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 250px; justify-content: center;">
+                        <i class="fas fa-globe"></i> Visit UMJC Website
+                    </a>
                 </div>
             </div>
             

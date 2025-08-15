@@ -9,7 +9,17 @@
     --gold: #FFD700;
     --gold-hover: #e6c300;
     --gold-light: #FFFACD;
+    --gold-dark: #B8860B;
     --white: #ffffff;
+    
+    /* Text Colors */
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-light: #adb5bd;
+    
+    /* Accent Colors */
+    --accent-green: #28a745;
+    --accent-green-light: #d4edda;
     
     /* Gray Shades */
     --gray-100: #f8f9fa;
@@ -4639,4 +4649,191 @@ body.edit-mode [data-editable]:hover .edit-icon {
     .support-note h4 {
         font-size: var(--font-size-sm);
     }
+}
+
+/* New Welcome Modal Styles - Higher z-index and desktop optimized */
+.who-are-we-modal,
+.what-to-expect-modal,
+.mission-vision-modal,
+.our-location-modal,
+.umjc-affiliation-modal {
+    z-index: 15000 !important; /* Higher than the under construction modal */
+}
+
+.who-are-we-modal .modal-content,
+.what-to-expect-modal .modal-content,
+.mission-vision-modal .modal-content,
+.our-location-modal .modal-content,
+.umjc-affiliation-modal .modal-content {
+    max-width: 900px !important; /* Larger for desktop screens */
+    width: 90vw !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    padding: 25px !important;
+}
+
+/* Ensure proper scrolling for tall content */
+.who-are-we-modal .modal-content,
+.what-to-expect-modal .modal-content,
+.mission-vision-modal .modal-content,
+.our-location-modal .modal-content,
+.umjc-affiliation-modal .modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-blue) var(--gray-100);
+}
+
+.who-are-we-modal .modal-content::-webkit-scrollbar,
+.what-to-expect-modal .modal-content::-webkit-scrollbar,
+.mission-vision-modal .modal-content::-webkit-scrollbar,
+.our-location-modal .modal-content::-webkit-scrollbar,
+.umjc-affiliation-modal .modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.who-are-we-modal .modal-content::-webkit-scrollbar-track,
+.what-to-expect-modal .modal-content::-webkit-scrollbar-track,
+.mission-vision-modal .modal-content::-webkit-scrollbar-track,
+.our-location-modal .modal-content::-webkit-scrollbar-track,
+.umjc-affiliation-modal .modal-content::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 4px;
+}
+
+.who-are-we-modal .modal-content::-webkit-scrollbar-thumb,
+.what-to-expect-modal .modal-content::-webkit-scrollbar-thumb,
+.mission-vision-modal .modal-content::-webkit-scrollbar-thumb,
+.our-location-modal .modal-content::-webkit-scrollbar-thumb,
+.umjc-affiliation-modal .modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border-radius: 4px;
+}
+
+.who-are-we-modal .modal-content::-webkit-scrollbar-thumb:hover,
+.what-to-expect-modal .modal-content::-webkit-scrollbar-thumb:hover,
+.mission-vision-modal .modal-content::-webkit-scrollbar-thumb:hover,
+.our-location-modal .modal-content::-webkit-scrollbar-thumb:hover,
+.umjc-affiliation-modal .modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-blue-dark);
+}
+
+/* Mobile adjustments for new modals */
+@media (max-width: 768px) {
+    .who-are-we-modal .modal-content,
+    .what-to-expect-modal .modal-content,
+    .mission-vision-modal .modal-content,
+    .our-location-modal .modal-content,
+    .umjc-affiliation-modal .modal-content {
+        width: 95vw !important;
+        max-width: none !important;
+        padding: 20px !important;
+        max-height: 90vh !important;
+    }
+}
+
+/* Tablet adjustments for new modals */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .who-are-we-modal .modal-content,
+    .what-to-expect-modal .modal-content,
+    .mission-vision-modal .modal-content,
+    .our-location-modal .modal-content,
+    .umjc-affiliation-modal .modal-content {
+        max-width: 800px !important;
+        width: 85vw !important;
+    }
+}
+
+/* Desktop adjustments for new modals */
+@media (min-width: 1025px) {
+    .who-are-we-modal .modal-content,
+    .what-to-expect-modal .modal-content,
+    .mission-vision-modal .modal-content,
+    .our-location-modal .modal-content,
+    .umjc-affiliation-modal .modal-content {
+        max-width: 900px !important;
+        width: 80vw !important;
+    }
+}
+
+/* Additional responsive fixes for modal grids */
+@media (max-width: 480px) {
+    /* Make single column on very small screens */
+    .who-are-we-modal [style*="grid-template-columns"],
+    .what-to-expect-modal [style*="grid-template-columns"],
+    .mission-vision-modal [style*="grid-template-columns"],
+    .our-location-modal [style*="grid-template-columns"],
+    .umjc-affiliation-modal [style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Reduce padding on small screens */
+    .who-are-we-modal .modal-content,
+    .what-to-expect-modal .modal-content,
+    .mission-vision-modal .modal-content,
+    .our-location-modal .modal-content,
+    .umjc-affiliation-modal .modal-content {
+        padding: 15px !important;
+    }
+}
+
+/* Medium mobile adjustments */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Adjust minimum widths for better mobile display */
+    .who-are-we-modal [style*="minmax(200px"],
+    .what-to-expect-modal [style*="minmax(220px"],
+    .mission-vision-modal [style*="minmax(180px"] {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+    }
+}
+
+/* Enhanced accessibility and color contrast for new modals */
+.who-are-we-modal h4,
+.what-to-expect-modal h4,
+.mission-vision-modal h4,
+.our-location-modal h4,
+.umjc-affiliation-modal h4 {
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.who-are-we-modal h5,
+.what-to-expect-modal h5,
+.mission-vision-modal h5,
+.our-location-modal h5,
+.umjc-affiliation-modal h5 {
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Ensure proper text contrast in all modal sections */
+.who-are-we-modal [style*="color: var(--text-secondary)"],
+.what-to-expect-modal [style*="color: var(--text-secondary)"],
+.mission-vision-modal [style*="color: var(--text-secondary)"],
+.our-location-modal [style*="color: var(--text-secondary)"],
+.umjc-affiliation-modal [style*="color: var(--text-secondary)"] {
+    color: var(--text-secondary) !important;
+}
+
+/* FORCE horizontal layout for mission and vision cards */
+.mission-highlights,
+.vision-goals {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    width: 100% !important;
+}
+
+.mission-highlights .highlight-item,
+.vision-goals .goal-item {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 150px !important;
+    max-width: 150px !important;
+    min-width: 150px !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    flex-basis: 150px !important;
+    box-sizing: border-box !important;
 }
