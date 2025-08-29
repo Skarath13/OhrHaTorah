@@ -732,4 +732,29 @@ button:focus {
 .bento-grid {
     gap: 2rem;
     padding: 2rem;
+}
+
+/* Service Times List - Minimal Line Spacing */
+.service-schedule-modal .service-times-list,
+ul.service-times-list {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.service-schedule-modal .service-times-list li,
+ul.service-times-list li {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0.9 !important;
+    margin-bottom: 10px !important;
+    display: block !important;
+}
+
+.service-schedule-modal .service-times-list li strong,
+ul.service-times-list li strong {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0.9 !important;
+    display: inline !important;
 } 
