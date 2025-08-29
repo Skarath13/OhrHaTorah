@@ -270,6 +270,67 @@ ul {
     list-style-type: none;
 }
 
+/* Service Times List - Minimal Line Spacing */
+div[data-editable="service-times"] ul,
+.service-schedule-modal .service-times-list,
+ul.service-times-list {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+div[data-editable="service-times"] ul li,
+.service-schedule-modal .service-times-list li,
+ul.service-times-list li {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.15 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+}
+
+div[data-editable="service-times"] ul li strong,
+.service-schedule-modal .service-times-list li strong,
+ul.service-times-list li strong {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0.9 !important;
+    display: inline !important;
+}
+
+/* Prevent email and phone wrapping */
+#contact-us-section a[href^="mailto:"],
+#contact-us-section a[href^="tel:"],
+a[href^="mailto:OhrHaTorahOC@gmail.com"],
+a[href^="tel:+17144061513"] {
+    white-space: nowrap !important;
+    display: inline-block !important;
+}
+
+/* Make dropdown headers non-clickable */
+.dropdown > a {
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+/* Ensure dropdown still shows on hover */
+.dropdown:hover .dropdown-content {
+    display: block !important;
+}
+
+/* Hanging indent for wrapped text - align to content after colon */
+/* For service times list hanging indent */
+div[data-editable="service-times"] ul li {
+    text-indent: -5em !important;
+    padding-left: 5em !important;
+}
+
+/* For donation "Mail to:" hanging indent */
+.mail-to-address {
+    text-indent: -4.2em !important;
+    padding-left: 4.2em !important;
+}
+
 button, .btn {
     cursor: pointer;
     font-family: inherit;
