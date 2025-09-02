@@ -2073,10 +2073,10 @@ body.edit-mode [data-editable]:hover .edit-icon {
     width: 100%;
 }
 
-.sidebar-widget:hover {
+/* .sidebar-widget:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
-}
+} */
 
 .widget-header {
     background-color: var(--primary-blue);
@@ -2189,10 +2189,10 @@ body.edit-mode [data-editable]:hover .edit-icon {
     transition: var(--transition-standard);
 }
 
-.infobox:hover {
+/* .infobox:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
-}
+} */
 
 .infobox i {
     margin-right: var(--space-sm);
@@ -2220,10 +2220,10 @@ body.edit-mode [data-editable]:hover .edit-icon {
     box-shadow: var(--shadow-sm);
 }
 
-.info-box:hover {
+/* .info-box:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
-}
+} */
 
 .info-box h4 {
     margin: 0 0 var(--space-sm) 0;
@@ -2292,10 +2292,10 @@ body.edit-mode [data-editable]:hover .edit-icon {
     width: 100%;
 }
 
-.feature-card:hover {
+/* .feature-card:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-3px);
-}
+} */
 
 .card-header {
     background-color: var(--primary-blue);
@@ -2869,9 +2869,9 @@ body.edit-mode [data-editable]:hover .edit-icon {
     align-items: center;
 }
 
-.community-item:hover {
+/* .community-item:hover {
     transform: translateY(-2px);
-}
+} */
 
 .community-item {
     text-align: center;
@@ -2895,9 +2895,9 @@ body.edit-mode [data-editable]:hover .edit-icon {
     transition: all 0.3s ease;
 }
 
-.community-image:hover {
+/* .community-image:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
+} */
 
 .community-caption {
     margin-top: var(--space-sm);
