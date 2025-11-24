@@ -6,6 +6,7 @@ import Footer from '../components/layout/Footer.astro';
 import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
 import AdminModal from '../components/AdminModal.astro';
+import { rabbi } from '../data/rabbi';
 ---
 
 <BaseLayout>
@@ -21,9 +22,8 @@ import AdminModal from '../components/AdminModal.astro';
                 <div class="widget-content">
                     <ul class="sidebar-list">
                         <li><a href="/services"><i class="fas fa-chevron-right"></i> Worship Times</a></li>
-                        <li><a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slater%20Ave,%20Fountain%20Valley,%20CA%2092708" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
+                        <li><a href="https://www.google.com/maps/place/Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue/@33.7175,-117.9366,17z/" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
                         <li><a href="/faq"><i class="fas fa-chevron-right"></i> Frequently Asked Questions</a></li>
-                        <li><a href="/rabbi"><i class="fas fa-chevron-right"></i> Our Rabbi</a></li>
                     </ul>
                 </div>
             </div>
@@ -229,7 +229,7 @@ import AdminModal from '../components/AdminModal.astro';
                 <div class="info-box">
                     <h4><i class="fas fa-map"></i> Google Maps</h4>
                     <div class="map-container">
-                        <iframe src="https://maps.google.com/maps?q=10460%20Slater%20Ave,%20Fountain%20Valley,%20CA%2092708&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        <iframe src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 width="100%"
                                 height="100%"
                                 style="border:0;"
@@ -239,7 +239,7 @@ import AdminModal from '../components/AdminModal.astro';
                         </iframe>
                     </div>
                     <div class="map-directions-container" style="width: 100%; overflow: hidden;">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slater%20Ave,%20Fountain%20Valley,%20CA%2092708"
+                        <a href="https://www.google.com/maps/place/Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue/@33.7175,-117.9366,17z/"
                            target="_blank"
                            rel="noopener noreferrer"
                            class="btn btn-blue"
@@ -283,11 +283,11 @@ import AdminModal from '../components/AdminModal.astro';
                 </div>
                 <div class="card-body text-center">
                     <div class="leader-img">
-                        <img src="/images/rabbi.jpg" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                        <img src={rabbi.image} alt={rabbi.name} style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
                     </div>
-                    <div class="leader-name" data-editable="rabbi-name">Rabbi Charles Ott</div>
-                    <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
-                    <p class="leader-bio" data-editable="rabbi-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
+                    <div class="leader-name" data-editable="rabbi-name">{rabbi.name}</div>
+                    <div class="leader-title" data-editable="rabbi-title">{rabbi.title}</div>
+                    <p class="leader-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
                 </div>
             </div>
 
