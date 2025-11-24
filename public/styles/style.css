@@ -279,6 +279,22 @@ ul {
     list-style-type: none;
 }
 
+/* Page content lists - restore bullets */
+.page-content ul:not(.footer-links):not(.footer-contact):not(.sidebar-list):not(.nav-links):not(.service-times-list),
+.community-section ul,
+.worship-section ul {
+    list-style-type: disc;
+    padding-left: var(--space-xl);
+    margin: var(--space-md) 0;
+}
+
+.page-content ul:not(.footer-links):not(.footer-contact):not(.sidebar-list):not(.nav-links):not(.service-times-list) li,
+.community-section ul li,
+.worship-section ul li {
+    margin-bottom: var(--space-xs);
+    color: var(--gray-700);
+}
+
 /* Service Times List - Minimal Line Spacing */
 div[data-editable="service-times"] ul,
 .service-schedule-modal .service-times-list,
@@ -305,6 +321,27 @@ ul.service-times-list li strong {
     padding: 0 !important;
     line-height: 0.9 !important;
     display: inline !important;
+}
+
+/* Time highlights for service schedule */
+.time-highlight {
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.time-highlight.blue {
+    background: rgba(58, 110, 165, 0.15);
+    color: var(--primary-blue);
+}
+.time-highlight.gold {
+    background: rgba(200, 155, 60, 0.2);
+    color: var(--gold-dark);
+}
+.time-highlight.green {
+    background: rgba(40, 167, 69, 0.15);
+    color: #1e7e34;
 }
 
 /* Prevent email and phone wrapping */
@@ -549,6 +586,39 @@ h1 {
 .value-content p {
     margin: 0;
     font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.4;
+}
+
+/* Compact Values List (sidebar) */
+.values-list-compact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.value-item-compact {
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
+    border-left: 3px solid var(--primary-blue);
+    text-align: left;
+}
+
+.value-item-compact h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.9rem;
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.value-item-compact h4 i {
+    font-size: 0.8rem;
+    color: var(--primary-blue);
+    margin-left: 6px;
+}
+
+.value-item-compact p {
+    margin: 0;
+    font-size: 0.8rem;
     color: var(--gray-600);
     line-height: 1.4;
 }
@@ -2655,9 +2725,10 @@ body.edit-mode [data-editable]:hover .edit-icon {
 .footer-contact li {
     margin-bottom: var(--space-sm);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     color: var(--gray-300);
     font-size: var(--font-size-sm);
+    line-height: 1.5;
 }
 
 .footer-contact li i {
@@ -2666,6 +2737,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
     min-width: 20px;
     flex-shrink: 0;
     text-align: left;
+    margin-top: 2px;
 }
 
 .footer-contact li a {
