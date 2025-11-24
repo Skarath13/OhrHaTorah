@@ -179,7 +179,14 @@
 .reading-text {
     color: var(--gray-800);
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.6;
+}
+
+/* Scripture reference formatting - each reference on its own line */
+#brit-reading.multi-ref .scripture-ref {
+    display: block;
+    line-height: 1.5;
+    margin-bottom: 2px;
 }
 
 /* Special styling only for Torah/Haftarah/Brit readings */
@@ -2305,7 +2312,13 @@ body.edit-mode [data-editable]:hover .edit-icon {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    text-wrap: balance;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Parashah card header - use shorter month format */
+#parashah-header {
+    font-size: 0.95rem;
 }
 
 .card-header i {
@@ -2344,10 +2357,6 @@ body.edit-mode [data-editable]:hover .edit-icon {
     transition: var(--transition-standard);
 }
 
-.leader-card:hover .leader-img {
-    transform: scale(1.05);
-    border-color: var(--gold);
-}
 
 .leader-name {
     font-weight: 600;
@@ -2356,7 +2365,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
 }
 
 .leader-title {
-    color: var(--gold);
+    color: var(--primary-blue);
     font-style: italic;
     margin-bottom: var(--space-sm);
     font-weight: 500;

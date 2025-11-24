@@ -84,62 +84,75 @@
 </div>
 
 <script>
-    // Brit Chadashah lookup table
+    // Brit Chadashah lookup table (119 Ministries 2025-2026 Schedule)
     const britReadings: Record<string, string> = {
-        'Bereshit': 'Matthew 1:1-17; John 1:1-18',
-        'Noach': 'Matthew 24:36-44; 1 Peter 3:18-22',
-        'Lech-Lecha': 'Romans 4:1-25; Hebrews 11:8-12',
-        'Vayera': 'James 2:14-26; Hebrews 11:17-19',
-        'Chayei Sara': '1 Corinthians 15:50-57',
-        'Toldot': 'Romans 9:6-13; Hebrews 11:20',
-        'Vayetzei': 'John 1:43-51',
-        'Vayishlach': 'Hebrews 11:11-20',
-        'Vayeshev': 'Acts 7:9-16',
-        'Miketz': 'Acts 7:9-16',
-        'Vayigash': 'Acts 7:13-15',
-        'Vayechi': 'Hebrews 11:21',
-        'Shemot': 'Acts 7:17-35',
-        'Vaera': 'Romans 9:14-17',
-        'Bo': 'John 19:31-37; 1 Corinthians 5:6-8',
-        'Beshalach': '1 Corinthians 10:1-13',
-        'Yitro': 'Acts 6:1-7; 1 Timothy 3:1-13',
-        'Mishpatim': 'Matthew 5:38-42; Colossians 3:1-25',
-        'Terumah': 'Hebrews 8:1-6',
-        'Tetzaveh': 'Philippians 4:10-20',
-        'Ki Tisa': '2 Corinthians 3:1-18',
-        'Vayakhel': 'Hebrews 9:1-14',
-        'Pekudei': 'Hebrews 9:1-14',
-        'Vayikra': 'Hebrews 9:11-28',
-        'Tzav': 'Mark 12:28-34',
-        'Shemini': '2 Corinthians 6:14-7:1',
-        'Tazria': 'Matthew 8:1-4',
-        'Metzora': 'Luke 17:11-19',
-        'Acharei Mot': 'Romans 3:19-28; Hebrews 7:23-10:18',
-        'Kedoshim': '1 Peter 1:13-16',
-        'Emor': '1 Peter 2:4-10',
-        'Behar': 'Luke 4:16-21',
-        'Bechukotai': 'John 14:15-21',
-        'Bamidbar': '1 Corinthians 12:12-31',
-        'Naso': 'Acts 21:17-32',
-        "Beha'alotcha": 'John 6:1-14',
-        'Shelach': 'Hebrews 3:7-19',
-        'Korach': '2 Timothy 2:8-21',
-        'Chukat': 'John 3:9-21',
-        'Balak': '2 Peter 2:1-22',
-        'Pinchas': 'Matthew 26:1-30',
-        'Matot': 'Matthew 5:33-37',
-        'Masei': 'James 4:1-12',
-        'Devarim': 'John 15:1-11',
-        'Vaetchanan': 'Mark 12:28-34',
-        'Eikev': 'Luke 4:1-13',
-        "Re'eh": '1 Corinthians 5:9-13',
-        'Shoftim': 'Matthew 5:38-42',
-        'Ki Teitzei': '1 Corinthians 5:1-5',
-        'Ki Tavo': 'Romans 11:1-15',
-        'Nitzavim': 'Romans 10:11-13',
-        'Vayeilech': 'Hebrews 13:5-8',
-        "Ha'azinu": 'Romans 10:17-21',
-        "V'Zot HaBerachah": 'Matthew 17:1-9'
+        // Genesis / B'reisheet
+        'Bereshit': 'Luke 3:23-38; John 1:1-18; Romans 5:12-21; 1 Timothy 2:1-15; Hebrews 11:1-7',
+        'Noach': 'Luke 1:1-80; 1 Peter 3:8-22; 2 Peter 2:4-10',
+        'Lech-Lecha': 'Matthew 1:1-17; Acts 7:1-8; Romans 3:19-5:6; Galatians 3:15-26, 5:1-6; Colossians 2:11-15; Hebrews 7:1-19, 11:1-12',
+        'Vayera': 'Luke 2:1-38; Romans 9:6-9; Galatians 4:21-31; Hebrews 6:13-20, 11:13-19; James 2:14-24',
+        'Chayei Sara': 'Matthew 2:1-23, 27:3-10; Luke 9:57-62; 1 Corinthians 15:50-57',
+        'Toldot': 'Luke 3:1-22; Romans 9:10-16; Hebrews 12:14-17',
+        'Vayetzei': 'Matthew 3:13-4:11; 2 Corinthians 4:1-6',
+        'Vayishlach': 'John 1:19-2:12; Acts 3:18-26; 1 Corinthians 5:1-13; Titus 2:1-15; 1 John 3:4-10; Revelation 7:1-12',
+        'Vayeshev': 'John 2:13-4:42, 7:37-39; Acts 7:9-10; Revelation 21:1-22:21',
+        'Miketz': 'Luke 4:16-30; Acts 7:11-12; 1 Corinthians 2:1-5',
+        'Vayigash': 'Luke 6:9-16; John 5:1-47; Acts 7:13-15; 2 Thessalonians 2:1-12',
+        'Vayechi': 'Luke 4:31-5:11; Acts 7:15-16; Hebrews 11:21-22; 1 Peter 1:3-9, 2:11-17',
+        // Exodus / Shemot
+        'Shemot': 'Matthew 22:41-46; Luke 5:12-39, 20:27-44; Acts 3:12-15, 5:27-32, 7:17-36, 22:12-16, 24:14-16; Hebrews 11:23-26',
+        'Vaera': 'Matthew 12:1-14; Romans 9:14-24; 2 Corinthians 6:14-7:1',
+        'Bo': 'Mark 3:7-19; Luke 2:22-24; John 19:31-37; 1 Corinthians 11:20-34; Revelation 8:6-9:12, 16:1-21',
+        'Beshalach': 'Matthew 5:1-48; John 6:22-40; 1 Corinthians 10:1-13; 2 Corinthians 8:1-15; Revelation 15:1-4',
+        'Yitro': 'Matthew 6:1-8:1, 15:1-11, 19:16-30; Acts 6:1-7; Romans 2:17-29, 7:7-12, 13:8-10; Ephesians 6:1-3; 1 Timothy 3:1-13; Titus 1:5-9; Hebrews 12:18-29; James 2:8-13; 1 Peter 2:9-10',
+        'Mishpatim': 'Matthew 15:12-20; Mark 7:14-23; Acts 23:1-11; Hebrews 9:15-22, 10:28-39',
+        'Terumah': 'Matthew 12:46-13:58; Hebrews 8:1-6, 9:23-24, 10:1',
+        'Tetzaveh': 'Mark 4:35-5:43; Philippians 4:10-20',
+        'Ki Tisa': 'Matthew 9:35-11:1; Luke 11:14-20; Acts 7:35-8:1; 1 Corinthians 10:1-13; 2 Corinthians 3:1-18',
+        'Vayakhel': 'Mark 6:14-29; 2 Corinthians 9:1-15; Hebrews 9:1-14; Revelation 11:1-13',
+        'Pekudei': 'John 6:1-71; Revelation 15:5-8',
+        'Vayakhel-Pekudei': 'Mark 6:14-29; John 6:1-71; 2 Corinthians 9:1-15; Hebrews 9:1-14; Revelation 11:1-13, 15:5-8',
+        // Leviticus / Vayikra
+        'Vayikra': 'Mark 7:1-30; Romans 8:1-13; Hebrews 10:1-18, 13:10-16',
+        'Tzav': 'Mark 7:31-8:37, 12:28-34; Romans 12:1-2; 1 Corinthians 10:14-23',
+        'Shemini': 'Mark 9:1-13; Acts 5:1-11, 10:1-35; 2 Corinthians 6:14-7:1; Galatians 2:11-16; 1 Peter 1:13-16',
+        'Tazria': 'Mark 1:40-45, 5:24-34, 9:14-50; Luke 2:22-24, 7:18-23, 9:51-10:42; Romans 6:9-23; Hebrews 13:1-5',
+        'Metzora': 'Mark 1:40-45, 5:24-34, 9:14-50; Luke 2:22-24, 7:18-23, 9:51-10:42; Romans 6:9-23; Hebrews 13:1-5',
+        'Tazria-Metzora': 'Mark 1:40-45, 5:24-34, 9:14-50; Luke 2:22-24, 7:18-23, 9:51-10:42; Romans 6:9-23; Hebrews 13:1-5',
+        'Acharei Mot': 'Matthew 19:16-30; Mark 12:28-34; Luke 10:25-37; John 7:1-52; Romans 3:19-28, 9:30-10:13, 13:1-14; 1 Corinthians 5:1-13; 2 Corinthians 2:1-11; Galatians 3:10-14, 5:13-26; Hebrews 9:11-28; James 2:1-9; 1 Peter 1:13-16',
+        'Kedoshim': 'Matthew 19:16-30; Mark 12:28-34; Luke 10:25-37; John 7:1-52; Romans 3:19-28, 9:30-10:13, 13:1-14; 1 Corinthians 5:1-13; 2 Corinthians 2:1-11; Galatians 3:10-14, 5:13-26; Hebrews 9:11-28; James 2:1-9; 1 Peter 1:13-16',
+        'Acharei Mot-Kedoshim': 'Matthew 19:16-30; Mark 12:28-34; Luke 10:25-37; John 7:1-52; Romans 3:19-28, 9:30-10:13, 13:1-14; 1 Corinthians 5:1-13; 2 Corinthians 2:1-11; Galatians 3:10-14, 5:13-26; Hebrews 9:11-28; James 2:1-9; 1 Peter 1:13-16',
+        'Emor': 'Luke 11:1-12:59; Galatians 3:26-29; 1 Peter 2:4-10',
+        'Behar': 'Luke 4:16-21, 13:1-15:32; John 14:15-21, 15:10-12; 1 Corinthians 7:21-24; 2 Corinthians 6:14-18; Galatians 6:7-10; 1 John 1:1-10',
+        'Bechukotai': 'Luke 4:16-21, 13:1-15:32; John 14:15-21, 15:10-12; 1 Corinthians 7:21-24; 2 Corinthians 6:14-18; Galatians 6:7-10; 1 John 1:1-10',
+        'Behar-Bechukotai': 'Luke 4:16-21, 13:1-15:32; John 14:15-21, 15:10-12; 1 Corinthians 7:21-24; 2 Corinthians 6:14-18; Galatians 6:7-10; 1 John 1:1-10',
+        // Numbers / Bamidbar
+        'Bamidbar': 'Luke 16:1-17:10; 1 Corinthians 12:12-31',
+        'Naso': 'John 7:53-8:11, 11:1-54; Acts 21:17-32',
+        "Beha'alotcha": 'Luke 17:11-18:14; John 19:31-37; Acts 2:1-47',
+        'Shelach': 'Mark 10:1-45; Hebrews 3:7-19',
+        'Korach': 'Luke 18:35-19:28; Romans 13:1-7; 2 Timothy 2:8-21; Jude 1:1-25',
+        'Chukat': 'Matthew 21:1-17; John 3:9-21, 4:3-30, 12:27-50',
+        'Balak': 'Mark 11:12-25; 1 Corinthians 1:20-31; 2 Peter 2:1-22; Revelation 2:12-17',
+        'Chukat-Balak': 'Matthew 21:1-17; Mark 11:12-25; John 3:9-21, 4:3-30, 12:27-50; 1 Corinthians 1:20-31; 2 Peter 2:1-22; Revelation 2:12-17',
+        'Pinchas': 'Mark 11:27-12:37; Hebrews 12:1-17',
+        'Matot': 'Matthew 23:1-25:46; Philippians 3:12-16; James 4:1-12',
+        'Masei': 'Matthew 23:1-25:46; Philippians 3:12-16; James 4:1-12',
+        'Matot-Masei': 'Matthew 23:1-25:46; Philippians 3:12-16; James 4:1-12',
+        // Deuteronomy / Devarim
+        'Devarim': 'Mark 14:1-16; John 15:1-11; Hebrews 3:7-4:11; 1 Timothy 3:1-7',
+        'Vaetchanan': 'Luke 4:1-13, 10:25-37, 22:13-38; Acts 13:13-43; Romans 3:21-31; 1 Timothy 2:1-15; James 2:14-26',
+        'Eikev': 'John 13:31-15:27; James 5:7-11; Romans 8:31-39',
+        "Re'eh": 'John 16:1-17:26; 1 Corinthians 5:9-13; 1 John 4:1-6',
+        'Shoftim': 'Matthew 18:15-20, 26:36-27:10; John 1:19-27; Acts 3:13-26, 7:35-53; 1 Timothy 5:17-22; Hebrews 10:28-31',
+        'Ki Teitzei': 'Matthew 5:31-32, 19:3-12, 22:23-32; Luke 23:1-25; 1 Corinthians 5:1-5, 9:4-18; Galatians 3:9-14',
+        'Ki Tavo': 'Matthew 13:1-23; Luke 21:1-4, 23:26-56; Acts 7:30-53, 28:17-31; Romans 11:1-24',
+        'Nitzavim': 'Luke 24:1-12; Romans 7:7-12',
+        'Vayeilech': 'Luke 24:13-43; Romans 9:30-10:13; 1 Thessalonians 4:13-18; Hebrews 12:1-17',
+        'Nitzavim-Vayeilech': 'Luke 24:1-43; Romans 7:7-12, 9:30-10:13; 1 Thessalonians 4:13-18; Hebrews 12:1-17',
+        "Ha'azinu": 'John 21:1-25; Romans 10:14-11:12, 12:14-21',
+        "V'Zot HaBerachah": 'Matthew 17:1-9; Luke 9:28-36, 24:44-53; 1 Thessalonians 5:1-11; Jude 1:3-10',
+        'Vezot Haberachah': 'Matthew 17:1-9; Luke 9:28-36, 24:44-53; 1 Thessalonians 5:1-11; Jude 1:3-10'
     };
 
     interface ParashahData {
@@ -233,6 +246,21 @@
         }
     };
 
+    // Auto-fit text to prevent overflow
+    const autoFitText = (element: HTMLElement, minFontSize = 12) => {
+        const parent = element.parentElement;
+        if (!parent) return;
+
+        let fontSize = parseFloat(getComputedStyle(element).fontSize);
+        element.style.fontSize = '';
+
+        // Check if text overflows
+        while (element.scrollWidth > parent.clientWidth && fontSize > minFontSize) {
+            fontSize -= 0.5;
+            element.style.fontSize = `${fontSize}px`;
+        }
+    };
+
     const updateParashahUI = (annualData: ParashahData, triennialData: ParashahData | null) => {
         document.getElementById('parashah-name')!.textContent = annualData.name;
         document.getElementById('torah-reading')!.textContent = annualData.torah;
@@ -241,7 +269,9 @@
         const headerEl = document.getElementById('parashah-header');
         if (headerEl && annualData.date) {
             const date = new Date(annualData.date);
-            headerEl.textContent = `Weekly Parashah - ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`;
+            headerEl.textContent = `Weekly Parashah - ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+            // Auto-fit header text after render
+            requestAnimationFrame(() => autoFitText(headerEl, 13));
         }
 
         // Update infobox
@@ -263,7 +293,13 @@
             }
         }
         const britOverride = localStorage.getItem('oht_brit_override');
-        document.getElementById('brit-reading')!.textContent = britOverride || britReading || 'Pending';
+        const britEl = document.getElementById('brit-reading')!;
+        const finalBritReading = britOverride || britReading || 'Pending';
+
+        // Format Brit Chadashah - split by semicolon, each reference on its own line
+        const refs = finalBritReading.split(';').map((r: string) => r.trim()).filter((r: string) => r);
+        britEl.classList.toggle('multi-ref', refs.length > 1);
+        britEl.innerHTML = refs.map((ref: string) => `<span class="scripture-ref">${ref}</span>`).join('');
 
         // Triennial
         if (triennialData) {
