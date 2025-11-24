@@ -52,6 +52,12 @@ import PageLayout from '../layouts/PageLayout.astro';
                 referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         </div>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="directions-btn">
+            <i class="fas fa-directions"></i> Get Directions
+        </a>
     </div>
 
     <!-- Directions -->
@@ -155,6 +161,24 @@ import PageLayout from '../layouts/PageLayout.astro';
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .directions-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 15px;
+        padding: 12px 24px;
+        background: var(--primary-blue);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.3s ease;
+    }
+
+    .directions-btn:hover {
+        background: #004080;
     }
 
     .directions-section {
