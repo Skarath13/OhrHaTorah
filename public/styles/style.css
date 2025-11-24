@@ -1295,14 +1295,50 @@ p {
 }
 
 @keyframes gentle-glow {
-    0%, 100% { 
+    0%, 100% {
         opacity: 1;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
-    50% { 
+    50% {
         opacity: 0.85;
         text-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
     }
+}
+
+/* Hostage Memorial Styles */
+.hostage-memorial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 6px 0;
+}
+
+.memorial-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 8px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-hover));
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-width: 42px;
+}
+
+.memorial-number {
+    color: var(--white);
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.memorial-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
 }
 
 /* Admin Portal Styles */

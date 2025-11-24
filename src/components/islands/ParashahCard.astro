@@ -28,10 +28,7 @@
         <!-- Triennial Year Info -->
         <div id="triennial-year-info" class="triennial-note" style="display: none;">
             <i class="fas fa-info-circle"></i>
-            <div class="triennial-year-info">
-                <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">2</span></span>
-                <span class="triennial-year-text" id="triennial-year-text">Second year of three-year Torah reading cycle</span>
-            </div>
+            <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">1</span> of 3</span>
         </div>
 
         <!-- Annual Readings -->
@@ -162,7 +159,6 @@
         date?: string;
         source?: string;
         year?: number;
-        yearText?: string;
     }
 
     const tryHebcalAPI = async (): Promise<ParashahData> => {
@@ -227,16 +223,12 @@
                     };
 
                     const triennialYear = item.triennial?.yearNum || calculateTriennialYear();
-                    const yearText = triennialYear === 1 ? 'First year of three-year Torah reading cycle' :
-                                   triennialYear === 2 ? 'Second year of three-year Torah reading cycle' :
-                                   'Third year of three-year Torah reading cycle';
 
                     return {
                         name: item.title.replace('Parashat ', ''),
                         torah: triennialTorah,
                         haftarah: item.haftarah || item.leyning?.haftarah || 'Not available',
-                        year: triennialYear,
-                        yearText: yearText
+                        year: triennialYear
                     };
                 }
             }
@@ -306,7 +298,6 @@
             document.getElementById('triennial-torah-reading')!.textContent = triennialData.torah;
             document.getElementById('triennial-haftarah-reading')!.textContent = triennialData.haftarah;
             if (triennialData.year) document.getElementById('triennial-year')!.textContent = String(triennialData.year);
-            if (triennialData.yearText) document.getElementById('triennial-year-text')!.textContent = triennialData.yearText;
         } else {
             document.getElementById('triennial-torah-reading')!.textContent = 'Not available';
             document.getElementById('triennial-haftarah-reading')!.textContent = 'Not available';

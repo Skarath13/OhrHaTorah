@@ -1,67 +1,28 @@
 ---
-// Hostage Counter Island - updates every second
+// Hostage Memorial - Prayer for Israel
 ---
 <div class="hostage-info">
     <div class="hostage-counter">
         <div class="hostage-header">
-            <span class="hostage-text"><img src="/images/Flag_of_Israel.svg.png" alt="Israeli Flag" class="hostage-flag">HOSTAGES</span>
-            <span class="hostage-subtext">HELD BY HAMAS FOR</span>
+            <span class="hostage-text"><img src="/images/Flag_of_Israel.svg.png" alt="Israeli Flag" class="hostage-flag">PRAY FOR ISRAEL</span>
+            <span class="hostage-subtext">PRAY FOR HEALING & PEACE</span>
         </div>
-        <div class="hostage-timer">
-            <div class="timer-segment">
-                <span class="timer-number" id="hostage-days">000</span>
-                <span class="timer-label">DAYS</span>
+        <div class="hostage-memorial">
+            <div class="memorial-stat">
+                <span class="memorial-number">251</span>
+                <span class="memorial-label">TAKEN</span>
             </div>
-            <div class="timer-separator">:</div>
-            <div class="timer-segment">
-                <span class="timer-number" id="hostage-hours">00</span>
-                <span class="timer-label">HOURS</span>
+            <div class="memorial-stat">
+                <span class="memorial-number">20</span>
+                <span class="memorial-label">FREED</span>
             </div>
-            <div class="timer-separator">:</div>
-            <div class="timer-segment">
-                <span class="timer-number" id="hostage-minutes">00</span>
-                <span class="timer-label">MINUTES</span>
-            </div>
-            <div class="timer-separator">:</div>
-            <div class="timer-segment">
-                <span class="timer-number" id="hostage-seconds">00</span>
-                <span class="timer-label">SECONDS</span>
+            <div class="memorial-stat">
+                <span class="memorial-number">3</span>
+                <span class="memorial-label">REMAIN</span>
             </div>
         </div>
         <div class="hostage-footer">
-            <span class="bring-them-home">BRING THEM HOME NOW</span>
+            <span class="bring-them-home">AM YISRAEL CHAI</span>
         </div>
     </div>
 </div>
-
-<script>
-    const updateHostageCounter = () => {
-        // October 7, 2023 at 6:30 AM IST (when the attack began)
-        const attackDate = new Date('2023-10-07T06:30:00+03:00');
-        const now = new Date();
-
-        // Calculate time difference in milliseconds
-        const timeDiff = now.getTime() - attackDate.getTime();
-
-        // Calculate days, hours, minutes, and seconds
-        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-        // Update the display elements
-        const daysElement = document.getElementById('hostage-days');
-        const hoursElement = document.getElementById('hostage-hours');
-        const minutesElement = document.getElementById('hostage-minutes');
-        const secondsElement = document.getElementById('hostage-seconds');
-
-        if (daysElement) daysElement.textContent = days.toString().padStart(3, '0');
-        if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
-        if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
-        if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
-    };
-
-    // Update hostage counter immediately and then every second
-    updateHostageCounter();
-    setInterval(updateHostageCounter, 1000);
-</script>
