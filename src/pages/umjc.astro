@@ -1,0 +1,264 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="UMJC Affiliation - Ohr HaTorah" pageTitle="UMJC Affiliation" pageIcon="fas fa-handshake">
+
+    <p class="intro-text"><strong>Proudly affiliated with the Union of Messianic Jewish Congregations</strong></p>
+
+    <!-- About UMJC -->
+    <div class="about-section">
+        <h3><i class="fas fa-synagogue"></i> About the UMJC</h3>
+        <p>The Union of Messianic Jewish Congregations is a rapidly growing global network establishing and strengthening Jewish congregations that honor Yeshua, the Messiah of Israel. From North America to Latin America, Canada to Russian-speaking communities worldwide, the UMJC connects congregations across continents with mutual support, leadership development, and practical guidance.</p>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">80+</div>
+                <div class="stat-label">Congregations & Growing</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">45</div>
+                <div class="stat-label">Years of Ministry</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Definition -->
+    <div class="vision-section">
+        <h3><i class="fas fa-scroll"></i> What is Messianic Judaism?</h3>
+        <blockquote>
+            "Messianic Judaism is a movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."
+        </blockquote>
+    </div>
+
+    <!-- UMJC Values -->
+    <div class="values-section">
+        <h3><i class="fas fa-gem"></i> UMJC Values</h3>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-header">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Unity in Diversity</h4>
+                </div>
+                <p>Embracing the rich variety of expressions within Messianic Judaism while standing together in shared faith and purpose.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-header">
+                    <i class="fas fa-users"></i>
+                    <h4>Community Relationships</h4>
+                </div>
+                <p>Building strong bonds between congregations, fostering fellowship, and supporting one another across regions and borders.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-header">
+                    <i class="fas fa-seedling"></i>
+                    <h4>Communal Growth</h4>
+                </div>
+                <p>Nurturing the development of congregations and leaders through education, mentorship, and shared resources.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-header">
+                    <i class="fas fa-balance-scale"></i>
+                    <h4>Integrity</h4>
+                </div>
+                <p>Upholding biblical standards and accountability in leadership, teaching, and congregational life.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-header">
+                    <i class="fas fa-heart"></i>
+                    <h4>Dignity & Inclusion</h4>
+                </div>
+                <p>Welcoming all who seek to honor Yeshua within the framework of Jewish life and identity.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learn More CTA -->
+    <div class="cta-section">
+        <h3><i class="fas fa-external-link-alt"></i> Learn More</h3>
+        <p>Explore the history and vision of the Union of Messianic Jewish Congregations</p>
+        <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer" class="cta-button">
+            <i class="fas fa-globe"></i> Visit UMJC Website
+        </a>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        color: var(--text-primary);
+    }
+
+    /* About Section */
+    .about-section {
+        background: rgba(0, 102, 204, 0.08);
+        padding: 30px;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-blue);
+        margin-bottom: 30px;
+    }
+
+    .about-section h3 {
+        color: var(--primary-blue);
+        margin: 0 0 15px 0;
+    }
+
+    .about-section p {
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .stat-item {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-blue);
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+
+    /* Vision Section */
+    .vision-section {
+        margin-bottom: 30px;
+    }
+
+    .vision-section h3 {
+        color: var(--gold-dark);
+        margin: 0 0 15px 0;
+    }
+
+    .vision-section blockquote {
+        background: var(--gray-100);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--gold-dark);
+        margin: 0;
+        font-size: 1.05rem;
+        font-style: italic;
+        line-height: 1.7;
+        color: var(--text-primary);
+    }
+
+    /* Values Section */
+    .values-section {
+        margin-bottom: 30px;
+    }
+
+    .values-section h3 {
+        color: var(--primary-blue);
+        margin: 0 0 20px 0;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .value-card {
+        background: var(--gray-100);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .value-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .value-header i {
+        font-size: 1.3rem;
+        color: var(--primary-blue);
+    }
+
+    .value-header h4 {
+        margin: 0;
+        color: var(--primary-blue);
+        font-size: 1rem;
+    }
+
+    .value-card p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        color: white;
+        padding: 35px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .cta-section h3 {
+        color: white;
+        margin: 0 0 10px 0;
+    }
+
+    .cta-section p {
+        margin: 0 0 20px 0;
+        font-size: 1.1rem;
+        opacity: 0.95;
+    }
+
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--gold);
+        color: var(--primary-blue);
+        text-decoration: none;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .cta-button:hover {
+        background: var(--gold-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 600px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .values-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
