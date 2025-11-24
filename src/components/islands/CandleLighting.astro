@@ -1,5 +1,5 @@
 ---
-// Candle Lighting Times Card
+// Candle Lighting Times Card - Using Hebcal API
 ---
 <div class="feature-card">
     <div class="card-header">
@@ -30,112 +30,230 @@
                 <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">Loading...</span></div>
             </div>
         </div>
+        <div class="last-updated" id="candle-last-updated">
+            <span class="live-indicator" id="candle-live-indicator" title="Live from Hebcal">
+                <span class="live-dot"></span>
+                <span class="live-text">LIVE</span>
+            </span>
+            <span class="updated-time" id="candle-updated-time"></span>
+        </div>
         <div class="loader" id="candle-times-loader" style="display: none;"></div>
     </div>
 </div>
 
+<style>
+    .last-updated {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.7rem;
+        color: #888;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #eee;
+    }
+
+    .live-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        background: rgba(76, 175, 80, 0.15);
+        border-radius: 12px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: #4CAF50;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .live-indicator.active {
+        opacity: 1;
+    }
+
+    .live-dot {
+        width: 6px;
+        height: 6px;
+        background: #4CAF50;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.5;
+            transform: scale(1.2);
+        }
+    }
+
+    .live-text {
+        letter-spacing: 0.5px;
+    }
+
+    .updated-time {
+        color: #888;
+    }
+</style>
+
 <script>
-    const calculateCandleLightingTime = (date: Date): string => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
+    const HEBCAL_ZIP = '92708'; // Fountain Valley, CA
 
-        // Sunset times for Southern California (Tustin, CA)
-        let sunsetTime: number;
+    interface HebcalItem {
+        title: string;
+        date: string;
+        category: string;
+        title_orig?: string;
+        hebrew?: string;
+        memo?: string;
+    }
 
-        if (month === 1) sunsetTime = 17.17;
-        else if (month === 2) sunsetTime = 17.75;
-        else if (month === 3) sunsetTime = 18.25;
-        else if (month === 4) sunsetTime = 19.58;
-        else if (month === 5) sunsetTime = 19.85;
-        else if (month === 6) sunsetTime = day >= 20 ? 20.08 : 20.05;
-        else if (month === 7) {
-            if (day <= 7) sunsetTime = 20.08;
-            else if (day <= 14) sunsetTime = 20.05;
-            else if (day <= 21) sunsetTime = 20.02;
-            else sunsetTime = 19.98;
-        }
-        else if (month === 8) sunsetTime = day <= 15 ? 19.85 : 19.67;
-        else if (month === 9) sunsetTime = 19.25;
-        else if (month === 10) sunsetTime = 18.58;
-        else if (month === 11) sunsetTime = 17.08;
-        else sunsetTime = 16.83;
+    interface HebcalResponse {
+        title: string;
+        date: string;
+        items: HebcalItem[];
+        location: {
+            title: string;
+            city: string;
+            tzid: string;
+        };
+    }
 
-        const candleLightingTime = sunsetTime - 0.3;
-        const hours = Math.floor(candleLightingTime);
-        const minutes = Math.round((candleLightingTime - hours) * 60);
-
-        let displayHours = hours;
-        let ampm = 'pm';
-        if (hours >= 12 && hours > 12) displayHours = hours - 12;
-        else if (hours < 12) { ampm = 'am'; if (hours === 0) displayHours = 12; }
-
-        return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    const formatTime = (isoDate: string): string => {
+        const date = new Date(isoDate);
+        return date.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        }).toLowerCase();
     };
 
-    const calculateHavdalahTime = (date: Date): string => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-
-        let sunsetTime: number;
-
-        if (month === 1) sunsetTime = 17.17;
-        else if (month === 2) sunsetTime = 17.75;
-        else if (month === 3) sunsetTime = 18.25;
-        else if (month === 4) sunsetTime = 19.58;
-        else if (month === 5) sunsetTime = 19.85;
-        else if (month === 6) sunsetTime = day >= 20 ? 20.08 : 20.05;
-        else if (month === 7) {
-            if (day <= 7) sunsetTime = 20.08;
-            else if (day <= 14) sunsetTime = 20.05;
-            else if (day <= 21) sunsetTime = 20.02;
-            else sunsetTime = 19.98;
-        }
-        else if (month === 8) sunsetTime = day <= 15 ? 19.85 : 19.67;
-        else if (month === 9) sunsetTime = 19.25;
-        else if (month === 10) sunsetTime = 18.58;
-        else if (month === 11) sunsetTime = 17.08;
-        else sunsetTime = 16.83;
-
-        const havdalahTime = sunsetTime + 0.7;
-        const hours = Math.floor(havdalahTime);
-        const minutes = Math.round((havdalahTime - hours) * 60);
-
-        let displayHours = hours;
-        let ampm = 'pm';
-        if (hours >= 12 && hours > 12) displayHours = hours - 12;
-        else if (hours < 12) { ampm = 'am'; if (hours === 0) displayHours = 12; }
-
-        return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    const formatDate = (isoDate: string): string => {
+        const date = new Date(isoDate);
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
     };
 
-    const loadCandleLighting = () => {
-        const today = new Date();
-        const thisFriday = new Date(today);
-        const daysUntilFriday = (5 - today.getDay() + 7) % 7;
+    const getNextFriday = (fromDate: Date = new Date()): Date => {
+        const date = new Date(fromDate);
+        const dayOfWeek = date.getDay();
+        const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
 
-        if (daysUntilFriday === 0) {
-            thisFriday.setDate(today.getDate());
+        // If today is Friday, use today; if Saturday/Sunday, get next Friday
+        if (daysUntilFriday === 0 && dayOfWeek === 5) {
+            // It's Friday, use today
+        } else if (dayOfWeek === 6) {
+            // Saturday - get next Friday (6 days)
+            date.setDate(date.getDate() + 6);
+        } else if (dayOfWeek === 0) {
+            // Sunday - get next Friday (5 days)
+            date.setDate(date.getDate() + 5);
         } else {
-            thisFriday.setDate(today.getDate() + daysUntilFriday);
+            date.setDate(date.getDate() + daysUntilFriday);
         }
 
-        const nextFriday = new Date(thisFriday);
-        nextFriday.setDate(thisFriday.getDate() + 7);
-
-        const havdalahDate = new Date(thisFriday);
-        havdalahDate.setDate(thisFriday.getDate() + 1);
-
-        const formatDateStr = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-        document.getElementById('next-friday-date')!.textContent = formatDateStr(thisFriday);
-        document.getElementById('candle-time-1')!.textContent = calculateCandleLightingTime(thisFriday);
-
-        document.getElementById('following-friday-date')!.textContent = formatDateStr(nextFriday);
-        document.getElementById('candle-time-2')!.textContent = calculateCandleLightingTime(nextFriday);
-
-        document.getElementById('havdalah-date')!.textContent = formatDateStr(havdalahDate);
-        document.getElementById('havdalah-time')!.textContent = calculateHavdalahTime(havdalahDate);
+        return date;
     };
 
+    const fetchShabbatTimes = async (targetDate: Date): Promise<HebcalResponse | null> => {
+        const year = targetDate.getFullYear();
+        const month = targetDate.getMonth() + 1;
+        const day = targetDate.getDate();
+
+        const url = `https://www.hebcal.com/shabbat?cfg=json&zip=${HEBCAL_ZIP}&M=on&gy=${year}&gm=${month}&gd=${day}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API request failed');
+            return await response.json();
+        } catch (error) {
+            console.error('Hebcal API error:', error);
+            return null;
+        }
+    };
+
+    const loadCandleLighting = async () => {
+        const liveIndicator = document.getElementById('candle-live-indicator');
+        const lastUpdatedEl = document.getElementById('candle-last-updated');
+
+        try {
+            // Get this week's Friday
+            const thisFriday = getNextFriday();
+
+            // Get next week's Friday
+            const nextFriday = new Date(thisFriday);
+            nextFriday.setDate(nextFriday.getDate() + 7);
+
+            // Fetch both weeks in parallel
+            const [thisWeekData, nextWeekData] = await Promise.all([
+                fetchShabbatTimes(thisFriday),
+                fetchShabbatTimes(nextFriday)
+            ]);
+
+            if (thisWeekData && thisWeekData.items) {
+                // Find candle lighting and havdalah for this week
+                const candleLighting = thisWeekData.items.find(item => item.category === 'candles');
+                const havdalah = thisWeekData.items.find(item => item.category === 'havdalah');
+
+                if (candleLighting) {
+                    document.getElementById('next-friday-date')!.textContent = formatDate(candleLighting.date);
+                    document.getElementById('candle-time-1')!.textContent = formatTime(candleLighting.date);
+                }
+
+                if (havdalah) {
+                    document.getElementById('havdalah-date')!.textContent = formatDate(havdalah.date);
+                    document.getElementById('havdalah-time')!.textContent = formatTime(havdalah.date);
+                }
+            }
+
+            if (nextWeekData && nextWeekData.items) {
+                // Find candle lighting for next week
+                const nextCandleLighting = nextWeekData.items.find(item => item.category === 'candles');
+
+                if (nextCandleLighting) {
+                    document.getElementById('following-friday-date')!.textContent = formatDate(nextCandleLighting.date);
+                    document.getElementById('candle-time-2')!.textContent = formatTime(nextCandleLighting.date);
+                }
+            }
+
+            // Show live indicator
+            if (liveIndicator) {
+                liveIndicator.classList.add('active');
+            }
+
+            // Show last updated time
+            const updatedTimeEl = document.getElementById('candle-updated-time');
+            if (updatedTimeEl) {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                updatedTimeEl.textContent = `Updated ${timeStr} via Hebcal`;
+            }
+
+        } catch (error) {
+            console.error('Error loading candle lighting times:', error);
+
+            // Show error state
+            if (lastUpdatedEl) {
+                lastUpdatedEl.textContent = 'Unable to load times - please refresh';
+                lastUpdatedEl.style.color = '#e74c3c';
+            }
+        }
+    };
+
+    // Load on page load
     loadCandleLighting();
+
+    // Refresh every 30 minutes
+    setInterval(loadCandleLighting, 30 * 60 * 1000);
 </script>

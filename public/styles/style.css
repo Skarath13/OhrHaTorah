@@ -2217,11 +2217,70 @@ body.edit-mode [data-editable]:hover .edit-icon {
     display: flex;
     align-items: center;
     white-space: nowrap;
+    gap: 8px;
 }
 
 .widget-header i {
     margin-right: var(--space-sm);
     color: var(--gold);
+}
+
+/* Live Indicator and Last Updated for Prayer Times */
+.prayer-last-updated {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.65rem;
+    color: #888;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.prayer-last-updated .live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: rgba(76, 175, 80, 0.15);
+    border-radius: 12px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #4CAF50;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.prayer-last-updated .live-indicator.active {
+    opacity: 1;
+}
+
+.prayer-last-updated .live-dot {
+    width: 5px;
+    height: 5px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: pulse-widget 2s ease-in-out infinite;
+}
+
+@keyframes pulse-widget {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+}
+
+.prayer-last-updated .live-text {
+    letter-spacing: 0.5px;
+}
+
+.prayer-last-updated .updated-time {
+    color: #888;
 }
 
 .widget-content {
