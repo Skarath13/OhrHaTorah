@@ -1,0 +1,165 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Who Are We - Ohr HaTorah" pageTitle="Who Are We" pageIcon="fas fa-info-circle">
+    <p class="intro-text"><strong>Welcome to Kehilat Ohr HaTorah - A Community of Faith, Heritage, and Hope</strong></p>
+
+    <div class="section identity-section">
+        <h3><i class="fas fa-star-of-david"></i> Our Identity</h3>
+        <p>We are a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua (Jesus).</p>
+        <p>Our name "Ohr HaTorah" means "Light of the Torah" - reflecting our commitment to illuminating God's eternal Word through both the Hebrew Scriptures and the New Testament as one unified message of redemption.</p>
+    </div>
+
+    <div class="section community-section">
+        <h3><i class="fas fa-users"></i> Our Community</h3>
+        <p>We warmly welcome all people - Jewish, non-Jewish, and interfaith couples and families. Whether you're:</p>
+        <ul>
+            <li>Exploring your Jewish roots</li>
+            <li>Seeking to understand Yeshua as the Jewish Messiah</li>
+            <li>Curious about Messianic Judaism</li>
+            <li>Looking for authentic biblical worship</li>
+            <li>Wanting to deepen your faith journey</li>
+        </ul>
+        <p>You belong here! Our community is ideal for both inquirers and those seeking to deepen their understanding and walk with our Jewish Messiah.</p>
+    </div>
+
+    <div class="section worship-section">
+        <h3><i class="fas fa-pray"></i> Our Worship</h3>
+        <p>We blend traditional and contemporary Jewish practices, emphasizing:</p>
+        <div class="worship-grid">
+            <div class="worship-item">
+                <i class="fas fa-language"></i>
+                <strong>Community Prayer</strong>
+                <span>Hebrew and English liturgy</span>
+            </div>
+            <div class="worship-item">
+                <i class="fas fa-book-open"></i>
+                <strong>Scripture Teaching</strong>
+                <span>Torah and New Testament study</span>
+            </div>
+            <div class="worship-item">
+                <i class="fas fa-music"></i>
+                <strong>Vibrant Music</strong>
+                <span>Contemporary Messianic worship</span>
+            </div>
+            <div class="worship-item">
+                <i class="fas fa-menorah"></i>
+                <strong>Biblical Festivals</strong>
+                <span>Celebrating God's appointed times</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight-section">
+        <h3><i class="fas fa-heart"></i> Our Heart</h3>
+        <p>We believe that Torah and the teachings of Yeshua come together as one, where we as life-long learners of the Bible and Judaism can grow together with love, respect, and mutual understanding. Come experience the richness of your biblical heritage!</p>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section h3 {
+        color: var(--primary-blue);
+        margin: 0 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .identity-section {
+        background: rgba(0, 102, 204, 0.05);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary-blue);
+    }
+
+    .identity-section p {
+        margin: 0 0 15px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .identity-section p:last-child {
+        margin-bottom: 0;
+    }
+
+    .community-section h3 {
+        color: var(--gold-dark);
+    }
+
+    .community-section p {
+        margin: 0 0 15px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .community-section ul {
+        margin: 0 0 15px 20px;
+        padding: 0;
+    }
+
+    .community-section li {
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+    }
+
+    .worship-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .worship-item {
+        background: var(--gray-100);
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .worship-item i {
+        font-size: 2rem;
+        color: var(--primary-blue);
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .worship-item strong {
+        display: block;
+        color: var(--primary-blue);
+        margin-bottom: 5px;
+    }
+
+    .worship-item span {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .highlight-section {
+        background: var(--gold-light);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--gold-dark);
+    }
+
+    .highlight-section h3 {
+        color: var(--gold-dark);
+        margin: 0 0 15px 0;
+    }
+
+    .highlight-section p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+</style>

@@ -1,0 +1,191 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Donate - Ohr HaTorah" pageTitle="Support Our Ministry" pageIcon="fas fa-heart">
+    <p class="intro-text"><strong>"God loves a cheerful giver." - 2 Corinthians 9:7</strong></p>
+
+    <div class="donation-grid">
+        <div class="donation-card">
+            <div class="donation-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Digital (Coming Soon!)</h3>
+            <p>Zelle payments coming soon!</p>
+            <div class="payment-icons">
+                <i class="fas fa-smartphone"></i>
+                <i class="fas fa-credit-card"></i>
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <div class="donation-icon">
+                <i class="fas fa-money-check"></i>
+            </div>
+            <h3>Check Donations</h3>
+            <p><strong>Payable to:</strong></p>
+            <p class="highlight-text">Ohr HaTorah</p>
+            <p><strong>Mail to:</strong></p>
+            <p>360 E. 1st Street, #856<br>Tustin, CA 92780</p>
+        </div>
+    </div>
+
+    <div class="giving-info">
+        <h3><i class="fas fa-info-circle"></i> Why Give?</h3>
+        <p>Your generous donations help support our congregation's ministry including:</p>
+        <ul>
+            <li>Weekly Shabbat services and teaching</li>
+            <li>Hebrew language education</li>
+            <li>Community outreach programs</li>
+            <li>Support for Israel ministries</li>
+            <li>Youth and family programs</li>
+            <li>Facility maintenance and operations</li>
+        </ul>
+    </div>
+
+    <div class="contact-box">
+        <h4><i class="fas fa-hand-holding-heart"></i> Questions? Contact Us</h4>
+        <div class="contact-links">
+            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
+        </div>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        font-style: italic;
+    }
+
+    .donation-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .donation-card {
+        background: var(--gray-100);
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .donation-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .donation-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .donation-icon i {
+        color: white;
+        font-size: 1.8rem;
+    }
+
+    .donation-card h3 {
+        color: var(--primary-blue);
+        margin: 0 0 15px 0;
+    }
+
+    .donation-card p {
+        margin: 5px 0;
+        color: var(--text-secondary);
+    }
+
+    .highlight-text {
+        color: var(--primary-blue) !important;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .payment-icons {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .payment-icons i {
+        font-size: 1.5rem;
+        color: var(--primary-blue);
+        opacity: 0.6;
+    }
+
+    .giving-info {
+        background: var(--gold-light);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--gold);
+        margin-bottom: 30px;
+    }
+
+    .giving-info h3 {
+        color: var(--gold-dark);
+        margin: 0 0 15px 0;
+    }
+
+    .giving-info p {
+        margin: 0 0 15px 0;
+        color: var(--text-secondary);
+    }
+
+    .giving-info ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .giving-info li {
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+    }
+
+    .contact-box {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .contact-box h4 {
+        margin: 0 0 15px 0;
+    }
+
+    .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .contact-links a {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: background 0.3s ease;
+    }
+
+    .contact-links a:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+</style>

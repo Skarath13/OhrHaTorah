@@ -1,0 +1,212 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Our Location - Ohr HaTorah" pageTitle="Our Location & Facilities" pageIcon="fas fa-map-marker-alt">
+    <p class="intro-text"><strong>Located in the heart of Orange County, we serve the greater Los Angeles area with convenient access and welcoming facilities.</strong></p>
+
+    <!-- Service Location -->
+    <div class="location-card main-location">
+        <h3><i class="fas fa-synagogue"></i> Worship Services Location</h3>
+        <div class="location-grid">
+            <div class="location-info">
+                <h4><i class="fas fa-map-pin"></i> Address</h4>
+                <p class="address">
+                    <strong>10460 Slater Ave<br>
+                    Fountain Valley, CA 92708</strong>
+                </p>
+
+                <h4><i class="fas fa-clock"></i> Service Times</h4>
+                <p>
+                    <strong>Saturdays at 2:30 PM</strong><br>
+                    <span class="note">Contemporary worship, traditional prayers, and Torah study</span>
+                </p>
+            </div>
+            <div class="location-info">
+                <h4><i class="fas fa-envelope"></i> Mailing Address</h4>
+                <p>
+                    360 E. 1st Street, #856<br>
+                    Tustin, CA 92780
+                </p>
+
+                <h4><i class="fas fa-phone"></i> Contact</h4>
+                <p>
+                    <a href="tel:+17144061513">(714) 406-1513</a><br>
+                    <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-section">
+        <h3><i class="fas fa-map"></i> Find Us</h3>
+        <div class="map-container">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.6!2d-117.934!3d33.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDQyJzAwLjAiTiAxMTfCsDU2JzAyLjQiVw!5e0!3m2!1sen!2sus!4v1234567890"
+                width="100%"
+                height="350"
+                style="border:0; border-radius: 8px;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Directions -->
+    <div class="directions-section">
+        <h3><i class="fas fa-directions"></i> Getting Here</h3>
+        <div class="directions-grid">
+            <div class="direction-card">
+                <i class="fas fa-car"></i>
+                <h4>By Car</h4>
+                <p>Easily accessible from the 405 and 22 freeways. Free parking available on site.</p>
+            </div>
+            <div class="direction-card">
+                <i class="fas fa-parking"></i>
+                <h4>Parking</h4>
+                <p>Ample free parking is available in the parking lot adjacent to our meeting space.</p>
+            </div>
+            <div class="direction-card">
+                <i class="fas fa-universal-access"></i>
+                <h4>Accessibility</h4>
+                <p>Our facility is wheelchair accessible with accessible parking spaces available.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <p><strong>We look forward to welcoming you! No advance notice needed - just come as you are.</strong></p>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .location-card {
+        background: var(--gray-100);
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+    }
+
+    .main-location {
+        background: rgba(0, 102, 204, 0.05);
+        border-left: 4px solid var(--primary-blue);
+    }
+
+    .location-card h3 {
+        color: var(--primary-blue);
+        margin: 0 0 20px 0;
+    }
+
+    .location-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .location-info h4 {
+        color: var(--gold-dark);
+        margin: 0 0 10px 0;
+        font-size: 1rem;
+    }
+
+    .location-info p {
+        margin: 0 0 20px 0;
+        line-height: 1.6;
+        color: var(--text-secondary);
+    }
+
+    .location-info .address {
+        font-size: 1.1rem;
+    }
+
+    .location-info .note {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .location-info a {
+        color: var(--primary-blue);
+        text-decoration: none;
+    }
+
+    .location-info a:hover {
+        text-decoration: underline;
+    }
+
+    .map-section {
+        margin-bottom: 30px;
+    }
+
+    .map-section h3 {
+        color: var(--primary-blue);
+        margin-bottom: 15px;
+    }
+
+    .map-container {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .directions-section {
+        margin-bottom: 30px;
+    }
+
+    .directions-section h3 {
+        color: var(--primary-blue);
+        margin-bottom: 20px;
+    }
+
+    .directions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .direction-card {
+        background: var(--gray-100);
+        padding: 25px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .direction-card i {
+        font-size: 2rem;
+        color: var(--primary-blue);
+        margin-bottom: 15px;
+    }
+
+    .direction-card h4 {
+        color: var(--primary-blue);
+        margin: 0 0 10px 0;
+    }
+
+    .direction-card p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .welcome-banner {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .welcome-banner p {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+</style>

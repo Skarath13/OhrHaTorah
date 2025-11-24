@@ -1,0 +1,152 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Shabbat School for Youth - Ohr HaTorah" pageTitle="Shabbat School for Youth" pageIcon="fas fa-child">
+    <p class="intro-text"><strong>Building the Next Generation in Faith and Heritage</strong></p>
+
+    <div class="priority-section">
+        <h3><i class="fas fa-seedling"></i> Our Priority & Vision</h3>
+        <p>We are making Shabbat School for Youth a <strong>top priority</strong> to found and grow within our congregation. We believe in nurturing young hearts and minds in both their Jewish heritage and faith in Yeshua.</p>
+        <p><strong>We warmly welcome youth of all ages</strong> and are excited to build this vital ministry together as our community grows.</p>
+    </div>
+
+    <div class="programs-section">
+        <h3><i class="fas fa-star"></i> What We're Planning</h3>
+        <div class="programs-grid">
+            <div class="program-item">
+                <i class="fas fa-torah"></i>
+                <span>Age-appropriate Torah study and Jewish history</span>
+            </div>
+            <div class="program-item">
+                <i class="fas fa-language"></i>
+                <span>Hebrew language learning and prayer</span>
+            </div>
+            <div class="program-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Biblical holidays and traditions</span>
+            </div>
+            <div class="program-item">
+                <i class="fas fa-palette"></i>
+                <span>Music, crafts, and interactive learning</span>
+            </div>
+            <div class="program-item">
+                <i class="fas fa-star-of-david"></i>
+                <span>Understanding Yeshua as our Jewish Messiah</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="involvement-section">
+        <h3><i class="fas fa-heart"></i> Get Involved</h3>
+        <p>If you have children or youth, or if you're passionate about youth ministry, we'd love to hear from you! Help us shape this important program.</p>
+        <div class="contact-info">
+            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
+        </div>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .priority-section {
+        background: rgba(0, 102, 204, 0.05);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary-blue);
+        margin-bottom: 30px;
+    }
+
+    .priority-section h3 {
+        color: var(--primary-blue);
+        margin: 0 0 15px 0;
+    }
+
+    .priority-section p {
+        margin: 0 0 15px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .priority-section p:last-child {
+        margin-bottom: 0;
+    }
+
+    .programs-section {
+        margin-bottom: 30px;
+    }
+
+    .programs-section h3 {
+        color: var(--gold-dark);
+        margin-bottom: 20px;
+    }
+
+    .programs-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .program-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: var(--gray-100);
+        padding: 15px 20px;
+        border-radius: 8px;
+    }
+
+    .program-item i {
+        font-size: 1.5rem;
+        color: var(--primary-blue);
+        min-width: 30px;
+        text-align: center;
+    }
+
+    .program-item span {
+        color: var(--text-secondary);
+    }
+
+    .involvement-section {
+        background: var(--gold-light);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--gold);
+    }
+
+    .involvement-section h3 {
+        color: var(--gold-dark);
+        margin: 0 0 15px 0;
+    }
+
+    .involvement-section p {
+        margin: 0 0 20px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .contact-info {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .contact-info a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--gold-dark);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .contact-info a:hover {
+        color: var(--primary-blue);
+    }
+</style>

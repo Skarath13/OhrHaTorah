@@ -1,0 +1,327 @@
+---
+// Weekly Parashah Card - fetches Torah readings from Hebcal API
+---
+<div class="feature-card">
+    <div class="card-header">
+        <i class="fas fa-torah"></i>
+        <span id="parashah-header" data-editable="parashah-card-title">Weekly Parashah</span>
+    </div>
+    <div class="card-body">
+        <div class="parashah-info">
+            <i class="fas fa-bookmark"></i>
+            <span class="parashah-label" data-editable="parashah-label-text">Parashah:</span>
+            <span id="parashah-name">Loading...</span>
+        </div>
+
+        <!-- Reading Cycle Toggle -->
+        <div class="reading-cycle-toggle">
+            <button class="cycle-btn active" data-cycle="annual">
+                <i class="fas fa-calendar-alt"></i>
+                Annual
+            </button>
+            <button class="cycle-btn" data-cycle="triennial">
+                <i class="fas fa-calendar-week"></i>
+                Triennial
+            </button>
+        </div>
+
+        <!-- Triennial Year Info -->
+        <div id="triennial-year-info" class="triennial-note" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            <div class="triennial-year-info">
+                <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">2</span></span>
+                <span class="triennial-year-text" id="triennial-year-text">Second year of three-year Torah reading cycle</span>
+            </div>
+        </div>
+
+        <!-- Annual Readings -->
+        <div id="annual-readings" class="reading-section">
+            <div class="parashah-info">
+                <div class="reading-row">
+                    <span class="reading-icon"><i class="fas fa-book"></i></span>
+                    <span class="reading-label" data-editable="torah-label-text">Torah:</span>
+                </div>
+                <div class="reading-text" id="torah-reading">Loading...</div>
+            </div>
+            <div class="parashah-info">
+                <div class="reading-row">
+                    <span class="reading-icon"><i class="fas fa-book-open"></i></span>
+                    <span class="reading-label" data-editable="haftarah-label-text">Haftarah:</span>
+                </div>
+                <div class="reading-text" id="haftarah-reading">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Triennial Readings -->
+        <div id="triennial-readings" class="reading-section" style="display: none;">
+            <div class="parashah-info">
+                <div class="reading-row">
+                    <span class="reading-icon"><i class="fas fa-book"></i></span>
+                    <span class="reading-label">Torah:</span>
+                </div>
+                <div class="reading-text" id="triennial-torah-reading">Loading...</div>
+            </div>
+            <div class="parashah-info">
+                <div class="reading-row">
+                    <span class="reading-icon"><i class="fas fa-book-open"></i></span>
+                    <span class="reading-label">Haftarah:</span>
+                </div>
+                <div class="reading-text" id="triennial-haftarah-reading">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Brit Chadashah -->
+        <div class="parashah-info">
+            <div class="reading-row">
+                <span class="reading-icon"><i class="fas fa-book-reader"></i></span>
+                <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
+            </div>
+            <div class="reading-text" id="brit-reading">Loading...</div>
+        </div>
+
+        <div class="loader" id="parashah-loader" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+    // Brit Chadashah lookup table
+    const britReadings: Record<string, string> = {
+        'Bereshit': 'Matthew 1:1-17; John 1:1-18',
+        'Noach': 'Matthew 24:36-44; 1 Peter 3:18-22',
+        'Lech-Lecha': 'Romans 4:1-25; Hebrews 11:8-12',
+        'Vayera': 'James 2:14-26; Hebrews 11:17-19',
+        'Chayei Sara': '1 Corinthians 15:50-57',
+        'Toldot': 'Romans 9:6-13; Hebrews 11:20',
+        'Vayetzei': 'John 1:43-51',
+        'Vayishlach': 'Hebrews 11:11-20',
+        'Vayeshev': 'Acts 7:9-16',
+        'Miketz': 'Acts 7:9-16',
+        'Vayigash': 'Acts 7:13-15',
+        'Vayechi': 'Hebrews 11:21',
+        'Shemot': 'Acts 7:17-35',
+        'Vaera': 'Romans 9:14-17',
+        'Bo': 'John 19:31-37; 1 Corinthians 5:6-8',
+        'Beshalach': '1 Corinthians 10:1-13',
+        'Yitro': 'Acts 6:1-7; 1 Timothy 3:1-13',
+        'Mishpatim': 'Matthew 5:38-42; Colossians 3:1-25',
+        'Terumah': 'Hebrews 8:1-6',
+        'Tetzaveh': 'Philippians 4:10-20',
+        'Ki Tisa': '2 Corinthians 3:1-18',
+        'Vayakhel': 'Hebrews 9:1-14',
+        'Pekudei': 'Hebrews 9:1-14',
+        'Vayikra': 'Hebrews 9:11-28',
+        'Tzav': 'Mark 12:28-34',
+        'Shemini': '2 Corinthians 6:14-7:1',
+        'Tazria': 'Matthew 8:1-4',
+        'Metzora': 'Luke 17:11-19',
+        'Acharei Mot': 'Romans 3:19-28; Hebrews 7:23-10:18',
+        'Kedoshim': '1 Peter 1:13-16',
+        'Emor': '1 Peter 2:4-10',
+        'Behar': 'Luke 4:16-21',
+        'Bechukotai': 'John 14:15-21',
+        'Bamidbar': '1 Corinthians 12:12-31',
+        'Naso': 'Acts 21:17-32',
+        "Beha'alotcha": 'John 6:1-14',
+        'Shelach': 'Hebrews 3:7-19',
+        'Korach': '2 Timothy 2:8-21',
+        'Chukat': 'John 3:9-21',
+        'Balak': '2 Peter 2:1-22',
+        'Pinchas': 'Matthew 26:1-30',
+        'Matot': 'Matthew 5:33-37',
+        'Masei': 'James 4:1-12',
+        'Devarim': 'John 15:1-11',
+        'Vaetchanan': 'Mark 12:28-34',
+        'Eikev': 'Luke 4:1-13',
+        "Re'eh": '1 Corinthians 5:9-13',
+        'Shoftim': 'Matthew 5:38-42',
+        'Ki Teitzei': '1 Corinthians 5:1-5',
+        'Ki Tavo': 'Romans 11:1-15',
+        'Nitzavim': 'Romans 10:11-13',
+        'Vayeilech': 'Hebrews 13:5-8',
+        "Ha'azinu": 'Romans 10:17-21',
+        "V'Zot HaBerachah": 'Matthew 17:1-9'
+    };
+
+    interface ParashahData {
+        name: string;
+        torah: string;
+        haftarah: string;
+        date?: string;
+        source?: string;
+        year?: number;
+        yearText?: string;
+    }
+
+    const tryHebcalAPI = async (): Promise<ParashahData> => {
+        const response = await fetch('https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles');
+        if (!response.ok) throw new Error(`Hebcal API failed: ${response.status}`);
+        const data = await response.json();
+        const torahReading = data.items?.find((item: any) => item.category === 'parashat');
+        if (!torahReading) throw new Error('No Torah reading found');
+        return {
+            name: torahReading.title.replace('Parashat ', ''),
+            torah: torahReading.leyning?.torah || 'See bulletin',
+            haftarah: torahReading.leyning?.haftarah || 'See bulletin',
+            date: torahReading.date,
+            source: 'Hebcal'
+        };
+    };
+
+    const trySefariaAPI = async (): Promise<ParashahData> => {
+        const response = await fetch('https://www.sefaria.org/api/calendars?timezone=America/Los_Angeles&diaspora=1');
+        if (!response.ok) throw new Error(`Sefaria API failed: ${response.status}`);
+        const data = await response.json();
+        const parashat = data.calendar_items?.find((item: any) => item.title?.en === "Parashat Hashavua");
+        const haftarah = data.calendar_items?.find((item: any) => item.title?.en === "Haftarah");
+        if (!parashat) throw new Error('No Parashat found');
+        return {
+            name: parashat.displayValue?.en || 'Unknown',
+            torah: parashat.ref || 'See bulletin',
+            haftarah: haftarah?.ref || 'See bulletin',
+            date: data.date,
+            source: 'Sefaria'
+        };
+    };
+
+    const tryHebcalTriennialAPI = async (): Promise<ParashahData | null> => {
+        try {
+            const response = await fetch('https://www.hebcal.com/shabbat?cfg=json&triennial=on&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en');
+            if (!response.ok) return null;
+            const data = await response.json();
+            const today = new Date();
+            const saturday = new Date(today);
+            saturday.setDate(today.getDate() + (6 - today.getDay()) % 7);
+            const saturdayStr = saturday.toISOString().split('T')[0];
+
+            for (const item of data.items || []) {
+                if (item.category === 'parashat' && item.date === saturdayStr) {
+                    const triennial = item.leyning?.triennial;
+                    let triennialTorah = 'Not available';
+                    if (triennial && triennial['1'] && triennial['7']) {
+                        const startVerse = triennial['1'].split('-')[0];
+                        const endVerse = triennial['7'].split('-')[1];
+                        triennialTorah = `${startVerse}-${endVerse}`;
+                    }
+
+                    const calculateTriennialYear = () => {
+                        const now = new Date();
+                        const currentYear = now.getFullYear();
+                        const currentMonth = now.getMonth() + 1;
+                        let effectiveYear = currentMonth < 10 ? currentYear : currentYear + 1;
+                        const baseYear = 2025;
+                        const baseTriennialYear = 3;
+                        return ((baseTriennialYear - 1 + effectiveYear - baseYear) % 3) + 1;
+                    };
+
+                    const triennialYear = item.triennial?.yearNum || calculateTriennialYear();
+                    const yearText = triennialYear === 1 ? 'First year of three-year Torah reading cycle' :
+                                   triennialYear === 2 ? 'Second year of three-year Torah reading cycle' :
+                                   'Third year of three-year Torah reading cycle';
+
+                    return {
+                        name: item.title.replace('Parashat ', ''),
+                        torah: triennialTorah,
+                        haftarah: item.haftarah || item.leyning?.haftarah || 'Not available',
+                        year: triennialYear,
+                        yearText: yearText
+                    };
+                }
+            }
+            return null;
+        } catch {
+            return null;
+        }
+    };
+
+    const updateParashahUI = (annualData: ParashahData, triennialData: ParashahData | null) => {
+        document.getElementById('parashah-name')!.textContent = annualData.name;
+        document.getElementById('torah-reading')!.textContent = annualData.torah;
+        document.getElementById('haftarah-reading')!.textContent = annualData.haftarah;
+
+        const headerEl = document.getElementById('parashah-header');
+        if (headerEl && annualData.date) {
+            const date = new Date(annualData.date);
+            headerEl.textContent = `Weekly Parashah - ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`;
+        }
+
+        // Update infobox
+        const infobox = document.querySelector('.infobox');
+        if (infobox) {
+            infobox.innerHTML = `<i class="fas fa-info-circle"></i>
+                <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.`;
+        }
+
+        // Brit Chadashah
+        let britReading = britReadings[annualData.name];
+        if (!britReading) {
+            const searchName = annualData.name.toLowerCase();
+            for (const [key, value] of Object.entries(britReadings)) {
+                if (key.toLowerCase().replace(/[\u2019\u2018''`]/g, "'") === searchName.replace(/[\u2019\u2018''`]/g, "'")) {
+                    britReading = value;
+                    break;
+                }
+            }
+        }
+        const britOverride = localStorage.getItem('oht_brit_override');
+        document.getElementById('brit-reading')!.textContent = britOverride || britReading || 'Pending';
+
+        // Triennial
+        if (triennialData) {
+            document.getElementById('triennial-torah-reading')!.textContent = triennialData.torah;
+            document.getElementById('triennial-haftarah-reading')!.textContent = triennialData.haftarah;
+            if (triennialData.year) document.getElementById('triennial-year')!.textContent = String(triennialData.year);
+            if (triennialData.yearText) document.getElementById('triennial-year-text')!.textContent = triennialData.yearText;
+        } else {
+            document.getElementById('triennial-torah-reading')!.textContent = 'Not available';
+            document.getElementById('triennial-haftarah-reading')!.textContent = 'Not available';
+        }
+    };
+
+    // Initialize triennial toggle
+    const toggleButtons = document.querySelectorAll('.cycle-btn');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function(this: HTMLElement) {
+            const cycle = this.getAttribute('data-cycle');
+            toggleButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            const annualSection = document.getElementById('annual-readings');
+            const triennialSection = document.getElementById('triennial-readings');
+            const triennialYearInfo = document.getElementById('triennial-year-info');
+
+            if (cycle === 'annual') {
+                triennialSection!.style.display = 'none';
+                annualSection!.style.display = 'block';
+                if (triennialYearInfo) triennialYearInfo.style.display = 'none';
+            } else {
+                annualSection!.style.display = 'none';
+                triennialSection!.style.display = 'block';
+                if (triennialYearInfo) triennialYearInfo.style.display = 'flex';
+            }
+        });
+    });
+
+    // Load data
+    (async () => {
+        const loader = document.getElementById('parashah-loader');
+        if (loader) loader.style.display = 'block';
+
+        try {
+            const annualData = await tryHebcalAPI();
+            const triennialData = await tryHebcalTriennialAPI();
+            updateParashahUI(annualData, triennialData);
+        } catch {
+            try {
+                const annualData = await trySefariaAPI();
+                updateParashahUI(annualData, null);
+            } catch {
+                document.getElementById('parashah-name')!.textContent = 'Pending';
+                document.getElementById('torah-reading')!.textContent = 'Pending';
+                document.getElementById('haftarah-reading')!.textContent = 'Pending';
+                document.getElementById('brit-reading')!.textContent = 'Pending';
+            }
+        }
+
+        if (loader) loader.style.display = 'none';
+    })();
+</script>

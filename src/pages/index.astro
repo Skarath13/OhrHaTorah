@@ -1,0 +1,366 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Navigation from '../components/layout/Navigation.astro';
+import Footer from '../components/layout/Footer.astro';
+import ParashahCard from '../components/islands/ParashahCard.astro';
+import CandleLighting from '../components/islands/CandleLighting.astro';
+import AdminModal from '../components/AdminModal.astro';
+---
+
+<BaseLayout>
+    <Header />
+    <Navigation />
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <div class="widget-header" data-editable="sidebar-welcome-header"><i class="fas fa-star-of-david"></i> <span data-editable="sidebar-welcome-title">Shalom Visitor!</span></div>
+                <div class="widget-content">
+                    <ul class="sidebar-list">
+                        <li><a href="/services"><i class="fas fa-chevron-right"></i> Worship Times</a></li>
+                        <li><a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slater%20Ave,%20Fountain%20Valley,%20CA%2092708" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
+                        <li><a href="/faq"><i class="fas fa-chevron-right"></i> Frequently Asked Questions</a></li>
+                        <li><a href="/rabbi"><i class="fas fa-chevron-right"></i> Our Rabbi</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <div class="widget-header" data-editable="sidebar-mission-header"><i class="fas fa-bullseye"></i> <span data-editable="sidebar-mission-title">Our Mission</span></div>
+                <div class="widget-content">
+                    <div class="mission-text">
+                        <p data-editable="mission-statement">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel. We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding.</p>
+                        <div class="mission-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-heart"></i>
+                                <span>Welcoming Community</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-torah"></i>
+                                <span>Torah Living</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-hands-praying"></i>
+                                <span>Faithful Worship</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <div class="widget-header" data-editable="sidebar-vision-header"><i class="fas fa-eye"></i> <span data-editable="sidebar-vision-title">Our Vision</span></div>
+                <div class="widget-content">
+                    <div class="vision-text">
+                        <p data-editable="vision-statement">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua. We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples.</p>
+                        <div class="vision-goals">
+                            <div class="goal-item">
+                                <i class="fas fa-globe-americas"></i>
+                                <span>Light to Nations</span>
+                            </div>
+                            <div class="goal-item">
+                                <i class="fas fa-bridge"></i>
+                                <span>Unity in Messiah</span>
+                            </div>
+                            <div class="goal-item">
+                                <i class="fas fa-crown"></i>
+                                <span>Kingdom Living</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <div class="widget-header" data-editable="sidebar-values-header"><i class="fas fa-gem"></i> <span data-editable="sidebar-values-title">Core Values</span></div>
+                <div class="widget-content">
+                    <div class="values-list">
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-scroll"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-torah-title">Torah Faithfulness</h4>
+                                <p data-editable="value-torah-desc">Living according to God's eternal instructions</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-star-of-david"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-identity-title">Jewish Identity</h4>
+                                <p data-editable="value-identity-desc">Celebrating our rich Jewish heritage and traditions</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-star-of-david"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-messiah-title">Yeshua as Messiah</h4>
+                                <p data-editable="value-messiah-desc">Embracing Jesus as Israel's promised Redeemer</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-hands-helping"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-community-title">Loving Community</h4>
+                                <p data-editable="value-community-desc">Welcoming all who seek to grow in faith</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-study-title">Biblical Study</h4>
+                                <p data-editable="value-study-desc">Commitment to deep Scripture learning and understanding</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-pray"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-worship-title">Authentic Worship</h4>
+                                <p data-editable="value-worship-desc">Heartfelt praise through Jewish liturgy and tradition</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-seedling"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-growth-title">Spiritual Growth</h4>
+                                <p data-editable="value-growth-desc">Encouraging maturity in faith and character</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-heart"></i></div>
+                            <div class="value-content">
+                                <h4 data-editable="value-compassion-title">Compassionate Service</h4>
+                                <p data-editable="value-compassion-desc">Serving others with love and practical care</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <div class="widget-header" data-editable="sidebar-prayer-header"><i class="fas fa-clock"></i> <span data-editable="sidebar-prayer-title">Prayer Times</span></div>
+                <div class="widget-content">
+                    <div class="prayer-times">
+                        <div class="prayer-row">
+                            <div class="prayer-name" data-editable="prayer-shacharit-name"><i class="fas fa-sun"></i> Shacharit</div>
+                            <div class="prayer-time" data-editable="prayer-shacharit-time">7:00 AM</div>
+                        </div>
+                        <div class="prayer-row">
+                            <div class="prayer-name" data-editable="prayer-mincha-name"><i class="fas fa-cloud-sun"></i> Mincha</div>
+                            <div class="prayer-time" data-editable="prayer-mincha-time">5:00 PM</div>
+                        </div>
+                        <div class="prayer-row">
+                            <div class="prayer-name" data-editable="prayer-maariv-name"><i class="fas fa-moon"></i> Ma'ariv</div>
+                            <div class="prayer-time" data-editable="prayer-maariv-time">8:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <h1 data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Kehilat Ohr HaTorah Messianic Jewish Synagogue</span></h1>
+
+            <div class="infobox">
+                <i class="fas fa-info-circle"></i>
+                <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service, and Scripture study at our Fountain Valley location.
+            </div>
+
+            <p data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families – all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
+
+            <p data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together — with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
+
+            <div class="ticker-banner">
+                <div class="ticker-content">
+                    <span class="ticker-item">
+                        <i class="fas fa-scroll"></i>
+                        God's Torah, "It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace (Proverbs 3:17-18). Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old (Lamentations 5:21).
+                    </span>
+                    <span class="ticker-item">
+                        <i class="fas fa-scroll"></i>
+                        God's Torah, "It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace (Proverbs 3:17-18). Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old (Lamentations 5:21).
+                    </span>
+                </div>
+            </div>
+
+            <h3 id="congregation-calendar"><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
+
+            <div class="calendar-container">
+                <div class="responsive-calendar">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=ohrhatorahoc%40gmail.com&ctz=America%2FLos_Angeles"
+                            style="border: 0"
+                            width="800"
+                            height="200"
+                            frameborder="0"
+                            scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+
+            <h3 data-editable="about-us-title"><i class="fas fa-users"></i> <span data-editable="about-us-title-text">About Us</span></h3>
+
+            <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a newly developing Messianic Synagogue in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua. We emphasize Yeshua's call to pursue covenant faithfulness with our God and with all our Jewish people. Within this framework, we warmly welcome all Jewish, non-Jewish, and interfaith couples and families who desire to experience and grow in the freedom and richness of our Messianic Jewish faith.</p>
+
+            <p data-editable="about-us-text-2">Our community and services are ideal both for those who are inquiring and for those who seek to deepen their understanding and walk with our Jewish Messiah. We blend traditional and contemporary Jewish practices – emphasizing in our services community prayer (in Hebrew and English), Scripture teaching, and vibrant music.</p>
+
+            <p data-editable="about-us-text-3">At the head of our leadership team is Rabbi Charles (Chaim) Ott who brings with him many years of experience in Messianic leadership, having completed extensive graduate work in Jewish studies, New Testament studies and public Education. Rabbi Ott is especially passionate and skilled in his presentation of the entire Bible – Hebrew Scriptures and Brit Chadashah (New Testament) – as one unified message of individual and national redemption through Yeshua our Messiah.</p>
+
+            <p data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
+
+            <div class="info-grid">
+                <div class="info-box" id="shabbat-activities-section">
+                    <h4><i class="fas fa-clock"></i> Shabbat Activities and Service</h4>
+                    <div data-editable="service-times">
+                        <p><strong>Friday Evening:</strong><br>
+                        Festive Shabbat meals in the home</p>
+
+                        <p><strong>Saturday Service Schedule:</strong></p>
+                        <ul>
+                            <li><strong>2:30 PM</strong> - Messianic Jewish Music and Dance</li>
+                            <li><strong>3:00 PM</strong> - Traditional prayers and Torah Service (Mincha)</li>
+                            <li><strong>4:30 PM</strong> - Discussion on Weekly Readings</li>
+                        </ul>
+
+                        <p><em>We plan soon to offer a morning service (Shacharit)</em></p>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-map"></i> Google Maps</h4>
+                    <div class="map-container">
+                        <iframe src="https://maps.google.com/maps?q=10460%20Slater%20Ave,%20Fountain%20Valley,%20CA%2092708&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                width="100%"
+                                height="100%"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="map-directions-container" style="width: 100%; overflow: hidden;">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=10460%20Slater%20Ave,%20Fountain%20Valley,%20CA%2092708"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-blue"
+                           style="margin-top: var(--space-sm); padding: 0.5rem 1rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; font-size: var(--font-size-sm); box-sizing: border-box;">
+                            <i class="fas fa-directions"></i>
+                            Get Directions
+                        </a>
+                    </div>
+                </div>
+                <div class="info-box" id="contact-us-section">
+                    <h4><i class="fas fa-envelope"></i> Contact Us</h4>
+                    <div data-editable="contact-info">
+                        <p><strong>Mailing Address:</strong><br>
+                        360 E. 1st Street, #856<br>
+                        Tustin, CA 92780</p>
+
+                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p>
+
+                        <p><strong><i class="fas fa-phone"></i> Phone:</strong> <a href="tel:+17144061513">(714) 406-1513</a></p>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                    <p data-editable="location-text"><strong>Service Location:</strong><br>
+                    10460 Slater Ave<br>
+                    Fountain Valley, CA 92708</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <ParashahCard />
+            <CandleLighting />
+
+            <!-- Leadership Card -->
+            <div class="feature-card leader-card">
+                <div class="card-header">
+                    <i class="fas fa-user-tie"></i>
+                    <span data-editable="rabbi-card-title">Meet Our Rabbi</span>
+                </div>
+                <div class="card-body text-center">
+                    <div class="leader-img">
+                        <img src="/images/rabbi.jpg" alt="Rabbi Charles Ott" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                    </div>
+                    <div class="leader-name" data-editable="rabbi-name">Rabbi Charles Ott</div>
+                    <div class="leader-title" data-editable="rabbi-title">Senior Rabbi &amp; Teacher</div>
+                    <p class="leader-bio" data-editable="rabbi-bio">Rabbi Charles has led our congregation for over 15 years. With a background in biblical studies and Hebrew language, he brings a deep understanding of the Torah and its application to our lives today.</p>
+                </div>
+            </div>
+
+            <!-- Community Life Card -->
+            <div class="feature-card">
+                <div class="card-header">
+                    <i class="fas fa-images"></i>
+                    <span data-editable="community-card-title">Community Life</span>
+                </div>
+                <div class="card-body">
+                    <div class="community-grid">
+                        <div class="community-item">
+                            <img src="/images/Passover.PNG" alt="Passover Seder" class="community-image">
+                        </div>
+                        <div class="community-item">
+                            <img src="/images/Location.PNG" alt="Our Synagogue" class="community-image">
+                        </div>
+                        <div class="community-item">
+                            <img src="/images/Community.PNG" alt="Community Gathering" class="community-image">
+                        </div>
+                        <div class="community-item">
+                            <img src="/images/Torah.PNG" alt="Torah" class="community-image">
+                        </div>
+                        <div class="community-item">
+                            <img src="/images/Dancing.PNG" alt="Israeli Dancing" class="community-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <Footer />
+    <AdminModal />
+
+    <!-- Prayer Times Script -->
+    <script>
+        const loadPrayerTimes = async () => {
+            try {
+                const lat = 33.7175;
+                const lng = -117.8311;
+                const response = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`);
+                const data = await response.json();
+
+                if (data.status === 'OK') {
+                    const sunrise = new Date(data.results.sunrise);
+                    const sunset = new Date(data.results.sunset);
+
+                    const shacharit = new Date(sunrise.getTime() + 60 * 60 * 1000);
+                    const mincha = new Date(sunset.getTime() - 60 * 60 * 1000);
+                    const maariv = new Date(sunset.getTime() + 60 * 60 * 1000);
+
+                    const formatTime = (date: Date) => {
+                        let hours = date.getHours();
+                        const minutes = date.getMinutes();
+                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12;
+                        return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+                    };
+
+                    const prayerRows = document.querySelectorAll('.prayer-row');
+                    if (prayerRows.length >= 3) {
+                        prayerRows[0].querySelector('.prayer-time')!.textContent = formatTime(shacharit);
+                        prayerRows[1].querySelector('.prayer-time')!.textContent = formatTime(mincha);
+                        prayerRows[2].querySelector('.prayer-time')!.textContent = formatTime(maariv);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading prayer times:', error);
+            }
+        };
+
+        loadPrayerTimes();
+    </script>
+</BaseLayout>

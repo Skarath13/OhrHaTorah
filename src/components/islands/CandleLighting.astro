@@ -1,0 +1,141 @@
+---
+// Candle Lighting Times Card
+---
+<div class="feature-card">
+    <div class="card-header">
+        <i class="fas fa-menorah"></i>
+        <span data-editable="candle-card-title">Shabbat Candle Lighting</span>
+    </div>
+    <div class="card-body">
+        <div class="candle-times">
+            <div class="candle-row">
+                <div>
+                    <div class="candle-day">This Friday</div>
+                    <div class="candle-date" id="next-friday-date">Loading...</div>
+                </div>
+                <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-1">Loading...</span></div>
+            </div>
+            <div class="candle-row">
+                <div>
+                    <div class="candle-day">Havdalah</div>
+                    <div class="candle-date" id="havdalah-date">Loading...</div>
+                </div>
+                <div class="candle-time"><i class="fas fa-moon"></i> <span id="havdalah-time">Loading...</span></div>
+            </div>
+            <div class="candle-row">
+                <div>
+                    <div class="candle-day">Next Friday</div>
+                    <div class="candle-date" id="following-friday-date">Loading...</div>
+                </div>
+                <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">Loading...</span></div>
+            </div>
+        </div>
+        <div class="loader" id="candle-times-loader" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+    const calculateCandleLightingTime = (date: Date): string => {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+
+        // Sunset times for Southern California (Tustin, CA)
+        let sunsetTime: number;
+
+        if (month === 1) sunsetTime = 17.17;
+        else if (month === 2) sunsetTime = 17.75;
+        else if (month === 3) sunsetTime = 18.25;
+        else if (month === 4) sunsetTime = 19.58;
+        else if (month === 5) sunsetTime = 19.85;
+        else if (month === 6) sunsetTime = day >= 20 ? 20.08 : 20.05;
+        else if (month === 7) {
+            if (day <= 7) sunsetTime = 20.08;
+            else if (day <= 14) sunsetTime = 20.05;
+            else if (day <= 21) sunsetTime = 20.02;
+            else sunsetTime = 19.98;
+        }
+        else if (month === 8) sunsetTime = day <= 15 ? 19.85 : 19.67;
+        else if (month === 9) sunsetTime = 19.25;
+        else if (month === 10) sunsetTime = 18.58;
+        else if (month === 11) sunsetTime = 17.08;
+        else sunsetTime = 16.83;
+
+        const candleLightingTime = sunsetTime - 0.3;
+        const hours = Math.floor(candleLightingTime);
+        const minutes = Math.round((candleLightingTime - hours) * 60);
+
+        let displayHours = hours;
+        let ampm = 'pm';
+        if (hours >= 12 && hours > 12) displayHours = hours - 12;
+        else if (hours < 12) { ampm = 'am'; if (hours === 0) displayHours = 12; }
+
+        return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    };
+
+    const calculateHavdalahTime = (date: Date): string => {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+
+        let sunsetTime: number;
+
+        if (month === 1) sunsetTime = 17.17;
+        else if (month === 2) sunsetTime = 17.75;
+        else if (month === 3) sunsetTime = 18.25;
+        else if (month === 4) sunsetTime = 19.58;
+        else if (month === 5) sunsetTime = 19.85;
+        else if (month === 6) sunsetTime = day >= 20 ? 20.08 : 20.05;
+        else if (month === 7) {
+            if (day <= 7) sunsetTime = 20.08;
+            else if (day <= 14) sunsetTime = 20.05;
+            else if (day <= 21) sunsetTime = 20.02;
+            else sunsetTime = 19.98;
+        }
+        else if (month === 8) sunsetTime = day <= 15 ? 19.85 : 19.67;
+        else if (month === 9) sunsetTime = 19.25;
+        else if (month === 10) sunsetTime = 18.58;
+        else if (month === 11) sunsetTime = 17.08;
+        else sunsetTime = 16.83;
+
+        const havdalahTime = sunsetTime + 0.7;
+        const hours = Math.floor(havdalahTime);
+        const minutes = Math.round((havdalahTime - hours) * 60);
+
+        let displayHours = hours;
+        let ampm = 'pm';
+        if (hours >= 12 && hours > 12) displayHours = hours - 12;
+        else if (hours < 12) { ampm = 'am'; if (hours === 0) displayHours = 12; }
+
+        return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    };
+
+    const loadCandleLighting = () => {
+        const today = new Date();
+        const thisFriday = new Date(today);
+        const daysUntilFriday = (5 - today.getDay() + 7) % 7;
+
+        if (daysUntilFriday === 0) {
+            thisFriday.setDate(today.getDate());
+        } else {
+            thisFriday.setDate(today.getDate() + daysUntilFriday);
+        }
+
+        const nextFriday = new Date(thisFriday);
+        nextFriday.setDate(thisFriday.getDate() + 7);
+
+        const havdalahDate = new Date(thisFriday);
+        havdalahDate.setDate(thisFriday.getDate() + 1);
+
+        const formatDateStr = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        document.getElementById('next-friday-date')!.textContent = formatDateStr(thisFriday);
+        document.getElementById('candle-time-1')!.textContent = calculateCandleLightingTime(thisFriday);
+
+        document.getElementById('following-friday-date')!.textContent = formatDateStr(nextFriday);
+        document.getElementById('candle-time-2')!.textContent = calculateCandleLightingTime(nextFriday);
+
+        document.getElementById('havdalah-date')!.textContent = formatDateStr(havdalahDate);
+        document.getElementById('havdalah-time')!.textContent = calculateHavdalahTime(havdalahDate);
+    };
+
+    loadCandleLighting();
+</script>

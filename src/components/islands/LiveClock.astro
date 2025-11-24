@@ -1,0 +1,192 @@
+---
+// Live Clock Island - shows PST time, Hebrew date, and Gregorian date
+---
+<div class="header-info">
+    <div class="time-date-container">
+        <div class="date-section">
+            <div class="hebrew-date" id="hebrew-date">Loading...</div>
+            <div class="gregorian-date" id="gregorian-date"></div>
+        </div>
+        <div class="time-date-divider"></div>
+        <div class="israel-time" id="israel-time"></div>
+    </div>
+</div>
+
+<script>
+    // Load Hebrew date from Hebcal API with better date handling
+    const loadHebrewDate = async () => {
+        const hebrewDateElement = document.getElementById('hebrew-date');
+        if (!hebrewDateElement) return;
+        hebrewDateElement.textContent = 'Loading...';
+
+        try {
+            let hebrewDateString = null;
+
+            // Method 1: Use today's Hebrew date from Shabbat API
+            try {
+                const shabbatResponse = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en`);
+                const shabbatData = await shabbatResponse.json();
+
+                if (shabbatData.items && shabbatData.items.length > 0) {
+                    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+                    for (const item of shabbatData.items) {
+                        if (item.date === today) {
+                            if (item.hdate) {
+                                hebrewDateString = item.hdate;
+                                break;
+                            } else if (item.hebrew) {
+                                hebrewDateString = item.hebrew;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (shabbatError) {
+                console.warn('Shabbat API failed:', shabbatError);
+            }
+
+            // Method 2: Use converter API if Shabbat API didn't work
+            if (!hebrewDateString) {
+                const now = new Date();
+                const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+
+                let isAfterSunset = false;
+                try {
+                    const lat = 33.7175;
+                    const lng = -117.8311;
+                    const sunsetResponse = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`);
+                    const sunsetData = await sunsetResponse.json();
+
+                    if (sunsetData.status === 'OK') {
+                        const sunset = new Date(sunsetData.results.sunset);
+                        const currentPSTTime = pstTime.getHours() * 100 + pstTime.getMinutes();
+                        const sunsetPSTDate = new Date(sunset.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+                        const sunsetPSTTime = sunsetPSTDate.getHours() * 100 + sunsetPSTDate.getMinutes();
+                        isAfterSunset = currentPSTTime >= sunsetPSTTime;
+                    } else {
+                        isAfterSunset = pstTime.getHours() >= 20;
+                    }
+                } catch (sunsetError) {
+                    console.warn('Sunset API failed, using rough estimate');
+                    isAfterSunset = pstTime.getHours() >= 20;
+                }
+
+                let dateToConvert = pstTime;
+                if (isAfterSunset) {
+                    dateToConvert = new Date(pstTime);
+                    dateToConvert.setDate(pstTime.getDate() + 1);
+                }
+
+                const dateString = dateToConvert.toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+                const [year, month, day] = dateString.split('-');
+
+                const converterResponse = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1&lg=en`);
+                const converterData = await converterResponse.json();
+
+                if (converterData.hm !== undefined && converterData.hd !== undefined && converterData.hy !== undefined) {
+                    if (typeof converterData.hm === 'string') {
+                        hebrewDateString = `${converterData.hd} ${converterData.hm} ${converterData.hy}`;
+                    } else if (converterData.hms) {
+                        hebrewDateString = `${converterData.hd} ${converterData.hms} ${converterData.hy}`;
+                    } else {
+                        const hebrewMonths = [
+                            '', 'Tishrei', 'Cheshvan', 'Kislev', 'Tevet',
+                            'Shevat', 'Adar', 'Nisan', 'Iyyar',
+                            'Sivan', 'Tammuz', 'Av', 'Elul'
+                        ];
+
+                        let monthName = hebrewMonths[converterData.hm];
+
+                        if (converterData.leap && converterData.hm >= 6) {
+                            if (converterData.hm === 6) monthName = 'Adar I';
+                            else if (converterData.hm === 7) monthName = 'Adar II';
+                            else if (converterData.hm > 7) monthName = hebrewMonths[converterData.hm - 1];
+                        }
+
+                        if (!monthName) {
+                            console.error('Could not map month number:', converterData.hm);
+                            monthName = `Month ${converterData.hm}`;
+                        }
+
+                        hebrewDateString = `${converterData.hd} ${monthName} ${converterData.hy}`;
+                    }
+                }
+            }
+
+            // Method 3: Try the today API as final fallback
+            if (!hebrewDateString) {
+                const todayResponse = await fetch('https://www.hebcal.com/converter?cfg=json&today=1&g2h=1&lg=en');
+                const todayData = await todayResponse.json();
+
+                if (todayData.hdate) {
+                    hebrewDateString = todayData.hdate;
+                } else if (todayData.hebrew) {
+                    hebrewDateString = todayData.hebrew;
+                } else if (todayData.hm !== undefined && todayData.hd !== undefined && todayData.hy !== undefined) {
+                    const hebrewMonths = {
+                        1: 'Tishrei', 2: 'Cheshvan', 3: 'Kislev', 4: 'Tevet',
+                        5: 'Shevat', 6: 'Adar', 7: 'Nisan', 8: 'Iyyar',
+                        9: 'Sivan', 10: 'Tammuz', 11: 'Av', 12: 'Elul'
+                    };
+
+                    const monthName = hebrewMonths[todayData.hm] || 'Unknown';
+                    hebrewDateString = `${todayData.hd} ${monthName} ${todayData.hy}`;
+                }
+            }
+
+            if (hebrewDateString) {
+                hebrewDateElement.textContent = hebrewDateString;
+            } else {
+                throw new Error('All Hebrew date methods failed');
+            }
+
+        } catch (error) {
+            console.error('Error loading Hebrew date:', error);
+            hebrewDateElement.textContent = 'Hebrew Date Available Soon';
+        }
+    };
+
+    // Load Gregorian date
+    const loadGregorianDate = () => {
+        const gregorianDateElement = document.getElementById('gregorian-date');
+        if (!gregorianDateElement) return;
+
+        const today = new Date();
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'America/Los_Angeles'
+        };
+
+        gregorianDateElement.textContent = today.toLocaleDateString('en-US', options);
+    };
+
+    // PST time clock with modern display
+    const updatePSTTime = () => {
+        const now = new Date();
+        const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+
+        let hours = pstTime.getHours();
+        const minutes = pstTime.getMinutes().toString().padStart(2, '0');
+        const seconds = pstTime.getSeconds().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        const timeElement = document.getElementById('israel-time');
+
+        if (timeElement) {
+            timeElement.innerHTML = `${timeString} <span class="time-suffix">${ampm} PST</span>`;
+        }
+    };
+
+    // Initialize
+    loadHebrewDate();
+    loadGregorianDate();
+    updatePSTTime();
+    setInterval(updatePSTTime, 1000);
+</script>

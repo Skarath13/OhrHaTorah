@@ -1,0 +1,272 @@
+---
+// Admin Modal Component - Remains as a modal for authentication and admin functionality
+---
+
+<!-- Admin Login Modal -->
+<div id="admin-modal" class="admin-modal" style="display: none;">
+    <div class="admin-modal-overlay"></div>
+    <div class="admin-modal-content">
+        <button class="admin-modal-close">&times;</button>
+        <div id="admin-login-form">
+            <h3><i class="fas fa-lock"></i> Admin Access</h3>
+            <div class="admin-form-group">
+                <label for="admin-username">Username:</label>
+                <input type="text" id="admin-username" placeholder="Enter username">
+            </div>
+            <div class="admin-form-group">
+                <label for="admin-password">Password:</label>
+                <input type="password" id="admin-password" placeholder="Enter password">
+            </div>
+            <button id="admin-login-btn" class="btn btn-blue">Login</button>
+            <div id="admin-error" class="admin-error" style="display: none;"></div>
+        </div>
+        <div id="admin-panel" style="display: none;">
+            <h3><i class="fas fa-cog"></i> Admin Panel</h3>
+            <div class="admin-section">
+                <h4><i class="fas fa-edit"></i> Content Edit Mode</h4>
+                <p>Toggle edit mode to modify text content directly on the page.</p>
+                <div class="admin-buttons">
+                    <button id="toggle-edit-mode" class="btn btn-blue">
+                        <i class="fas fa-edit"></i> Enable Edit Mode
+                    </button>
+                    <button id="save-all-content" class="btn btn-gold" style="display: none;">
+                        <i class="fas fa-save"></i> Save All Changes
+                    </button>
+                </div>
+            </div>
+            <div class="admin-section">
+                <h4><i class="fas fa-book"></i> Weekly Parashah - Brit Chadashah Override</h4>
+                <div class="admin-form-group">
+                    <label for="current-parashah">Current Parashah:</label>
+                    <input type="text" id="current-parashah" readonly>
+                </div>
+                <div class="admin-form-group">
+                    <label for="brit-override">Brit Chadashah Reading:</label>
+                    <input type="text" id="brit-override" placeholder="Enter custom Brit reading">
+                </div>
+                <div class="admin-buttons">
+                    <button id="save-brit-btn" class="btn btn-blue">Save Override</button>
+                    <button id="clear-brit-btn" class="btn">Clear Override</button>
+                </div>
+            </div>
+            <div class="admin-section">
+                <button id="admin-logout-btn" class="btn">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Admin Portal Functionality
+    const initializeAdminPortal = () => {
+        // Simple hash function for password protection
+        const simpleHash = (str: string): string => {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return hash.toString();
+        };
+
+        // Admin users database
+        const adminUsers: Record<string, { password: string; name: string; permissions: string[] }> = {
+            'rabbi_chuck': {
+                password: simpleHash('123456'),
+                name: 'Rabbi Chuck Ott',
+                permissions: ['edit_brit', 'edit_content']
+            }
+        };
+
+        // Admin session management
+        let adminSession: { username: string; name: string; permissions: string[]; expiry: number } | null = null;
+
+        // Check if user is already logged in
+        const savedSession = localStorage.getItem('oht_admin_session');
+        if (savedSession) {
+            try {
+                adminSession = JSON.parse(savedSession);
+                if (adminSession && adminSession.expiry <= Date.now()) {
+                    localStorage.removeItem('oht_admin_session');
+                    adminSession = null;
+                }
+            } catch (e) {
+                localStorage.removeItem('oht_admin_session');
+                adminSession = null;
+            }
+        }
+
+        const showAdminModal = () => {
+            const modal = document.getElementById('admin-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+
+                if (adminSession) {
+                    showAdminPanel();
+                } else {
+                    showLoginForm();
+                }
+            }
+        };
+
+        const hideAdminModal = () => {
+            const modal = document.getElementById('admin-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        };
+
+        const showLoginForm = () => {
+            const loginForm = document.getElementById('admin-login-form');
+            const panel = document.getElementById('admin-panel');
+            const errorDiv = document.getElementById('admin-error');
+            const usernameInput = document.getElementById('admin-username') as HTMLInputElement;
+            const passwordInput = document.getElementById('admin-password') as HTMLInputElement;
+
+            if (loginForm) loginForm.style.display = 'block';
+            if (panel) panel.style.display = 'none';
+            if (errorDiv) errorDiv.style.display = 'none';
+            if (usernameInput) usernameInput.value = '';
+            if (passwordInput) passwordInput.value = '';
+        };
+
+        const showAdminPanel = () => {
+            const loginForm = document.getElementById('admin-login-form');
+            const panel = document.getElementById('admin-panel');
+            const currentParashah = document.getElementById('current-parashah') as HTMLInputElement;
+            const britOverride = document.getElementById('brit-override') as HTMLInputElement;
+
+            if (loginForm) loginForm.style.display = 'none';
+            if (panel) panel.style.display = 'block';
+
+            // Populate current parashah info
+            const parashahName = document.getElementById('parashah-name')?.textContent || '';
+            if (currentParashah) currentParashah.value = parashahName;
+
+            // Load any existing brit override
+            const savedBrit = localStorage.getItem('oht_brit_override');
+            if (britOverride) britOverride.value = savedBrit || '';
+        };
+
+        // Admin link click handler
+        const adminLink = document.getElementById('admin-link');
+        if (adminLink) {
+            adminLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showAdminModal();
+            });
+        }
+
+        // Login handler
+        const loginBtn = document.getElementById('admin-login-btn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const usernameInput = document.getElementById('admin-username') as HTMLInputElement;
+                const passwordInput = document.getElementById('admin-password') as HTMLInputElement;
+                const errorDiv = document.getElementById('admin-error');
+
+                const username = usernameInput?.value.trim() || '';
+                const password = passwordInput?.value || '';
+
+                if (!username || !password) {
+                    if (errorDiv) {
+                        errorDiv.textContent = 'Please enter both username and password.';
+                        errorDiv.style.display = 'block';
+                    }
+                    return;
+                }
+
+                const hashedPassword = simpleHash(password);
+                const user = adminUsers[username];
+
+                if (user && user.password === hashedPassword) {
+                    adminSession = {
+                        username: username,
+                        name: user.name,
+                        permissions: user.permissions,
+                        expiry: Date.now() + (24 * 60 * 60 * 1000)
+                    };
+
+                    localStorage.setItem('oht_admin_session', JSON.stringify(adminSession));
+                    showAdminPanel();
+                    if (errorDiv) errorDiv.style.display = 'none';
+                } else {
+                    if (errorDiv) {
+                        errorDiv.textContent = 'Invalid username or password.';
+                        errorDiv.style.display = 'block';
+                    }
+                }
+            });
+        }
+
+        // Save Brit override
+        const saveBritBtn = document.getElementById('save-brit-btn');
+        if (saveBritBtn) {
+            saveBritBtn.addEventListener('click', () => {
+                const britOverride = document.getElementById('brit-override') as HTMLInputElement;
+                const britReading = britOverride?.value.trim() || '';
+                if (britReading) {
+                    localStorage.setItem('oht_brit_override', britReading);
+                    const britDisplay = document.getElementById('brit-reading');
+                    if (britDisplay) britDisplay.textContent = britReading;
+                    alert('Brit Chadashah override saved successfully!');
+                }
+            });
+        }
+
+        // Clear Brit override
+        const clearBritBtn = document.getElementById('clear-brit-btn');
+        if (clearBritBtn) {
+            clearBritBtn.addEventListener('click', () => {
+                localStorage.removeItem('oht_brit_override');
+                const britOverride = document.getElementById('brit-override') as HTMLInputElement;
+                if (britOverride) britOverride.value = '';
+                const britDisplay = document.getElementById('brit-reading');
+                if (britDisplay) britDisplay.textContent = 'Pending';
+                alert('Brit Chadashah override cleared!');
+            });
+        }
+
+        // Logout handler
+        const logoutBtn = document.getElementById('admin-logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                adminSession = null;
+                localStorage.removeItem('oht_admin_session');
+                showLoginForm();
+            });
+        }
+
+        // Close modal handlers
+        const closeBtn = document.querySelector('.admin-modal-close');
+        const overlay = document.querySelector('.admin-modal-overlay');
+        if (closeBtn) closeBtn.addEventListener('click', hideAdminModal);
+        if (overlay) overlay.addEventListener('click', hideAdminModal);
+
+        // Escape key handler
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('admin-modal');
+                if (modal && modal.style.display === 'flex') {
+                    hideAdminModal();
+                }
+            }
+        });
+
+        // Enter key handler for login form
+        const passwordInput = document.getElementById('admin-password');
+        if (passwordInput) {
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('admin-login-btn')?.click();
+                }
+            });
+        }
+    };
+
+    // Initialize on DOM ready
+    initializeAdminPortal();
+</script>

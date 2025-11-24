@@ -1,0 +1,232 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Stand With Israel - Ohr HaTorah" pageTitle="Stand With Israel - Supporting Ministries" pageIcon="fas fa-flag">
+    <p class="intro-text"><strong>Supporting trusted ministries that serve Israel with humanitarian aid and the Gospel of Yeshua.</strong></p>
+
+    <div class="ministries-list">
+        <!-- Hope for Israel -->
+        <div class="ministry-card">
+            <div class="ministry-header">
+                <i class="fas fa-heart" style="color: #0066cc;"></i>
+                <h3>Hope for Israel</h3>
+            </div>
+            <div class="ministry-details">
+                <p class="ministry-meta"><strong>Founded:</strong> 2000 | <strong>Director:</strong> Moran Rosenblit | <strong>Location:</strong> Jerusalem</p>
+                <p>A discipleship and service-oriented ministry bringing the hope of Messiah back to Israel. Provides humanitarian aid including food, clothing, and bomb shelters to both Jews and Arabs. Moran reaches out with the Besorah (Good News) of Yeshua and disciples many throughout Israel.</p>
+                <div class="ministry-activities">
+                    <h4><i class="fas fa-hands-helping"></i> Current Activities:</h4>
+                    <ul>
+                        <li>Humanitarian relief aid (food, clothing, bomb shelters)</li>
+                        <li>Outreach to Jews and Arabs with the Gospel</li>
+                        <li>Daily prayer alerts and Bible teachings</li>
+                        <li>Experience Israel tours for believers</li>
+                    </ul>
+                </div>
+                <a href="https://hope4israel.org/" target="_blank" rel="noopener noreferrer" class="ministry-link">
+                    Visit Hope for Israel <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Israel Relief Aid -->
+        <div class="ministry-card">
+            <div class="ministry-header">
+                <i class="fas fa-medkit" style="color: #cc6600;"></i>
+                <h3>Israel Relief Aid</h3>
+            </div>
+            <div class="ministry-details">
+                <p class="ministry-meta"><strong>CEO:</strong> Jo Kaplan | <strong>Founded by:</strong> Jo & Gary Kaplan</p>
+                <p>Cost-effective humanitarian ministry reaching Israelis in need with both material aid and the Besorah (Good News) of Yeshua. Committed to ensuring donations go directly to their intended purpose with minimal overhead.</p>
+                <div class="ministry-activities">
+                    <h4><i class="fas fa-hands-helping"></i> Ministry Focus:</h4>
+                    <ul>
+                        <li>Direct humanitarian aid to Israelis in poverty</li>
+                        <li>Sharing the Gospel with Israeli recipients</li>
+                        <li>Cost-effective operations with low overhead</li>
+                        <li>Shipping containers of relief supplies</li>
+                    </ul>
+                </div>
+                <a href="https://israelrelief.org.il/" target="_blank" rel="noopener noreferrer" class="ministry-link">
+                    Visit Israel Relief Aid <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Chevra USA -->
+        <div class="ministry-card">
+            <div class="ministry-header">
+                <i class="fas fa-handshake" style="color: #009933;"></i>
+                <h3>Chevra USA - Humanitarian Relief Ministry</h3>
+            </div>
+            <div class="ministry-details">
+                <p class="ministry-meta"><strong>Director:</strong> Dr. Michael Schiffman (Messianic Rabbi, Professor, Sofer) | <strong>Focus:</strong> Jewish Ukrainian Refugees</p>
+                <p>Chevra means "friendship" - serving displaced Jewish people, especially Ukrainian refugees. Provides food security, immigration aid to Israel, and humanitarian support across Eastern Europe.</p>
+                <div class="ministry-activities">
+                    <h4><i class="fas fa-hands-helping"></i> Current Impact:</h4>
+                    <ul>
+                        <li><strong>$33 feeds one person for a month</strong></li>
+                        <li>35 soup kitchens serving 145,000 meals/year</li>
+                        <li>Immigration assistance to Israel</li>
+                        <li>Crisis response for hundreds of thousands</li>
+                    </ul>
+                </div>
+                <p class="ministry-note"><em>Note: Ministry operates under different names due to political resistance in some regions.</em></p>
+            </div>
+        </div>
+
+        <!-- Shiloh Israel Children's Fund -->
+        <div class="ministry-card">
+            <div class="ministry-header">
+                <i class="fas fa-child" style="color: #cc0066;"></i>
+                <h3>Shiloh Israel Children's Fund</h3>
+            </div>
+            <div class="ministry-details">
+                <p class="ministry-meta"><strong>Founded:</strong> 2004 | <strong>Founder:</strong> David Rubin (Former Mayor of Shiloh)</p>
+                <p>Specialized ministry healing Israeli children traumatized by terrorism. Featured on Fox News and recognized by Dennis Prager for their vital work with child victims of terror attacks.</p>
+                <div class="ministry-activities">
+                    <h4><i class="fas fa-hands-helping"></i> Healing Programs:</h4>
+                    <ul>
+                        <li>Post-Trauma Emotional Therapy for PTSD</li>
+                        <li>Art, music, and animal therapy</li>
+                        <li>Movement therapy for healing</li>
+                        <li>Specialized treatments for terror victims</li>
+                    </ul>
+                </div>
+                <p class="ministry-note"><em>Since October 7th, thousands more children need healing from trauma.</em></p>
+                <a href="https://www.shilohisraelchildren.org/" target="_blank" rel="noopener noreferrer" class="ministry-link">
+                    Visit Shiloh Children's Fund <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="heart-section">
+        <h3><i class="fas fa-praying-hands"></i> Our Heart for Israel</h3>
+        <p>These ministries represent personal relationships and trusted partnerships built over decades. Each organization demonstrates fiscal responsibility, authentic faith in Yeshua, and genuine love for both the Jewish people and all who call Israel home.</p>
+        <p><strong>Pray for Israel, support these ministries, and consider how God might use you to bless His chosen people.</strong></p>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .ministries-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .ministry-card {
+        background: var(--gray-100);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .ministry-header {
+        background: white;
+        padding: 20px 25px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .ministry-header i {
+        font-size: 2rem;
+    }
+
+    .ministry-header h3 {
+        margin: 0;
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+    }
+
+    .ministry-details {
+        padding: 25px;
+    }
+
+    .ministry-meta {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 0 0 15px 0;
+    }
+
+    .ministry-details > p {
+        margin: 0 0 15px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .ministry-activities {
+        margin: 15px 0;
+    }
+
+    .ministry-activities h4 {
+        color: var(--gold-dark);
+        font-size: 0.95rem;
+        margin: 0 0 10px 0;
+    }
+
+    .ministry-activities ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .ministry-activities li {
+        margin-bottom: 6px;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+    }
+
+    .ministry-note {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 15px 0 !important;
+    }
+
+    .ministry-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--primary-blue);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s ease;
+    }
+
+    .ministry-link:hover {
+        background: #004080;
+    }
+
+    .heart-section {
+        background: rgba(0, 102, 204, 0.05);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary-blue);
+    }
+
+    .heart-section h3 {
+        color: var(--primary-blue);
+        margin: 0 0 15px 0;
+    }
+
+    .heart-section p {
+        margin: 0 0 15px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .heart-section p:last-child {
+        margin-bottom: 0;
+    }
+</style>

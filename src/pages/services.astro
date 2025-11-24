@@ -1,0 +1,207 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services & Activities" pageIcon="fas fa-star-of-david">
+    <p class="intro-text"><strong>Join us each week for meaningful Shabbat worship and fellowship.</strong></p>
+
+    <div class="service-schedule">
+        <h3><i class="fas fa-moon"></i> Friday Evening</h3>
+        <p class="schedule-note">Festive Shabbat meals in the home</p>
+
+        <h3><i class="fas fa-sun"></i> Saturday Service Schedule</h3>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="time-badge blue">2:30 PM</div>
+                <div class="timeline-content">
+                    <strong>Contemporary Messianic Music & Dance</strong>
+                    <p>Uplifting worship with Hebrew and English songs. Join in or simply listen!</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge gold">3:00 PM</div>
+                <div class="timeline-content">
+                    <strong>Traditional Mincha Service</strong>
+                    <p>Hebrew prayers, Torah reading, and blessings. All explained in English.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge green">4:30 PM</div>
+                <div class="timeline-content">
+                    <strong>Interactive Scripture Discussion</strong>
+                    <p>Weekly Torah portion, Haftarah, and Brit Chadashah study with Q&A.</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="future-note"><em><i class="fas fa-clock"></i> We plan soon to offer a morning service (Shacharit)</em></p>
+    </div>
+
+    <div class="info-section">
+        <h3><i class="fas fa-heart"></i> What to Expect</h3>
+        <p>Our Shabbat services blend traditional Jewish liturgy with contemporary Messianic worship. You'll experience Hebrew prayers, Torah readings, meaningful discussions, and vibrant music that celebrates both our Jewish heritage and faith in Yeshua.</p>
+        <p><strong>All are welcome</strong> - whether you're Jewish, non-Jewish, or just curious about Messianic Judaism. We provide guidance and explanations to help everyone participate meaningfully.</p>
+    </div>
+
+    <div class="contact-box">
+        <h4><i class="fas fa-question-circle"></i> Questions about Shabbat services?</h4>
+        <div class="contact-links">
+            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
+        </div>
+    </div>
+</PageLayout>
+
+<style>
+    .intro-text {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .service-schedule {
+        margin-bottom: 30px;
+    }
+
+    .service-schedule h3 {
+        color: var(--primary-blue);
+        margin: 20px 0 15px 0;
+    }
+
+    .schedule-note {
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-bottom: 25px;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        background: var(--gray-100);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .time-badge {
+        padding: 8px 15px;
+        border-radius: 6px;
+        color: white;
+        font-weight: bold;
+        white-space: nowrap;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .time-badge.blue {
+        background: var(--primary-blue);
+    }
+
+    .time-badge.gold {
+        background: var(--gold-dark);
+    }
+
+    .time-badge.green {
+        background: var(--accent-green);
+    }
+
+    .timeline-content strong {
+        display: block;
+        color: var(--text-primary);
+        margin-bottom: 5px;
+    }
+
+    .timeline-content p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+    }
+
+    .future-note {
+        color: var(--text-secondary);
+        margin-top: 20px;
+        padding: 15px;
+        background: var(--gray-100);
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .info-section {
+        background: var(--gold-light);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 4px solid var(--gold);
+        margin-bottom: 30px;
+    }
+
+    .info-section h3 {
+        color: var(--gold-dark);
+        margin: 0 0 15px 0;
+    }
+
+    .info-section p {
+        margin: 0 0 15px 0;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .info-section p:last-child {
+        margin-bottom: 0;
+    }
+
+    .contact-box {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .contact-box h4 {
+        margin: 0 0 15px 0;
+    }
+
+    .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .contact-links a {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: background 0.3s ease;
+    }
+
+    .contact-links a:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 600px) {
+        .timeline-item {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .time-badge {
+            min-width: auto;
+        }
+    }
+</style>

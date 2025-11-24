@@ -1,0 +1,82 @@
+---
+// Footer component
+---
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4><i class="fas fa-star-of-david"></i> Ohr HaTorah</h4>
+                <p>Ohr HaTorah is a Messianic Jewish congregation dedicated to exploring the Jewish roots of our faith while embracing Yeshua as the promised Messiah of Israel.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4><i class="fas fa-link"></i> Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="/services"><i class="fas fa-chevron-right"></i> Services &amp; Times</a></li>
+                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right"></i> Calendar</a></li>
+                    <li><a href="/resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
+                    <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate</a></li>
+                    <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    <li><a href="#" id="admin-link"><i class="fas fa-chevron-right"></i> Admin</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4><i class="fas fa-envelope"></i> Stay Connected</h4>
+                <p>Subscribe to our newsletter for updates on events, teachings, and community news.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter email here" aria-label="Email address">
+                    <button class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
+                <ul class="footer-contact">
+                    <li><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</li>
+                    <li><i class="fas fa-phone"></i> (714) 406-1513</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Services: 10460 Slater Ave, Fountain Valley, CA 92708</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Mailing: 360 E. 1st Street, #856, Tustin, CA 92780</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ohr HaTorah Messianic Congregation. All rights reserved.</p>
+            <p>
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Use</a> |
+                <a href="#">Accessibility</a> |
+                <a href="#">Site Map</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+</a>
+
+<script>
+    const backToTopButton = document.getElementById('backToTop');
+
+    if (backToTopButton) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+</script>

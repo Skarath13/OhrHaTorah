@@ -1,0 +1,259 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Mission & Vision - Ohr HaTorah" pageTitle="Mission, Vision & Core Values" pageIcon="fas fa-bullseye">
+
+    <!-- Mission Section -->
+    <div class="mission-section">
+        <h3><i class="fas fa-heart"></i> Our Mission</h3>
+        <p class="mission-statement">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel.</p>
+        <p>We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding. Our heart is to demonstrate the unity of Scripture and the beauty of our Jewish Messiah.</p>
+
+        <div class="highlights-grid">
+            <div class="highlight-item">
+                <i class="fas fa-users"></i>
+                <strong>Welcoming</strong>
+                <span>All peoples welcome</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-scroll"></i>
+                <strong>Torah Living</strong>
+                <span>Biblical principles</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-star-of-david"></i>
+                <strong>Messiah Yeshua</strong>
+                <span>Israel's Redeemer</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vision Section -->
+    <div class="vision-section">
+        <h3><i class="fas fa-eye"></i> Our Vision</h3>
+        <p class="vision-statement">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua.</p>
+        <p>We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples. Our goal is to see revival in Israel and the nations through the revelation of Yeshua as the Jewish Messiah.</p>
+
+        <div class="highlights-grid gold">
+            <div class="highlight-item">
+                <i class="fas fa-globe-americas"></i>
+                <strong>Light to Nations</strong>
+                <span>Global impact</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-hands-helping"></i>
+                <strong>Unity in Messiah</strong>
+                <span>Bridging communities</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-crown"></i>
+                <strong>Kingdom Living</strong>
+                <span>Biblical lifestyle</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Values Section -->
+    <div class="values-section">
+        <h3><i class="fas fa-gem"></i> Our Core Values</h3>
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fas fa-scroll"></i>
+                <h4>Torah Faithfulness</h4>
+                <p>Living according to God's eternal instructions while embracing the freedom found in Yeshua.</p>
+            </div>
+
+            <div class="value-card">
+                <i class="fas fa-star-of-david"></i>
+                <h4>Jewish Identity</h4>
+                <p>Celebrating and preserving our rich Jewish heritage, culture, and traditions.</p>
+            </div>
+
+            <div class="value-card">
+                <i class="fas fa-star-of-david"></i>
+                <h4>Yeshua as Messiah</h4>
+                <p>Embracing Jesus as Israel's promised Redeemer and the fulfillment of Scripture.</p>
+            </div>
+
+            <div class="value-card">
+                <i class="fas fa-hands-helping"></i>
+                <h4>Loving Community</h4>
+                <p>Welcoming all who seek to grow in faith with love, respect, and acceptance.</p>
+            </div>
+
+            <div class="value-card">
+                <i class="fas fa-book-open"></i>
+                <h4>Biblical Study</h4>
+                <p>Commitment to deep Scripture learning and understanding through Jewish context.</p>
+            </div>
+
+            <div class="value-card">
+                <i class="fas fa-praying-hands"></i>
+                <h4>Authentic Worship</h4>
+                <p>Heartfelt praise through traditional Jewish liturgy and contemporary expression.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+        <h3><i class="fas fa-praying-hands"></i> Live These Values With Us</h3>
+        <p>Join our community as we seek to live out these biblical values together, growing in faith, fellowship, and service to our Messiah Yeshua and the world around us.</p>
+    </div>
+</PageLayout>
+
+<style>
+    .mission-section {
+        background: rgba(0, 102, 204, 0.05);
+        padding: 30px;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-blue);
+        margin-bottom: 30px;
+    }
+
+    .mission-section h3 {
+        color: var(--primary-blue);
+        margin: 0 0 15px 0;
+    }
+
+    .mission-statement {
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+    }
+
+    .mission-section p {
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .vision-section {
+        background: var(--gold-light);
+        padding: 30px;
+        border-radius: 12px;
+        border-left: 4px solid var(--gold-dark);
+        margin-bottom: 30px;
+    }
+
+    .vision-section h3 {
+        color: var(--gold-dark);
+        margin: 0 0 15px 0;
+    }
+
+    .vision-statement {
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+    }
+
+    .vision-section p {
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .highlights-grid {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .highlight-item {
+        text-align: center;
+        background: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        min-width: 140px;
+    }
+
+    .highlight-item i {
+        display: block;
+        font-size: 1.5rem;
+        color: var(--primary-blue);
+        margin-bottom: 10px;
+    }
+
+    .highlights-grid.gold .highlight-item i {
+        color: var(--gold-dark);
+    }
+
+    .highlight-item strong {
+        display: block;
+        color: var(--primary-blue);
+        margin-bottom: 4px;
+        font-size: 0.95rem;
+    }
+
+    .highlights-grid.gold .highlight-item strong {
+        color: var(--gold-dark);
+    }
+
+    .highlight-item span {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .values-section {
+        margin-bottom: 30px;
+    }
+
+    .values-section h3 {
+        color: var(--primary-blue);
+        margin-bottom: 20px;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .value-card {
+        background: var(--gray-100);
+        padding: 25px;
+        border-radius: 8px;
+    }
+
+    .value-card i {
+        font-size: 1.5rem;
+        color: var(--primary-blue);
+        margin-bottom: 15px;
+    }
+
+    .value-card h4 {
+        margin: 0 0 10px 0;
+        color: var(--primary-blue);
+    }
+
+    .value-card p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .cta-section h3 {
+        color: white;
+        margin: 0 0 15px 0;
+    }
+
+    .cta-section p {
+        margin: 0;
+        font-size: 1.1rem;
+        opacity: 0.95;
+    }
+</style>

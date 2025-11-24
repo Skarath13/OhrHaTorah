@@ -1,0 +1,135 @@
+---
+// Navigation component with dropdown menus
+---
+<!-- Navigation Overlay -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- Navigation -->
+<nav class="nav-container" id="nav-container">
+    <ul class="nav-links">
+        <li class="dropdown">
+            <a href="/" id="welcome-header" aria-label="Welcome - Go to Home"><i class="fas fa-home"></i> Welcome</a>
+            <div class="dropdown-content">
+                <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
+                <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
+                <a href="/mission" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
+                <a href="/location" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                <a href="/faq" aria-label="FAQ"><i class="fas fa-question-circle"></i> FAQ</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="/services" id="events-header" aria-label="Events & Services"><i class="fas fa-calendar-check"></i> Events & Services</a>
+            <div class="dropdown-content">
+                <a href="/services" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
+                <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
+                <a href="/events" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
+                <a href="/youth" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#" id="community-header" aria-label="Community"><i class="fas fa-users"></i> Community</a>
+            <div class="dropdown-content">
+                <a href="/#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
+                <a href="/israel" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="/resources" id="learn-header" aria-label="Learn"><i class="fas fa-graduation-cap"></i> Learn</a>
+            <div class="dropdown-content">
+                <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
+                <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
+                <a href="/resources" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
+                <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
+                <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#" id="resources-header" aria-label="Resources"><i class="fas fa-archive"></i> Resources</a>
+            <div class="dropdown-content">
+                <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
+                <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
+                <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
+                <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
+            </div>
+        </li>
+        <li><a href="/contact" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
+    </ul>
+</nav>
+
+<script>
+    // Mobile menu toggle functions
+    function toggleMenu() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navContainer = document.getElementById('nav-container');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        menuBtn?.classList.toggle('active');
+        navContainer?.classList.toggle('active');
+        navOverlay?.classList.toggle('active');
+
+        if (navContainer?.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    function closeMenu() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navContainer = document.getElementById('nav-container');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        menuBtn?.classList.remove('active');
+        navContainer?.classList.remove('active');
+        navOverlay?.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Initialize mobile menu
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
+    document.getElementById('nav-overlay')?.addEventListener('click', closeMenu);
+
+    // Close menu when clicking nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Dynamic navigation text wrap detection
+    function checkNavTextWrapping() {
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        navLinks.forEach(link => {
+            link.classList.remove('text-wrapped');
+
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.position = 'absolute';
+            tempSpan.style.whiteSpace = 'nowrap';
+            tempSpan.style.fontSize = getComputedStyle(link).fontSize;
+            tempSpan.style.fontWeight = getComputedStyle(link).fontWeight;
+            tempSpan.style.lineHeight = getComputedStyle(link).lineHeight;
+            tempSpan.textContent = link.textContent;
+
+            document.body.appendChild(tempSpan);
+            const singleLineHeight = tempSpan.offsetHeight;
+            document.body.removeChild(tempSpan);
+
+            const linkHeight = link.offsetHeight;
+            const hasWrapped = linkHeight > singleLineHeight * 1.2;
+
+            if (hasWrapped) {
+                link.classList.add('text-wrapped');
+            }
+        });
+    }
+
+    setTimeout(checkNavTextWrapping, 100);
+
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(checkNavTextWrapping, 150);
+    });
+</script>
