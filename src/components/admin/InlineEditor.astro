@@ -787,6 +787,11 @@
 
     // Prevent accidental navigation
     window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Listen for login success from LoginModal
+    window.addEventListener('adminLoginSuccess', () => {
+      fab.style.display = 'flex';
+    });
   }
 
   function hasSession() {

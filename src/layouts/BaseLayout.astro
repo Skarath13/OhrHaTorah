@@ -1,5 +1,6 @@
 ---
 import InlineEditor from '../components/admin/InlineEditor.astro';
+import LoginModal from '../components/admin/LoginModal.astro';
 
 interface Props {
   title?: string;
@@ -46,5 +47,6 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
 <body>
     <slot />
     <InlineEditor />
+    <LoginModal />
 </body>
 </html>

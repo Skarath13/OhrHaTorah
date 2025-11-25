@@ -4,9 +4,9 @@ Wix-style inline editing for authorized users.
 
 ## Quick Start
 
-1. Login at `/admin/login` with 6-digit PIN
-2. Click floating edit button (bottom-right)
-3. Click editable elements to modify
+1. Click "Admin" link in footer → login modal appears
+2. Enter 6-digit PIN → floating edit button appears
+3. Click edit button, then click editable elements to modify
 4. Save changes with toolbar or Ctrl+S
 
 ## Admin PIN Setup
