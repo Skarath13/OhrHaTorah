@@ -74,12 +74,6 @@
                 <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
             </div>
             <div class="reading-text" id="brit-reading" data-brit-editable="true">Loading...</div>
-            <div class="brit-override-indicator" id="brit-override-indicator" style="display: none;">
-                <span class="override-badge">Custom</span>
-                <button class="reset-brit-btn" id="reset-brit-btn" title="Reset to automatic">
-                    <i class="fas fa-undo"></i>
-                </button>
-            </div>
         </div>
 
         <div class="loader" id="parashah-loader" style="display: none;"></div>
@@ -303,10 +297,6 @@
                 britOverride = overrideResult.data.value;
                 localStorage.setItem('oht_brit_override', britOverride);
                 // Show the override indicator
-                const indicator = document.getElementById('brit-override-indicator');
-                if (indicator) {
-                    indicator.style.display = 'flex';
-                }
             }
         } catch (err) {
             // API not available, use localStorage fallback

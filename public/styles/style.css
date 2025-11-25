@@ -2582,52 +2582,9 @@ body.edit-mode [data-editable]:hover .edit-icon {
     padding-bottom: 0;
 }
 
-/* Brit Chadashah Override Indicator */
+/* Brit Chadashah Section */
 .brit-chadashah-section {
     position: relative;
-}
-
-.brit-override-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.override-badge {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%);
-    color: #744210;
-    padding: 2px 8px;
-    border-radius: 10px;
-}
-
-.reset-brit-btn {
-    display: none;
-    width: 24px;
-    height: 24px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(239, 68, 68, 0.1);
-    color: #e53e3e;
-    cursor: pointer;
-    font-size: 11px;
-    transition: all 0.2s;
-    align-items: center;
-    justify-content: center;
-}
-
-.reset-brit-btn:hover {
-    background: rgba(239, 68, 68, 0.2);
-    transform: scale(1.1);
-}
-
-/* Show reset button only when admin is in edit mode */
-body.admin-edit-mode .reset-brit-btn {
-    display: flex;
 }
 
 /* Brit Chadashah editable styling in edit mode */

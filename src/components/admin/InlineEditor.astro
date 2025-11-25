@@ -1290,12 +1290,6 @@
         // Clear local storage
         localStorage.removeItem('oht_brit_override');
 
-        // Hide the override indicator
-        const indicator = document.getElementById('brit-override-indicator');
-        if (indicator) {
-          indicator.style.display = 'none';
-        }
-
         showToast('Brit Chadashah reset to automatic. Reload to see updated value.', 'success');
 
         // Reload the page to fetch fresh API data
@@ -1311,18 +1305,11 @@
   }
 
   async function checkBritOverrideStatus() {
-    // Check if there's an override stored
+    // Check if there's an override stored (for internal tracking)
     try {
       const response = await fetch('/api/content/brit-chadashah-override');
       const result = await response.json();
-
-      if (result.success && result.data?.value) {
-        // There's an override - show the indicator
-        const indicator = document.getElementById('brit-override-indicator');
-        if (indicator) {
-          indicator.style.display = 'flex';
-        }
-      }
+      // Just check status, no UI indicator needed
     } catch (err) {
       // Silently fail - might not have DB access in dev
       console.log('Could not check brit override status:', err);
@@ -1506,11 +1493,6 @@
             // Also store in localStorage for the ParashahCard to use
             localStorage.setItem('oht_brit_override', data.current);
 
-            // Show the override indicator
-            const indicator = document.getElementById('brit-override-indicator');
-            if (indicator) {
-              indicator.style.display = 'flex';
-            }
           } else {
             errorCount++;
           }
