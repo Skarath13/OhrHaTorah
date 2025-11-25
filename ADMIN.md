@@ -13,11 +13,17 @@ The admin system provides Wix-style inline editing capabilities, allowing author
 - **Method**: 6-digit PIN authentication
 - **Default Admin PIN**: `123456` (change in production)
 
+### Security Features
+- **Rate Limiting**: 5 failed attempts locks the IP for 15 minutes
+- **CSRF Protection**: All mutations require valid CSRF token
+- **Revision History**: All content changes are tracked with user attribution
+
 ### Session Management
 - Sessions last 7 days
 - Two cookies are used:
   - `oht_session` (HttpOnly) - Secure session token for server-side auth
   - `oht_logged_in` (non-HttpOnly) - Indicator cookie for JavaScript to detect login state
+  - `oht_csrf` - CSRF token for mutations
 
 ### Logout
 - Click the Logout button in the edit toolbar
@@ -34,6 +40,7 @@ The admin system provides Wix-style inline editing capabilities, allowing author
 - **Bottom Toolbar**: Shows edit status, unsaved changes count, and action buttons
 - **Visual Indicators**: Editable elements show dashed outlines on hover
 - **Tooltips**: "Click to edit" appears when hovering over editable content
+- **Image Library**: Browse previously uploaded images when editing images
 
 ### Keyboard Shortcuts
 | Shortcut | Action |
@@ -68,6 +75,7 @@ Add `data-editable-image="unique-key"` to images.
 - Click to open image upload dialog
 - Supports: JPEG, PNG, GIF, WebP, AVIF, SVG
 - Images are uploaded to Cloudflare R2
+- Image Library browser lets you select from previously uploaded images
 
 ### Brit Chadashah Override (`data-brit-editable`)
 Special editable type for the weekly Brit Chadashah reading.
@@ -78,8 +86,7 @@ Special editable type for the weekly Brit Chadashah reading.
 
 Features:
 - Overrides the automatic reading from the 119 Ministries schedule
-- Shows "Custom" badge when override is active
-- Reset button to restore automatic value
+- Can be reset to restore automatic value
 
 ## API Endpoints
 
@@ -95,6 +102,7 @@ Features:
 | `/api/content` | GET | Get all content |
 | `/api/content` | POST | Create/update content |
 | `/api/content/[key]` | GET | Get specific content |
+| `/api/content/[key]?history=true` | GET | Get revision history |
 | `/api/content/[key]` | PUT | Update specific content |
 | `/api/content/[key]` | DELETE | Delete content |
 
@@ -102,6 +110,7 @@ Features:
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/images/upload` | POST | Upload image (multipart/form-data) |
+| `/api/images/list` | GET | List all uploaded images |
 
 ## Database Schema
 
@@ -130,7 +139,7 @@ CREATE TABLE sessions (
 
 ### Content Table
 ```sql
-CREATE TABLE content (
+CREATE TABLE site_content (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   key TEXT UNIQUE NOT NULL,
   value TEXT NOT NULL,
@@ -138,6 +147,40 @@ CREATE TABLE content (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_by INTEGER,
   FOREIGN KEY (updated_by) REFERENCES users(id)
+);
+```
+
+### Login Attempts Table (Rate Limiting)
+```sql
+CREATE TABLE login_attempts (
+  ip_address TEXT PRIMARY KEY,
+  attempts INTEGER DEFAULT 0,
+  first_attempt_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  locked_until DATETIME
+);
+```
+
+### CSRF Tokens Table
+```sql
+CREATE TABLE csrf_tokens (
+  token TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME NOT NULL
+);
+```
+
+### Content Revisions Table
+```sql
+CREATE TABLE content_revisions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  content_key TEXT NOT NULL,
+  old_value TEXT,
+  new_value TEXT NOT NULL,
+  content_type TEXT DEFAULT 'text',
+  changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  changed_by INTEGER REFERENCES users(id),
+  change_type TEXT DEFAULT 'update' CHECK (change_type IN ('create', 'update', 'delete'))
 );
 ```
 
@@ -152,7 +195,8 @@ src/
 │   └── BaseLayout.astro          # Includes InlineEditor
 ├── lib/
 │   ├── auth.ts                   # Authentication utilities
-│   └── db.ts                     # Database utilities
+│   ├── db.ts                     # Database utilities
+│   └── revisions.ts              # Revision history utilities
 └── pages/
     ├── admin/
     │   ├── index.astro           # Redirect handler
@@ -165,7 +209,8 @@ src/
         │   ├── index.ts
         │   └── [key].ts
         └── images/
-            └── upload.ts
+            ├── upload.ts
+            └── list.ts
 ```
 
 ## Adding New Editable Content
@@ -189,17 +234,24 @@ if (data.success && data.data?.value) {
 
 ## Cloudflare Infrastructure
 
-- **D1 Database**: `ohrhatorah-db` - Stores users, sessions, and content
+- **D1 Database**: `ohrhatorah-db` - Stores users, sessions, content, and revisions
 - **R2 Bucket**: `ohrhatorah-images` - Stores uploaded images
 - **Pages**: Auto-deploys from GitHub on push to master
+
+### Required Compatibility Flags
+Set these in Cloudflare Dashboard > Pages > Settings > Functions > Compatibility Flags:
+- `nodejs_compat`
+- `disable_nodejs_process_v2`
 
 ## Security Notes
 
 1. **PIN Security**: PINs are hashed with bcrypt (10 rounds)
 2. **Session Tokens**: 64-character hex strings from crypto.getRandomValues
 3. **HttpOnly Cookies**: Session cookie is HttpOnly to prevent XSS access
-4. **CSRF**: SameSite=Strict prevents cross-site request forgery
-5. **Authorization**: All content/image APIs require valid session
+4. **CSRF Protection**: All mutations require valid CSRF token
+5. **Rate Limiting**: IP-based lockout after 5 failed login attempts
+6. **Revision History**: All changes tracked for audit purposes
+7. **Authorization**: All content/image APIs require valid session
 
 ## Troubleshooting
 
@@ -211,12 +263,17 @@ if (data.success && data.data?.value) {
 ### Changes not saving
 - Check network tab for API errors
 - Verify D1 database binding is configured
+- Check for CSRF token errors (may need to refresh page)
 - Check Cloudflare dashboard for function errors
 
 ### Images not uploading
 - Verify R2 bucket binding is configured
 - Check file size (max varies by plan)
 - Ensure file type is supported
+
+### Site showing [object Object]
+- Ensure `disable_nodejs_process_v2` compatibility flag is set in Cloudflare Dashboard
+- Redeploy after adding the flag
 
 ## Local Development
 
