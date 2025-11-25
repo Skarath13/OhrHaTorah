@@ -13,6 +13,29 @@ The admin system provides Wix-style inline editing capabilities, allowing author
 - **Method**: 6-digit PIN authentication
 - **Admin PIN**: Stored securely in D1 database (bcrypt hashed)
 
+### Creating/Changing Admin PIN
+The admin PIN is never hardcoded. To create or update an admin user:
+
+1. Run the seed script with your chosen PIN:
+   ```bash
+   ADMIN_PIN=<your-6-digit-pin> npx ts-node scripts/seed-admin.ts
+   ```
+
+2. The script outputs SQL to insert the user. Run it on your database:
+   ```bash
+   # Local development
+   npx wrangler d1 execute ohrhatorah-db --local --command="<generated SQL>"
+
+   # Production
+   npx wrangler d1 execute ohrhatorah-db --remote --command="<generated SQL>"
+   ```
+
+3. To change an existing PIN, update the `pin_hash` in the database:
+   ```bash
+   # Generate new hash with seed script, then update:
+   npx wrangler d1 execute ohrhatorah-db --remote --command="UPDATE users SET pin_hash='<new-hash>' WHERE name='Rabbi Chuck';"
+   ```
+
 ### Security Features
 - **Rate Limiting**: 5 failed attempts locks the IP for 15 minutes
 - **CSRF Protection**: All mutations require valid CSRF token
