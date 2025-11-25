@@ -4,12 +4,11 @@
 ---
 
 <!-- Floating Action Button (visible when logged in, hidden in edit mode) -->
-<button id="adminEditFab" class="admin-fab" aria-label="Enter edit mode">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<button id="adminEditFab" class="admin-fab" aria-label="Enter edit mode" title="Edit page content">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
   </svg>
-  <span>Edit</span>
 </button>
 
 <!-- Bottom Toolbar (visible only in edit mode) -->
@@ -63,9 +62,36 @@
       <circle cx="8.5" cy="8.5" r="1.5"></circle>
       <polyline points="21 15 16 10 5 21"></polyline>
     </svg>
-    Change Image
+    Upload New
+  </button>
+  <button class="change-image-btn library-btn" id="browseLibraryBtn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    Browse Library
   </button>
   <input type="file" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,image/svg+xml" hidden />
+</div>
+
+<!-- Image Library Modal -->
+<div id="imageLibraryModal" class="image-library-modal">
+  <div class="image-library-content">
+    <div class="image-library-header">
+      <h3>Image Library</h3>
+      <button class="close-library-btn" id="closeLibraryBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="image-library-grid" id="imageLibraryGrid">
+      <div class="library-loading">Loading images...</div>
+    </div>
+  </div>
 </div>
 
 <!-- Toast Notification -->
@@ -80,34 +106,34 @@
      ========================================== */
   .admin-fab {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
-    height: 48px;
-    padding: 0 20px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(49, 130, 206, 0.85);
     color: white;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(49, 130, 206, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
     display: none; /* Hidden by default, shown via JS when logged in */
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    opacity: 0.7;
   }
 
   .admin-fab:hover {
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(49, 130, 206, 0.5);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(49, 130, 206, 0.4);
+    opacity: 1;
+    background: rgba(49, 130, 206, 1);
   }
 
   .admin-fab:active {
-    transform: scale(0.98);
+    transform: scale(0.95);
   }
 
   .admin-fab svg {
@@ -427,6 +453,164 @@
     transform: scale(1.05);
   }
 
+  .change-image-btn.library-btn {
+    background: #e2e8f0;
+    color: #2d3748;
+  }
+
+  .change-image-btn.library-btn:hover {
+    background: #cbd5e0;
+  }
+
+  /* ==========================================
+     IMAGE LIBRARY MODAL
+     ========================================== */
+  .image-library-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 10002;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .image-library-modal.visible {
+    display: flex;
+  }
+
+  .image-library-content {
+    background: white;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  }
+
+  .image-library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .image-library-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a365d;
+  }
+
+  .close-library-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #718096;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .close-library-btn:hover {
+    background: #f7fafc;
+    color: #2d3748;
+  }
+
+  .image-library-grid {
+    padding: 20px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    min-height: 200px;
+  }
+
+  .library-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #718096;
+    font-size: 14px;
+  }
+
+  .library-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #718096;
+    font-size: 14px;
+  }
+
+  .library-image-item {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .library-image-item:hover {
+    border-color: #3182ce;
+    transform: scale(1.02);
+  }
+
+  .library-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .library-image-item .image-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .library-image-item:hover .image-info {
+    opacity: 1;
+  }
+
+  .library-image-item .image-info span {
+    color: white;
+    font-size: 11px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 640px) {
+    .image-library-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+    }
+
+    .image-edit-overlay {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .change-image-btn {
+      width: 100%;
+    }
+  }
+
   /* ==========================================
      TOAST NOTIFICATIONS
      ========================================== */
@@ -535,6 +719,25 @@
   let pendingChanges = new Map(); // key -> { original, current, element, type: 'text' | 'image' }
   let currentlyEditing = null;
   let currentImageElement = null;
+  let britOriginalValue = null; // Store API-fetched value for reset
+
+  // ==========================================
+  // CSRF TOKEN HELPER
+  // ==========================================
+  function getCSRFToken() {
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    const csrfCookie = cookies.find(c => c.startsWith('oht_csrf='));
+    return csrfCookie ? csrfCookie.split('=')[1] : null;
+  }
+
+  function getAuthHeaders() {
+    const headers = { 'Content-Type': 'application/json' };
+    const csrfToken = getCSRFToken();
+    if (csrfToken) {
+      headers['X-CSRF-Token'] = csrfToken;
+    }
+    return headers;
+  }
 
   // ==========================================
   // DOM ELEMENTS
@@ -550,6 +753,10 @@
   const imageOverlay = document.getElementById('imageEditOverlay');
   const changeImageBtn = document.getElementById('changeImageBtn');
   const imageInput = document.getElementById('imageInput');
+  const browseLibraryBtn = document.getElementById('browseLibraryBtn');
+  const imageLibraryModal = document.getElementById('imageLibraryModal');
+  const imageLibraryGrid = document.getElementById('imageLibraryGrid');
+  const closeLibraryBtn = document.getElementById('closeLibraryBtn');
 
   // ==========================================
   // INITIALIZATION
@@ -568,6 +775,9 @@
     logoutBtn.addEventListener('click', handleLogout);
     changeImageBtn.addEventListener('click', () => imageInput.click());
     imageInput.addEventListener('change', handleImageUpload);
+    browseLibraryBtn.addEventListener('click', openImageLibrary);
+    closeLibraryBtn.addEventListener('click', closeImageLibrary);
+    imageLibraryModal.addEventListener('click', handleLibraryBackdropClick);
 
     // Global keyboard shortcuts
     document.addEventListener('keydown', handleKeyDown);
@@ -580,7 +790,8 @@
   }
 
   function hasSession() {
-    return document.cookie.includes('oht_session');
+    // Check for the non-HttpOnly indicator cookie
+    return document.cookie.includes('oht_logged_in');
   }
 
   // ==========================================
@@ -603,6 +814,20 @@
     document.querySelectorAll('[data-editable-image]').forEach(el => {
       el.addEventListener('click', handleImageClick);
     });
+
+    // Add click listeners to Brit Chadashah editable element
+    document.querySelectorAll('[data-brit-editable]').forEach(el => {
+      el.addEventListener('click', handleBritClick);
+    });
+
+    // Add click listener to reset button
+    const resetBtn = document.getElementById('reset-brit-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', handleBritReset);
+    }
+
+    // Check if there's an existing override and show indicator
+    checkBritOverrideStatus();
 
     showToast('Edit mode enabled. Click any highlighted text to edit it.', 'info');
   }
@@ -634,6 +859,18 @@
       el.removeEventListener('click', handleImageClick);
       el.classList.remove('modified');
     });
+
+    // Remove Brit Chadashah listeners
+    document.querySelectorAll('[data-brit-editable]').forEach(el => {
+      el.removeEventListener('click', handleBritClick);
+      el.removeAttribute('contenteditable');
+      el.classList.remove('actively-editing', 'modified');
+    });
+
+    const resetBtn = document.getElementById('reset-brit-btn');
+    if (resetBtn) {
+      resetBtn.removeEventListener('click', handleBritReset);
+    }
 
     // Clear state
     pendingChanges.clear();
@@ -787,8 +1024,17 @@
       const formData = new FormData();
       formData.append('file', file);
 
+      // For FormData, we can't use Content-Type header (browser sets it with boundary)
+      // So we add CSRF token separately
+      const csrfToken = getCSRFToken();
+      const headers = {};
+      if (csrfToken) {
+        headers['X-CSRF-Token'] = csrfToken;
+      }
+
       const response = await fetch('/api/images/upload', {
         method: 'POST',
+        headers,
         body: formData
       });
 
@@ -822,6 +1068,268 @@
   }
 
   // ==========================================
+  // IMAGE LIBRARY
+  // ==========================================
+  async function openImageLibrary() {
+    hideImageOverlay();
+    imageLibraryModal.classList.add('visible');
+    imageLibraryGrid.innerHTML = '<div class="library-loading">Loading images...</div>';
+
+    try {
+      const response = await fetch('/api/images');
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        if (result.data.length === 0) {
+          imageLibraryGrid.innerHTML = '<div class="library-empty">No images uploaded yet. Upload your first image using "Upload New".</div>';
+        } else {
+          imageLibraryGrid.innerHTML = result.data.map(img => `
+            <div class="library-image-item" data-url="/api/images/serve/${img.r2_key}" data-filename="${img.filename}">
+              <img src="/api/images/serve/${img.r2_key}" alt="${img.alt_text || img.filename}" loading="lazy" />
+              <div class="image-info">
+                <span>${img.filename}</span>
+              </div>
+            </div>
+          `).join('');
+
+          // Add click handlers to each image
+          imageLibraryGrid.querySelectorAll('.library-image-item').forEach(item => {
+            item.addEventListener('click', () => selectLibraryImage(item.dataset.url));
+          });
+        }
+      } else {
+        imageLibraryGrid.innerHTML = '<div class="library-empty">Failed to load images.</div>';
+      }
+    } catch (err) {
+      imageLibraryGrid.innerHTML = '<div class="library-empty">Failed to load images: ' + err.message + '</div>';
+    }
+  }
+
+  function closeImageLibrary() {
+    imageLibraryModal.classList.remove('visible');
+  }
+
+  function handleLibraryBackdropClick(e) {
+    if (e.target === imageLibraryModal) {
+      closeImageLibrary();
+    }
+  }
+
+  function selectLibraryImage(url) {
+    if (!currentImageElement) {
+      closeImageLibrary();
+      return;
+    }
+
+    const key = currentImageElement.dataset.editableImage;
+    const originalSrc = pendingChanges.has(key)
+      ? pendingChanges.get(key).original
+      : currentImageElement.src;
+
+    // Update the image src
+    currentImageElement.src = url;
+    currentImageElement.classList.add('modified');
+
+    // Track the change
+    pendingChanges.set(key, {
+      original: originalSrc,
+      current: url,
+      element: currentImageElement,
+      type: 'image'
+    });
+
+    showToast('Image selected. Click Save to apply.', 'success');
+    updateUI();
+    closeImageLibrary();
+  }
+
+  // ==========================================
+  // BRIT CHADASHAH EDITING
+  // ==========================================
+  function handleBritClick(e) {
+    if (!isEditMode) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const element = e.currentTarget;
+
+    // If already editing something else, finish it first
+    if (currentlyEditing && currentlyEditing !== element) {
+      finishEditing(currentlyEditing);
+    }
+
+    // If clicking the same element that's being edited, let native behavior work
+    if (currentlyEditing === element) {
+      return;
+    }
+
+    startBritEditing(element);
+  }
+
+  function startBritEditing(element) {
+    // Store the original API value for reset (not including any override)
+    if (britOriginalValue === null) {
+      // Try to get the non-override value from localStorage marker or the current displayed value
+      const storedOriginal = localStorage.getItem('oht_brit_original');
+      britOriginalValue = storedOriginal || element.textContent;
+    }
+
+    const key = 'brit-chadashah-override';
+
+    // Store current value if not already tracked
+    if (!pendingChanges.has(key)) {
+      pendingChanges.set(key, {
+        original: element.textContent,
+        current: element.textContent,
+        element: element,
+        type: 'brit'
+      });
+    }
+
+    // Make editable - for Brit Chadashah, we edit the raw text
+    element.setAttribute('contenteditable', 'true');
+    element.classList.add('actively-editing');
+    element.focus();
+
+    // Select all text for easy replacement
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    currentlyEditing = element;
+
+    // Handle paste to strip HTML
+    element.addEventListener('paste', handlePaste);
+    element.addEventListener('input', handleBritInput);
+    element.addEventListener('keydown', handleBritKeyDown);
+  }
+
+  function finishBritEditing(element) {
+    if (!element) return;
+
+    element.removeAttribute('contenteditable');
+    element.classList.remove('actively-editing');
+    element.removeEventListener('paste', handlePaste);
+    element.removeEventListener('input', handleBritInput);
+    element.removeEventListener('keydown', handleBritKeyDown);
+
+    const key = 'brit-chadashah-override';
+    const data = pendingChanges.get(key);
+
+    if (data) {
+      const newValue = element.textContent.trim();
+
+      if (newValue !== data.original) {
+        data.current = newValue;
+        element.classList.add('modified');
+      } else {
+        pendingChanges.delete(key);
+        element.classList.remove('modified');
+      }
+    }
+
+    currentlyEditing = null;
+    updateUI();
+  }
+
+  function handleBritInput(e) {
+    const element = e.target;
+    const key = 'brit-chadashah-override';
+    const data = pendingChanges.get(key);
+
+    if (data) {
+      data.current = element.textContent;
+    }
+
+    updateUI();
+  }
+
+  function handleBritKeyDown(e) {
+    // Escape: Cancel and restore
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      const key = 'brit-chadashah-override';
+      const data = pendingChanges.get(key);
+      if (data) {
+        currentlyEditing.textContent = data.original;
+        pendingChanges.delete(key);
+        currentlyEditing.classList.remove('modified');
+      }
+      finishBritEditing(currentlyEditing);
+      return;
+    }
+
+    // Enter: Confirm (single line mode)
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      finishBritEditing(currentlyEditing);
+      return;
+    }
+  }
+
+  async function handleBritReset(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!confirm('Reset Brit Chadashah to the automatic value from the reading schedule?')) {
+      return;
+    }
+
+    try {
+      // Delete the override from the database
+      const response = await fetch('/api/content/brit-chadashah-override', {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Clear local storage
+        localStorage.removeItem('oht_brit_override');
+
+        // Hide the override indicator
+        const indicator = document.getElementById('brit-override-indicator');
+        if (indicator) {
+          indicator.style.display = 'none';
+        }
+
+        showToast('Brit Chadashah reset to automatic. Reload to see updated value.', 'success');
+
+        // Reload the page to fetch fresh API data
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        showToast(result.error || 'Failed to reset', 'error');
+      }
+    } catch (err) {
+      showToast('Reset failed: ' + err.message, 'error');
+    }
+  }
+
+  async function checkBritOverrideStatus() {
+    // Check if there's an override stored
+    try {
+      const response = await fetch('/api/content/brit-chadashah-override');
+      const result = await response.json();
+
+      if (result.success && result.data?.value) {
+        // There's an override - show the indicator
+        const indicator = document.getElementById('brit-override-indicator');
+        if (indicator) {
+          indicator.style.display = 'flex';
+        }
+      }
+    } catch (err) {
+      // Silently fail - might not have DB access in dev
+      console.log('Could not check brit override status:', err);
+    }
+  }
+
+  // ==========================================
   // KEYBOARD HANDLING
   // ==========================================
   function handleKeyDown(e) {
@@ -831,6 +1339,13 @@
       if (isEditMode && pendingChanges.size > 0) {
         saveAllChanges();
       }
+      return;
+    }
+
+    // Close image library on Escape
+    if (e.key === 'Escape' && imageLibraryModal.classList.contains('visible')) {
+      e.preventDefault();
+      closeImageLibrary();
       return;
     }
 
@@ -889,7 +1404,12 @@
 
     // Finish editing when clicking outside the element
     if (currentlyEditing && !currentlyEditing.contains(e.target)) {
-      finishEditing(currentlyEditing);
+      // Check if it's a Brit Chadashah element
+      if (currentlyEditing.hasAttribute('data-brit-editable')) {
+        finishBritEditing(currentlyEditing);
+      } else {
+        finishEditing(currentlyEditing);
+      }
     }
   }
 
@@ -910,7 +1430,7 @@
         try {
           const response = await fetch('/api/content', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
               key,
               value: data.current,
@@ -926,6 +1446,11 @@
             data.original = data.current; // Update baseline
             pendingChanges.delete(key);
           } else {
+            // Check for CSRF error
+            if (result.error && result.error.includes('CSRF')) {
+              showToast('Session expired. Please refresh and try again.', 'error');
+              return;
+            }
             errorCount++;
           }
         } catch (err) {
@@ -936,7 +1461,7 @@
         try {
           const response = await fetch('/api/content', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
               key,
               value: data.current,
@@ -951,6 +1476,41 @@
             data.element.classList.remove('modified');
             data.original = data.current;
             pendingChanges.delete(key);
+          } else {
+            errorCount++;
+          }
+        } catch (err) {
+          errorCount++;
+        }
+      } else if (data.type === 'brit') {
+        // Brit Chadashah override
+        try {
+          const response = await fetch('/api/content', {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify({
+              key: 'brit-chadashah-override',
+              value: data.current,
+              contentType: 'text'
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            savedCount++;
+            data.element.classList.remove('modified');
+            data.original = data.current;
+            pendingChanges.delete(key);
+
+            // Also store in localStorage for the ParashahCard to use
+            localStorage.setItem('oht_brit_override', data.current);
+
+            // Show the override indicator
+            const indicator = document.getElementById('brit-override-indicator');
+            if (indicator) {
+              indicator.style.display = 'flex';
+            }
           } else {
             errorCount++;
           }
@@ -986,7 +1546,7 @@
 
   function restoreOriginals() {
     for (const [key, data] of pendingChanges) {
-      if (data.type === 'text') {
+      if (data.type === 'text' || data.type === 'brit') {
         data.element.textContent = data.original;
       } else if (data.type === 'image') {
         data.element.src = data.original;

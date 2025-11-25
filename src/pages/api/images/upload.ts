@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { recordImage } from '../../../lib/db';
-import { validateSession, getSessionFromCookies } from '../../../lib/auth';
+import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFTokenFromRequest } from '../../../lib/auth';
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
@@ -21,6 +21,23 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Verify CSRF token
+    const csrfToken = getCSRFTokenFromRequest(request);
+    if (!csrfToken || !sessionId) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Missing CSRF token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const validCSRF = await validateCSRFToken(runtime.env.DB, csrfToken, sessionId);
+    if (!validCSRF) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid CSRF token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
       );
     }
 

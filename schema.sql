@@ -50,8 +50,40 @@ CREATE TABLE IF NOT EXISTS images (
   uploaded_by INTEGER REFERENCES users(id)
 );
 
+-- Login rate limiting (track failed attempts by IP)
+CREATE TABLE IF NOT EXISTS login_attempts (
+  ip_address TEXT PRIMARY KEY,
+  attempts INTEGER DEFAULT 0,
+  first_attempt_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  locked_until DATETIME
+);
+
+-- Content revision history
+CREATE TABLE IF NOT EXISTS content_revisions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  content_key TEXT NOT NULL,
+  old_value TEXT,
+  new_value TEXT NOT NULL,
+  content_type TEXT DEFAULT 'text',
+  changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  changed_by INTEGER REFERENCES users(id),
+  change_type TEXT DEFAULT 'update' CHECK (change_type IN ('create', 'update', 'delete'))
+);
+
+-- CSRF tokens (stored server-side for validation)
+CREATE TABLE IF NOT EXISTS csrf_tokens (
+  token TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME NOT NULL
+);
+
 -- Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
 CREATE INDEX IF NOT EXISTS idx_site_content_updated_at ON site_content(updated_at);
 CREATE INDEX IF NOT EXISTS idx_images_uploaded_at ON images(uploaded_at);
+CREATE INDEX IF NOT EXISTS idx_content_revisions_key ON content_revisions(content_key);
+CREATE INDEX IF NOT EXISTS idx_content_revisions_changed_at ON content_revisions(changed_at);
+CREATE INDEX IF NOT EXISTS idx_csrf_tokens_session ON csrf_tokens(session_id);
+CREATE INDEX IF NOT EXISTS idx_login_attempts_locked ON login_attempts(locked_until);

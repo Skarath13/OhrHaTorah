@@ -22,8 +22,23 @@ export interface Session {
   created_at: string;
 }
 
+export interface LoginAttempt {
+  ip_address: string;
+  attempts: number;
+  first_attempt_at: string;
+  locked_until: string | null;
+}
+
 // Session duration: 7 days
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
+
+// Rate limiting config
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
+const ATTEMPT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window for attempts
+
+// CSRF token duration: 24 hours
+const CSRF_TOKEN_DURATION_MS = 24 * 60 * 60 * 1000;
 
 /**
  * Hash a 6-digit PIN using bcrypt
@@ -191,7 +206,16 @@ export function getSessionFromCookies(cookieHeader: string | null): string | nul
  * Create a Set-Cookie header for the session
  */
 export function createSessionCookie(sessionId: string, maxAge: number = SESSION_DURATION_MS / 1000): string {
+  // Main session cookie (HttpOnly for security)
   return `oht_session=${sessionId}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}`;
+}
+
+/**
+ * Create a non-HttpOnly cookie to indicate logged-in status to JavaScript
+ * This doesn't contain any sensitive data, just indicates auth status
+ */
+export function createAuthIndicatorCookie(maxAge: number = SESSION_DURATION_MS / 1000): string {
+  return `oht_logged_in=1; Path=/; SameSite=Strict; Max-Age=${maxAge}`;
 }
 
 /**
@@ -199,4 +223,167 @@ export function createSessionCookie(sessionId: string, maxAge: number = SESSION_
  */
 export function createLogoutCookie(): string {
   return 'oht_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0';
+}
+
+/**
+ * Create a cookie that clears the auth indicator
+ */
+export function createLogoutIndicatorCookie(): string {
+  return 'oht_logged_in=; Path=/; SameSite=Strict; Max-Age=0';
+}
+
+// ============= Rate Limiting Functions =============
+
+/**
+ * Check if an IP is currently locked out
+ */
+export async function isIPLockedOut(db: D1Database, ipAddress: string): Promise<{ locked: boolean; remainingSeconds?: number }> {
+  const attempt = await db.prepare(
+    'SELECT locked_until FROM login_attempts WHERE ip_address = ?'
+  ).bind(ipAddress).first<{ locked_until: string | null }>();
+
+  if (!attempt?.locked_until) {
+    return { locked: false };
+  }
+
+  const lockedUntil = new Date(attempt.locked_until);
+  const now = new Date();
+
+  if (lockedUntil > now) {
+    const remainingSeconds = Math.ceil((lockedUntil.getTime() - now.getTime()) / 1000);
+    return { locked: true, remainingSeconds };
+  }
+
+  return { locked: false };
+}
+
+/**
+ * Record a failed login attempt and return whether the IP is now locked
+ */
+export async function recordFailedAttempt(db: D1Database, ipAddress: string): Promise<{ locked: boolean; attemptsRemaining: number }> {
+  const now = new Date();
+  const windowStart = new Date(now.getTime() - ATTEMPT_WINDOW_MS);
+
+  // Get current attempts
+  const existing = await db.prepare(
+    'SELECT attempts, first_attempt_at FROM login_attempts WHERE ip_address = ?'
+  ).bind(ipAddress).first<{ attempts: number; first_attempt_at: string }>();
+
+  let newAttempts = 1;
+
+  if (existing) {
+    const firstAttempt = new Date(existing.first_attempt_at);
+
+    // If first attempt is outside the window, reset the counter
+    if (firstAttempt < windowStart) {
+      await db.prepare(
+        'UPDATE login_attempts SET attempts = 1, first_attempt_at = ?, locked_until = NULL WHERE ip_address = ?'
+      ).bind(now.toISOString(), ipAddress).run();
+    } else {
+      // Increment attempts
+      newAttempts = existing.attempts + 1;
+
+      if (newAttempts >= MAX_LOGIN_ATTEMPTS) {
+        // Lock the IP
+        const lockedUntil = new Date(now.getTime() + LOCKOUT_DURATION_MS);
+        await db.prepare(
+          'UPDATE login_attempts SET attempts = ?, locked_until = ? WHERE ip_address = ?'
+        ).bind(newAttempts, lockedUntil.toISOString(), ipAddress).run();
+
+        return { locked: true, attemptsRemaining: 0 };
+      } else {
+        await db.prepare(
+          'UPDATE login_attempts SET attempts = ? WHERE ip_address = ?'
+        ).bind(newAttempts, ipAddress).run();
+      }
+    }
+  } else {
+    // First attempt from this IP
+    await db.prepare(
+      'INSERT INTO login_attempts (ip_address, attempts, first_attempt_at) VALUES (?, 1, ?)'
+    ).bind(ipAddress, now.toISOString()).run();
+  }
+
+  return { locked: false, attemptsRemaining: MAX_LOGIN_ATTEMPTS - newAttempts };
+}
+
+/**
+ * Clear failed attempts after successful login
+ */
+export async function clearFailedAttempts(db: D1Database, ipAddress: string): Promise<void> {
+  await db.prepare('DELETE FROM login_attempts WHERE ip_address = ?').bind(ipAddress).run();
+}
+
+/**
+ * Clean up old login attempts (call periodically)
+ */
+export async function cleanupLoginAttempts(db: D1Database): Promise<void> {
+  const cutoff = new Date(Date.now() - ATTEMPT_WINDOW_MS).toISOString();
+  await db.prepare(
+    "DELETE FROM login_attempts WHERE first_attempt_at < ? AND (locked_until IS NULL OR locked_until < datetime('now'))"
+  ).bind(cutoff).run();
+}
+
+// ============= CSRF Protection Functions =============
+
+/**
+ * Generate a CSRF token for a session
+ */
+export async function generateCSRFToken(db: D1Database, sessionId: string): Promise<string> {
+  const token = generateSessionToken(); // Reuse the secure random generator
+  const expiresAt = new Date(Date.now() + CSRF_TOKEN_DURATION_MS).toISOString();
+
+  await db.prepare(
+    'INSERT INTO csrf_tokens (token, session_id, expires_at) VALUES (?, ?, ?)'
+  ).bind(token, sessionId, expiresAt).run();
+
+  return token;
+}
+
+/**
+ * Validate a CSRF token
+ */
+export async function validateCSRFToken(db: D1Database, token: string, sessionId: string): Promise<boolean> {
+  if (!token || !sessionId) return false;
+
+  const result = await db.prepare(
+    "SELECT token FROM csrf_tokens WHERE token = ? AND session_id = ? AND expires_at > datetime('now')"
+  ).bind(token, sessionId).first();
+
+  return !!result;
+}
+
+/**
+ * Delete expired CSRF tokens (call periodically)
+ */
+export async function cleanupCSRFTokens(db: D1Database): Promise<void> {
+  await db.prepare("DELETE FROM csrf_tokens WHERE expires_at < datetime('now')").run();
+}
+
+/**
+ * Delete all CSRF tokens for a session (on logout)
+ */
+export async function deleteSessionCSRFTokens(db: D1Database, sessionId: string): Promise<void> {
+  await db.prepare('DELETE FROM csrf_tokens WHERE session_id = ?').bind(sessionId).run();
+}
+
+/**
+ * Get CSRF token from request headers
+ */
+export function getCSRFTokenFromRequest(request: Request): string | null {
+  return request.headers.get('X-CSRF-Token');
+}
+
+/**
+ * Create a Set-Cookie header for the CSRF token (non-HttpOnly so JS can read it)
+ */
+export function createCSRFCookie(token: string, maxAge: number = CSRF_TOKEN_DURATION_MS / 1000): string {
+  return `oht_csrf=${token}; Path=/; SameSite=Strict; Max-Age=${maxAge}`;
+}
+
+/**
+ * Create a cookie that clears the CSRF token
+ */
+export function createCSRFLogoutCookie(): string {
+  return 'oht_csrf=; Path=/; SameSite=Strict; Max-Age=0';
 }

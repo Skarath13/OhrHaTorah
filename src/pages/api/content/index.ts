@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
-import { getAllContent, setContent } from '../../../lib/db';
-import { validateSession, getSessionFromCookies } from '../../../lib/auth';
+import { getAllContent, setContent, getContent } from '../../../lib/db';
+import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFTokenFromRequest } from '../../../lib/auth';
+import { recordContentRevision } from '../../../lib/revisions';
 
 export const GET: APIRoute = async ({ locals }) => {
   try {
@@ -49,6 +50,23 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Verify CSRF token
+    const csrfToken = getCSRFTokenFromRequest(request);
+    if (!csrfToken || !sessionId) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Missing CSRF token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const validCSRF = await validateCSRFToken(runtime.env.DB, csrfToken, sessionId);
+    if (!validCSRF) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid CSRF token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const body = await request.json();
     const { key, value, contentType = 'text' } = body;
 
@@ -66,7 +84,24 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Get old value for revision history
+    const existingContent = await getContent(runtime.env.DB, key);
+    const oldValue = existingContent?.value || null;
+    const changeType = existingContent ? 'update' : 'create';
+
+    // Save the content
     await setContent(runtime.env.DB, key, String(value), contentType, user.id);
+
+    // Record revision
+    await recordContentRevision(
+      runtime.env.DB,
+      key,
+      oldValue,
+      String(value),
+      contentType,
+      user.id,
+      changeType
+    );
 
     return new Response(
       JSON.stringify({ success: true }),

@@ -1,5 +1,12 @@
 import type { APIRoute } from 'astro';
-import { deleteSession, getSessionFromCookies, createLogoutCookie } from '../../../lib/auth';
+import {
+  deleteSession,
+  getSessionFromCookies,
+  createLogoutCookie,
+  createLogoutIndicatorCookie,
+  deleteSessionCSRFTokens,
+  createCSRFLogoutCookie
+} from '../../../lib/auth';
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
@@ -8,6 +15,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const sessionId = getSessionFromCookies(cookieHeader);
 
     if (sessionId && runtime?.env?.DB) {
+      // Delete CSRF tokens for this session
+      await deleteSessionCSRFTokens(runtime.env.DB, sessionId);
+      // Delete the session
       await deleteSession(runtime.env.DB, sessionId);
     }
 
@@ -15,10 +25,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       JSON.stringify({ success: true }),
       {
         status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Set-Cookie': createLogoutCookie(),
-        },
+        headers: [
+          ['Content-Type', 'application/json'],
+          ['Set-Cookie', createLogoutCookie()],
+          ['Set-Cookie', createLogoutIndicatorCookie()],
+          ['Set-Cookie', createCSRFLogoutCookie()],
+        ],
       }
     );
   } catch (error) {
