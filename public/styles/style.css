@@ -1950,7 +1950,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
 
 
 .dropdown > a::after {
-    content: "▼";
+    content: "\25BC";
     font-size: var(--font-size-xs);
     margin-left: var(--space-sm);
     vertical-align: middle;
