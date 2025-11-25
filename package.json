@@ -18,7 +18,6 @@
     "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "wrangler": "4.40.0"
+    "@types/bcryptjs": "^2.4.6"
   }
 }
