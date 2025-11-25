@@ -2,15 +2,19 @@
 // Check if already logged in
 const runtime = Astro.locals.runtime;
 if (runtime?.env?.DB) {
-  const { validateSession, getSessionFromCookies } = await import('../../lib/auth');
-  const cookieHeader = Astro.request.headers.get('cookie');
-  const sessionId = getSessionFromCookies(cookieHeader);
+  try {
+    const { validateSession, getSessionFromCookies } = await import('../../lib/auth');
+    const cookieHeader = Astro.request.headers.get('cookie');
+    const sessionId = getSessionFromCookies(cookieHeader);
 
-  if (sessionId) {
-    const user = await validateSession(runtime.env.DB, sessionId);
-    if (user) {
-      return Astro.redirect('/');
+    if (sessionId) {
+      const user = await validateSession(runtime.env.DB, sessionId);
+      if (user) {
+        return Astro.redirect('/');
+      }
     }
+  } catch (e) {
+    console.error('Auth check failed:', e);
   }
 }
 ---
