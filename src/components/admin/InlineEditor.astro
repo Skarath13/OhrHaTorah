@@ -1,0 +1,1101 @@
+---
+// Inline Visual Editor - Wix-style editing for logged-in admins
+// Provides true inline editing (contenteditable) with floating toolbar
+---
+
+<!-- Floating Action Button (visible when logged in, hidden in edit mode) -->
+<button id="adminEditFab" class="admin-fab" aria-label="Enter edit mode">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+  </svg>
+  <span>Edit</span>
+</button>
+
+<!-- Bottom Toolbar (visible only in edit mode) -->
+<div id="adminToolbar" class="admin-toolbar">
+  <div class="toolbar-left">
+    <div class="toolbar-status">
+      <span class="status-dot"></span>
+      <span class="status-text">Edit Mode</span>
+    </div>
+    <span class="change-indicator" id="changeIndicator"></span>
+  </div>
+  <div class="toolbar-right">
+    <button class="toolbar-btn secondary" id="discardBtn" disabled title="Discard all changes">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18"></path>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+      <span class="btn-label">Discard</span>
+    </button>
+    <button class="toolbar-btn primary" id="saveBtn" disabled title="Save all changes (Ctrl+S)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+        <polyline points="7 3 7 8 15 8"></polyline>
+      </svg>
+      <span class="btn-label">Save</span>
+    </button>
+    <button class="toolbar-btn done" id="exitBtn" title="Exit edit mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="btn-label">Done</span>
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="toolbar-btn logout" id="logoutBtn" title="Logout">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      <span class="btn-label">Logout</span>
+    </button>
+  </div>
+</div>
+
+<!-- Image Edit Overlay -->
+<div id="imageEditOverlay" class="image-edit-overlay">
+  <button class="change-image-btn" id="changeImageBtn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+      <polyline points="21 15 16 10 5 21"></polyline>
+    </svg>
+    Change Image
+  </button>
+  <input type="file" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,image/svg+xml" hidden />
+</div>
+
+<!-- Toast Notification -->
+<div id="adminToast" class="admin-toast">
+  <span class="toast-icon"></span>
+  <span class="toast-message"></span>
+</div>
+
+<style>
+  /* ==========================================
+     FLOATING ACTION BUTTON (FAB)
+     ========================================== */
+  .admin-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    height: 48px;
+    padding: 0 20px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(49, 130, 206, 0.4);
+    z-index: 9999;
+    display: none; /* Hidden by default, shown via JS when logged in */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .admin-fab:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(49, 130, 206, 0.5);
+  }
+
+  .admin-fab:active {
+    transform: scale(0.98);
+  }
+
+  .admin-fab svg {
+    flex-shrink: 0;
+  }
+
+  /* ==========================================
+     BOTTOM TOOLBAR
+     ========================================== */
+  .admin-toolbar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 16px;
+    display: none; /* Hidden until edit mode */
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width: 400px;
+  }
+
+  .admin-toolbar.visible {
+    display: flex;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .toolbar-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: #48bb78;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .change-indicator {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    padding-left: 16px;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .change-indicator.has-changes {
+    color: #fbd38d;
+    font-weight: 500;
+  }
+
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .toolbar-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .toolbar-btn.secondary:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .toolbar-btn.secondary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .toolbar-btn.primary {
+    background: #48bb78;
+    color: white;
+  }
+
+  .toolbar-btn.primary:hover:not(:disabled) {
+    background: #38a169;
+    transform: translateY(-1px);
+  }
+
+  .toolbar-btn.primary:disabled {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+  }
+
+  .toolbar-btn.done {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+  }
+
+  .toolbar-btn.done:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .toolbar-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 4px;
+  }
+
+  .toolbar-btn.logout {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+  }
+
+  .toolbar-btn.logout:hover {
+    background: rgba(239, 68, 68, 0.4);
+    color: white;
+  }
+
+  /* ==========================================
+     EDITABLE ELEMENTS STYLING
+     ========================================== */
+  :global(body.admin-edit-mode [data-editable]) {
+    cursor: pointer;
+    transition: outline 0.15s ease, background-color 0.15s ease;
+    outline: 2px dashed transparent;
+    outline-offset: 4px;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  :global(body.admin-edit-mode [data-editable]:hover) {
+    outline-color: #3182ce;
+    background-color: rgba(49, 130, 206, 0.08);
+  }
+
+  /* "Click to edit" tooltip on hover */
+  :global(body.admin-edit-mode [data-editable]:hover::after) {
+    content: 'Click to edit';
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a365d;
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9990;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    animation: tooltipFadeIn 0.15s ease;
+  }
+
+  :global(body.admin-edit-mode [data-editable]:hover::before) {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a365d;
+    pointer-events: none;
+    z-index: 9990;
+    animation: tooltipFadeIn 0.15s ease;
+  }
+
+  /* Hide tooltip when actively editing */
+  :global(body.admin-edit-mode [data-editable].actively-editing:hover::after),
+  :global(body.admin-edit-mode [data-editable].actively-editing:hover::before) {
+    display: none;
+  }
+
+  @keyframes tooltipFadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  :global(body.admin-edit-mode [data-editable].actively-editing) {
+    outline: 2px solid #3182ce !important;
+    outline-offset: 4px;
+    background-color: rgba(49, 130, 206, 0.12) !important;
+    cursor: text;
+  }
+
+  :global(body.admin-edit-mode [data-editable].modified) {
+    outline-color: #ecc94b !important;
+    outline-style: solid !important;
+    background-color: rgba(236, 201, 75, 0.12);
+  }
+
+  :global(body.admin-edit-mode [data-editable].modified:hover) {
+    outline-color: #d69e2e !important;
+  }
+
+  /* Editable images */
+  :global(body.admin-edit-mode [data-editable-image]) {
+    cursor: pointer;
+    transition: outline 0.15s ease, filter 0.15s ease;
+    outline: 2px dashed transparent;
+    outline-offset: 4px;
+    position: relative;
+  }
+
+  :global(body.admin-edit-mode [data-editable-image]:hover) {
+    outline-color: #3182ce;
+    filter: brightness(0.9);
+  }
+
+  /* Image edit indicator overlay */
+  :global(body.admin-edit-mode [data-editable-image]::after) {
+    content: '📷 Click to change';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 54, 93, 0.9);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9990;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  :global(body.admin-edit-mode [data-editable-image]:hover::after) {
+    opacity: 1;
+  }
+
+  :global(body.admin-edit-mode [data-editable-image].modified) {
+    outline-color: #ecc94b !important;
+    outline-style: solid !important;
+  }
+
+  /* ==========================================
+     IMAGE EDIT OVERLAY
+     ========================================== */
+  .image-edit-overlay {
+    position: fixed;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 9998;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .image-edit-overlay.visible {
+    display: flex;
+    pointer-events: auto;
+  }
+
+  .change-image-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: white;
+    color: #2d3748;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+  }
+
+  .change-image-btn:hover {
+    transform: scale(1.05);
+  }
+
+  /* ==========================================
+     TOAST NOTIFICATIONS
+     ========================================== */
+  .admin-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2d3748;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 10001;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .admin-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .admin-toast.success {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  }
+
+  .admin-toast.error {
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  }
+
+  .admin-toast.info {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  }
+
+  /* ==========================================
+     RESPONSIVE DESIGN
+     ========================================== */
+  @media (max-width: 640px) {
+    .admin-fab {
+      bottom: 16px;
+      right: 16px;
+      height: 44px;
+      padding: 0 16px;
+    }
+
+    .admin-fab span {
+      display: none;
+    }
+
+    .admin-toolbar {
+      bottom: 16px;
+      min-width: auto;
+      width: calc(100% - 32px);
+      max-width: 400px;
+      padding: 10px 16px;
+      gap: 12px;
+    }
+
+    .toolbar-left {
+      gap: 12px;
+    }
+
+    .toolbar-status .status-text {
+      display: none;
+    }
+
+    .change-indicator {
+      display: none;
+    }
+
+    .toolbar-btn {
+      padding: 8px 12px;
+    }
+
+    .toolbar-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .toolbar-btn .btn-label {
+      display: none;
+    }
+
+    .toolbar-divider {
+      margin: 0 2px;
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  'use strict';
+
+  // ==========================================
+  // STATE
+  // ==========================================
+  let isEditMode = false;
+  let pendingChanges = new Map(); // key -> { original, current, element, type: 'text' | 'image' }
+  let currentlyEditing = null;
+  let currentImageElement = null;
+
+  // ==========================================
+  // DOM ELEMENTS
+  // ==========================================
+  const fab = document.getElementById('adminEditFab');
+  const toolbar = document.getElementById('adminToolbar');
+  const saveBtn = document.getElementById('saveBtn');
+  const discardBtn = document.getElementById('discardBtn');
+  const exitBtn = document.getElementById('exitBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const changeIndicator = document.getElementById('changeIndicator');
+  const toast = document.getElementById('adminToast');
+  const imageOverlay = document.getElementById('imageEditOverlay');
+  const changeImageBtn = document.getElementById('changeImageBtn');
+  const imageInput = document.getElementById('imageInput');
+
+  // ==========================================
+  // INITIALIZATION
+  // ==========================================
+  function init() {
+    // Check if user is logged in (has session cookie)
+    if (hasSession()) {
+      fab.style.display = 'flex';
+    }
+
+    // Event listeners
+    fab.addEventListener('click', enterEditMode);
+    exitBtn.addEventListener('click', exitEditMode);
+    saveBtn.addEventListener('click', saveAllChanges);
+    discardBtn.addEventListener('click', discardAllChanges);
+    logoutBtn.addEventListener('click', handleLogout);
+    changeImageBtn.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', handleImageUpload);
+
+    // Global keyboard shortcuts
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Click outside handler
+    document.addEventListener('click', handleGlobalClick);
+
+    // Prevent accidental navigation
+    window.addEventListener('beforeunload', handleBeforeUnload);
+  }
+
+  function hasSession() {
+    return document.cookie.includes('oht_session');
+  }
+
+  // ==========================================
+  // EDIT MODE TOGGLE
+  // ==========================================
+  function enterEditMode() {
+    isEditMode = true;
+    document.body.classList.add('admin-edit-mode');
+
+    // Hide FAB, show toolbar
+    fab.style.display = 'none';
+    toolbar.classList.add('visible');
+
+    // Add click listeners to editable elements
+    document.querySelectorAll('[data-editable]').forEach(el => {
+      el.addEventListener('click', handleEditableClick);
+    });
+
+    // Add click listeners to editable images
+    document.querySelectorAll('[data-editable-image]').forEach(el => {
+      el.addEventListener('click', handleImageClick);
+    });
+
+    showToast('Edit mode enabled. Click any highlighted text to edit it.', 'info');
+  }
+
+  function exitEditMode() {
+    if (pendingChanges.size > 0) {
+      if (!confirm(`You have ${pendingChanges.size} unsaved change(s). Discard them?`)) {
+        return;
+      }
+      // Restore all originals
+      restoreOriginals();
+    }
+
+    isEditMode = false;
+    document.body.classList.remove('admin-edit-mode');
+
+    // Show FAB, hide toolbar
+    fab.style.display = 'flex';
+    toolbar.classList.remove('visible');
+
+    // Remove click listeners
+    document.querySelectorAll('[data-editable]').forEach(el => {
+      el.removeEventListener('click', handleEditableClick);
+      el.removeAttribute('contenteditable');
+      el.classList.remove('actively-editing', 'modified');
+    });
+
+    document.querySelectorAll('[data-editable-image]').forEach(el => {
+      el.removeEventListener('click', handleImageClick);
+      el.classList.remove('modified');
+    });
+
+    // Clear state
+    pendingChanges.clear();
+    currentlyEditing = null;
+    hideImageOverlay();
+    updateUI();
+  }
+
+  // ==========================================
+  // INLINE TEXT EDITING
+  // ==========================================
+  function handleEditableClick(e) {
+    if (!isEditMode) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const element = e.currentTarget;
+
+    // If already editing something else, finish it first
+    if (currentlyEditing && currentlyEditing !== element) {
+      finishEditing(currentlyEditing);
+    }
+
+    // If clicking the same element that's being edited, let native behavior work
+    if (currentlyEditing === element) {
+      return;
+    }
+
+    startEditing(element);
+  }
+
+  function startEditing(element) {
+    const key = element.dataset.editable;
+
+    // Store original value if not already tracked
+    if (!pendingChanges.has(key)) {
+      pendingChanges.set(key, {
+        original: element.textContent,
+        current: element.textContent,
+        element: element,
+        type: 'text'
+      });
+    }
+
+    // Make editable
+    element.setAttribute('contenteditable', 'true');
+    element.classList.add('actively-editing');
+    element.focus();
+
+    // Select all text for easy replacement
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    currentlyEditing = element;
+
+    // Handle paste to strip HTML
+    element.addEventListener('paste', handlePaste);
+
+    // Handle input for live tracking
+    element.addEventListener('input', handleInput);
+  }
+
+  function finishEditing(element) {
+    if (!element) return;
+
+    element.removeAttribute('contenteditable');
+    element.classList.remove('actively-editing');
+    element.removeEventListener('paste', handlePaste);
+    element.removeEventListener('input', handleInput);
+
+    const key = element.dataset.editable;
+    const data = pendingChanges.get(key);
+
+    if (data) {
+      const newValue = element.textContent.trim();
+
+      if (newValue !== data.original) {
+        // Mark as modified
+        data.current = newValue;
+        element.classList.add('modified');
+      } else {
+        // Value restored to original, remove from pending
+        pendingChanges.delete(key);
+        element.classList.remove('modified');
+      }
+    }
+
+    currentlyEditing = null;
+    updateUI();
+  }
+
+  function handlePaste(e) {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+  }
+
+  function handleInput(e) {
+    const element = e.target;
+    const key = element.dataset.editable;
+    const data = pendingChanges.get(key);
+
+    if (data) {
+      data.current = element.textContent;
+    }
+
+    updateUI();
+  }
+
+  // ==========================================
+  // INLINE IMAGE EDITING
+  // ==========================================
+  function handleImageClick(e) {
+    if (!isEditMode) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const img = e.currentTarget;
+    currentImageElement = img;
+
+    // Position overlay over the image
+    const rect = img.getBoundingClientRect();
+    imageOverlay.style.top = rect.top + 'px';
+    imageOverlay.style.left = rect.left + 'px';
+    imageOverlay.style.width = rect.width + 'px';
+    imageOverlay.style.height = rect.height + 'px';
+    imageOverlay.classList.add('visible');
+  }
+
+  function hideImageOverlay() {
+    imageOverlay.classList.remove('visible');
+    currentImageElement = null;
+  }
+
+  async function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file || !currentImageElement) return;
+
+    const key = currentImageElement.dataset.editableImage;
+    const originalSrc = pendingChanges.has(key)
+      ? pendingChanges.get(key).original
+      : currentImageElement.src;
+
+    // Show uploading state
+    showToast('Uploading image...', 'info');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/images/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.url) {
+        // Update the image src
+        currentImageElement.src = result.url;
+        currentImageElement.classList.add('modified');
+
+        // Track the change
+        pendingChanges.set(key, {
+          original: originalSrc,
+          current: result.url,
+          element: currentImageElement,
+          type: 'image'
+        });
+
+        showToast('Image uploaded. Click Save to apply.', 'success');
+        updateUI();
+      } else {
+        showToast(result.error || 'Upload failed', 'error');
+      }
+    } catch (err) {
+      showToast('Upload failed: ' + err.message, 'error');
+    }
+
+    // Reset input and hide overlay
+    imageInput.value = '';
+    hideImageOverlay();
+  }
+
+  // ==========================================
+  // KEYBOARD HANDLING
+  // ==========================================
+  function handleKeyDown(e) {
+    // Global: Ctrl/Cmd + S to save
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      if (isEditMode && pendingChanges.size > 0) {
+        saveAllChanges();
+      }
+      return;
+    }
+
+    // Only handle these when actively editing
+    if (!currentlyEditing) return;
+
+    const isMultiline = isMultilineElement(currentlyEditing);
+
+    // Escape: Cancel and restore
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      const key = currentlyEditing.dataset.editable;
+      const data = pendingChanges.get(key);
+      if (data) {
+        currentlyEditing.textContent = data.original;
+        pendingChanges.delete(key);
+        currentlyEditing.classList.remove('modified');
+      }
+      finishEditing(currentlyEditing);
+      return;
+    }
+
+    // Enter behavior depends on element type
+    if (e.key === 'Enter') {
+      // Single-line: Enter confirms
+      if (!isMultiline) {
+        e.preventDefault();
+        finishEditing(currentlyEditing);
+        return;
+      }
+
+      // Multi-line: Ctrl/Cmd + Enter confirms
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        finishEditing(currentlyEditing);
+        return;
+      }
+      // Otherwise, let Enter add a newline naturally
+    }
+  }
+
+  function isMultilineElement(element) {
+    const tag = element.tagName.toLowerCase();
+    const multilineTags = ['p', 'div', 'section', 'article', 'blockquote', 'li'];
+    return multilineTags.includes(tag) || element.dataset.multiline === 'true';
+  }
+
+  // ==========================================
+  // GLOBAL CLICK HANDLING
+  // ==========================================
+  function handleGlobalClick(e) {
+    // Hide image overlay when clicking outside
+    if (imageOverlay.classList.contains('visible') && !imageOverlay.contains(e.target) && e.target !== currentImageElement) {
+      hideImageOverlay();
+    }
+
+    // Finish editing when clicking outside the element
+    if (currentlyEditing && !currentlyEditing.contains(e.target)) {
+      finishEditing(currentlyEditing);
+    }
+  }
+
+  // ==========================================
+  // SAVE / DISCARD
+  // ==========================================
+  async function saveAllChanges() {
+    if (pendingChanges.size === 0) return;
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg> Saving...';
+
+    let savedCount = 0;
+    let errorCount = 0;
+
+    for (const [key, data] of pendingChanges) {
+      if (data.type === 'text') {
+        try {
+          const response = await fetch('/api/content', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              key,
+              value: data.current,
+              contentType: 'text'
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            savedCount++;
+            data.element.classList.remove('modified');
+            data.original = data.current; // Update baseline
+            pendingChanges.delete(key);
+          } else {
+            errorCount++;
+          }
+        } catch (err) {
+          errorCount++;
+        }
+      } else if (data.type === 'image') {
+        // Images are already uploaded, just need to persist the reference
+        try {
+          const response = await fetch('/api/content', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              key,
+              value: data.current,
+              contentType: 'text'
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            savedCount++;
+            data.element.classList.remove('modified');
+            data.original = data.current;
+            pendingChanges.delete(key);
+          } else {
+            errorCount++;
+          }
+        } catch (err) {
+          errorCount++;
+        }
+      }
+    }
+
+    // Restore button
+    saveBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save';
+
+    if (errorCount === 0) {
+      showToast(`Saved ${savedCount} change${savedCount > 1 ? 's' : ''} successfully!`, 'success');
+    } else {
+      showToast(`${savedCount} saved, ${errorCount} failed`, 'error');
+    }
+
+    updateUI();
+  }
+
+  function discardAllChanges() {
+    if (pendingChanges.size === 0) return;
+
+    if (!confirm(`Discard ${pendingChanges.size} unsaved change(s)?`)) {
+      return;
+    }
+
+    restoreOriginals();
+    showToast('Changes discarded', 'info');
+    updateUI();
+  }
+
+  function restoreOriginals() {
+    for (const [key, data] of pendingChanges) {
+      if (data.type === 'text') {
+        data.element.textContent = data.original;
+      } else if (data.type === 'image') {
+        data.element.src = data.original;
+      }
+      data.element.classList.remove('modified');
+    }
+    pendingChanges.clear();
+  }
+
+  // ==========================================
+  // UI UPDATES
+  // ==========================================
+  function updateUI() {
+    const count = pendingChanges.size;
+    const hasChanges = count > 0;
+
+    // Update change indicator
+    if (hasChanges) {
+      changeIndicator.textContent = `${count} unsaved change${count > 1 ? 's' : ''}`;
+      changeIndicator.classList.add('has-changes');
+    } else {
+      changeIndicator.textContent = 'No changes';
+      changeIndicator.classList.remove('has-changes');
+    }
+
+    // Update buttons
+    saveBtn.disabled = !hasChanges;
+    discardBtn.disabled = !hasChanges;
+  }
+
+  // ==========================================
+  // TOAST NOTIFICATIONS
+  // ==========================================
+  function showToast(message, type = 'info') {
+    const iconMap = {
+      success: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      error: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+      info: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+    };
+
+    toast.querySelector('.toast-icon').innerHTML = iconMap[type] || iconMap.info;
+    toast.querySelector('.toast-message').textContent = message;
+    toast.className = `admin-toast ${type} show`;
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 4000);
+  }
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+  async function handleLogout() {
+    if (pendingChanges.size > 0) {
+      if (!confirm('You have unsaved changes. Logout anyway?')) {
+        return;
+      }
+    }
+
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      showToast('Logged out successfully', 'info');
+
+      // Hide toolbar and FAB
+      toolbar.classList.remove('visible');
+      fab.style.display = 'none';
+
+      // Exit edit mode if active
+      if (isEditMode) {
+        isEditMode = false;
+        document.body.classList.remove('admin-edit-mode');
+        document.querySelectorAll('[data-editable]').forEach(el => {
+          el.removeEventListener('click', handleEditableClick);
+          el.removeAttribute('contenteditable');
+          el.classList.remove('actively-editing', 'modified');
+        });
+        document.querySelectorAll('[data-editable-image]').forEach(el => {
+          el.removeEventListener('click', handleImageClick);
+          el.classList.remove('modified');
+        });
+      }
+
+      // Redirect to login after a short delay
+      setTimeout(() => {
+        window.location.href = '/admin/login';
+      }, 1000);
+    } catch (err) {
+      showToast('Logout failed', 'error');
+    }
+  }
+
+  // ==========================================
+  // NAVIGATION WARNING
+  // ==========================================
+  function handleBeforeUnload(e) {
+    if (pendingChanges.size > 0) {
+      e.preventDefault();
+      e.returnValue = 'You have unsaved changes. Leave anyway?';
+      return e.returnValue;
+    }
+  }
+
+  // ==========================================
+  // INITIALIZE ON LOAD
+  // ==========================================
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
