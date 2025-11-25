@@ -68,12 +68,18 @@
         </div>
 
         <!-- Brit Chadashah -->
-        <div class="parashah-info">
+        <div class="parashah-info brit-chadashah-section">
             <div class="reading-row">
                 <span class="reading-icon"><i class="fas fa-book-reader"></i></span>
                 <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
             </div>
-            <div class="reading-text" id="brit-reading">Loading...</div>
+            <div class="reading-text" id="brit-reading" data-brit-editable="true">Loading...</div>
+            <div class="brit-override-indicator" id="brit-override-indicator" style="display: none;">
+                <span class="override-badge">Custom</span>
+                <button class="reset-brit-btn" id="reset-brit-btn" title="Reset to automatic">
+                    <i class="fas fa-undo"></i>
+                </button>
+            </div>
         </div>
 
         <div class="loader" id="parashah-loader" style="display: none;"></div>
@@ -253,7 +259,7 @@
         }
     };
 
-    const updateParashahUI = (annualData: ParashahData, triennialData: ParashahData | null) => {
+    const updateParashahUI = async (annualData: ParashahData, triennialData: ParashahData | null) => {
         document.getElementById('parashah-name')!.textContent = annualData.name;
         document.getElementById('torah-reading')!.textContent = annualData.torah;
         document.getElementById('haftarah-reading')!.textContent = annualData.haftarah;
@@ -284,7 +290,28 @@
                 }
             }
         }
-        const britOverride = localStorage.getItem('oht_brit_override');
+
+        // Store the original (non-override) value for reset capability
+        localStorage.setItem('oht_brit_original', britReading || 'Pending');
+
+        // Check for override - first try API, fall back to localStorage
+        let britOverride = localStorage.getItem('oht_brit_override');
+        try {
+            const overrideResponse = await fetch('/api/content/brit-chadashah-override');
+            const overrideResult = await overrideResponse.json();
+            if (overrideResult.success && overrideResult.data?.value) {
+                britOverride = overrideResult.data.value;
+                localStorage.setItem('oht_brit_override', britOverride);
+                // Show the override indicator
+                const indicator = document.getElementById('brit-override-indicator');
+                if (indicator) {
+                    indicator.style.display = 'flex';
+                }
+            }
+        } catch (err) {
+            // API not available, use localStorage fallback
+        }
+
         const britEl = document.getElementById('brit-reading')!;
         const finalBritReading = britOverride || britReading || 'Pending';
 
