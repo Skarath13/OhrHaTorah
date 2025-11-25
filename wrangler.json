@@ -12,7 +12,6 @@
 	"observability": {
 		"enabled": true
 	},
-	// D1 Database for users, sessions, and content
 	"d1_databases": [
 		{
 			"binding": "DB",
@@ -20,7 +19,6 @@
 			"database_id": "ac858012-6e6a-44b0-bd9b-73592d0858b8"
 		}
 	],
-	// R2 Bucket for image storage
 	"r2_buckets": [
 		{
 			"binding": "IMAGES",
