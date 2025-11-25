@@ -11,7 +11,7 @@ The admin system provides Wix-style inline editing capabilities, allowing author
 ### Login
 - **URL**: `/admin/login`
 - **Method**: 6-digit PIN authentication
-- **Default Admin PIN**: `123456` (change in production)
+- **Admin PIN**: Stored securely in D1 database (bcrypt hashed)
 
 ### Security Features
 - **Rate Limiting**: 5 failed attempts locks the IP for 15 minutes

@@ -74,7 +74,7 @@ npx wrangler d1 execute ohrhatorah-db --remote --command="SELECT * FROM users;"
 
 ### Inline Visual Editor
 - **Login**: `/admin` or `/admin/login` (6-digit PIN)
-- **Default PIN**: `123456` (change in production!)
+- **Admin PIN**: Stored in D1 database (bcrypt hashed)
 - **Edit Mode**: Floating "Edit" button on all pages when logged in
 - **Features**:
   - Click any `[data-editable]` element to edit inline
@@ -150,7 +150,7 @@ npm run preview  # Preview production build
 - **Community Photos**: Respect privacy in community imagery
 - **Contact Information**: Ensure congregation contact details are current
 - **No Cross Icons**: Do not use cross/crucifix icons - use Star of David or other appropriate symbols
-- **Admin PIN**: Change default PIN (123456) in production
+- **Admin PIN**: Set via environment variable when seeding (see scripts/seed-admin.ts)
 
 ## Git Workflow
 

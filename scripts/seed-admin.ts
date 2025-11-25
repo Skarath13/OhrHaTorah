@@ -10,8 +10,8 @@
  * 3. Run the schema migration:
  *    npx wrangler d1 execute ohrhatorah-db --local --file=./schema.sql
  *
- * 4. Run this seed script to generate the SQL:
- *    npx ts-node scripts/seed-admin.ts
+ * 4. Run this seed script with your PIN:
+ *    ADMIN_PIN=<your-6-digit-pin> npx ts-node scripts/seed-admin.ts
  *
  * 5. Copy the output and run it:
  *    npx wrangler d1 execute ohrhatorah-db --local --command="<SQL>"
@@ -20,8 +20,14 @@
 import bcrypt from 'bcryptjs';
 
 const ADMIN_NAME = 'Rabbi Chuck';
-const ADMIN_PIN = '123456';  // Change this to your desired PIN
+const ADMIN_PIN = process.env.ADMIN_PIN;
 const ADMIN_ROLE = 'admin';
+
+if (!ADMIN_PIN || !/^\d{6}$/.test(ADMIN_PIN)) {
+  console.error('Error: ADMIN_PIN environment variable must be a 6-digit number');
+  console.error('Usage: ADMIN_PIN=<your-6-digit-pin> npx ts-node scripts/seed-admin.ts');
+  process.exit(1);
+}
 
 async function generateSeedSQL() {
   const salt = await bcrypt.genSalt(10);
