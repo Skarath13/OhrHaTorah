@@ -230,17 +230,56 @@ import PageLayout from '../layouts/PageLayout.astro';
         background: var(--gray-100);
         padding: 25px;
         border-radius: 8px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .value-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-blue), #00a896);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .value-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(0, 168, 150, 0.25);
+        background: white;
+    }
+
+    .value-card:hover::before {
+        transform: scaleX(1);
     }
 
     .value-card i {
         font-size: 1.5rem;
         color: var(--primary-blue);
         margin-bottom: 15px;
+        display: inline-block;
+        transition: all 0.4s ease;
+    }
+
+    .value-card:hover i {
+        transform: scale(1.3) rotate(10deg);
+        color: #00a896;
     }
 
     .value-card h4 {
         margin: 0 0 10px 0;
         color: var(--primary-blue);
+        transition: color 0.3s ease;
+    }
+
+    .value-card:hover h4 {
+        color: #00a896;
     }
 
     .value-card p {
@@ -248,7 +287,20 @@ import PageLayout from '../layouts/PageLayout.astro';
         color: var(--text-secondary);
         font-size: 0.95rem;
         line-height: 1.6;
+        transition: color 0.3s ease;
     }
+
+    .value-card:hover p {
+        color: var(--text-primary);
+    }
+
+    /* Unique animations for each card */
+    .value-card:nth-child(1):hover i { transform: scale(1.3) rotate(-15deg); }
+    .value-card:nth-child(2):hover i { transform: scale(1.4) rotate(0deg); }
+    .value-card:nth-child(3):hover i { transform: scale(1.3) rotate(15deg); }
+    .value-card:nth-child(4):hover i { transform: scale(1.2) translateY(-5px); }
+    .value-card:nth-child(5):hover i { transform: scale(1.3) rotate(-10deg); }
+    .value-card:nth-child(6):hover i { transform: scale(1.2) translateY(-8px); }
 
     .cta-section {
         background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
