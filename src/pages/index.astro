@@ -5,6 +5,7 @@ import Navigation from '../components/layout/Navigation.astro';
 import Footer from '../components/layout/Footer.astro';
 import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
+import LiveClock from '../components/islands/LiveClock.astro';
 // Admin functionality moved to /admin/ routes
 import { rabbi } from '../data/rabbi';
 ---
@@ -27,6 +28,8 @@ import { rabbi } from '../data/rabbi';
                     </ul>
                 </div>
             </div>
+
+            <LiveClock />
 
             <div class="sidebar-widget">
                 <div class="widget-header" data-editable="sidebar-mission-header"><i class="fas fa-bullseye"></i> <span data-editable="sidebar-mission-title">Our Mission</span></div>
