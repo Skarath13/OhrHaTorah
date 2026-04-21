@@ -177,7 +177,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         background: white;
         padding: 15px 20px;
         border-radius: 8px;
-        min-width: 180px;
+        min-width: 0;
     }
 
     .highlight-item i {
@@ -319,5 +319,11 @@ import PageLayout from '../layouts/PageLayout.astro';
         margin: 0;
         font-size: 1.1rem;
         opacity: 0.95;
+    }
+
+    @media (max-width: 767px) {
+        .highlight-item {
+            width: 100%;
+        }
     }
 </style>

@@ -16,7 +16,10 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
     <title>{title}</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Open Graph Meta Tags for Social Media -->
     <meta property="og:title" content="Ohr HaTorah Messianic Congregation">
@@ -43,7 +46,6 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/styles/style.css">
-    <link rel="stylesheet" href="/styles/mobile-only.css">
 </head>
 <body>
     <slot />

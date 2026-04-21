@@ -209,4 +209,15 @@ import PageLayout from '../layouts/PageLayout.astro';
         color: var(--text-secondary);
         line-height: 1.6;
     }
+
+    @media (max-width: 767px) {
+        .faq-question {
+            align-items: flex-start;
+            padding: 16px;
+        }
+
+        .faq-answer p {
+            padding: 16px;
+        }
+    }
 </style>

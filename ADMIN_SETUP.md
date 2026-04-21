@@ -78,7 +78,7 @@ npx wrangler d1 execute ohrhatorah-db --command="INSERT INTO users (name, pin_ha
 npm run dev
 ```
 
-Visit http://localhost:3005/admin to test the login.
+Visit http://localhost:3002/admin to test the login.
 
 ## Admin Features
 

@@ -178,10 +178,12 @@ import { rabbi } from '../data/rabbi';
             <div class="calendar-container">
                 <div class="responsive-calendar">
                     <iframe src="https://calendar.google.com/calendar/embed?src=ohrhatorahoc%40gmail.com&ctz=America%2FLos_Angeles"
-                            style="border: 0"
+                            class="home-calendar-iframe"
+                            title="Ohr HaTorah congregation calendar"
                             width="800"
                             height="200"
                             frameborder="0"
+                            loading="lazy"
                             scrolling="no">
                     </iframe>
                 </div>
@@ -216,20 +218,20 @@ import { rabbi } from '../data/rabbi';
                     <h4><i class="fas fa-map"></i> Google Maps</h4>
                     <div class="map-container">
                         <iframe src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                class="home-map-iframe"
+                                title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"
                                 width="100%"
                                 height="100%"
-                                style="border:0;"
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
-                    <div class="map-directions-container" style="width: 100%; overflow: hidden;">
+                    <div class="map-directions-container">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
                            target="_blank"
                            rel="noopener noreferrer"
-                           class="btn btn-blue"
-                           style="margin-top: var(--space-sm); padding: 0.5rem 1rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; font-size: var(--font-size-sm); box-sizing: border-box;">
+                           class="btn btn-blue map-directions-link">
                             <i class="fas fa-directions"></i>
                             Get Directions
                         </a>
@@ -269,7 +271,7 @@ import { rabbi } from '../data/rabbi';
                 </div>
                 <div class="card-body text-center">
                     <div class="leader-img">
-                        <img src={rabbi.image} alt={rabbi.name} style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.05);">
+                        <img src={rabbi.image} alt={rabbi.name} class="leader-portrait">
                     </div>
                     <div class="leader-name" data-editable="rabbi-name">{rabbi.name}</div>
                     <div class="leader-title" data-editable="rabbi-title">{rabbi.title}</div>

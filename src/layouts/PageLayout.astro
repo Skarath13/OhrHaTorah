@@ -55,6 +55,7 @@ const {
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        min-width: 0;
     }
 
     .page-header {
@@ -69,6 +70,8 @@ const {
         font-size: 2rem;
         font-weight: 600;
         color: white !important;
+        line-height: 1.2;
+        text-wrap: balance;
     }
 
     .page-header h1 i {
@@ -78,6 +81,7 @@ const {
 
     .page-body {
         padding: 40px;
+        min-width: 0;
     }
 
     .page-footer {
@@ -87,25 +91,93 @@ const {
         background: var(--gray-100);
     }
 
-    @media (max-width: 768px) {
+    .page-body > * {
+        max-width: 100%;
+    }
+
+    .page-body img,
+    .page-body iframe {
+        max-width: 100%;
+    }
+
+    .page-body :where(h2, h3, h4) {
+        line-height: 1.25;
+        text-wrap: balance;
+    }
+
+    @media (max-width: 1023px) {
         .page-content {
-            padding: 20px 15px;
+            padding: 28px 18px;
         }
 
         .page-header {
-            padding: 20px;
+            padding: 24px 28px;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+        }
+
+        .page-body {
+            padding: 32px 28px;
+        }
+
+        .page-footer {
+            padding: 24px 28px 28px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .page-content {
+            padding: 18px 12px;
+        }
+
+        .page-container {
+            border-radius: 10px;
+        }
+
+        .page-header {
+            padding: 20px 18px;
         }
 
         .page-header h1 {
             font-size: 1.5rem;
         }
 
+        .page-header h1 i {
+            margin-right: 8px;
+        }
+
         .page-body {
-            padding: 25px 20px;
+            padding: 24px 18px;
         }
 
         .page-footer {
+            padding: 20px 18px 24px;
+        }
+
+        .page-body :where(.section, .resource-section, .service-schedule, .values-section, .programs-section, .directions-section, .location-card, .info-section, .tips-section, .highlight-section, .priority-section, .involvement-section, .vision-section, .mission-section, .about-section, .contact-box, .welcome-banner, .cta-section) {
+            margin-bottom: 24px;
+        }
+
+        .page-body :where(.identity-section, .highlight-section, .priority-section, .tips-section, .resource-card, .event-card, .contact-card, .direction-card, .location-card, .mission-section, .vision-section, .cta-section, .about-section, .info-section, .involvement-section, .practical-item, .experience-item, .stat-item, .value-card, .program-item) {
             padding: 20px;
+        }
+
+        .page-body :where(.worship-grid, .events-grid, .values-grid, .directions-grid, .location-grid, .contact-grid, .experience-grid, .practical-grid, .stats-grid) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .page-body :where(.contact-links, .contact-info) {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-body :where(.contact-links a, .contact-info a, .cta-button, .directions-btn) {
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
         }
     }
 </style>

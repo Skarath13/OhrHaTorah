@@ -142,7 +142,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         color: white;
         font-weight: bold;
         white-space: nowrap;
-        min-width: 90px;
+        min-width: 0;
         text-align: center;
     }
 
@@ -261,14 +261,14 @@ import PageLayout from '../layouts/PageLayout.astro';
         font-size: 1.1rem;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 767px) {
         .timeline-item {
             flex-direction: column;
             gap: 10px;
         }
 
         .time-badge {
-            min-width: auto;
+            width: fit-content;
         }
     }
 </style>

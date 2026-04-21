@@ -7,7 +7,7 @@ This file provides project-specific guidance for the Chuck directory containing 
 ### OhrHaTorah - Messianic Congregation Website
 - **Type**: Astro SSR site with Cloudflare Pages
 - **Tech Stack**: Astro 5.x, TypeScript, Cloudflare Workers/Pages, D1, R2
-- **Development Server**: `npm run dev` (port 3005)
+- **Development Server**: `npm run dev` (port 3002)
 - **Production URL**: https://ohrhatorah.pages.dev
 - **Repository**: https://github.com/Skarath13/OhrHaTorah.git
 - **Branch**: `master` (auto-deploys to Cloudflare Pages on push)
@@ -106,7 +106,7 @@ npx wrangler d1 execute ohrhatorah-db --remote --command="SELECT * FROM users;"
 
 ### Development Workflow
 ```bash
-npm run dev      # Start dev server (port 3005)
+npm run dev      # Start dev server (port 3002)
 npm run build    # Build for production
 npm run preview  # Preview production build
 ```
