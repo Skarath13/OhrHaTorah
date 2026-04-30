@@ -63,20 +63,22 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(8, 20, 44, 0.74);
+    backdrop-filter: blur(10px);
   }
 
   .login-modal-content {
     position: relative;
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
+    background: rgba(255, 252, 246, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    padding: clamp(28px, 6vw, 42px);
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    max-width: 430px;
+    box-shadow: 0 28px 80px rgba(8, 20, 44, 0.36);
     text-align: center;
     animation: modalSlideIn 0.3s ease;
+    backdrop-filter: blur(18px);
   }
 
   @keyframes modalSlideIn {
@@ -97,7 +99,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #718096;
+    color: #43516b;
     padding: 4px;
     border-radius: 4px;
     transition: all 0.2s;
@@ -111,24 +113,25 @@
   .login-logo {
     font-size: 48px;
     margin-bottom: 10px;
-    color: #1a365d;
+    color: #153f91;
   }
 
   .login-modal-content h2 {
-    color: #1a365d;
-    font-size: 24px;
+    color: #16233d;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: 32px;
     margin-bottom: 8px;
     font-weight: 600;
   }
 
   .login-subtitle {
-    color: #718096;
+    color: #6f7890;
     font-size: 14px;
     margin-bottom: 30px;
   }
 
   .pin-label {
-    color: #4a5568;
+    color: #43516b;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 16px;
@@ -136,23 +139,25 @@
   }
 
   .pin-inputs {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(6px, 2vw, 10px);
     margin-bottom: 24px;
   }
 
   .pin-input {
-    width: 48px;
-    height: 56px;
+    width: 100%;
+    min-width: 0;
+    height: clamp(48px, 13vw, 58px);
     text-align: center;
     font-size: 24px;
     font-weight: 600;
-    border: 2px solid #e2e8f0;
+    border: 2px solid rgba(21, 63, 145, 0.14);
     border-radius: 12px;
     outline: none;
     transition: all 0.2s ease;
-    color: #1a365d;
+    color: #16233d;
+    background: rgba(255, 255, 255, 0.78);
     -moz-appearance: textfield;
   }
 
@@ -163,13 +168,13 @@
   }
 
   .pin-input:focus {
-    border-color: #3182ce;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+    border-color: #153f91;
+    box-shadow: 0 0 0 3px rgba(21, 63, 145, 0.18);
   }
 
   .pin-input.filled {
-    background: #f7fafc;
-    border-color: #3182ce;
+    background: #f0f6ff;
+    border-color: #153f91;
   }
 
   .pin-input.error {
@@ -186,7 +191,7 @@
   .submit-btn {
     width: 100%;
     padding: 14px 24px;
-    background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+    background: linear-gradient(135deg, #153f91 0%, #276cc5 100%);
     color: white;
     border: none;
     border-radius: 12px;
@@ -263,13 +268,7 @@
     }
 
     .pin-input {
-      width: 42px;
-      height: 50px;
       font-size: 20px;
-    }
-
-    .pin-inputs {
-      gap: 8px;
     }
   }
 </style>

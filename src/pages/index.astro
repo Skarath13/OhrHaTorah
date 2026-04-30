@@ -6,310 +6,579 @@ import Footer from '../components/layout/Footer.astro';
 import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
 import LiveClock from '../components/islands/LiveClock.astro';
-// Admin functionality moved to /admin/ routes
+import FeaturesSection from '../components/FeaturesSection.astro';
 import { rabbi } from '../data/rabbi';
+
+type IcsField = {
+    value: string;
+    params: string;
+};
+
+type IcsDate = {
+    date: Date;
+    isAllDay: boolean;
+    parts: {
+        year: number;
+        month: number;
+        day: number;
+        hour: number;
+        minute: number;
+        second: number;
+    };
+    timeZone: string;
+};
+
+type CalendarEvent = {
+    title: string;
+    start: Date;
+    end?: Date;
+    location?: string;
+    isAllDay: boolean;
+    recurring: boolean;
+};
+
+const CALENDAR_TIME_ZONE = 'America/Los_Angeles';
+const CALENDAR_ICS_URL = 'https://calendar.google.com/calendar/ical/ohrhatorahoc%40gmail.com/public/basic.ics';
+const GOOGLE_CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/r?cid=ohrhatorahoc%40gmail.com';
+const WEEKDAY_CODES = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+const decodeIcsText = (value: string) => value
+    .replace(/\\n/g, '\n')
+    .replace(/\\,/g, ',')
+    .replace(/\\;/g, ';')
+    .replace(/\\\\/g, '\\')
+    .trim();
+
+const unfoldIcs = (ics: string) => ics.replace(/\r?\n[ \t]/g, '');
+
+const getIcsField = (block: string, name: string): IcsField | undefined => {
+    const line = block.split(/\r?\n/).find((item) => item.startsWith(`${name}:`) || item.startsWith(`${name};`));
+    if (!line) return undefined;
+
+    const separatorIndex = line.indexOf(':');
+    if (separatorIndex === -1) return undefined;
+
+    return {
+        params: line.slice(0, separatorIndex),
+        value: decodeIcsText(line.slice(separatorIndex + 1))
+    };
+};
+
+const getTimeZoneOffset = (date: Date, timeZone: string) => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    }).formatToParts(date);
+
+    const partMap = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+    const hour = partMap.hour === '24' ? 0 : Number(partMap.hour);
+    const zonedAsUtc = Date.UTC(
+        Number(partMap.year),
+        Number(partMap.month) - 1,
+        Number(partMap.day),
+        hour,
+        Number(partMap.minute),
+        Number(partMap.second)
+    );
+
+    return zonedAsUtc - date.getTime();
+};
+
+const zonedDateToUtc = (parts: IcsDate['parts'], timeZone: string) => {
+    const utcGuess = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+    let utcTime = utcGuess;
+
+    for (let index = 0; index < 2; index += 1) {
+        utcTime = utcGuess - getTimeZoneOffset(new Date(utcTime), timeZone);
+    }
+
+    return new Date(utcTime);
+};
+
+const parseIcsDate = (field?: IcsField): IcsDate | undefined => {
+    if (!field) return undefined;
+
+    const timeZone = field.params.match(/TZID=([^;:]+)/)?.[1] ?? CALENDAR_TIME_ZONE;
+    const [datePart, timePart = ''] = field.value.split('T');
+    if (datePart.length < 8) return undefined;
+
+    const parts = {
+        year: Number(datePart.slice(0, 4)),
+        month: Number(datePart.slice(4, 6)),
+        day: Number(datePart.slice(6, 8)),
+        hour: timePart ? Number(timePart.slice(0, 2)) : 12,
+        minute: timePart ? Number(timePart.slice(2, 4)) : 0,
+        second: timePart ? Number(timePart.slice(4, 6) || 0) : 0
+    };
+
+    const date = field.value.endsWith('Z')
+        ? new Date(Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second))
+        : zonedDateToUtc(parts, timeZone);
+
+    return {
+        date,
+        isAllDay: !timePart,
+        parts,
+        timeZone
+    };
+};
+
+const getLocalDateParts = (date: Date, timeZone: string) => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).formatToParts(date);
+    const partMap = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+
+    return {
+        year: Number(partMap.year),
+        month: Number(partMap.month),
+        day: Number(partMap.day)
+    };
+};
+
+const addDaysToLocalDate = (parts: { year: number; month: number; day: number }, days: number) => {
+    const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day + days, 12));
+
+    return {
+        year: date.getUTCFullYear(),
+        month: date.getUTCMonth() + 1,
+        day: date.getUTCDate()
+    };
+};
+
+const getDayOfWeek = (parts: { year: number; month: number; day: number }) => (
+    new Date(Date.UTC(parts.year, parts.month - 1, parts.day, 12)).getUTCDay()
+);
+
+const getRruleParts = (value = '') => Object.fromEntries(
+    value.split(';').map((item) => {
+        const [key, ruleValue = ''] = item.split('=');
+        return [key, ruleValue];
+    })
+);
+
+const expandWeeklyEvent = (
+    title: string,
+    start: IcsDate,
+    end: IcsDate | undefined,
+    location: string | undefined,
+    rrule: string,
+    now: Date
+): CalendarEvent[] => {
+    const rules = getRruleParts(rrule);
+    if (rules.FREQ !== 'WEEKLY') return [];
+
+    const interval = Math.max(Number(rules.INTERVAL ?? 1), 1);
+    const targetDays = (rules.BYDAY ? rules.BYDAY.split(',') : [WEEKDAY_CODES[getDayOfWeek(start.parts)]])
+        .map((day) => WEEKDAY_CODES.indexOf(day))
+        .filter((day) => day >= 0);
+    const duration = end ? Math.max(end.date.getTime() - start.date.getTime(), 0) : 60 * 60 * 1000;
+    const today = getLocalDateParts(now, CALENDAR_TIME_ZONE);
+    const todayDay = getDayOfWeek(today);
+    const events: CalendarEvent[] = [];
+
+    for (const targetDay of targetDays) {
+        const daysUntil = (targetDay - todayDay + 7) % 7;
+
+        for (let week = 0; week < 10; week += 1) {
+            const candidateDate = addDaysToLocalDate(today, daysUntil + week * 7 * interval);
+            const candidateStart = zonedDateToUtc({
+                ...candidateDate,
+                hour: start.parts.hour,
+                minute: start.parts.minute,
+                second: start.parts.second
+            }, CALENDAR_TIME_ZONE);
+            const candidateEnd = new Date(candidateStart.getTime() + duration);
+
+            if (candidateStart < start.date || candidateEnd < now) continue;
+
+            events.push({
+                title,
+                start: candidateStart,
+                end: candidateEnd,
+                location,
+                isAllDay: start.isAllDay,
+                recurring: true
+            });
+        }
+    }
+
+    return events;
+};
+
+const formatCalendarDate = (date: Date) => new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    timeZone: CALENDAR_TIME_ZONE
+}).format(date);
+
+const formatCalendarTime = (event: CalendarEvent) => {
+    if (event.isAllDay) return 'All day';
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: CALENDAR_TIME_ZONE
+    });
+
+    return event.end ? `${formatter.format(event.start)} - ${formatter.format(event.end)}` : formatter.format(event.start);
+};
+
+const loadCalendarEvents = async (): Promise<CalendarEvent[]> => {
+    try {
+        const response = await fetch(CALENDAR_ICS_URL);
+        if (!response.ok) return [];
+
+        const ics = unfoldIcs(await response.text());
+        const blocks = ics.match(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g) ?? [];
+        const now = new Date();
+
+        return blocks.flatMap((block) => {
+            if (getIcsField(block, 'STATUS')?.value === 'CANCELLED') return [];
+
+            const title = getIcsField(block, 'SUMMARY')?.value ?? 'Congregation Event';
+            const start = parseIcsDate(getIcsField(block, 'DTSTART'));
+            if (!start) return [];
+
+            const end = parseIcsDate(getIcsField(block, 'DTEND'));
+            const location = getIcsField(block, 'LOCATION')?.value;
+            const rrule = getIcsField(block, 'RRULE')?.value;
+
+            if (rrule) {
+                return expandWeeklyEvent(title, start, end, location, rrule, now);
+            }
+
+            if (end && end.date < now) return [];
+            if (!end && start.date < now) return [];
+
+            return [{
+                title,
+                start: start.date,
+                end: end?.date,
+                location,
+                isAllDay: start.isAllDay,
+                recurring: false
+            }];
+        })
+            .sort((first, second) => first.start.getTime() - second.start.getTime())
+            .slice(0, 6);
+    } catch {
+        return [];
+    }
+};
+
+const upcomingCalendarEvents = await loadCalendarEvents();
 ---
 
 <BaseLayout>
     <Header />
     <Navigation />
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-welcome-header"><i class="fas fa-star-of-david"></i> <span data-editable="sidebar-welcome-title">Shalom Visitor!</span></div>
-                <div class="widget-content">
-                    <ul class="sidebar-list">
-                        <li><a href="/services"><i class="fas fa-chevron-right"></i> Worship Times</a></li>
-                        <li><a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right"></i> Directions to OC Location</a></li>
-                        <li><a href="/faq"><i class="fas fa-chevron-right"></i> Frequently Asked Questions</a></li>
-                    </ul>
+    <main class="home-redesign">
+        <section class="home-hero-shell" aria-labelledby="home-title">
+            <div class="home-hero-bottom-blur" aria-hidden="true"></div>
+
+            <div class="home-hero-copy">
+                <div class="home-hero-meta animate-blur-fade-up" style="animation-delay: 60ms;">
+                    <span><i class="fas fa-star-of-david" aria-hidden="true"></i> Messianic Jewish Synagogue</span>
+                    <span><i class="fas fa-clock" aria-hidden="true"></i> Saturdays at 2:30 PM</span>
+                    <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Fountain Valley, CA</span>
+                </div>
+
+                <p class="home-eyebrow animate-blur-fade-up" style="animation-delay: 100ms;" data-editable="home-eyebrow">Orange County, California</p>
+
+                <h1 id="home-title" class="home-hero-title animate-blur-fade-up" style="animation-delay: 140ms;" data-editable="main-title">
+                    <span data-editable="main-title-text">Kehilat Ohr HaTorah</span>
+                </h1>
+
+                <p class="home-hero-lede animate-blur-fade-up" style="animation-delay: 190ms;" data-editable="home-hero-lede">
+                    A warm Messianic Jewish synagogue in Orange County for Torah, tradition, worship, and the hope of Yeshua.
+                </p>
+
+                <div class="home-hero-actions" aria-label="Primary actions">
+                    <a href="/services" class="home-btn home-btn-primary animate-blur-fade-up" style="animation-delay: 240ms;">
+                        <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                        Plan a Visit
+                    </a>
+                    <a href="#home-story" class="home-btn home-btn-quiet liquid-glass animate-blur-fade-up" style="animation-delay: 280ms;">
+                        <i class="fas fa-book-open" aria-hidden="true"></i>
+                        Learn More
+                    </a>
                 </div>
             </div>
+        </section>
 
-            <LiveClock />
+        <FeaturesSection />
 
-            <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-mission-header"><i class="fas fa-bullseye"></i> <span data-editable="sidebar-mission-title">Our Mission</span></div>
-                <div class="widget-content">
-                    <div class="mission-text">
-                        <p data-editable="mission-statement">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel. We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding.</p>
-                        <div class="mission-highlights">
-                            <div class="highlight-item">
-                                <i class="fas fa-heart"></i>
-                                <span>Welcoming Community</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-torah"></i>
-                                <span>Torah Living</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-hands-praying"></i>
-                                <span>Faithful Worship</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section class="home-week-panel" aria-labelledby="home-this-week">
+            <div class="home-panel-intro">
+                <p class="home-section-kicker">This Shabbat</p>
+                <h2 id="home-this-week">Shabbat Service This Week</h2>
+                <p>
+                    Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service, and Scripture study at our Fountain Valley location.
+                </p>
             </div>
 
-            <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-vision-header"><i class="fas fa-eye"></i> <span data-editable="sidebar-vision-title">Our Vision</span></div>
-                <div class="widget-content">
-                    <div class="vision-text">
-                        <p data-editable="vision-statement">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua. We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples.</p>
-                        <div class="vision-goals">
-                            <div class="goal-item">
-                                <i class="fas fa-globe-americas"></i>
-                                <span>Light to Nations</span>
-                            </div>
-                            <div class="goal-item">
-                                <i class="fas fa-bridge"></i>
-                                <span>Unity in Messiah</span>
-                            </div>
-                            <div class="goal-item">
-                                <i class="fas fa-crown"></i>
-                                <span>Kingdom Living</span>
-                            </div>
-                        </div>
+            <div class="home-week-grid">
+                <article class="home-mini-card">
+                    <i class="fas fa-door-open" aria-hidden="true"></i>
+                    <span data-editable="sidebar-welcome-title">Shalom Visitor!</span>
+                    <div class="home-link-grid">
+                        <a href="/services"><i class="fas fa-chevron-right" aria-hidden="true"></i> Worship Times</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer"><i class="fas fa-chevron-right" aria-hidden="true"></i> Directions to OC Location</a>
+                        <a href="/faq"><i class="fas fa-chevron-right" aria-hidden="true"></i> Frequently Asked Questions</a>
                     </div>
-                </div>
-            </div>
+                </article>
 
-            <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-values-header"><i class="fas fa-gem"></i> <span data-editable="sidebar-values-title">Core Values</span></div>
-                <div class="widget-content">
-                    <div class="values-list-compact">
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-torah-title">Torah Faithfulness <i class="fas fa-scroll"></i></h4>
-                            <p data-editable="value-torah-desc">Living according to God's eternal instructions</p>
+                <article class="home-mini-card">
+                    <i class="fas fa-clock" aria-hidden="true"></i>
+                    <span data-editable="sidebar-prayer-title">Prayer Times</span>
+                    <div class="home-prayer-list">
+                        <div>
+                            <small data-editable="prayer-shacharit-name">Shacharit</small>
+                            <strong id="shacharit-time">Loading...</strong>
                         </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-identity-title">Jewish Identity <i class="fas fa-star-of-david"></i></h4>
-                            <p data-editable="value-identity-desc">Celebrating our rich Jewish heritage and traditions</p>
+                        <div>
+                            <small data-editable="prayer-mincha-name">Mincha</small>
+                            <strong id="mincha-time">Loading...</strong>
                         </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-messiah-title">Yeshua as Messiah <i class="fas fa-star-of-david"></i></h4>
-                            <p data-editable="value-messiah-desc">Embracing Jesus as Israel's promised Redeemer</p>
-                        </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-community-title">Loving Community <i class="fas fa-hands-helping"></i></h4>
-                            <p data-editable="value-community-desc">Welcoming all who seek to grow in faith</p>
-                        </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-study-title">Biblical Study <i class="fas fa-book-open"></i></h4>
-                            <p data-editable="value-study-desc">Commitment to deep Scripture learning and understanding</p>
-                        </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-worship-title">Authentic Worship <i class="fas fa-pray"></i></h4>
-                            <p data-editable="value-worship-desc">Heartfelt praise through Jewish liturgy and tradition</p>
-                        </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-growth-title">Spiritual Growth <i class="fas fa-seedling"></i></h4>
-                            <p data-editable="value-growth-desc">Encouraging maturity in faith and character</p>
-                        </div>
-                        <div class="value-item-compact">
-                            <h4 data-editable="value-compassion-title">Compassionate Service <i class="fas fa-heart"></i></h4>
-                            <p data-editable="value-compassion-desc">Serving others with love and practical care</p>
+                        <div>
+                            <small data-editable="prayer-maariv-name">Ma'ariv</small>
+                            <strong id="maariv-time">Loading...</strong>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="sidebar-widget">
-                <div class="widget-header" data-editable="sidebar-prayer-header">
-                    <i class="fas fa-clock"></i> <span data-editable="sidebar-prayer-title">Prayer Times</span>
-                </div>
-                <div class="widget-content">
-                    <div class="prayer-times">
-                        <div class="prayer-row">
-                            <div class="prayer-name" data-editable="prayer-shacharit-name"><i class="fas fa-sun"></i> Shacharit</div>
-                            <div class="prayer-time" id="shacharit-time">Loading...</div>
-                        </div>
-                        <div class="prayer-row">
-                            <div class="prayer-name" data-editable="prayer-mincha-name"><i class="fas fa-cloud-sun"></i> Mincha</div>
-                            <div class="prayer-time" id="mincha-time">Loading...</div>
-                        </div>
-                        <div class="prayer-row">
-                            <div class="prayer-name" data-editable="prayer-maariv-name"><i class="fas fa-moon"></i> Ma'ariv</div>
-                            <div class="prayer-time" id="maariv-time">Loading...</div>
-                        </div>
-                    </div>
-                    <div class="prayer-last-updated" id="prayer-last-updated">
+                    <div class="home-updated" id="prayer-last-updated">
                         <span class="live-indicator" id="prayer-live-indicator" title="Live from Hebcal">
                             <span class="live-dot"></span>
                             <span class="live-text">LIVE</span>
                         </span>
                         <span class="updated-time" id="prayer-updated-time"></span>
                     </div>
+                </article>
+
+                <div class="home-mini-card home-clock-card">
+                    <LiveClock />
+                </div>
+
+                <ParashahCard />
+                <CandleLighting />
+            </div>
+        </section>
+
+        <section class="home-story-section" id="home-story" aria-labelledby="home-story-title">
+            <div class="home-story-copy">
+                <p class="home-section-kicker" data-editable="about-us-title-text">About Us</p>
+                <h2 id="home-story-title">A home for Torah, tradition, and the hope of Messiah.</h2>
+                <p data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families - all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
+                <p data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together - with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
+                <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a newly developing Messianic Synagogue in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua. We emphasize Yeshua's call to pursue covenant faithfulness with our God and with all our Jewish people. Within this framework, we warmly welcome all Jewish, non-Jewish, and interfaith couples and families who desire to experience and grow in the freedom and richness of our Messianic Jewish faith.</p>
+            </div>
+
+            <div class="home-material-stack">
+                <img src="/images/premium/torah-card-landscape.webp" alt="Torah scroll and Jerusalem stone in warm light" loading="lazy">
+                <div class="home-material-card">
+                    <i class="fas fa-scroll" aria-hidden="true"></i>
+                    <strong>Etz Chaim</strong>
+                    <span>God's Torah, "It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace (Proverbs 3:17-18). Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old (Lamentations 5:21).</span>
                 </div>
             </div>
-        </aside>
+        </section>
 
-        <!-- Main Content -->
-        <main class="content">
-            <h1 data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Kehilat Ohr HaTorah Messianic Jewish Synagogue</span></h1>
-
-            <div class="infobox">
-                <i class="fas fa-info-circle"></i>
-                <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service, and Scripture study at our Fountain Valley location.
+        <section class="home-experience-section" aria-labelledby="home-experience-title">
+            <div class="home-experience-media">
+                <img src="/images/premium/scroll-light-detail.webp" alt="Abstract Torah parchment detail in blue and gold light" loading="lazy">
             </div>
 
-            <p data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families – all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
-
-            <p data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together — with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
-
-            <div class="ticker-banner">
-                <div class="ticker-content">
-                    <span class="ticker-item">
-                        <i class="fas fa-scroll"></i>
-                        God's Torah, "It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace (Proverbs 3:17-18). Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old (Lamentations 5:21).
-                    </span>
-                    <span class="ticker-item">
-                        <i class="fas fa-scroll"></i>
-                        God's Torah, "It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace (Proverbs 3:17-18). Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old (Lamentations 5:21).
-                    </span>
+            <div class="home-experience-copy">
+                <p class="home-section-kicker">Messianic Jewish Life</p>
+                <h2 id="home-experience-title">Traditional, contemporary, and deeply rooted.</h2>
+                <p data-editable="about-us-text-2">Our community and services are ideal both for those who are inquiring and for those who seek to deepen their understanding and walk with our Jewish Messiah. We blend traditional and contemporary Jewish practices - emphasizing in our services community prayer (in Hebrew and English), Scripture teaching, and vibrant music.</p>
+                <p data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
+                <div class="home-experience-list" aria-label="Helpful links">
+                    <a href="/services"><i class="fas fa-calendar-check" aria-hidden="true"></i> Shabbat Activities and Service</a>
+                    <a href="/expect"><i class="fas fa-door-open" aria-hidden="true"></i> What to Expect</a>
+                    <a href="/resources"><i class="fas fa-book-open" aria-hidden="true"></i> Messianic Jewish Resources</a>
+                    <a href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i> UMJC Affiliation</a>
                 </div>
             </div>
+        </section>
 
-            <h3 id="congregation-calendar"><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
-
-            <div class="calendar-container">
-                <div class="responsive-calendar">
-                    <iframe src="https://calendar.google.com/calendar/embed?src=ohrhatorahoc%40gmail.com&ctz=America%2FLos_Angeles"
-                            class="home-calendar-iframe"
-                            title="Ohr HaTorah congregation calendar"
-                            width="800"
-                            height="200"
-                            frameborder="0"
-                            loading="lazy"
-                            scrolling="no">
-                    </iframe>
-                </div>
+        <section class="home-values-section" aria-labelledby="home-values-title">
+            <div class="home-section-heading">
+                <p class="home-section-kicker" data-editable="sidebar-values-title">Core Values</p>
+                <h2 id="home-values-title">A covenantal community with a clear center.</h2>
+                <p data-editable="mission-statement">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel. We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding.</p>
+                <p data-editable="vision-statement">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua. We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples.</p>
             </div>
 
-            <h3 data-editable="about-us-title"><i class="fas fa-users"></i> <span data-editable="about-us-title-text">About Us</span></h3>
+            <div class="home-value-grid">
+                <article>
+                    <i class="fas fa-scroll" aria-hidden="true"></i>
+                    <h3 data-editable="value-torah-title">Torah Faithfulness</h3>
+                    <p data-editable="value-torah-desc">Living according to God's eternal instructions</p>
+                </article>
+                <article>
+                    <i class="fas fa-star-of-david" aria-hidden="true"></i>
+                    <h3 data-editable="value-identity-title">Jewish Identity</h3>
+                    <p data-editable="value-identity-desc">Celebrating our rich Jewish heritage and traditions</p>
+                </article>
+                <article>
+                    <i class="fas fa-star-of-david" aria-hidden="true"></i>
+                    <h3 data-editable="value-messiah-title">Yeshua as Messiah</h3>
+                    <p data-editable="value-messiah-desc">Embracing Jesus as Israel's promised Redeemer</p>
+                </article>
+                <article>
+                    <i class="fas fa-hands-helping" aria-hidden="true"></i>
+                    <h3 data-editable="value-community-title">Loving Community</h3>
+                    <p data-editable="value-community-desc">Welcoming all who seek to grow in faith</p>
+                </article>
+                <article>
+                    <i class="fas fa-book-open" aria-hidden="true"></i>
+                    <h3 data-editable="value-study-title">Biblical Study</h3>
+                    <p data-editable="value-study-desc">Commitment to deep Scripture learning and understanding</p>
+                </article>
+                <article>
+                    <i class="fas fa-pray" aria-hidden="true"></i>
+                    <h3 data-editable="value-worship-title">Authentic Worship</h3>
+                    <p data-editable="value-worship-desc">Heartfelt praise through Jewish liturgy and tradition</p>
+                </article>
+                <article>
+                    <i class="fas fa-seedling" aria-hidden="true"></i>
+                    <h3 data-editable="value-growth-title">Spiritual Growth</h3>
+                    <p data-editable="value-growth-desc">Encouraging maturity in faith and character</p>
+                </article>
+                <article>
+                    <i class="fas fa-heart" aria-hidden="true"></i>
+                    <h3 data-editable="value-compassion-title">Compassionate Service</h3>
+                    <p data-editable="value-compassion-desc">Serving others with love and practical care</p>
+                </article>
+            </div>
+        </section>
 
-            <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a newly developing Messianic Synagogue in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua. We emphasize Yeshua's call to pursue covenant faithfulness with our God and with all our Jewish people. Within this framework, we warmly welcome all Jewish, non-Jewish, and interfaith couples and families who desire to experience and grow in the freedom and richness of our Messianic Jewish faith.</p>
-
-            <p data-editable="about-us-text-2">Our community and services are ideal both for those who are inquiring and for those who seek to deepen their understanding and walk with our Jewish Messiah. We blend traditional and contemporary Jewish practices – emphasizing in our services community prayer (in Hebrew and English), Scripture teaching, and vibrant music.</p>
-
-            <p data-editable="about-us-text-3">At the head of our leadership team is Rabbi Charles (Chaim) Ott who brings with him many years of experience in Messianic leadership, having completed extensive graduate work in Jewish studies, New Testament studies and public Education. Rabbi Ott is especially passionate and skilled in his presentation of the entire Bible – Hebrew Scriptures and Brit Chadashah (New Testament) – as one unified message of individual and national redemption through Yeshua our Messiah.</p>
-
-            <p data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
-
-            <div class="info-grid">
-                <div class="info-box" id="shabbat-activities-section">
-                    <h4><i class="fas fa-clock"></i> Shabbat Activities and Service</h4>
-                    <div data-editable="service-times">
-                        <p><strong>Friday Evening:</strong><br>
-                        Festive Shabbat meals in the home</p>
-
-                        <p><strong>Saturday Service Schedule:</strong><br>
-                        <span class="time-highlight blue">2:30 PM</span> - Messianic Jewish Music and Dance<br>
-                        <span class="time-highlight gold">3:00 PM</span> - Traditional prayers and Torah Service (Mincha)<br>
-                        <span class="time-highlight green">4:30 PM</span> - Discussion on Weekly Readings</p>
-
-                        <p><em>We plan soon to offer a morning service (Shacharit)</em></p>
+        <section class="home-calendar-section" aria-labelledby="congregation-calendar">
+            <div class="home-section-heading">
+                <p class="home-section-kicker">Gatherings</p>
+                <h2 id="congregation-calendar">Congregation Calendar</h2>
+                <p>Plan around services, holidays, special events, and community life.</p>
+            </div>
+            <div class="home-calendar-frame home-calendar-list">
+                {upcomingCalendarEvents.length > 0 ? (
+                    <ol class="home-calendar-events" aria-label="Upcoming congregation calendar events">
+                        {upcomingCalendarEvents.map((event) => (
+                            <li class="home-calendar-event">
+                                <time datetime={event.start.toISOString()}>
+                                    <span>{formatCalendarDate(event.start)}</span>
+                                    <strong>{formatCalendarTime(event)}</strong>
+                                </time>
+                                <div>
+                                    <h3>{event.title}</h3>
+                                    {event.location && <p>{event.location}</p>}
+                                    {event.recurring && <small>Weekly gathering</small>}
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
+                ) : (
+                    <div class="home-calendar-empty">
+                        <h3>Calendar events are available through Google Calendar.</h3>
+                        <p>If the embedded calendar is blocked by the browser, open or subscribe to the public calendar directly.</p>
                     </div>
-                </div>
-                <div class="info-box">
-                    <h4><i class="fas fa-map"></i> Google Maps</h4>
-                    <div class="map-container">
-                        <iframe src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                class="home-map-iframe"
-                                title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"
-                                width="100%"
-                                height="100%"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-                    <div class="map-directions-container">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="btn btn-blue map-directions-link">
-                            <i class="fas fa-directions"></i>
-                            Get Directions
-                        </a>
-                    </div>
-                </div>
-                <div class="info-box" id="contact-us-section">
-                    <h4><i class="fas fa-envelope"></i> Contact Us</h4>
-                    <div data-editable="contact-info">
-                        <p><strong>Mailing Address:</strong><br>
-                        360 E. 1st Street, #856<br>
-                        Tustin, CA 92780</p>
+                )}
 
-                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p>
-
-                        <p><strong><i class="fas fa-phone"></i> Phone:</strong> <a href="tel:+17144061513">(714) 406-1513</a></p>
-                    </div>
-                </div>
-                <div class="info-box">
-                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
-                    <p data-editable="location-text"><strong>Service Location:</strong><br>
-                    10460 Slater Ave<br>
-                    Fountain Valley, CA 92708</p>
+                <div class="home-calendar-actions" aria-label="Calendar links">
+                    <a href={GOOGLE_CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="home-btn home-btn-primary">
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                        Open Google Calendar
+                    </a>
+                    <a href={CALENDAR_ICS_URL} class="home-btn home-btn-quiet">
+                        <i class="fas fa-calendar-plus" aria-hidden="true"></i>
+                        Subscribe via iCal
+                    </a>
                 </div>
             </div>
-        </main>
+        </section>
 
-        <!-- Right Sidebar -->
-        <aside class="right-sidebar">
-            <ParashahCard />
-            <CandleLighting />
+        <section class="home-leadership-section" aria-labelledby="home-rabbi-title">
+            <article class="home-rabbi-card">
+                <img src={rabbi.image} alt={rabbi.name} loading="lazy">
+                <div>
+                    <p class="home-section-kicker" data-editable="rabbi-card-title">Meet Our Rabbi</p>
+                    <h2 id="home-rabbi-title" data-editable="rabbi-name">{rabbi.name}</h2>
+                    <span class="home-rabbi-title" data-editable="rabbi-title">{rabbi.title}</span>
+                    <p data-editable="about-us-text-3">At the head of our leadership team is Rabbi Charles (Chaim) Ott who brings with him many years of experience in Messianic leadership, having completed extensive graduate work in Jewish studies, New Testament studies and public Education. Rabbi Ott is especially passionate and skilled in his presentation of the entire Bible - Hebrew Scriptures and Brit Chadashah (New Testament) - as one unified message of individual and national redemption through Yeshua our Messiah.</p>
+                    <p data-editable="rabbi-bio">{rabbi.bio}</p>
+                </div>
+            </article>
+        </section>
 
-            <!-- Leadership Card -->
-            <div class="feature-card leader-card">
-                <div class="card-header">
-                    <i class="fas fa-user-tie"></i>
-                    <span data-editable="rabbi-card-title">Meet Our Rabbi</span>
+        <section class="home-visit-section" aria-labelledby="home-visit-title">
+            <div class="home-visit-copy">
+                <p class="home-section-kicker">Visit Us</p>
+                <h2 id="home-visit-title">Shabbat in Fountain Valley.</h2>
+                <div class="home-service-table" data-editable="service-times">
+                    <p><strong>Friday Evening:</strong><br>Festive Shabbat meals in the home</p>
+                    <p><strong>Saturday Service Schedule:</strong><br>
+                    <span class="time-highlight blue">2:30 PM</span> - Messianic Jewish Music and Dance<br>
+                    <span class="time-highlight gold">3:00 PM</span> - Traditional prayers and Torah Service (Mincha)<br>
+                    <span class="time-highlight green">4:30 PM</span> - Discussion on Weekly Readings</p>
+                    <p><em>We plan soon to offer a morning service (Shacharit)</em></p>
                 </div>
-                <div class="card-body text-center">
-                    <div class="leader-img">
-                        <img src={rabbi.image} alt={rabbi.name} class="leader-portrait">
-                    </div>
-                    <div class="leader-name" data-editable="rabbi-name">{rabbi.name}</div>
-                    <div class="leader-title" data-editable="rabbi-title">{rabbi.title}</div>
-                    <p class="leader-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
+
+                <div class="home-contact-grid" data-editable="contact-info">
+                    <p><strong>Mailing Address:</strong><br>360 E. 1st Street, #856<br>Tustin, CA 92780</p>
+                    <p><strong><i class="fas fa-envelope" aria-hidden="true"></i> Email:</strong> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p>
+                    <p><strong><i class="fas fa-phone" aria-hidden="true"></i> Phone:</strong> <a href="tel:+17144061513">(714) 406-1513</a></p>
+                    <p data-editable="location-text"><strong>Service Location:</strong><br>10460 Slater Ave<br>Fountain Valley, CA 92708</p>
                 </div>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer" class="home-btn home-btn-primary">
+                    <i class="fas fa-directions" aria-hidden="true"></i>
+                    Get Directions
+                </a>
             </div>
 
-            <!-- Community Life Card -->
-            <div class="feature-card">
-                <div class="card-header">
-                    <i class="fas fa-images"></i>
-                    <span data-editable="community-card-title">Community Life</span>
-                </div>
-                <div class="card-body">
-                    <div class="community-grid">
-                        <div class="community-item">
-                            <img src="/images/Passover.PNG" alt="Passover Seder" class="community-image">
-                        </div>
-                        <div class="community-item">
-                            <img src="/images/Community.PNG" alt="Community Gathering" class="community-image">
-                        </div>
-                        <div class="community-item">
-                            <img src="/images/Torah.PNG" alt="Torah" class="community-image">
-                        </div>
-                        <div class="community-item">
-                            <img src="/images/Dancing.PNG" alt="Israeli Dancing" class="community-image">
-                        </div>
-                    </div>
-                </div>
+            <div class="home-map-frame">
+                <iframe src="https://maps.google.com/maps?q=10460+Slater+Ave,+Fountain+Valley,+CA+92708&z=15&output=embed"
+                        title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"
+                        width="100%"
+                        height="440"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
-        </aside>
-    </div>
+        </section>
+
+        <section class="home-final-cta" aria-labelledby="home-final-title">
+            <p class="home-section-kicker">Shalom</p>
+            <h2 id="home-final-title">We look forward to you visiting us soon.</h2>
+            <p>Whether you are exploring, returning, learning, or looking for a congregation to call home, Ohr HaTorah welcomes you.</p>
+            <div class="home-hero-actions">
+                <a href="/contact" class="home-btn home-btn-primary">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    Contact Us
+                </a>
+                <a href="/donate" class="home-btn home-btn-quiet">
+                    <i class="fas fa-heart" aria-hidden="true"></i>
+                    Donate
+                </a>
+            </div>
+        </section>
+    </main>
 
     <Footer />
 
-    <!-- Prayer Times Script - Using Hebcal Zmanim API -->
     <script>
-        const HEBCAL_ZMANIM_ZIP = '92708'; // Fountain Valley, CA
+        const HEBCAL_ZMANIM_ZIP = '92708';
 
         interface ZmanimTimes {
             sunrise: string;
@@ -356,30 +625,25 @@ import { rabbi } from '../data/rabbi';
                 const data: ZmanimResponse = await response.json();
 
                 if (data.times) {
-                    // Shacharit: Use sunrise time (traditional earliest time for morning prayers)
                     const shacharitEl = document.getElementById('shacharit-time');
                     if (shacharitEl && data.times.sunrise) {
                         shacharitEl.textContent = formatZmanTime(data.times.sunrise);
                     }
 
-                    // Mincha: Use Mincha Gedola (earliest time for afternoon prayers)
                     const minchaEl = document.getElementById('mincha-time');
                     if (minchaEl && data.times.minchaGedola) {
                         minchaEl.textContent = formatZmanTime(data.times.minchaGedola);
                     }
 
-                    // Ma'ariv: Use Tzeit (nightfall, when 3 stars appear)
                     const maarivEl = document.getElementById('maariv-time');
                     if (maarivEl && data.times.tzeit85deg) {
                         maarivEl.textContent = formatZmanTime(data.times.tzeit85deg);
                     }
 
-                    // Show live indicator
                     if (liveIndicator) {
                         liveIndicator.classList.add('active');
                     }
 
-                    // Show last updated time
                     const updatedTimeEl = document.getElementById('prayer-updated-time');
                     if (updatedTimeEl) {
                         const now = new Date();
@@ -394,7 +658,6 @@ import { rabbi } from '../data/rabbi';
             } catch (error) {
                 console.error('Error loading prayer times:', error);
 
-                // Show error state
                 if (lastUpdatedEl) {
                     lastUpdatedEl.textContent = 'Unable to load times';
                     lastUpdatedEl.style.color = '#e74c3c';
@@ -403,8 +666,6 @@ import { rabbi } from '../data/rabbi';
         };
 
         loadPrayerTimes();
-
-        // Refresh every 30 minutes
         setInterval(loadPrayerTimes, 30 * 60 * 1000);
     </script>
 </BaseLayout>

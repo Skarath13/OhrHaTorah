@@ -1,0 +1,70 @@
+---
+const cards = {
+  welcome: '/images/premium/torah-mobile-portrait.webp',
+  vision: '/images/premium/torah-hero-desktop-16x9-v2.webp',
+  expect: '/images/premium/blue-glass-star.webp',
+  community: '/images/Community.PNG'
+};
+---
+
+<section class="oht-features-section" aria-labelledby="oht-features-title">
+    <div class="oht-features-header">
+        <div class="oht-features-heading">
+            <h2 id="oht-features-title">Welcome to Ohr HaTorah.</h2>
+            <p>Light of the Torah - ancient wisdom, contemporary understanding.</p>
+        </div>
+
+        <div class="oht-features-action">
+            <a href="/services" class="liquid-glass oht-liquid-button">Plan a Visit</a>
+        </div>
+    </div>
+
+    <div class="oht-features-grid">
+        <article class="feature-card oht-feature-card oht-feature-card-tall">
+            <img class="oht-card-image" src={cards.welcome} alt="Torah scroll and Jerusalem stone in warm light" loading="lazy">
+            <div class="relative oht-card-row oht-muted-row">
+                <span>01/</span>
+                <span>Welcome</span>
+            </div>
+            <div class="oht-card-spacer"></div>
+            <div class="relative oht-card-copy">
+                <h3>Where Ancient Wisdom<br>Meets Living Faith</h3>
+                <div class="oht-card-divider"></div>
+                <p>Welcome to Ohr HaTorah, where ancient wisdom meets contemporary understanding. Our congregation explores Jewish tradition while embracing Yeshua as the Messiah.</p>
+            </div>
+        </article>
+
+        <article class="feature-card-dark oht-feature-card oht-feature-card-wide">
+            <img class="oht-card-image" src={cards.vision} alt="Torah scroll overlooking Jerusalem" loading="lazy">
+            <div class="relative oht-card-row">
+                <h3>Our Vision</h3>
+                <span class="oht-card-number">02/</span>
+            </div>
+            <div class="oht-card-spacer oht-card-spacer-large"></div>
+            <p class="relative oht-card-bottom-note oht-card-bottom-note-left">A community where Jewish tradition and faith in Yeshua come together harmoniously, and where Jewish and non-Jewish believers can grow in faith and understanding.</p>
+        </article>
+
+        <article class="feature-card oht-feature-card">
+            <img class="oht-card-image" src={cards.expect} alt="Blue glass Star of David detail" loading="lazy">
+            <div class="relative oht-card-row oht-muted-row">
+                <span>What to Expect</span>
+                <span>03/</span>
+            </div>
+            <p class="relative oht-card-body-copy">Warm welcome, traditional Jewish liturgy, engaging Torah study, children's programs, and fellowship opportunities.</p>
+            <div class="oht-card-spacer"></div>
+            <div class="relative oht-card-bottom">
+                <a href="/expect" class="liquid-glass oht-liquid-button">What to Expect</a>
+            </div>
+        </article>
+
+        <article class="feature-card oht-feature-card">
+            <img class="oht-card-image" src={cards.community} alt="Ohr HaTorah community gathering" loading="lazy">
+            <div class="relative oht-card-row oht-muted-row">
+                <span>Community</span>
+                <span>04/</span>
+            </div>
+            <div class="oht-card-spacer"></div>
+            <p class="relative oht-card-bottom-note">A diverse and welcoming community united in love for God, Jewish tradition, and faith in Yeshua.</p>
+        </article>
+    </div>
+</section>

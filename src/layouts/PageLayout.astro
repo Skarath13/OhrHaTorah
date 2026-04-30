@@ -22,10 +22,14 @@ const {
     <Header />
     <Navigation />
 
-    <main class="page-content">
+    <main class="page-content premium-page">
         <div class="page-container">
             {pageTitle && (
                 <div class="page-header">
+                    <div class="page-kicker">
+                        <i class="fas fa-star-of-david" aria-hidden="true"></i>
+                        Ohr HaTorah
+                    </div>
                     <h1><i class={pageIcon}></i> {pageTitle}</h1>
                 </div>
             )}
@@ -44,51 +48,91 @@ const {
 <style is:global>
     .page-content {
         min-height: calc(100vh - 200px);
-        padding: 40px 20px;
-        background-color: var(--gray-100);
+        padding: clamp(96px, 10vw, 138px) var(--page-gutter) clamp(56px, 8vw, 92px);
+        color: var(--ink);
+        background:
+            radial-gradient(circle at 12% 10%, rgba(39, 108, 197, 0.16), transparent 30rem),
+            radial-gradient(circle at 86% 24%, rgba(215, 168, 77, 0.12), transparent 32rem),
+            linear-gradient(180deg, var(--surface-warm) 0%, var(--surface) 62%, #f8efe2 100%);
     }
 
     .page-container {
-        max-width: 900px;
+        width: min(100%, 1240px);
         margin: 0 auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
         min-width: 0;
+        backdrop-filter: none;
     }
 
     .page-header {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 30px 40px;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        color: var(--ink);
+        padding: clamp(46px, 7vw, 84px) clamp(22px, 6vw, 64px);
+        margin-bottom: clamp(20px, 3vw, 34px);
+        border: 1px solid rgba(22, 35, 61, 0.12);
+        border-radius: 1.25rem;
         text-align: center;
+        background-color: var(--surface-warm);
+        background-image: image-set(url('/images/premium/torah-card-landscape.webp') type('image/webp'));
+        background-size: cover;
+        background-position: center;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 24px 80px rgba(70, 46, 13, 0.12);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .page-header::before {
+        content: none;
+    }
+
+    .page-kicker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        color: var(--gold-deep);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
     }
 
     .page-header h1 {
         margin: 0;
-        font-size: 2rem;
-        font-weight: 600;
-        color: white !important;
-        line-height: 1.2;
+        color: var(--ink) !important;
+        font-family: var(--font-serif);
+        font-size: clamp(2.4rem, 6vw, 4.9rem);
+        font-weight: 700;
+        line-height: 0.95;
         text-wrap: balance;
+        text-shadow: 0 1px 8px rgba(255, 253, 248, 0.9), 0 10px 32px rgba(255, 253, 248, 0.7);
     }
 
     .page-header h1 i {
-        margin-right: 12px;
-        color: white !important;
+        margin-right: 0.24em;
+        color: var(--gold-deep) !important;
+        font-size: 0.72em;
     }
 
     .page-body {
-        padding: 40px;
+        display: grid;
+        gap: clamp(18px, 2.5vw, 28px);
+        padding: 0;
         min-width: 0;
     }
 
     .page-footer {
-        padding: 20px 40px 40px;
+        padding: clamp(24px, 4vw, 42px) 0 0;
         text-align: center;
-        border-top: 1px solid var(--gray-200);
-        background: var(--gray-100);
+        border-top: 0;
+        background: transparent;
     }
 
     .page-body > * {
@@ -106,54 +150,24 @@ const {
     }
 
     @media (max-width: 1023px) {
-        .page-content {
-            padding: 28px 18px;
-        }
-
-        .page-header {
-            padding: 24px 28px;
-        }
-
-        .page-header h1 {
-            font-size: 1.75rem;
-        }
-
-        .page-body {
-            padding: 32px 28px;
-        }
-
-        .page-footer {
-            padding: 24px 28px 28px;
-        }
+        .page-content { padding-top: 96px; }
     }
 
     @media (max-width: 767px) {
-        .page-content {
-            padding: 18px 12px;
-        }
-
         .page-container {
-            border-radius: 10px;
+            border-radius: var(--radius-lg);
         }
 
         .page-header {
-            padding: 20px 18px;
-        }
-
-        .page-header h1 {
-            font-size: 1.5rem;
-        }
-
-        .page-header h1 i {
-            margin-right: 8px;
+            background-position: center right 24%;
         }
 
         .page-body {
-            padding: 24px 18px;
+            padding: 0;
         }
 
         .page-footer {
-            padding: 20px 18px 24px;
+            padding: 20px 0 0;
         }
 
         .page-body :where(.section, .resource-section, .service-schedule, .values-section, .programs-section, .directions-section, .location-card, .info-section, .tips-section, .highlight-section, .priority-section, .involvement-section, .vision-section, .mission-section, .about-section, .contact-box, .welcome-banner, .cta-section) {

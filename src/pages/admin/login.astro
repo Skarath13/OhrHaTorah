@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Navigation from '../../components/layout/Navigation.astro';
+import Footer from '../../components/layout/Footer.astro';
+---
+
+<BaseLayout title="Admin Login - Ohr HaTorah">
+    <Header />
+    <Navigation />
+
+    <main class="page-content premium-page">
+        <div class="page-container admin-entry">
+            <div class="page-header">
+                <div class="page-kicker">
+                    <i class="fas fa-lock" aria-hidden="true"></i>
+                    Admin
+                </div>
+                <h1><i class="fas fa-star-of-david"></i> Visual Editor Login</h1>
+            </div>
+            <div class="page-body text-center">
+                <p class="intro-text">Use your six-digit PIN to open the inline editing tools for Ohr HaTorah.</p>
+                <button class="btn btn-blue" type="button" data-open-admin-login>
+                    <i class="fas fa-lock" aria-hidden="true"></i>
+                    Open PIN Login
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+
+    <script>
+        document.querySelector('[data-open-admin-login]')?.addEventListener('click', () => {
+            window.showLoginModal?.();
+        });
+
+        window.addEventListener('load', () => {
+            window.showLoginModal?.();
+        });
+    </script>
+</BaseLayout>
