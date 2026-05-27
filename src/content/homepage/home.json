@@ -85,8 +85,14 @@
     }
   ],
   "quote": {
-    "text": "Your people shall be my people, and your God my God.",
-    "reference": "Ruth 1:16"
+    "label": "God's Torah",
+    "text": "\"It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace.\"",
+    "citation": "Proverbs 3:17-18"
+  },
+  "restorationQuote": {
+    "label": "Turn Us Back",
+    "text": "\"Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old.\"",
+    "citation": "Lamentations 5:21"
   },
   "visit": {
     "title": "We'd Love to Welcome You",

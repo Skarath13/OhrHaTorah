@@ -52,8 +52,14 @@ const homepage = defineCollection({
       body: z.string(),
     })),
     quote: z.object({
+      label: z.string(),
       text: z.string(),
-      reference: z.string(),
+      citation: z.string(),
+    }),
+    restorationQuote: z.object({
+      label: z.string(),
+      text: z.string(),
+      citation: z.string(),
     }),
     visit: z.object({
       title: z.string(),
