@@ -1,23 +1,11 @@
 ---
-interface Props {
-  tagline?: string;
-  unity?: string;
-}
-
-const {
-  tagline = 'One people. One heart.',
-  unity = 'Am Yisrael. Am Echad.',
-} = Astro.props;
+const year = new Date().getFullYear();
 ---
-<footer class="site-footer">
-  <div>
-    <p class="script-line" data-cms-key="home.footer.unity">{unity}</p>
-    <p data-cms-key="home.footer.tagline">{tagline}</p>
-  </div>
-  <div class="footer-links" aria-label="Footer links">
-    <a href="/contact">Contact</a>
-    <a href="/services">Services</a>
-    <a href="/donate">Give</a>
-    <a href="/admin">Admin</a>
-  </div>
+<footer class="site-footer" aria-label="Site footer">
+  <p class="footer-copy">&copy; {year} Ohr HaTorah. All rights reserved.</p>
+  <nav class="legal-links" aria-label="Legal">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms &amp; Conditions</a>
+  </nav>
+  <p class="footer-note">A Messianic Jewish congregation in Orange County, California.</p>
 </footer>

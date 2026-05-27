@@ -5,6 +5,44 @@ import PageLayout from '../layouts/PageLayout.astro';
 <PageLayout title="Contact Us - Ohr HaTorah" pageTitle="Contact Us" pageIcon="fas fa-envelope">
     <p class="intro-text"><strong>We'd love to hear from you!</strong></p>
 
+    <section class="subscription-request" id="subscription-request" aria-labelledby="subscription-heading">
+        <div>
+            <p class="section-kicker">Stay Connected</p>
+            <h2 id="subscription-heading">Complete Your Subscription Request</h2>
+            <p>Share a few details so we can follow up personally and send congregation updates with care.</p>
+        </div>
+
+        <form class="subscription-form" action="mailto:OhrHaTorahOC@gmail.com?subject=Subscription%20Request" method="post" enctype="text/plain">
+            <input type="hidden" name="request_type" value="Subscription request">
+            <label class="form-honeypot" aria-hidden="true" tabindex="-1">
+                Website
+                <input type="text" name="website" autocomplete="off" tabindex="-1">
+            </label>
+
+            <label for="subscription-first-name">
+                First name
+                <input id="subscription-first-name" type="text" name="first_name" autocomplete="given-name" minlength="2" required>
+            </label>
+
+            <label for="subscription-last-name">
+                Last name
+                <input id="subscription-last-name" type="text" name="last_name" autocomplete="family-name" minlength="2" required>
+            </label>
+
+            <label for="subscription-phone">
+                Phone number
+                <input id="subscription-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567" maxlength="14" pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}" title="Enter a 10-digit US phone number." required>
+            </label>
+
+            <label for="subscription-email">
+                Email address
+                <input id="subscription-email" type="email" name="email" autocomplete="email" inputmode="email" spellcheck="false" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}" title="Enter a valid email address, like name@example.com." required>
+            </label>
+
+            <button type="submit">Request Subscription</button>
+        </form>
+    </section>
+
     <div class="contact-grid">
         <div class="contact-card">
             <div class="contact-icon">
@@ -69,6 +107,88 @@ import PageLayout from '../layouts/PageLayout.astro';
         text-align: center;
         font-size: 1.2rem;
         margin-bottom: 30px;
+    }
+
+    .subscription-request {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(280px, 1fr);
+        gap: 24px;
+        align-items: start;
+        margin-bottom: 30px;
+        padding: 24px;
+        border: 1px solid rgba(184, 132, 45, 0.24);
+        border-radius: 12px;
+        background:
+            linear-gradient(135deg, rgba(255, 248, 236, 0.96), rgba(244, 230, 205, 0.72)),
+            var(--gray-100);
+        box-shadow: 0 10px 26px rgba(7, 27, 74, 0.08);
+    }
+
+    .subscription-request h2 {
+        max-width: 12ch;
+        margin: 0;
+        color: var(--ink-navy);
+        font-family: var(--serif);
+        font-size: clamp(1.9rem, 5vw, 3rem);
+        font-weight: 400;
+        line-height: 1.02;
+    }
+
+    .subscription-request p:not(.section-kicker) {
+        margin: 12px 0 0;
+        color: var(--text-secondary);
+        line-height: 1.5;
+    }
+
+    .subscription-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .form-honeypot {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .subscription-form label {
+        display: grid;
+        gap: 6px;
+        color: var(--text-primary);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .subscription-form input {
+        grid-column: auto;
+        min-width: 0;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 1px solid rgba(184, 132, 45, 0.36);
+        border-radius: 8px;
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.68);
+        font: inherit;
+    }
+
+    .subscription-form button {
+        grid-column: 1 / -1;
+        justify-self: start;
+        min-height: 44px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 8px;
+        color: var(--parchment);
+        background: var(--ink-navy);
+        font-weight: 800;
+        cursor: pointer;
     }
 
     .contact-grid {
@@ -168,9 +288,177 @@ import PageLayout from '../layouts/PageLayout.astro';
     }
 
     @media (max-width: 600px) {
+        .subscription-request {
+            grid-template-columns: 1fr;
+            gap: 18px;
+            padding: 16px;
+        }
+
+        .subscription-request h2 {
+            max-width: 13ch;
+            font-size: 1.68rem;
+        }
+
+        .subscription-request p:not(.section-kicker) {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            line-height: 1.42;
+        }
+
+        .subscription-form {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .subscription-form label {
+            font-size: 0.62rem;
+            letter-spacing: 0.06em;
+        }
+
+        .subscription-form input {
+            min-height: 40px;
+            padding: 0 10px;
+        }
+
+        .subscription-form button {
+            min-height: 40px;
+        }
+
         .visit-highlight {
             flex-direction: column;
             text-align: center;
         }
     }
 </style>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const isSubscriptionRequest = params.get('subscription') === 'request';
+    const email = params.get('email');
+    const subscriptionSection = document.querySelector('#subscription-request');
+    const subscriptionForm = document.querySelector('.subscription-form');
+    const firstNameInput = document.querySelector('#subscription-first-name');
+    const lastNameInput = document.querySelector('#subscription-last-name');
+    const phoneInput = document.querySelector('#subscription-phone');
+    const emailInput = document.querySelector('#subscription-email');
+    const honeypotInput = document.querySelector('.subscription-form input[name="website"]');
+    const isLikelyEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(value);
+    const getPhoneDigits = (value) => value.replace(/\D/g, '').slice(0, 10);
+    const formatUsPhone = (value) => {
+        const digits = getPhoneDigits(value);
+
+        if (digits.length <= 3) {
+            return digits;
+        }
+
+        if (digits.length <= 6) {
+            return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+        }
+
+        return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+    };
+
+    const validateName = (input, label) => {
+        if (!(input instanceof HTMLInputElement)) {
+            return true;
+        }
+
+        const value = input.value.trim();
+        input.value = value;
+        input.setCustomValidity(value.length >= 2 ? '' : `${label} must be at least 2 characters.`);
+        return input.validationMessage === '';
+    };
+
+    const validatePhone = () => {
+        if (!(phoneInput instanceof HTMLInputElement)) {
+            return true;
+        }
+
+        const digits = getPhoneDigits(phoneInput.value);
+        phoneInput.value = formatUsPhone(phoneInput.value);
+        phoneInput.setCustomValidity(digits.length === 10 ? '' : 'Enter a 10-digit US phone number.');
+        return phoneInput.validationMessage === '';
+    };
+
+    const validateEmail = () => {
+        if (!(emailInput instanceof HTMLInputElement)) {
+            return true;
+        }
+
+        const value = emailInput.value.trim();
+        emailInput.value = value;
+        emailInput.setCustomValidity(isLikelyEmail(value) ? '' : 'Enter a valid email address, like name@example.com.');
+        return emailInput.validationMessage === '';
+    };
+
+    if (email && emailInput instanceof HTMLInputElement) {
+        emailInput.value = email;
+        validateEmail();
+    }
+
+    if (isSubscriptionRequest && subscriptionSection instanceof HTMLElement) {
+        subscriptionSection.classList.add('is-active');
+        requestAnimationFrame(() => {
+            subscriptionSection.scrollIntoView({ block: 'start' });
+        });
+    }
+
+    [firstNameInput, lastNameInput, emailInput].forEach((input) => {
+        if (input instanceof HTMLInputElement) {
+            input.addEventListener('input', () => input.setCustomValidity(''));
+        }
+    });
+
+    if (firstNameInput instanceof HTMLInputElement) {
+        firstNameInput.addEventListener('blur', () => validateName(firstNameInput, 'First name'));
+    }
+
+    if (lastNameInput instanceof HTMLInputElement) {
+        lastNameInput.addEventListener('blur', () => validateName(lastNameInput, 'Last name'));
+    }
+
+    if (emailInput instanceof HTMLInputElement) {
+        emailInput.addEventListener('blur', validateEmail);
+    }
+
+    if (phoneInput instanceof HTMLInputElement) {
+        phoneInput.addEventListener('input', () => {
+            phoneInput.value = formatUsPhone(phoneInput.value);
+            phoneInput.setCustomValidity('');
+        });
+    }
+
+    if (subscriptionForm instanceof HTMLFormElement) {
+        subscriptionForm.addEventListener('submit', (event) => {
+            if (honeypotInput instanceof HTMLInputElement && honeypotInput.value.trim()) {
+                event.preventDefault();
+                return;
+            }
+
+            const validFirstName = validateName(firstNameInput, 'First name');
+            const validLastName = validateName(lastNameInput, 'Last name');
+            const validPhone = validatePhone();
+            const validEmail = validateEmail();
+
+            if (!validFirstName || !validLastName || !validPhone || !validEmail || !subscriptionForm.checkValidity()) {
+                event.preventDefault();
+                subscriptionForm.reportValidity();
+                return;
+            }
+
+            if (emailInput instanceof HTMLInputElement) {
+                const normalizedEmail = emailInput.value.trim().toLowerCase();
+                const previousRequest = sessionStorage.getItem('oht-subscription-completed-email');
+
+                if (previousRequest === normalizedEmail) {
+                    event.preventDefault();
+                    emailInput.setCustomValidity('This subscription request is already in progress in this browser.');
+                    subscriptionForm.reportValidity();
+                    return;
+                }
+
+                sessionStorage.setItem('oht-subscription-completed-email', normalizedEmail);
+            }
+        });
+    }
+</script>
