@@ -1,0 +1,33 @@
+---
+type IconName = 'olive' | 'menorah' | 'torah' | 'calendar' | 'location' | 'pomegranate' | 'give' | 'family' | 'scripture';
+
+interface Props {
+  name: IconName;
+  label?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { name, label = '', size = 'md' } = Astro.props;
+
+const sources: Record<IconName, string> = {
+  olive: '/images/redesign/icons/olive.png',
+  menorah: '/images/redesign/icons/menorah.png',
+  torah: '/images/redesign/icons/torah.png',
+  calendar: '/images/redesign/icons/calendar.png',
+  location: '/images/redesign/icons/location.png',
+  pomegranate: '/images/redesign/icons/pomegranate.png',
+  give: '/images/redesign/icons/give.png',
+  family: '/images/redesign/icons/family.png',
+  scripture: '/images/redesign/icons/scripture.png',
+};
+---
+<img
+  class={`watercolor-icon watercolor-icon--${size}`}
+  src={sources[name]}
+  alt={label}
+  width="420"
+  height="420"
+  loading="lazy"
+  decoding="async"
+  aria-hidden={label ? undefined : 'true'}
+>

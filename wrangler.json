@@ -1,16 +1,7 @@
 {
-	"main": "dist/_worker.js/index.js",
 	"name": "ohrhatorah",
-	"compatibility_date": "2025-11-24",
-	"compatibility_flags": [
-		"nodejs_compat",
-		"disable_nodejs_process_v2",
-		"global_fetch_strictly_public"
-	],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": "./dist"
-	},
+	"compatibility_date": "2026-05-26",
+	"pages_build_output_dir": "dist",
 	"observability": {
 		"enabled": true
 	},
@@ -19,12 +10,6 @@
 			"binding": "DB",
 			"database_name": "ohrhatorah-db",
 			"database_id": "ac858012-6e6a-44b0-bd9b-73592d0858b8"
-		}
-	],
-	"r2_buckets": [
-		{
-			"binding": "IMAGES",
-			"bucket_name": "ohrhatorah-images"
 		}
 	]
 }

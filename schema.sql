@@ -1,89 +1,64 @@
--- OhrHaTorah Admin System Database Schema
--- Run with: npm run db:migrate (remote) or npm run db:migrate:local (local)
+-- Ohr HaTorah static redesign override database schema
+-- Run locally with: npm run db:migrate:local
+-- Run remotely with: npm run db:migrate
 
--- Admin users with 6-digit PINs
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS admin_users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   pin_hash TEXT NOT NULL,
   role TEXT DEFAULT 'editor' CHECK (role IN ('admin', 'editor')),
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  last_login DATETIME
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  last_login_at TEXT
 );
 
--- Server-side sessions
-CREATE TABLE IF NOT EXISTS sessions (
+CREATE TABLE IF NOT EXISTS admin_sessions (
   id TEXT PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  expires_at DATETIME NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  user_id INTEGER NOT NULL REFERENCES admin_users(id) ON DELETE CASCADE,
+  expires_at TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
--- Editable site content (key-value for simple fields)
-CREATE TABLE IF NOT EXISTS site_content (
-  key TEXT PRIMARY KEY,
-  value TEXT NOT NULL,
-  content_type TEXT DEFAULT 'text' CHECK (content_type IN ('text', 'html', 'json')),
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_by INTEGER REFERENCES users(id)
-);
-
--- Full page content (for larger content blocks)
-CREATE TABLE IF NOT EXISTS pages (
-  slug TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  content TEXT NOT NULL,
-  meta_description TEXT,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_by INTEGER REFERENCES users(id)
-);
-
--- Uploaded images
-CREATE TABLE IF NOT EXISTS images (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  filename TEXT NOT NULL,
-  r2_key TEXT NOT NULL UNIQUE,
-  alt_text TEXT,
-  size_bytes INTEGER,
-  mime_type TEXT,
-  uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  uploaded_by INTEGER REFERENCES users(id)
-);
-
--- Login rate limiting (track failed attempts by IP)
 CREATE TABLE IF NOT EXISTS login_attempts (
   ip_address TEXT PRIMARY KEY,
   attempts INTEGER DEFAULT 0,
-  first_attempt_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  locked_until DATETIME
+  first_attempt_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  locked_until TEXT
 );
 
--- Content revision history
-CREATE TABLE IF NOT EXISTS content_revisions (
+CREATE TABLE IF NOT EXISTS csrf_tokens (
+  token TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL REFERENCES admin_sessions(id) ON DELETE CASCADE,
+  expires_at TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS content_overrides (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  field_type TEXT NOT NULL DEFAULT 'text' CHECK (field_type IN ('text', 'url')),
+  label TEXT,
+  is_active INTEGER NOT NULL DEFAULT 1 CHECK (is_active IN (0, 1)),
+  expires_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_by INTEGER REFERENCES admin_users(id)
+);
+
+CREATE TABLE IF NOT EXISTS content_override_revisions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   content_key TEXT NOT NULL,
   old_value TEXT,
-  new_value TEXT NOT NULL,
-  content_type TEXT DEFAULT 'text',
-  changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  changed_by INTEGER REFERENCES users(id),
-  change_type TEXT DEFAULT 'update' CHECK (change_type IN ('create', 'update', 'delete'))
+  new_value TEXT,
+  field_type TEXT NOT NULL DEFAULT 'text',
+  change_type TEXT NOT NULL CHECK (change_type IN ('create', 'update', 'delete')),
+  changed_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  changed_by INTEGER REFERENCES admin_users(id)
 );
 
--- CSRF tokens (stored server-side for validation)
-CREATE TABLE IF NOT EXISTS csrf_tokens (
-  token TEXT PRIMARY KEY,
-  session_id TEXT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  expires_at DATETIME NOT NULL
-);
-
--- Create indexes for performance
-CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
-CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
-CREATE INDEX IF NOT EXISTS idx_site_content_updated_at ON site_content(updated_at);
-CREATE INDEX IF NOT EXISTS idx_images_uploaded_at ON images(uploaded_at);
-CREATE INDEX IF NOT EXISTS idx_content_revisions_key ON content_revisions(content_key);
-CREATE INDEX IF NOT EXISTS idx_content_revisions_changed_at ON content_revisions(changed_at);
-CREATE INDEX IF NOT EXISTS idx_csrf_tokens_session ON csrf_tokens(session_id);
-CREATE INDEX IF NOT EXISTS idx_login_attempts_locked ON login_attempts(locked_until);
+CREATE INDEX IF NOT EXISTS idx_admin_sessions_user_id ON admin_sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_admin_sessions_expires_at ON admin_sessions(expires_at);
+CREATE INDEX IF NOT EXISTS idx_login_attempts_locked_until ON login_attempts(locked_until);
+CREATE INDEX IF NOT EXISTS idx_csrf_tokens_session_id ON csrf_tokens(session_id);
+CREATE INDEX IF NOT EXISTS idx_csrf_tokens_expires_at ON csrf_tokens(expires_at);
+CREATE INDEX IF NOT EXISTS idx_content_overrides_active ON content_overrides(is_active, expires_at);
+CREATE INDEX IF NOT EXISTS idx_content_override_revisions_key ON content_override_revisions(content_key);

@@ -1,0 +1,56 @@
+---
+import Editable from './Editable.astro';
+
+interface Props {
+  serviceTimes: {
+    heading: string;
+    fridayLabel: string;
+    fridayTime: string;
+    shabbatLabel: string;
+    shabbatTime: string;
+    torahStudy: string;
+    location: string;
+    welcomeNote: string;
+  };
+}
+
+const { serviceTimes } = Astro.props;
+const torahStudyDisplay = serviceTimes.torahStudy
+  .replace(' at ', ' ')
+  .replace('readings discussion', 'Readings Discussion');
+---
+<section class="service-card parchment-card" aria-labelledby="service-times-heading">
+  <div class="section-kicker">
+    <span class="line-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path></svg>
+    </span>
+    <h2 id="service-times-heading">{serviceTimes.heading}</h2>
+  </div>
+  <div class="service-row">
+    <span class="service-row__copy">
+      <span class="service-row__label">{serviceTimes.fridayLabel}</span>
+    </span>
+    <strong data-cms-key="home.service.fridayTime">{serviceTimes.fridayTime}</strong>
+  </div>
+  <div class="service-row">
+    <span class="service-row__copy">
+      <span class="service-row__label">{serviceTimes.shabbatLabel}</span>
+      <small class="service-row__detail" data-cms-key="home.service.torahStudy">{torahStudyDisplay}</small>
+    </span>
+    <strong data-cms-key="home.service.shabbatTime">{serviceTimes.shabbatTime}</strong>
+  </div>
+  <footer class="service-card__footer">
+    <span class="service-location-group">
+      <span class="service-footer-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z"></path></svg>
+      </span>
+      <Editable keyName="home.service.location" class="service-location">{serviceTimes.location}</Editable>
+    </span>
+    <span class="service-welcome-group">
+      <span class="script-note">{serviceTimes.welcomeNote}</span>
+      <span class="service-footer-icon service-footer-icon--heart" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+      </span>
+    </span>
+  </footer>
+</section>

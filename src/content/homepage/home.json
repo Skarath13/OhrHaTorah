@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Ohr HaTorah Messianic Congregation",
+    "description": "A Messianic Jewish congregation in Orange County, California, rooted in Torah, centered on Yeshua, and welcoming families into sacred community."
+  },
+  "brand": {
+    "name": "Ohr HaTorah",
+    "descriptor": "Messianic Jewish Congregation",
+    "location": "Orange County, California"
+  },
+  "hero": {
+    "heading": "Ancient Faith. Living Messiah. Southern California Community.",
+    "subheading": "Rooted in Torah. Centered on Yeshua. Growing in love. Sent in peace.",
+    "primaryCta": {
+      "label": "Plan Your Visit",
+      "href": "#visit"
+    },
+    "secondaryCta": {
+      "label": "Learn More",
+      "href": "/services"
+    },
+    "image": "/images/redesign/watercolor-hero.webp"
+  },
+  "serviceTimes": {
+    "heading": "Shabbat Service Times",
+    "fridayLabel": "Friday Evening",
+    "fridayTime": "Contact Us",
+    "shabbatLabel": "Shabbat Afternoon",
+    "shabbatTime": "2:30 PM",
+    "torahStudy": "Weekly readings discussion at 4:30 PM",
+    "location": "Fountain Valley, CA",
+    "welcomeNote": "Everyone Welcome"
+  },
+  "gatherings": [
+    {
+      "month": "Jun",
+      "day": "07",
+      "title": "Shabbat Fellowship",
+      "time": "Sat 2:30 PM",
+      "tone": "navy"
+    },
+    {
+      "month": "Jun",
+      "day": "14",
+      "title": "Prayer and Praise",
+      "time": "Sat 2:30 PM",
+      "tone": "olive"
+    },
+    {
+      "month": "Jun",
+      "day": "21",
+      "title": "Messianic Learning",
+      "time": "Sat 4:30 PM",
+      "tone": "rose"
+    }
+  ],
+  "welcome": {
+    "title": "Welcome Home",
+    "body": "Ohr HaTorah is a Messianic Jewish congregation in Orange County, California, celebrating Yeshua the Messiah through vibrant worship, biblical teaching, and genuine community.",
+    "cta": {
+      "label": "Learn More About Us",
+      "href": "/about"
+    }
+  },
+  "values": [
+    {
+      "icon": "olive",
+      "title": "Rooted in Torah",
+      "body": "The Scriptures are our foundation."
+    },
+    {
+      "icon": "menorah",
+      "title": "Focused on Yeshua",
+      "body": "We worship Yeshua the Messiah as Lord and King."
+    },
+    {
+      "icon": "torah",
+      "title": "Jewish in Heritage",
+      "body": "Proudly Messianic Jewish and faithful to our calling."
+    },
+    {
+      "icon": "family",
+      "title": "Family in Spirit",
+      "body": "A community where everyone is known, loved, and valued."
+    }
+  ],
+  "quote": {
+    "text": "Your people shall be my people, and your God my God.",
+    "reference": "Ruth 1:16"
+  },
+  "visit": {
+    "title": "We'd Love to Welcome You",
+    "body": "Join us in person in beautiful Orange County for Shabbat worship, Torah service, music, dance, teaching, and community.",
+    "cta": {
+      "label": "Get Directions",
+      "href": "https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
+    },
+    "address": "10460 Slater Ave, Fountain Valley, CA 92708"
+  },
+  "newsletter": {
+    "title": "Stay Connected",
+    "body": "Encouragement, updates, and biblical teaching straight to your inbox.",
+    "placeholder": "Enter your email address",
+    "button": "Subscribe"
+  },
+  "footer": {
+    "tagline": "One people. One heart.",
+    "unity": "Am Yisrael. Am Echad."
+  }
+}

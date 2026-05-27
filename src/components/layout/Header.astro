@@ -1,15 +1,36 @@
-<div class="header">
-    <button
-        class="mobile-menu-btn"
-        id="mobile-menu-btn"
-        type="button"
-        aria-label="Open navigation menu"
-        aria-controls="nav-container"
-        aria-expanded="false"
-    >
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <a href="/" class="logo"><img src="/images/logo.png" alt="Ohr HaTorah Logo" class="logo-image"></a>
-</div>
+---
+interface Brand {
+  name?: string;
+  descriptor?: string;
+  location?: string;
+}
+
+interface Props {
+  brand?: Brand;
+}
+
+const {
+  brand = {
+    name: 'Ohr HaTorah',
+    descriptor: 'Messianic Jewish Congregation',
+    location: 'Orange County, California',
+  },
+} = Astro.props;
+---
+<header class="site-header">
+  <a href="/" class="brand-lockup" aria-label={`${brand.name} home`}>
+    <span class="brand-mark" aria-hidden="true">
+      <img src="/images/logo.png" alt="" width="612" height="408" decoding="async" />
+    </span>
+    <span class="brand-copy">
+      <strong>{brand.name}</strong>
+      <span>{brand.descriptor}</span>
+      <small>{brand.location}</small>
+    </span>
+  </a>
+  <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>

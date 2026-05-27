@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Ohr HaTorah Admin" description="Ohr HaTorah content override admin" bodyClass="admin-page">
+  <main class="admin-shell">
+    <section class="admin-card parchment-card" id="login-panel">
+      <p class="section-kicker">Admin</p>
+      <h1>Content Overrides</h1>
+      <p>Use this for time-sensitive homepage changes. Git content remains the source of truth behind every override.</p>
+      <form class="admin-form" id="login-form">
+        <label for="pin">Admin PIN</label>
+        <input id="pin" name="pin" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit PIN" required>
+        <button class="admin-button" type="submit">Log In</button>
+      </form>
+      <p class="admin-status" id="login-status" role="status"></p>
+    </section>
+
+    <section class="admin-card parchment-card" id="override-panel" hidden>
+      <div class="admin-toolbar">
+        <div>
+          <p class="section-kicker">Live Override Layer</p>
+          <h1>Homepage Fields</h1>
+        </div>
+        <button class="admin-button secondary" id="logout-button" type="button">Log Out</button>
+      </div>
+      <p>Only approved text and link fields can be changed here. Empty a field and reset it to return to the version stored in git.</p>
+      <p class="admin-status" id="override-status" role="status"></p>
+      <div class="admin-grid" id="override-grid"></div>
+    </section>
+  </main>
+
+  <script is:inline>
+    const loginPanel = document.getElementById('login-panel');
+    const overridePanel = document.getElementById('override-panel');
+    const loginForm = document.getElementById('login-form');
+    const pinInput = document.getElementById('pin');
+    const loginStatus = document.getElementById('login-status');
+    const overrideStatus = document.getElementById('override-status');
+    const overrideGrid = document.getElementById('override-grid');
+    const logoutButton = document.getElementById('logout-button');
+
+    function getCookie(name) {
+      return document.cookie
+        .split(';')
+        .map(part => part.trim())
+        .find(part => part.startsWith(`${name}=`))
+        ?.split('=')
+        .slice(1)
+        .join('=') || '';
+    }
+
+    function setStatus(element, message, isError = false) {
+      if (!element) return;
+      element.textContent = message;
+      element.style.color = isError ? 'var(--pomegranate)' : 'var(--olive)';
+    }
+
+    function showAdmin(show) {
+      if (loginPanel) loginPanel.hidden = show;
+      if (overridePanel) overridePanel.hidden = !show;
+    }
+
+    async function requestJson(url, options = {}) {
+      const response = await fetch(url, {
+        credentials: 'same-origin',
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(options.headers || {}),
+        },
+      });
+      const data = await response.json().catch(() => ({ success: false, error: 'Invalid response' }));
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Request failed');
+      }
+      return data;
+    }
+
+    function renderOverrides(definitions, overrides) {
+      if (!overrideGrid) return;
+
+      const byKey = new Map(overrides.map(item => [item.key, item]));
+      overrideGrid.innerHTML = '';
+
+      for (const definition of definitions) {
+        const current = byKey.get(definition.key);
+        const row = document.createElement('article');
+        row.className = 'override-row';
+
+        const label = document.createElement('label');
+        label.htmlFor = `field-${definition.key}`;
+        label.textContent = definition.label;
+
+        const help = document.createElement('small');
+        help.textContent = `${definition.category} | ${definition.fieldType}`;
+
+        const field = definition.fieldType === 'url'
+          ? document.createElement('input')
+          : document.createElement('textarea');
+        field.id = `field-${definition.key}`;
+        field.value = current?.value || '';
+        field.placeholder = 'No active override';
+
+        const actions = document.createElement('div');
+        actions.className = 'row-actions';
+
+        const save = document.createElement('button');
+        save.className = 'admin-button';
+        save.type = 'button';
+        save.textContent = 'Save Override';
+        save.addEventListener('click', async () => {
+          try {
+            setStatus(overrideStatus, 'Saving...');
+            await requestJson(`/api/admin/overrides/${encodeURIComponent(definition.key)}`, {
+              method: 'PUT',
+              headers: { 'X-CSRF-Token': decodeURIComponent(getCookie('oht_admin_csrf')) },
+              body: JSON.stringify({ value: field.value }),
+            });
+            setStatus(overrideStatus, `Saved ${definition.label}.`);
+            await loadOverrides();
+          } catch (error) {
+            setStatus(overrideStatus, error.message, true);
+          }
+        });
+
+        const reset = document.createElement('button');
+        reset.className = 'admin-button secondary';
+        reset.type = 'button';
+        reset.textContent = 'Reset to Git';
+        reset.addEventListener('click', async () => {
+          try {
+            setStatus(overrideStatus, 'Resetting...');
+            await requestJson(`/api/admin/overrides/${encodeURIComponent(definition.key)}`, {
+              method: 'DELETE',
+              headers: { 'X-CSRF-Token': decodeURIComponent(getCookie('oht_admin_csrf')) },
+            });
+            setStatus(overrideStatus, `Reset ${definition.label}.`);
+            await loadOverrides();
+          } catch (error) {
+            setStatus(overrideStatus, error.message, true);
+          }
+        });
+
+        actions.append(save, reset);
+        row.append(label, help, field, actions);
+        overrideGrid.append(row);
+      }
+    }
+
+    async function loadOverrides() {
+      try {
+        const data = await requestJson('/api/admin/overrides');
+        renderOverrides(data.definitions, data.overrides);
+        showAdmin(true);
+        setStatus(overrideStatus, `Signed in as ${data.user.name}.`);
+      } catch {
+        showAdmin(false);
+      }
+    }
+
+    loginForm?.addEventListener('submit', async event => {
+      event.preventDefault();
+      try {
+        setStatus(loginStatus, 'Checking PIN...');
+        const pin = pinInput?.value || '';
+        await requestJson('/api/admin/login', {
+          method: 'POST',
+          body: JSON.stringify({ pin }),
+        });
+        if (pinInput) pinInput.value = '';
+        setStatus(loginStatus, '');
+        await loadOverrides();
+      } catch (error) {
+        setStatus(loginStatus, error.message, true);
+      }
+    });
+
+    logoutButton?.addEventListener('click', async () => {
+      try {
+        await requestJson('/api/admin/logout', {
+          method: 'POST',
+          headers: { 'X-CSRF-Token': decodeURIComponent(getCookie('oht_admin_csrf')) },
+        });
+      } finally {
+        showAdmin(false);
+      }
+    });
+
+    loadOverrides();
+  </script>
+</BaseLayout>

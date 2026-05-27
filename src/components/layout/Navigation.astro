@@ -1,208 +1,57 @@
 ---
-// Navigation component with dropdown menus
----
-<!-- Navigation Overlay -->
-<div class="nav-overlay" id="nav-overlay"></div>
+interface NavItem {
+  label: string;
+  href: string;
+}
 
-<!-- Navigation -->
-<nav class="nav-container" id="nav-container">
-    <ul class="nav-links">
-        <li class="dropdown">
-            <a href="/" id="welcome-header" aria-label="Welcome - Go to Home" aria-haspopup="true" aria-expanded="false" aria-controls="nav-welcome-submenu"><i class="fas fa-home"></i> Welcome</a>
-            <div class="dropdown-content" id="nav-welcome-submenu">
-                <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
-                <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
-                <a href="/mission" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
-                <a href="/location" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
-                <a href="/faq" aria-label="FAQ"><i class="fas fa-question-circle"></i> FAQ</a>
-                <a href="/umjc" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
-            </div>
-        </li>
-        <li class="dropdown">
-            <a href="/services" id="events-header" aria-label="Events & Services" aria-haspopup="true" aria-expanded="false" aria-controls="nav-events-submenu"><i class="fas fa-calendar-check"></i> Events & Services</a>
-            <div class="dropdown-content" id="nav-events-submenu">
-                <a href="/services" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
-                <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
-                <a href="/events" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
-                <a href="/youth" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
-            </div>
-        </li>
-        <li class="dropdown">
-            <a href="#" id="community-header" aria-label="Community" aria-haspopup="true" aria-expanded="false" aria-controls="nav-community-submenu"><i class="fas fa-users"></i> Community</a>
-            <div class="dropdown-content" id="nav-community-submenu">
-                <a href="/#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
-                <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
-                <a href="/israel" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
-            </div>
-        </li>
-        <li class="dropdown">
-            <a href="/resources" id="learn-header" aria-label="Learn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-learn-submenu"><i class="fas fa-graduation-cap"></i> Learn</a>
-            <div class="dropdown-content" id="nav-learn-submenu">
-                <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
-                <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
-                <a href="/resources" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
-                <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
-                <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
-            </div>
-        </li>
-        <li class="dropdown">
-            <a href="#" id="resources-header" aria-label="Resources" aria-haspopup="true" aria-expanded="false" aria-controls="nav-resources-submenu"><i class="fas fa-archive"></i> Resources</a>
-            <div class="dropdown-content" id="nav-resources-submenu">
-                <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
-                <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
-                <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
-                <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
-            </div>
-        </li>
-        <li><a href="/contact" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
-        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
-    </ul>
+interface Props {
+  items?: NavItem[];
+}
+
+const {
+  items = [
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Visit', href: '/#visit' },
+    { label: 'Connect', href: '/contact' },
+    { label: 'Give', href: '/donate' },
+  ],
+} = Astro.props;
+---
+<div class="nav-scrim" id="nav-scrim" hidden></div>
+<nav class="site-navigation" id="site-navigation" aria-label="Primary navigation">
+  <ul>
+    {items.map(item => (
+      <li>
+        <a href={item.href}>{item.label}</a>
+      </li>
+    ))}
+  </ul>
 </nav>
 
 <script>
-    const mobileMenuQuery = window.matchMedia('(max-width: 1023px)');
-    const dropdownItems = Array.from(document.querySelectorAll('.nav-links .dropdown'));
+  const menuButton = document.getElementById('menu-toggle');
+  const nav = document.getElementById('site-navigation');
+  const scrim = document.getElementById('nav-scrim');
 
-    function setDropdownState(dropdown: Element | null, expanded: boolean) {
-        if (!dropdown) return;
-
-        dropdown.classList.toggle('active', expanded);
-
-        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
-        if (trigger) {
-            trigger.setAttribute('aria-expanded', String(expanded));
-        }
+  function setMenu(open) {
+    nav?.classList.toggle('is-open', open);
+    menuButton?.classList.toggle('is-open', open);
+    menuButton?.setAttribute('aria-expanded', String(open));
+    menuButton?.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    if (scrim) {
+      scrim.hidden = !open;
+      scrim.classList.toggle('is-open', open);
     }
+    document.body.classList.toggle('nav-open', open);
+  }
 
-    function closeAllDropdowns() {
-        dropdownItems.forEach(dropdown => setDropdownState(dropdown, false));
-    }
-
-    // Mobile menu toggle functions
-    function toggleMenu() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navContainer = document.getElementById('nav-container');
-        const navOverlay = document.getElementById('nav-overlay');
-
-        menuBtn?.classList.toggle('active');
-        navContainer?.classList.toggle('active');
-        navOverlay?.classList.toggle('active');
-
-        const isOpen = navContainer?.classList.contains('active') ?? false;
-        menuBtn?.setAttribute('aria-expanded', String(isOpen));
-        menuBtn?.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-            closeAllDropdowns();
-        }
-    }
-
-    function closeMenu() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navContainer = document.getElementById('nav-container');
-        const navOverlay = document.getElementById('nav-overlay');
-
-        menuBtn?.classList.remove('active');
-        navContainer?.classList.remove('active');
-        navOverlay?.classList.remove('active');
-        menuBtn?.setAttribute('aria-expanded', 'false');
-        menuBtn?.setAttribute('aria-label', 'Open navigation menu');
-        document.body.style.overflow = '';
-        closeAllDropdowns();
-    }
-
-    // Initialize mobile menu
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
-    document.getElementById('nav-overlay')?.addEventListener('click', closeMenu);
-
-    // Close menu when clicking final nav links
-    document.querySelectorAll('.dropdown-content a, .nav-links > li:not(.dropdown) > a').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    // Toggle dropdowns for touch layouts
-    dropdownItems.forEach(dropdown => {
-        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
-        if (!trigger) return;
-
-        trigger.addEventListener('click', event => {
-            if (!mobileMenuQuery.matches) return;
-
-            const href = trigger.getAttribute('href') ?? '#';
-            const isExpanded = dropdown.classList.contains('active');
-            const isPlaceholderLink = href === '#';
-
-            if (!isExpanded || isPlaceholderLink) {
-                event.preventDefault();
-
-                dropdownItems.forEach(otherDropdown => {
-                    if (otherDropdown !== dropdown) {
-                        setDropdownState(otherDropdown, false);
-                    }
-                });
-
-                setDropdownState(dropdown, !isExpanded);
-                return;
-            }
-
-            closeMenu();
-        });
-    });
-
-    // Dynamic navigation text wrap detection
-    function checkNavTextWrapping() {
-        const navLinks = document.querySelectorAll('.nav-links a');
-
-        if (mobileMenuQuery.matches) {
-            navLinks.forEach(link => link.classList.remove('text-wrapped'));
-            return;
-        }
-
-        navLinks.forEach(link => {
-            link.classList.remove('text-wrapped');
-
-            const tempSpan = document.createElement('span');
-            tempSpan.style.visibility = 'hidden';
-            tempSpan.style.position = 'absolute';
-            tempSpan.style.whiteSpace = 'nowrap';
-            tempSpan.style.fontSize = getComputedStyle(link).fontSize;
-            tempSpan.style.fontWeight = getComputedStyle(link).fontWeight;
-            tempSpan.style.lineHeight = getComputedStyle(link).lineHeight;
-            tempSpan.textContent = link.textContent;
-
-            document.body.appendChild(tempSpan);
-            const singleLineHeight = tempSpan.offsetHeight;
-            document.body.removeChild(tempSpan);
-
-            const linkHeight = link.offsetHeight;
-            const hasWrapped = linkHeight > singleLineHeight * 1.2;
-
-            if (hasWrapped) {
-                link.classList.add('text-wrapped');
-            }
-        });
-    }
-
-    setTimeout(checkNavTextWrapping, 100);
-
-    let resizeTimeout: ReturnType<typeof setTimeout>;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            if (!mobileMenuQuery.matches) {
-                closeMenu();
-            }
-
-            checkNavTextWrapping();
-        }, 150);
-    });
-
-    window.addEventListener('keydown', event => {
-        if (event.key === 'Escape') {
-            closeMenu();
-        }
-    });
+  menuButton?.addEventListener('click', () => setMenu(!nav?.classList.contains('is-open')));
+  scrim?.addEventListener('click', () => setMenu(false));
+  nav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+  window.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setMenu(false);
+  });
 </script>

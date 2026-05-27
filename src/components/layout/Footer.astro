@@ -1,136 +1,23 @@
 ---
-// Footer component
+interface Props {
+  tagline?: string;
+  unity?: string;
+}
+
+const {
+  tagline = 'One people. One heart.',
+  unity = 'Am Yisrael. Am Echad.',
+} = Astro.props;
 ---
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4><i class="fas fa-star-of-david"></i> Ohr HaTorah</h4>
-                <p>Ohr HaTorah is a Messianic Jewish congregation dedicated to exploring the Jewish roots of our faith while embracing Yeshua as the promised Messiah of Israel.</p>
-            </div>
-
-            <div class="footer-col">
-                <h4><i class="fas fa-link"></i> Quick Links</h4>
-                <ul class="footer-links">
-                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                    <li><a href="/services"><i class="fas fa-chevron-right"></i> Services &amp; Times</a></li>
-                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right"></i> Calendar</a></li>
-                    <li><a href="/resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
-                    <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate</a></li>
-                    <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
-                    <li><a href="#" id="adminLoginLink"><i class="fas fa-chevron-right"></i> Admin</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4><i class="fas fa-envelope"></i> Stay Connected</h4>
-                <p>Subscribe for updates on events, teachings, and community news.</p>
-                <form id="newsletter-form" class="newsletter-form-expanded">
-                    <input type="hidden" name="access_key" value="d3f52dee-3156-4b82-a76a-fe9bbf9eb30e">
-                    <input type="hidden" name="subject" value="New Newsletter Subscription - Ohr HaTorah">
-                    <input type="hidden" name="from_name" value="Ohr HaTorah Website">
-
-                    <input type="text" name="first_name" placeholder="First Name *" required aria-label="First name">
-                    <input type="text" name="last_name" placeholder="Last Name *" required aria-label="Last name">
-                    <input type="email" name="email" placeholder="Email Address *" required aria-label="Email address">
-                    <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number">
-                    <button type="submit" class="newsletter-btn-full">
-                        Subscribe <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <p id="newsletter-status" class="form-status"></p>
-                </form>
-            </div>
-
-            <div class="footer-col">
-                <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
-                <ul class="footer-contact">
-                    <li><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</li>
-                    <li><i class="fas fa-phone"></i> (714) 406-1513</li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span><strong>Services:</strong> 10460 Slater Ave<br>Fountain Valley, CA 92708</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span><strong>Mailing:</strong> 360 E. 1st Street, #856<br>Tustin, CA 92780</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 Ohr HaTorah Messianic Congregation. All rights reserved.</p>
-            <p>
-                <a href="#">Privacy Policy</a> |
-                <a href="#">Terms of Use</a> |
-                <a href="#">Accessibility</a> |
-                <a href="#">Site Map</a>
-            </p>
-        </div>
-    </div>
+<footer class="site-footer">
+  <div>
+    <p class="script-line" data-cms-key="home.footer.unity">{unity}</p>
+    <p data-cms-key="home.footer.tagline">{tagline}</p>
+  </div>
+  <div class="footer-links" aria-label="Footer links">
+    <a href="/contact">Contact</a>
+    <a href="/services">Services</a>
+    <a href="/donate">Give</a>
+    <a href="/admin">Admin</a>
+  </div>
 </footer>
-
-<!-- Back to Top Button -->
-<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
-    <i class="fas fa-chevron-up"></i>
-</a>
-
-<script>
-    const backToTopButton = document.getElementById('backToTop');
-
-    if (backToTopButton) {
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-
-        backToTopButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // Newsletter form submission
-    const newsletterForm = document.getElementById('newsletter-form');
-    const statusEl = document.getElementById('newsletter-status');
-
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const submitBtn = this.querySelector('button[type="submit"]');
-
-            statusEl.textContent = 'Subscribing...';
-            statusEl.className = 'form-status loading';
-            submitBtn.disabled = true;
-
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-
-                if (data.success) {
-                    statusEl.textContent = 'Thank you for subscribing!';
-                    statusEl.className = 'form-status success';
-                    newsletterForm.reset();
-                } else {
-                    statusEl.textContent = 'Something went wrong. Please try again.';
-                    statusEl.className = 'form-status error';
-                }
-            } catch (error) {
-                statusEl.textContent = 'Something went wrong. Please try again.';
-                statusEl.className = 'form-status error';
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
-    }
-</script>

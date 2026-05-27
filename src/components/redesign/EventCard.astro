@@ -1,0 +1,24 @@
+---
+interface Props {
+  event: {
+    month: string;
+    day: string;
+    title: string;
+    time: string;
+    tone: 'navy' | 'olive' | 'rose';
+  };
+  index: number;
+}
+
+const { event, index } = Astro.props;
+---
+<article class={`event-card event-card--${event.tone}`}>
+  <time class="event-date">
+    <span>{event.month}</span>
+    <strong>{event.day}</strong>
+  </time>
+  <div>
+    <h3 data-cms-key={`home.gatherings.${index}.title`}>{event.title}</h3>
+    <p data-cms-key={`home.gatherings.${index}.time`}>{event.time}</p>
+  </div>
+</article>

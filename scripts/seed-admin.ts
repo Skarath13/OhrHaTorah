@@ -1,50 +1,63 @@
-/**
- * Seed script to create the initial admin user
- *
- * Usage:
- * 1. First create the D1 database:
- *    npx wrangler d1 create ohrhatorah-db
- *
- * 2. Update wrangler.jsonc with the database_id from step 1
- *
- * 3. Run the schema migration:
- *    npx wrangler d1 execute ohrhatorah-db --local --file=./schema.sql
- *
- * 4. Run this seed script with your PIN:
- *    ADMIN_PIN=<your-6-digit-pin> npx ts-node scripts/seed-admin.ts
- *
- * 5. Copy the output and run it:
- *    npx wrangler d1 execute ohrhatorah-db --local --command="<SQL>"
- */
+import { webcrypto } from 'node:crypto';
 
-import bcrypt from 'bcryptjs';
-
-const ADMIN_NAME = 'Rabbi Chuck';
+const ADMIN_NAME = process.env.ADMIN_NAME || 'Rabbi Chuck';
 const ADMIN_PIN = process.env.ADMIN_PIN;
-const ADMIN_ROLE = 'admin';
+const ADMIN_ROLE = process.env.ADMIN_ROLE || 'admin';
+const ITERATIONS = 150000;
+
+function toBase64(bytes: Uint8Array): string {
+  return Buffer.from(bytes).toString('base64');
+}
+
+function escapeSql(value: string): string {
+  return value.replaceAll("'", "''");
+}
+
+async function hashPin(pin: string): Promise<string> {
+  const salt = webcrypto.getRandomValues(new Uint8Array(16));
+  const key = await webcrypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(pin),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+  const bits = await webcrypto.subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      hash: 'SHA-256',
+      salt,
+      iterations: ITERATIONS,
+    },
+    key,
+    256
+  );
+  return `pbkdf2-sha256$${ITERATIONS}$${toBase64(salt)}$${toBase64(new Uint8Array(bits))}`;
+}
 
 if (!ADMIN_PIN || !/^\d{6}$/.test(ADMIN_PIN)) {
-  console.error('Error: ADMIN_PIN environment variable must be a 6-digit number');
-  console.error('Usage: ADMIN_PIN=<your-6-digit-pin> npx ts-node scripts/seed-admin.ts');
+  console.error('Error: ADMIN_PIN must be a 6-digit number.');
+  console.error('Usage: ADMIN_PIN=<your-6-digit-pin> npm run admin:seed');
   process.exit(1);
 }
 
-async function generateSeedSQL() {
-  const salt = await bcrypt.genSalt(10);
-  const pinHash = await bcrypt.hash(ADMIN_PIN, salt);
-
-  const sql = `INSERT INTO users (name, pin_hash, role) VALUES ('${ADMIN_NAME}', '${pinHash}', '${ADMIN_ROLE}');`;
-
-  console.log('\n=== Admin User Seed SQL ===\n');
-  console.log('Run this command to create the admin user:\n');
-  console.log(`npx wrangler d1 execute ohrhatorah-db --local --command="${sql}"\n`);
-  console.log('Or for production:\n');
-  console.log(`npx wrangler d1 execute ohrhatorah-db --command="${sql}"\n`);
-  console.log('=== User Details ===');
-  console.log(`Name: ${ADMIN_NAME}`);
-  console.log(`PIN: ${ADMIN_PIN}`);
-  console.log(`Role: ${ADMIN_ROLE}`);
-  console.log('\n');
+if (ADMIN_ROLE !== 'admin' && ADMIN_ROLE !== 'editor') {
+  console.error('Error: ADMIN_ROLE must be admin or editor.');
+  process.exit(1);
 }
 
-generateSeedSQL().catch(console.error);
+const pinHash = await hashPin(ADMIN_PIN);
+const sql = [
+  'INSERT INTO admin_users (name, pin_hash, role)',
+  `VALUES ('${escapeSql(ADMIN_NAME)}', '${escapeSql(pinHash)}', '${escapeSql(ADMIN_ROLE)}');`,
+].join(' ');
+const shellSql = sql.replaceAll('\\', '\\\\').replaceAll('$', '\\$').replaceAll('"', '\\"');
+
+console.log('\n=== Ohr HaTorah Admin Seed SQL ===\n');
+console.log('Local:');
+console.log(`npx wrangler d1 execute ohrhatorah-db --local --command="${shellSql}"\n`);
+console.log('Remote:');
+console.log(`npx wrangler d1 execute ohrhatorah-db --remote --command="${shellSql}"\n`);
+console.log(`Name: ${ADMIN_NAME}`);
+console.log(`Role: ${ADMIN_ROLE}`);
+console.log('\nKeep the PIN private. It is not printed here.\n');

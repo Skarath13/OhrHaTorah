@@ -1,0 +1,20 @@
+---
+interface Props {
+  as?: string;
+  keyName: string;
+  attr?: 'href';
+  class?: string;
+}
+
+const {
+  as = 'span',
+  keyName,
+  attr,
+  class: className,
+} = Astro.props;
+
+const Tag = as;
+---
+<Tag class={className} data-cms-key={keyName} data-cms-attr={attr}>
+  <slot />
+</Tag>

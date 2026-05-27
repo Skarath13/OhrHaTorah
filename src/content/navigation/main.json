@@ -1,0 +1,56 @@
+{
+  "primary": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About",
+      "href": "/about"
+    },
+    {
+      "label": "Visit",
+      "href": "#visit"
+    },
+    {
+      "label": "Connect",
+      "href": "/contact"
+    },
+    {
+      "label": "Give",
+      "href": "/donate"
+    }
+  ],
+  "bottom": [
+    {
+      "label": "Home",
+      "href": "/",
+      "icon": "home",
+      "featured": false
+    },
+    {
+      "label": "About",
+      "href": "/about",
+      "icon": "about",
+      "featured": false
+    },
+    {
+      "label": "Visit",
+      "href": "#visit",
+      "icon": "visit",
+      "featured": true
+    },
+    {
+      "label": "Connect",
+      "href": "/contact",
+      "icon": "connect",
+      "featured": false
+    },
+    {
+      "label": "Give",
+      "href": "/donate",
+      "icon": "give",
+      "featured": false
+    }
+  ]
+}

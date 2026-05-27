@@ -6,18 +6,26 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "preview:pages": "npm run build && wrangler pages dev dist",
     "astro": "astro",
     "db:create": "wrangler d1 create ohrhatorah-db",
-    "db:migrate": "wrangler d1 execute ohrhatorah-db --file=./schema.sql",
+    "db:migrate": "wrangler d1 execute ohrhatorah-db --remote --file=./schema.sql",
     "db:migrate:local": "wrangler d1 execute ohrhatorah-db --local --file=./schema.sql",
-    "r2:create": "wrangler r2 bucket create ohrhatorah-images"
+    "admin:seed": "tsx scripts/seed-admin.ts"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.11",
+    "@astrojs/react": "^4.4.2",
+    "@keystatic/astro": "^5.0.6",
+    "@keystatic/core": "^0.5.50",
     "astro": "^5.16.0",
-    "bcryptjs": "^2.4.3"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6"
+    "@cloudflare/workers-types": "^4.20260526.1",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.22.3",
+    "wrangler": "^4.95.0"
   }
 }
