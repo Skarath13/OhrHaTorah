@@ -15,10 +15,10 @@ import { rabbi } from '../data/rabbi';
     <Navigation />
 
     <!-- Main Container -->
-    <div class="container">
+    <div class="container home-mobile-flow">
         <!-- Left Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-widget">
+            <div class="sidebar-widget mobile-welcome-actions">
                 <div class="widget-header" data-editable="sidebar-welcome-header"><i class="fas fa-star-of-david"></i> <span data-editable="sidebar-welcome-title">Shalom Visitor!</span></div>
                 <div class="widget-content">
                     <ul class="sidebar-list">
@@ -29,9 +29,11 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
 
-            <LiveClock />
+            <div class="mobile-clock-section">
+                <LiveClock />
+            </div>
 
-            <div class="sidebar-widget">
+            <div class="sidebar-widget mobile-mission-section">
                 <div class="widget-header" data-editable="sidebar-mission-header"><i class="fas fa-bullseye"></i> <span data-editable="sidebar-mission-title">Our Mission</span></div>
                 <div class="widget-content">
                     <div class="mission-text">
@@ -54,7 +56,7 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
 
-            <div class="sidebar-widget">
+            <div class="sidebar-widget mobile-vision-section">
                 <div class="widget-header" data-editable="sidebar-vision-header"><i class="fas fa-eye"></i> <span data-editable="sidebar-vision-title">Our Vision</span></div>
                 <div class="widget-content">
                     <div class="vision-text">
@@ -77,7 +79,7 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
 
-            <div class="sidebar-widget">
+            <div class="sidebar-widget mobile-values-section">
                 <div class="widget-header" data-editable="sidebar-values-header"><i class="fas fa-gem"></i> <span data-editable="sidebar-values-title">Core Values</span></div>
                 <div class="widget-content">
                     <div class="values-list-compact">
@@ -117,7 +119,7 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
 
-            <div class="sidebar-widget">
+            <div class="sidebar-widget mobile-prayer-section">
                 <div class="widget-header" data-editable="sidebar-prayer-header">
                     <i class="fas fa-clock"></i> <span data-editable="sidebar-prayer-title">Prayer Times</span>
                 </div>
@@ -149,18 +151,18 @@ import { rabbi } from '../data/rabbi';
 
         <!-- Main Content -->
         <main class="content">
-            <h1 data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Kehilat Ohr HaTorah Messianic Jewish Synagogue</span></h1>
+            <h1 class="mobile-home-title" data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Kehilat Ohr HaTorah Messianic Jewish Synagogue</span></h1>
 
-            <div class="infobox">
+            <div class="infobox mobile-service-summary">
                 <i class="fas fa-info-circle"></i>
                 <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service, and Scripture study at our Fountain Valley location.
             </div>
 
-            <p data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families – all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
+            <p class="mobile-intro-copy" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families – all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
 
-            <p data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together — with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
+            <p class="mobile-intro-copy" data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together — with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
 
-            <div class="ticker-banner">
+            <div class="ticker-banner mobile-torah-quote">
                 <div class="ticker-content">
                     <span class="ticker-item">
                         <i class="fas fa-scroll"></i>
@@ -173,7 +175,7 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
 
-            <h3 id="congregation-calendar"><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
+            <h3 class="mobile-calendar-title" id="congregation-calendar"><i class="fas fa-calendar-alt"></i> Congregation Calendar</h3>
 
             <div class="calendar-container">
                 <div class="responsive-calendar">
@@ -187,19 +189,28 @@ import { rabbi } from '../data/rabbi';
                             scrolling="no">
                     </iframe>
                 </div>
+                <a
+                    class="btn btn-blue calendar-open-link"
+                    href="https://calendar.google.com/calendar/embed?src=ohrhatorahoc%40gmail.com&ctz=America%2FLos_Angeles"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fas fa-up-right-from-square"></i>
+                    Open Full Calendar
+                </a>
             </div>
 
-            <h3 data-editable="about-us-title"><i class="fas fa-users"></i> <span data-editable="about-us-title-text">About Us</span></h3>
+            <h3 class="mobile-about-title" data-editable="about-us-title"><i class="fas fa-users"></i> <span data-editable="about-us-title-text">About Us</span></h3>
 
-            <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a newly developing Messianic Synagogue in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua. We emphasize Yeshua's call to pursue covenant faithfulness with our God and with all our Jewish people. Within this framework, we warmly welcome all Jewish, non-Jewish, and interfaith couples and families who desire to experience and grow in the freedom and richness of our Messianic Jewish faith.</p>
+            <p class="mobile-about-copy" data-editable="about-us-text-1">Kehilat Ohr HaTorah is a newly developing Messianic Synagogue in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua. We emphasize Yeshua's call to pursue covenant faithfulness with our God and with all our Jewish people. Within this framework, we warmly welcome all Jewish, non-Jewish, and interfaith couples and families who desire to experience and grow in the freedom and richness of our Messianic Jewish faith.</p>
 
-            <p data-editable="about-us-text-2">Our community and services are ideal both for those who are inquiring and for those who seek to deepen their understanding and walk with our Jewish Messiah. We blend traditional and contemporary Jewish practices – emphasizing in our services community prayer (in Hebrew and English), Scripture teaching, and vibrant music.</p>
+            <p class="mobile-about-copy" data-editable="about-us-text-2">Our community and services are ideal both for those who are inquiring and for those who seek to deepen their understanding and walk with our Jewish Messiah. We blend traditional and contemporary Jewish practices – emphasizing in our services community prayer (in Hebrew and English), Scripture teaching, and vibrant music.</p>
 
-            <p data-editable="about-us-text-3">At the head of our leadership team is Rabbi Charles (Chaim) Ott who brings with him many years of experience in Messianic leadership, having completed extensive graduate work in Jewish studies, New Testament studies and public Education. Rabbi Ott is especially passionate and skilled in his presentation of the entire Bible – Hebrew Scriptures and Brit Chadashah (New Testament) – as one unified message of individual and national redemption through Yeshua our Messiah.</p>
+            <p class="mobile-about-copy" data-editable="about-us-text-3">At the head of our leadership team is Rabbi Charles (Chaim) Ott who brings with him many years of experience in Messianic leadership, having completed extensive graduate work in Jewish studies, New Testament studies and public Education. Rabbi Ott is especially passionate and skilled in his presentation of the entire Bible – Hebrew Scriptures and Brit Chadashah (New Testament) – as one unified message of individual and national redemption through Yeshua our Messiah.</p>
 
-            <p data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
+            <p class="mobile-about-copy" data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
 
-            <div class="info-grid">
+            <div class="info-grid mobile-visit-grid">
                 <div class="info-box" id="shabbat-activities-section">
                     <h4><i class="fas fa-clock"></i> Shabbat Activities and Service</h4>
                     <div data-editable="service-times">
@@ -260,11 +271,13 @@ import { rabbi } from '../data/rabbi';
 
         <!-- Right Sidebar -->
         <aside class="right-sidebar">
-            <ParashahCard />
-            <CandleLighting />
+            <div class="mobile-reading-stack">
+                <ParashahCard />
+                <CandleLighting />
+            </div>
 
             <!-- Leadership Card -->
-            <div class="feature-card leader-card">
+            <div class="feature-card leader-card mobile-rabbi-card">
                 <div class="card-header">
                     <i class="fas fa-user-tie"></i>
                     <span data-editable="rabbi-card-title">Meet Our Rabbi</span>
@@ -280,7 +293,7 @@ import { rabbi } from '../data/rabbi';
             </div>
 
             <!-- Community Life Card -->
-            <div class="feature-card">
+            <div class="feature-card mobile-community-card">
                 <div class="card-header">
                     <i class="fas fa-images"></i>
                     <span data-editable="community-card-title">Community Life</span>
