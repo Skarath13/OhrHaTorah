@@ -5,9 +5,6 @@ import cloudflare from '@astrojs/cloudflare';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  devToolbar: {
-    enabled: false,
-  },
   adapter: cloudflare({
     mode: 'directory',
     platformProxy: {

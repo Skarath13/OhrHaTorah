@@ -3,7 +3,7 @@
 ---
 
 <!-- Login Modal -->
-<div id="loginModal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" aria-describedby="loginModalDescription" aria-hidden="true">
+<div id="loginModal" class="login-modal">
   <div class="login-modal-backdrop"></div>
   <div class="login-modal-content">
     <button class="login-modal-close" id="loginModalClose" aria-label="Close">
@@ -14,21 +14,19 @@
     </button>
 
     <div class="login-logo">&#x2721;</div>
-    <h2 id="loginModalTitle">Admin Login</h2>
-    <p class="login-subtitle" id="loginModalDescription">Enter your 6-digit PIN</p>
+    <h2>Admin Login</h2>
+    <p class="login-subtitle">Enter your 6-digit PIN</p>
 
     <form id="loginModalForm">
-      <fieldset class="pin-group">
-        <legend class="pin-label">Security PIN</legend>
-        <div class="pin-inputs">
-          <input aria-label="PIN digit 1" aria-describedby="loginErrorMessage" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="0" autocomplete="off">
-          <input aria-label="PIN digit 2" aria-describedby="loginErrorMessage" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="1" autocomplete="off">
-          <input aria-label="PIN digit 3" aria-describedby="loginErrorMessage" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="2" autocomplete="off">
-          <input aria-label="PIN digit 4" aria-describedby="loginErrorMessage" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="3" autocomplete="off">
-          <input aria-label="PIN digit 5" aria-describedby="loginErrorMessage" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="4" autocomplete="off">
-          <input aria-label="PIN digit 6" aria-describedby="loginErrorMessage" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="5" autocomplete="off">
-        </div>
-      </fieldset>
+      <label class="pin-label">Security PIN</label>
+      <div class="pin-inputs">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="0" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="1" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="2" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="3" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="4" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="5" autocomplete="off">
+      </div>
       <input type="hidden" name="pin" id="loginPinValue">
 
       <button type="submit" class="submit-btn" id="loginSubmitBtn" disabled>
@@ -36,7 +34,7 @@
         <div class="loading-spinner"></div>
       </button>
 
-      <div class="error-message" id="loginErrorMessage" role="alert" aria-live="assertive"></div>
+      <div class="error-message" id="loginErrorMessage"></div>
     </form>
   </div>
 </div>
@@ -127,12 +125,6 @@
     color: #718096;
     font-size: 14px;
     margin-bottom: 30px;
-  }
-
-  .pin-group {
-    padding: 0;
-    border: 0;
-    margin: 0;
   }
 
   .pin-label {
@@ -294,13 +286,10 @@
   const submitBtn = document.getElementById('loginSubmitBtn');
   const pinValue = document.getElementById('loginPinValue');
   const errorMessage = document.getElementById('loginErrorMessage');
-  let triggerElement = null;
 
   // Expose global function to show modal
   window.showLoginModal = function() {
-    triggerElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     modal.classList.add('visible');
-    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     resetForm();
     inputs[0].focus();
@@ -308,17 +297,14 @@
 
   window.hideLoginModal = function() {
     modal.classList.remove('visible');
-    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     resetForm();
-    triggerElement?.focus();
   };
 
   function resetForm() {
     inputs.forEach(inp => {
       inp.value = '';
       inp.classList.remove('filled', 'error');
-      inp.setAttribute('aria-invalid', 'false');
     });
     pinValue.value = '';
     submitBtn.disabled = true;
@@ -334,20 +320,6 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('visible')) {
       window.hideLoginModal();
-      return;
-    }
-
-    if (e.key === 'Tab' && modal.classList.contains('visible')) {
-      const focusable = Array.from(modal.querySelectorAll('button:not([disabled]), input:not([disabled])'));
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last?.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first?.focus();
-      }
     }
   });
 
@@ -369,10 +341,7 @@
 
       updateInputStates();
       errorMessage.classList.remove('show');
-      inputs.forEach(inp => {
-        inp.classList.remove('error');
-        inp.setAttribute('aria-invalid', 'false');
-      });
+      inputs.forEach(inp => inp.classList.remove('error'));
     });
 
     // Handle backspace
@@ -473,10 +442,7 @@
   function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.add('show');
-    inputs.forEach(inp => {
-      inp.classList.add('error');
-      inp.setAttribute('aria-invalid', 'true');
-    });
+    inputs.forEach(inp => inp.classList.add('error'));
 
     // Clear inputs
     inputs.forEach(inp => {
@@ -488,10 +454,7 @@
     // Auto-hide after 5 seconds
     setTimeout(() => {
       errorMessage.classList.remove('show');
-      inputs.forEach(inp => {
-        inp.classList.remove('error');
-        inp.setAttribute('aria-invalid', 'false');
-      });
+      inputs.forEach(inp => inp.classList.remove('error'));
     }, 5000);
   }
 

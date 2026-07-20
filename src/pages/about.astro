@@ -1,28 +1,18 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import {
-    IconBook,
-    IconHeart,
-    IconJewishStar,
-    IconLanguage,
-    IconMenorah,
-    IconMusic,
-    IconPray,
-    IconUsers,
-} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Who Are We - Ohr HaTorah" pageTitle="Who Are We">
+<PageLayout title="Who Are We - Ohr HaTorah" pageTitle="Who Are We" pageIcon="fas fa-info-circle">
     <p class="intro-text"><strong>Welcome to Kehilat Ohr HaTorah - A Community of Faith, Heritage, and Hope</strong></p>
 
     <div class="section identity-section">
-        <h3><IconJewishStar aria-hidden="true" /> Our Identity</h3>
+        <h3><i class="fas fa-star-of-david"></i> Our Identity</h3>
         <p>We are a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. As followers of Messianic Judaism, we honor and practice traditional Judaism while joyfully serving our Jewish Messiah, Yeshua (Jesus).</p>
         <p>Our name "Ohr HaTorah" means "Light of the Torah" - reflecting our commitment to illuminating God's eternal Word through both the Hebrew Scriptures and the New Testament as one unified message of redemption.</p>
     </div>
 
     <div class="section community-section">
-        <h3><IconUsers aria-hidden="true" /> Our Community</h3>
+        <h3><i class="fas fa-users"></i> Our Community</h3>
         <p>We warmly welcome all people - Jewish, non-Jewish, and interfaith couples and families. Whether you're:</p>
         <ul>
             <li>Exploring your Jewish heritage</li>
@@ -35,26 +25,26 @@ import {
     </div>
 
     <div class="section worship-section">
-        <h3><IconPray aria-hidden="true" /> Our Worship</h3>
+        <h3><i class="fas fa-pray"></i> Our Worship</h3>
         <p>We blend traditional and contemporary Jewish practices, emphasizing:</p>
         <div class="worship-grid">
             <div class="worship-item">
-                <IconLanguage aria-hidden="true" />
+                <i class="fas fa-language"></i>
                 <strong>Community Prayer</strong>
                 <span>Hebrew and English liturgy</span>
             </div>
             <div class="worship-item">
-                <IconBook aria-hidden="true" />
+                <i class="fas fa-book-open"></i>
                 <strong>Scripture Teaching</strong>
                 <span>Tanach (Hebrew Scriptures) and New Testament study</span>
             </div>
             <div class="worship-item">
-                <IconMusic aria-hidden="true" />
+                <i class="fas fa-music"></i>
                 <strong>Vibrant Music</strong>
                 <span>Contemporary and Traditional Messianic Jewish Music and Dance</span>
             </div>
             <div class="worship-item">
-                <IconMenorah aria-hidden="true" />
+                <i class="fas fa-menorah"></i>
                 <strong>Biblical Festivals</strong>
                 <span>Celebrating all God's Appointed Times</span>
             </div>
@@ -62,7 +52,7 @@ import {
     </div>
 
     <div class="highlight-section">
-        <h3><IconHeart aria-hidden="true" /> Our Heart</h3>
+        <h3><i class="fas fa-heart"></i> Our Heart</h3>
         <p>We believe that Torah and the teachings of Yeshua come together as one, where we as life-long learners of the Bible and Judaism can grow together with love, respect, and mutual understanding. Come experience the richness of your biblical heritage!</p>
     </div>
 </PageLayout>
@@ -137,12 +127,11 @@ import {
         text-align: center;
     }
 
-    .worship-item svg {
-        width: 2rem;
-        height: 2rem;
+    .worship-item i {
+        font-size: 2rem;
         color: var(--primary-blue);
         margin-bottom: 10px;
-        display: inline-block;
+        display: block;
     }
 
     .worship-item strong {

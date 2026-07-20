@@ -1,21 +1,27 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import {
-    IconCashBanknote,
-    IconHeartHandshake,
-    IconInfoCircle,
-    IconMail,
-    IconPhone,
-} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Donate - Ohr HaTorah" pageTitle="Support Our Ministry">
+<PageLayout title="Donate - Ohr HaTorah" pageTitle="Support Our Ministry" pageIcon="fas fa-heart">
     <p class="intro-text"><strong>"God loves a cheerful giver." - 2 Corinthians 9:7</strong></p>
 
     <div class="donation-grid">
         <div class="donation-card">
             <div class="donation-icon">
-                <IconCashBanknote aria-hidden="true" />
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Digital (Coming Soon!)</h3>
+            <p>Zelle payments coming soon!</p>
+            <div class="payment-icons">
+                <i class="fas fa-smartphone"></i>
+                <i class="fas fa-credit-card"></i>
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <div class="donation-icon">
+                <i class="fas fa-money-check"></i>
             </div>
             <h3>Check Donations</h3>
             <p><strong>Payable to:</strong></p>
@@ -25,24 +31,24 @@ import {
         </div>
     </div>
 
-    <p class="future-note">Digital giving is not currently available. Please use the check instructions above or contact us with a question.</p>
-
     <div class="giving-info">
-        <h3><IconInfoCircle aria-hidden="true" /> Why Give?</h3>
+        <h3><i class="fas fa-info-circle"></i> Why Give?</h3>
         <p>Your generous donations help support our congregation's ministry including:</p>
         <ul>
             <li>Weekly Shabbat services and teaching</li>
-            <li>Development of Hebrew learning opportunities</li>
-            <li>Development of youth and family programs</li>
+            <li>Hebrew language education</li>
+            <li>Community outreach programs</li>
+            <li>Support for Israel ministries</li>
+            <li>Youth and family programs</li>
             <li>Facility maintenance and operations</li>
         </ul>
     </div>
 
     <div class="contact-box">
-        <h4><IconHeartHandshake aria-hidden="true" /> Questions? Contact Us</h4>
+        <h4><i class="fas fa-hand-holding-heart"></i> Questions? Contact Us</h4>
         <div class="contact-links">
-            <a href="tel:+17144061513"><IconPhone aria-hidden="true" /> (714) 406-1513</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com"><IconMail aria-hidden="true" /> OhrHaTorahOC@gmail.com</a>
+            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
         </div>
     </div>
 </PageLayout>
@@ -86,10 +92,9 @@ import {
         justify-content: center;
     }
 
-    .donation-icon svg {
-        width: 1.8rem;
-        height: 1.8rem;
+    .donation-icon i {
         color: white;
+        font-size: 1.8rem;
     }
 
     .donation-card h3 {
@@ -115,9 +120,8 @@ import {
         gap: 15px;
     }
 
-    .payment-icons svg {
-        width: 1.5rem;
-        height: 1.5rem;
+    .payment-icons i {
+        font-size: 1.5rem;
         color: var(--primary-blue);
         opacity: 0.6;
     }

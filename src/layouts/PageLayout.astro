@@ -2,60 +2,182 @@
 // Page Layout - Used for interior pages (FAQ, About, Contact, etc.)
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
+import Navigation from '../components/layout/Navigation.astro';
 import Footer from '../components/layout/Footer.astro';
-import { IconArrowLeft } from '@tabler/icons-astro';
 
 interface Props {
   title?: string;
-  description?: string;
   pageTitle?: string;
+  pageIcon?: string;
 }
 
 const {
-  title = 'Ohr HaTorah Messianic Congregation',
-  description = 'Learn more about Ohr HaTorah Messianic Congregation in Orange County, California.',
+  title = "Ohr HaTorah Messianic Congregation",
   pageTitle,
+  pageIcon = "fas fa-star-of-david"
 } = Astro.props;
-
-const pageDecks: Record<string, string> = {
-  '/about': 'A congregation shaped by Jewish faith, Scripture, and welcome.',
-  '/expect': 'A clear guide for your first Shabbat with us.',
-  '/mission': 'The convictions that shape our congregational life.',
-  '/location': 'Saturday at 2:30 PM · Fountain Valley, California.',
-  '/faq': 'Plain answers before your first visit.',
-  '/umjc': 'Connected to the wider Messianic Jewish community.',
-  '/services': 'Music, prayer, Torah, and discussion every Shabbat.',
-  '/holidays': 'Remembering God’s appointed times together.',
-  '/events': 'Congregational life beyond the weekly Shabbat.',
-  '/youth': 'Jewish learning and belonging for the next generation.',
-  '/israel': 'Prayer, solidarity, and practical support.',
-  '/resources': 'A considered starting place for deeper study.',
-  '/contact': 'Questions are welcome. We would be glad to hear from you.',
-  '/donate': 'Help sustain worship, teaching, and community life.',
-};
-const pageDeck = pageDecks[Astro.url.pathname] ?? 'Torah, Messiah, and sacred community in Orange County.';
 ---
 
-<BaseLayout title={title} description={description} bodyClass="interior-page">
+<BaseLayout title={title}>
     <Header />
+    <Navigation />
 
-    <main class="page-content" id="main-content" tabindex="-1">
-        <section class="page-hero" aria-labelledby="page-title">
-            <div class="page-hero__inner">
-                {pageTitle && <h1 id="page-title">{pageTitle}</h1>}
-                <p>{pageDeck}</p>
-            </div>
-        </section>
-
-        <article class="page-article">
+    <main class="page-content">
+        <div class="page-container">
+            {pageTitle && (
+                <div class="page-header">
+                    <h1><i class={pageIcon}></i> {pageTitle}</h1>
+                </div>
+            )}
             <div class="page-body">
                 <slot />
             </div>
-            <footer class="page-footer">
-                <a href="/" class="editorial-back-link"><IconArrowLeft size={19} stroke={1.8} aria-hidden="true" /> Back to Home</a>
-            </footer>
-        </article>
+            <div class="page-footer">
+                <a href="/" class="btn btn-blue"><i class="fas fa-home"></i> Back to Home</a>
+            </div>
+        </div>
     </main>
 
     <Footer />
 </BaseLayout>
+
+<style is:global>
+    .page-content {
+        min-height: calc(100vh - 200px);
+        padding: 40px 20px;
+        background-color: var(--gray-100);
+    }
+
+    .page-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
+        color: white;
+        padding: 30px 40px;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        color: white !important;
+        line-height: 1.2;
+        text-wrap: balance;
+    }
+
+    .page-header h1 i {
+        margin-right: 12px;
+        color: white !important;
+    }
+
+    .page-body {
+        padding: 40px;
+        min-width: 0;
+    }
+
+    .page-footer {
+        padding: 20px 40px 40px;
+        text-align: center;
+        border-top: 1px solid var(--gray-200);
+        background: var(--gray-100);
+    }
+
+    .page-body > * {
+        max-width: 100%;
+    }
+
+    .page-body img,
+    .page-body iframe {
+        max-width: 100%;
+    }
+
+    .page-body :where(h2, h3, h4) {
+        line-height: 1.25;
+        text-wrap: balance;
+    }
+
+    @media (max-width: 1023px) {
+        .page-content {
+            padding: 28px 18px;
+        }
+
+        .page-header {
+            padding: 24px 28px;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+        }
+
+        .page-body {
+            padding: 32px 28px;
+        }
+
+        .page-footer {
+            padding: 24px 28px 28px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .page-content {
+            padding: 18px 12px;
+        }
+
+        .page-container {
+            border-radius: 10px;
+        }
+
+        .page-header {
+            padding: 20px 18px;
+        }
+
+        .page-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .page-header h1 i {
+            margin-right: 8px;
+        }
+
+        .page-body {
+            padding: 24px 18px;
+        }
+
+        .page-footer {
+            padding: 20px 18px 24px;
+        }
+
+        .page-body :where(.section, .resource-section, .service-schedule, .values-section, .programs-section, .directions-section, .location-card, .info-section, .tips-section, .highlight-section, .priority-section, .involvement-section, .vision-section, .mission-section, .about-section, .contact-box, .welcome-banner, .cta-section) {
+            margin-bottom: 24px;
+        }
+
+        .page-body :where(.identity-section, .highlight-section, .priority-section, .tips-section, .resource-card, .event-card, .contact-card, .direction-card, .location-card, .mission-section, .vision-section, .cta-section, .about-section, .info-section, .involvement-section, .practical-item, .experience-item, .stat-item, .value-card, .program-item) {
+            padding: 20px;
+        }
+
+        .page-body :where(.worship-grid, .events-grid, .values-grid, .directions-grid, .location-grid, .contact-grid, .experience-grid, .practical-grid, .stats-grid) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .page-body :where(.contact-links, .contact-info) {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-body :where(.contact-links a, .contact-info a, .cta-button, .directions-btn) {
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>

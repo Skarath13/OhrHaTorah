@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.11",
-    "@tabler/icons-astro": "^3.45.0",
     "astro": "^5.16.0",
     "bcryptjs": "^2.4.3"
   },

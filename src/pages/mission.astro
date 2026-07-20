@@ -1,45 +1,32 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import {
-    IconBook,
-    IconCrown,
-    IconDiamond,
-    IconEye,
-    IconHeart,
-    IconHeartHandshake,
-    IconJewishStar,
-    IconPray,
-    IconScript,
-    IconUsers,
-    IconWorld,
-} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Mission & Vision - Ohr HaTorah" pageTitle="Mission, Vision & Core Values">
+<PageLayout title="Mission & Vision - Ohr HaTorah" pageTitle="Mission, Vision & Core Values" pageIcon="fas fa-bullseye">
 
     <!-- Mission Section -->
     <div class="mission-section">
-        <h3><IconHeart aria-hidden="true" /> Our Mission</h3>
+        <h3><i class="fas fa-heart"></i> Our Mission</h3>
         <p class="mission-statement">To create a welcoming community where Jewish and non-Jewish people can explore the rich heritage of Judaism while embracing Yeshua as the promised Messiah of Israel.</p>
         <p>We are committed to living out Torah principles, celebrating biblical feasts, and growing together in faith and understanding. Our heart is to demonstrate the unity of Scripture and the beauty of our Jewish Messiah.</p>
 
         <div class="highlights-grid">
             <div class="highlight-item">
-                <IconUsers aria-hidden="true" />
+                <i class="fas fa-users"></i>
                 <div class="text-content">
                     <strong>Welcoming</strong>
                     <span>All peoples welcome</span>
                 </div>
             </div>
             <div class="highlight-item">
-                <IconScript aria-hidden="true" />
+                <i class="fas fa-scroll"></i>
                 <div class="text-content">
                     <strong>Torah Living</strong>
                     <span>Biblical principles</span>
                 </div>
             </div>
             <div class="highlight-item">
-                <IconJewishStar aria-hidden="true" />
+                <i class="fas fa-star-of-david"></i>
                 <div class="text-content">
                     <strong>Messiah Yeshua</strong>
                     <span>Israel's Redeemer</span>
@@ -50,27 +37,27 @@ import {
 
     <!-- Vision Section -->
     <div class="vision-section">
-        <h3><IconEye aria-hidden="true" /> Our Vision</h3>
+        <h3><i class="fas fa-eye"></i> Our Vision</h3>
         <p class="vision-statement">To be a light to the nations, demonstrating the unity of Scripture and the fulfillment of God's promises through Yeshua.</p>
         <p>We envision a thriving Messianic Jewish community that bridges Jewish and Gentile believers, preserving Jewish heritage while proclaiming the Gospel to all peoples. Our goal is to see revival in Israel and the nations through the revelation of Yeshua as the Jewish Messiah.</p>
 
         <div class="highlights-grid gold">
             <div class="highlight-item">
-                <IconWorld aria-hidden="true" />
+                <i class="fas fa-globe-americas"></i>
                 <div class="text-content">
                     <strong>Light to Nations</strong>
                     <span>Global impact</span>
                 </div>
             </div>
             <div class="highlight-item">
-                <IconHeartHandshake aria-hidden="true" />
+                <i class="fas fa-hands-helping"></i>
                 <div class="text-content">
                     <strong>Unity in Messiah</strong>
                     <span>Bridging communities</span>
                 </div>
             </div>
             <div class="highlight-item">
-                <IconCrown aria-hidden="true" />
+                <i class="fas fa-crown"></i>
                 <div class="text-content">
                     <strong>Kingdom Living</strong>
                     <span>Biblical lifestyle</span>
@@ -81,35 +68,35 @@ import {
 
     <!-- Core Values Section -->
     <div class="values-section">
-        <h3><IconDiamond aria-hidden="true" /> Our Core Values</h3>
+        <h3><i class="fas fa-gem"></i> Our Core Values</h3>
         <div class="values-grid">
             <div class="value-card">
-                <h4><IconScript aria-hidden="true" /> Torah Faithfulness</h4>
+                <h4><i class="fas fa-scroll"></i> Torah Faithfulness</h4>
                 <p>Living according to God's eternal instructions while embracing the freedom found in Yeshua.</p>
             </div>
 
             <div class="value-card">
-                <h4><IconJewishStar aria-hidden="true" /> Jewish Identity</h4>
+                <h4><i class="fas fa-star-of-david"></i> Jewish Identity</h4>
                 <p>Celebrating and preserving our rich Jewish heritage, culture, and traditions.</p>
             </div>
 
             <div class="value-card">
-                <h4><IconJewishStar aria-hidden="true" /> Yeshua as Messiah</h4>
+                <h4><i class="fas fa-star-of-david"></i> Yeshua as Messiah</h4>
                 <p>Embracing Jesus as Israel's promised Redeemer and the fulfillment of Scripture.</p>
             </div>
 
             <div class="value-card">
-                <h4><IconHeartHandshake aria-hidden="true" /> Loving Community</h4>
+                <h4><i class="fas fa-hands-helping"></i> Loving Community</h4>
                 <p>Welcoming all who seek to grow in faith with love, respect, and acceptance.</p>
             </div>
 
             <div class="value-card">
-                <h4><IconBook aria-hidden="true" /> Biblical Study</h4>
+                <h4><i class="fas fa-book-open"></i> Biblical Study</h4>
                 <p>Commitment to deep Scripture learning and understanding through Jewish context.</p>
             </div>
 
             <div class="value-card">
-                <h4><IconPray aria-hidden="true" /> Authentic Worship</h4>
+                <h4><i class="fas fa-praying-hands"></i> Authentic Worship</h4>
                 <p>Heartfelt praise through traditional Jewish liturgy and contemporary expression.</p>
             </div>
         </div>
@@ -117,7 +104,7 @@ import {
 
     <!-- Call to Action -->
     <div class="cta-section">
-        <h3><IconPray aria-hidden="true" /> Live These Values With Us</h3>
+        <h3><i class="fas fa-praying-hands"></i> Live These Values With Us</h3>
         <p>Join our community as we seek to live out these biblical values together, growing in faith, fellowship, and service to our Messiah Yeshua and the world around us.</p>
     </div>
 </PageLayout>
@@ -193,14 +180,13 @@ import {
         min-width: 0;
     }
 
-    .highlight-item svg {
-        width: 1.5rem;
-        height: 1.5rem;
+    .highlight-item i {
+        font-size: 1.5rem;
         color: var(--primary-blue);
         flex-shrink: 0;
     }
 
-    .highlights-grid.gold .highlight-item svg {
+    .highlights-grid.gold .highlight-item i {
         color: var(--gold-dark);
     }
 
@@ -273,16 +259,15 @@ import {
         transform: scaleX(1);
     }
 
-    .value-card svg {
-        width: 1.5rem;
-        height: 1.5rem;
+    .value-card i {
+        font-size: 1.5rem;
         color: var(--primary-blue);
         margin-bottom: 15px;
         display: inline-block;
         transition: all 0.4s ease;
     }
 
-    .value-card:hover svg {
+    .value-card:hover i {
         transform: scale(1.3) rotate(10deg);
         color: #00a896;
     }
@@ -310,12 +295,12 @@ import {
     }
 
     /* Unique animations for each card */
-    .value-card:nth-child(1):hover svg { transform: scale(1.3) rotate(-15deg); }
-    .value-card:nth-child(2):hover svg { transform: scale(1.4) rotate(0deg); }
-    .value-card:nth-child(3):hover svg { transform: scale(1.3) rotate(15deg); }
-    .value-card:nth-child(4):hover svg { transform: scale(1.2) translateY(-5px); }
-    .value-card:nth-child(5):hover svg { transform: scale(1.3) rotate(-10deg); }
-    .value-card:nth-child(6):hover svg { transform: scale(1.2) translateY(-8px); }
+    .value-card:nth-child(1):hover i { transform: scale(1.3) rotate(-15deg); }
+    .value-card:nth-child(2):hover i { transform: scale(1.4) rotate(0deg); }
+    .value-card:nth-child(3):hover i { transform: scale(1.3) rotate(15deg); }
+    .value-card:nth-child(4):hover i { transform: scale(1.2) translateY(-5px); }
+    .value-card:nth-child(5):hover i { transform: scale(1.3) rotate(-10deg); }
+    .value-card:nth-child(6):hover i { transform: scale(1.2) translateY(-8px); }
 
     .cta-section {
         background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);

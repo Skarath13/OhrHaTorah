@@ -1,210 +1,208 @@
 ---
-import {
-    IconBook2,
-    IconCalendarEvent,
-    IconChevronDown,
-    IconDoorEnter,
-    IconFlag,
-    IconHeartHandshake,
-    IconInfoCircle,
-    IconJewishStar,
-    IconLanguage,
-    IconMail,
-    IconMapPin,
-    IconMenu2,
-    IconSchool,
-    IconTargetArrow,
-    IconX,
-} from '@tabler/icons-astro';
-
-interface Props {
-    currentPath?: string;
-}
-
-const { currentPath = '/' } = Astro.props;
-const active = (paths: string[]) => paths.some(path => currentPath === path || currentPath.startsWith(`${path}/`));
+// Navigation component with dropdown menus
 ---
+<!-- Navigation Overlay -->
+<div class="nav-overlay" id="nav-overlay"></div>
 
-<div class="mobile-nav-bar">
-    <a class="mobile-nav-bar__brand" href="/" aria-label="Kehilat Ohr HaTorah home">
-        <img src="/images/logo.png" alt="" width="612" height="408" decoding="async">
-        <span>Ohr HaTorah</span>
-    </a>
-    <a class="mobile-nav-bar__visit" href="/#visit">Visit</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-panel" aria-label="Open navigation" data-nav-toggle>
-        <IconMenu2 class="nav-toggle__open" size={25} stroke={1.7} aria-hidden="true" />
-        <IconX class="nav-toggle__close" size={25} stroke={1.7} aria-hidden="true" />
-        <span>Menu</span>
-    </button>
-</div>
-
-<nav class="color-navigation" id="primary-nav-panel" aria-label="Primary navigation" data-nav-panel>
-    <a class="nav-brand" href="/" aria-label="Kehilat Ohr HaTorah home">
-        <img src="/images/logo.png" alt="" width="612" height="408" decoding="async">
-        <span>
-            <strong>Kehilat Ohr HaTorah</strong>
-            <small>Orange County, California</small>
-        </span>
-    </a>
-
+<!-- Navigation -->
+<nav class="nav-container" id="nav-container">
     <ul class="nav-links">
-        <li class:list={['nav-item', 'nav-item--blue', { active: active(['/expect', '/location', '/faq']) }]}>
-            <div class="nav-item__top">
-                <a href="/expect">Visit <IconChevronDown class="nav-item__chevron" size={15} stroke={1.8} aria-hidden="true" /></a>
-                <button type="button" class="nav-submenu-toggle" aria-expanded="false" aria-controls="nav-welcome-submenu" aria-label="Show Visit pages"><IconChevronDown aria-hidden="true" /></button>
-            </div>
+        <li class="dropdown">
+            <a href="/" id="welcome-header" aria-label="Welcome - Go to Home" aria-haspopup="true" aria-expanded="false" aria-controls="nav-welcome-submenu"><i class="fas fa-home"></i> Welcome</a>
             <div class="dropdown-content" id="nav-welcome-submenu">
-                <a href="/expect"><IconDoorEnter aria-hidden="true" /> What to Expect</a>
-                <a href="/location"><IconMapPin aria-hidden="true" /> Location &amp; Directions</a>
-                <a href="/faq"><IconInfoCircle aria-hidden="true" /> Frequently Asked Questions</a>
+                <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
+                <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
+                <a href="/mission" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
+                <a href="/location" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                <a href="/faq" aria-label="FAQ"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="/umjc" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
             </div>
         </li>
-
-        <li class:list={['nav-item', 'nav-item--pink', { active: active(['/about', '/mission', '/umjc', '/israel']) }]}>
-            <div class="nav-item__top">
-                <a href="/about">About <IconChevronDown class="nav-item__chevron" size={15} stroke={1.8} aria-hidden="true" /></a>
-                <button type="button" class="nav-submenu-toggle" aria-expanded="false" aria-controls="nav-community-submenu" aria-label="Show About pages"><IconChevronDown aria-hidden="true" /></button>
-            </div>
-            <div class="dropdown-content" id="nav-community-submenu">
-                <a href="/about"><IconInfoCircle aria-hidden="true" /> Who We Are</a>
-                <a href="/mission"><IconTargetArrow aria-hidden="true" /> Mission &amp; Values</a>
-                <a href="/umjc"><IconHeartHandshake aria-hidden="true" /> UMJC Affiliation</a>
-                <a href="/israel"><IconFlag aria-hidden="true" /> Stand With Israel</a>
-            </div>
-        </li>
-
-        <li class:list={['nav-item', 'nav-item--mint', { active: active(['/services', '/holidays', '/youth']) }]}>
-            <div class="nav-item__top">
-                <a href="/services">Shabbat <IconChevronDown class="nav-item__chevron" size={15} stroke={1.8} aria-hidden="true" /></a>
-                <button type="button" class="nav-submenu-toggle" aria-expanded="false" aria-controls="nav-events-submenu" aria-label="Show Shabbat pages"><IconChevronDown aria-hidden="true" /></button>
-            </div>
+        <li class="dropdown">
+            <a href="/services" id="events-header" aria-label="Events & Services" aria-haspopup="true" aria-expanded="false" aria-controls="nav-events-submenu"><i class="fas fa-calendar-check"></i> Events & Services</a>
             <div class="dropdown-content" id="nav-events-submenu">
-                <a href="/services"><IconJewishStar aria-hidden="true" /> Shabbat Services</a>
-                <a href="/holidays"><IconCalendarEvent aria-hidden="true" /> Jewish Holidays</a>
-                <a href="/youth"><IconSchool aria-hidden="true" /> Shabbat School for Youth</a>
+                <a href="/services" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
+                <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
+                <a href="/events" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
+                <a href="/youth" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
             </div>
         </li>
-
-        <li class:list={['nav-item', 'nav-item--yellow', { active: active(['/events']) }]}>
-            <div class="nav-item__top">
-                <a href="/events">Calendar <IconChevronDown class="nav-item__chevron" size={15} stroke={1.8} aria-hidden="true" /></a>
-                <button type="button" class="nav-submenu-toggle" aria-expanded="false" aria-controls="nav-calendar-submenu" aria-label="Show Calendar pages"><IconChevronDown aria-hidden="true" /></button>
-            </div>
-            <div class="dropdown-content" id="nav-calendar-submenu">
-                <a href="/#congregation-calendar"><IconCalendarEvent aria-hidden="true" /> Congregation Calendar</a>
-                <a href="/events"><IconCalendarEvent aria-hidden="true" /> Special Events</a>
+        <li class="dropdown">
+            <a href="#" id="community-header" aria-label="Community" aria-haspopup="true" aria-expanded="false" aria-controls="nav-community-submenu"><i class="fas fa-users"></i> Community</a>
+            <div class="dropdown-content" id="nav-community-submenu">
+                <a href="/#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
+                <a href="/israel" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
             </div>
         </li>
-
-        <li class:list={['nav-item', 'nav-item--lilac', { active: active(['/resources']) }]}>
-            <div class="nav-item__top">
-                <a href="/resources">Learn <IconChevronDown class="nav-item__chevron" size={15} stroke={1.8} aria-hidden="true" /></a>
-                <button type="button" class="nav-submenu-toggle" aria-expanded="false" aria-controls="nav-learn-submenu" aria-label="Show Learning pages"><IconChevronDown aria-hidden="true" /></button>
-            </div>
+        <li class="dropdown">
+            <a href="/resources" id="learn-header" aria-label="Learn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-learn-submenu"><i class="fas fa-graduation-cap"></i> Learn</a>
             <div class="dropdown-content" id="nav-learn-submenu">
-                <a href="/#weekly-readings"><IconBook2 aria-hidden="true" /> This Week's Readings</a>
-                <a href="/resources"><IconBook2 aria-hidden="true" /> Messianic Jewish Resources</a>
-                <a href="/contact"><IconLanguage aria-hidden="true" /> Ask About Hebrew Classes</a>
+                <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
+                <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
+                <a href="/resources" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
+                <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
+                <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
             </div>
         </li>
-
-        <li class:list={['nav-item', 'nav-item--peach', { active: active(['/contact']) }]}>
-            <div class="nav-item__top">
-                <a href="/contact" aria-current={active(['/contact']) ? 'page' : undefined}>Contact</a>
+        <li class="dropdown">
+            <a href="#" id="resources-header" aria-label="Resources" aria-haspopup="true" aria-expanded="false" aria-controls="nav-resources-submenu"><i class="fas fa-archive"></i> Resources</a>
+            <div class="dropdown-content" id="nav-resources-submenu">
+                <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
+                <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
+                <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
+                <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
             </div>
         </li>
-
-        <li class:list={['nav-item', 'nav-item--gold', { active: active(['/donate']) }]}>
-            <div class="nav-item__top">
-                <a href="/donate" aria-current={active(['/donate']) ? 'page' : undefined}>Give</a>
-            </div>
-        </li>
+        <li><a href="/contact" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
     </ul>
 </nav>
 
-<button class="nav-scrim" type="button" aria-label="Close navigation" data-nav-scrim hidden></button>
-
 <script>
-    const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-    const panel = document.querySelector<HTMLElement>('[data-nav-panel]');
-    const scrim = document.querySelector<HTMLButtonElement>('[data-nav-scrim]');
-    const submenuToggles = Array.from(document.querySelectorAll<HTMLButtonElement>('.nav-submenu-toggle'));
-    const desktopMedia = window.matchMedia('(min-width: 1100px)');
-    const pageRegions = [
-        document.querySelector<HTMLElement>('main'),
-        document.querySelector<HTMLElement>('.site-footer'),
-        document.querySelector<HTMLElement>('.back-to-top'),
-    ].filter((region): region is HTMLElement => Boolean(region));
+    const mobileMenuQuery = window.matchMedia('(max-width: 1023px)');
+    const dropdownItems = Array.from(document.querySelectorAll('.nav-links .dropdown'));
 
-    const closeSubmenus = (except?: HTMLButtonElement) => {
-        submenuToggles.forEach(button => {
-            if (button === except) return;
-            button.setAttribute('aria-expanded', 'false');
-            button.closest('.nav-item')?.classList.remove('submenu-open');
-        });
-    };
+    function setDropdownState(dropdown: Element | null, expanded: boolean) {
+        if (!dropdown) return;
 
-    const mobileFocusables = () => [
-        toggle,
-        ...Array.from(panel?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []),
-    ].filter((element): element is HTMLElement => Boolean(element) && element.offsetParent !== null);
+        dropdown.classList.toggle('active', expanded);
 
-    const setOpen = (open: boolean, restoreFocus = false) => {
-        if (!toggle || !panel || !scrim) return;
-        const mobileOpen = open && !desktopMedia.matches;
-        toggle.classList.toggle('is-open', mobileOpen);
-        panel.classList.toggle('is-open', mobileOpen);
-        toggle.setAttribute('aria-expanded', String(mobileOpen));
-        toggle.setAttribute('aria-label', mobileOpen ? 'Close navigation' : 'Open navigation');
-        const label = toggle.querySelector('span');
-        if (label) label.textContent = mobileOpen ? 'Close' : 'Menu';
-        scrim.hidden = !mobileOpen;
-        document.body.classList.toggle('nav-open', mobileOpen);
-        panel.inert = !desktopMedia.matches && !mobileOpen;
-        pageRegions.forEach(region => { region.inert = mobileOpen; });
-
-        if (mobileOpen) {
-            requestAnimationFrame(() => panel.querySelector<HTMLAnchorElement>('.nav-links a')?.focus());
-        } else {
-            closeSubmenus();
-            if (restoreFocus) toggle.focus();
+        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
+        if (trigger) {
+            trigger.setAttribute('aria-expanded', String(expanded));
         }
-    };
+    }
 
-    submenuToggles.forEach(button => {
-        button.addEventListener('click', () => {
-            const expanding = button.getAttribute('aria-expanded') !== 'true';
-            closeSubmenus(button);
-            button.setAttribute('aria-expanded', String(expanding));
-            button.closest('.nav-item')?.classList.toggle('submenu-open', expanding);
+    function closeAllDropdowns() {
+        dropdownItems.forEach(dropdown => setDropdownState(dropdown, false));
+    }
+
+    // Mobile menu toggle functions
+    function toggleMenu() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navContainer = document.getElementById('nav-container');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        menuBtn?.classList.toggle('active');
+        navContainer?.classList.toggle('active');
+        navOverlay?.classList.toggle('active');
+
+        const isOpen = navContainer?.classList.contains('active') ?? false;
+        menuBtn?.setAttribute('aria-expanded', String(isOpen));
+        menuBtn?.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+            closeAllDropdowns();
+        }
+    }
+
+    function closeMenu() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navContainer = document.getElementById('nav-container');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        menuBtn?.classList.remove('active');
+        navContainer?.classList.remove('active');
+        navOverlay?.classList.remove('active');
+        menuBtn?.setAttribute('aria-expanded', 'false');
+        menuBtn?.setAttribute('aria-label', 'Open navigation menu');
+        document.body.style.overflow = '';
+        closeAllDropdowns();
+    }
+
+    // Initialize mobile menu
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
+    document.getElementById('nav-overlay')?.addEventListener('click', closeMenu);
+
+    // Close menu when clicking final nav links
+    document.querySelectorAll('.dropdown-content a, .nav-links > li:not(.dropdown) > a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Toggle dropdowns for touch layouts
+    dropdownItems.forEach(dropdown => {
+        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
+        if (!trigger) return;
+
+        trigger.addEventListener('click', event => {
+            if (!mobileMenuQuery.matches) return;
+
+            const href = trigger.getAttribute('href') ?? '#';
+            const isExpanded = dropdown.classList.contains('active');
+            const isPlaceholderLink = href === '#';
+
+            if (!isExpanded || isPlaceholderLink) {
+                event.preventDefault();
+
+                dropdownItems.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        setDropdownState(otherDropdown, false);
+                    }
+                });
+
+                setDropdownState(dropdown, !isExpanded);
+                return;
+            }
+
+            closeMenu();
         });
     });
 
-    toggle?.addEventListener('click', () => setOpen(!panel?.classList.contains('is-open')));
-    scrim?.addEventListener('click', () => setOpen(false, true));
-    panel?.querySelectorAll('a[href]').forEach(link => {
-        link.addEventListener('click', () => setOpen(false));
+    // Dynamic navigation text wrap detection
+    function checkNavTextWrapping() {
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        if (mobileMenuQuery.matches) {
+            navLinks.forEach(link => link.classList.remove('text-wrapped'));
+            return;
+        }
+
+        navLinks.forEach(link => {
+            link.classList.remove('text-wrapped');
+
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.position = 'absolute';
+            tempSpan.style.whiteSpace = 'nowrap';
+            tempSpan.style.fontSize = getComputedStyle(link).fontSize;
+            tempSpan.style.fontWeight = getComputedStyle(link).fontWeight;
+            tempSpan.style.lineHeight = getComputedStyle(link).lineHeight;
+            tempSpan.textContent = link.textContent;
+
+            document.body.appendChild(tempSpan);
+            const singleLineHeight = tempSpan.offsetHeight;
+            document.body.removeChild(tempSpan);
+
+            const linkHeight = link.offsetHeight;
+            const hasWrapped = linkHeight > singleLineHeight * 1.2;
+
+            if (hasWrapped) {
+                link.classList.add('text-wrapped');
+            }
+        });
+    }
+
+    setTimeout(checkNavTextWrapping, 100);
+
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (!mobileMenuQuery.matches) {
+                closeMenu();
+            }
+
+            checkNavTextWrapping();
+        }, 150);
     });
 
     window.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && panel?.classList.contains('is-open')) {
-            setOpen(false, true);
-            return;
-        }
-        if (event.key !== 'Tab' || !panel?.classList.contains('is-open')) return;
-        const focusables = mobileFocusables();
-        const first = focusables[0];
-        const last = focusables.at(-1);
-        if (!first || !last) return;
-        if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault();
-            first.focus();
+        if (event.key === 'Escape') {
+            closeMenu();
         }
     });
-
-    desktopMedia.addEventListener('change', () => setOpen(false));
-    setOpen(false);
 </script>

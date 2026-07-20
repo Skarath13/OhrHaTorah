@@ -1,20 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import {
-    IconBell,
-    IconGlassFull,
-    IconHelpCircle,
-    IconMail,
-    IconMenorah,
-    IconPhone,
-    IconScript,
-    IconStar,
-    IconTent,
-    IconWheat,
-} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Jewish Holidays - Ohr HaTorah" pageTitle="Jewish Holidays & Observances">
+<PageLayout title="Jewish Holidays - Ohr HaTorah" pageTitle="Jewish Holidays & Observances" pageIcon="fas fa-calendar-day">
     <p class="intro-text"><strong>Holiday information and celebration details will be posted as each holiday approaches.</strong></p>
 
     <p class="description">Throughout the year, we observe and celebrate the biblical holidays including:</p>
@@ -22,7 +10,7 @@ import {
     <div class="holidays-grid">
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconStar aria-hidden="true" />
+                <i class="fas fa-star"></i>
             </div>
             <h3>Shabbat</h3>
             <p>Weekly day of rest and worship</p>
@@ -30,7 +18,7 @@ import {
 
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconGlassFull aria-hidden="true" />
+                <i class="fas fa-wine-glass"></i>
             </div>
             <h3>Pesach (Passover)</h3>
             <p>Celebrating freedom from Egypt</p>
@@ -38,7 +26,7 @@ import {
 
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconWheat aria-hidden="true" />
+                <i class="fas fa-wheat-awn"></i>
             </div>
             <h3>Shavuot (Pentecost)</h3>
             <p>Festival of the harvest and Torah</p>
@@ -46,7 +34,7 @@ import {
 
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconBell aria-hidden="true" />
+                <i class="fas fa-bell"></i>
             </div>
             <h3>Rosh Hashanah</h3>
             <p>New Year and time of reflection</p>
@@ -54,7 +42,7 @@ import {
 
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconScript aria-hidden="true" />
+                <i class="fas fa-scroll"></i>
             </div>
             <h3>Yom Kippur</h3>
             <p>Day of Atonement</p>
@@ -62,7 +50,7 @@ import {
 
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconTent aria-hidden="true" />
+                <i class="fas fa-campground"></i>
             </div>
             <h3>Sukkot</h3>
             <p>Festival of Tabernacles</p>
@@ -70,7 +58,7 @@ import {
 
         <div class="holiday-card">
             <div class="holiday-icon">
-                <IconMenorah aria-hidden="true" />
+                <i class="fas fa-menorah"></i>
             </div>
             <h3>Hanukkah</h3>
             <p>Festival of Lights</p>
@@ -82,10 +70,10 @@ import {
     </div>
 
     <div class="contact-box">
-        <h4><IconHelpCircle aria-hidden="true" /> For more information about upcoming holidays:</h4>
+        <h4><i class="fas fa-question-circle"></i> For more information about upcoming holidays:</h4>
         <div class="contact-links">
-            <a href="tel:+17144061513"><IconPhone aria-hidden="true" /> (714) 406-1513</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com"><IconMail aria-hidden="true" /> OhrHaTorahOC@gmail.com</a>
+            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
         </div>
     </div>
 </PageLayout>
@@ -134,10 +122,9 @@ import {
         justify-content: center;
     }
 
-    .holiday-icon svg {
-        width: 1.5rem;
-        height: 1.5rem;
+    .holiday-icon i {
         color: white;
+        font-size: 1.5rem;
     }
 
     .holiday-card h3 {

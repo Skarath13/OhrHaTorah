@@ -1,11 +1,10 @@
 ---
 // Live Clock Island - shows PST time, Hebrew date, and Gregorian date
-import { IconCalendar } from '@tabler/icons-astro';
 ---
 <div class="sidebar-widget live-clock-widget">
-    <div class="widget-header">
-        <IconCalendar aria-hidden="true" />
-        <span><span data-editable="sidebar-date-time-header">Hebrew Date</span> <span data-editable="sidebar-date-time-title">&amp; Time</span></span>
+    <div class="widget-header" data-editable="sidebar-date-time-header">
+        <i class="fas fa-calendar-day"></i>
+        <span data-editable="sidebar-date-time-title">Hebrew Date &amp; Time</span>
     </div>
     <div class="widget-content">
         <div class="clock-stack">

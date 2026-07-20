@@ -1,20 +1,15 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import {
-    IconClock,
-    IconHeart,
-    IconHelpCircle,
-    IconMail,
-    IconPhone,
-    IconSun,
-} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services & Activities">
-    <p class="intro-text"><strong>Join us each Saturday for Messianic Jewish music, Mincha, Torah service, and discussion.</strong></p>
+<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services & Activities" pageIcon="fas fa-star-of-david">
+    <p class="intro-text"><strong>Join us each week for meaningful Shabbat worship and fellowship.</strong></p>
 
     <div class="service-schedule">
-        <h3><IconSun aria-hidden="true" /> Saturday Service Schedule</h3>
+        <h3><i class="fas fa-moon"></i> Friday Evening</h3>
+        <p class="schedule-note">Festive Shabbat meals in the home</p>
+
+        <h3><i class="fas fa-sun"></i> Saturday Service Schedule</h3>
 
         <div class="timeline">
             <div class="timeline-item">
@@ -42,20 +37,20 @@ import {
             </div>
         </div>
 
-        <p class="future-note"><em><IconClock aria-hidden="true" /> We plan soon to offer a morning service (Shacharit)</em></p>
+        <p class="future-note"><em><i class="fas fa-clock"></i> We plan soon to offer a morning service (Shacharit)</em></p>
     </div>
 
     <div class="info-section">
-        <h3><IconHeart aria-hidden="true" /> What to Expect</h3>
+        <h3><i class="fas fa-heart"></i> What to Expect</h3>
         <p>Our Shabbat services blend traditional Jewish liturgy with contemporary Messianic worship. You'll experience Hebrew prayers, Torah readings, meaningful discussions, and vibrant music that celebrates both our Jewish heritage and faith in Yeshua.</p>
         <p><strong>All are welcome</strong> - whether you're Jewish, non-Jewish, or just curious about Messianic Judaism. We provide guidance and explanations to help everyone participate meaningfully.</p>
     </div>
 
     <div class="contact-box">
-        <h4><IconHelpCircle aria-hidden="true" /> Questions about Shabbat services?</h4>
+        <h4><i class="fas fa-question-circle"></i> Questions about Shabbat services?</h4>
         <div class="contact-links">
-            <a href="tel:+17144061513"><IconPhone aria-hidden="true" /> (714) 406-1513</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com"><IconMail aria-hidden="true" /> OhrHaTorahOC@gmail.com</a>
+            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
         </div>
     </div>
 </PageLayout>
