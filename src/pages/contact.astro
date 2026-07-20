@@ -1,14 +1,22 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import {
+    IconBuildingCommunity,
+    IconHeart,
+    IconMail,
+    IconMap2,
+    IconMapPin,
+    IconPhone,
+} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Contact Us - Ohr HaTorah" pageTitle="Contact Us" pageIcon="fas fa-envelope">
+<PageLayout title="Contact Us - Ohr HaTorah" pageTitle="Contact Us">
     <p class="intro-text"><strong>We'd love to hear from you!</strong></p>
 
     <div class="contact-grid">
         <div class="contact-card">
             <div class="contact-icon">
-                <i class="fas fa-envelope"></i>
+                <IconMail aria-hidden="true" />
             </div>
             <h3>Email</h3>
             <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>
@@ -16,7 +24,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
         <div class="contact-card">
             <div class="contact-icon">
-                <i class="fas fa-phone"></i>
+                <IconPhone aria-hidden="true" />
             </div>
             <h3>Phone</h3>
             <a href="tel:+17144061513">(714) 406-1513</a>
@@ -24,7 +32,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
         <div class="contact-card">
             <div class="contact-icon">
-                <i class="fas fa-map-marker-alt"></i>
+                <IconMapPin aria-hidden="true" />
             </div>
             <h3>Mailing Address</h3>
             <p>360 E. 1st Street, #856<br>Tustin, CA 92780</p>
@@ -32,7 +40,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
         <div class="contact-card">
             <div class="contact-icon">
-                <i class="fas fa-synagogue"></i>
+                <IconBuildingCommunity aria-hidden="true" />
             </div>
             <h3>Service Location</h3>
             <p>10460 Slater Ave<br>Fountain Valley, CA 92708<br><em>Saturdays at 2:30 PM</em></p>
@@ -40,7 +48,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     </div>
 
     <div class="visit-highlight">
-        <i class="fas fa-heart"></i>
+        <IconHeart aria-hidden="true" />
         <div>
             <strong>Visit Us</strong>
             <p>Join us for Shabbat services on Saturdays - no advance notice required!</p>
@@ -48,18 +56,15 @@ import PageLayout from '../layouts/PageLayout.astro';
     </div>
 
     <div class="map-section">
-        <h3><i class="fas fa-map"></i> Find Us</h3>
-        <div class="map-container">
-            <iframe
-                src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                class="page-map-embed"
-                title="Map to Kehilat Ohr HaTorah service location"
-                width="100%"
-                height="300"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+        <h3><IconMap2 aria-hidden="true" /> Find Us</h3>
+        <div class="directions-callout">
+            <IconMapPin aria-hidden="true" />
+            <div>
+                <small>Service location</small>
+                <strong>10460 Slater Ave<br>Fountain Valley, CA 92708</strong>
+                <span>Saturday · 2:30 PM</span>
+            </div>
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer">Open directions<span class="sr-only"> (opens in a new tab)</span></a>
         </div>
     </div>
 </PageLayout>
@@ -102,9 +107,10 @@ import PageLayout from '../layouts/PageLayout.astro';
         justify-content: center;
     }
 
-    .contact-icon i {
+    .contact-icon svg {
+        width: 1.5rem;
+        height: 1.5rem;
         color: white;
-        font-size: 1.5rem;
     }
 
     .contact-card h3 {
@@ -140,8 +146,10 @@ import PageLayout from '../layouts/PageLayout.astro';
         margin-bottom: 30px;
     }
 
-    .visit-highlight i {
-        font-size: 2rem;
+    .visit-highlight svg {
+        width: 2rem;
+        height: 2rem;
+        flex: 0 0 auto;
         color: var(--gold-dark);
     }
 

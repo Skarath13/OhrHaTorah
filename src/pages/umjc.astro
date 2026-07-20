@@ -1,14 +1,26 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import {
+    IconBuildingCommunity,
+    IconDiamond,
+    IconExternalLink,
+    IconHeart,
+    IconPlant2,
+    IconScale,
+    IconScript,
+    IconUsers,
+    IconUsersGroup,
+    IconWorld,
+} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="UMJC Affiliation - Ohr HaTorah" pageTitle="UMJC Affiliation" pageIcon="fas fa-handshake">
+<PageLayout title="UMJC Affiliation - Ohr HaTorah" pageTitle="UMJC Affiliation">
 
     <p class="intro-text"><strong>Proudly affiliated with the Union of Messianic Jewish Congregations</strong></p>
 
     <!-- About UMJC -->
     <div class="about-section">
-        <h3><i class="fas fa-synagogue"></i> About the UMJC</h3>
+        <h3><IconBuildingCommunity aria-hidden="true" /> About the UMJC</h3>
         <p>The Union of Messianic Jewish Congregations is a rapidly growing global network establishing and strengthening Jewish congregations that honor Yeshua, the Messiah of Israel. From North America to Latin America, Canada to Russian-speaking communities worldwide, the UMJC connects congregations across continents with mutual support, leadership development, and practical guidance.</p>
 
         <div class="stats-grid">
@@ -29,7 +41,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- Definition -->
     <div class="vision-section">
-        <h3><i class="fas fa-scroll"></i> What is Messianic Judaism?</h3>
+        <h3><IconScript aria-hidden="true" /> What is Messianic Judaism?</h3>
         <blockquote>
             "Messianic Judaism is a movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."
         </blockquote>
@@ -37,39 +49,39 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- UMJC Values -->
     <div class="values-section">
-        <h3><i class="fas fa-gem"></i> UMJC Values</h3>
+        <h3><IconDiamond aria-hidden="true" /> UMJC Values</h3>
         <div class="values-grid">
             <div class="value-card">
                 <div class="value-header">
-                    <i class="fas fa-handshake"></i>
+                    <IconUsersGroup aria-hidden="true" />
                     <h4>Unity in Diversity</h4>
                 </div>
                 <p>Embracing the rich variety of expressions within Messianic Judaism while standing together in shared faith and purpose.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
-                    <i class="fas fa-users"></i>
+                    <IconUsers aria-hidden="true" />
                     <h4>Community Relationships</h4>
                 </div>
                 <p>Building strong bonds between congregations, fostering fellowship, and supporting one another across regions and borders.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
-                    <i class="fas fa-seedling"></i>
+                    <IconPlant2 aria-hidden="true" />
                     <h4>Communal Growth</h4>
                 </div>
                 <p>Nurturing the development of congregations and leaders through education, mentorship, and shared resources.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
-                    <i class="fas fa-balance-scale"></i>
+                    <IconScale aria-hidden="true" />
                     <h4>Integrity</h4>
                 </div>
                 <p>Upholding biblical standards and accountability in leadership, teaching, and congregational life.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
-                    <i class="fas fa-heart"></i>
+                    <IconHeart aria-hidden="true" />
                     <h4>Dignity & Inclusion</h4>
                 </div>
                 <p>Welcoming all who seek to honor Yeshua within the framework of Jewish life and identity.</p>
@@ -79,10 +91,10 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- Learn More CTA -->
     <div class="cta-section">
-        <h3><i class="fas fa-external-link-alt"></i> Learn More</h3>
+        <h3><IconExternalLink aria-hidden="true" /> Learn More</h3>
         <p>Explore the history and vision of the Union of Messianic Jewish Congregations</p>
         <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer" class="cta-button">
-            <i class="fas fa-globe"></i> Visit UMJC Website
+            <IconWorld aria-hidden="true" /> Visit UMJC Website
         </a>
     </div>
 </PageLayout>
@@ -193,8 +205,10 @@ import PageLayout from '../layouts/PageLayout.astro';
         margin-bottom: 10px;
     }
 
-    .value-header i {
-        font-size: 1.3rem;
+    .value-header svg {
+        width: 1.3rem;
+        height: 1.3rem;
+        flex: 0 0 auto;
         color: var(--primary-blue);
     }
 

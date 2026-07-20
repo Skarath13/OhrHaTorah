@@ -1,9 +1,10 @@
 ---
 // Candle Lighting Times Card - Using Hebcal API
+import { IconFlame, IconMenorah, IconMoon } from '@tabler/icons-astro';
 ---
 <div class="feature-card">
     <div class="card-header">
-        <i class="fas fa-menorah"></i>
+        <IconMenorah aria-hidden="true" />
         <span data-editable="candle-card-title">Shabbat Candle Lighting</span>
     </div>
     <div class="card-body">
@@ -13,21 +14,21 @@
                     <div class="candle-day">This Friday</div>
                     <div class="candle-date" id="next-friday-date">Loading...</div>
                 </div>
-                <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-1">Loading...</span></div>
+                <div class="candle-time"><IconFlame aria-hidden="true" /> <span id="candle-time-1">Loading...</span></div>
             </div>
             <div class="candle-row">
                 <div>
                     <div class="candle-day">Havdalah</div>
                     <div class="candle-date" id="havdalah-date">Loading...</div>
                 </div>
-                <div class="candle-time"><i class="fas fa-moon"></i> <span id="havdalah-time">Loading...</span></div>
+                <div class="candle-time"><IconMoon aria-hidden="true" /> <span id="havdalah-time">Loading...</span></div>
             </div>
             <div class="candle-row">
                 <div>
                     <div class="candle-day">Next Friday</div>
                     <div class="candle-date" id="following-friday-date">Loading...</div>
                 </div>
-                <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">Loading...</span></div>
+                <div class="candle-time"><IconFlame aria-hidden="true" /> <span id="candle-time-2">Loading...</span></div>
             </div>
         </div>
         <div class="last-updated" id="candle-last-updated">
@@ -181,7 +182,6 @@
 
     const loadCandleLighting = async () => {
         const liveIndicator = document.getElementById('candle-live-indicator');
-        const lastUpdatedEl = document.getElementById('candle-last-updated');
 
         try {
             // Get this week's Friday
@@ -197,7 +197,13 @@
                 fetchShabbatTimes(nextFriday)
             ]);
 
-            if (thisWeekData && thisWeekData.items) {
+            if (!thisWeekData?.items || !nextWeekData?.items) {
+                throw new Error('Candle-lighting data is unavailable');
+            }
+
+            let loadedTimes = 0;
+
+            if (thisWeekData.items) {
                 // Find candle lighting and havdalah for this week
                 const candleLighting = thisWeekData.items.find(item => item.category === 'candles');
                 const havdalah = thisWeekData.items.find(item => item.category === 'havdalah');
@@ -205,23 +211,28 @@
                 if (candleLighting) {
                     document.getElementById('next-friday-date')!.textContent = formatDate(candleLighting.date);
                     document.getElementById('candle-time-1')!.textContent = formatTime(candleLighting.date);
+                    loadedTimes += 1;
                 }
 
                 if (havdalah) {
                     document.getElementById('havdalah-date')!.textContent = formatDate(havdalah.date);
                     document.getElementById('havdalah-time')!.textContent = formatTime(havdalah.date);
+                    loadedTimes += 1;
                 }
             }
 
-            if (nextWeekData && nextWeekData.items) {
+            if (nextWeekData.items) {
                 // Find candle lighting for next week
                 const nextCandleLighting = nextWeekData.items.find(item => item.category === 'candles');
 
                 if (nextCandleLighting) {
                     document.getElementById('following-friday-date')!.textContent = formatDate(nextCandleLighting.date);
                     document.getElementById('candle-time-2')!.textContent = formatTime(nextCandleLighting.date);
+                    loadedTimes += 1;
                 }
             }
+
+            if (loadedTimes < 3) throw new Error('Incomplete candle-lighting data');
 
             // Show live indicator
             if (liveIndicator) {
@@ -238,15 +249,25 @@
                     hour12: true
                 });
                 updatedTimeEl.textContent = `Updated ${timeStr} via Hebcal`;
+                updatedTimeEl.style.color = '';
             }
 
         } catch (error) {
             console.error('Error loading candle lighting times:', error);
 
-            // Show error state
-            if (lastUpdatedEl) {
-                lastUpdatedEl.textContent = 'Unable to load times - please refresh';
-                lastUpdatedEl.style.color = '#e74c3c';
+            liveIndicator?.classList.remove('active');
+            ['candle-time-1', 'havdalah-time', 'candle-time-2'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element?.textContent === 'Loading...') element.textContent = 'Unavailable';
+            });
+            ['next-friday-date', 'havdalah-date', 'following-friday-date'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element?.textContent === 'Loading...') element.textContent = 'Date unavailable';
+            });
+            const updatedTimeEl = document.getElementById('candle-updated-time');
+            if (updatedTimeEl) {
+                updatedTimeEl.textContent = 'Times are temporarily unavailable';
+                updatedTimeEl.style.color = '#9a3f33';
             }
         }
     };

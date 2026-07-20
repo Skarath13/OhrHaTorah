@@ -1,35 +1,47 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import {
+    IconAccessible,
+    IconBuildingCommunity,
+    IconCar,
+    IconClock,
+    IconMail,
+    IconMap2,
+    IconMapPin,
+    IconParking,
+    IconPhone,
+    IconRoute,
+} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="Our Location - Ohr HaTorah" pageTitle="Our Location & Facilities" pageIcon="fas fa-map-marker-alt">
+<PageLayout title="Our Location - Ohr HaTorah" pageTitle="Our Location & Facilities">
     <p class="intro-text"><strong>Located in the heart of Orange County, we serve the greater Los Angeles area with convenient access and welcoming facilities.</strong></p>
 
     <!-- Service Location -->
     <div class="location-card main-location">
-        <h3><i class="fas fa-synagogue"></i> Worship Services Location</h3>
+        <h3><IconBuildingCommunity aria-hidden="true" /> Worship Services Location</h3>
         <div class="location-grid">
             <div class="location-info">
-                <h4><i class="fas fa-map-pin"></i> Address</h4>
+                <h4><IconMapPin aria-hidden="true" /> Address</h4>
                 <p class="address">
                     <strong>10460 Slater Ave<br>
                     Fountain Valley, CA 92708</strong>
                 </p>
 
-                <h4><i class="fas fa-clock"></i> Service Times</h4>
+                <h4><IconClock aria-hidden="true" /> Service Times</h4>
                 <p>
                     <strong>Saturdays at 2:30 PM</strong><br>
                     <span class="note">Contemporary worship, traditional prayers, and Torah study</span>
                 </p>
             </div>
             <div class="location-info">
-                <h4><i class="fas fa-envelope"></i> Mailing Address</h4>
+                <h4><IconMail aria-hidden="true" /> Mailing Address</h4>
                 <p>
                     360 E. 1st Street, #856<br>
                     Tustin, CA 92780
                 </p>
 
-                <h4><i class="fas fa-phone"></i> Contact</h4>
+                <h4><IconPhone aria-hidden="true" /> Contact</h4>
                 <p>
                     <a href="tel:+17144061513">(714) 406-1513</a><br>
                     <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>
@@ -40,43 +52,34 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- Map -->
     <div class="map-section">
-        <h3><i class="fas fa-map"></i> Find Us</h3>
-        <div class="map-container">
-            <iframe
-                src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                class="page-map-embed"
-                title="Map to Kehilat Ohr HaTorah service location"
-                width="100%"
-                height="350"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+        <h3><IconMap2 aria-hidden="true" /> Find Us</h3>
+        <div class="directions-callout">
+            <IconMapPin aria-hidden="true" />
+            <div>
+                <small>Service location</small>
+                <strong>10460 Slater Ave<br>Fountain Valley, CA 92708</strong>
+                <span>Free on-site parking · Wheelchair accessible</span>
+            </div>
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer">Open directions<span class="sr-only"> (opens in a new tab)</span></a>
         </div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="directions-btn">
-            <i class="fas fa-directions"></i> Get Directions
-        </a>
     </div>
 
     <!-- Directions -->
     <div class="directions-section">
-        <h3><i class="fas fa-directions"></i> Getting Here</h3>
+        <h3><IconRoute aria-hidden="true" /> Getting Here</h3>
         <div class="directions-grid">
             <div class="direction-card">
-                <i class="fas fa-car"></i>
+                <IconCar aria-hidden="true" />
                 <h4>By Car</h4>
                 <p>Easily accessible from the 405 and 22 freeways. Free parking available on site.</p>
             </div>
             <div class="direction-card">
-                <i class="fas fa-parking"></i>
+                <IconParking aria-hidden="true" />
                 <h4>Parking</h4>
                 <p>Ample free parking is available in the parking lot adjacent to our meeting space.</p>
             </div>
             <div class="direction-card">
-                <i class="fas fa-universal-access"></i>
+                <IconAccessible aria-hidden="true" />
                 <h4>Accessibility</h4>
                 <p>Our facility is wheelchair accessible with accessible parking spaces available.</p>
             </div>
@@ -204,8 +207,9 @@ import PageLayout from '../layouts/PageLayout.astro';
         text-align: center;
     }
 
-    .direction-card i {
-        font-size: 2rem;
+    .direction-card svg {
+        width: 2rem;
+        height: 2rem;
         color: var(--primary-blue);
         margin-bottom: 15px;
     }

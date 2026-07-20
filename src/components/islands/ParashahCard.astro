@@ -1,33 +1,42 @@
 ---
 // Weekly Parashah Card - fetches Torah readings from Hebcal API
+import {
+    IconBook,
+    IconBook2,
+    IconBookmark,
+    IconCalendar,
+    IconCalendarWeek,
+    IconInfoCircle,
+    IconScript,
+} from '@tabler/icons-astro';
 ---
 <div class="feature-card">
     <div class="card-header">
-        <i class="fas fa-torah"></i>
+        <IconScript aria-hidden="true" />
         <span id="parashah-header" data-editable="parashah-card-title">Weekly Parashah</span>
     </div>
     <div class="card-body">
         <div class="parashah-info">
-            <i class="fas fa-bookmark"></i>
+            <IconBookmark aria-hidden="true" />
             <span class="parashah-label" data-editable="parashah-label-text">Parashah:</span>
             <span id="parashah-name">Loading...</span>
         </div>
 
         <!-- Reading Cycle Toggle -->
         <div class="reading-cycle-toggle">
-            <button class="cycle-btn active" data-cycle="annual">
-                <i class="fas fa-calendar-alt"></i>
+            <button type="button" class="cycle-btn active" data-cycle="annual" aria-pressed="true">
+                <IconCalendar aria-hidden="true" />
                 Annual
             </button>
-            <button class="cycle-btn" data-cycle="triennial">
-                <i class="fas fa-calendar-week"></i>
+            <button type="button" class="cycle-btn" data-cycle="triennial" aria-pressed="false">
+                <IconCalendarWeek aria-hidden="true" />
                 Triennial
             </button>
         </div>
 
         <!-- Triennial Year Info -->
         <div id="triennial-year-info" class="triennial-note" style="display: none;">
-            <i class="fas fa-info-circle"></i>
+            <IconInfoCircle aria-hidden="true" />
             <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">1</span> of 3</span>
         </div>
 
@@ -35,14 +44,14 @@
         <div id="annual-readings" class="reading-section">
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book"></i></span>
+                    <span class="reading-icon"><IconBook aria-hidden="true" /></span>
                     <span class="reading-label" data-editable="torah-label-text">Torah:</span>
                 </div>
                 <div class="reading-text" id="torah-reading">Loading...</div>
             </div>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book-open"></i></span>
+                    <span class="reading-icon"><IconBook2 aria-hidden="true" /></span>
                     <span class="reading-label" data-editable="haftarah-label-text">Haftarah:</span>
                 </div>
                 <div class="reading-text" id="haftarah-reading">Loading...</div>
@@ -53,14 +62,14 @@
         <div id="triennial-readings" class="reading-section" style="display: none;">
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book"></i></span>
+                    <span class="reading-icon"><IconBook aria-hidden="true" /></span>
                     <span class="reading-label">Torah:</span>
                 </div>
                 <div class="reading-text" id="triennial-torah-reading">Loading...</div>
             </div>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book-open"></i></span>
+                    <span class="reading-icon"><IconBook2 aria-hidden="true" /></span>
                     <span class="reading-label">Haftarah:</span>
                 </div>
                 <div class="reading-text" id="triennial-haftarah-reading">Loading...</div>
@@ -70,7 +79,7 @@
         <!-- Brit Chadashah -->
         <div class="parashah-info brit-chadashah-section">
             <div class="reading-row">
-                <span class="reading-icon"><i class="fas fa-book-reader"></i></span>
+                <span class="reading-icon"><IconBook2 aria-hidden="true" /></span>
                 <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
             </div>
             <div class="reading-text" id="brit-reading" data-brit-editable="true">Loading...</div>
@@ -269,8 +278,12 @@
         // Update infobox
         const infobox = document.querySelector('.infobox');
         if (infobox) {
-            infobox.innerHTML = `<i class="fas fa-info-circle"></i>
-                <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.`;
+            const serviceLabel = document.createElement('strong');
+            serviceLabel.textContent = 'Shabbat Service This Week:';
+            const serviceDetails = document.createTextNode(
+                ` Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.`
+            );
+            infobox.replaceChildren(serviceLabel, serviceDetails);
         }
 
         // Brit Chadashah
@@ -291,7 +304,7 @@
         // Check for override - first try API, fall back to localStorage
         let britOverride = localStorage.getItem('oht_brit_override');
         try {
-            const overrideResponse = await fetch('/api/content/brit-chadashah-override');
+            const overrideResponse = await fetch('/api/content/brit-chadashah-override?optional=true');
             const overrideResult = await overrideResponse.json();
             if (overrideResult.success && overrideResult.data?.value) {
                 britOverride = overrideResult.data.value;
@@ -327,6 +340,7 @@
         button.addEventListener('click', function(this: HTMLElement) {
             const cycle = this.getAttribute('data-cycle');
             toggleButtons.forEach(btn => btn.classList.remove('active'));
+            toggleButtons.forEach(btn => btn.setAttribute('aria-pressed', String(btn === this)));
             this.classList.add('active');
 
             const annualSection = document.getElementById('annual-readings');

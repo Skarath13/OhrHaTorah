@@ -1,11 +1,12 @@
 ---
 // Hostage Memorial - Prayer for Israel
+import { IconFlag } from '@tabler/icons-astro';
 ---
 <div class="hostage-info">
     <a href="https://news.kehila.org/" target="_blank" rel="noopener noreferrer" class="hostage-link">
         <div class="hostage-counter">
             <div class="hostage-header">
-                <span class="hostage-text"><img src="/images/Flag_of_Israel.svg.png" alt="Israeli Flag" class="hostage-flag">PRAY FOR ISRAEL</span>
+                <span class="hostage-text"><IconFlag class="hostage-flag" size={20} stroke={1.8} aria-hidden="true" />PRAY FOR ISRAEL</span>
                 <span class="hostage-subtext">PRAY FOR HEALING & PEACE</span>
             </div>
             <div class="hostage-memorial">
@@ -23,7 +24,7 @@
                 </div>
             </div>
             <div class="hostage-footer">
-                <span class="bring-them-home">AM YISRAEL CHAI</span>
+                <span class="bring-them-home">AM YISRAEL CHAI<span class="sr-only"> (opens in a new tab)</span></span>
             </div>
         </div>
     </a>

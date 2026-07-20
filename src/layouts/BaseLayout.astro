@@ -5,15 +5,30 @@ import UnderConstructionModal from '../components/layout/UnderConstructionModal.
 
 interface Props {
   title?: string;
+  description?: string;
+  bodyClass?: string;
+  preloadImage?: string;
 }
-const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
+const {
+  title = 'Ohr HaTorah Messianic Congregation',
+  description = 'A Messianic Jewish congregation in Orange County, California, rooted in Torah and centered on Yeshua.',
+  bodyClass = '',
+  preloadImage,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, 'https://ohrhatorah.pages.dev').toString();
+const socialImageUrl = new URL('/images/generated/oht-watercolor-hero.webp', canonicalUrl).toString();
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{title}</title>
+    <meta name="description" content={description}>
+    <meta name="theme-color" content="#0B2440">
+    <link rel="canonical" href={canonicalUrl}>
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high">}
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -21,33 +36,28 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <!-- Open Graph Meta Tags for Social Media -->
-    <meta property="og:title" content="Ohr HaTorah Messianic Congregation">
-    <meta property="og:description" content="A Messianic Jewish congregation in Allen, Texas, where Jews and Gentiles worship Yeshua (Jesus) together while celebrating Jewish heritage and traditions.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=630&fit=crop&crop=center">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://ohrhatorah.org">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={socialImageUrl}>
+    <meta property="og:image:width" content="1717">
+    <meta property="og:image:height" content="916">
+    <meta property="og:url" content={canonicalUrl}>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Ohr HaTorah Messianic Congregation">
 
-    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ohr HaTorah Messianic Congregation">
-    <meta name="twitter:description" content="A Messianic Jewish congregation in Allen, Texas, where Jews and Gentiles worship Yeshua (Jesus) together while celebrating Jewish heritage and traditions.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=630&fit=crop&crop=center">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={socialImageUrl}>
 
-    <!-- Additional Meta Tags -->
-    <meta name="description" content="Ohr HaTorah Messianic Congregation in Allen, Texas - A place where Jews and Gentiles worship Yeshua (Jesus) together while celebrating Jewish heritage and traditions.">
-    <meta name="keywords" content="Messianic Judaism, Jewish congregation, Yeshua, Jesus, Allen Texas, synagogue, Torah, Hebrew calendar, Jewish holidays">
-
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/styles/style.css">
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;family=Noto+Serif+Hebrew:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/site.css">
 </head>
-<body>
+<body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <slot />
     <InlineEditor />
     <LoginModal />

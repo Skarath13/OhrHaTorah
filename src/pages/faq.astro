@@ -1,108 +1,131 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import {
+    IconBuildingCommunity,
+    IconChevronDown,
+    IconJewishStar,
+    IconLanguage,
+    IconMenorah,
+    IconMoodKid,
+    IconScale,
+    IconSchool,
+    IconScript,
+    IconShirt,
+    IconUsers,
+} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="FAQ - Ohr HaTorah" pageTitle="Frequently Asked Questions" pageIcon="fas fa-question-circle">
+<PageLayout title="FAQ - Ohr HaTorah" pageTitle="Frequently Asked Questions">
     <p class="faq-intro">Welcome to Messianic Judaism! Here are answers to common questions for newcomers.</p>
 
     <div class="faq-container">
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-star-of-david faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconJewishStar class="faq-icon" aria-hidden="true" />
                 <span>What is Messianic Judaism?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>Messianic Judaism is a movement of Jewish people who believe that Yeshua (Jesus) is the promised Messiah of Israel, while maintaining Jewish identity, traditions, and observance of Torah.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-users faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconUsers class="faq-icon" aria-hidden="true" />
                 <span>Do I need to be Jewish to attend?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>Absolutely not! We welcome all people - Jewish, non-Jewish, and interfaith families. Everyone is invited to learn and grow in understanding of our Jewish Messiah.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-synagogue faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconBuildingCommunity class="faq-icon" aria-hidden="true" />
                 <span>What should I expect during a service?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>Our services include contemporary Messianic music, traditional Hebrew prayers, Torah reading, and teaching. Services are conducted in both Hebrew and English with explanations provided.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-menorah faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconMenorah class="faq-icon" aria-hidden="true" />
                 <span>Do you follow Jewish holidays and traditions?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>Yes! We observe Shabbat, biblical holidays like Passover and Yom Kippur, and maintain Jewish traditions while recognizing Yeshua as our Messiah.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-language faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconLanguage class="faq-icon" aria-hidden="true" />
                 <span>Is Hebrew required?</span>
-            </div>
-            <div class="faq-answer">
-                <p>Not at all! While we use Hebrew in prayers and readings, everything is explained in English. We offer Hebrew classes for those interested in learning.</p>
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Not at all. We use Hebrew in prayers and readings, but everything is explained in English. Contact us about current Hebrew learning opportunities.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-scroll faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconScript class="faq-icon" aria-hidden="true" />
                 <span>What is the Torah?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>The Torah is the first five books of the Bible (Genesis through Deuteronomy), containing God's instructions for living. We believe Torah remains relevant for believers today.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-balance-scale faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconScale class="faq-icon" aria-hidden="true" />
                 <span>How is Messianic Judaism different from Christianity?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>While we believe in Yeshua as Messiah, we maintain Jewish practices, celebrate biblical feasts, and emphasize the Jewish context of faith rather than adopting Gentile Christian traditions.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-tshirt faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconShirt class="faq-icon" aria-hidden="true" />
                 <span>What should I wear to services?</span>
-            </div>
-            <div class="faq-answer">
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
                 <p>Come as you are! We welcome casual to semi-formal attire. Men may wear a kippah (yarmulke) if desired, but it's not required for visitors.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-child faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconMoodKid class="faq-icon" aria-hidden="true" />
                 <span>Can children attend?</span>
-            </div>
-            <div class="faq-answer">
-                <p>Yes! Families with children are very welcome. We have Shabbat School for youth and work to make our services family-friendly and educational.</p>
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Yes. Families with children are very welcome. A Shabbat School for youth is in development as our congregation grows.</p>
             </div>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">
-                <i class="fas fa-graduation-cap faq-icon"></i>
+            <button class="faq-question" type="button" aria-expanded="false">
+                <IconSchool class="faq-icon" aria-hidden="true" />
                 <span>How can I learn more?</span>
-            </div>
-            <div class="faq-answer">
-                <p>Visit us for Shabbat services, speak with Rabbi Charles, join our Hebrew classes, or contact us with any specific questions. We're here to help you on your journey!</p>
+                <IconChevronDown class="faq-chevron" aria-hidden="true" />
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Visit us for Shabbat services, speak with Rabbi Charles, explore the resources on this site, or contact us with a specific question.</p>
             </div>
         </div>
     </div>
@@ -112,17 +135,24 @@ import PageLayout from '../layouts/PageLayout.astro';
     // FAQ Accordion functionality
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
+        const question = item.querySelector<HTMLButtonElement>('.faq-question');
+        const answer = item.querySelector<HTMLElement>('.faq-answer');
+        if (question && answer) {
             question.addEventListener('click', () => {
+                const expanding = question.getAttribute('aria-expanded') !== 'true';
                 // Close other open items
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item && otherItem.classList.contains('active')) {
                         otherItem.classList.remove('active');
+                        otherItem.querySelector<HTMLButtonElement>('.faq-question')?.setAttribute('aria-expanded', 'false');
+                        const otherAnswer = otherItem.querySelector<HTMLElement>('.faq-answer');
+                        if (otherAnswer) otherAnswer.hidden = true;
                     }
                 });
                 // Toggle current item
-                item.classList.toggle('active');
+                item.classList.toggle('active', expanding);
+                question.setAttribute('aria-expanded', String(expanding));
+                answer.hidden = !expanding;
             });
         }
     });
@@ -155,7 +185,10 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     .faq-question {
         display: flex;
+        width: 100%;
         align-items: center;
+        border: 0;
+        text-align: left;
         padding: 20px;
         cursor: pointer;
         background: var(--gray-100);
@@ -180,15 +213,15 @@ import PageLayout from '../layouts/PageLayout.astro';
         flex: 1;
     }
 
-    .faq-question::after {
-        content: '\f078';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
+    .faq-chevron {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 auto;
         color: var(--text-secondary);
         transition: transform 0.3s ease;
     }
 
-    .faq-item.active .faq-question::after {
+    .faq-item.active .faq-chevron {
         transform: rotate(180deg);
     }
 

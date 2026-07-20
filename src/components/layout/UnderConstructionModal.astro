@@ -1,5 +1,6 @@
 ---
 // Under Construction Modal - Shows when clicking placeholder nav links
+import { IconHelmet } from '@tabler/icons-astro';
 ---
 
 <!-- Under Construction Modal -->
@@ -7,7 +8,7 @@
   <div class="uc-modal-backdrop"></div>
   <div class="uc-modal-content">
     <div class="uc-icon-container">
-      <i class="fas fa-hard-hat uc-icon"></i>
+      <IconHelmet class="uc-icon" aria-hidden="true" />
     </div>
     <h2>Coming Soon!</h2>
     <p>This page is under construction.</p>
@@ -76,7 +77,8 @@
   }
 
   .uc-icon {
-    font-size: 48px;
+    width: 48px;
+    height: 48px;
     color: #f6ad55;
     animation: iconWobble 2s ease-in-out infinite;
   }
@@ -127,7 +129,8 @@
     }
 
     .uc-icon {
-      font-size: 42px;
+      width: 42px;
+      height: 42px;
     }
 
     .uc-modal-content h2 {

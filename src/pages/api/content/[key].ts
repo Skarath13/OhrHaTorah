@@ -50,6 +50,13 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
     const content = await getContent(runtime.env.DB, decodedKey);
 
     if (!content) {
+      if (url.searchParams.get('optional') === 'true') {
+        return new Response(
+          JSON.stringify({ success: true, data: null }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+
       return new Response(
         JSON.stringify({ success: false, error: 'Content not found' }),
         { status: 404, headers: { 'Content-Type': 'application/json' } }

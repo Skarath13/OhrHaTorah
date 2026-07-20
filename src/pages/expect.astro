@@ -1,13 +1,25 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import {
+    IconBook,
+    IconBulb,
+    IconClock,
+    IconInfoCircle,
+    IconLanguage,
+    IconMessages,
+    IconMusic,
+    IconScript,
+    IconShirt,
+    IconStar,
+} from '@tabler/icons-astro';
 ---
 
-<PageLayout title="What to Expect - Ohr HaTorah" pageTitle="What to Expect In Our Services" pageIcon="fas fa-door-open">
+<PageLayout title="What to Expect - Ohr HaTorah" pageTitle="What to Expect In Our Services">
     <p class="intro-text"><strong>First time visiting? Here's everything you need to know to feel comfortable and prepared!</strong></p>
 
     <!-- Service Flow -->
     <div class="section">
-        <h3><i class="fas fa-clock"></i> Saturday Service Flow</h3>
+        <h3><IconClock aria-hidden="true" /> Saturday Service Flow</h3>
         <div class="timeline">
             <div class="timeline-item">
                 <div class="time-badge blue">2:30 PM</div>
@@ -37,25 +49,25 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- What You'll Experience -->
     <div class="section">
-        <h3><i class="fas fa-star"></i> What You'll Experience</h3>
+        <h3><IconStar aria-hidden="true" /> What You'll Experience</h3>
         <div class="experience-grid">
             <div class="experience-item">
-                <i class="fas fa-language"></i>
+                <IconLanguage aria-hidden="true" />
                 <h4>Hebrew & English</h4>
-                <p>Services blend Hebrew prayers with English explanations. Prayer books provided with transliteration.</p>
+                <p>Services blend Hebrew prayers with English explanations so visitors can follow the flow.</p>
             </div>
             <div class="experience-item">
-                <i class="fas fa-music"></i>
+                <IconMusic aria-hidden="true" />
                 <h4>Joyful Music</h4>
                 <p>Contemporary Israeli and Messianic songs with guitar, keyboard, and vocals. Dancing encouraged!</p>
             </div>
             <div class="experience-item">
-                <i class="fas fa-scroll"></i>
+                <IconScript aria-hidden="true" />
                 <h4>Torah Reading</h4>
                 <p>Weekly Torah portion read in Hebrew with English translation and commentary.</p>
             </div>
             <div class="experience-item">
-                <i class="fas fa-comments"></i>
+                <IconMessages aria-hidden="true" />
                 <h4>Discussion Time</h4>
                 <p>Interactive study where questions are welcomed and insights are shared together.</p>
             </div>
@@ -64,10 +76,10 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- Practical Information -->
     <div class="section practical-section">
-        <h3><i class="fas fa-info-circle"></i> Practical Information</h3>
+        <h3><IconInfoCircle aria-hidden="true" /> Practical Information</h3>
         <div class="practical-grid">
             <div class="practical-item">
-                <h4><i class="fas fa-tshirt"></i> What to Wear</h4>
+                <h4><IconShirt aria-hidden="true" /> What to Wear</h4>
                 <ul>
                     <li>Casual to semi-formal attire</li>
                     <li>Modest clothing preferred</li>
@@ -76,12 +88,12 @@ import PageLayout from '../layouts/PageLayout.astro';
                 </ul>
             </div>
             <div class="practical-item">
-                <h4><i class="fas fa-book"></i> What's Provided</h4>
+                <h4><IconBook aria-hidden="true" /> During the Service</h4>
                 <ul>
-                    <li>Siddur (prayer book) with transliteration</li>
-                    <li>Torah reading handouts</li>
-                    <li>Visitor welcome packet</li>
-                    <li>Explanation of customs and prayers</li>
+                    <li>Hebrew and English are used throughout</li>
+                    <li>Visitors may observe or participate at their own pace</li>
+                    <li>Unfamiliar customs are explained as the service unfolds</li>
+                    <li>Questions are welcome before or after the service</li>
                 </ul>
             </div>
         </div>
@@ -89,13 +101,13 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     <!-- First-Time Visitor Tips -->
     <div class="tips-section">
-        <h3><i class="fas fa-lightbulb"></i> First-Time Visitor Tips</h3>
+        <h3><IconBulb aria-hidden="true" /> First-Time Visitor Tips</h3>
         <ul>
-            <li><strong>Arrive 10-15 minutes early</strong> to get settled and receive a welcome packet</li>
+            <li><strong>Arrive 10-15 minutes early</strong> to get settled before the service begins</li>
             <li><strong>Don't worry about knowing Hebrew</strong> - everything is explained in English</li>
             <li><strong>Participate as much or as little as you're comfortable</strong> - no pressure!</li>
             <li><strong>Ask questions</strong> - we love explaining our traditions and beliefs</li>
-            <li><strong>Stay for fellowship</strong> after the service to meet our community</li>
+            <li><strong>Introduce yourself</strong> if you would like to meet members of the community</li>
             <li><strong>No advance notice needed</strong> - just come as you are!</li>
         </ul>
     </div>
@@ -175,8 +187,9 @@ import PageLayout from '../layouts/PageLayout.astro';
         text-align: center;
     }
 
-    .experience-item i {
-        font-size: 2rem;
+    .experience-item svg {
+        width: 2rem;
+        height: 2rem;
         color: var(--primary-blue);
         margin-bottom: 15px;
     }

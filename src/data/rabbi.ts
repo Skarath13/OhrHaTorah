@@ -6,9 +6,9 @@ export const rabbi = {
     bio: "Rabbi Ott has over 30 years in Jewish congregational leadership. His extensive graduate work includes Jewish Studies, Jewish and Christian Theology and Apologetics, and Public Education. He offers a warm and deep understanding of both Scripture and Jewish tradition with meaningful application to our lives today.",
     bioExtended: "His passion is helping both Jewish and non-Jewish believers discover the richness of their biblical heritage while growing in their relationship with Yeshua the Messiah.",
     highlights: [
-        { icon: "fas fa-book", label: "Biblical Scholar" },
-        { icon: "fas fa-language", label: "Hebrew Teacher" },
-        { icon: "fas fa-heart", label: "Community Leader" }
+        { icon: "book-2", label: "Biblical Scholar" },
+        { icon: "language", label: "Hebrew Teacher" },
+        { icon: "heart-handshake", label: "Community Leader" }
     ],
     email: "OhrHaTorahOC@gmail.com",
     phone: "(714) 406-1513"

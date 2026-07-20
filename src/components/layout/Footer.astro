@@ -1,136 +1,96 @@
 ---
-// Footer component
+import { IconArrowRight, IconArrowUp, IconExternalLink } from '@tabler/icons-astro';
+
+const year = new Date().getFullYear();
 ---
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4><i class="fas fa-star-of-david"></i> Ohr HaTorah</h4>
-                <p>Ohr HaTorah is a Messianic Jewish congregation dedicated to exploring the Jewish roots of our faith while embracing Yeshua as the promised Messiah of Israel.</p>
-            </div>
 
-            <div class="footer-col">
-                <h4><i class="fas fa-link"></i> Quick Links</h4>
-                <ul class="footer-links">
-                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                    <li><a href="/services"><i class="fas fa-chevron-right"></i> Services &amp; Times</a></li>
-                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right"></i> Calendar</a></li>
-                    <li><a href="/resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
-                    <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate</a></li>
-                    <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
-                    <li><a href="#" id="adminLoginLink"><i class="fas fa-chevron-right"></i> Admin</a></li>
-                </ul>
-            </div>
+<footer class="site-footer">
+    <div class="site-footer__inner">
+        <div class="site-footer__grid">
+            <section class="site-footer__brand" aria-label="Ohr HaTorah">
+                <img src="/images/logo.png" alt="Kehilat Ohr HaTorah Messianic Synagogue" width="612" height="408" decoding="async">
+                <p>Torah and Messiah, together as one, in the heart of Orange County.</p>
+                <button type="button" class="admin-access" id="adminLoginLink">Admin access</button>
+            </section>
 
-            <div class="footer-col">
-                <h4><i class="fas fa-envelope"></i> Stay Connected</h4>
-                <p>Subscribe for updates on events, teachings, and community news.</p>
-                <form id="newsletter-form" class="newsletter-form-expanded">
+            <nav aria-label="Explore">
+                <strong>Explore</strong>
+                <a href="/about">Who we are</a>
+                <a href="/mission">Mission &amp; values</a>
+                <a href="/services">Shabbat services</a>
+                <a href="/events">Gatherings</a>
+                <a href="/resources">Learning resources</a>
+                <a href="/umjc">UMJC affiliation</a>
+            </nav>
+
+            <section class="site-footer__contact">
+                <strong>Visit &amp; contact</strong>
+                <address>10460 Slater Ave<br>Fountain Valley, CA 92708</address>
+                <a href="tel:+17144061513">(714) 406-1513</a>
+                <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>
+                <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer">Get directions <IconExternalLink size={16} stroke={1.8} aria-hidden="true" /><span class="sr-only"> (opens in a new tab)</span></a>
+            </section>
+
+            <section class="site-footer__newsletter">
+                <strong>Congregation updates</strong>
+                <p>Events, teachings, and community news.</p>
+                <form id="newsletter-form">
                     <input type="hidden" name="access_key" value="d3f52dee-3156-4b82-a76a-fe9bbf9eb30e">
                     <input type="hidden" name="subject" value="New Newsletter Subscription - Ohr HaTorah">
                     <input type="hidden" name="from_name" value="Ohr HaTorah Website">
-
-                    <input type="text" name="first_name" placeholder="First Name *" required aria-label="First name">
-                    <input type="text" name="last_name" placeholder="Last Name *" required aria-label="Last name">
-                    <input type="email" name="email" placeholder="Email Address *" required aria-label="Email address">
-                    <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number">
-                    <button type="submit" class="newsletter-btn-full">
-                        Subscribe <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <p id="newsletter-status" class="form-status"></p>
+                    <label class="site-footer__email"><span>Email address</span><input type="email" name="email" autocomplete="email" placeholder="you@example.com" required></label>
+                    <button type="submit">Request updates <IconArrowRight size={18} stroke={1.8} aria-hidden="true" /></button>
+                    <p id="newsletter-status" class="form-status" aria-live="polite"></p>
                 </form>
-            </div>
-
-            <div class="footer-col">
-                <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
-                <ul class="footer-contact">
-                    <li><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</li>
-                    <li><i class="fas fa-phone"></i> (714) 406-1513</li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span><strong>Services:</strong> 10460 Slater Ave<br>Fountain Valley, CA 92708</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span><strong>Mailing:</strong> 360 E. 1st Street, #856<br>Tustin, CA 92780</span>
-                    </li>
-                </ul>
-            </div>
+            </section>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2025 Ohr HaTorah Messianic Congregation. All rights reserved.</p>
-            <p>
-                <a href="#">Privacy Policy</a> |
-                <a href="#">Terms of Use</a> |
-                <a href="#">Accessibility</a> |
-                <a href="#">Site Map</a>
-            </p>
+        <div class="site-footer__bar">
+            <p>© {year} Kehilat Ohr HaTorah. All rights reserved.</p>
+            <p>Messianic Jewish congregation · Orange County, California</p>
         </div>
     </div>
 </footer>
 
-<!-- Back to Top Button -->
-<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
-    <i class="fas fa-chevron-up"></i>
-</a>
+<button type="button" class="back-to-top" id="backToTop" aria-label="Back to top"><IconArrowUp size={20} stroke={1.8} aria-hidden="true" /></button>
 
 <script>
-    const backToTopButton = document.getElementById('backToTop');
+    const backToTopButton = document.querySelector<HTMLButtonElement>('#backToTop');
+    const updateBackToTop = () => backToTopButton?.classList.toggle('visible', window.scrollY > 480);
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
+    updateBackToTop();
 
-    if (backToTopButton) {
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
+    backToTopButton?.addEventListener('click', event => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-        backToTopButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+    const newsletterForm = document.querySelector<HTMLFormElement>('#newsletter-form');
+    const statusElement = document.querySelector<HTMLElement>('#newsletter-status');
+
+    newsletterForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        const submitButton = newsletterForm.querySelector<HTMLButtonElement>('button[type="submit"]');
+        if (!submitButton || !statusElement) return;
+
+        submitButton.disabled = true;
+            statusElement.textContent = 'Sending request…';
+        statusElement.dataset.state = 'loading';
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: new FormData(newsletterForm),
             });
-        });
-    }
-
-    // Newsletter form submission
-    const newsletterForm = document.getElementById('newsletter-form');
-    const statusEl = document.getElementById('newsletter-status');
-
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const submitBtn = this.querySelector('button[type="submit"]');
-
-            statusEl.textContent = 'Subscribing...';
-            statusEl.className = 'form-status loading';
-            submitBtn.disabled = true;
-
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-
-                if (data.success) {
-                    statusEl.textContent = 'Thank you for subscribing!';
-                    statusEl.className = 'form-status success';
-                    newsletterForm.reset();
-                } else {
-                    statusEl.textContent = 'Something went wrong. Please try again.';
-                    statusEl.className = 'form-status error';
-                }
-            } catch (error) {
-                statusEl.textContent = 'Something went wrong. Please try again.';
-                statusEl.className = 'form-status error';
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
-    }
+            const result = await response.json() as { success?: boolean };
+            if (!response.ok || !result.success) throw new Error('Newsletter request failed');
+            newsletterForm.reset();
+            statusElement.textContent = 'Thank you — your request was sent.';
+            statusElement.dataset.state = 'success';
+        } catch {
+            statusElement.textContent = 'Unable to send the request right now. Please email us instead.';
+            statusElement.dataset.state = 'error';
+        } finally {
+            submitButton.disabled = false;
+        }
+    });
 </script>
