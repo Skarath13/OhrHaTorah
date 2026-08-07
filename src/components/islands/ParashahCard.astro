@@ -12,22 +12,22 @@
         </div>
 
         <!-- Reading Cycle Toggle -->
-        <div class="reading-cycle-toggle">
-            <button class="cycle-btn active" data-cycle="annual">
+        <div class="reading-cycle-toggle" role="tablist" aria-label="Torah reading cycle">
+            <button class="cycle-btn active" id="annual-cycle-tab" type="button" role="tab" aria-selected="true" aria-controls="annual-readings" data-cycle="annual" disabled>
                 Annual
             </button>
-            <button class="cycle-btn" data-cycle="triennial">
+            <button class="cycle-btn" id="triennial-cycle-tab" type="button" role="tab" aria-selected="false" aria-controls="triennial-readings" data-cycle="triennial" disabled>
                 Triennial
             </button>
         </div>
 
         <!-- Triennial Year Info -->
-        <div id="triennial-year-info" class="triennial-note" style="display: none;">
+        <div id="triennial-year-info" class="triennial-note" hidden>
             <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">1</span> of 3</span>
         </div>
 
         <!-- Annual Readings -->
-        <div id="annual-readings" class="reading-section">
+        <div id="annual-readings" class="reading-section" role="tabpanel" aria-labelledby="annual-cycle-tab">
             <div class="parashah-info">
                 <div class="reading-row">
                     <span class="reading-label" data-editable="torah-label-text">Torah:</span>
@@ -43,7 +43,7 @@
         </div>
 
         <!-- Triennial Readings -->
-        <div id="triennial-readings" class="reading-section" style="display: none;">
+        <div id="triennial-readings" class="reading-section" role="tabpanel" aria-labelledby="triennial-cycle-tab" hidden>
             <div class="parashah-info">
                 <div class="reading-row">
                     <span class="reading-label">Torah:</span>
@@ -130,6 +130,17 @@
         outline-offset: 2px;
     }
 
+    .cycle-btn:disabled {
+        cursor: wait;
+        opacity: 0.62;
+    }
+
+    .cycle-btn[hidden],
+    .reading-section[hidden],
+    .triennial-note[hidden] {
+        display: none !important;
+    }
+
     .triennial-note {
         border: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
         border-left: 3px solid var(--home-gold-500, #d0a33d);
@@ -182,6 +193,15 @@
 </style>
 
 <script>
+    import {
+        formatParashahDate,
+        getUpcomingShabbatDate,
+        parseLeyningPayload,
+        parseShabbatPayload,
+        type ParashahBundle,
+        type ParashahData
+    } from '../../lib/parashah';
+
     // Brit Chadashah lookup table (119 Ministries 2025-2026 Schedule)
     const britReadings: Record<string, string> = {
         // Genesis / B'reisheet
@@ -253,90 +273,94 @@
         'Vezot Haberachah': 'Matthew 17:1-9; Luke 9:28-36, 24:44-53; 1 Thessalonians 5:1-11; Jude 1:3-10'
     };
 
-    interface ParashahData {
-        name: string;
-        torah: string;
-        haftarah: string;
-        date?: string;
-        source?: string;
-        year?: number;
-    }
+    const PARASHAH_CACHE_KEY = 'oht_parashah_cache_v2';
+    const PARASHAH_CACHE_VERSION = 2;
 
-    const tryHebcalAPI = async (): Promise<ParashahData> => {
-        const response = await fetch('https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles');
-        if (!response.ok) throw new Error(`Hebcal API failed: ${response.status}`);
-        const data = await response.json();
-        const torahReading = data.items?.find((item: any) => item.category === 'parashat');
-        if (!torahReading) throw new Error('No Torah reading found');
-        return {
-            name: torahReading.title.replace('Parashat ', ''),
-            torah: torahReading.leyning?.torah || 'See bulletin',
-            haftarah: torahReading.leyning?.haftarah || 'See bulletin',
-            date: torahReading.date,
-            source: 'Hebcal'
-        };
-    };
+    const fetchJson = async (url: string, timeoutMs = 6000): Promise<unknown> => {
+        let lastError: unknown;
 
-    const trySefariaAPI = async (): Promise<ParashahData> => {
-        const response = await fetch('https://www.sefaria.org/api/calendars?timezone=America/Los_Angeles&diaspora=1');
-        if (!response.ok) throw new Error(`Sefaria API failed: ${response.status}`);
-        const data = await response.json();
-        const parashat = data.calendar_items?.find((item: any) => item.title?.en === "Parashat Hashavua");
-        const haftarah = data.calendar_items?.find((item: any) => item.title?.en === "Haftarah");
-        if (!parashat) throw new Error('No Parashat found');
-        return {
-            name: parashat.displayValue?.en || 'Unknown',
-            torah: parashat.ref || 'See bulletin',
-            haftarah: haftarah?.ref || 'See bulletin',
-            date: data.date,
-            source: 'Sefaria'
-        };
-    };
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+            const controller = new AbortController();
+            const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
 
-    const tryHebcalTriennialAPI = async (): Promise<ParashahData | null> => {
-        try {
-            const response = await fetch('https://www.hebcal.com/shabbat?cfg=json&triennial=on&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en');
-            if (!response.ok) return null;
-            const data = await response.json();
-            const today = new Date();
-            const saturday = new Date(today);
-            saturday.setDate(today.getDate() + (6 - today.getDay()) % 7);
-            const saturdayStr = saturday.toISOString().split('T')[0];
-
-            for (const item of data.items || []) {
-                if (item.category === 'parashat' && item.date === saturdayStr) {
-                    const triennial = item.leyning?.triennial;
-                    let triennialTorah = 'Not available';
-                    if (triennial && triennial['1'] && triennial['7']) {
-                        const startVerse = triennial['1'].split('-')[0];
-                        const endVerse = triennial['7'].split('-')[1];
-                        triennialTorah = `${startVerse}-${endVerse}`;
-                    }
-
-                    const calculateTriennialYear = () => {
-                        const now = new Date();
-                        const currentYear = now.getFullYear();
-                        const currentMonth = now.getMonth() + 1;
-                        let effectiveYear = currentMonth < 10 ? currentYear : currentYear + 1;
-                        const baseYear = 2025;
-                        const baseTriennialYear = 3;
-                        return ((baseTriennialYear - 1 + effectiveYear - baseYear) % 3) + 1;
-                    };
-
-                    const triennialYear = item.triennial?.yearNum || calculateTriennialYear();
-
-                    return {
-                        name: item.title.replace('Parashat ', ''),
-                        torah: triennialTorah,
-                        haftarah: item.haftarah || item.leyning?.haftarah || 'Not available',
-                        year: triennialYear
-                    };
+            try {
+                const response = await fetch(url, {
+                    signal: controller.signal,
+                    headers: { Accept: 'application/json' }
+                });
+                if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                lastError = error;
+                if (attempt === 0) {
+                    await new Promise((resolve) => window.setTimeout(resolve, 250));
                 }
+            } finally {
+                window.clearTimeout(timeoutId);
             }
-            return null;
+        }
+
+        throw lastError instanceof Error ? lastError : new Error('Request failed');
+    };
+
+    const readCachedBundle = (expectedDate: string): ParashahBundle | null => {
+        try {
+            const stored = localStorage.getItem(PARASHAH_CACHE_KEY);
+            if (!stored) return null;
+            const cached = JSON.parse(stored);
+            if (
+                cached?.version !== PARASHAH_CACHE_VERSION
+                || cached?.date !== expectedDate
+                || !cached?.bundle?.annual?.name
+            ) return null;
+            return cached.bundle as ParashahBundle;
         } catch {
             return null;
         }
+    };
+
+    const cacheBundle = (bundle: ParashahBundle) => {
+        if (!bundle.annual.date) return;
+        try {
+            localStorage.setItem(PARASHAH_CACHE_KEY, JSON.stringify({
+                version: PARASHAH_CACHE_VERSION,
+                date: bundle.annual.date,
+                cachedAt: new Date().toISOString(),
+                bundle
+            }));
+        } catch {
+            // Storage can be unavailable in private browsing; live data still works.
+        }
+    };
+
+    const tryHebcalAPI = async (): Promise<ParashahBundle> => {
+        const shabbatPayload = await fetchJson('https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en');
+        const shabbatBundle = parseShabbatPayload(shabbatPayload);
+        if (!shabbatBundle?.annual.date) throw new Error('Hebcal returned no weekly Torah reading');
+
+        try {
+            const leyningPayload = await fetchJson(`https://www.hebcal.com/leyning?cfg=json&date=${encodeURIComponent(shabbatBundle.annual.date)}`);
+            const leyningBundle = parseLeyningPayload(leyningPayload, shabbatBundle.annual.date);
+            if (leyningBundle) return leyningBundle;
+        } catch (error) {
+            console.warn('Hebcal Leyning enrichment failed; using Shabbat response', error);
+        }
+
+        return shabbatBundle;
+    };
+
+    const trySefariaAPI = async (): Promise<ParashahData> => {
+        const data = await fetchJson('https://www.sefaria.org/api/calendars?timezone=America/Los_Angeles&diaspora=1') as any;
+        const parashat = data.calendar_items?.find((item: any) => item.title?.en === 'Parashat Hashavua');
+        const haftarah = data.calendar_items?.find((item: any) => item.title?.en === 'Haftarah');
+        if (!parashat) throw new Error('No Parashat found');
+        return {
+            name: parashat.displayValue?.en || 'Unknown',
+            torah: parashat.ref || 'See weekly bulletin',
+            haftarah: haftarah?.ref || 'See weekly bulletin',
+            date: data.date,
+            source: 'Sefaria'
+        };
     };
 
     // Auto-fit text to prevent overflow
@@ -361,16 +385,9 @@
 
         const headerEl = document.getElementById('parashah-header');
         if (headerEl && annualData.date) {
-            const date = new Date(annualData.date);
-            headerEl.textContent = `Weekly Parashah - ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+            headerEl.textContent = `Weekly Parashah - ${formatParashahDate(annualData.date)}`;
             // Auto-fit header text after render
             requestAnimationFrame(() => autoFitText(headerEl, 13));
-        }
-
-        // Update infobox
-        const infobox = document.querySelector('.infobox');
-        if (infobox) {
-            infobox.innerHTML = `<span><strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.</span>`;
         }
 
         // Brit Chadashah
@@ -386,62 +403,102 @@
         }
 
         // Store the original (non-override) value for reset capability
-        localStorage.setItem('oht_brit_original', britReading || 'Pending');
+        const defaultBritReading = britReading || 'See weekly bulletin';
+        try {
+            localStorage.setItem('oht_brit_original', defaultBritReading);
+        } catch {
+            // Storage is optional; the rendered weekly reading remains available.
+        }
 
         // Check for override - first try API, fall back to localStorage
-        let britOverride = localStorage.getItem('oht_brit_override');
+        let britOverride: string | null = null;
         try {
-            const overrideResponse = await fetch('/api/content/brit-chadashah-override');
-            const overrideResult = await overrideResponse.json();
+            britOverride = localStorage.getItem('oht_brit_override');
+        } catch {
+            // Continue with the schedule-backed default.
+        }
+        try {
+            const overrideResult = await fetchJson('/api/content/brit-chadashah-override', 3000) as any;
             if (overrideResult.success && overrideResult.data?.value) {
                 britOverride = overrideResult.data.value;
-                localStorage.setItem('oht_brit_override', britOverride);
-                // Show the override indicator
+                try {
+                    localStorage.setItem('oht_brit_override', britOverride);
+                } catch {
+                    // The API value can still render without local storage.
+                }
             }
-        } catch (err) {
+        } catch {
             // API not available, use localStorage fallback
         }
 
         const britEl = document.getElementById('brit-reading')!;
-        const finalBritReading = britOverride || britReading || 'Pending';
+        const finalBritReading = britOverride || defaultBritReading;
 
         // Format Brit Chadashah - split by semicolon, each reference on its own line
         const refs = finalBritReading.split(';').map((r: string) => r.trim()).filter((r: string) => r);
         britEl.classList.toggle('multi-ref', refs.length > 1);
-        britEl.innerHTML = refs.map((ref: string) => `<span class="scripture-ref">${ref}</span>`).join('');
+        britEl.replaceChildren(...refs.map((ref: string) => {
+            const reference = document.createElement('span');
+            reference.className = 'scripture-ref';
+            reference.textContent = ref;
+            return reference;
+        }));
 
         // Triennial
+        const triennialYearInfo = document.getElementById('triennial-year-info');
+        const triennialButton = document.querySelector<HTMLButtonElement>('[data-cycle="triennial"]');
         if (triennialData) {
             document.getElementById('triennial-torah-reading')!.textContent = triennialData.torah;
             document.getElementById('triennial-haftarah-reading')!.textContent = triennialData.haftarah;
-            if (triennialData.year) document.getElementById('triennial-year')!.textContent = String(triennialData.year);
+            if (triennialData.year) {
+                document.getElementById('triennial-year')!.textContent = String(triennialData.year);
+                if (triennialYearInfo) triennialYearInfo.dataset.yearReady = 'true';
+            } else if (triennialYearInfo) {
+                triennialYearInfo.dataset.yearReady = 'false';
+            }
+            if (triennialButton) {
+                triennialButton.hidden = false;
+                triennialButton.disabled = false;
+            }
         } else {
-            document.getElementById('triennial-torah-reading')!.textContent = 'Not available';
-            document.getElementById('triennial-haftarah-reading')!.textContent = 'Not available';
+            document.getElementById('triennial-torah-reading')!.textContent = 'See weekly bulletin';
+            document.getElementById('triennial-haftarah-reading')!.textContent = 'See weekly bulletin';
+            if (triennialYearInfo) {
+                triennialYearInfo.dataset.yearReady = 'false';
+                triennialYearInfo.hidden = true;
+            }
+            if (triennialButton) {
+                triennialButton.hidden = true;
+                triennialButton.disabled = true;
+            }
         }
     };
 
     // Initialize triennial toggle
-    const toggleButtons = document.querySelectorAll('.cycle-btn');
+    const toggleButtons = document.querySelectorAll<HTMLButtonElement>('.cycle-btn');
+    const selectCycle = (cycle: 'annual' | 'triennial') => {
+        const annualSection = document.getElementById('annual-readings');
+        const triennialSection = document.getElementById('triennial-readings');
+        const triennialYearInfo = document.getElementById('triennial-year-info');
+
+        toggleButtons.forEach((button) => {
+            const selected = button.dataset.cycle === cycle;
+            button.classList.toggle('active', selected);
+            button.setAttribute('aria-selected', String(selected));
+        });
+
+        if (annualSection) annualSection.hidden = cycle !== 'annual';
+        if (triennialSection) triennialSection.hidden = cycle !== 'triennial';
+        if (triennialYearInfo) {
+            triennialYearInfo.hidden = cycle !== 'triennial'
+                || triennialYearInfo.dataset.yearReady !== 'true';
+        }
+    };
+
     toggleButtons.forEach(button => {
-        button.addEventListener('click', function(this: HTMLElement) {
-            const cycle = this.getAttribute('data-cycle');
-            toggleButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-
-            const annualSection = document.getElementById('annual-readings');
-            const triennialSection = document.getElementById('triennial-readings');
-            const triennialYearInfo = document.getElementById('triennial-year-info');
-
-            if (cycle === 'annual') {
-                triennialSection!.style.display = 'none';
-                annualSection!.style.display = 'block';
-                if (triennialYearInfo) triennialYearInfo.style.display = 'none';
-            } else {
-                annualSection!.style.display = 'none';
-                triennialSection!.style.display = 'block';
-                if (triennialYearInfo) triennialYearInfo.style.display = 'flex';
-            }
+        button.addEventListener('click', () => {
+            const cycle = button.dataset.cycle;
+            if (cycle === 'annual' || cycle === 'triennial') selectCycle(cycle);
         });
     });
 
@@ -449,23 +506,40 @@
     (async () => {
         const loader = document.getElementById('parashah-loader');
         if (loader) loader.style.display = 'block';
+        const cardBody = loader?.parentElement;
+        if (cardBody) cardBody.setAttribute('aria-busy', 'true');
+        const expectedDate = getUpcomingShabbatDate();
 
         try {
-            const annualData = await tryHebcalAPI();
-            const triennialData = await tryHebcalTriennialAPI();
-            updateParashahUI(annualData, triennialData);
-        } catch {
+            const bundle = await tryHebcalAPI();
+            cacheBundle(bundle);
+            await updateParashahUI(bundle.annual, bundle.triennial);
+        } catch (hebcalError) {
+            const cachedBundle = readCachedBundle(expectedDate);
+            if (cachedBundle) {
+                await updateParashahUI(cachedBundle.annual, cachedBundle.triennial);
+                return;
+            }
+
             try {
                 const annualData = await trySefariaAPI();
-                updateParashahUI(annualData, null);
-            } catch {
-                document.getElementById('parashah-name')!.textContent = 'Pending';
-                document.getElementById('torah-reading')!.textContent = 'Pending';
-                document.getElementById('haftarah-reading')!.textContent = 'Pending';
-                document.getElementById('brit-reading')!.textContent = 'Pending';
+                await updateParashahUI(annualData, null);
+            } catch (fallbackError) {
+                console.error('Weekly reading sources failed', { hebcalError, fallbackError });
+                await updateParashahUI({
+                    name: 'This week',
+                    torah: 'See weekly bulletin',
+                    haftarah: 'See weekly bulletin',
+                    date: expectedDate,
+                    source: 'Fallback'
+                }, null);
             }
+        } finally {
+            const annualButton = document.querySelector<HTMLButtonElement>('[data-cycle="annual"]');
+            if (annualButton) annualButton.disabled = false;
+            selectCycle('annual');
+            if (cardBody) cardBody.setAttribute('aria-busy', 'false');
+            if (loader) loader.style.display = 'none';
         }
-
-        if (loader) loader.style.display = 'none';
     })();
 </script>

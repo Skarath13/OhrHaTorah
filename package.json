@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "test": "node --test src/lib/*.test.ts",
     "preview": "astro preview",
     "astro": "astro",
     "db:create": "wrangler d1 create ohrhatorah-db",

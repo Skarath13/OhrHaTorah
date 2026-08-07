@@ -76,13 +76,12 @@ import { rabbi } from '../data/rabbi';
                     <div>
                         <h2 id="this-shabbat-title">This Shabbat</h2>
                     </div>
-                    <p>Join us Saturday at 2:30 p.m. for prayer, Torah, music, dance, and conversation in the heart of Orange County.</p>
                 </div>
 
                 <div class="home-shabbat-primary">
                     <article class="home-schedule-card" id="shabbat-activities-section">
                         <p class="home-section-kicker">Our Shabbat Gathering</p>
-                        <h3>The shape of our afternoon together</h3>
+                        <h3>An afternoon of worship, Torah, and community</h3>
                         <div class="home-shabbat-timeline" data-editable="service-times">
                             <div class="home-timeline-row home-timeline-row-friday">
                                 <div class="home-timeline-time"><span>Friday</span></div>
@@ -93,7 +92,7 @@ import { rabbi } from '../data/rabbi';
                             </div>
                             <div class="home-timeline-row">
                                 <time datetime="14:30">2:30 PM</time>
-                                <div><strong>Music and Dance</strong><p>Messianic Jewish music and dance</p></div>
+                                <div><strong>Music and Dance</strong></div>
                             </div>
                             <div class="home-timeline-row">
                                 <time datetime="15:00">3:00 PM</time>
@@ -119,10 +118,7 @@ import { rabbi } from '../data/rabbi';
 
                 <section class="home-shabbat-dashboard" aria-label="Live Shabbat details">
                     <div class="home-dashboard-heading">
-                        <div>
-                            <h3>Shabbat at a glance</h3>
-                        </div>
-                        <p>Prayer, candle, and Hebrew calendar times for Orange County.</p>
+                        <h3>Shabbat at a glance</h3>
                     </div>
                     <div class="home-dashboard-grid">
                         <aside class="home-prayer-card" aria-label="Prayer times">
@@ -166,12 +162,21 @@ import { rabbi } from '../data/rabbi';
                     <div>
                         <h2 id="home-purpose-title">Faith, Heritage, and Community</h2>
                     </div>
-                    <p>Our mission, vision, and values shape how we learn, worship, and care for one another.</p>
                 </div>
 
                 <div class="home-purpose-grid">
                     <article class="home-card home-mission-card">
                         <div class="home-card-heading">
+                            <span class="home-purpose-icon" aria-hidden="true">
+                                <!-- Tabler Icons: target-arrow, MIT License -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                    <path d="M12 7a5 5 0 1 0 5 5"></path>
+                                    <path d="M13 3.055a9 9 0 1 0 7.941 7.945"></path>
+                                    <path d="M15 6v3h3l3 -3h-3v-3l-3 3"></path>
+                                    <path d="M15 9l-3 3"></path>
+                                </svg>
+                            </span>
                             <div>
                                 <h3 data-editable="sidebar-mission-header"><span data-editable="sidebar-mission-title">Our Mission</span></h3>
                             </div>
@@ -181,6 +186,15 @@ import { rabbi } from '../data/rabbi';
 
                     <article class="home-card home-vision-card">
                         <div class="home-card-heading">
+                            <span class="home-purpose-icon" aria-hidden="true">
+                                <!-- Tabler Icons: telescope, MIT License -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 21l6 -5l6 5"></path>
+                                    <path d="M12 13v8"></path>
+                                    <path d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905l-.001 0"></path>
+                                    <path d="M14 5l3 5.5"></path>
+                                </svg>
+                            </span>
                             <div>
                                 <h3 data-editable="sidebar-vision-header"><span data-editable="sidebar-vision-title">Our Vision</span></h3>
                             </div>
@@ -234,22 +248,47 @@ import { rabbi } from '../data/rabbi';
                     <div>
                         <h2 id="visit-title">Plan Your Visit</h2>
                     </div>
-                    <p>Everything you need for your first Shabbat with Ohr HaTorah.</p>
                 </div>
 
                 <div class="home-visit-grid">
                     <figure class="home-visit-image">
-                        <img src="/images/stock/shared-table.webp" alt="Hands sharing food around a welcoming table" width="1200" height="1800" loading="lazy" decoding="async">
-                        <figcaption>There is a place for you at the table.</figcaption>
+                        <img src="/images/stock/mezuzah-light.webp" alt="A hand holding a mezuzah in warm light" width="1202" height="1800" loading="lazy" decoding="async">
+                        <figcaption>A warm welcome begins at the door.</figcaption>
                     </figure>
                     <div class="home-arrival-panel">
-                        <p class="home-section-kicker">Your first visit</p>
                         <h3 data-editable="sidebar-welcome-header"><span data-editable="sidebar-welcome-title">Shalom Visitor!</span></h3>
                         <nav aria-label="Visitor information">
                             <ol class="home-arrival-steps">
-                                <li><a href="/services"><span class="home-arrival-number">01</span><span><strong>Know the worship time</strong><small>See our service schedule</small></span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></li>
-                                <li><a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer"><span class="home-arrival-number">02</span><span><strong>Find the congregation</strong><small>Open turn-by-turn directions</small></span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></li>
-                                <li><a href="/faq"><span class="home-arrival-number">03</span><span><strong>Know what to expect</strong><small>Read first-visit answers</small></span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></li>
+                                <li>
+                                    <a href="/services">
+                                        <span class="home-arrival-icon" aria-hidden="true">
+                                            <!-- Tabler Icons: calendar-time, MIT License -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path><path d="M14 18a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path><path d="M15 3v4"></path><path d="M7 3v4"></path><path d="M3 11h16"></path><path d="M18 16.496v1.504l1 1"></path></svg>
+                                        </span>
+                                        <strong>Service times</strong>
+                                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer">
+                                        <span class="home-arrival-icon" aria-hidden="true">
+                                            <!-- Tabler Icons: map-pin, MIT License -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"></path></svg>
+                                        </span>
+                                        <strong>Directions</strong>
+                                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/faq">
+                                        <span class="home-arrival-icon" aria-hidden="true">
+                                            <!-- Tabler Icons: message-question, MIT License -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"></path><path d="M8 13h6"></path><path d="M14 18h-1l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5"></path><path d="M19 22v.01"></path><path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path></svg>
+                                        </span>
+                                        <strong>What to expect</strong>
+                                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                    </a>
+                                </li>
                             </ol>
                         </nav>
                         <div class="home-service-address" data-editable="location-text">
@@ -310,10 +349,10 @@ import { rabbi } from '../data/rabbi';
                 </div>
                 <div class="home-calendar-layout">
                     <figure class="home-calendar-image">
-                        <img src="/images/stock/mezuzah-light.webp" alt="A hand holding a mezuzah in warm light" width="1202" height="1800" loading="lazy" decoding="async">
+                        <img src="/images/stock/holiday-table.webp" alt="A menorah and flowers set for a Jewish holiday gathering" width="1202" height="1800" loading="lazy" decoding="async">
                         <figcaption>
-                            <strong>Mark the week. Make room for what matters.</strong>
-                            <span>Services, celebrations, learning, and community.</span>
+                            <strong>Gather through the Jewish year.</strong>
+                            <span>Shabbat, holidays, learning, and community.</span>
                         </figcaption>
                     </figure>
                     <div class="home-calendar-frame">
@@ -398,7 +437,22 @@ import { rabbi } from '../data/rabbi';
 
         <aside class="home-torah-quote" aria-label="A reflection from Scripture">
             <div class="home-shell">
-                <blockquote>God's Torah, "It is a Tree of Life [etz chaim] for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace" (Proverbs 3:17-18). Turn us back to you, HASHEM, and we shall be restored. Renew our lives as in days of old (Lamentations 5:21).</blockquote>
+                <div class="home-torah-quote-icon" aria-hidden="true">
+                    <!-- Tabler Icons: book-2, MIT License -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12"></path>
+                        <path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
+                        <path d="M9 8h6"></path>
+                    </svg>
+                </div>
+                <blockquote class="home-torah-quote-primary">
+                    <p>“God’s Torah is a Tree of Life <span lang="he-Latn">[etz chaim]</span> for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace.”</p>
+                    <cite>Proverbs 3:17–18</cite>
+                </blockquote>
+                <blockquote class="home-torah-quote-secondary">
+                    <p>“Turn us back to You, HASHEM, and we shall be restored. Renew our lives as in days of old.”</p>
+                    <cite>Lamentations 5:21</cite>
+                </blockquote>
             </div>
         </aside>
 
