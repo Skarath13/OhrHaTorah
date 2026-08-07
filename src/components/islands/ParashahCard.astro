@@ -2,13 +2,11 @@
 // Weekly Parashah Card - fetches Torah readings from Hebcal API
 ---
 <div class="feature-card">
-    <div class="card-header">
-        <i class="fas fa-torah"></i>
+    <div class="card-header" role="heading" aria-level="3">
         <span id="parashah-header" data-editable="parashah-card-title">Weekly Parashah</span>
     </div>
     <div class="card-body">
         <div class="parashah-info">
-            <i class="fas fa-bookmark"></i>
             <span class="parashah-label" data-editable="parashah-label-text">Parashah:</span>
             <span id="parashah-name">Loading...</span>
         </div>
@@ -16,18 +14,15 @@
         <!-- Reading Cycle Toggle -->
         <div class="reading-cycle-toggle">
             <button class="cycle-btn active" data-cycle="annual">
-                <i class="fas fa-calendar-alt"></i>
                 Annual
             </button>
             <button class="cycle-btn" data-cycle="triennial">
-                <i class="fas fa-calendar-week"></i>
                 Triennial
             </button>
         </div>
 
         <!-- Triennial Year Info -->
         <div id="triennial-year-info" class="triennial-note" style="display: none;">
-            <i class="fas fa-info-circle"></i>
             <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">1</span> of 3</span>
         </div>
 
@@ -35,14 +30,12 @@
         <div id="annual-readings" class="reading-section">
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book"></i></span>
                     <span class="reading-label" data-editable="torah-label-text">Torah:</span>
                 </div>
                 <div class="reading-text" id="torah-reading">Loading...</div>
             </div>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book-open"></i></span>
                     <span class="reading-label" data-editable="haftarah-label-text">Haftarah:</span>
                 </div>
                 <div class="reading-text" id="haftarah-reading">Loading...</div>
@@ -53,14 +46,12 @@
         <div id="triennial-readings" class="reading-section" style="display: none;">
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book"></i></span>
                     <span class="reading-label">Torah:</span>
                 </div>
                 <div class="reading-text" id="triennial-torah-reading">Loading...</div>
             </div>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-icon"><i class="fas fa-book-open"></i></span>
                     <span class="reading-label">Haftarah:</span>
                 </div>
                 <div class="reading-text" id="triennial-haftarah-reading">Loading...</div>
@@ -70,7 +61,6 @@
         <!-- Brit Chadashah -->
         <div class="parashah-info brit-chadashah-section">
             <div class="reading-row">
-                <span class="reading-icon"><i class="fas fa-book-reader"></i></span>
                 <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
             </div>
             <div class="reading-text" id="brit-reading" data-brit-editable="true">Loading...</div>
@@ -79,6 +69,117 @@
         <div class="loader" id="parashah-loader" style="display: none;"></div>
     </div>
 </div>
+
+<style>
+    .feature-card {
+        color: var(--home-ink, #172236);
+    }
+
+    .parashah-info {
+        border-bottom-color: var(--home-line, rgba(13, 51, 91, 0.16));
+    }
+
+    .parashah-label,
+    .reading-label,
+    #parashah-name {
+        color: var(--home-blue-900, #0b2f5b);
+    }
+
+    #parashah-name,
+    .reading-label {
+        font-weight: 700;
+    }
+
+    .reading-cycle-toggle {
+        gap: 0;
+        padding: 0;
+        border: 0;
+        border-bottom: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .cycle-btn {
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        color: var(--home-muted, #596476);
+        font-weight: 700;
+        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .cycle-btn:hover {
+        border-bottom-color: var(--home-gold-300, #e6c978);
+        background: rgba(11, 47, 91, 0.06);
+        box-shadow: none;
+        color: var(--home-blue-900, #0b2f5b);
+    }
+
+    .cycle-btn.active,
+    .cycle-btn.active:hover {
+        border-bottom-color: var(--home-gold-500, #d0a33d);
+        background: transparent;
+        box-shadow: none;
+        color: var(--home-blue-900, #0b2f5b);
+    }
+
+    .cycle-btn:focus-visible {
+        outline: 3px solid var(--home-gold-300, #e6c978);
+        outline-offset: 2px;
+    }
+
+    .triennial-note {
+        border: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
+        border-left: 3px solid var(--home-gold-500, #d0a33d);
+        border-radius: 2px;
+        background: var(--home-cream-100, #f8f3e8);
+        color: var(--home-ink, #172236);
+    }
+
+    .triennial-movement {
+        color: var(--home-blue-800, #123f72);
+    }
+
+    .reading-section .reading-text,
+    .parashah-info:has(.reading-text) .reading-text {
+        width: calc(100% - 16px);
+        margin-left: 16px;
+        border-left: 3px solid var(--home-gold-500, #d0a33d);
+        border-radius: 0 2px 2px 0;
+        background: var(--home-cream-100, #f8f3e8);
+        box-shadow: none;
+        color: var(--home-ink, #172236);
+    }
+
+    .reading-section .parashah-info:last-child {
+        border-bottom-color: var(--home-line, rgba(13, 51, 91, 0.16));
+    }
+
+    .loader {
+        border-color: rgba(13, 51, 91, 0.16);
+        border-top-color: var(--home-gold-500, #d0a33d);
+    }
+
+    :global(body.admin-edit-mode) [data-brit-editable]:hover {
+        outline-color: var(--home-gold-500, #d0a33d);
+        background-color: rgba(230, 201, 120, 0.16);
+    }
+
+    :global(body.admin-edit-mode) [data-brit-editable].actively-editing {
+        outline-color: var(--home-blue-800, #123f72) !important;
+        background-color: var(--home-cream-100, #f8f3e8) !important;
+    }
+
+    @media (max-width: 420px) {
+        .reading-section .reading-text,
+        .parashah-info:has(.reading-text) .reading-text {
+            width: calc(100% - 8px);
+            margin-left: 8px;
+        }
+    }
+</style>
 
 <script>
     // Brit Chadashah lookup table (119 Ministries 2025-2026 Schedule)
@@ -269,8 +370,7 @@
         // Update infobox
         const infobox = document.querySelector('.infobox');
         if (infobox) {
-            infobox.innerHTML = `<i class="fas fa-info-circle"></i>
-                <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.`;
+            infobox.innerHTML = `<span><strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service (Parashat ${annualData.name}), and Scripture study at our Fountain Valley location.</span>`;
         }
 
         // Brit Chadashah

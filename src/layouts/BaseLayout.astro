@@ -5,8 +5,15 @@ import UnderConstructionModal from '../components/layout/UnderConstructionModal.
 
 interface Props {
   title?: string;
+  description?: string;
+  stylesheets?: string[];
 }
-const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
+const {
+  title = "Ohr HaTorah Messianic Congregation",
+  description = "Ohr HaTorah is a Messianic Jewish congregation in Fountain Valley, California, welcoming Jewish and non-Jewish people to grow in Torah, Jewish life, and faith in Yeshua the Messiah.",
+  stylesheets = [],
+} = Astro.props;
+const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -22,32 +29,34 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Open Graph Meta Tags for Social Media -->
-    <meta property="og:title" content="Ohr HaTorah Messianic Congregation">
-    <meta property="og:description" content="A Messianic Jewish congregation in Allen, Texas, where Jews and Gentiles worship Yeshua (Jesus) together while celebrating Jewish heritage and traditions.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=630&fit=crop&crop=center">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={socialImage}>
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://ohrhatorah.org">
+    <meta property="og:url" content={Astro.url.href}>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Ohr HaTorah Messianic Congregation">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ohr HaTorah Messianic Congregation">
-    <meta name="twitter:description" content="A Messianic Jewish congregation in Allen, Texas, where Jews and Gentiles worship Yeshua (Jesus) together while celebrating Jewish heritage and traditions.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=630&fit=crop&crop=center">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={socialImage}>
 
     <!-- Additional Meta Tags -->
-    <meta name="description" content="Ohr HaTorah Messianic Congregation in Allen, Texas - A place where Jews and Gentiles worship Yeshua (Jesus) together while celebrating Jewish heritage and traditions.">
-    <meta name="keywords" content="Messianic Judaism, Jewish congregation, Yeshua, Jesus, Allen Texas, synagogue, Torah, Hebrew calendar, Jewish holidays">
+    <meta name="description" content={description}>
+    <meta name="keywords" content="Messianic Judaism, Jewish congregation, Yeshua, Jesus, Fountain Valley California, Orange County synagogue, Torah, Hebrew calendar, Jewish holidays">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/styles/style.css">
+    {stylesheets.map((href) => <link rel="stylesheet" href={href} />)}
 </head>
 <body>
+    <div id="top" aria-hidden="true"></div>
     <slot />
     <InlineEditor />
     <LoginModal />

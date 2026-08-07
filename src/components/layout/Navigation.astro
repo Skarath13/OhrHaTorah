@@ -2,13 +2,32 @@
 // Navigation component with dropdown menus
 ---
 <!-- Navigation Overlay -->
-<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
 
 <!-- Navigation -->
-<nav class="nav-container" id="nav-container">
+<nav class="nav-container" id="nav-container" aria-label="Primary navigation">
+    <button class="nav-close-btn" id="nav-close-btn" type="button" aria-label="Close navigation drawer">
+        <i class="fas fa-times" aria-hidden="true"></i>
+        <span>Close</span>
+    </button>
+
     <ul class="nav-links">
         <li class="dropdown">
-            <a href="/" id="welcome-header" aria-label="Welcome - Go to Home" aria-haspopup="true" aria-expanded="false" aria-controls="nav-welcome-submenu"><i class="fas fa-home"></i> Welcome</a>
+            <div class="nav-item-row">
+                <a href="/" class="nav-primary-link" aria-label="Welcome - Go to Home"><i class="fas fa-home"></i><span>Welcome</span></a>
+                <button
+                    id="welcome-header"
+                    class="nav-disclosure"
+                    type="button"
+                    aria-label="Toggle Welcome submenu"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="nav-welcome-submenu"
+                    data-nav-disclosure
+                >
+                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                </button>
+            </div>
             <div class="dropdown-content" id="nav-welcome-submenu">
                 <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
                 <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
@@ -19,7 +38,21 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="/services" id="events-header" aria-label="Events & Services" aria-haspopup="true" aria-expanded="false" aria-controls="nav-events-submenu"><i class="fas fa-calendar-check"></i> Events & Services</a>
+            <div class="nav-item-row">
+                <a href="/services" class="nav-primary-link" aria-label="Events & Services"><i class="fas fa-calendar-check"></i><span class="nav-label-default">Events &amp; Services</span><span class="nav-label-home" style="display: none;" aria-hidden="true">Services</span></a>
+                <button
+                    id="events-header"
+                    class="nav-disclosure"
+                    type="button"
+                    aria-label="Toggle Events & Services submenu"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="nav-events-submenu"
+                    data-nav-disclosure
+                >
+                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                </button>
+            </div>
             <div class="dropdown-content" id="nav-events-submenu">
                 <a href="/services" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
                 <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
@@ -28,7 +61,22 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="#" id="community-header" aria-label="Community" aria-haspopup="true" aria-expanded="false" aria-controls="nav-community-submenu"><i class="fas fa-users"></i> Community</a>
+            <div class="nav-item-row">
+                <button
+                    id="community-header"
+                    class="nav-primary-link nav-disclosure nav-disclosure-primary"
+                    type="button"
+                    aria-label="Toggle Community submenu"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="nav-community-submenu"
+                    data-nav-disclosure
+                >
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                </button>
+            </div>
             <div class="dropdown-content" id="nav-community-submenu">
                 <a href="/#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
                 <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
@@ -36,7 +84,21 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="/resources" id="learn-header" aria-label="Learn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-learn-submenu"><i class="fas fa-graduation-cap"></i> Learn</a>
+            <div class="nav-item-row">
+                <a href="/resources" class="nav-primary-link" aria-label="Learn"><i class="fas fa-graduation-cap"></i><span>Learn</span></a>
+                <button
+                    id="learn-header"
+                    class="nav-disclosure"
+                    type="button"
+                    aria-label="Toggle Learn submenu"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="nav-learn-submenu"
+                    data-nav-disclosure
+                >
+                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                </button>
+            </div>
             <div class="dropdown-content" id="nav-learn-submenu">
                 <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
                 <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
@@ -46,7 +108,22 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="#" id="resources-header" aria-label="Resources" aria-haspopup="true" aria-expanded="false" aria-controls="nav-resources-submenu"><i class="fas fa-archive"></i> Resources</a>
+            <div class="nav-item-row">
+                <button
+                    id="resources-header"
+                    class="nav-primary-link nav-disclosure nav-disclosure-primary"
+                    type="button"
+                    aria-label="Toggle Resources submenu"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="nav-resources-submenu"
+                    data-nav-disclosure
+                >
+                    <i class="fas fa-archive"></i>
+                    <span>Resources</span>
+                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                </button>
+            </div>
             <div class="dropdown-content" id="nav-resources-submenu">
                 <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
                 <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
@@ -54,155 +131,216 @@
                 <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
             </div>
         </li>
-        <li><a href="/contact" aria-label="Contact Us"><i class="fas fa-envelope"></i> Contact Us</a></li>
-        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i> Donate</a></li>
+        <li><a href="/contact" aria-label="Contact Us"><i class="fas fa-envelope"></i><span class="nav-label-default">Contact Us</span><span class="nav-label-home" style="display: none;" aria-hidden="true">Contact</span></a></li>
+        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i><span>Donate</span></a></li>
     </ul>
 </nav>
 
 <script>
-    const mobileMenuQuery = window.matchMedia('(max-width: 1023px)');
-    const dropdownItems = Array.from(document.querySelectorAll('.nav-links .dropdown'));
+    const navContainer = document.getElementById('nav-container');
+    const mobileMenuQuery = window.matchMedia('(max-width: 1359px)');
+    const navOverlay = document.getElementById('nav-overlay');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('nav-close-btn');
+    const dropdownItems = Array.from(document.querySelectorAll<HTMLElement>('.nav-links .dropdown'));
+    let previouslyFocusedElement: HTMLElement | null = null;
+    let savedBodyOverflow: string | null = null;
+    let focusEntryTimer: number | null = null;
 
-    function setDropdownState(dropdown: Element | null, expanded: boolean) {
+    function setDropdownState(dropdown: HTMLElement | null, expanded: boolean) {
         if (!dropdown) return;
 
         dropdown.classList.toggle('active', expanded);
 
-        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
-        if (trigger) {
-            trigger.setAttribute('aria-expanded', String(expanded));
+        const trigger = dropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]');
+        trigger?.setAttribute('aria-expanded', String(expanded));
+    }
+
+    function closeAllDropdowns(except: HTMLElement | null = null) {
+        dropdownItems.forEach(dropdown => {
+            if (dropdown !== except) setDropdownState(dropdown, false);
+        });
+    }
+
+    function isMenuOpen() {
+        return navContainer?.classList.contains('active') ?? false;
+    }
+
+    function setDrawerAccessibility(isOpen: boolean) {
+        if (!navContainer || !mobileMenuQuery.matches) return;
+
+        navContainer.setAttribute('aria-hidden', String(!isOpen));
+        navContainer.toggleAttribute('inert', !isOpen);
+        navOverlay?.setAttribute('aria-hidden', String(!isOpen));
+    }
+
+    function restoreBodyScroll() {
+        if (savedBodyOverflow === null) return;
+        document.body.style.overflow = savedBodyOverflow;
+        savedBodyOverflow = null;
+    }
+
+    function openMenu() {
+        if (!mobileMenuQuery.matches || !navContainer) return;
+
+        previouslyFocusedElement = document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : menuBtn;
+        savedBodyOverflow = document.body.style.overflow;
+
+        navContainer.classList.add('active');
+        navOverlay?.classList.add('active');
+        menuBtn?.classList.add('active');
+        menuBtn?.setAttribute('aria-expanded', 'true');
+        menuBtn?.setAttribute('aria-label', 'Close navigation menu');
+        if (menuBtn instanceof HTMLButtonElement) menuBtn.hidden = true;
+        setDrawerAccessibility(true);
+        document.body.style.overflow = 'hidden';
+
+        if (focusEntryTimer !== null) window.clearTimeout(focusEntryTimer);
+        focusEntryTimer = window.setTimeout(() => {
+            if (isMenuOpen()) closeBtn?.focus();
+            focusEntryTimer = null;
+        }, 75);
+    }
+
+    function closeMenu({ restoreFocus = true } = {}) {
+        const wasOpen = isMenuOpen();
+
+        if (focusEntryTimer !== null) {
+            window.clearTimeout(focusEntryTimer);
+            focusEntryTimer = null;
         }
-    }
 
-    function closeAllDropdowns() {
-        dropdownItems.forEach(dropdown => setDropdownState(dropdown, false));
-    }
-
-    // Mobile menu toggle functions
-    function toggleMenu() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navContainer = document.getElementById('nav-container');
-        const navOverlay = document.getElementById('nav-overlay');
-
-        menuBtn?.classList.toggle('active');
-        navContainer?.classList.toggle('active');
-        navOverlay?.classList.toggle('active');
-
-        const isOpen = navContainer?.classList.contains('active') ?? false;
-        menuBtn?.setAttribute('aria-expanded', String(isOpen));
-        menuBtn?.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-            closeAllDropdowns();
-        }
-    }
-
-    function closeMenu() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navContainer = document.getElementById('nav-container');
-        const navOverlay = document.getElementById('nav-overlay');
-
-        menuBtn?.classList.remove('active');
         navContainer?.classList.remove('active');
         navOverlay?.classList.remove('active');
+        menuBtn?.classList.remove('active');
+        if (menuBtn instanceof HTMLButtonElement) menuBtn.hidden = false;
         menuBtn?.setAttribute('aria-expanded', 'false');
         menuBtn?.setAttribute('aria-label', 'Open navigation menu');
-        document.body.style.overflow = '';
         closeAllDropdowns();
+        restoreBodyScroll();
+
+        if (mobileMenuQuery.matches) {
+            setDrawerAccessibility(false);
+        } else {
+            navContainer?.removeAttribute('aria-hidden');
+            navContainer?.removeAttribute('inert');
+            navOverlay?.setAttribute('aria-hidden', 'true');
+        }
+
+        if (wasOpen && restoreFocus) {
+            previouslyFocusedElement?.focus();
+        }
+        previouslyFocusedElement = null;
     }
 
-    // Initialize mobile menu
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
-    document.getElementById('nav-overlay')?.addEventListener('click', closeMenu);
-
-    // Close menu when clicking final nav links
-    document.querySelectorAll('.dropdown-content a, .nav-links > li:not(.dropdown) > a').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    // Toggle dropdowns for touch layouts
-    dropdownItems.forEach(dropdown => {
-        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
-        if (!trigger) return;
-
-        trigger.addEventListener('click', event => {
-            if (!mobileMenuQuery.matches) return;
-
-            const href = trigger.getAttribute('href') ?? '#';
-            const isExpanded = dropdown.classList.contains('active');
-            const isPlaceholderLink = href === '#';
-
-            if (!isExpanded || isPlaceholderLink) {
-                event.preventDefault();
-
-                dropdownItems.forEach(otherDropdown => {
-                    if (otherDropdown !== dropdown) {
-                        setDropdownState(otherDropdown, false);
-                    }
-                });
-
-                setDropdownState(dropdown, !isExpanded);
-                return;
-            }
-
+    function toggleMenu() {
+        if (isMenuOpen()) {
             closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
+    function getVisibleDrawerControls() {
+        if (!navContainer) return [];
+
+        return Array.from(navContainer.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )).filter(element => element.getClientRects().length > 0);
+    }
+
+    function syncNavigationMode() {
+        closeMenu({ restoreFocus: false });
+
+        if (!mobileMenuQuery.matches) {
+            navContainer?.removeAttribute('aria-hidden');
+            navContainer?.removeAttribute('inert');
+        }
+    }
+
+    menuBtn?.addEventListener('click', toggleMenu);
+    closeBtn?.addEventListener('click', () => closeMenu());
+    navOverlay?.addEventListener('click', () => closeMenu());
+
+    document.querySelectorAll(
+        '.dropdown-content a, .nav-item-row > a.nav-primary-link, .nav-links > li:not(.dropdown) > a'
+    ).forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenuQuery.matches) {
+                closeMenu({ restoreFocus: false });
+            } else {
+                closeAllDropdowns();
+            }
         });
     });
 
-    // Dynamic navigation text wrap detection
-    function checkNavTextWrapping() {
-        const navLinks = document.querySelectorAll('.nav-links a');
+    dropdownItems.forEach(dropdown => {
+        const trigger = dropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]');
+        if (!trigger) return;
 
-        if (mobileMenuQuery.matches) {
-            navLinks.forEach(link => link.classList.remove('text-wrapped'));
+        trigger.addEventListener('click', () => {
+            const shouldExpand = !dropdown.classList.contains('active');
+            closeAllDropdowns(dropdown);
+            setDropdownState(dropdown, shouldExpand);
+        });
+
+        dropdown.addEventListener('focusout', () => {
+            window.setTimeout(() => {
+                if (!mobileMenuQuery.matches && !dropdown.contains(document.activeElement)) {
+                    setDropdownState(dropdown, false);
+                }
+            }, 0);
+        });
+
+        dropdown.addEventListener('pointerleave', () => {
+            if (!mobileMenuQuery.matches && !dropdown.contains(document.activeElement)) {
+                setDropdownState(dropdown, false);
+            }
+        });
+    });
+
+    document.addEventListener('click', event => {
+        if (!(event.target instanceof Element) || event.target.closest('.dropdown')) return;
+        closeAllDropdowns();
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            if (mobileMenuQuery.matches && isMenuOpen()) {
+                event.preventDefault();
+                closeMenu();
+            } else {
+                const focusedDropdown = document.activeElement instanceof Element
+                    ? document.activeElement.closest<HTMLElement>('.dropdown')
+                    : null;
+                closeAllDropdowns();
+
+                if (focusedDropdown) {
+                    focusedDropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]')?.focus();
+                }
+            }
             return;
         }
 
-        navLinks.forEach(link => {
-            link.classList.remove('text-wrapped');
+        if (event.key !== 'Tab' || !mobileMenuQuery.matches || !isMenuOpen()) return;
 
-            const tempSpan = document.createElement('span');
-            tempSpan.style.visibility = 'hidden';
-            tempSpan.style.position = 'absolute';
-            tempSpan.style.whiteSpace = 'nowrap';
-            tempSpan.style.fontSize = getComputedStyle(link).fontSize;
-            tempSpan.style.fontWeight = getComputedStyle(link).fontWeight;
-            tempSpan.style.lineHeight = getComputedStyle(link).lineHeight;
-            tempSpan.textContent = link.textContent;
+        const controls = getVisibleDrawerControls();
+        if (controls.length === 0) return;
 
-            document.body.appendChild(tempSpan);
-            const singleLineHeight = tempSpan.offsetHeight;
-            document.body.removeChild(tempSpan);
+        const firstControl = controls[0];
+        const lastControl = controls[controls.length - 1];
 
-            const linkHeight = link.offsetHeight;
-            const hasWrapped = linkHeight > singleLineHeight * 1.2;
-
-            if (hasWrapped) {
-                link.classList.add('text-wrapped');
-            }
-        });
-    }
-
-    setTimeout(checkNavTextWrapping, 100);
-
-    let resizeTimeout: ReturnType<typeof setTimeout>;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            if (!mobileMenuQuery.matches) {
-                closeMenu();
-            }
-
-            checkNavTextWrapping();
-        }, 150);
-    });
-
-    window.addEventListener('keydown', event => {
-        if (event.key === 'Escape') {
-            closeMenu();
+        if (event.shiftKey && document.activeElement === firstControl) {
+            event.preventDefault();
+            lastControl.focus();
+        } else if (!event.shiftKey && document.activeElement === lastControl) {
+            event.preventDefault();
+            firstControl.focus();
         }
-    });
+    }, true);
+
+    mobileMenuQuery.addEventListener('change', syncNavigationMode);
+    syncNavigationMode();
 </script>

@@ -2,8 +2,7 @@
 // Live Clock Island - shows PST time, Hebrew date, and Gregorian date
 ---
 <div class="sidebar-widget live-clock-widget">
-    <div class="widget-header" data-editable="sidebar-date-time-header">
-        <i class="fas fa-calendar-day"></i>
+    <div class="widget-header" data-editable="sidebar-date-time-header" role="heading" aria-level="3">
         <span data-editable="sidebar-date-time-title">Hebrew Date &amp; Time</span>
     </div>
     <div class="widget-content">
@@ -26,13 +25,14 @@
 
 <style>
     .live-clock-widget .widget-content {
-        background: var(--white);
+        background: transparent;
     }
 
     .clock-stack {
         display: flex;
         flex-direction: column;
         gap: 0;
+        border-top: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
     }
 
     .clock-panel {
@@ -40,36 +40,36 @@
         grid-template-columns: minmax(140px, auto) minmax(0, 1fr);
         align-items: start;
         gap: 12px;
-        padding: 0 0 var(--space-sm) 0;
-        border-bottom: 1px dotted var(--gray-300);
+        padding: 0.72rem 0;
+        border-bottom: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
+        background: transparent;
     }
 
     .clock-panel + .clock-panel {
-        padding-top: var(--space-sm);
+        padding-top: 0.72rem;
     }
 
     .clock-panel:last-child {
-        padding-bottom: 0;
-        border-bottom: none;
+        border-bottom-color: var(--home-line, rgba(13, 51, 91, 0.16));
     }
 
     .clock-label {
         display: block;
         margin-bottom: 0;
-        color: var(--primary-blue);
+        color: var(--home-blue-800, #123f72);
         font-family: inherit;
-        font-size: var(--font-size-base);
-        font-weight: 600;
+        font-size: 0.85rem;
+        font-weight: 700;
         letter-spacing: 0;
         text-transform: none;
         line-height: 1.4;
     }
 
     .clock-hebrew-date {
-        color: var(--gray-700);
-        font-family: inherit;
-        font-size: 0.94rem;
-        font-weight: 500;
+        color: var(--home-blue-900, #0b2f5b);
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 1rem;
+        font-weight: 700;
         line-height: 1.4;
         text-align: right;
         justify-self: stretch;
@@ -81,10 +81,10 @@
     }
 
     .clock-gregorian-date {
-        color: var(--gray-700);
+        color: var(--home-ink, #172236);
         font-family: inherit;
         font-size: 0.94rem;
-        font-weight: 500;
+        font-weight: 600;
         line-height: 1.4;
         text-align: right;
         justify-self: stretch;
@@ -105,10 +105,10 @@
     }
 
     .clock-time {
-        color: var(--gray-700);
+        color: var(--home-blue-900, #0b2f5b);
         font-family: inherit;
         font-size: 0.94rem;
-        font-weight: 500;
+        font-weight: 700;
         letter-spacing: 0;
         display: flex;
         align-items: baseline;
@@ -124,13 +124,13 @@
         white-space: nowrap;
     }
 
-    .clock-time-suffix {
-        color: inherit;
+    .live-clock-widget :global(.clock-time-suffix) {
+        color: var(--home-muted, #596476);
         font-family: inherit;
-        font-size: inherit;
-        font-weight: inherit;
-        letter-spacing: 0;
-        text-transform: none;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
     }
 
     @media (max-width: 768px) {

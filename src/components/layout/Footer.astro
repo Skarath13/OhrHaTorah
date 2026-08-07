@@ -1,5 +1,6 @@
 ---
 // Footer component
+const currentYear = new Date().getFullYear();
 ---
 <footer class="footer">
     <div class="footer-content">
@@ -59,7 +60,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2025 Ohr HaTorah Messianic Congregation. All rights reserved.</p>
+            <p>&copy; {currentYear} Ohr HaTorah Messianic Congregation. All rights reserved.</p>
             <p>
                 <a href="#">Privacy Policy</a> |
                 <a href="#">Terms of Use</a> |
@@ -71,7 +72,7 @@
 </footer>
 
 <!-- Back to Top Button -->
-<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+<a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">
     <i class="fas fa-chevron-up"></i>
 </a>
 
@@ -94,6 +95,31 @@
                 behavior: 'smooth'
             });
         });
+
+        const footer = document.querySelector('.footer');
+        if (footer) {
+            let footerOffsetFrame = 0;
+            const updateFooterOffset = () => {
+                footerOffsetFrame = 0;
+                const rect = footer.getBoundingClientRect();
+                const visibleHeight = Math.max(0, Math.min(window.innerHeight, rect.bottom) - Math.max(0, rect.top));
+
+                if (visibleHeight > 0) {
+                    const clearance = Math.ceil(visibleHeight) + 18;
+                    backToTopButton.style.setProperty('bottom', `${clearance}px`, 'important');
+                } else {
+                    backToTopButton.style.removeProperty('bottom');
+                }
+            };
+            const scheduleFooterOffset = () => {
+                if (footerOffsetFrame) return;
+                footerOffsetFrame = window.requestAnimationFrame(updateFooterOffset);
+            };
+
+            window.addEventListener('scroll', scheduleFooterOffset, { passive: true });
+            window.addEventListener('resize', scheduleFooterOffset);
+            scheduleFooterOffset();
+        }
     }
 
     // Newsletter form submission

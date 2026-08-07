@@ -2,8 +2,7 @@
 // Candle Lighting Times Card - Using Hebcal API
 ---
 <div class="feature-card">
-    <div class="card-header">
-        <i class="fas fa-menorah"></i>
+    <div class="card-header" role="heading" aria-level="3">
         <span data-editable="candle-card-title">Shabbat Candle Lighting</span>
     </div>
     <div class="card-body">
@@ -13,21 +12,21 @@
                     <div class="candle-day">This Friday</div>
                     <div class="candle-date" id="next-friday-date">Loading...</div>
                 </div>
-                <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-1">Loading...</span></div>
+                <div class="candle-time"><span id="candle-time-1">Loading...</span></div>
             </div>
             <div class="candle-row">
                 <div>
                     <div class="candle-day">Havdalah</div>
                     <div class="candle-date" id="havdalah-date">Loading...</div>
                 </div>
-                <div class="candle-time"><i class="fas fa-moon"></i> <span id="havdalah-time">Loading...</span></div>
+                <div class="candle-time"><span id="havdalah-time">Loading...</span></div>
             </div>
             <div class="candle-row">
                 <div>
                     <div class="candle-day">Next Friday</div>
                     <div class="candle-date" id="following-friday-date">Loading...</div>
                 </div>
-                <div class="candle-time"><i class="fas fa-fire"></i> <span id="candle-time-2">Loading...</span></div>
+                <div class="candle-time"><span id="candle-time-2">Loading...</span></div>
             </div>
         </div>
         <div class="last-updated" id="candle-last-updated">
@@ -42,16 +41,56 @@
 </div>
 
 <style>
+    .feature-card {
+        color: var(--home-ink, #172236);
+    }
+
+    .candle-times {
+        gap: 0;
+    }
+
+    .candle-row {
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
+    }
+
+    .candle-row:first-child {
+        padding-top: 0;
+    }
+
+    .candle-row:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .candle-day {
+        color: var(--home-blue-900, #0b2f5b);
+        font-weight: 700;
+    }
+
+    .candle-date {
+        color: var(--home-muted, #596476);
+    }
+
+    .candle-time {
+        color: var(--home-blue-900, #0b2f5b);
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
     .last-updated {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         font-size: 0.7rem;
-        color: #888;
+        color: var(--home-muted, #596476);
         margin-top: 8px;
         padding-top: 8px;
-        border-top: 1px solid #eee;
+        border-top: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
     }
 
     .live-indicator {
@@ -59,11 +98,12 @@
         align-items: center;
         gap: 4px;
         padding: 2px 8px;
-        background: rgba(76, 175, 80, 0.15);
-        border-radius: 12px;
+        border: 1px solid rgba(208, 163, 61, 0.42);
+        border-radius: 999px;
+        background: var(--home-cream-100, #f8f3e8);
         font-size: 0.65rem;
-        font-weight: 600;
-        color: #4CAF50;
+        font-weight: 800;
+        color: var(--home-blue-800, #123f72);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -75,7 +115,7 @@
     .live-dot {
         width: 6px;
         height: 6px;
-        background: #4CAF50;
+        background: var(--home-gold-500, #d0a33d);
         border-radius: 50%;
         animation: pulse 2s ease-in-out infinite;
     }
@@ -96,7 +136,18 @@
     }
 
     .updated-time {
-        color: #888;
+        color: var(--home-muted, #596476);
+    }
+
+    .loader {
+        border-color: rgba(13, 51, 91, 0.16);
+        border-top-color: var(--home-gold-500, #d0a33d);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .live-dot {
+            animation: none;
+        }
     }
 </style>
 
@@ -246,7 +297,7 @@
             // Show error state
             if (lastUpdatedEl) {
                 lastUpdatedEl.textContent = 'Unable to load times - please refresh';
-                lastUpdatedEl.style.color = '#e74c3c';
+                lastUpdatedEl.style.color = 'var(--home-muted, #596476)';
             }
         }
     };
