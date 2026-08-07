@@ -1,4 +1,4 @@
-# Homepage stock image provenance
+# Site stock image provenance
 
 Downloaded and transformed on 2026-08-06 from the official Pexels image CDN. Pexels permits free website use and modification without required attribution, subject to its restrictions on endorsement, offensive use of identifiable people, standalone resale or redistribution, and trademark use. See the [Pexels License](https://www.pexels.com/legal-pages/license/).
 
@@ -58,3 +58,69 @@ These are general stock images. They must not be presented as photographs of Ohr
 - Transform: auto-oriented, metadata stripped, resized within 1800 by 1800 pixels, WebP quality 82.
 - Output: `mezuzah-light.webp`, 1202 by 1800 pixels.
 - Output SHA-256: `ba16eb4c8f6d00c70b41f216e6c26805e8df61244c0d9d92fbd64f6c659046ff`
+
+## Synagogue interior
+
+- Source catalog page: https://www.pexels.com/photo/the-interior-of-a-synagogue-5986463/
+- Creator: cottonbro studio
+- Source file: `pexels-photo-5986466.jpeg`
+- Official CDN: https://images.pexels.com/photos/5986466/pexels-photo-5986466.jpeg
+- Source SHA-256: `0eb3bfaa070221698e3acab4eb0c3c03439e3caa1f769409bbebc57e1d8fc6ed`
+- Transform: metadata stripped, resized to 1800 pixels wide, WebP quality 82.
+- Output: `synagogue-interior.webp`, 1800 by 1200 pixels.
+- Output SHA-256: `1b254edaec254c91c092cac36d7072610464c9d56e8272d4a8e79ec50b977b8b`
+
+## Open Torah scroll
+
+- Source page: https://www.pexels.com/photo/a-close-up-shot-of-a-sefer-torah-5986493/
+- Creator: cottonbro studio
+- Source file: `pexels-photo-5986493.jpeg`
+- Official CDN: https://images.pexels.com/photos/5986493/pexels-photo-5986493.jpeg
+- Source SHA-256: `41a14dcb6648d574ec366f3b85e86f9d7b6394e6c0658d88bb1635ac58a50ac3`
+- Transform: auto-oriented, metadata stripped, resized within 1800 by 1800 pixels, WebP quality 82.
+- Output: `open-torah-scroll.webp`, 1800 by 1200 pixels.
+- Output SHA-256: `4ab840595563fb841dbd2c9704ecec7e61af49f87dab94cf0f299311a0241c2c`
+
+## Star of David Torah ark
+
+- Source page: https://www.pexels.com/photo/ornate-synagogue-interior-with-ark-31476390/
+- Creator: Alper Murat KİRPİK
+- Source file: `pexels-photo-31476390.jpeg`
+- Official CDN: https://images.pexels.com/photos/31476390/pexels-photo-31476390.jpeg
+- Source SHA-256: `aa613e51ab06e1d40046ccaae8ab725e2f305ddf8d3e52a34cc499bb39aea87d`
+- Transform: auto-oriented, metadata stripped, resized within 1800 by 1800 pixels, WebP quality 82.
+- Output: `star-of-david-ark.webp`, 1350 by 1800 pixels.
+- Output SHA-256: `d9137b3b9bb1e261a7c0cb6847b68c7fdc6da9621c026f5bbcf26530246cd78c`
+
+## Torah ark
+
+- Source catalog page: https://www.pexels.com/photo/a-close-up-shot-of-a-torah-scroll-5986488/
+- Creator: cottonbro studio
+- Source file: `pexels-photo-5986483.jpeg`
+- Official CDN: https://images.pexels.com/photos/5986483/pexels-photo-5986483.jpeg
+- Source SHA-256: `feba3c6222eca02c49cfa22d99513b2ed0732e3a3bbca8a42765ba496ad3c88e`
+- Transform: metadata stripped, resized to 1800 pixels tall, WebP quality 82.
+- Output: `torah-ark.webp`, 1201 by 1800 pixels.
+- Output SHA-256: `48517e065426b7065e01de62b83eeca94a0768b7d03c30b23d39be3c7d40caca`
+
+## Youth art class
+
+- Source page: https://www.pexels.com/photo/children-drawing-in-class-18766022/
+- Creator: Mikhail Rudenko
+- Source file: `pexels-photo-18766022.jpeg`
+- Official CDN: https://images.pexels.com/photos/18766022/pexels-photo-18766022.jpeg
+- Source SHA-256: `2e924b11a23e1f1f1e3cb69c97a9f712c237dd6d42e9dbc3986aee4b50702837`
+- Transform: metadata stripped, resized to 1800 pixels tall, WebP quality 82.
+- Output: `youth-art-class.webp`, 1350 by 1800 pixels.
+- Output SHA-256: `9770908bdec2a30d12fc69c98454f8008b9e803862a3eed39cd675af377a63d1`
+
+## Jerusalem panorama
+
+- Source page: https://www.pexels.com/photo/jerusalem-cityscape-drone-shot-15442791/
+- Creator: Ioannis Stavrakakis
+- Source file: `pexels-photo-15442791.jpeg`
+- Official CDN: https://images.pexels.com/photos/15442791/pexels-photo-15442791.jpeg
+- Source SHA-256: `a082838b2864a59855bf9f42530c091ca037625396e274a33e833c8a609daa34`
+- Transform: metadata stripped, resized to 1800 pixels wide, WebP quality 82.
+- Output: `jerusalem-panorama.webp`, 1800 by 1200 pixels.
+- Output SHA-256: `5430dab4eb5853c103c0790265e81ba99793536eb27f0e0d2ea696c0f71ef39d`

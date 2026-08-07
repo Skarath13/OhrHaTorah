@@ -1,0 +1,1465 @@
+/* Interior page design system
+   Keeps the homepage's navy, cream, gold, editorial typography, and restrained card language. */
+
+.interior-shell {
+    --interior-navy: #061d35;
+    --interior-navy-soft: #102c49;
+    --interior-ink: #0b2d57;
+    --interior-gold: #d1a12d;
+    --interior-gold-soft: #ead39a;
+    --interior-cream: #f4efe3;
+    --interior-paper: #fbf8f1;
+    --interior-line: rgba(11, 45, 87, 0.18);
+    --interior-muted: #59677b;
+    min-width: 0;
+    background: var(--interior-cream);
+    color: var(--interior-ink);
+}
+
+.interior-shell > .header {
+    position: relative;
+    width: 100%;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: var(--interior-navy);
+}
+
+.interior-shell > .header::before,
+.interior-shell > .header::after {
+    content: none !important;
+    display: none !important;
+}
+
+.interior-shell > .nav-container {
+    z-index: 1080;
+    border-bottom: 1px solid rgba(6, 29, 53, 0.18);
+    box-shadow: 0 8px 22px rgba(6, 29, 53, 0.08);
+}
+
+.page-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.08), transparent 28rem),
+        var(--interior-navy);
+    color: #fff;
+}
+
+.page-hero::after {
+    content: none;
+}
+
+.page-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 0.92fr) minmax(340px, 1.08fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    width: min(1180px, calc(100% - 48px));
+    min-height: 218px;
+    margin: 0 auto;
+    padding: 1.25rem 0;
+}
+
+.page-hero-title {
+    min-width: 0;
+}
+
+.page-hero-rule {
+    display: block;
+    width: 64px;
+    height: 3px;
+    margin-bottom: 1.15rem;
+    background: var(--interior-gold);
+}
+
+.page-hero h1 {
+    max-width: 14ch;
+    margin: 0;
+    color: #fff;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.55rem, 4.25vw, 3.85rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    text-wrap: balance;
+}
+
+.page-hero-media {
+    position: relative;
+    height: 164px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid rgba(234, 211, 154, 0.42);
+    border-radius: 0.9rem 0.9rem 2.5rem 0.9rem;
+    background: var(--interior-navy-soft);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+.page-hero-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(6, 29, 53, 0.2), transparent 55%);
+    pointer-events: none;
+}
+
+.page-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--hero-position, 50% 50%);
+    filter: saturate(0.88) contrast(1.02);
+}
+
+.interior-shell .interior-page {
+    min-height: 55vh;
+    margin: 0;
+    padding: 0;
+    background: var(--interior-cream);
+}
+
+.interior-shell .interior-page .page-container {
+    width: min(1180px, calc(100% - 48px));
+    max-width: none;
+    min-width: 0;
+    margin: 0 auto;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.interior-shell .interior-page .page-body {
+    min-width: 0;
+    padding: clamp(3.5rem, 6vw, 5.25rem) 0 clamp(3.5rem, 6vw, 6rem);
+}
+
+.interior-shell .interior-page .page-body > * {
+    max-width: 100%;
+}
+
+.interior-shell .interior-page .page-body > :first-child {
+    margin-top: 0;
+}
+
+.interior-shell .interior-page .page-body :where(img, iframe) {
+    max-width: 100%;
+}
+
+.interior-shell .interior-page .page-body :where(p, li) {
+    color: var(--interior-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.interior-shell .interior-page .page-body :where(p) {
+    margin: 0 0 1.1rem;
+}
+
+.interior-shell .interior-page .page-body :where(strong) {
+    color: var(--interior-ink);
+}
+
+.interior-shell .interior-page .page-body :where(h2, h3, h4) {
+    margin-top: 0;
+    color: var(--interior-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 600;
+    line-height: 1.1;
+    text-wrap: balance;
+}
+
+.interior-shell .interior-page .page-body :where(h3) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    font-size: clamp(1.75rem, 3.2vw, 2.6rem);
+    letter-spacing: -0.025em;
+}
+
+.interior-shell .interior-page .page-body :where(h4) {
+    margin-bottom: 0.7rem;
+    font-size: clamp(1.15rem, 1.8vw, 1.38rem);
+}
+
+.interior-shell .interior-page .page-body :where(h3 i, h4 i) {
+    width: 1.15em;
+    color: var(--interior-gold);
+    font-size: 0.67em;
+    text-align: center;
+    flex: 0 0 1.15em;
+}
+
+.interior-shell .interior-page .page-body h3 > i {
+    display: inline-grid !important;
+    width: 2.15rem !important;
+    height: 2.15rem !important;
+    margin: 0 !important;
+    border: 1px solid rgba(209, 161, 45, 0.55) !important;
+    border-radius: 50% !important;
+    place-items: center;
+    overflow: hidden;
+    background: rgba(209, 161, 45, 0.12) !important;
+    color: var(--interior-ink) !important;
+    font-size: 0.78rem !important;
+    line-height: 1 !important;
+    flex: 0 0 2.15rem !important;
+}
+
+.interior-shell .interior-page .page-body > :where(.intro-text, .faq-intro, .description) {
+    max-width: 780px;
+    margin: 0 0 clamp(3.25rem, 6vw, 5.25rem);
+    padding: 0 0 0 1.5rem;
+    border-left: 3px solid var(--interior-gold);
+    color: var(--interior-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.35rem, 2.6vw, 2rem);
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: left;
+}
+
+.interior-shell .interior-page .page-body > :where(.intro-text, .faq-intro, .description) strong {
+    color: inherit;
+    font: inherit;
+}
+
+.interior-shell .interior-page .page-body > .intro-text + .description {
+    max-width: 700px;
+    margin-top: -3.4rem;
+    padding-left: 1.5rem;
+    border-left-color: transparent;
+    color: var(--interior-muted);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.interior-shell .interior-page .page-body :where(
+    .section,
+    .resource-section,
+    .service-schedule,
+    .values-section,
+    .programs-section,
+    .directions-section,
+    .giving-info,
+    .map-section,
+    .mission-section,
+    .vision-section,
+    .about-section,
+    .identity-section,
+    .community-section,
+    .worship-section,
+    .heart-section,
+    .priority-section,
+    .involvement-section
+) {
+    margin: 0 0 clamp(2.75rem, 4.5vw, 4.5rem);
+    padding: clamp(1.5rem, 2.5vw, 2.25rem) 0 0;
+    border: 0;
+    border-top: 1px solid var(--interior-line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.interior-shell .interior-page .page-body :where(.mission-section, .vision-section) {
+    display: grid;
+    grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+    column-gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+}
+
+.interior-shell .interior-page .page-body :where(.mission-section, .vision-section) > h3 {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    position: sticky;
+    top: 5.5rem;
+}
+
+.interior-shell .interior-page .page-body :where(.mission-section, .vision-section) > :not(h3) {
+    grid-column: 2;
+}
+
+.interior-shell .interior-page .page-body :where(.mission-statement, .vision-statement) {
+    color: var(--interior-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    line-height: 1.4;
+}
+
+.interior-shell .interior-page .page-body :where(
+    .worship-grid,
+    .contact-grid,
+    .donation-grid,
+    .events-grid,
+    .holidays-grid,
+    .experience-grid,
+    .practical-grid,
+    .directions-grid,
+    .values-grid,
+    .programs-grid,
+    .stats-grid,
+    .highlights-grid,
+    .location-grid
+) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--interior-line);
+    border-radius: 1.1rem;
+    background: var(--interior-line);
+}
+
+.interior-shell .interior-page .page-body :where(.events-grid, .holidays-grid, .programs-grid, .values-grid) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.interior-shell .interior-page .page-body :where(.contact-grid) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.interior-shell .interior-page .page-body :where(.stats-grid) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.interior-shell .interior-page .page-body :where(.donation-grid) {
+    align-items: start;
+}
+
+.interior-shell .interior-page .page-body :where(.highlights-grid) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 1.5rem;
+}
+
+.interior-shell .interior-page .page-body :where(
+    .worship-item,
+    .contact-card,
+    .donation-card,
+    .event-card,
+    .holiday-card,
+    .experience-item,
+    .practical-item,
+    .direction-card,
+    .value-card,
+    .program-item,
+    .stat-item,
+    .highlight-item,
+    .location-info
+) {
+    min-width: 0;
+    margin: 0;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 0;
+    border-radius: 0;
+    background: var(--interior-paper);
+    box-shadow: none;
+    text-align: left;
+    transform: none;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-card) {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    grid-template-rows: min-content min-content;
+    gap: 0.25rem 0.9rem;
+    padding: 1.4rem;
+    align-items: center;
+    align-content: center;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-card .contact-icon) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin: 0;
+    align-self: start;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-card h3, .contact-card a, .contact-card p) {
+    grid-column: 2;
+    margin: 0;
+    text-align: left;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-card a, .contact-card p) {
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-card h3, .donation-card h3) {
+    font-size: clamp(1.25rem, 2vw, 1.45rem);
+    line-height: 1.2;
+}
+
+.interior-shell .interior-page .page-body :where(.donation-card) {
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.interior-shell .interior-page .page-body :where(
+    .worship-item,
+    .contact-card,
+    .donation-card,
+    .event-card,
+    .holiday-card,
+    .experience-item,
+    .direction-card,
+    .value-card,
+    .program-item,
+    .highlight-item
+):hover {
+    border-color: transparent;
+    background: #fffdf8;
+    box-shadow: none;
+    transform: none;
+}
+
+.interior-shell .interior-page .page-body :where(
+    .worship-item,
+    .event-card,
+    .experience-item,
+    .direction-card,
+    .program-item
+) > i,
+.interior-shell .interior-page .page-body :where(.contact-icon, .donation-icon, .holiday-icon) {
+    display: inline-flex;
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    margin: 0 0 1.2rem;
+    border: 1px solid rgba(209, 161, 45, 0.48);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: rgba(209, 161, 45, 0.08);
+    overflow: hidden;
+    color: var(--interior-ink) !important;
+    font-size: 1rem !important;
+    line-height: 1 !important;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-icon i, .donation-icon i, .holiday-icon i) {
+    display: block !important;
+    width: 1rem !important;
+    height: 1rem !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-size: 1rem !important;
+    line-height: 1 !important;
+}
+
+.interior-shell .interior-page .page-body :where(
+    .worship-item,
+    .event-card,
+    .experience-item,
+    .direction-card,
+    .program-item
+) > i::before,
+.interior-shell .interior-page .page-body :where(.contact-icon i, .donation-icon i, .holiday-icon i)::before {
+    display: block;
+    line-height: 1 !important;
+}
+
+.interior-shell .interior-page .page-body :where(.value-card)::before,
+.interior-shell .interior-page .page-body :where(.value-card)::after {
+    content: none;
+}
+
+.interior-shell .interior-page .page-body :where(.value-card) {
+    cursor: default;
+}
+
+.interior-shell .interior-page .page-body :where(.value-card h4, .resource-card h4) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.interior-shell .interior-page .page-body :where(.resource-section) {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.64fr) minmax(0, 1.36fr);
+    gap: 1px clamp(2rem, 5vw, 4.5rem);
+}
+
+.interior-shell .interior-page .page-body :where(.resource-section) > h3 {
+    grid-row: 1 / span 12;
+    position: sticky;
+    top: 5.5rem;
+    align-self: start;
+}
+
+.interior-shell .interior-page .page-body :where(.resource-card) {
+    grid-column: 2;
+    margin: 0;
+    padding: 1.6rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--interior-line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.interior-shell .interior-page .page-body :where(.resource-card):first-of-type {
+    padding-top: 0;
+}
+
+.interior-shell .interior-page .page-body :where(.resource-card):hover {
+    box-shadow: none;
+    transform: none;
+}
+
+.interior-shell .interior-page .page-body :where(.resource-link, .ministry-link, .cta-button, .directions-btn) {
+    display: inline-flex;
+    box-sizing: border-box;
+    min-height: 46px;
+    margin-top: 0.65rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--interior-ink);
+    border-radius: 0.45rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: transparent;
+    color: var(--interior-ink);
+    font-weight: 750;
+    line-height: 1.2;
+    box-shadow: none;
+}
+
+.interior-shell .interior-page .page-body :where(.resource-link, .ministry-link, .cta-button, .directions-btn):hover {
+    border-color: var(--interior-navy);
+    background: var(--interior-navy);
+    color: #fff;
+    box-shadow: none;
+    transform: none;
+}
+
+.interior-shell .interior-page .page-body :where(.timeline) {
+    position: relative;
+    display: grid;
+    gap: 0;
+    margin: 0;
+    border-top: 1px solid var(--interior-line);
+}
+
+.interior-shell .interior-page .page-body :where(.timeline-item) {
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: start;
+    margin: 0;
+    padding: 1.7rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--interior-line);
+    border-radius: 0;
+    background: transparent;
+}
+
+.interior-shell .interior-page .page-body :where(.time-badge, .time-badge.blue, .time-badge.gold, .time-badge.green) {
+    display: grid;
+    box-sizing: border-box;
+    width: 118px;
+    min-width: 0;
+    min-height: 54px;
+    padding: 0.65rem 0.75rem !important;
+    border: 1px solid rgba(209, 161, 45, 0.72) !important;
+    border-left: 4px solid var(--interior-gold) !important;
+    border-radius: 0.45rem !important;
+    place-items: center;
+    background: var(--interior-navy) !important;
+    color: #fff !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.interior-shell .interior-page .page-body :where(.timeline-content strong) {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+}
+
+.interior-shell .interior-page .page-body :where(.schedule-note, .future-note, .ministry-note, .note) {
+    color: var(--interior-muted);
+    font-size: 0.93rem;
+}
+
+.interior-shell .interior-page .page-body :where(.service-schedule > h3 + .schedule-note) {
+    margin: -0.9rem 0 2.5rem;
+}
+
+.interior-shell .interior-page .page-body :where(.service-schedule > h3:nth-of-type(2)) {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--interior-line);
+}
+
+.interior-shell .interior-page .page-body :where(.tips-section, .info-section, .info-box, .highlight-section, .heart-section, .giving-info) {
+    margin: 0 0 clamp(2.75rem, 5vw, 4rem);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid rgba(209, 161, 45, 0.42);
+    border-radius: 1.1rem;
+    background: rgba(255, 253, 248, 0.58);
+    box-shadow: none;
+}
+
+.interior-shell .interior-page .page-body :where(.info-box) {
+    margin: clamp(2rem, 4vw, 3rem) 0;
+    padding: 1rem 1.2rem;
+    border: 0;
+    border-left: 3px solid var(--interior-gold);
+    border-radius: 0;
+    background: rgba(209, 161, 45, 0.08);
+}
+
+.interior-shell .interior-page .page-body :where(.info-box p) {
+    margin: 0;
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section, .welcome-banner, .visit-highlight, .contact-box, .involvement-section) {
+    margin: clamp(2.25rem, 4vw, 3.25rem) 0 0;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border: 1px solid rgba(209, 161, 45, 0.32);
+    border-radius: 0.85rem;
+    background: var(--interior-navy);
+    color: #fff;
+    box-shadow: none;
+    text-align: left;
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section, .welcome-banner, .visit-highlight, .contact-box, .involvement-section) :where(h3, h4, p, strong, i) {
+    color: #fff;
+}
+
+.interior-shell .interior-page .page-body :where(.welcome-banner) {
+    padding: 1.1rem 0 1.1rem 1.25rem;
+    border: 0;
+    border-left: 3px solid var(--interior-gold);
+    border-radius: 0;
+    background: transparent;
+    color: var(--interior-navy);
+}
+
+.interior-shell .interior-page .page-body :where(.welcome-banner) :where(p, strong) {
+    margin: 0;
+    color: var(--interior-navy);
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section, .involvement-section) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+    padding: 1.4rem 0;
+    border: 0;
+    border-top: 1px solid var(--interior-line);
+    border-bottom: 1px solid var(--interior-line);
+    border-radius: 0;
+    align-items: center;
+    background: transparent;
+    color: var(--interior-navy);
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section, .involvement-section) > :where(h3, p) {
+    grid-column: 1;
+    margin: 0;
+    color: var(--interior-navy) !important;
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section, .involvement-section) > h3 {
+    margin-bottom: 0.45rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section, .involvement-section) > p {
+    max-width: 72ch;
+    color: var(--interior-muted) !important;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.interior-shell .interior-page .page-body :where(.cta-section > .cta-button, .involvement-section > .contact-info) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0;
+}
+
+.interior-shell .interior-page .page-body :where(.involvement-section .contact-info a) {
+    border-color: rgba(6, 26, 50, 0.28) !important;
+    background: transparent !important;
+    color: var(--interior-navy) !important;
+}
+
+.interior-shell .interior-page .page-body :where(.involvement-section .contact-info a:first-child) {
+    border-color: var(--interior-navy) !important;
+    background: var(--interior-navy) !important;
+    color: #fff !important;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-box) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1rem, 3vw, 2rem);
+    padding: 1.25rem 0;
+    border: 0;
+    border-top: 1px solid var(--interior-line);
+    border-bottom: 1px solid var(--interior-line);
+    border-radius: 0;
+    align-items: center;
+    background: transparent;
+    color: var(--interior-navy);
+}
+
+.interior-shell .interior-page .page-body :where(.contact-box h3, .contact-box h4, .contact-box p, .contact-box strong, .contact-box > i, .contact-box :is(h3, h4) > i) {
+    margin: 0;
+    color: var(--interior-navy) !important;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-box .contact-links) {
+    margin: 0;
+    justify-content: flex-end;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-box .contact-links a) {
+    border-color: rgba(6, 26, 50, 0.28) !important;
+    background: transparent !important;
+    color: var(--interior-navy) !important;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-box .contact-links a:first-child) {
+    border-color: var(--interior-navy) !important;
+    background: var(--interior-navy) !important;
+    color: #fff !important;
+}
+
+.interior-shell .interior-page .page-body :where(.welcome-banner, .visit-highlight) > i {
+    display: none;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-links, .contact-info) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-links a, .contact-info a) {
+    display: inline-flex;
+    min-height: 46px;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 0.45rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: transparent;
+    color: #fff;
+    font-weight: 700;
+}
+
+.interior-shell .interior-page .page-body :where(.contact-links a, .contact-info a):hover {
+    border-color: var(--interior-gold);
+    background: var(--interior-gold);
+    color: var(--interior-navy);
+}
+
+.interior-shell .interior-page .page-body :where(.service-contact-actions, .contact-box .contact-links, .involvement-section .contact-info) {
+    display: grid !important;
+    width: 22rem !important;
+    max-width: 100% !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.7rem !important;
+    align-items: stretch !important;
+}
+
+.interior-shell .interior-page .page-body :where(.service-contact-actions, .contact-box .contact-links, .involvement-section .contact-info) > a {
+    display: inline-flex !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 0.65rem 0.85rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.55rem !important;
+    font-size: 0.92rem !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+.interior-shell .interior-page .page-body :where(.service-contact-actions, .contact-box .contact-links, .involvement-section .contact-info) > a :where(svg, i) {
+    display: block !important;
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    margin: 0 !important;
+    font-size: 1rem !important;
+    line-height: 1 !important;
+    flex: 0 0 1.1rem !important;
+}
+
+.interior-shell .interior-page .page-body :where(.map-section) {
+    overflow: hidden;
+}
+
+.interior-shell .interior-page .page-body :where(.map-container) {
+    position: relative;
+    width: 100%;
+    height: clamp(320px, 38vw, 460px);
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--interior-line);
+    border-radius: 1.1rem;
+    background: #e9e3d6;
+}
+
+.interior-shell .interior-page .page-body :where(.map-container iframe, .page-map-embed) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.interior-shell .interior-page .page-body :where(.main-location) {
+    margin-bottom: clamp(4rem, 7vw, 6rem);
+    padding: clamp(2rem, 4vw, 3.25rem) 0 0;
+    border: 0;
+    border-top: 1px solid var(--interior-line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.interior-shell .interior-page .page-body :where(.address) {
+    color: var(--interior-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 1.45;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-container) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--interior-line);
+    border-radius: 1.1rem;
+    background: var(--interior-line);
+}
+
+.interior-shell .interior-page .page-body :where(.faq-item) {
+    margin: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background: var(--interior-paper);
+    transition: background 0.2s ease;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-item:hover, .faq-item.active) {
+    border-color: transparent;
+    background: #fffdf8;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-question) {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 92px;
+    padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+    border: 0;
+    align-items: center;
+    gap: 0.9rem;
+    background: transparent;
+    color: var(--interior-ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-question)::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    right: 1.45rem;
+    color: var(--interior-gold);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.55rem;
+    line-height: 1;
+    transform: translateY(-50%);
+}
+
+.interior-shell .interior-page .page-body :where(.faq-item.active .faq-question)::after {
+    content: '−';
+}
+
+.interior-shell .interior-page .page-body :where(.faq-icon) {
+    width: 1.25rem;
+    margin: 0;
+    color: var(--interior-gold);
+    flex: 0 0 1.25rem;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-question span) {
+    color: var(--interior-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.12rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-answer) {
+    display: none;
+    padding: 0 1.5rem 1.6rem 3.65rem;
+    border: 0;
+    background: transparent;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-item.active .faq-answer) {
+    display: block;
+}
+
+.interior-shell .interior-page .page-body :where(.faq-answer p) {
+    margin: 0;
+}
+
+.interior-shell .interior-page .page-body :where(.ministries-list) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.interior-shell .interior-page .page-body :where(.ministry-card) {
+    margin: 0;
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    border: 1px solid var(--interior-line);
+    border-radius: 1.1rem;
+    background: var(--interior-paper);
+    box-shadow: none;
+    transform: none;
+}
+
+.interior-shell .interior-page .page-body :where(.ministry-card):hover {
+    box-shadow: none;
+    transform: none;
+}
+
+.interior-shell .interior-page .page-body :where(.ministry-header) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.interior-shell .interior-page .page-body :where(.ministry-header > i) {
+    margin-top: 0.2rem;
+    color: var(--interior-gold) !important;
+}
+
+.interior-shell .interior-page .page-body :where(.ministry-meta) {
+    padding: 0 0 1rem;
+    border-bottom: 1px solid var(--interior-line);
+    font-size: 0.9rem;
+}
+
+.interior-shell .interior-page .page-body :where(.stat-number) {
+    color: var(--interior-gold);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+}
+
+.interior-shell .interior-page .page-body :where(.stat-label) {
+    margin-top: 0.7rem;
+    color: var(--interior-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.interior-shell .interior-page .page-body :where(.payment-icons) {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    color: var(--interior-gold);
+}
+
+.interior-shell .interior-page .page-body :where(.highlight-text) {
+    color: var(--interior-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+}
+
+.interior-shell .interior-page .page-body :where(ul:not(.footer-links):not(.footer-contact):not(.nav-links)) {
+    margin: 1rem 0;
+    padding-left: 1.2rem;
+}
+
+.interior-shell .interior-page .page-body :where(li) {
+    margin-bottom: 0.55rem;
+}
+
+.interior-shell .interior-page .page-footer {
+    padding: 0 0 clamp(4rem, 7vw, 6.5rem);
+    border: 0;
+    background: transparent;
+    text-align: left;
+}
+
+.page-home-link {
+    display: inline-flex;
+    box-sizing: border-box;
+    min-height: 46px;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--interior-gold);
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--interior-ink);
+    font-weight: 750;
+}
+
+.page-home-link:hover {
+    color: var(--interior-gold);
+}
+
+.interior-shell .footer {
+    margin-top: 0;
+    padding: clamp(4rem, 7vw, 6.5rem) 0 2rem;
+    border-top: 1px solid rgba(234, 211, 154, 0.28);
+    background: var(--interior-navy);
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.interior-shell .footer-content {
+    width: min(1180px, calc(100% - 48px));
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.interior-shell .footer-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.7fr 1.25fr 1fr;
+    gap: 0;
+    margin: 0;
+    padding: 0 0 3.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.interior-shell .footer-col {
+    min-width: 0;
+    padding: 0 clamp(1.1rem, 2.5vw, 2rem);
+    border-right: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.interior-shell .footer-col:first-child {
+    padding-left: 0;
+}
+
+.interior-shell .footer-col:last-child {
+    padding-right: 0;
+    border-right: 0;
+}
+
+.interior-shell .footer-col h4 {
+    margin: 0 0 1.25rem;
+    color: #fff;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.2rem;
+}
+
+.interior-shell .footer-col h4 i {
+    color: var(--interior-gold);
+}
+
+.interior-shell .footer-col p,
+.interior-shell .footer-contact li,
+.interior-shell .footer-links a {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.interior-shell .footer-links a:hover,
+.interior-shell .footer-bottom a:hover {
+    color: var(--interior-gold);
+}
+
+.interior-shell .footer-links a i,
+.interior-shell .footer-contact li i {
+    color: var(--interior-gold);
+}
+
+.interior-shell .newsletter-form-expanded input {
+    min-height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 0.4rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.interior-shell .newsletter-form-expanded input::placeholder {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.interior-shell .newsletter-btn-full {
+    min-height: 46px;
+    border: 1px solid var(--interior-gold);
+    border-radius: 0.4rem;
+    background: var(--interior-gold);
+    color: var(--interior-navy);
+    box-shadow: none;
+}
+
+.interior-shell .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.75rem 0 0;
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.interior-shell .footer-bottom a {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+@media (max-width: 1359px) {
+    .interior-shell > .header {
+        display: block !important;
+        height: 68px !important;
+        min-height: 68px !important;
+        background: var(--interior-navy);
+    }
+
+    .interior-shell > .header .mobile-menu-btn {
+        background: rgba(255, 255, 255, 0.12) !important;
+    }
+
+    .page-hero-inner {
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+    }
+
+    .interior-shell .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2.5rem 0;
+    }
+
+    .interior-shell .footer-col:nth-child(2) {
+        border-right: 0;
+    }
+
+    .interior-shell .footer-col:nth-child(3) {
+        padding-left: 0;
+    }
+}
+
+@media (min-width: 1360px) {
+    .interior-shell > .header {
+        display: none !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .page-hero-inner {
+        grid-template-columns: minmax(0, 0.95fr) minmax(270px, 1.05fr);
+        gap: 2rem;
+        min-height: 196px;
+        padding: 1.25rem 0;
+    }
+
+    .page-hero h1 {
+        max-width: 14ch;
+        font-size: clamp(2.35rem, 5.6vw, 3.15rem);
+    }
+
+    .page-hero-media {
+        height: 148px;
+    }
+
+    .interior-shell .interior-page .page-body :where(.mission-section, .vision-section),
+    .interior-shell .interior-page .page-body :where(.resource-section) {
+        display: block;
+    }
+
+    .interior-shell .interior-page .page-body :where(.mission-section, .vision-section) > h3,
+    .interior-shell .interior-page .page-body :where(.resource-section) > h3 {
+        position: static;
+        margin-bottom: 1.6rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(.events-grid, .holidays-grid, .programs-grid, .values-grid) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .interior-shell .interior-page .page-body :where(.contact-grid) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .interior-shell .interior-page .page-body :where(.ministries-list) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .page-hero-inner,
+    .interior-shell .interior-page .page-container,
+    .interior-shell .footer-content {
+        width: min(100% - 32px, 1180px);
+    }
+
+    .page-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+        min-height: 0;
+        padding: 1.25rem 0;
+    }
+
+    .page-hero-rule {
+        width: 52px;
+        margin-bottom: 0.85rem;
+    }
+
+    .page-hero h1 {
+        max-width: 15ch;
+        font-size: clamp(2.15rem, 9vw, 2.75rem);
+        line-height: 1;
+    }
+
+    .page-hero-media {
+        height: 112px;
+        border-radius: 0.75rem 0.75rem 1.8rem 0.75rem;
+    }
+
+    .interior-shell .interior-page .page-body {
+        padding: 3.5rem 0 3rem;
+    }
+
+    .interior-shell .interior-page .page-body > :where(.intro-text, .faq-intro, .description) {
+        margin-bottom: 3.25rem;
+        padding-left: 1rem;
+    }
+
+    .interior-shell .interior-page .page-body > .intro-text + .description {
+        margin-top: -2.4rem;
+        padding-left: 1rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(h3) {
+        font-size: 1.8rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(
+        .worship-grid,
+        .contact-grid,
+        .donation-grid,
+        .events-grid,
+        .holidays-grid,
+        .experience-grid,
+        .practical-grid,
+        .directions-grid,
+        .values-grid,
+        .programs-grid,
+        .stats-grid,
+        .highlights-grid,
+        .location-grid,
+        .faq-container
+    ) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .interior-shell .interior-page .page-body :where(.contact-card a, .location-info a) {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+    }
+
+    .interior-shell .interior-page .page-body :where(.timeline-item) {
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+
+    .interior-shell .interior-page .page-body :where(.time-badge) {
+        width: 104px;
+        min-width: 0;
+        font-size: 1rem !important;
+    }
+
+    .interior-shell .interior-page .page-body :where(.events-grid, .holidays-grid, .worship-grid, .programs-grid) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .interior-shell .interior-page .page-body :where(.event-card, .holiday-card, .worship-item, .program-item) {
+        display: grid;
+        grid-template-columns: 2.75rem minmax(0, 1fr);
+        gap: 0.2rem 0.9rem;
+        padding: 1rem;
+        align-items: center;
+    }
+
+    .interior-shell .interior-page .page-body :where(.event-card > i, .holiday-card > .holiday-icon, .worship-item > i, .program-item > i) {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        margin: 0;
+    }
+
+    .interior-shell .interior-page .page-body :where(.event-card > h3, .holiday-card > h3, .worship-item > strong, .program-item > span) {
+        grid-column: 2;
+        margin: 0;
+    }
+
+    .interior-shell .interior-page .page-body :where(.event-card > p, .holiday-card > p, .worship-item > span) {
+        grid-column: 2;
+        margin: 0;
+    }
+
+    .interior-shell .interior-page .page-body :where(.stats-grid) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .interior-shell .interior-page .page-body :where(.stat-item) {
+        display: grid;
+        grid-template-columns: 74px minmax(0, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+        align-items: center;
+        text-align: left;
+    }
+
+    .interior-shell .interior-page .page-body :where(.stat-number) {
+        font-size: 2.2rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(.stat-label) {
+        margin: 0;
+    }
+
+    .interior-shell .interior-page .page-body :where(.faq-question) {
+        min-height: 78px;
+        padding: 1.25rem 3.25rem 1.25rem 1.15rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(.faq-answer) {
+        padding: 0 1.15rem 1.35rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(.contact-box) {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(.cta-section, .involvement-section) {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 1rem;
+    }
+
+    .interior-shell .interior-page .page-body :where(.cta-section > .cta-button, .involvement-section > .contact-info) {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .interior-shell .interior-page .page-body :where(.contact-box .contact-links) {
+        justify-content: flex-start;
+    }
+
+    .interior-shell .interior-page .page-body :where(.cta-button, .directions-btn) {
+        width: 100%;
+    }
+
+    .interior-shell .interior-page .page-body :where(.map-container) {
+        height: 320px;
+    }
+
+    .interior-shell .footer {
+        padding-top: 2.5rem;
+    }
+
+    .interior-shell .footer-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .interior-shell .footer-col,
+    .interior-shell .footer-col:first-child,
+    .interior-shell .footer-col:nth-child(3),
+    .interior-shell .footer-col:last-child {
+        padding: 1.25rem 0;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .interior-shell .footer-col:first-child {
+        padding-top: 0;
+    }
+
+    .interior-shell .footer-col:last-child {
+        border-bottom: 0;
+    }
+
+    .interior-shell .footer-grid {
+        padding-bottom: 2rem;
+    }
+
+    body .site-footer .footer-links {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0 1rem !important;
+    }
+
+    body .site-footer .footer-col h4 {
+        margin-bottom: 0.9rem !important;
+    }
+
+    .interior-shell .footer-bottom {
+        display: block;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 680px) {
+    body .site-footer .newsletter-form-expanded {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    body .site-footer .newsletter-form-expanded > :is(input[name='first_name'], input[name='last_name']) {
+        grid-column: auto !important;
+    }
+
+    body .site-footer .newsletter-form-expanded > :is(input[type='email'], input[type='tel'], button, .form-status) {
+        grid-column: 1 / -1 !important;
+    }
+}
+
+@media (max-width: 359px) {
+    .interior-shell .interior-page .page-body :where(.timeline-item) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .interior-shell .interior-page .page-body :where(.time-badge) {
+        width: max-content;
+        min-width: 104px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .interior-shell *,
+    .interior-shell *::before,
+    .interior-shell *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

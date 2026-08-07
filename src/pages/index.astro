@@ -11,8 +11,8 @@ import { rabbi } from '../data/rabbi';
 ---
 
 <BaseLayout stylesheets={["/styles/home.css"]}>
-    <div class="home-site-chrome">
-        <Header />
+    <div class="home-site-chrome site-navigation-shell">
+        <Header showLogo={false} />
         <Navigation />
     </div>
 
@@ -45,9 +45,9 @@ import { rabbi } from '../data/rabbi';
             <div class="home-hero-veil" aria-hidden="true"></div>
 
             <div class="home-shell home-hero-inner">
-                <a class="home-hero-logo" href="/" aria-label="Kehilat Ohr HaTorah home">
+                <div class="home-hero-logo">
                     <img src="/images/logo.png" alt="Kehilat Ohr HaTorah" width="612" height="408">
-                </a>
+                </div>
                 <h1 id="home-hero-title" data-editable="main-title">
                     <span data-editable="main-title-text">Shalom, and welcome to Kehilat Ohr HaTorah</span>
                 </h1>
@@ -70,89 +70,67 @@ import { rabbi } from '../data/rabbi';
             </div>
         </section>
 
-        <section class="home-section home-this-shabbat" aria-labelledby="this-shabbat-title">
+        <section class="home-section home-community" aria-labelledby="about-us-title-heading">
             <div class="home-shell">
-                <div class="home-section-heading">
+                <div class="home-section-heading home-about-heading">
                     <div>
-                        <h2 id="this-shabbat-title">This Shabbat</h2>
+                        <h2 id="about-us-title-heading" data-editable="about-us-title">
+                            <span data-editable="about-us-title-text">About Us</span>
+                        </h2>
                     </div>
+                    <p data-editable="intro-text-2">Ours is a home where Torah and our Messiah Yeshua come together. Come learn, pray, and grow with us in love, respect, and shared hope.</p>
                 </div>
 
-                <div class="home-shabbat-primary">
-                    <article class="home-schedule-card" id="shabbat-activities-section">
-                        <p class="home-section-kicker">Our Shabbat Gathering</p>
-                        <h3>An afternoon of worship, Torah, and community</h3>
-                        <div class="home-shabbat-timeline" data-editable="service-times">
-                            <div class="home-timeline-row home-timeline-row-friday">
-                                <div class="home-timeline-time"><span>Friday</span></div>
+                <div class="home-about-grid">
+                    <div class="home-about-story">
+                        <div class="home-about-copy">
+                        <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a growing Messianic synagogue in the heart of Orange County. We honor Jewish life and practice, and we joyfully follow Yeshua, the Messiah of Israel. Jewish and non-Jewish people, interfaith couples, and families are all welcome to worship, learn, and grow with us.</p>
+
+                        <p data-editable="about-us-text-2">Our services join traditional and contemporary Jewish practice through prayer in Hebrew and English, Scripture teaching, music, and community. Whether you are asking your first questions or have walked this road for years, there is a place for you here.</p>
+                        </div>
+
+                        <details class="home-rabbi-story" open>
+                            <summary data-editable="rabbi-card-title">Meet Our Rabbi</summary>
+                            <p class="home-rabbi-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
+                        </details>
+
+                        <div class="home-about-actions">
+                            <details class="home-about-details">
+                                <summary>More about our leadership and affiliation</summary>
                                 <div>
-                                    <strong>Shabbat begins at home</strong>
-                                    <p>Festive Shabbat meals in the home</p>
-                                </div>
-                            </div>
-                            <div class="home-timeline-row">
-                                <time datetime="14:30">2:30 PM</time>
-                                <div><strong>Music and Dance</strong></div>
-                            </div>
-                            <div class="home-timeline-row">
-                                <time datetime="15:00">3:00 PM</time>
-                                <div><strong>Prayer and Torah</strong><p>Traditional prayers and Torah Service (Mincha)</p></div>
-                            </div>
-                            <div class="home-timeline-row">
-                                <time datetime="16:30">4:30 PM</time>
-                                <div><strong>Learn Together</strong><p>Discussion on the weekly readings</p></div>
-                            </div>
-                            <p class="home-timeline-note"><em>We plan soon to offer a morning service (Shacharit).</em></p>
-                        </div>
-                    </article>
+                                    <p data-editable="about-us-text-3">Rabbi Charles (Chaim) Ott brings many years of Messianic leadership and graduate study in Jewish studies, New Testament studies, and public education. He teaches the Hebrew Scriptures and Brit Chadashah as one message of redemption through Yeshua our Messiah.</p>
 
-                    <details class="home-reading-card home-reading-details" open>
-                        <summary>Explore this week's Torah readings</summary>
-                        <figure class="home-reading-image">
-                            <img src="/images/stock/torah-study.webp" alt="A hand following the text in a Torah scroll" width="1800" height="1200" loading="lazy" decoding="async">
-                            <figcaption>Torah for this week</figcaption>
+                                    <p data-editable="about-us-text-4">Ohr HaTorah is affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>, a movement committed to Yeshua the Messiah and to Jewish life rooted in Torah.</p>
+                                </div>
+                            </details>
+
+                            <a class="home-text-link" href="/about">
+                                <span>Learn More About Us</span>
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="home-about-visual">
+                        <img class="home-about-atmosphere" src="/images/stock/olive-branches.webp" alt="Olive branches in sunlight" width="1800" height="1202" loading="lazy" decoding="async">
+                        <figure class="home-rabbi-portrait">
+                            <div class="home-rabbi-image-frame">
+                                <img
+                                    src="/images/optimized/rabbi-charles-ott.webp"
+                                    alt={rabbi.name}
+                                    width="640"
+                                    height="640"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </div>
+                            <figcaption>
+                                <p class="home-rabbi-name" data-editable="rabbi-name">{rabbi.name}</p>
+                                <p class="home-rabbi-title" data-editable="rabbi-title">{rabbi.title}</p>
+                            </figcaption>
                         </figure>
-                        <ParashahCard />
-                    </details>
+                    </div>
                 </div>
-
-                <section class="home-shabbat-dashboard" aria-label="Live Shabbat details">
-                    <div class="home-dashboard-heading">
-                        <h3>Shabbat at a glance</h3>
-                    </div>
-                    <div class="home-dashboard-grid">
-                        <aside class="home-prayer-card" aria-label="Prayer times">
-                            <h3 data-editable="sidebar-prayer-header"><span data-editable="sidebar-prayer-title">Prayer Times</span></h3>
-                            <div class="prayer-times">
-                                <div class="prayer-row">
-                                    <div class="prayer-name" data-editable="prayer-shacharit-name">Shacharit</div>
-                                    <div class="prayer-time" id="shacharit-time">Loading...</div>
-                                </div>
-                                <div class="prayer-row">
-                                    <div class="prayer-name" data-editable="prayer-mincha-name">Mincha</div>
-                                    <div class="prayer-time" id="mincha-time">Loading...</div>
-                                </div>
-                                <div class="prayer-row">
-                                    <div class="prayer-name" data-editable="prayer-maariv-name">Ma'ariv</div>
-                                    <div class="prayer-time" id="maariv-time">Loading...</div>
-                                </div>
-                            </div>
-                            <div class="prayer-last-updated" id="prayer-last-updated">
-                                <span class="live-indicator" id="prayer-live-indicator" title="Live from Hebcal">
-                                    <span class="live-dot"></span>
-                                    <span class="live-text">LIVE</span>
-                                </span>
-                                <span class="updated-time" id="prayer-updated-time"></span>
-                            </div>
-                        </aside>
-                        <div class="home-candle-card">
-                            <CandleLighting />
-                        </div>
-                        <div class="home-clock-card">
-                            <LiveClock />
-                        </div>
-                    </div>
-                </section>
             </div>
         </section>
 
@@ -212,27 +190,35 @@ import { rabbi } from '../data/rabbi';
                             <summary>Explore our eight core values</summary>
                             <div class="home-values-grid">
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></svg></span>
                                     <div><h4 data-editable="value-torah-title">Torah Faithfulness</h4><p data-editable="value-torah-desc">Living according to God's eternal instructions</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 5h6l-3 5l3 5h-6l-3 5l-3 -5h-6l3 -5l-3 -5h6l3 -5"></path></svg></span>
                                     <div><h4 data-editable="value-identity-title">Jewish Identity</h4><p data-editable="value-identity-desc">Celebrating our rich Jewish heritage and traditions</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.73 17.753l-5.23 -5.181a5 5 0 1 1 7.5 -6.566a5 5 0 0 1 8.563 5.041"></path><path d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138"></path></svg></span>
                                     <div><h4 data-editable="value-messiah-title">Yeshua as Messiah</h4><p data-editable="value-messiah-desc">Embracing Jesus as Israel's promised Redeemer</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"></path><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M17 10h2a2 2 0 0 1 2 2v1"></path><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M3 13v-1a2 2 0 0 1 2 -2h2"></path></svg></span>
                                     <div><h4 data-editable="value-community-title">Loving Community</h4><p data-editable="value-community-desc">Welcoming all who seek to grow in faith</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12"></path><path d="M19 16h-12a2 2 0 0 0 -2 2"></path><path d="M9 8h6"></path></svg></span>
                                     <div><h4 data-editable="value-study-title">Biblical Study</h4><p data-editable="value-study-desc">Commitment to deep Scripture learning and understanding</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M13 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M9 17v-13h10v13"></path><path d="M9 8h10"></path></svg></span>
                                     <div><h4 data-editable="value-worship-title">Authentic Worship</h4><p data-editable="value-worship-desc">Heartfelt praise through Jewish liturgy and tradition</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a6 6 0 0 0 -6 -6h-3v2a6 6 0 0 0 6 6h3"></path><path d="M12 14a6 6 0 0 1 6 -6h3v1a6 6 0 0 1 -6 6h-3"></path><path d="M12 20v-10"></path></svg></span>
                                     <div><h4 data-editable="value-growth-title">Spiritual Growth</h4><p data-editable="value-growth-desc">Encouraging maturity in faith and character</p></div>
                                 </div>
                                 <div class="home-value-item">
+                                    <span class="home-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25"></path><path d="M12.5 15.5l2 2"></path><path d="M15 13l2 2"></path></svg></span>
                                     <div><h4 data-editable="value-compassion-title">Compassionate Service</h4><p data-editable="value-compassion-desc">Serving others with love and practical care</p></div>
                                 </div>
                             </div>
@@ -323,11 +309,118 @@ import { rabbi } from '../data/rabbi';
                     </article>
 
                     <div class="home-visit-utility" id="contact-us-section" data-editable="contact-info">
-                        <div><span>Mail</span><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
-                        <div><span>Email</span><p><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p></div>
-                        <div><span>Call</span><p><a href="tel:+17144061513">(714) 406-1513</a></p></div>
+                        <div><span><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 21v-6.5a3.5 3.5 0 0 0 -7 0v6.5h18v-6a4 4 0 0 0 -4 -4h-10.5"></path><path d="M12 11v-8h4l2 2l-2 2h-4"></path><path d="M6 15h1"></path></svg>Mail</span><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
+                        <div><span><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg>Email</span><p><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p></div>
+                        <div><span><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path></svg>Call</span><p><a href="tel:+17144061513">(714) 406-1513</a></p></div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <aside class="home-torah-quote" aria-label="A reflection from Scripture">
+            <div class="home-shell">
+                <div class="home-torah-quote-icon" aria-hidden="true">
+                    <!-- Tabler Icons: book-2, MIT License -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12"></path>
+                        <path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
+                        <path d="M9 8h6"></path>
+                    </svg>
+                </div>
+                <blockquote class="home-torah-quote-primary">
+                    <p>“God’s Torah is a Tree of Life <span lang="he-Latn">[etz chaim]</span> for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace.”</p>
+                    <cite>Proverbs 3:17–18</cite>
+                </blockquote>
+                <blockquote class="home-torah-quote-secondary">
+                    <p>“Turn us back to You, HASHEM, and we shall be restored. Renew our lives as in days of old.”</p>
+                    <cite>Lamentations 5:21</cite>
+                </blockquote>
+            </div>
+        </aside>
+
+        <section class="home-section home-this-shabbat" aria-labelledby="this-shabbat-title">
+            <div class="home-shell">
+                <div class="home-section-heading">
+                    <div>
+                        <h2 id="this-shabbat-title">This Shabbat</h2>
+                    </div>
+                </div>
+
+                <div class="home-shabbat-primary">
+                    <article class="home-schedule-card" id="shabbat-activities-section">
+                        <p class="home-section-kicker">Our Shabbat Gathering</p>
+                        <h3>An afternoon of worship, Torah, and community</h3>
+                        <div class="home-shabbat-timeline" data-editable="service-times">
+                            <div class="home-timeline-row home-timeline-row-friday">
+                                <div class="home-timeline-time"><span>Friday</span></div>
+                                <div>
+                                    <strong>Shabbat begins at home</strong>
+                                    <p>Festive Shabbat meals in the home</p>
+                                </div>
+                            </div>
+                            <div class="home-timeline-row">
+                                <time datetime="14:30">2:30 PM</time>
+                                <div><strong>Music and Dance</strong></div>
+                            </div>
+                            <div class="home-timeline-row">
+                                <time datetime="15:00">3:00 PM</time>
+                                <div><strong>Prayer and Torah</strong><p>Traditional prayers and Torah Service (Mincha)</p></div>
+                            </div>
+                            <div class="home-timeline-row">
+                                <time datetime="16:30">4:30 PM</time>
+                                <div><strong>Learn Together</strong><p>Discussion on the weekly readings</p></div>
+                            </div>
+                            <p class="home-timeline-note"><em>We plan soon to offer a morning service (Shacharit).</em></p>
+                        </div>
+                    </article>
+
+                    <details class="home-reading-card home-reading-details" open>
+                        <summary>Explore this week's Torah readings</summary>
+                        <figure class="home-reading-image">
+                            <img src="/images/stock/torah-study.webp" alt="A hand following the text in a Torah scroll" width="1800" height="1200" loading="lazy" decoding="async">
+                            <figcaption>Torah for this week</figcaption>
+                        </figure>
+                        <ParashahCard />
+                    </details>
+                </div>
+
+                <section class="home-shabbat-dashboard" aria-label="Live Shabbat details">
+                    <div class="home-dashboard-heading">
+                        <h3>Shabbat at a glance</h3>
+                    </div>
+                    <div class="home-dashboard-grid">
+                        <aside class="home-prayer-card" aria-label="Prayer times">
+                            <h3 data-editable="sidebar-prayer-header"><span data-editable="sidebar-prayer-title">Prayer Times</span></h3>
+                            <div class="prayer-times">
+                                <div class="prayer-row">
+                                    <div class="prayer-name" data-editable="prayer-shacharit-name">Shacharit</div>
+                                    <div class="prayer-time" id="shacharit-time">Loading...</div>
+                                </div>
+                                <div class="prayer-row">
+                                    <div class="prayer-name" data-editable="prayer-mincha-name">Mincha</div>
+                                    <div class="prayer-time" id="mincha-time">Loading...</div>
+                                </div>
+                                <div class="prayer-row">
+                                    <div class="prayer-name" data-editable="prayer-maariv-name">Ma'ariv</div>
+                                    <div class="prayer-time" id="maariv-time">Loading...</div>
+                                </div>
+                            </div>
+                            <div class="prayer-last-updated" id="prayer-last-updated">
+                                <span class="live-indicator" id="prayer-live-indicator" title="Live from Hebcal">
+                                    <span class="live-dot"></span>
+                                    <span class="live-text">LIVE</span>
+                                </span>
+                                <span class="updated-time" id="prayer-updated-time"></span>
+                            </div>
+                        </aside>
+                        <div class="home-candle-card">
+                            <CandleLighting />
+                        </div>
+                        <div class="home-clock-card">
+                            <LiveClock />
+                        </div>
+                    </div>
+                </section>
             </div>
         </section>
 
@@ -370,91 +463,6 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
         </section>
-
-        <section class="home-section home-community" aria-labelledby="about-us-title-heading">
-            <div class="home-shell">
-                <div class="home-section-heading home-about-heading">
-                    <div>
-                        <h2 id="about-us-title-heading" data-editable="about-us-title">
-                            <span data-editable="about-us-title-text">About Us</span>
-                        </h2>
-                    </div>
-                    <p data-editable="intro-text-2">Ours is a home where Torah and our Messiah Yeshua come together. Come learn, pray, and grow with us in love, respect, and shared hope.</p>
-                </div>
-
-                <div class="home-about-grid">
-                    <div class="home-about-story">
-                        <div class="home-about-copy">
-                        <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a growing Messianic synagogue in the heart of Orange County. We honor Jewish life and practice, and we joyfully follow Yeshua, the Messiah of Israel. Jewish and non-Jewish people, interfaith couples, and families are all welcome to worship, learn, and grow with us.</p>
-
-                        <p data-editable="about-us-text-2">Our services join traditional and contemporary Jewish practice through prayer in Hebrew and English, Scripture teaching, music, and community. Whether you are asking your first questions or have walked this road for years, there is a place for you here.</p>
-                        </div>
-
-                        <details class="home-rabbi-story" open>
-                            <summary data-editable="rabbi-card-title">Meet Our Rabbi</summary>
-                            <p class="home-rabbi-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
-                        </details>
-
-                        <div class="home-about-actions">
-                            <details class="home-about-details">
-                                <summary>More about our leadership and affiliation</summary>
-                                <div>
-                                    <p data-editable="about-us-text-3">Rabbi Charles (Chaim) Ott brings many years of Messianic leadership and graduate study in Jewish studies, New Testament studies, and public education. He teaches the Hebrew Scriptures and Brit Chadashah as one message of redemption through Yeshua our Messiah.</p>
-
-                                    <p data-editable="about-us-text-4">Ohr HaTorah is affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>, a movement committed to Yeshua the Messiah and to Jewish life rooted in Torah.</p>
-                                </div>
-                            </details>
-
-                            <a class="home-text-link" href="/about">
-                                <span>Learn More About Us</span>
-                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="home-about-visual">
-                        <img class="home-about-atmosphere" src="/images/stock/olive-branches.webp" alt="Olive branches in sunlight" width="1800" height="1202" loading="lazy" decoding="async">
-                        <figure class="home-rabbi-portrait">
-                            <div class="home-rabbi-image-frame">
-                                <img
-                                    src="/images/optimized/rabbi-charles-ott.webp"
-                                    alt={rabbi.name}
-                                    width="640"
-                                    height="640"
-                                    loading="lazy"
-                                    decoding="async"
-                                >
-                            </div>
-                            <figcaption>
-                                <p class="home-rabbi-name" data-editable="rabbi-name">{rabbi.name}</p>
-                                <p class="home-rabbi-title" data-editable="rabbi-title">{rabbi.title}</p>
-                            </figcaption>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <aside class="home-torah-quote" aria-label="A reflection from Scripture">
-            <div class="home-shell">
-                <div class="home-torah-quote-icon" aria-hidden="true">
-                    <!-- Tabler Icons: book-2, MIT License -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12"></path>
-                        <path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
-                        <path d="M9 8h6"></path>
-                    </svg>
-                </div>
-                <blockquote class="home-torah-quote-primary">
-                    <p>“God’s Torah is a Tree of Life <span lang="he-Latn">[etz chaim]</span> for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace.”</p>
-                    <cite>Proverbs 3:17–18</cite>
-                </blockquote>
-                <blockquote class="home-torah-quote-secondary">
-                    <p>“Turn us back to You, HASHEM, and we shall be restored. Renew our lives as in days of old.”</p>
-                    <cite>Lamentations 5:21</cite>
-                </blockquote>
-            </div>
-        </aside>
 
     </main>
 

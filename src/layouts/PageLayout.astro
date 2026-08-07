@@ -9,175 +9,177 @@ interface Props {
   title?: string;
   pageTitle?: string;
   pageIcon?: string;
+  description?: string;
 }
 
 const {
   title = "Ohr HaTorah Messianic Congregation",
   pageTitle,
-  pageIcon = "fas fa-star-of-david"
+  description,
 } = Astro.props;
+
+type PagePresentation = {
+    image: string;
+    alt: string;
+    position?: string;
+    section: string;
+    sectionHref: string;
+};
+
+const pagePresentations: Record<string, PagePresentation> = {
+    '/about': {
+        image: '/images/stock/torah-study.webp',
+        alt: 'A hand following text in a Torah scroll',
+        position: '50% 54%',
+        section: 'Welcome',
+        sectionHref: '/about',
+    },
+    '/contact': {
+        image: '/images/stock/mezuzah-light.webp',
+        alt: 'A hand holding a mezuzah in warm light',
+        position: '50% 58%',
+        section: 'Connect',
+        sectionHref: '/contact',
+    },
+    '/donate': {
+        image: '/images/stock/olive-branches.webp',
+        alt: 'Olive branches in Mediterranean sunlight',
+        position: '38% 48%',
+        section: 'Connect',
+        sectionHref: '/contact',
+    },
+    '/events': {
+        image: '/images/stock/holiday-table.webp',
+        alt: 'A Jewish holiday table set with a Hanukkah menorah',
+        position: '56% 44%',
+        section: 'Events & Services',
+        sectionHref: '/services',
+    },
+    '/expect': {
+        image: '/images/stock/open-torah-scroll.webp',
+        alt: 'An open Torah scroll resting on a synagogue reading table',
+        position: '50% 50%',
+        section: 'Welcome',
+        sectionHref: '/about',
+    },
+    '/faq': {
+        image: '/images/stock/torah-ark.webp',
+        alt: 'Torah scrolls resting inside an ark',
+        position: '50% 58%',
+        section: 'Welcome',
+        sectionHref: '/about',
+    },
+    '/holidays': {
+        image: '/images/stock/holiday-table.webp',
+        alt: 'A Jewish holiday table set with candles and flowers',
+        position: '56% 44%',
+        section: 'Events & Services',
+        sectionHref: '/services',
+    },
+    '/israel': {
+        image: '/images/stock/jerusalem-panorama.webp',
+        alt: 'A panoramic view of Jerusalem',
+        position: '50% 58%',
+        section: 'Community',
+        sectionHref: '/israel',
+    },
+    '/location': {
+        image: '/images/stock/mezuzah-light.webp',
+        alt: 'A hand holding a mezuzah in warm light',
+        position: '50% 58%',
+        section: 'Welcome',
+        sectionHref: '/about',
+    },
+    '/mission': {
+        image: '/images/stock/star-of-david-ark.webp',
+        alt: 'A Torah ark marked with Stars of David and Hebrew inscription',
+        position: '50% 32%',
+        section: 'Welcome',
+        sectionHref: '/about',
+    },
+    '/resources': {
+        image: '/images/stock/torah-ark.webp',
+        alt: 'Torah scrolls resting inside an ark',
+        position: '50% 58%',
+        section: 'Learn',
+        sectionHref: '/resources',
+    },
+    '/services': {
+        image: '/images/stock/open-torah-scroll.webp',
+        alt: 'An open Torah scroll resting on a synagogue reading table',
+        position: '50% 50%',
+        section: 'Events & Services',
+        sectionHref: '/services',
+    },
+    '/umjc': {
+        image: '/images/stock/torah-study.webp',
+        alt: 'A hand following text in a Torah scroll',
+        position: '50% 54%',
+        section: 'Welcome',
+        sectionHref: '/about',
+    },
+    '/youth': {
+        image: '/images/stock/torah-study.webp',
+        alt: 'A hand following text in a Torah scroll',
+        position: '50% 54%',
+        section: 'Events & Services',
+        sectionHref: '/services',
+    },
+};
+
+const currentPath = Astro.url.pathname === '/'
+    ? '/'
+    : Astro.url.pathname.replace(/\/+$/, '');
+const presentation = pagePresentations[currentPath] ?? pagePresentations['/about'];
+const showSectionCrumb = presentation.sectionHref !== currentPath;
 ---
 
-<BaseLayout title={title}>
-    <Header />
-    <Navigation />
+<BaseLayout title={title} description={description} stylesheets={['/styles/interior.css']}>
+    <div class="interior-shell">
+        <div class="site-navigation-shell">
+            <Header showLogo={false} />
+            <Navigation />
+        </div>
 
-    <main class="page-content">
-        <div class="page-container">
-            {pageTitle && (
-                <div class="page-header">
-                    <h1><i class={pageIcon}></i> {pageTitle}</h1>
+        {pageTitle && (
+            <header class="page-hero">
+                <div class="page-hero-inner">
+                    <div class="page-hero-title">
+                        <nav class="site-breadcrumbs" aria-label="Breadcrumb">
+                            <ol>
+                                <li><a href="/">Home</a></li>
+                                {showSectionCrumb && <li><a href={presentation.sectionHref}>{presentation.section}</a></li>}
+                                <li aria-current="page">{pageTitle}</li>
+                            </ol>
+                        </nav>
+                        <span class="page-hero-rule" aria-hidden="true"></span>
+                        <h1 id="page-title">{pageTitle}</h1>
+                    </div>
+                    <figure class="page-hero-media" style={`--hero-position: ${presentation.position ?? '50% 50%'}`}>
+                        <img
+                            src={presentation.image}
+                            alt={presentation.alt}
+                            width="1800"
+                            height="1200"
+                            loading="eager"
+                            fetchpriority="high"
+                        >
+                    </figure>
                 </div>
-            )}
+            </header>
+        )}
+
+        <main class="page-content interior-page" aria-labelledby={pageTitle ? 'page-title' : undefined}>
+            <article class="page-container">
             <div class="page-body">
                 <slot />
             </div>
             <div class="page-footer">
-                <a href="/" class="btn btn-blue"><i class="fas fa-home"></i> Back to Home</a>
+                    <a href="/" class="page-home-link">Return home <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
-        </div>
-    </main>
+            </article>
+        </main>
 
-    <Footer />
+        <Footer />
+    </div>
 </BaseLayout>
-
-<style is:global>
-    .page-content {
-        min-height: calc(100vh - 200px);
-        padding: 40px 20px;
-        background-color: var(--gray-100);
-    }
-
-    .page-container {
-        max-width: 900px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        min-width: 0;
-    }
-
-    .page-header {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 30px 40px;
-        text-align: center;
-    }
-
-    .page-header h1 {
-        margin: 0;
-        font-size: 2rem;
-        font-weight: 600;
-        color: white !important;
-        line-height: 1.2;
-        text-wrap: balance;
-    }
-
-    .page-header h1 i {
-        margin-right: 12px;
-        color: white !important;
-    }
-
-    .page-body {
-        padding: 40px;
-        min-width: 0;
-    }
-
-    .page-footer {
-        padding: 20px 40px 40px;
-        text-align: center;
-        border-top: 1px solid var(--gray-200);
-        background: var(--gray-100);
-    }
-
-    .page-body > * {
-        max-width: 100%;
-    }
-
-    .page-body img,
-    .page-body iframe {
-        max-width: 100%;
-    }
-
-    .page-body :where(h2, h3, h4) {
-        line-height: 1.25;
-        text-wrap: balance;
-    }
-
-    @media (max-width: 1023px) {
-        .page-content {
-            padding: 28px 18px;
-        }
-
-        .page-header {
-            padding: 24px 28px;
-        }
-
-        .page-header h1 {
-            font-size: 1.75rem;
-        }
-
-        .page-body {
-            padding: 32px 28px;
-        }
-
-        .page-footer {
-            padding: 24px 28px 28px;
-        }
-    }
-
-    @media (max-width: 767px) {
-        .page-content {
-            padding: 18px 12px;
-        }
-
-        .page-container {
-            border-radius: 10px;
-        }
-
-        .page-header {
-            padding: 20px 18px;
-        }
-
-        .page-header h1 {
-            font-size: 1.5rem;
-        }
-
-        .page-header h1 i {
-            margin-right: 8px;
-        }
-
-        .page-body {
-            padding: 24px 18px;
-        }
-
-        .page-footer {
-            padding: 20px 18px 24px;
-        }
-
-        .page-body :where(.section, .resource-section, .service-schedule, .values-section, .programs-section, .directions-section, .location-card, .info-section, .tips-section, .highlight-section, .priority-section, .involvement-section, .vision-section, .mission-section, .about-section, .contact-box, .welcome-banner, .cta-section) {
-            margin-bottom: 24px;
-        }
-
-        .page-body :where(.identity-section, .highlight-section, .priority-section, .tips-section, .resource-card, .event-card, .contact-card, .direction-card, .location-card, .mission-section, .vision-section, .cta-section, .about-section, .info-section, .involvement-section, .practical-item, .experience-item, .stat-item, .value-card, .program-item) {
-            padding: 20px;
-        }
-
-        .page-body :where(.worship-grid, .events-grid, .values-grid, .directions-grid, .location-grid, .contact-grid, .experience-grid, .practical-grid, .stats-grid) {
-            grid-template-columns: minmax(0, 1fr);
-        }
-
-        .page-body :where(.contact-links, .contact-info) {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 12px;
-        }
-
-        .page-body :where(.contact-links a, .contact-info a, .cta-button, .directions-btn) {
-            justify-content: center;
-            width: 100%;
-            box-sizing: border-box;
-        }
-    }
-</style>

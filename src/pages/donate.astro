@@ -2,191 +2,402 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="Donate - Ohr HaTorah" pageTitle="Support Our Ministry" pageIcon="fas fa-heart">
-    <p class="intro-text"><strong>"God loves a cheerful giver." - 2 Corinthians 9:7</strong></p>
+<PageLayout title="Donate - Ohr HaTorah" pageTitle="Support Ohr HaTorah" pageIcon="fas fa-heart">
+    <div class="donate-content">
+    <blockquote class="donation-verse">
+        <p>“God loves a cheerful giver.”</p>
+        <cite>2 Corinthians 9:7</cite>
+    </blockquote>
 
-    <div class="donation-grid">
-        <div class="donation-card">
-            <div class="donation-icon">
-                <i class="fas fa-mobile-alt"></i>
+    <div class="donation-grid donation-methods">
+        <section class="donation-card donation-card-zelle" aria-labelledby="zelle-giving-title">
+            <div class="donation-method-heading">
+                <div class="donation-icon" aria-hidden="true">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 id="zelle-giving-title">Give with Zelle</h3>
+                <span class="donation-status"><i class="fas fa-clock" aria-hidden="true"></i> Coming soon</span>
             </div>
-            <h3>Digital (Coming Soon!)</h3>
-            <p>Zelle payments coming soon!</p>
-            <div class="payment-icons">
-                <i class="fas fa-smartphone"></i>
-                <i class="fas fa-credit-card"></i>
-                <i class="fas fa-dollar-sign"></i>
-            </div>
-        </div>
 
-        <div class="donation-card">
-            <div class="donation-icon">
-                <i class="fas fa-money-check"></i>
+            <div class="zelle-layout">
+                <div class="zelle-copy">
+                    <p>Digital giving is being prepared. When it is ready, scan this code with your phone to open Zelle.</p>
+                </div>
+                <div class="zelle-qr-placeholder" role="img" aria-label="Placeholder for a future Zelle QR code">
+                    <i class="fas fa-qrcode" aria-hidden="true"></i>
+                    <span>Zelle QR coming soon</span>
+                </div>
             </div>
-            <h3>Check Donations</h3>
-            <p><strong>Payable to:</strong></p>
-            <p class="highlight-text">Ohr HaTorah</p>
-            <p><strong>Mail to:</strong></p>
-            <p>360 E. 1st Street, #856<br>Tustin, CA 92780</p>
-        </div>
+        </section>
+
+        <section class="donation-card donation-card-check" aria-labelledby="check-giving-title">
+            <div class="donation-method-heading">
+                <div class="donation-icon" aria-hidden="true">
+                    <i class="fas fa-money-check"></i>
+                </div>
+                <h3 id="check-giving-title">Give by check</h3>
+                <span class="donation-status"><i class="fas fa-check-circle" aria-hidden="true"></i> Available now</span>
+            </div>
+
+            <dl class="check-details">
+                <div>
+                    <dt>Make payable to</dt>
+                    <dd>Ohr HaTorah</dd>
+                </div>
+                <div>
+                    <dt>Mail to</dt>
+                    <dd><address>360 E. 1st Street, #856<br />Tustin, CA 92780</address></dd>
+                </div>
+            </dl>
+        </section>
     </div>
 
-    <div class="giving-info">
-        <h3><i class="fas fa-info-circle"></i> Why Give?</h3>
-        <p>Your generous donations help support our congregation's ministry including:</p>
-        <ul>
-            <li>Weekly Shabbat services and teaching</li>
-            <li>Hebrew language education</li>
-            <li>Community outreach programs</li>
-            <li>Support for Israel ministries</li>
-            <li>Youth and family programs</li>
-            <li>Facility maintenance and operations</li>
+    <section class="giving-info" aria-labelledby="why-give-title">
+        <div class="giving-info-heading">
+            <div class="giving-info-icon" aria-hidden="true"><i class="fas fa-hand-holding-heart"></i></div>
+            <div>
+                <h3 id="why-give-title">Why give?</h3>
+                <p>Your generosity sustains the worship, learning, and care we share.</p>
+            </div>
+        </div>
+        <ul class="giving-list">
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Shabbat services and teaching</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Hebrew language education</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Community outreach</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Support for Israel ministries</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Youth and family programs</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Facility care and operations</span></li>
         </ul>
-    </div>
+    </section>
 
     <div class="contact-box">
-        <h4><i class="fas fa-hand-holding-heart"></i> Questions? Contact Us</h4>
+        <h4><i class="fas fa-hand-holding-heart"></i> Questions about giving?</h4>
         <div class="contact-links">
-            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
+            <a href="tel:+17144061513" aria-label="Call Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
         </div>
+    </div>
     </div>
 </PageLayout>
 
 <style>
-    .intro-text {
-        text-align: center;
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-        font-style: italic;
-    }
-
-    .donation-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        margin-bottom: 30px;
-    }
-
-    .donation-card {
-        background: var(--gray-100);
-        padding: 30px;
-        border-radius: 12px;
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .donation-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .donation-icon {
-        width: 70px;
-        height: 70px;
-        margin: 0 auto 20px;
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        border-radius: 50%;
+    .donate-content .donation-verse {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        gap: 0.8rem;
+        margin: 0 0 clamp(2rem, 4vw, 2.75rem);
+        padding: 0.15rem 0 0.15rem 1.1rem;
+        border-left: 3px solid var(--interior-gold, #d1a12d);
+        align-items: baseline;
+        color: var(--interior-navy, #061a32);
     }
 
-    .donation-icon i {
-        color: white;
-        font-size: 1.8rem;
-    }
-
-    .donation-card h3 {
-        color: var(--primary-blue);
-        margin: 0 0 15px 0;
-    }
-
-    .donation-card p {
-        margin: 5px 0;
-        color: var(--text-secondary);
-    }
-
-    .highlight-text {
-        color: var(--primary-blue) !important;
-        font-weight: 600;
-        font-size: 1.2rem;
-    }
-
-    .payment-icons {
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .payment-icons i {
-        font-size: 1.5rem;
-        color: var(--primary-blue);
-        opacity: 0.6;
-    }
-
-    .giving-info {
-        background: var(--gold-light);
-        padding: 25px;
-        border-radius: 8px;
-        border-left: 4px solid var(--gold);
-        margin-bottom: 30px;
-    }
-
-    .giving-info h3 {
-        color: var(--gold-dark);
-        margin: 0 0 15px 0;
-    }
-
-    .giving-info p {
-        margin: 0 0 15px 0;
-        color: var(--text-secondary);
-    }
-
-    .giving-info ul {
+    .donate-content .donation-verse p {
         margin: 0;
-        padding-left: 20px;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(1.45rem, 2.7vw, 2rem);
+        font-style: italic;
+        line-height: 1.25;
     }
 
-    .giving-info li {
-        margin-bottom: 8px;
-        color: var(--text-secondary);
+    .donate-content .donation-verse cite {
+        color: var(--interior-gold, #d1a12d);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.82rem;
+        font-style: normal;
+        font-weight: 800;
+        white-space: nowrap;
     }
 
-    .contact-box {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 25px;
-        border-radius: 8px;
+    .donate-content .donation-grid.donation-methods {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
+        overflow: hidden;
+        border: 1px solid var(--interior-line, #c7c9c7);
+        border-radius: 1.15rem;
+        align-items: stretch;
+        background: var(--interior-line, #c7c9c7);
+    }
+
+    .donate-content .donation-card {
+        display: flex;
+        min-width: 0;
+        box-sizing: border-box;
+        flex-direction: column;
+        padding: clamp(1.5rem, 3vw, 2rem);
+        background: var(--interior-paper, #fbf8f0);
+        text-align: left;
+    }
+
+    .donate-content .donation-method-heading {
+        display: grid;
+        grid-template-columns: 2.9rem minmax(0, 1fr) auto;
+        gap: 0.85rem;
+        min-height: 4.15rem;
+        align-items: center;
+        padding-bottom: 1.1rem;
+        margin-bottom: 1.25rem;
+        border-bottom: 1px solid var(--interior-line, #c7c9c7);
+    }
+
+    .donate-content .donation-icon,
+    .donate-content .giving-info-icon {
+        display: inline-flex;
+        width: 2.9rem;
+        height: 2.9rem;
+        flex: 0 0 2.9rem;
+        margin: 0;
+        border: 1px solid rgba(209, 161, 45, 0.62);
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        color: var(--interior-navy, #061a32);
+    }
+
+    .donate-content .donation-icon i,
+    .donate-content .giving-info-icon i {
+        color: inherit;
+        font-size: 1.05rem;
+    }
+
+    .donate-content .donation-card h3 {
+        margin: 0;
+        color: var(--interior-navy, #061a32);
+        font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+        line-height: 1.1;
+    }
+
+    .donate-content .donation-status {
+        display: inline-flex;
+        gap: 0.35rem;
+        align-items: center;
+        color: var(--interior-muted, #5f6973);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .donate-content .zelle-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 9.75rem;
+        gap: clamp(1.75rem, 3.5vw, 2.5rem);
+        flex: 1;
+        align-items: center;
+    }
+
+    .donate-content .zelle-qr-placeholder {
+        display: grid;
+        width: 9.75rem;
+        aspect-ratio: 1;
+        box-sizing: border-box;
+        padding: 0.9rem;
+        border: 1px solid rgba(209, 161, 45, 0.6);
+        border-radius: 0.75rem;
+        place-items: center;
+        align-content: center;
+        gap: 0.55rem;
+        background: rgba(209, 161, 45, 0.08);
+        color: var(--interior-navy, #061a32);
         text-align: center;
     }
 
-    .contact-box h4 {
-        margin: 0 0 15px 0;
-        color: white;
+    .donate-content .zelle-qr-placeholder i {
+        font-size: 2.6rem;
     }
 
-    .contact-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
+    .donate-content .zelle-qr-placeholder span {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        line-height: 1.25;
     }
 
-    .contact-links a {
-        color: white;
-        text-decoration: none;
+    .donate-content .zelle-copy p {
+        max-width: 28ch;
+        margin: 0;
+        color: var(--interior-muted, #5f6973);
+        line-height: 1.55;
+    }
+
+    .donate-content .check-details {
+        display: grid;
+        flex: 1;
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        margin: 0;
+    }
+
+    .donate-content .check-details > div {
+        display: grid;
+        grid-template-columns: minmax(7.5rem, 0.42fr) minmax(0, 1fr);
+        gap: 1rem;
+        padding: 1.15rem 0;
+        border-bottom: 1px solid var(--interior-line, #c7c9c7);
+        align-items: baseline;
+    }
+
+    .donate-content .check-details > div:first-child {
+        padding-top: 0;
+    }
+
+    .donate-content .check-details > div:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .donate-content .check-details dt {
+        color: var(--interior-muted, #5f6973);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+    }
+
+    .donate-content .check-details dd {
+        margin: 0;
+        color: var(--interior-navy, #061a32);
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+    .donate-content .check-details address {
+        font: inherit;
+    }
+
+    .donate-content .giving-info {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.75fr) minmax(0, 1.25fr);
+        gap: clamp(1.5rem, 4vw, 2.5rem);
+        padding: clamp(1.35rem, 2.5vw, 1.75rem) 0;
+        margin: 0 0 clamp(1.75rem, 3vw, 2rem);
+        border: 0;
+        border-top: 1px solid var(--interior-line, #c7c9c7);
+        border-bottom: 1px solid var(--interior-line, #c7c9c7);
+        border-radius: 0;
+        align-items: start;
+        background: transparent;
+    }
+
+    .donate-content .giving-info-heading {
         display: flex;
+        gap: 0.9rem;
+        align-items: flex-start;
+    }
+
+    .donate-content .giving-info h3 {
+        margin: 0 0 0.45rem;
+        color: var(--interior-navy, #061a32);
+        font-size: clamp(1.55rem, 2.8vw, 2rem);
+        line-height: 1.05;
+    }
+
+    .donate-content .giving-info p {
+        margin: 0;
+        color: var(--interior-muted, #5f6973);
+        line-height: 1.5;
+    }
+
+    .donate-content .giving-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none;
+    }
+
+    .donate-content .giving-list li {
+        display: grid;
+        grid-template-columns: 1rem minmax(0, 1fr);
+        gap: 0.65rem;
+        min-height: 0;
+        padding: 0.75rem 1rem;
+        margin: 0 !important;
+        border-bottom: 1px solid var(--interior-line, #c7c9c7);
         align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 10px 20px;
-        border-radius: 6px;
-        transition: background 0.3s ease;
+        color: var(--interior-navy, #061a32);
+        font-weight: 700;
+        line-height: 1.3;
     }
 
-    .contact-links a:hover {
-        background: rgba(255, 255, 255, 0.2);
+    .donate-content .giving-list li:nth-last-child(-n + 2) {
+        border-bottom: 0;
+    }
+
+    .donate-content .giving-list i {
+        color: var(--interior-gold, #d1a12d);
+        font-size: 0.75rem;
+    }
+
+    @media (max-width: 760px) {
+        .donate-content .donation-verse {
+            display: block;
+            margin-bottom: 2rem;
+        }
+
+        .donate-content .donation-verse cite {
+            display: block;
+            margin-top: 0.35rem;
+        }
+
+        .donate-content .donation-grid.donation-methods,
+        .donate-content .giving-info {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .donate-content .donation-card {
+            height: auto;
+            padding: 1.25rem;
+        }
+
+        .donate-content .donation-method-heading {
+            grid-template-columns: 2.75rem minmax(0, 1fr);
+            min-height: 3.75rem;
+        }
+
+        .donate-content .donation-status {
+            grid-column: 2;
+        }
+
+        .donate-content .donation-icon {
+            width: 2.75rem;
+            height: 2.75rem;
+            flex-basis: 2.75rem;
+        }
+
+        .donate-content .zelle-layout {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1.1rem;
+        }
+
+        .donate-content .zelle-qr-placeholder {
+            grid-row: 1;
+            justify-self: center;
+        }
+
+        .donate-content .zelle-copy {
+            grid-row: 2;
+        }
+
+        .donate-content .giving-info {
+            gap: 1rem;
+            padding: 1.25rem 0;
+        }
+
+        .donate-content .giving-list {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .donate-content .giving-list li:nth-last-child(2) {
+            border-bottom: 1px solid var(--interior-line, #c7c9c7);
+        }
+
+        .donate-content .check-details > div {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 0.35rem;
+        }
     }
 </style>

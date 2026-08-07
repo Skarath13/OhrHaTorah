@@ -3,7 +3,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 ---
 
 <PageLayout title="Contact Us - Ohr HaTorah" pageTitle="Contact Us" pageIcon="fas fa-envelope">
-    <p class="intro-text"><strong>We'd love to hear from you!</strong></p>
+    <p class="intro-text"><strong>We would be glad to hear from you.</strong></p>
 
     <div class="contact-grid">
         <div class="contact-card">
@@ -36,14 +36,6 @@ import PageLayout from '../layouts/PageLayout.astro';
             </div>
             <h3>Service Location</h3>
             <p>10460 Slater Ave<br>Fountain Valley, CA 92708<br><em>Saturdays at 2:30 PM</em></p>
-        </div>
-    </div>
-
-    <div class="visit-highlight">
-        <i class="fas fa-heart"></i>
-        <div>
-            <strong>Visit Us</strong>
-            <p>Join us for Shabbat services on Saturdays - no advance notice required!</p>
         </div>
     </div>
 
@@ -129,33 +121,6 @@ import PageLayout from '../layouts/PageLayout.astro';
         line-height: 1.6;
     }
 
-    .visit-highlight {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        background: var(--gold-light);
-        padding: 20px 25px;
-        border-radius: 8px;
-        border-left: 4px solid var(--gold);
-        margin-bottom: 30px;
-    }
-
-    .visit-highlight i {
-        font-size: 2rem;
-        color: var(--gold-dark);
-    }
-
-    .visit-highlight strong {
-        color: var(--gold-dark);
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .visit-highlight p {
-        margin: 0;
-        color: var(--text-secondary);
-    }
-
     .map-section h3 {
         color: var(--primary-blue);
         margin-bottom: 20px;
@@ -167,10 +132,4 @@ import PageLayout from '../layouts/PageLayout.astro';
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    @media (max-width: 600px) {
-        .visit-highlight {
-            flex-direction: column;
-            text-align: center;
-        }
-    }
 </style>

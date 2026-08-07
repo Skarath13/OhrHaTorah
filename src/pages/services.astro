@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services & Activities" pageIcon="fas fa-star-of-david">
+<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services" pageIcon="fas fa-star-of-david">
     <p class="intro-text"><strong>Join us each week for meaningful Shabbat worship and fellowship.</strong></p>
 
     <div class="service-schedule">
@@ -46,13 +46,25 @@ import PageLayout from '../layouts/PageLayout.astro';
         <p><strong>All are welcome</strong> - whether you're Jewish, non-Jewish, or just curious about Messianic Judaism. We provide guidance and explanations to help everyone participate meaningfully.</p>
     </div>
 
-    <div class="contact-box">
-        <h4><i class="fas fa-question-circle"></i> Questions about Shabbat services?</h4>
-        <div class="contact-links">
-            <a href="tel:+17144061513"><i class="fas fa-phone"></i> (714) 406-1513</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</a>
+    <aside class="service-contact-strip" aria-labelledby="service-contact-title">
+        <div class="service-contact-heading">
+            <span class="service-contact-icon" aria-hidden="true">
+                <!-- Tabler Icons: message-question, MIT License -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"></path><path d="M8 13h6"></path><path d="M14 18h-1l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5"></path><path d="M19 22v.01"></path><path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path></svg>
+            </span>
+            <h4 id="service-contact-title">Questions about Shabbat services?</h4>
         </div>
-    </div>
+        <div class="service-contact-actions">
+            <a href="tel:+17144061513" aria-label="Call Ohr HaTorah at (714) 406-1513">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path></svg>
+                <span>Call us</span>
+            </a>
+            <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Ohr HaTorah at OhrHaTorahOC@gmail.com">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg>
+                <span>Email us</span>
+            </a>
+        </div>
+    </aside>
 </PageLayout>
 
 <style>
@@ -159,40 +171,88 @@ import PageLayout from '../layouts/PageLayout.astro';
         margin-bottom: 0;
     }
 
-    .contact-box {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 25px;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .contact-box h4 {
-        margin: 0 0 15px 0;
-        color: white;
-    }
-
-    .contact-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-
-    .contact-links a {
-        color: white;
-        text-decoration: none;
-        display: flex;
+    .service-contact-strip {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: clamp(1.25rem, 4vw, 3rem);
+        margin-top: clamp(2.25rem, 4vw, 3.25rem);
+        padding: 1.4rem 0;
+        border-top: 1px solid rgba(6, 26, 50, 0.2);
+        border-bottom: 1px solid rgba(6, 26, 50, 0.2);
         align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 10px 20px;
-        border-radius: 6px;
-        transition: background 0.3s ease;
     }
 
-    .contact-links a:hover {
-        background: rgba(255, 255, 255, 0.2);
+    .service-contact-heading {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 0.9rem;
+    }
+
+    .service-contact-heading h4 {
+        margin: 0;
+        color: var(--primary-blue);
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(1.25rem, 2.3vw, 1.7rem);
+        line-height: 1.15;
+    }
+
+    .service-contact-icon {
+        display: inline-flex;
+        width: 2.75rem;
+        height: 2.75rem;
+        flex: 0 0 auto;
+        border: 1px solid rgba(209, 161, 45, 0.58);
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-blue);
+    }
+
+    .service-contact-icon svg,
+    .service-contact-actions svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .service-contact-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.65rem;
+    }
+
+    .service-contact-actions a {
+        display: inline-flex;
+        min-height: 46px;
+        padding: 0.7rem 1rem;
+        border: 1px solid rgba(6, 26, 50, 0.28);
+        border-radius: 0.45rem;
+        align-items: center;
+        gap: 0.55rem;
+        background: transparent;
+        color: var(--primary-blue);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.92rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .service-contact-actions a:first-child {
+        border-color: var(--primary-blue);
+        background: var(--primary-blue);
+        color: #fff;
+    }
+
+    .service-contact-actions strong {
+        color: inherit;
+    }
+
+    .service-contact-actions a:hover {
+        border-color: var(--gold);
+        background: var(--gold);
+        color: var(--primary-blue);
     }
 
     @media (max-width: 767px) {
@@ -203,6 +263,27 @@ import PageLayout from '../layouts/PageLayout.astro';
 
         .time-badge {
             width: fit-content;
+        }
+
+        .service-contact-strip {
+            grid-template-columns: 1fr;
+            gap: 1.1rem;
+            padding-block: 1.25rem;
+        }
+
+        .service-contact-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .service-contact-actions a {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .service-contact-actions {
+            grid-template-columns: 1fr;
         }
     }
 </style>

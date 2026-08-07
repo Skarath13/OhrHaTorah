@@ -1,3 +1,11 @@
+---
+interface Props {
+    showLogo?: boolean;
+}
+
+const { showLogo = true } = Astro.props;
+---
+
 <div class="header">
     <button
         class="mobile-menu-btn"
@@ -11,5 +19,7 @@
         <span></span>
         <span></span>
     </button>
-    <a href="/" class="logo"><img src="/images/logo.png" alt="Ohr HaTorah Logo" class="logo-image" width="612" height="408"></a>
+    {showLogo && (
+        <a href="/" class="logo"><img src="/images/logo.png" alt="Ohr HaTorah Logo" class="logo-image" width="612" height="408"></a>
+    )}
 </div>
