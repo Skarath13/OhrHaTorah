@@ -8,7 +8,15 @@ const { showLogo = true } = Astro.props;
 
 <div class="header">
     <a class="mobile-site-brand" href="/" aria-label="Kehilat Ohr HaTorah home">
-        Kehilat Ohr HaTorah
+        <img
+            class="mobile-site-mark"
+            src="/images/logo.png"
+            alt=""
+            width="612"
+            height="408"
+            aria-hidden="true"
+        >
+        <span>Kehilat Ohr HaTorah</span>
     </a>
     <button
         class="mobile-menu-btn"

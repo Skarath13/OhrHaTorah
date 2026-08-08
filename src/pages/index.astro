@@ -45,24 +45,26 @@ import { rabbi } from '../data/rabbi';
                 <div class="home-hero-logo">
                     <img src="/images/logo.png" alt="Kehilat Ohr HaTorah" width="612" height="408">
                 </div>
-                <h1 id="home-hero-title" data-editable="main-title">
-                    <span data-editable="main-title-text">Shalom, and welcome to Kehilat Ohr HaTorah</span>
-                </h1>
-                <p class="home-hero-intro" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a warm Messianic Jewish congregation in Orange County, welcoming Jewish and non-Jewish people, couples, and families.</p>
-                <div class="home-hero-actions" aria-label="Plan a visit">
-                    <a class="home-button home-button-primary" href="#shabbat-activities-section">
-                        <span>Plan Your Visit</span>
-                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                    </a>
-                    <a
-                        class="home-button home-button-secondary"
-                        href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <span>Get Directions</span>
-                        <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
-                    </a>
+                <div class="home-hero-copy">
+                    <h1 id="home-hero-title" data-editable="main-title">
+                        <span data-editable="main-title-text">Shalom, and welcome to Kehilat Ohr HaTorah</span>
+                    </h1>
+                    <p class="home-hero-intro" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a warm Messianic Jewish congregation in Orange County, welcoming Jewish and non-Jewish people, couples, and families.</p>
+                    <div class="home-hero-actions" aria-label="Plan a visit">
+                        <a class="home-button home-button-primary" href="#shabbat-activities-section">
+                            <span>Plan Your Visit</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a
+                            class="home-button home-button-secondary"
+                            href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>Get Directions</span>
+                            <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -283,8 +285,21 @@ import { rabbi } from '../data/rabbi';
                     <article class="home-map-card">
                         <div class="home-map-caption"><span>Orange County</span><strong>Find Our Service</strong></div>
                         <div class="map-container">
+                            <div class="home-map-facade" data-map-facade>
+                                <span class="home-map-facade-icon" aria-hidden="true">
+                                    <!-- Tabler Icons: map-pin, MIT License -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"></path></svg>
+                                </span>
+                                <span class="home-map-facade-kicker">Service location</span>
+                                <strong>10460 Slater Avenue</strong>
+                                <span>Fountain Valley, CA 92708</span>
+                                <button class="home-map-load" type="button" data-map-load>
+                                    <span>Load interactive map</span>
+                                    <i class="fas fa-map" aria-hidden="true"></i>
+                                </button>
+                            </div>
                             <iframe
-                                src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                data-src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 class="home-map-iframe"
                                 title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"
                                 width="100%"
@@ -292,6 +307,7 @@ import { rabbi } from '../data/rabbi';
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
+                                hidden
                             ></iframe>
                         </div>
                         <a
@@ -306,9 +322,18 @@ import { rabbi } from '../data/rabbi';
                     </article>
 
                     <div class="home-visit-utility" id="contact-us-section" data-editable="contact-info">
-                        <div><span><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 21v-6.5a3.5 3.5 0 0 0 -7 0v6.5h18v-6a4 4 0 0 0 -4 -4h-10.5"></path><path d="M12 11v-8h4l2 2l-2 2h-4"></path><path d="M6 15h1"></path></svg>Mail</span><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
-                        <div><span><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg>Email</span><p><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p></div>
-                        <div><span><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path></svg>Call</span><p><a href="tel:+17144061513">(714) 406-1513</a></p></div>
+                        <div>
+                            <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 21v-6.5a3.5 3.5 0 0 0 -7 0v6.5h18v-6a4 4 0 0 0 -4 -4h-10.5"></path><path d="M12 11v-8h4l2 2l-2 2h-4"></path><path d="M6 15h1"></path></svg></span>
+                            <div class="home-utility-copy"><strong>Mail</strong><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
+                        </div>
+                        <div>
+                            <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg></span>
+                            <div class="home-utility-copy"><strong>Email</strong><p><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p></div>
+                        </div>
+                        <div>
+                            <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path></svg></span>
+                            <div class="home-utility-copy"><strong>Call</strong><p><a href="tel:+17144061513">(714) 406-1513</a></p></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -615,6 +640,35 @@ import { rabbi } from '../data/rabbi';
             window.addEventListener('keydown', retryAfterInteraction, { once: true });
             requestHeroPlayback();
         }
+
+        const mapIframe = document.querySelector<HTMLIFrameElement>('.home-map-iframe[data-src]');
+        const mapFacade = document.querySelector<HTMLElement>('[data-map-facade]');
+        const mapLoadButton = document.querySelector<HTMLButtonElement>('[data-map-load]');
+        const compactMapViewport = window.matchMedia('(max-width: 767px)');
+        let mapLoadTimer = 0;
+
+        const loadInteractiveMap = () => {
+            if (!mapIframe || !mapFacade) return;
+
+            const mapSource = mapIframe.dataset.src;
+            if (mapSource && !mapIframe.src) {
+                mapIframe.src = mapSource;
+            }
+
+            mapFacade.hidden = true;
+            mapIframe.hidden = false;
+        };
+
+        const syncMapLoading = () => {
+            if (compactMapViewport.matches || mapIframe?.src) return;
+
+            window.clearTimeout(mapLoadTimer);
+            mapLoadTimer = window.setTimeout(loadInteractiveMap, 250);
+        };
+
+        mapLoadButton?.addEventListener('click', loadInteractiveMap);
+        compactMapViewport.addEventListener('change', syncMapLoading);
+        syncMapLoading();
 
         const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-reading-details, .home-rabbi-story, .home-values-details');
         const mobileDisclosureViewport = window.matchMedia('(max-width: 767px)');
