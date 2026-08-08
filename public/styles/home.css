@@ -67,8 +67,7 @@
     background: var(--home-blue-950);
 }
 
-.home-hero-media,
-.home-hero-veil {
+.home-hero-media {
     position: absolute;
     inset: 0;
 }
@@ -76,7 +75,6 @@
 .home-hero-media {
     z-index: -3;
     background: url('/media/hero/ohr-hatorah-hero-poster.webp') 62% 52% / cover no-repeat;
-    filter: brightness(1.16) saturate(1.02) contrast(1.03);
 }
 
 .home-hero-media video {
@@ -85,13 +83,6 @@
     background: transparent;
     object-fit: cover;
     object-position: 62% 52%;
-}
-
-.home-hero-veil {
-    z-index: -2;
-    background:
-        linear-gradient(90deg, rgba(5, 22, 44, 0.76) 0%, rgba(5, 22, 44, 0.48) 48%, rgba(5, 22, 44, 0.08) 100%),
-        linear-gradient(0deg, rgba(5, 22, 44, 0.46) 0%, transparent 58%);
 }
 
 .home-hero-inner {
@@ -128,6 +119,7 @@
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1.01;
+    text-shadow: 0 2px 3px rgba(2, 12, 25, 0.92), 0 14px 34px rgba(2, 12, 25, 0.72);
 }
 
 .home-hero-intro {
@@ -136,6 +128,7 @@
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.04rem;
     line-height: 1.62;
+    text-shadow: 0 1px 2px rgba(2, 12, 25, 0.98), 0 8px 22px rgba(2, 12, 25, 0.82);
 }
 
 .home-hero-intro strong { color: #fff; }
@@ -173,8 +166,8 @@
 .home-button:hover { transform: translateY(-2px); }
 .home-button-primary { background: var(--home-gold-300); color: var(--home-blue-950); }
 .home-button-primary:hover { background: #efd58f; color: var(--home-blue-950); }
-.home-button-secondary { border-color: rgba(255, 255, 255, 0.58); background: rgba(6, 26, 50, 0.3); color: #fff; }
-.home-button-secondary:hover { border-color: #fff; background: rgba(6, 26, 50, 0.58); color: #fff; }
+.home-button-secondary { border-color: rgba(255, 255, 255, 0.72); background: rgba(6, 26, 50, 0.72); color: #fff; }
+.home-button-secondary:hover { border-color: #fff; background: rgba(6, 26, 50, 0.88); color: #fff; }
 
 .home-section {
     padding-block: clamp(3.4rem, 5vw, 4.6rem);
@@ -704,9 +697,8 @@
         min-height: calc(100svh - var(--site-nav-height));
         min-height: calc(100dvh - var(--site-nav-height));
     }
-    .home-hero-media { background-image: url('/media/hero/ohr-hatorah-hero-mobile-poster.webp'); background-position: 55% 50%; filter: brightness(1.35) saturate(1.15) contrast(1.06); }
+    .home-hero-media { background-image: url('/media/hero/ohr-hatorah-hero-mobile-poster.webp'); background-position: 55% 50%; }
     .home-hero-media video { object-position: 55% 50%; }
-    .home-hero-veil { background: linear-gradient(0deg, rgba(5, 22, 44, 0.88) 0%, rgba(5, 22, 44, 0.6) 58%, rgba(5, 22, 44, 0.16) 100%), linear-gradient(90deg, rgba(5, 22, 44, 0.55) 0%, rgba(5, 22, 44, 0.32) 70%, rgba(5, 22, 44, 0.18) 100%); }
     .home-hero-inner { min-height: inherit; justify-content: flex-start; padding-block: clamp(1rem, 2.8dvh, 1.5rem) clamp(1.35rem, 3dvh, 2rem); }
     .home-hero-logo { width: clamp(184px, 50vw, 214px); margin-bottom: 0; }
     .home-hero-copy { margin-top: auto; padding-top: clamp(2.5rem, 8dvh, 5.5rem); }
