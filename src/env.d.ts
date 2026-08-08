@@ -9,6 +9,7 @@ declare namespace App {
       env: {
         DB: D1Database;
         IMAGES: R2Bucket;
+        ASSETS: Fetcher;
       };
     };
     user?: User;

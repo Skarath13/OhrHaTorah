@@ -25,21 +25,18 @@ import { rabbi } from '../data/rabbi';
                     loop
                     muted
                     playsinline
-                    preload="metadata"
+                    preload="auto"
+                    disablepictureinpicture
                     poster="/media/hero/ohr-hatorah-hero-poster.webp"
                 >
                     <source
-                        src="/media/hero/ohr-hatorah-hero-mobile.webm"
-                        media="(max-width: 767px)"
-                        type="video/webm"
-                    >
-                    <source
-                        src="/media/hero/ohr-hatorah-hero-mobile.mp4"
+                        src="/api/hero-video/mobile"
                         media="(max-width: 767px)"
                         type="video/mp4"
                     >
+                    <source src="/media/hero/ohr-hatorah-hero-mobile.webm" media="(max-width: 767px)" type="video/webm">
+                    <source src="/api/hero-video/desktop" type="video/mp4">
                     <source src="/media/hero/ohr-hatorah-hero-desktop.webm" type="video/webm">
-                    <source src="/media/hero/ohr-hatorah-hero-desktop.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="home-hero-veil" aria-hidden="true"></div>
@@ -317,27 +314,6 @@ import { rabbi } from '../data/rabbi';
             </div>
         </section>
 
-        <aside class="home-torah-quote" aria-label="A reflection from Scripture">
-            <div class="home-shell">
-                <div class="home-torah-quote-icon" aria-hidden="true">
-                    <!-- Tabler Icons: book-2, MIT License -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12"></path>
-                        <path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
-                        <path d="M9 8h6"></path>
-                    </svg>
-                </div>
-                <blockquote class="home-torah-quote-primary">
-                    <p>“God’s Torah is a Tree of Life <span lang="he-Latn">[etz chaim]</span> for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace.”</p>
-                    <cite>Proverbs 3:17–18</cite>
-                </blockquote>
-                <blockquote class="home-torah-quote-secondary">
-                    <p>“Turn us back to You, HASHEM, and we shall be restored. Renew our lives as in days of old.”</p>
-                    <cite>Lamentations 5:21</cite>
-                </blockquote>
-            </div>
-        </aside>
-
         <section class="home-section home-this-shabbat" aria-labelledby="this-shabbat-title">
             <div class="home-shell">
                 <div class="home-section-heading">
@@ -423,6 +399,27 @@ import { rabbi } from '../data/rabbi';
                 </section>
             </div>
         </section>
+
+        <aside class="home-torah-quote" aria-label="A reflection from Scripture">
+            <div class="home-shell">
+                <div class="home-torah-quote-icon" aria-hidden="true">
+                    <!-- Tabler Icons: book-2, MIT License -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12"></path>
+                        <path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
+                        <path d="M9 8h6"></path>
+                    </svg>
+                </div>
+                <blockquote class="home-torah-quote-primary">
+                    <p>“God’s Torah is a Tree of Life <span lang="he-Latn">[etz chaim]</span> for those who take hold of it, and happy are those who uphold it. Its ways are ways of pleasantness, and all its paths are peace.”</p>
+                    <cite>Proverbs 3:17–18</cite>
+                </blockquote>
+                <blockquote class="home-torah-quote-secondary">
+                    <p>“Turn us back to You, HASHEM, and we shall be restored. Renew our lives as in days of old.”</p>
+                    <cite>Lamentations 5:21</cite>
+                </blockquote>
+            </div>
+        </aside>
 
         <section class="home-section home-calendar-section" aria-labelledby="congregation-calendar">
             <div class="home-shell">
@@ -563,18 +560,60 @@ import { rabbi } from '../data/rabbi';
         const heroVideo = document.getElementById('home-hero-video') as HTMLVideoElement | null;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-        const applyMotionPreference = () => {
-            if (!heroVideo) return;
-            if (reducedMotion.matches) {
-                heroVideo.pause();
-            } else {
-                void heroVideo.play().catch(() => undefined);
-            }
-        };
-
         if (heroVideo) {
-            reducedMotion.addEventListener('change', applyMotionPreference);
-            applyMotionPreference();
+            let heroIsVisible = true;
+            let autoplayRetryTimer = 0;
+            let autoplayRetryCount = 0;
+
+            heroVideo.muted = true;
+            heroVideo.defaultMuted = true;
+            heroVideo.playsInline = true;
+
+            const clearAutoplayRetry = () => {
+                if (!autoplayRetryTimer) return;
+                window.clearTimeout(autoplayRetryTimer);
+                autoplayRetryTimer = 0;
+            };
+
+            const requestHeroPlayback = () => {
+                clearAutoplayRetry();
+
+                if (reducedMotion.matches || document.hidden || !heroIsVisible) {
+                    heroVideo.pause();
+                    return;
+                }
+
+                heroVideo.muted = true;
+                void heroVideo.play().then(() => {
+                    autoplayRetryCount = 0;
+                }).catch(() => {
+                    if (autoplayRetryCount >= 3) return;
+                    autoplayRetryCount += 1;
+                    autoplayRetryTimer = window.setTimeout(requestHeroPlayback, 250 * autoplayRetryCount);
+                });
+            };
+
+            const heroObserver = new IntersectionObserver(([entry]) => {
+                heroIsVisible = entry?.isIntersecting ?? false;
+                requestHeroPlayback();
+            }, { threshold: 0.08 });
+
+            heroObserver.observe(heroVideo);
+            reducedMotion.addEventListener('change', requestHeroPlayback);
+            heroVideo.addEventListener('loadeddata', requestHeroPlayback);
+            heroVideo.addEventListener('canplay', requestHeroPlayback);
+            document.addEventListener('visibilitychange', requestHeroPlayback);
+            window.addEventListener('pageshow', requestHeroPlayback);
+
+            const retryAfterInteraction = () => {
+                autoplayRetryCount = 0;
+                requestHeroPlayback();
+            };
+
+            window.addEventListener('pointerdown', retryAfterInteraction, { once: true, passive: true });
+            window.addEventListener('touchstart', retryAfterInteraction, { once: true, passive: true });
+            window.addEventListener('keydown', retryAfterInteraction, { once: true });
+            requestHeroPlayback();
         }
 
         const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-reading-details, .home-rabbi-story, .home-values-details');
