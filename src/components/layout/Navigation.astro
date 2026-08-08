@@ -14,22 +14,25 @@
     <ul class="nav-links">
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/" class="nav-primary-link" aria-label="Welcome - Go to Home"><i class="fas fa-home"></i><span>Welcome</span><span class="nav-page-cue" aria-hidden="true">Page</span></a>
+                <a href="/" class="nav-primary-link" aria-label="Welcome - Go to Home"><i class="fas fa-home"></i><span>Welcome</span></a>
                 <button
                     id="welcome-header"
                     class="nav-disclosure"
                     type="button"
-                    aria-label="Toggle Welcome submenu"
+                    aria-label="Open Welcome submenu"
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls="nav-welcome-submenu"
+                    data-nav-label="Welcome"
                     data-nav-disclosure
                 >
-                    <span class="nav-expand-label" aria-hidden="true">Menu</span>
+                    <i class="fas fa-home nav-mobile-trigger-icon" aria-hidden="true"></i>
+                    <span class="nav-mobile-trigger-label" aria-hidden="true">Welcome</span>
                     <span class="nav-chevron" aria-hidden="true">&#9660;</span>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-welcome-submenu">
+                <a class="nav-mobile-page-link" href="/" aria-label="Welcome Home"><i class="fas fa-home"></i> Welcome Home</a>
                 <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
                 <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
                 <a href="/mission" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
@@ -40,18 +43,20 @@
         </li>
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/services" class="nav-primary-link" aria-label="Events & Services"><i class="fas fa-calendar-check"></i><span class="nav-label-default">Events &amp; Services</span><span class="nav-label-compact" aria-hidden="true">Services</span><span class="nav-page-cue" aria-hidden="true">Page</span></a>
+                <a href="/services" class="nav-primary-link" aria-label="Events & Services"><i class="fas fa-calendar-check"></i><span class="nav-label-default">Events &amp; Services</span><span class="nav-label-compact" aria-hidden="true">Services</span></a>
                 <button
                     id="events-header"
                     class="nav-disclosure"
                     type="button"
-                    aria-label="Toggle Events & Services submenu"
+                    aria-label="Open Events & Services submenu"
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls="nav-events-submenu"
+                    data-nav-label="Events & Services"
                     data-nav-disclosure
                 >
-                    <span class="nav-expand-label" aria-hidden="true">Menu</span>
+                    <i class="fas fa-calendar-check nav-mobile-trigger-icon" aria-hidden="true"></i>
+                    <span class="nav-mobile-trigger-label" aria-hidden="true">Events &amp; Services</span>
                     <span class="nav-chevron" aria-hidden="true">&#9660;</span>
                 </button>
             </div>
@@ -68,15 +73,15 @@
                     id="community-header"
                     class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Toggle Community submenu"
+                    aria-label="Open Community submenu"
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls="nav-community-submenu"
+                    data-nav-label="Community"
                     data-nav-disclosure
                 >
                     <i class="fas fa-users"></i>
                     <span>Community</span>
-                    <span class="nav-expand-label" aria-hidden="true">Menu</span>
                     <span class="nav-chevron" aria-hidden="true">&#9660;</span>
                 </button>
             </div>
@@ -88,25 +93,27 @@
         </li>
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/resources" class="nav-primary-link" aria-label="Learn"><i class="fas fa-graduation-cap"></i><span>Learn</span><span class="nav-page-cue" aria-hidden="true">Page</span></a>
+                <a href="/resources" class="nav-primary-link" aria-label="Learn"><i class="fas fa-graduation-cap"></i><span>Learn</span></a>
                 <button
                     id="learn-header"
                     class="nav-disclosure"
                     type="button"
-                    aria-label="Toggle Learn submenu"
+                    aria-label="Open Learn submenu"
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls="nav-learn-submenu"
+                    data-nav-label="Learn"
                     data-nav-disclosure
                 >
-                    <span class="nav-expand-label" aria-hidden="true">Menu</span>
+                    <i class="fas fa-graduation-cap nav-mobile-trigger-icon" aria-hidden="true"></i>
+                    <span class="nav-mobile-trigger-label" aria-hidden="true">Learn</span>
                     <span class="nav-chevron" aria-hidden="true">&#9660;</span>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-learn-submenu">
+                <a href="/resources" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
                 <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
                 <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
-                <a href="/resources" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
                 <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
                 <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
             </div>
@@ -117,19 +124,20 @@
                     id="resources-header"
                     class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Toggle Resources submenu"
+                    aria-label="Open Resources submenu"
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls="nav-resources-submenu"
+                    data-nav-label="Resources"
                     data-nav-disclosure
                 >
                     <i class="fas fa-archive"></i>
                     <span>Resources</span>
-                    <span class="nav-expand-label" aria-hidden="true">Menu</span>
                     <span class="nav-chevron" aria-hidden="true">&#9660;</span>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-resources-submenu">
+                <a class="nav-mobile-page-link" href="/resources" aria-label="Resources Overview"><i class="fas fa-book-open"></i> Resources Overview</a>
                 <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
                 <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
                 <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
@@ -150,6 +158,7 @@
     const dropdownItems = Array.from(document.querySelectorAll<HTMLElement>('.nav-links .dropdown'));
     let previouslyFocusedElement: HTMLElement | null = null;
     let savedBodyOverflow: string | null = null;
+    let savedDocumentOverflow: string | null = null;
     let focusEntryTimer: number | null = null;
 
     function setDropdownState(dropdown: HTMLElement | null, expanded: boolean) {
@@ -159,6 +168,10 @@
 
         const trigger = dropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]');
         trigger?.setAttribute('aria-expanded', String(expanded));
+        if (trigger) {
+            const navLabel = trigger.dataset.navLabel ?? 'navigation';
+            trigger.setAttribute('aria-label', `${expanded ? 'Close' : 'Open'} ${navLabel} submenu`);
+        }
     }
 
     function closeAllDropdowns(except: HTMLElement | null = null) {
@@ -182,7 +195,9 @@
     function restoreBodyScroll() {
         if (savedBodyOverflow === null) return;
         document.body.style.overflow = savedBodyOverflow;
+        document.documentElement.style.overflow = savedDocumentOverflow ?? '';
         savedBodyOverflow = null;
+        savedDocumentOverflow = null;
     }
 
     function openMenu() {
@@ -192,6 +207,7 @@
             ? document.activeElement
             : menuBtn;
         savedBodyOverflow = document.body.style.overflow;
+        savedDocumentOverflow = document.documentElement.style.overflow;
 
         closeAllDropdowns();
         navContainer.scrollTop = 0;
@@ -204,6 +220,7 @@
         if (menuBtn instanceof HTMLButtonElement) menuBtn.hidden = true;
         setDrawerAccessibility(true);
         document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
 
         window.requestAnimationFrame(() => {
             navContainer.scrollTop = 0;
