@@ -568,7 +568,7 @@ html.mobile-nav-open body {
         padding: 0 !important;
         overflow: hidden !important;
         align-items: center !important;
-        gap: 0.55rem !important;
+        gap: clamp(0.45rem, 1.8vw, 0.7rem) !important;
         color: #fff !important;
         font-family: var(--font-display) !important;
         font-size: clamp(0.94rem, 4.2vw, 1.08rem) !important;
@@ -581,9 +581,9 @@ html.mobile-nav-open body {
 
     .site-navigation-shell .mobile-site-mark {
         display: block !important;
-        width: 36px !important;
-        height: 30px !important;
-        flex: 0 0 36px !important;
+        width: 54px !important;
+        height: 44px !important;
+        flex: 0 0 54px !important;
         object-fit: contain !important;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.24));
     }
@@ -838,6 +838,27 @@ html.mobile-nav-open body {
 
     .site-navigation-shell .dropdown-content a:last-child {
         border-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 359px) {
+    .site-navigation-shell .mobile-site-mark {
+        width: 46px !important;
+        flex-basis: 46px !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .site-navigation-shell .mobile-site-mark {
+        width: 58px !important;
+        flex-basis: 58px !important;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1359px) {
+    .site-navigation-shell .mobile-site-mark {
+        width: 60px !important;
+        flex-basis: 60px !important;
     }
 }
 
