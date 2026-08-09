@@ -99,21 +99,24 @@
 .home-hero-inner {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding-block: clamp(3.5rem, 7svh, 5rem);
+    display: grid;
+    min-height: inherit;
+    padding-block: clamp(2rem, 5dvh, 4.25rem);
+    grid-template-rows: auto minmax(clamp(2.5rem, 10dvh, 8rem), 1fr) auto;
+    align-items: start;
 }
 
 .home-hero-copy {
+    grid-row: 3;
+    align-self: end;
     width: 100%;
 }
 
 .home-hero-logo {
     display: block;
-    width: clamp(280px, 30vw, 460px);
-    margin-bottom: 0.9rem;
+    width: clamp(280px, min(30vw, 45dvh), 460px);
+    margin-bottom: 0;
+    grid-row: 1;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.28));
 }
 
@@ -713,9 +716,9 @@
     .home-hero-media { background-image: url('/media/hero/ohr-hatorah-hero-mobile-poster.webp'); background-position: 55% 50%; }
     .home-hero-media video { object-position: 55% 50%; }
     .home-hero::after { background: linear-gradient(0deg, rgba(6, 26, 50, 0.88) 0%, rgba(6, 26, 50, 0.52) 40%, rgba(6, 26, 50, 0.08) 70%, transparent 82%); }
-    .home-hero-inner { min-height: inherit; justify-content: flex-start; padding-block: clamp(1rem, 2.8dvh, 1.5rem) clamp(1.35rem, 3dvh, 2rem); }
+    .home-hero-inner { padding-block: clamp(1rem, 2.8dvh, 1.5rem) clamp(1.35rem, 3dvh, 2rem); grid-template-rows: auto minmax(clamp(2.5rem, 8dvh, 5.5rem), 1fr) auto; }
     .home-hero-logo { width: clamp(224px, 62vw, 272px); margin-bottom: 0; }
-    .home-hero-copy { margin-top: auto; padding-top: clamp(2.5rem, 8dvh, 5.5rem); }
+    .home-hero-copy { margin-top: 0; padding-top: 0; }
     .home-hero h1 { max-width: 11ch; font-size: clamp(2.35rem, 10.5vw, 3.25rem); line-height: 1.02; }
     .home-hero-intro { max-width: 32rem; margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.53; }
     .home-hero-actions { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }

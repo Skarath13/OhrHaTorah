@@ -558,17 +558,17 @@ html.mobile-nav-open body {
     .site-navigation-shell .mobile-site-brand {
         display: inline-flex !important;
         position: absolute !important;
-        top: calc(10px + env(safe-area-inset-top)) !important;
+        top: calc(8px + env(safe-area-inset-top)) !important;
         right: calc(72px + env(safe-area-inset-right)) !important;
         left: calc(14px + env(safe-area-inset-left)) !important;
         width: auto !important;
-        height: 44px !important;
-        min-height: 44px !important;
+        height: 48px !important;
+        min-height: 48px !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: hidden !important;
         align-items: center !important;
-        gap: clamp(0.45rem, 1.8vw, 0.7rem) !important;
+        gap: clamp(0.4rem, 1.6vw, 0.65rem) !important;
         color: #fff !important;
         font-family: var(--font-display) !important;
         font-size: clamp(0.94rem, 4.2vw, 1.08rem) !important;
@@ -581,9 +581,9 @@ html.mobile-nav-open body {
 
     .site-navigation-shell .mobile-site-mark {
         display: block !important;
-        width: 54px !important;
-        height: 44px !important;
-        flex: 0 0 54px !important;
+        width: 72px !important;
+        height: 48px !important;
+        flex: 0 0 72px !important;
         object-fit: contain !important;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.24));
     }
@@ -842,23 +842,44 @@ html.mobile-nav-open body {
 }
 
 @media (max-width: 359px) {
+    .site-navigation-shell .mobile-site-brand {
+        top: calc(10px + env(safe-area-inset-top)) !important;
+        height: 44px !important;
+        min-height: 44px !important;
+    }
+
     .site-navigation-shell .mobile-site-mark {
-        width: 46px !important;
-        flex-basis: 46px !important;
+        width: 66px !important;
+        height: 44px !important;
+        flex-basis: 66px !important;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+    .site-navigation-shell .mobile-site-brand {
+        top: calc(7px + env(safe-area-inset-top)) !important;
+        height: 50px !important;
+        min-height: 50px !important;
+    }
+
     .site-navigation-shell .mobile-site-mark {
-        width: 58px !important;
-        flex-basis: 58px !important;
+        width: 75px !important;
+        height: 50px !important;
+        flex-basis: 75px !important;
     }
 }
 
 @media (min-width: 1024px) and (max-width: 1359px) {
+    .site-navigation-shell .mobile-site-brand {
+        top: calc(6px + env(safe-area-inset-top)) !important;
+        height: 52px !important;
+        min-height: 52px !important;
+    }
+
     .site-navigation-shell .mobile-site-mark {
-        width: 60px !important;
-        flex-basis: 60px !important;
+        width: 78px !important;
+        height: 52px !important;
+        flex-basis: 78px !important;
     }
 }
 

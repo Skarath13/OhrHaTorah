@@ -18,6 +18,10 @@ const chromeStyles = readFileSync(
     new URL('../../public/styles/chrome.css', import.meta.url),
     'utf8'
 );
+const homeStyles = readFileSync(
+    new URL('../../public/styles/home.css', import.meta.url),
+    'utf8'
+);
 const legacyStyles = readFileSync(
     new URL('../../public/styles/style.css', import.meta.url),
     'utf8'
@@ -86,4 +90,17 @@ test('homepage and byte-range route use the versioned forward-reverse hero media
     assert.match(homeSource, /<video[\s\S]*?\sloop\s/);
     assert.match(homeSource, /\/api\/hero-video\/mobile-v2/);
     assert.match(homeSource, /\/api\/hero-video\/desktop-v2/);
+});
+
+test('responsive brand fills the fixed header and hero separates brand from copy at every width', () => {
+    assert.match(chromeStyles, /--site-nav-height: 64px;/);
+    assert.match(chromeStyles, /\.site-navigation-shell \.mobile-site-mark \{[\s\S]*?width: 72px !important;[\s\S]*?height: 48px !important;/);
+    assert.match(chromeStyles, /@media \(max-width: 359px\) \{[\s\S]*?width: 66px !important;[\s\S]*?height: 44px !important;/);
+    assert.match(chromeStyles, /@media \(min-width: 768px\) and \(max-width: 1023px\) \{[\s\S]*?width: 75px !important;[\s\S]*?height: 50px !important;/);
+    assert.match(chromeStyles, /@media \(min-width: 1024px\) and \(max-width: 1359px\) \{[\s\S]*?width: 78px !important;[\s\S]*?height: 52px !important;/);
+
+    assert.match(homeStyles, /\.home-hero-inner \{[\s\S]*?display: grid;[\s\S]*?min-height: inherit;[\s\S]*?grid-template-rows: auto minmax\(clamp\(2\.5rem, 10dvh, 8rem\), 1fr\) auto;/);
+    assert.match(homeStyles, /\.home-hero-copy \{[\s\S]*?grid-row: 3;[\s\S]*?align-self: end;/);
+    assert.match(homeStyles, /\.home-hero-logo \{[\s\S]*?grid-row: 1;/);
+    assert.doesNotMatch(homeStyles, /\.home-hero-copy \{[^}]*margin-top: auto;/);
 });
