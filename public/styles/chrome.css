@@ -1,6 +1,8 @@
 /* Shared site chrome. Loaded last so navigation and footer geometry cannot drift by route. */
 
 :root {
+    --font-body: Arial, Helvetica, sans-serif;
+    --font-display: Georgia, 'Times New Roman', serif;
     --site-chrome-navy: #061d35;
     --site-chrome-ink: #0b2d57;
     --site-chrome-gold: #d1a12d;
@@ -53,7 +55,7 @@
 }
 
 .site-navigation-shell :is(.nav-links, .nav-links > li, .nav-item-row, .nav-primary-link, .nav-disclosure) {
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: var(--font-body) !important;
 }
 
 @media (min-width: 1360px) {
@@ -81,6 +83,17 @@
         pointer-events: auto !important;
         background: transparent !important;
         box-shadow: none !important;
+    }
+
+    .site-navigation-shell .nav-drawer-header {
+        display: none !important;
+    }
+
+    .site-navigation-shell .nav-drawer-scroll {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: visible !important;
     }
 
     .site-navigation-shell .nav-links {
@@ -339,7 +352,7 @@
         align-items: center !important;
         gap: 0.55rem !important;
         color: #fff !important;
-        font-family: Georgia, 'Times New Roman', serif !important;
+        font-family: var(--font-display) !important;
         font-size: clamp(0.94rem, 4.2vw, 1.08rem) !important;
         font-weight: 700 !important;
         line-height: 1.1 !important;
@@ -398,17 +411,27 @@
         background: currentColor !important;
     }
 
+    .site-navigation-shell .nav-drawer-header {
+        display: flex !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 3 !important;
+        width: 100% !important;
+        min-height: calc(64px + env(safe-area-inset-top)) !important;
+        padding: calc(10px + env(safe-area-inset-top)) 12px 8px !important;
+        flex: 0 0 auto !important;
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+        background: var(--site-chrome-paper) !important;
+    }
+
     .site-navigation-shell .nav-close-btn,
     .site-navigation-shell .nav-close-btn:focus-visible {
         display: inline-flex !important;
-        position: sticky !important;
-        top: 0 !important;
-        right: auto !important;
-        left: auto !important;
-        z-index: 3;
+        position: static !important;
         min-width: 82px !important;
         min-height: 44px !important;
-        margin: calc(10px + env(safe-area-inset-top)) 12px 8px auto !important;
+        margin: 0 !important;
         padding: 0.65rem 0.8rem !important;
         border: 1px solid rgba(11, 45, 87, 0.22) !important;
         border-radius: 0.6rem !important;
@@ -422,31 +445,46 @@
 
     .site-navigation-shell .nav-container {
         display: flex !important;
-        position: absolute !important;
-        inset: 0 0 auto auto !important;
+        position: fixed !important;
+        inset: 0 0 0 auto !important;
         width: min(24rem, 90vw) !important;
         max-width: none !important;
-        height: 100svh !important;
-        height: 100dvh !important;
+        height: auto !important;
         min-height: 0 !important;
-        max-height: 100svh !important;
-        max-height: 100dvh !important;
+        max-height: none !important;
         padding: 0 !important;
         border: 0 !important;
         border-radius: 0 !important;
         overflow-x: hidden !important;
-        overflow-y: auto !important;
+        overflow-y: hidden !important;
         flex-direction: column !important;
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
         touch-action: pan-y;
         background: var(--site-chrome-paper) !important;
         transform: translateX(105%) !important;
-        scrollbar-gutter: stable;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: transform 200ms ease, visibility 200ms linear !important;
     }
 
     .site-navigation-shell .nav-container.active {
         transform: translateX(0) !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    .site-navigation-shell .nav-drawer-scroll {
+        display: block !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        flex: 1 1 auto !important;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+        scrollbar-gutter: stable;
     }
 
     .site-navigation-shell .nav-links {
@@ -623,7 +661,7 @@
     min-height: 0;
     align-items: center;
     color: rgba(255, 255, 255, 0.68);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-body);
     font-size: 0.8rem;
     font-weight: 760;
     line-height: 1.2;
@@ -651,7 +689,7 @@
     min-width: 0;
     overflow: hidden;
     color: #fff;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-body);
     font-size: 0.8rem;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -714,7 +752,7 @@ body .site-footer .footer-col h4 {
     align-items: center;
     gap: 0.6rem;
     color: #fff !important;
-    font-family: Georgia, 'Times New Roman', serif !important;
+    font-family: var(--font-display) !important;
     font-size: 1.12rem !important;
     font-weight: 700 !important;
     line-height: 1.2 !important;

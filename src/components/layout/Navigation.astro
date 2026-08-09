@@ -6,15 +6,18 @@
 
 <!-- Navigation -->
 <nav class="nav-container" id="nav-container" aria-label="Primary navigation">
-    <button class="nav-close-btn" id="nav-close-btn" type="button" aria-label="Close navigation drawer">
-        <i class="fas fa-times" aria-hidden="true"></i>
-        <span>Close</span>
-    </button>
+    <div class="nav-drawer-header">
+        <button class="nav-close-btn" id="nav-close-btn" type="button" aria-label="Close navigation drawer">
+            <i class="fas fa-times" aria-hidden="true"></i>
+            <span>Close</span>
+        </button>
+    </div>
 
+    <div class="nav-drawer-scroll" id="nav-drawer-scroll">
     <ul class="nav-links">
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/" class="nav-primary-link" aria-label="Welcome - Go to Home"><i class="fas fa-home"></i><span>Welcome</span></a>
+                <a href="/" class="nav-primary-link" aria-label="Go to home"><i class="fas fa-home"></i><span>Home</span></a>
                 <button
                     id="welcome-header"
                     class="nav-disclosure"
@@ -23,27 +26,27 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls="nav-welcome-submenu"
-                    data-nav-label="Welcome"
+                    data-nav-label="Home"
                     data-nav-disclosure
                 >
                     <i class="fas fa-home nav-mobile-trigger-icon" aria-hidden="true"></i>
-                    <span class="nav-mobile-trigger-label" aria-hidden="true">Welcome</span>
+                    <span class="nav-mobile-trigger-label" aria-hidden="true">Home</span>
                     <span class="nav-chevron" aria-hidden="true">&#9660;</span>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-welcome-submenu">
-                <a class="nav-mobile-page-link" href="/" aria-label="Welcome Home"><i class="fas fa-home"></i> Welcome Home</a>
-                <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
-                <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
-                <a href="/mission" aria-label="Mission Vision"><i class="fas fa-bullseye"></i> Mission Vision & Core Values</a>
-                <a href="/location" aria-label="Our Location"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                <a class="nav-mobile-page-link" href="/" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+                <a href="/about" aria-label="About Ohr HaTorah"><i class="fas fa-info-circle"></i> About Ohr HaTorah</a>
+                <a href="/expect" aria-label="What to expect"><i class="fas fa-door-open"></i> What to expect</a>
+                <a href="/mission" aria-label="Mission vision and values"><i class="fas fa-bullseye"></i> Mission, vision, and values</a>
+                <a href="/location" aria-label="Our location"><i class="fas fa-map-marker-alt"></i> Our location</a>
                 <a href="/faq" aria-label="FAQ"><i class="fas fa-question-circle"></i> FAQ</a>
-                <a href="/umjc" aria-label="UMJC Affiliation"><i class="fas fa-handshake"></i> UMJC Affiliation</a>
+                <a href="/umjc" aria-label="UMJC affiliation"><i class="fas fa-handshake"></i> UMJC affiliation</a>
             </div>
         </li>
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/services" class="nav-primary-link" aria-label="Events & Services"><i class="fas fa-calendar-check"></i><span class="nav-label-default">Events &amp; Services</span><span class="nav-label-compact" aria-hidden="true">Services</span></a>
+                <a href="/services" class="nav-primary-link" aria-label="Events and services"><i class="fas fa-calendar-check"></i><span class="nav-label-default">Events &amp; Services</span><span class="nav-label-compact" aria-hidden="true">Services</span></a>
                 <button
                     id="events-header"
                     class="nav-disclosure"
@@ -61,10 +64,10 @@
                 </button>
             </div>
             <div class="dropdown-content" id="nav-events-submenu">
-                <a href="/services" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
+                <a href="/services" aria-label="Shabbat services"><i class="fas fa-star-of-david"></i> Shabbat services</a>
                 <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
-                <a href="/events" aria-label="Special Events"><i class="fas fa-star"></i> Special Events</a>
-                <a href="/youth" aria-label="Shabbat School"><i class="fas fa-child"></i> Shabbat School for Youth</a>
+                <a href="/events" aria-label="Special events"><i class="fas fa-star"></i> Special events</a>
+                <a href="/youth" aria-label="Shabbat School for youth"><i class="fas fa-child"></i> Shabbat School for youth</a>
             </div>
         </li>
         <li class="dropdown">
@@ -87,8 +90,7 @@
             </div>
             <div class="dropdown-content" id="nav-community-submenu">
                 <a href="/#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
-                <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
-                <a href="/israel" aria-label="Stand With Israel"><i class="fas fa-flag"></i> Stand With Israel</a>
+                <a href="/israel" aria-label="Stand with Israel"><i class="fas fa-flag"></i> Stand with Israel</a>
             </div>
         </li>
         <li class="dropdown">
@@ -111,11 +113,9 @@
                 </button>
             </div>
             <div class="dropdown-content" id="nav-learn-submenu">
-                <a href="/resources" aria-label="Messianic Resources"><i class="fas fa-book-open"></i> Messianic Jewish Resources</a>
-                <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
-                <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
-                <a href="#" aria-label="Hebrew Classes"><i class="fas fa-language"></i> Hebrew Classes</a>
-                <a href="#" aria-label="Siddur Booklets"><i class="fas fa-book"></i> Description of Siddur Booklets</a>
+                <a href="/resources" aria-label="Messianic Jewish resources"><i class="fas fa-book-open"></i> Messianic Jewish resources</a>
+                <a href="/#shabbat-activities-section" aria-label="Weekly Torah readings"><i class="fas fa-scroll"></i> Weekly Torah readings</a>
+                <a href="/faq" aria-label="Questions about Messianic Judaism"><i class="fas fa-question-circle"></i> Common questions</a>
             </div>
         </li>
         <li class="dropdown">
@@ -137,20 +137,20 @@
                 </button>
             </div>
             <div class="dropdown-content" id="nav-resources-submenu">
-                <a class="nav-mobile-page-link" href="/resources" aria-label="Resources Overview"><i class="fas fa-book-open"></i> Resources Overview</a>
-                <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
-                <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
-                <a href="#" aria-label="Original Music"><i class="fas fa-guitar"></i> Original Music Samples</a>
-                <a href="#" aria-label="Recommended Books"><i class="fas fa-book-reader"></i> Recommended Books</a>
+                <a class="nav-mobile-page-link" href="/resources" aria-label="Resources overview"><i class="fas fa-book-open"></i> Resources overview</a>
+                <a href="/umjc" aria-label="UMJC affiliation"><i class="fas fa-handshake"></i> UMJC affiliation</a>
+                <a href="/#congregation-calendar" aria-label="Congregation calendar"><i class="fas fa-calendar-alt"></i> Congregation calendar</a>
             </div>
         </li>
-        <li><a href="/contact" aria-label="Contact Us"><i class="fas fa-envelope"></i><span class="nav-label-default">Contact Us</span><span class="nav-label-compact" aria-hidden="true">Contact</span></a></li>
+        <li><a href="/contact" aria-label="Contact us"><i class="fas fa-envelope"></i><span class="nav-label-default">Contact Us</span><span class="nav-label-compact" aria-hidden="true">Contact</span></a></li>
         <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i><span>Donate</span></a></li>
     </ul>
+    </div>
 </nav>
 
 <script>
     const navContainer = document.getElementById('nav-container');
+    const navDrawerScroll = document.getElementById('nav-drawer-scroll');
     const mobileMenuQuery = window.matchMedia('(max-width: 1359px)');
     const navOverlay = document.getElementById('nav-overlay');
     const menuBtn = document.getElementById('mobile-menu-btn');
@@ -159,6 +159,10 @@
     let previouslyFocusedElement: HTMLElement | null = null;
     let savedBodyOverflow: string | null = null;
     let savedDocumentOverflow: string | null = null;
+    let savedBodyPosition: string | null = null;
+    let savedBodyTop: string | null = null;
+    let savedBodyWidth: string | null = null;
+    let savedPageScrollY = 0;
     let focusEntryTimer: number | null = null;
 
     function setDropdownState(dropdown: HTMLElement | null, expanded: boolean) {
@@ -196,8 +200,15 @@
         if (savedBodyOverflow === null) return;
         document.body.style.overflow = savedBodyOverflow;
         document.documentElement.style.overflow = savedDocumentOverflow ?? '';
+        document.body.style.position = savedBodyPosition ?? '';
+        document.body.style.top = savedBodyTop ?? '';
+        document.body.style.width = savedBodyWidth ?? '';
         savedBodyOverflow = null;
         savedDocumentOverflow = null;
+        savedBodyPosition = null;
+        savedBodyTop = null;
+        savedBodyWidth = null;
+        window.scrollTo(0, savedPageScrollY);
     }
 
     function openMenu() {
@@ -208,9 +219,13 @@
             : menuBtn;
         savedBodyOverflow = document.body.style.overflow;
         savedDocumentOverflow = document.documentElement.style.overflow;
+        savedBodyPosition = document.body.style.position;
+        savedBodyTop = document.body.style.top;
+        savedBodyWidth = document.body.style.width;
+        savedPageScrollY = window.scrollY;
 
         closeAllDropdowns();
-        navContainer.scrollTop = 0;
+        if (navDrawerScroll) navDrawerScroll.scrollTop = 0;
 
         navContainer.classList.add('active');
         navOverlay?.classList.add('active');
@@ -221,9 +236,12 @@
         setDrawerAccessibility(true);
         document.body.style.overflow = 'hidden';
         document.documentElement.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${savedPageScrollY}px`;
+        document.body.style.width = '100%';
 
         window.requestAnimationFrame(() => {
-            navContainer.scrollTop = 0;
+            if (navDrawerScroll) navDrawerScroll.scrollTop = 0;
         });
 
         if (focusEntryTimer !== null) window.clearTimeout(focusEntryTimer);

@@ -257,7 +257,7 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.6;
     color: var(--gray-800);
     background-color: var(--gray-100);
@@ -1239,7 +1239,7 @@ p {
     gap: 16px;
     align-items: center;
     color: var(--white);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--font-body);
 }
 
 .time-date-container .date-section {
@@ -1260,7 +1260,7 @@ p {
     color: var(--white);
     font-weight: 300;
     letter-spacing: 2px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--font-body);
     display: flex;
     align-items: baseline;
     gap: 4px;
@@ -1313,7 +1313,7 @@ p {
     box-shadow: var(--shadow-lg);
     min-width: 240px;
     transition: var(--transition-standard);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-body);
 }
 
 .hostage-counter:hover {
@@ -1379,7 +1379,7 @@ p {
     color: var(--white);
     padding: 3px 4px;
     border-radius: 3px;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 700;
     min-width: 26px;
@@ -1466,7 +1466,7 @@ p {
 
 .memorial-number {
     color: var(--white);
-    font-family: 'Segoe UI', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 700;
     line-height: 1.1;
@@ -3194,7 +3194,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     top: -10px;
     font-size: 40px;
     color: var(--gold);
-    font-family: Georgia, serif;
+    font-family: var(--font-display);
 }
 
 .testimonial-author {

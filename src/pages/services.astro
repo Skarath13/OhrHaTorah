@@ -2,8 +2,8 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services" pageIcon="fas fa-star-of-david">
-    <p class="intro-text"><strong>Join us each week for meaningful Shabbat worship and fellowship.</strong></p>
+<PageLayout title="Shabbat Services - Ohr HaTorah" pageTitle="Shabbat Services" pageIcon="fas fa-star-of-david" description="Saturday Shabbat services at Ohr HaTorah with prayer, Torah, music, and discussion.">
+    <p class="intro-text"><strong>Join us each Saturday for Shabbat prayer, Torah, music, and fellowship.</strong></p>
 
     <div class="service-schedule">
         <h3><i class="fas fa-moon"></i> Friday Evening</h3>
@@ -15,8 +15,8 @@ import PageLayout from '../layouts/PageLayout.astro';
             <div class="timeline-item">
                 <div class="time-badge blue">2:30 PM</div>
                 <div class="timeline-content">
-                    <strong>Contemporary Messianic Music & Dance</strong>
-                    <p>Uplifting worship with Hebrew and English songs. Join in or simply listen!</p>
+                    <strong>Messianic Music and Dance</strong>
+                    <p>Hebrew and English songs with congregational music and dance.</p>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <div class="time-badge gold">3:00 PM</div>
                 <div class="timeline-content">
                     <strong>Traditional Mincha Service</strong>
-                    <p>Hebrew prayers, Torah reading, and blessings. All explained in English.</p>
+                    <p>Hebrew prayer, Torah reading, and blessings, with guidance in English.</p>
                 </div>
             </div>
 
@@ -32,18 +32,18 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <div class="time-badge green">4:30 PM</div>
                 <div class="timeline-content">
                     <strong>Interactive Scripture Discussion</strong>
-                    <p>Weekly Torah portion, Haftarah, and Brit Chadashah study with Q&A.</p>
+                    <p>A group study of the Torah portion, Haftarah, and Brit Chadashah.</p>
                 </div>
             </div>
         </div>
 
-        <p class="future-note"><em><i class="fas fa-clock"></i> We plan soon to offer a morning service (Shacharit)</em></p>
+        <p class="future-note"><em><i class="fas fa-clock"></i> A morning Shacharit service is planned.</em></p>
     </div>
 
     <div class="info-section">
         <h3><i class="fas fa-heart"></i> What to Expect</h3>
-        <p>Our Shabbat services blend traditional Jewish liturgy with contemporary Messianic worship. You'll experience Hebrew prayers, Torah readings, meaningful discussions, and vibrant music that celebrates both our Jewish heritage and faith in Yeshua.</p>
-        <p><strong>All are welcome</strong> - whether you're Jewish, non-Jewish, or just curious about Messianic Judaism. We provide guidance and explanations to help everyone participate meaningfully.</p>
+        <p>Our Shabbat gathering brings together Jewish liturgy, Messianic music, Torah reading, and discussion. Hebrew prayers are accompanied by transliteration and English explanations.</p>
+        <p><strong>Jewish and non-Jewish visitors are welcome.</strong> Participate at your own pace, and ask questions whenever you need help.</p>
     </div>
 
     <aside class="service-contact-strip" aria-labelledby="service-contact-title">
@@ -192,7 +192,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     .service-contact-heading h4 {
         margin: 0;
         color: var(--primary-blue);
-        font-family: Georgia, 'Times New Roman', serif;
+        font-family: var(--font-display);
         font-size: clamp(1.25rem, 2.3vw, 1.7rem);
         line-height: 1.15;
     }
@@ -232,7 +232,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         gap: 0.55rem;
         background: transparent;
         color: var(--primary-blue);
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: var(--font-body);
         font-size: 0.92rem;
         font-weight: 700;
         text-decoration: none;

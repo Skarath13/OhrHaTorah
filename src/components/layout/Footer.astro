@@ -7,14 +7,14 @@ const currentYear = new Date().getFullYear();
         <div class="footer-grid">
             <div class="footer-col">
                 <h4><i class="fas fa-star-of-david"></i> Ohr HaTorah</h4>
-                <p>Ohr HaTorah is a Messianic Jewish congregation dedicated to exploring the Jewish roots of our faith while embracing Yeshua as the promised Messiah of Israel.</p>
+                <p>A Messianic Jewish congregation in Orange County, rooted in Torah, Jewish life, and faith in Yeshua.</p>
             </div>
 
             <div class="footer-col">
-                <h4><i class="fas fa-link"></i> Quick Links</h4>
+                <h4><i class="fas fa-link"></i> Quick links</h4>
                 <ul class="footer-links">
-                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                    <li><a href="/services"><i class="fas fa-chevron-right"></i> Services &amp; Times</a></li>
+                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About us</a></li>
+                    <li><a href="/services"><i class="fas fa-chevron-right"></i> Shabbat services</a></li>
                     <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right"></i> Calendar</a></li>
                     <li><a href="/resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
                     <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate</a></li>
@@ -24,16 +24,16 @@ const currentYear = new Date().getFullYear();
             </div>
 
             <div class="footer-col">
-                <h4><i class="fas fa-envelope"></i> Stay Connected</h4>
-                <p>Subscribe for updates on events, teachings, and community news.</p>
+                <h4><i class="fas fa-envelope"></i> Stay connected</h4>
+                <p>Receive occasional updates about gatherings and community news.</p>
                 <form id="newsletter-form" class="newsletter-form-expanded">
                     <input type="hidden" name="access_key" value="d3f52dee-3156-4b82-a76a-fe9bbf9eb30e">
                     <input type="hidden" name="subject" value="New Newsletter Subscription - Ohr HaTorah">
                     <input type="hidden" name="from_name" value="Ohr HaTorah Website">
 
-                    <input type="text" name="first_name" placeholder="First Name *" required aria-label="First name">
-                    <input type="text" name="last_name" placeholder="Last Name *" required aria-label="Last name">
-                    <input type="email" name="email" placeholder="Email Address *" required aria-label="Email address">
+                    <input type="text" name="first_name" placeholder="First name *" required aria-label="First name">
+                    <input type="text" name="last_name" placeholder="Last name *" required aria-label="Last name">
+                    <input type="email" name="email" placeholder="Email address *" required aria-label="Email address">
                     <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number">
                     <button type="submit" class="newsletter-btn-full">
                         Subscribe <i class="fas fa-arrow-right"></i>
@@ -43,7 +43,7 @@ const currentYear = new Date().getFullYear();
             </div>
 
             <div class="footer-col">
-                <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
+                <h4><i class="fas fa-map-marker-alt"></i> Contact</h4>
                 <ul class="footer-contact">
                     <li>
                         <i class="fas fa-envelope" aria-hidden="true"></i>
@@ -67,12 +67,6 @@ const currentYear = new Date().getFullYear();
 
         <div class="footer-bottom">
             <p>&copy; {currentYear} Ohr HaTorah Messianic Congregation. All rights reserved.</p>
-            <p>
-                <a href="#">Privacy Policy</a> |
-                <a href="#">Terms of Use</a> |
-                <a href="#">Accessibility</a> |
-                <a href="#">Site Map</a>
-            </p>
         </div>
     </div>
 </footer>
@@ -138,7 +132,7 @@ const currentYear = new Date().getFullYear();
             const formData = new FormData(this);
             const submitBtn = this.querySelector('button[type="submit"]');
 
-            statusEl.textContent = 'Subscribing...';
+            statusEl.textContent = 'Subscribing…';
             statusEl.className = 'form-status loading';
             submitBtn.disabled = true;
 
@@ -150,7 +144,7 @@ const currentYear = new Date().getFullYear();
                 const data = await response.json();
 
                 if (data.success) {
-                    statusEl.textContent = 'Thank you for subscribing!';
+                    statusEl.textContent = 'You are subscribed.';
                     statusEl.className = 'form-status success';
                     newsletterForm.reset();
                 } else {

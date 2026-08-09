@@ -2,37 +2,20 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="UMJC Affiliation - Ohr HaTorah" pageTitle="UMJC Affiliation" pageIcon="fas fa-handshake">
+<PageLayout title="UMJC Affiliation - Ohr HaTorah" pageTitle="UMJC Affiliation" pageIcon="fas fa-handshake" description="Ohr HaTorah's affiliation with the Union of Messianic Jewish Congregations.">
 
-    <p class="intro-text"><strong>Proudly affiliated with the Union of Messianic Jewish Congregations</strong></p>
+    <p class="intro-text"><strong>Ohr HaTorah is affiliated with the Union of Messianic Jewish Congregations.</strong></p>
 
     <!-- About UMJC -->
     <div class="about-section">
         <h3><i class="fas fa-synagogue"></i> About the UMJC</h3>
-        <p>The Union of Messianic Jewish Congregations is a rapidly growing global network establishing and strengthening Jewish congregations that honor Yeshua, the Messiah of Israel. From North America to Latin America, Canada to Russian-speaking communities worldwide, the UMJC connects congregations across continents with mutual support, leadership development, and practical guidance.</p>
-
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">80+</div>
-                <div class="stat-label">Congregations & Growing</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">8</div>
-                <div class="stat-label">Countries</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">45</div>
-                <div class="stat-label">Years of Ministry</div>
-            </div>
-        </div>
+        <p>The UMJC connects Messianic Jewish congregations for mutual support, leadership development, shared learning, and practical guidance.</p>
     </div>
 
     <!-- Definition -->
     <div class="vision-section">
         <h3><i class="fas fa-scroll"></i> What is Messianic Judaism?</h3>
-        <blockquote>
-            "Messianic Judaism is a movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."
-        </blockquote>
+        <p class="definition-copy">Messianic Judaism joins faith in Yeshua the Messiah with Jewish life and identity rooted in Torah and expressed through Jewish tradition.</p>
     </div>
 
     <!-- UMJC Values -->
@@ -42,37 +25,37 @@ import PageLayout from '../layouts/PageLayout.astro';
             <div class="value-card">
                 <div class="value-header">
                     <i class="fas fa-handshake"></i>
-                    <h4>Unity in Diversity</h4>
+                <h4>Unity in diversity</h4>
                 </div>
-                <p>Embracing the rich variety of expressions within Messianic Judaism while standing together in shared faith and purpose.</p>
+                <p>Standing together in shared faith while respecting the variety within Messianic Judaism.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
                     <i class="fas fa-users"></i>
-                    <h4>Community Relationships</h4>
+                    <h4>Community relationships</h4>
                 </div>
-                <p>Building strong bonds between congregations, fostering fellowship, and supporting one another across regions and borders.</p>
+                <p>Building lasting relationships among congregations and leaders.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
                     <i class="fas fa-seedling"></i>
-                    <h4>Communal Growth</h4>
+                    <h4>Communal growth</h4>
                 </div>
-                <p>Nurturing the development of congregations and leaders through education, mentorship, and shared resources.</p>
+                <p>Strengthening congregations and leaders through learning, mentorship, and shared resources.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
                     <i class="fas fa-balance-scale"></i>
                     <h4>Integrity</h4>
                 </div>
-                <p>Upholding biblical standards and accountability in leadership, teaching, and congregational life.</p>
+                <p>Practicing accountability in leadership, teaching, and congregational life.</p>
             </div>
             <div class="value-card">
                 <div class="value-header">
                     <i class="fas fa-heart"></i>
-                    <h4>Dignity & Inclusion</h4>
+                    <h4>Dignity and inclusion</h4>
                 </div>
-                <p>Welcoming all who seek to honor Yeshua within the framework of Jewish life and identity.</p>
+                <p>Treating each person with dignity while honoring Jewish life and identity.</p>
             </div>
         </div>
     </div>
@@ -80,9 +63,9 @@ import PageLayout from '../layouts/PageLayout.astro';
     <!-- Learn More CTA -->
     <div class="cta-section">
         <h3><i class="fas fa-external-link-alt"></i> Learn More</h3>
-        <p>Explore the history and vision of the Union of Messianic Jewish Congregations</p>
+        <p>Explore the UMJC's history, vision, and congregational resources.</p>
         <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer" class="cta-button">
-            <i class="fas fa-globe"></i> Visit UMJC Website
+            <i class="fas fa-globe"></i> Visit the UMJC website
         </a>
     </div>
 </PageLayout>
@@ -152,14 +135,13 @@ import PageLayout from '../layouts/PageLayout.astro';
         margin: 0 0 15px 0;
     }
 
-    .vision-section blockquote {
+    .vision-section .definition-copy {
         background: var(--gray-100);
         padding: 25px;
         border-radius: 8px;
         border-left: 4px solid var(--gold-dark);
         margin: 0;
         font-size: 1.05rem;
-        font-style: italic;
         line-height: 1.7;
         color: var(--text-primary);
     }

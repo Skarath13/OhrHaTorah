@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="Donate - Ohr HaTorah" pageTitle="Support Ohr HaTorah" pageIcon="fas fa-heart">
+<PageLayout title="Support Ohr HaTorah" pageTitle="Support Ohr HaTorah" pageIcon="fas fa-heart" description="Ways to support Ohr HaTorah by check, with digital giving planned for the future.">
     <div class="donate-content">
     <blockquote class="donation-verse">
         <p>“God loves a cheerful giver.”</p>
@@ -21,7 +21,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
             <div class="zelle-layout">
                 <div class="zelle-copy">
-                    <p>Digital giving is being prepared. When it is ready, scan this code with your phone to open Zelle.</p>
+                    <p>Digital giving is not active yet. A verified Zelle QR code will appear here when setup is complete.</p>
                 </div>
                 <div class="zelle-qr-placeholder" role="img" aria-label="Placeholder for a future Zelle QR code">
                     <i class="fas fa-qrcode" aria-hidden="true"></i>
@@ -62,10 +62,10 @@ import PageLayout from '../layouts/PageLayout.astro';
         </div>
         <ul class="giving-list">
             <li><i class="fas fa-check" aria-hidden="true"></i><span>Shabbat services and teaching</span></li>
-            <li><i class="fas fa-check" aria-hidden="true"></i><span>Hebrew language education</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Jewish learning and teaching</span></li>
             <li><i class="fas fa-check" aria-hidden="true"></i><span>Community outreach</span></li>
             <li><i class="fas fa-check" aria-hidden="true"></i><span>Support for Israel ministries</span></li>
-            <li><i class="fas fa-check" aria-hidden="true"></i><span>Youth and family programs</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Future youth learning</span></li>
             <li><i class="fas fa-check" aria-hidden="true"></i><span>Facility care and operations</span></li>
         </ul>
     </section>
@@ -93,7 +93,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     .donate-content .donation-verse p {
         margin: 0;
-        font-family: Georgia, 'Times New Roman', serif;
+        font-family: var(--font-display);
         font-size: clamp(1.45rem, 2.7vw, 2rem);
         font-style: italic;
         line-height: 1.25;
@@ -101,7 +101,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     .donate-content .donation-verse cite {
         color: var(--interior-gold, #d1a12d);
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: var(--font-body);
         font-size: 0.82rem;
         font-style: normal;
         font-weight: 800;
@@ -174,7 +174,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         gap: 0.35rem;
         align-items: center;
         color: var(--interior-muted, #5f6973);
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: var(--font-body);
         font-size: 0.75rem;
         font-weight: 700;
         white-space: nowrap;
@@ -209,7 +209,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     }
 
     .donate-content .zelle-qr-placeholder span {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: var(--font-body);
         font-size: 0.7rem;
         font-weight: 700;
         line-height: 1.25;
@@ -249,7 +249,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 
     .donate-content .check-details dt {
         color: var(--interior-muted, #5f6973);
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: var(--font-body);
         font-size: 0.82rem;
         font-weight: 700;
     }
@@ -257,7 +257,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     .donate-content .check-details dd {
         margin: 0;
         color: var(--interior-navy, #061a32);
-        font-family: Georgia, 'Times New Roman', serif;
+        font-family: var(--font-display);
         font-size: clamp(1.1rem, 2vw, 1.3rem);
         font-weight: 700;
         line-height: 1.4;

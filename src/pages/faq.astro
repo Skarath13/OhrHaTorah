@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="FAQ - Ohr HaTorah" pageTitle="Frequently Asked Questions" pageIcon="fas fa-question-circle">
+<PageLayout title="Frequently Asked Questions - Ohr HaTorah" pageTitle="Frequently Asked Questions" pageIcon="fas fa-question-circle" description="Answers to common questions about Messianic Judaism and visiting Ohr HaTorah.">
     <p class="faq-intro">Here are straightforward answers to the questions visitors ask most often.</p>
 
     <div class="faq-container">
@@ -22,7 +22,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>Do I need to be Jewish to attend?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Absolutely not! We welcome all people - Jewish, non-Jewish, and interfaith families. Everyone is invited to learn and grow in understanding of our Jewish Messiah.</p>
+                <p>No. Jewish and non-Jewish people, interfaith couples, and families are welcome.</p>
             </div>
         </div>
 
@@ -32,7 +32,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>What should I expect during a service?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Our services include contemporary Messianic music, traditional Hebrew prayers, Torah reading, and teaching. Services are conducted in both Hebrew and English with explanations provided.</p>
+                <p>Our services include Messianic music, Hebrew and English prayer, Torah reading, and teaching. We explain the liturgy and customs as we go.</p>
             </div>
         </div>
 
@@ -42,7 +42,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>Do you follow Jewish holidays and traditions?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Yes! We observe Shabbat, biblical holidays like Passover and Yom Kippur, and maintain Jewish traditions while recognizing Yeshua as our Messiah.</p>
+                <p>Yes. We observe Shabbat and the Jewish holidays while recognizing Yeshua as our Messiah.</p>
             </div>
         </div>
 
@@ -52,7 +52,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>Is Hebrew required?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Not at all! While we use Hebrew in prayers and readings, everything is explained in English. We offer Hebrew classes for those interested in learning.</p>
+                <p>No. We pray and read in Hebrew and English, with transliteration and explanations for visitors.</p>
             </div>
         </div>
 
@@ -72,7 +72,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>How is Messianic Judaism different from Christianity?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>While we believe in Yeshua as Messiah, we maintain Jewish practices, celebrate biblical feasts, and emphasize the Jewish context of faith rather than adopting Gentile Christian traditions.</p>
+                <p>We believe Yeshua is the Messiah while remaining rooted in Jewish identity, worship, and practice.</p>
             </div>
         </div>
 
@@ -82,7 +82,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>What should I wear to services?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Come as you are! We welcome casual to semi-formal attire. Men may wear a kippah (yarmulke) if desired, but it's not required for visitors.</p>
+                <p>Come in casual or semi-formal clothing. Men may wear a kippah, but visitors are not required to do so.</p>
             </div>
         </div>
 
@@ -92,7 +92,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>Can children attend?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Yes! Families with children are very welcome. We have Shabbat School for youth and work to make our services family-friendly and educational.</p>
+                <p>Children are welcome. We are planning a Shabbat School as the congregation grows, and families are welcome in our services.</p>
             </div>
         </div>
 
@@ -102,7 +102,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <span>How can I learn more?</span>
             </button>
             <div class="faq-answer" hidden>
-                <p>Visit us for Shabbat services, speak with Rabbi Charles, join our Hebrew classes, or contact us with any specific questions. We're here to help you on your journey!</p>
+                <p>Attend a Shabbat service, speak with Rabbi Charles, or contact us with your questions.</p>
             </div>
         </div>
     </div>
@@ -195,15 +195,17 @@ import PageLayout from '../layouts/PageLayout.astro';
     }
 
     .faq-question::after {
-        content: '\f078';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        color: var(--text-secondary);
+        width: 0.55rem;
+        height: 0.55rem;
+        border-right: 2px solid var(--text-secondary);
+        border-bottom: 2px solid var(--text-secondary);
+        content: '';
+        transform: rotate(45deg);
         transition: transform 0.3s ease;
     }
 
     .faq-item.active .faq-question::after {
-        transform: rotate(180deg);
+        transform: rotate(225deg);
     }
 
     .faq-answer {

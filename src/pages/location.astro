@@ -2,12 +2,12 @@
 import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<PageLayout title="Our Location - Ohr HaTorah" pageTitle="Our Location" pageIcon="fas fa-map-marker-alt">
+<PageLayout title="Our Location - Ohr HaTorah" pageTitle="Our Location" pageIcon="fas fa-map-marker-alt" description="Directions to Ohr HaTorah's Saturday service location in Fountain Valley, California.">
     <p class="intro-text"><strong>We gather in Fountain Valley, in the heart of Orange County.</strong></p>
 
     <!-- Service Location -->
     <div class="location-card main-location">
-        <h3><i class="fas fa-synagogue"></i> Worship Services Location</h3>
+        <h3><i class="fas fa-synagogue"></i> Shabbat service location</h3>
         <div class="location-grid">
             <div class="location-info">
                 <h4><i class="fas fa-map-pin"></i> Address</h4>
@@ -16,7 +16,7 @@ import PageLayout from '../layouts/PageLayout.astro';
                     Fountain Valley, CA 92708</strong>
                 </p>
 
-                <h4><i class="fas fa-clock"></i> Service Times</h4>
+                <h4><i class="fas fa-clock"></i> Service time</h4>
                 <p>
                     <strong>Saturdays at 2:30 PM</strong><br>
                     <span class="note">Contemporary worship, traditional prayers, and Torah study</span>
@@ -57,7 +57,7 @@ import PageLayout from '../layouts/PageLayout.astro';
            target="_blank"
            rel="noopener noreferrer"
            class="directions-btn">
-            <i class="fas fa-directions"></i> Get Directions
+            <i class="fas fa-directions"></i> Get directions
         </a>
     </div>
 
@@ -66,19 +66,14 @@ import PageLayout from '../layouts/PageLayout.astro';
         <h3><i class="fas fa-directions"></i> Getting Here</h3>
         <div class="directions-grid">
             <div class="direction-card">
-                <i class="fas fa-car"></i>
-                <h4>By Car</h4>
-                <p>Easily accessible from the 405 and 22 freeways. Free parking available on site.</p>
-            </div>
-            <div class="direction-card">
                 <i class="fas fa-parking"></i>
                 <h4>Parking</h4>
-                <p>Ample free parking is available in the parking lot adjacent to our meeting space.</p>
+                <p>Free parking is available in the lot beside our meeting space.</p>
             </div>
             <div class="direction-card">
-                <i class="fas fa-universal-access"></i>
-                <h4>Accessibility</h4>
-                <p>Our facility is wheelchair accessible with accessible parking spaces available.</p>
+                <i class="fas fa-car"></i>
+                <h4>Driving</h4>
+                <p>The service location is near the 405 and 22 freeways.</p>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 // Shared rabbi information - edit once, updates everywhere
 export const rabbi = {
-    name: "Rabbi Charles Ott (M. Div.)",
+    name: "Rabbi Charles Ott (M.Div.)",
     title: "Senior Rabbi & Teacher",
     image: "/images/rabbi.webp",
     bio: "Rabbi Ott has over 30 years in Jewish congregational leadership. His extensive graduate work includes Jewish Studies, Jewish and Christian Theology and Apologetics, and Public Education. He offers a warm and deep understanding of both Scripture and Jewish tradition with meaningful application to our lives today.",
