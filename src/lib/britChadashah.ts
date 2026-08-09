@@ -1,3 +1,5 @@
+import { FFOZ_SOURCE, getFfozReading } from './ffozReadings.ts';
+
 export const CHAYYEI_YESHUA_SOURCE = {
     name: 'Chayyei Yeshua Three-Year Besorah Reading Cycle',
     publisher: 'Messianic Jewish Rabbinical Council',
@@ -105,4 +107,40 @@ export const getChayyeiYeshuaReading = (
     if (!cycleYear || !entry) return null;
     const index = cycleYear === 'A' ? 0 : cycleYear === 'B' ? 1 : 2;
     return { reading: entry[index], cycleYear };
+};
+
+export type PreferredBritReading = {
+    reading: string;
+    source: 'ffoz' | 'mjrc';
+    sourceName: string;
+    sourceUrl: string;
+    cycleYear?: 'A' | 'B' | 'C';
+};
+
+export const getPreferredBritReading = (
+    parashah: string,
+    hebrewYear?: number
+): PreferredBritReading | null => {
+    const ffozReading = getFfozReading(parashah);
+    if (ffozReading) {
+        return {
+            reading: ffozReading.reading,
+            source: 'ffoz',
+            sourceName: FFOZ_SOURCE.publisher,
+            sourceUrl: ffozReading.sourceUrl
+        };
+    }
+
+    const mjrcReading = hebrewYear
+        ? getChayyeiYeshuaReading(parashah, hebrewYear)
+        : null;
+    if (!mjrcReading) return null;
+
+    return {
+        reading: mjrcReading.reading,
+        source: 'mjrc',
+        sourceName: CHAYYEI_YESHUA_SOURCE.name,
+        sourceUrl: CHAYYEI_YESHUA_SOURCE.url,
+        cycleYear: mjrcReading.cycleYear
+    };
 };
