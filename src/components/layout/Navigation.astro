@@ -13,7 +13,6 @@
         </button>
     </div>
 
-    <div class="nav-drawer-scroll" id="nav-drawer-scroll">
     <ul class="nav-links">
         <li class="dropdown">
             <div class="nav-item-row">
@@ -145,12 +144,10 @@
         <li><a href="/contact" aria-label="Contact us"><i class="fas fa-envelope"></i><span class="nav-label-default">Contact Us</span><span class="nav-label-compact" aria-hidden="true">Contact</span></a></li>
         <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i><span>Donate</span></a></li>
     </ul>
-    </div>
 </nav>
 
 <script>
     const navContainer = document.getElementById('nav-container');
-    const navDrawerScroll = document.getElementById('nav-drawer-scroll');
     const mobileMenuQuery = window.matchMedia('(max-width: 1359px)');
     const navOverlay = document.getElementById('nav-overlay');
     const menuBtn = document.getElementById('mobile-menu-btn');
@@ -159,9 +156,6 @@
     let previouslyFocusedElement: HTMLElement | null = null;
     let savedBodyOverflow: string | null = null;
     let savedDocumentOverflow: string | null = null;
-    let savedBodyPosition: string | null = null;
-    let savedBodyTop: string | null = null;
-    let savedBodyWidth: string | null = null;
     let savedPageScrollY = 0;
     let focusEntryTimer: number | null = null;
 
@@ -200,14 +194,8 @@
         if (savedBodyOverflow === null) return;
         document.body.style.overflow = savedBodyOverflow;
         document.documentElement.style.overflow = savedDocumentOverflow ?? '';
-        document.body.style.position = savedBodyPosition ?? '';
-        document.body.style.top = savedBodyTop ?? '';
-        document.body.style.width = savedBodyWidth ?? '';
         savedBodyOverflow = null;
         savedDocumentOverflow = null;
-        savedBodyPosition = null;
-        savedBodyTop = null;
-        savedBodyWidth = null;
         window.scrollTo(0, savedPageScrollY);
     }
 
@@ -219,13 +207,10 @@
             : menuBtn;
         savedBodyOverflow = document.body.style.overflow;
         savedDocumentOverflow = document.documentElement.style.overflow;
-        savedBodyPosition = document.body.style.position;
-        savedBodyTop = document.body.style.top;
-        savedBodyWidth = document.body.style.width;
         savedPageScrollY = window.scrollY;
 
         closeAllDropdowns();
-        if (navDrawerScroll) navDrawerScroll.scrollTop = 0;
+        navContainer.scrollTop = 0;
 
         navContainer.classList.add('active');
         navOverlay?.classList.add('active');
@@ -236,12 +221,9 @@
         setDrawerAccessibility(true);
         document.body.style.overflow = 'hidden';
         document.documentElement.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${savedPageScrollY}px`;
-        document.body.style.width = '100%';
 
         window.requestAnimationFrame(() => {
-            if (navDrawerScroll) navDrawerScroll.scrollTop = 0;
+            navContainer.scrollTop = 0;
         });
 
         if (focusEntryTimer !== null) window.clearTimeout(focusEntryTimer);

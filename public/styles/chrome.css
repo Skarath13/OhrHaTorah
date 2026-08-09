@@ -89,13 +89,6 @@
         display: none !important;
     }
 
-    .site-navigation-shell .nav-drawer-scroll {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        overflow: visible !important;
-    }
-
     .site-navigation-shell .nav-links {
         display: grid !important;
         grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
@@ -419,7 +412,6 @@
         width: 100% !important;
         min-height: calc(64px + env(safe-area-inset-top)) !important;
         padding: calc(10px + env(safe-area-inset-top)) 12px 8px !important;
-        flex: 0 0 auto !important;
         align-items: flex-start !important;
         justify-content: flex-end !important;
         background: var(--site-chrome-paper) !important;
@@ -444,7 +436,7 @@
     }
 
     .site-navigation-shell .nav-container {
-        display: flex !important;
+        display: none !important;
         position: fixed !important;
         inset: 0 0 0 auto !important;
         width: min(24rem, 90vw) !important;
@@ -456,46 +448,29 @@
         border: 0 !important;
         border-radius: 0 !important;
         overflow-x: hidden !important;
-        overflow-y: hidden !important;
-        flex-direction: column !important;
+        overflow-y: auto !important;
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
         touch-action: pan-y;
         background: var(--site-chrome-paper) !important;
-        transform: translateX(105%) !important;
+        transform: none !important;
         visibility: hidden !important;
         pointer-events: none !important;
-        transition: transform 200ms ease, visibility 200ms linear !important;
+        transition: none !important;
     }
 
     .site-navigation-shell .nav-container.active {
-        transform: translateX(0) !important;
+        display: block !important;
+        transform: none !important;
         visibility: visible !important;
         pointer-events: auto !important;
     }
 
-    .site-navigation-shell .nav-drawer-scroll {
-        display: block !important;
-        width: 100% !important;
-        min-height: 0 !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-        flex: 1 1 auto !important;
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-        touch-action: pan-y;
-        scrollbar-gutter: stable;
-    }
-
     .site-navigation-shell .nav-links {
-        display: flex !important;
+        display: block !important;
         width: 100% !important;
         height: auto !important;
         margin: 0 !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 0.55rem !important;
-        flex: 0 0 auto !important;
         padding: 0 0.75rem calc(24px + env(safe-area-inset-bottom)) !important;
         overflow: visible !important;
     }
@@ -503,13 +478,18 @@
     .site-navigation-shell .nav-links > li {
         --nav-accent: #7cc3ff;
         --nav-surface: #b8e0ff;
+        display: block !important;
         width: 100% !important;
-        margin: 0 !important;
+        margin: 0 0 0.55rem !important;
         border: 0 !important;
         border-radius: 0.65rem !important;
         overflow: hidden !important;
         background: var(--nav-surface) !important;
         box-shadow: none !important;
+    }
+
+    .site-navigation-shell .nav-links > li:last-child {
+        margin-bottom: 0 !important;
     }
 
     .site-navigation-shell .nav-links > li:nth-child(2) { --nav-surface: #ffe0f0; --nav-accent: #f2a9cf; }

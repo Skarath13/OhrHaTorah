@@ -752,7 +752,7 @@
     .home-redesign .home-shabbat-dashboard :is(.prayer-row, .candle-row, .clock-panel, .clock-panel:first-child) { min-height: 70px !important; padding: 0.8rem 0 !important; }
     .home-redesign .home-candle-card .candle-row { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(7.25rem, auto) !important; align-items: center !important; gap: 0.75rem !important; }
     .home-redesign .home-clock-card :is(.clock-panel, .clock-panel-today, .clock-panel-time) { grid-template-columns: minmax(0, 1fr) minmax(7.25rem, auto) !important; align-items: center !important; gap: 0.75rem !important; }
-    .home-redesign .home-shabbat-dashboard :is(.prayer-time, .candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-time) { min-width: 0; text-align: right !important; justify-self: stretch !important; }
+    .home-redesign .home-shabbat-dashboard :is(.prayer-time, .candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-time) { min-width: 0; justify-content: flex-end !important; text-align: right !important; justify-self: stretch !important; }
     .home-redesign .home-shabbat-dashboard :is(.prayer-last-updated, .last-updated) { min-height: 42px; margin-top: 0.75rem !important; padding-top: 0.75rem !important; align-content: center; flex-wrap: wrap; }
     .home-visit-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
     .home-visit-image { grid-column: 1; grid-row: auto; height: 210px; }

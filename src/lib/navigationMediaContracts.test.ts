@@ -25,12 +25,15 @@ test('mobile navigation uses disclosure-first rows without split page and menu c
     assert.match(navigationSource, /class="nav-mobile-page-link" href="\/"/);
     assert.match(navigationSource, /class="nav-mobile-page-link" href="\/resources"/);
     assert.match(chromeStyles, /\.nav-item-row > a\.nav-primary-link \{\s*display: none !important;/);
-    assert.match(navigationSource, /class="nav-drawer-header"[\s\S]*?class="nav-drawer-scroll" id="nav-drawer-scroll"/);
+    assert.match(navigationSource, /class="nav-drawer-header"/);
+    assert.doesNotMatch(navigationSource, /nav-drawer-scroll/);
     assert.match(chromeStyles, /\.nav-drawer-header \{[\s\S]*?position: sticky !important;/);
     assert.match(chromeStyles, /\.site-navigation-shell \.nav-container \{[\s\S]*?position: fixed !important;[\s\S]*?inset: 0 0 0 auto !important;/);
-    assert.match(chromeStyles, /\.nav-drawer-scroll \{[\s\S]*?min-height: 0 !important;[\s\S]*?overflow-y: auto !important;/);
-    assert.match(navigationSource, /document\.body\.style\.position = 'fixed'/);
-    assert.match(navigationSource, /navDrawerScroll\.scrollTop = 0/);
+    assert.match(chromeStyles, /\.site-navigation-shell \.nav-container \{[\s\S]*?display: none !important;[\s\S]*?overflow-y: auto !important;[\s\S]*?transform: none !important;/);
+    assert.match(chromeStyles, /\.site-navigation-shell \.nav-container\.active \{[\s\S]*?display: block !important;/);
+    assert.match(chromeStyles, /\.site-navigation-shell \.nav-links \{[\s\S]*?display: block !important;/);
+    assert.doesNotMatch(navigationSource, /document\.body\.style\.position/);
+    assert.match(navigationSource, /navContainer\.scrollTop = 0/);
 });
 
 test('homepage and byte-range route use the versioned forward-reverse hero media', () => {

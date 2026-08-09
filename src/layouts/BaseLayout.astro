@@ -15,6 +15,11 @@ const {
   stylesheets = [],
 } = Astro.props;
 const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
+const stylesheetVersion = '20260808-ios-layout-1';
+const versionStylesheet = (href: string) => {
+  const separator = href.includes('?') ? '&' : '?';
+  return `${href}${separator}v=${stylesheetVersion}`;
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -54,9 +59,9 @@ const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/styles/style.css">
-    {stylesheets.map((href) => <link rel="stylesheet" href={href} />)}
-    <link rel="stylesheet" href="/styles/chrome.css">
+    <link rel="stylesheet" href={versionStylesheet('/styles/style.css')}>
+    {stylesheets.map((href) => <link rel="stylesheet" href={versionStylesheet(href)} />)}
+    <link rel="stylesheet" href={versionStylesheet('/styles/chrome.css')}>
 </head>
 <body>
     <div id="top" aria-hidden="true"></div>
