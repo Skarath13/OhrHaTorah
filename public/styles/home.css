@@ -185,6 +185,18 @@
 .home-button-secondary { border-color: rgba(255, 255, 255, 0.72); background: rgba(6, 26, 50, 0.72); color: #fff; }
 .home-button-secondary:hover { border-color: #fff; background: rgba(6, 26, 50, 0.88); color: #fff; }
 
+@media (min-width: 1360px) {
+    .home-hero-copy {
+        display: grid;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .home-hero h1 { width: min(100%, 980px); }
+    .home-hero-intro { width: min(100%, 52ch); margin-inline: auto; }
+    .home-hero-actions { margin-inline: auto; }
+}
+
 .home-section {
     padding-block: clamp(3.4rem, 5vw, 4.6rem);
 }
