@@ -15,7 +15,7 @@ const {
   stylesheets = [],
 } = Astro.props;
 const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
-const stylesheetVersion = '20260809-mobile-dialog-1';
+const stylesheetVersion = '20260809-readings-motion-1';
 const versionStylesheet = (href: string) => {
   const separator = href.includes('?') ? '&' : '?';
   return `${href}${separator}v=${stylesheetVersion}`;
@@ -62,6 +62,7 @@ const versionStylesheet = (href: string) => {
     <link rel="stylesheet" href={versionStylesheet('/styles/style.css')}>
     {stylesheets.map((href) => <link rel="stylesheet" href={versionStylesheet(href)} />)}
     <link rel="stylesheet" href={versionStylesheet('/styles/chrome.css')}>
+    <link rel="stylesheet" href={versionStylesheet('/styles/motion.css')}>
 </head>
 <body>
     <div id="top" aria-hidden="true"></div>

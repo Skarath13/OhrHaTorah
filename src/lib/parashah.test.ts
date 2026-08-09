@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+    buildHebcalLeyningUrl,
     formatParashahDate,
+    formatStructuredReadingRange,
+    getBritOverrideKey,
     getUpcomingShabbatDate,
     parseLeyningPayload,
     parseShabbatPayload
@@ -10,6 +13,7 @@ import {
 const reehLeyningFixture = {
     items: [{
         date: '2026-08-08',
+        hdate: '25 Av 5786',
         type: 'shabbat',
         name: { en: "Re'eh" },
         summary: 'Deuteronomy 11:26-16:17',
@@ -33,6 +37,7 @@ test('Leyning parser uses structured Triennial fields and official year', () => 
     assert.equal(parsed?.triennial?.torah, 'Deuteronomy 11:26-12:28');
     assert.equal(parsed?.triennial?.haftarah, 'Isaiah 54:11-55:5');
     assert.equal(parsed?.triennial?.year, 1);
+    assert.equal(parsed?.annual.hebrewYear, 5786);
 });
 
 test('official Triennial year is preserved without a calendar-year guess', () => {
@@ -73,6 +78,49 @@ test('official alternate Triennial Haftarah wins over the annual Haftarah', () =
     }, '2025-10-18');
 
     assert.equal(parsed?.triennial?.haftarah, 'Isaiah 42:5-21');
+});
+
+test('holiday Shabbat readings are accepted without inventing a Triennial cycle', () => {
+    const parsed = parseLeyningPayload({
+        items: [{
+            date: '2026-09-12',
+            type: 'holiday',
+            name: { en: 'Rosh Hashana I (on Shabbat)' },
+            fullkriyah: {
+                '1': { k: 'Genesis', b: '21:1', e: '21:4' },
+                '5': { k: 'Genesis', b: '21:18', e: '21:21' },
+                '7': { k: 'Genesis', b: '21:28', e: '21:34' },
+                M: { k: 'Numbers', b: '29:1', e: '29:6' }
+            },
+            summary: 'Genesis 21:1-34; Numbers 29:1-6',
+            haftara: 'I Samuel 1:1-2:10'
+        }]
+    }, '2026-09-12');
+
+    assert.equal(parsed?.annual.name, 'Rosh Hashana I (on Shabbat)');
+    assert.equal(parsed?.annual.torah, 'Genesis 21:1-34; Numbers 29:1-6');
+    assert.equal(parsed?.triennial, null);
+});
+
+test('structured reading ranges use the available numeric aliyot', () => {
+    assert.equal(formatStructuredReadingRange({
+        '1': { k: 'Exodus', b: '33:12', e: '33:16' },
+        '5': { k: 'Exodus', b: '34:4', e: '34:10' }
+    }), 'Exodus 33:12-34:10');
+});
+
+test('Triennial data is hidden unless Hebcal supplies an official cycle year', () => {
+    const fixture = structuredClone(reehLeyningFixture);
+    delete fixture.items[0].triYear;
+    assert.equal(parseLeyningPayload(fixture, '2026-08-08')?.triennial, null);
+});
+
+test('Hebcal policy is explicitly Diaspora and Brit overrides are date scoped', () => {
+    const url = new URL(buildHebcalLeyningUrl('2026-08-15'));
+    assert.equal(url.searchParams.get('i'), 'off');
+    assert.equal(url.searchParams.get('triennial'), 'on');
+    assert.equal(url.searchParams.get('date'), '2026-08-15');
+    assert.equal(getBritOverrideKey('2026-08-15'), 'brit-chadashah:2026-08-15');
 });
 
 test('Shabbat parser supplies a truthful embedded-reading fallback', () => {

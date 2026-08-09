@@ -5,12 +5,18 @@ export interface ParashahData {
     date?: string;
     source?: string;
     year?: number;
+    hebrewYear?: number;
 }
 
 export interface ParashahBundle {
     annual: ParashahData;
     triennial: ParashahData | null;
 }
+
+export const HEBREW_CALENDAR_POLICY = {
+    israel: false,
+    triennial: true
+} as const;
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -47,8 +53,15 @@ export const formatStringReadingRange = (value: unknown): string | null => {
 
 export const formatStructuredReadingRange = (value: unknown): string | null => {
     const readings = asRecord(value);
-    const first = asRecord(readings?.['1']);
-    const last = asRecord(readings?.['7']);
+    if (!readings) return null;
+
+    const aliyahKeys = Object.keys(readings)
+        .filter((key) => /^\d+$/.test(key))
+        .sort((a, b) => Number(a) - Number(b));
+    if (aliyahKeys.length === 0) return null;
+
+    const first = asRecord(readings[aliyahKeys[0]]);
+    const last = asRecord(readings[aliyahKeys[aliyahKeys.length - 1]]);
     const firstBook = asString(first?.k);
     const firstVerse = asString(first?.b);
     const lastBook = asString(last?.k);
@@ -67,6 +80,12 @@ const getParashahName = (item: UnknownRecord): string | null => {
         || asString(item.title_orig)?.replace(/^Parashat\s+/, '')
         || asString(item.title)?.replace(/^Parashat\s+/, '')
         || null;
+};
+
+const getHebrewYear = (item: UnknownRecord): number | undefined => {
+    const match = asString(item.hdate)?.match(/\b(5\d{3})$/);
+    const year = match ? Number(match[1]) : Number.NaN;
+    return Number.isInteger(year) ? year : undefined;
 };
 
 export const parseShabbatPayload = (payload: unknown): ParashahBundle | null => {
@@ -88,7 +107,8 @@ export const parseShabbatPayload = (payload: unknown): ParashahBundle | null => 
         torah: asString(leyning.torah) || 'See weekly bulletin',
         haftarah: asString(leyning.haftarah) || 'See weekly bulletin',
         date,
-        source: 'Hebcal Shabbat'
+        source: 'Hebcal Shabbat',
+        hebrewYear: getHebrewYear(item)
     };
 
     return {
@@ -113,7 +133,10 @@ export const parseLeyningPayload = (
     const items = Array.isArray(root?.items) ? root.items : [];
     const item = items
         .map(asRecord)
-        .find((candidate) => candidate?.date === expectedDate && candidate?.type === 'shabbat');
+        .find((candidate) => (
+            candidate?.date === expectedDate
+            && (candidate?.type === 'shabbat' || candidate?.type === 'holiday')
+        ));
     if (!item) return null;
 
     const name = getParashahName(item);
@@ -133,20 +156,34 @@ export const parseLeyningPayload = (
             torah: asString(item.summary) || fullKriyah || 'See weekly bulletin',
             haftarah: asString(item.haftara) || 'See weekly bulletin',
             date,
-            source: 'Hebcal Leyning'
+            source: 'Hebcal Leyning',
+            hebrewYear: getHebrewYear(item)
         },
-        triennial: triennialTorah
+        triennial: triennialTorah && triYear
             ? {
                 name,
                 torah: triennialTorah,
                 haftarah: asString(item.triHaftara) || 'See weekly bulletin',
                 date,
                 source: 'Hebcal Leyning',
-                year: triYear
+                year: triYear,
+                hebrewYear: getHebrewYear(item)
             }
             : null
     };
 };
+
+export const buildHebcalLeyningUrl = (date: string): string => {
+    const params = new URLSearchParams({
+        cfg: 'json',
+        date,
+        i: HEBREW_CALENDAR_POLICY.israel ? 'on' : 'off',
+        triennial: HEBREW_CALENDAR_POLICY.triennial ? 'on' : 'off'
+    });
+    return `https://www.hebcal.com/leyning?${params.toString()}`;
+};
+
+export const getBritOverrideKey = (date: string): string => `brit-chadashah:${date}`;
 
 export const getUpcomingShabbatDate = (
     now = new Date(),

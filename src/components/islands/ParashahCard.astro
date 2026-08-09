@@ -14,16 +14,16 @@
         <!-- Reading Cycle Toggle -->
         <div class="reading-cycle-toggle" role="tablist" aria-label="Torah reading cycle">
             <button class="cycle-btn active" id="annual-cycle-tab" type="button" role="tab" aria-selected="true" aria-controls="annual-readings" data-cycle="annual" disabled>
-                Annual
+                Full annual reading
             </button>
-            <button class="cycle-btn" id="triennial-cycle-tab" type="button" role="tab" aria-selected="false" aria-controls="triennial-readings" data-cycle="triennial" disabled>
-                Triennial
+            <button class="cycle-btn" id="triennial-cycle-tab" type="button" role="tab" aria-selected="false" aria-controls="triennial-readings" data-cycle="triennial" disabled hidden>
+                Triennial reading
             </button>
         </div>
 
         <!-- Triennial Year Info -->
         <div id="triennial-year-info" class="triennial-note" hidden>
-            <span class="triennial-movement">Triennial Cycle - Year <span id="triennial-year">1</span> of 3</span>
+            <span class="triennial-movement">Official triennial cycle · Year <span id="triennial-year">1</span> of 3</span>
         </div>
 
         <!-- Annual Readings -->
@@ -63,10 +63,14 @@
             <div class="reading-row">
                 <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
             </div>
-            <div class="reading-text" id="brit-reading" data-brit-editable="true">Loading...</div>
+            <div class="reading-text" id="brit-reading" data-brit-editable="true" data-brit-key="">Loading...</div>
+            <p class="brit-reading-source" id="brit-reading-source"></p>
         </div>
 
         <div class="loader" id="parashah-loader" style="display: none;"></div>
+        <p class="reading-source" id="parashah-status" aria-live="polite">
+            Loading the verified weekly readings…
+        </p>
     </div>
 </div>
 
@@ -173,6 +177,32 @@
         border-top-color: var(--home-gold-500, #d0a33d);
     }
 
+    .reading-source {
+        margin: 0.8rem 0 0;
+        color: var(--home-muted, #596476);
+        font-size: 0.75rem;
+        line-height: 1.45;
+    }
+
+    .reading-source a {
+        color: var(--home-blue-800, #123f72);
+        font-weight: 700;
+        text-underline-offset: 0.16em;
+    }
+
+    .brit-reading-source {
+        margin: 0.45rem 0 0 1rem;
+        color: var(--home-muted, #596476);
+        font-size: 0.7rem;
+        line-height: 1.4;
+    }
+
+    .brit-reading-source a {
+        color: var(--home-blue-800, #123f72);
+        font-weight: 700;
+        text-underline-offset: 0.16em;
+    }
+
     :global(body.admin-edit-mode) [data-brit-editable]:hover {
         outline-color: var(--home-gold-500, #d0a33d);
         background-color: rgba(230, 201, 120, 0.16);
@@ -194,15 +224,18 @@
 
 <script>
     import {
+        CHAYYEI_YESHUA_SOURCE,
+        getChayyeiYeshuaReading
+    } from '../../lib/britChadashah';
+    import {
         formatParashahDate,
+        getBritOverrideKey,
         getUpcomingShabbatDate,
-        parseLeyningPayload,
-        parseShabbatPayload,
         type ParashahBundle,
         type ParashahData
     } from '../../lib/parashah';
 
-    // Brit Chadashah lookup table (119 Ministries 2025-2026 Schedule)
+    // Legacy suggested-reading fallback. The MJRC Chayyei Yeshua cycle below is primary.
     const britReadings: Record<string, string> = {
         // Genesis / B'reisheet
         'Bereshit': 'Luke 3:23-38; John 1:1-18; Romans 5:12-21; 1 Timothy 2:1-15; Hebrews 11:1-7',
@@ -273,13 +306,14 @@
         'Vezot Haberachah': 'Matthew 17:1-9; Luke 9:28-36, 24:44-53; 1 Thessalonians 5:1-11; Jude 1:3-10'
     };
 
-    const PARASHAH_CACHE_KEY = 'oht_parashah_cache_v2';
-    const PARASHAH_CACHE_VERSION = 2;
+    const PARASHAH_CACHE_KEY = 'oht_parashah_cache_v4';
+    const PARASHAH_CACHE_VERSION = 4;
+    const PARASHAH_CACHE_MAX_AGE_MS = 8 * 24 * 60 * 60 * 1000;
 
     const fetchJson = async (url: string, timeoutMs = 6000): Promise<unknown> => {
         let lastError: unknown;
 
-        for (let attempt = 0; attempt < 2; attempt += 1) {
+        for (let attempt = 0; attempt < 1; attempt += 1) {
             const controller = new AbortController();
             const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
 
@@ -292,9 +326,6 @@
                 return await response.json();
             } catch (error) {
                 lastError = error;
-                if (attempt === 0) {
-                    await new Promise((resolve) => window.setTimeout(resolve, 250));
-                }
             } finally {
                 window.clearTimeout(timeoutId);
             }
@@ -312,6 +343,8 @@
                 cached?.version !== PARASHAH_CACHE_VERSION
                 || cached?.date !== expectedDate
                 || !cached?.bundle?.annual?.name
+                || !cached?.cachedAt
+                || Date.now() - Date.parse(cached.cachedAt) > PARASHAH_CACHE_MAX_AGE_MS
             ) return null;
             return cached.bundle as ParashahBundle;
         } catch {
@@ -333,34 +366,12 @@
         }
     };
 
-    const tryHebcalAPI = async (): Promise<ParashahBundle> => {
-        const shabbatPayload = await fetchJson('https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en');
-        const shabbatBundle = parseShabbatPayload(shabbatPayload);
-        if (!shabbatBundle?.annual.date) throw new Error('Hebcal returned no weekly Torah reading');
-
-        try {
-            const leyningPayload = await fetchJson(`https://www.hebcal.com/leyning?cfg=json&date=${encodeURIComponent(shabbatBundle.annual.date)}`);
-            const leyningBundle = parseLeyningPayload(leyningPayload, shabbatBundle.annual.date);
-            if (leyningBundle) return leyningBundle;
-        } catch (error) {
-            console.warn('Hebcal Leyning enrichment failed; using Shabbat response', error);
+    const tryReadingsAPI = async (expectedDate: string): Promise<ParashahBundle> => {
+        const result = await fetchJson(`/api/readings?date=${encodeURIComponent(expectedDate)}`) as any;
+        if (!result?.success || !result?.data?.annual?.name) {
+            throw new Error(result?.error || 'No verified weekly Torah reading was returned');
         }
-
-        return shabbatBundle;
-    };
-
-    const trySefariaAPI = async (): Promise<ParashahData> => {
-        const data = await fetchJson('https://www.sefaria.org/api/calendars?timezone=America/Los_Angeles&diaspora=1') as any;
-        const parashat = data.calendar_items?.find((item: any) => item.title?.en === 'Parashat Hashavua');
-        const haftarah = data.calendar_items?.find((item: any) => item.title?.en === 'Haftarah');
-        if (!parashat) throw new Error('No Parashat found');
-        return {
-            name: parashat.displayValue?.en || 'Unknown',
-            torah: parashat.ref || 'See weekly bulletin',
-            haftarah: haftarah?.ref || 'See weekly bulletin',
-            date: data.date,
-            source: 'Sefaria'
-        };
+        return result.data as ParashahBundle;
     };
 
     // Auto-fit text to prevent overflow
@@ -390,8 +401,12 @@
             requestAnimationFrame(() => autoFitText(headerEl, 13));
         }
 
-        // Brit Chadashah
-        let britReading = britReadings[annualData.name];
+        // The MJRC Chayyei Yeshua cycle is primary. The older local table remains
+        // only as a temporary fallback for an unrecognized portion or missing year.
+        const chayyeiReading = annualData.hebrewYear
+            ? getChayyeiYeshuaReading(annualData.name, annualData.hebrewYear)
+            : null;
+        let britReading = chayyeiReading?.reading || britReadings[annualData.name];
         if (!britReading) {
             const searchName = annualData.name.toLowerCase();
             for (const [key, value] of Object.entries(britReadings)) {
@@ -402,10 +417,15 @@
             }
         }
 
-        // Store the original (non-override) value for reset capability
+        const readingDate = annualData.date || getUpcomingShabbatDate();
+        const britKey = getBritOverrideKey(readingDate);
+        const britOriginalStorageKey = `oht_brit_original:${readingDate}`;
+        const britOverrideStorageKey = `oht_brit_override:${readingDate}`;
+
+        // Store the schedule-backed value separately from this Shabbat's override.
         const defaultBritReading = britReading || 'See weekly bulletin';
         try {
-            localStorage.setItem('oht_brit_original', defaultBritReading);
+            localStorage.setItem(britOriginalStorageKey, defaultBritReading);
         } catch {
             // Storage is optional; the rendered weekly reading remains available.
         }
@@ -413,16 +433,16 @@
         // Check for override - first try API, fall back to localStorage
         let britOverride: string | null = null;
         try {
-            britOverride = localStorage.getItem('oht_brit_override');
+            britOverride = localStorage.getItem(britOverrideStorageKey);
         } catch {
             // Continue with the schedule-backed default.
         }
         try {
-            const overrideResult = await fetchJson('/api/content/brit-chadashah-override', 3000) as any;
+            const overrideResult = await fetchJson(`/api/content/${encodeURIComponent(britKey)}`, 3000) as any;
             if (overrideResult.success && overrideResult.data?.value) {
                 britOverride = overrideResult.data.value;
                 try {
-                    localStorage.setItem('oht_brit_override', britOverride);
+                    localStorage.setItem(britOverrideStorageKey, britOverride);
                 } catch {
                     // The API value can still render without local storage.
                 }
@@ -432,7 +452,26 @@
         }
 
         const britEl = document.getElementById('brit-reading')!;
+        britEl.dataset.britKey = britKey;
+        britEl.dataset.britDate = readingDate;
+        britEl.dataset.britOriginal = defaultBritReading;
         const finalBritReading = britOverride || defaultBritReading;
+
+        const britSource = document.getElementById('brit-reading-source');
+        if (britSource) {
+            if (britOverride) {
+                britSource.textContent = 'Rabbi-approved reading for this Shabbat.';
+            } else if (chayyeiReading) {
+                const sourceLink = document.createElement('a');
+                sourceLink.href = CHAYYEI_YESHUA_SOURCE.url;
+                sourceLink.target = '_blank';
+                sourceLink.rel = 'noopener noreferrer';
+                sourceLink.textContent = 'Chayyei Yeshua';
+                britSource.replaceChildren(`Suggested Besorah · Year ${chayyeiReading.cycleYear} · `, sourceLink, ' · MJRC.');
+            } else {
+                britSource.textContent = 'Suggested congregation reading; confirm with the weekly bulletin.';
+            }
+        }
 
         // Format Brit Chadashah - split by semicolon, each reference on its own line
         const refs = finalBritReading.split(';').map((r: string) => r.trim()).filter((r: string) => r);
@@ -447,16 +486,13 @@
         // Triennial
         const triennialYearInfo = document.getElementById('triennial-year-info');
         const triennialButton = document.querySelector<HTMLButtonElement>('[data-cycle="triennial"]');
-        if (triennialData) {
+        if (triennialData?.year) {
             document.getElementById('triennial-torah-reading')!.textContent = triennialData.torah;
             document.getElementById('triennial-haftarah-reading')!.textContent = triennialData.haftarah;
-            if (triennialData.year) {
-                document.getElementById('triennial-year')!.textContent = String(triennialData.year);
-                if (triennialYearInfo) triennialYearInfo.dataset.yearReady = 'true';
-            } else if (triennialYearInfo) {
-                triennialYearInfo.dataset.yearReady = 'false';
-            }
+            document.getElementById('triennial-year')!.textContent = String(triennialData.year);
+            if (triennialYearInfo) triennialYearInfo.dataset.yearReady = 'true';
             if (triennialButton) {
+                triennialButton.textContent = `Triennial · Year ${triennialData.year} of 3`;
                 triennialButton.hidden = false;
                 triennialButton.disabled = false;
             }
@@ -472,6 +508,24 @@
                 triennialButton.disabled = true;
             }
         }
+    };
+
+    const updateReadingStatus = (mode: 'live' | 'cached' | 'unavailable') => {
+        const status = document.getElementById('parashah-status');
+        if (!status) return;
+
+        if (mode === 'unavailable') {
+            status.textContent = 'Verified readings are temporarily unavailable. Please confirm with the weekly bulletin.';
+            return;
+        }
+
+        const prefix = mode === 'cached' ? 'Saved exact-date reading' : 'Exact-date readings';
+        const sourceLink = document.createElement('a');
+        sourceLink.href = 'https://www.hebcal.com/home/4277/leyning-torah-reading-api';
+        sourceLink.target = '_blank';
+        sourceLink.rel = 'noopener noreferrer';
+        sourceLink.textContent = 'Hebcal';
+        status.replaceChildren(`${prefix} via `, sourceLink, '.');
     };
 
     // Initialize triennial toggle
@@ -511,29 +565,27 @@
         const expectedDate = getUpcomingShabbatDate();
 
         try {
-            const bundle = await tryHebcalAPI();
+            const bundle = await tryReadingsAPI(expectedDate);
             cacheBundle(bundle);
             await updateParashahUI(bundle.annual, bundle.triennial);
-        } catch (hebcalError) {
+            updateReadingStatus('live');
+        } catch (readingsError) {
             const cachedBundle = readCachedBundle(expectedDate);
             if (cachedBundle) {
                 await updateParashahUI(cachedBundle.annual, cachedBundle.triennial);
+                updateReadingStatus('cached');
                 return;
             }
 
-            try {
-                const annualData = await trySefariaAPI();
-                await updateParashahUI(annualData, null);
-            } catch (fallbackError) {
-                console.error('Weekly reading sources failed', { hebcalError, fallbackError });
-                await updateParashahUI({
-                    name: 'This week',
-                    torah: 'See weekly bulletin',
-                    haftarah: 'See weekly bulletin',
-                    date: expectedDate,
-                    source: 'Fallback'
-                }, null);
-            }
+            console.error('Weekly reading source failed', readingsError);
+            await updateParashahUI({
+                name: 'This Shabbat',
+                torah: 'See weekly bulletin',
+                haftarah: 'See weekly bulletin',
+                date: expectedDate,
+                source: 'Unavailable'
+            }, null);
+            updateReadingStatus('unavailable');
         } finally {
             const annualButton = document.querySelector<HTMLButtonElement>('[data-cycle="annual"]');
             if (annualButton) annualButton.disabled = false;

@@ -1225,15 +1225,32 @@
     startBritEditing(element);
   }
 
+  function getBritContext(element) {
+    const key = element?.dataset?.britKey;
+    const date = element?.dataset?.britDate;
+    if (!key || !date || key !== `brit-chadashah:${date}`) return null;
+    return {
+      key,
+      date,
+      originalStorageKey: `oht_brit_original:${date}`,
+      overrideStorageKey: `oht_brit_override:${date}`
+    };
+  }
+
   function startBritEditing(element) {
-    // Store the original API value for reset (not including any override)
-    if (britOriginalValue === null) {
-      // Try to get the non-override value from localStorage marker or the current displayed value
-      const storedOriginal = localStorage.getItem('oht_brit_original');
-      britOriginalValue = storedOriginal || element.textContent;
+    const context = getBritContext(element);
+    if (!context) {
+      showToast('The weekly reading is still loading. Please try again.', 'info');
+      return;
     }
 
-    const key = 'brit-chadashah-override';
+    // Store the original API value for reset (not including any override)
+    if (britOriginalValue === null) {
+      const storedOriginal = localStorage.getItem(context.originalStorageKey);
+      britOriginalValue = storedOriginal || element.dataset.britOriginal || element.textContent;
+    }
+
+    const key = context.key;
 
     // Store current value if not already tracked
     if (!pendingChanges.has(key)) {
@@ -1274,7 +1291,9 @@
     element.removeEventListener('input', handleBritInput);
     element.removeEventListener('keydown', handleBritKeyDown);
 
-    const key = 'brit-chadashah-override';
+    const context = getBritContext(element);
+    if (!context) return;
+    const key = context.key;
     const data = pendingChanges.get(key);
 
     if (data) {
@@ -1295,7 +1314,9 @@
 
   function handleBritInput(e) {
     const element = e.target;
-    const key = 'brit-chadashah-override';
+    const context = getBritContext(element);
+    if (!context) return;
+    const key = context.key;
     const data = pendingChanges.get(key);
 
     if (data) {
@@ -1309,7 +1330,9 @@
     // Escape: Cancel and restore
     if (e.key === 'Escape') {
       e.preventDefault();
-      const key = 'brit-chadashah-override';
+      const context = getBritContext(currentlyEditing);
+      if (!context) return;
+      const key = context.key;
       const data = pendingChanges.get(key);
       if (data) {
         currentlyEditing.textContent = data.original;
@@ -1336,9 +1359,16 @@
       return;
     }
 
+    const element = document.querySelector('[data-brit-editable]');
+    const context = getBritContext(element);
+    if (!context) {
+      showToast('The weekly reading is still loading. Please try again.', 'info');
+      return;
+    }
+
     try {
       // Delete the override from the database
-      const response = await fetch('/api/content/brit-chadashah-override', {
+      const response = await fetch(`/api/content/${encodeURIComponent(context.key)}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
@@ -1347,7 +1377,7 @@
 
       if (result.success) {
         // Clear local storage
-        localStorage.removeItem('oht_brit_override');
+        localStorage.removeItem(context.overrideStorageKey);
 
         showToast('Brit Chadashah reset to automatic. Reload to see updated value.', 'success');
 
@@ -1365,8 +1395,11 @@
 
   async function checkBritOverrideStatus() {
     // Check if there's an override stored (for internal tracking)
+    const element = document.querySelector('[data-brit-editable]');
+    const context = getBritContext(element);
+    if (!context) return;
     try {
-      const response = await fetch('/api/content/brit-chadashah-override');
+      const response = await fetch(`/api/content/${encodeURIComponent(context.key)}`);
       const result = await response.json();
       // Just check status, no UI indicator needed
     } catch (err) {
@@ -1535,7 +1568,7 @@
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify({
-              key: 'brit-chadashah-override',
+              key,
               value: data.current,
               contentType: 'text'
             })
@@ -1550,7 +1583,8 @@
             pendingChanges.delete(key);
 
             // Also store in localStorage for the ParashahCard to use
-            localStorage.setItem('oht_brit_override', data.current);
+            const context = getBritContext(data.element);
+            if (context) localStorage.setItem(context.overrideStorageKey, data.current);
 
           } else {
             errorCount++;

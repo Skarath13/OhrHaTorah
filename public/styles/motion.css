@@ -1,0 +1,205 @@
+/* Quiet motion system: restrained, short, and never applied to the hero video. */
+:root {
+    --motion-ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-fast: 180ms;
+    --motion-medium: 620ms;
+}
+
+@keyframes oht-fade-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oht-soft-reveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes oht-image-settle {
+    from { opacity: 0.86; transform: scale(1.018); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.home-hero-media video {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .home-hero-logo,
+    .home-hero-copy > *,
+    .page-hero-title > *,
+    .page-hero-media img {
+        animation-duration: var(--motion-medium);
+        animation-fill-mode: both;
+        animation-timing-function: var(--motion-ease-lux);
+    }
+
+    .home-hero-logo,
+    .page-hero-title > :first-child {
+        animation-name: oht-fade-rise;
+        animation-delay: 70ms;
+    }
+
+    .home-hero-copy > :nth-child(1),
+    .page-hero-title > :nth-child(2) {
+        animation-name: oht-fade-rise;
+        animation-delay: 130ms;
+    }
+
+    .home-hero-copy > :nth-child(2),
+    .page-hero-title > :nth-child(3) {
+        animation-name: oht-fade-rise;
+        animation-delay: 200ms;
+    }
+
+    .home-hero-copy > :nth-child(3) {
+        animation-name: oht-fade-rise;
+        animation-delay: 270ms;
+    }
+
+    .page-hero-media img {
+        animation-name: oht-image-settle;
+        animation-delay: 90ms;
+    }
+
+    .mobile-nav-group[open] > .mobile-nav-submenu,
+    .faq-item.active .faq-answer,
+    details[open] > :not(summary) {
+        animation: oht-soft-reveal 240ms ease-out both;
+    }
+
+    :where(
+        .home-button,
+        .cta-button,
+        .directions-btn,
+        .resource-link,
+        .ministry-link,
+        .contact-links a,
+        .contact-info a,
+        .service-contact-actions a,
+        .page-home-link
+    ) {
+        transition:
+            transform var(--motion-fast) var(--motion-ease-lux),
+            background-color var(--motion-fast) ease,
+            border-color var(--motion-fast) ease,
+            color var(--motion-fast) ease,
+            box-shadow var(--motion-fast) ease !important;
+    }
+
+    :where(
+        .home-button,
+        .cta-button,
+        .directions-btn,
+        .resource-link,
+        .ministry-link,
+        .contact-links a,
+        .contact-info a,
+        .service-contact-actions a,
+        .page-home-link
+    ):hover {
+        transform: translateY(-2px);
+    }
+
+    :where(
+        .home-button,
+        .cta-button,
+        .directions-btn,
+        .resource-link,
+        .ministry-link,
+        .contact-links a,
+        .contact-info a,
+        .service-contact-actions a,
+        .page-home-link
+    ):active {
+        transform: translateY(0);
+    }
+
+    :where(
+        .home-button,
+        .cta-button,
+        .directions-btn,
+        .resource-link,
+        .ministry-link,
+        .contact-links a,
+        .contact-info a,
+        .service-contact-actions a,
+        .page-home-link
+    ) :where(i, svg) {
+        transition: transform var(--motion-fast) var(--motion-ease-lux);
+    }
+
+    :where(
+        .home-button,
+        .cta-button,
+        .directions-btn,
+        .resource-link,
+        .ministry-link,
+        .contact-links a,
+        .contact-info a,
+        .service-contact-actions a,
+        .page-home-link
+    ):hover :where(i, svg) {
+        transform: translateX(2px);
+    }
+
+    :where(
+        .home-card,
+        .contact-card,
+        .event-card,
+        .holiday-card,
+        .resource-card,
+        .value-card,
+        .ministry-card,
+        .donation-card,
+        .direction-card,
+        .faq-item
+    ) {
+        transition:
+            transform 260ms var(--motion-ease-lux),
+            border-color 260ms ease,
+            box-shadow 260ms ease;
+    }
+
+    :where(
+        .home-card,
+        .contact-card,
+        .event-card,
+        .holiday-card,
+        .resource-card,
+        .value-card,
+        .ministry-card,
+        .donation-card,
+        .direction-card,
+        .faq-item
+    ):hover {
+        transform: translateY(-2px);
+    }
+
+    @supports (animation-timeline: view()) {
+        .home-redesign > .home-section,
+        .page-body > * {
+            animation-name: oht-fade-rise;
+            animation-duration: 1ms;
+            animation-fill-mode: both;
+            animation-timing-function: var(--motion-ease-lux);
+            animation-timeline: view();
+            animation-range: entry 0% cover 24%;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto !important; }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
