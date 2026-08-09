@@ -185,7 +185,9 @@
 .home-button-secondary { border-color: rgba(255, 255, 255, 0.72); background: rgba(6, 26, 50, 0.72); color: #fff; }
 .home-button-secondary:hover { border-color: #fff; background: rgba(6, 26, 50, 0.88); color: #fff; }
 
-@media (min-width: 1360px) {
+@media (min-width: 768px) {
+    .home-hero-logo { justify-self: center; }
+
     .home-hero-copy {
         display: grid;
         justify-items: center;

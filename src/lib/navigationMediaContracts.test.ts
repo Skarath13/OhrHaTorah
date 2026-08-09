@@ -103,6 +103,7 @@ test('responsive brand fills the fixed header and hero separates brand from copy
     assert.match(homeStyles, /\.home-hero-copy \{[\s\S]*?grid-row: 3;[\s\S]*?align-self: end;/);
     assert.match(homeStyles, /\.home-hero-logo \{[\s\S]*?grid-row: 1;/);
     assert.doesNotMatch(homeStyles, /\.home-hero-copy \{[^}]*margin-top: auto;/);
-    assert.match(homeStyles, /@media \(min-width: 1360px\) \{[\s\S]*?\.home-hero-copy \{[\s\S]*?justify-items: center;[\s\S]*?text-align: center;/);
-    assert.match(homeStyles, /@media \(min-width: 1360px\) \{[\s\S]*?\.home-hero-actions \{ margin-inline: auto; \}/);
+    assert.match(homeStyles, /@media \(min-width: 768px\) \{[\s\S]*?\.home-hero-logo \{ justify-self: center; \}/);
+    assert.match(homeStyles, /@media \(min-width: 768px\) \{[\s\S]*?\.home-hero-copy \{[\s\S]*?justify-items: center;[\s\S]*?text-align: center;/);
+    assert.match(homeStyles, /@media \(min-width: 768px\) \{[\s\S]*?\.home-hero-actions \{ margin-inline: auto; \}/);
 });
