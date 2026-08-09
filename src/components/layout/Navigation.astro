@@ -1,18 +1,9 @@
 ---
 // Navigation component with dropdown menus
 ---
-<!-- Navigation Overlay -->
-<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
-
-<!-- Navigation -->
+<!-- Desktop navigation. Mobile uses MobileNavigation.astro so legacy desktop
+     selectors can never affect the mobile drawer geometry. -->
 <nav class="nav-container" id="nav-container" aria-label="Primary navigation">
-    <div class="nav-drawer-header">
-        <button class="nav-close-btn" id="nav-close-btn" type="button" aria-label="Close navigation drawer">
-            <i class="fas fa-times" aria-hidden="true"></i>
-            <span>Close</span>
-        </button>
-    </div>
-
     <ul class="nav-links">
         <li class="dropdown">
             <div class="nav-item-row">
@@ -147,17 +138,7 @@
 </nav>
 
 <script>
-    const navContainer = document.getElementById('nav-container');
-    const mobileMenuQuery = window.matchMedia('(max-width: 1359px)');
-    const navOverlay = document.getElementById('nav-overlay');
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const closeBtn = document.getElementById('nav-close-btn');
     const dropdownItems = Array.from(document.querySelectorAll<HTMLElement>('.nav-links .dropdown'));
-    let previouslyFocusedElement: HTMLElement | null = null;
-    let savedBodyOverflow: string | null = null;
-    let savedDocumentOverflow: string | null = null;
-    let savedPageScrollY = 0;
-    let focusEntryTimer: number | null = null;
 
     function setDropdownState(dropdown: HTMLElement | null, expanded: boolean) {
         if (!dropdown) return;
@@ -178,133 +159,6 @@
         });
     }
 
-    function isMenuOpen() {
-        return navContainer?.classList.contains('active') ?? false;
-    }
-
-    function setDrawerAccessibility(isOpen: boolean) {
-        if (!navContainer || !mobileMenuQuery.matches) return;
-
-        navContainer.setAttribute('aria-hidden', String(!isOpen));
-        navContainer.toggleAttribute('inert', !isOpen);
-        navOverlay?.setAttribute('aria-hidden', String(!isOpen));
-    }
-
-    function restoreBodyScroll() {
-        if (savedBodyOverflow === null) return;
-        document.body.style.overflow = savedBodyOverflow;
-        document.documentElement.style.overflow = savedDocumentOverflow ?? '';
-        savedBodyOverflow = null;
-        savedDocumentOverflow = null;
-        window.scrollTo(0, savedPageScrollY);
-    }
-
-    function openMenu() {
-        if (!mobileMenuQuery.matches || !navContainer) return;
-
-        previouslyFocusedElement = document.activeElement instanceof HTMLElement
-            ? document.activeElement
-            : menuBtn;
-        savedBodyOverflow = document.body.style.overflow;
-        savedDocumentOverflow = document.documentElement.style.overflow;
-        savedPageScrollY = window.scrollY;
-
-        closeAllDropdowns();
-        navContainer.scrollTop = 0;
-
-        navContainer.classList.add('active');
-        navOverlay?.classList.add('active');
-        menuBtn?.classList.add('active');
-        menuBtn?.setAttribute('aria-expanded', 'true');
-        menuBtn?.setAttribute('aria-label', 'Close navigation menu');
-        if (menuBtn instanceof HTMLButtonElement) menuBtn.hidden = true;
-        setDrawerAccessibility(true);
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
-
-        window.requestAnimationFrame(() => {
-            navContainer.scrollTop = 0;
-        });
-
-        if (focusEntryTimer !== null) window.clearTimeout(focusEntryTimer);
-        focusEntryTimer = window.setTimeout(() => {
-            if (isMenuOpen()) closeBtn?.focus({ preventScroll: true });
-            focusEntryTimer = null;
-        }, 75);
-    }
-
-    function closeMenu({ restoreFocus = true } = {}) {
-        const wasOpen = isMenuOpen();
-
-        if (focusEntryTimer !== null) {
-            window.clearTimeout(focusEntryTimer);
-            focusEntryTimer = null;
-        }
-
-        navContainer?.classList.remove('active');
-        navOverlay?.classList.remove('active');
-        menuBtn?.classList.remove('active');
-        if (menuBtn instanceof HTMLButtonElement) menuBtn.hidden = false;
-        menuBtn?.setAttribute('aria-expanded', 'false');
-        menuBtn?.setAttribute('aria-label', 'Open navigation menu');
-        closeAllDropdowns();
-        restoreBodyScroll();
-
-        if (mobileMenuQuery.matches) {
-            setDrawerAccessibility(false);
-        } else {
-            navContainer?.removeAttribute('aria-hidden');
-            navContainer?.removeAttribute('inert');
-            navOverlay?.setAttribute('aria-hidden', 'true');
-        }
-
-        if (wasOpen && restoreFocus) {
-            previouslyFocusedElement?.focus({ preventScroll: true });
-        }
-        previouslyFocusedElement = null;
-    }
-
-    function toggleMenu() {
-        if (isMenuOpen()) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
-    }
-
-    function getVisibleDrawerControls() {
-        if (!navContainer) return [];
-
-        return Array.from(navContainer.querySelectorAll<HTMLElement>(
-            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )).filter(element => element.getClientRects().length > 0);
-    }
-
-    function syncNavigationMode() {
-        closeMenu({ restoreFocus: false });
-
-        if (!mobileMenuQuery.matches) {
-            navContainer?.removeAttribute('aria-hidden');
-            navContainer?.removeAttribute('inert');
-        }
-    }
-
-    menuBtn?.addEventListener('click', toggleMenu);
-    closeBtn?.addEventListener('click', () => closeMenu());
-    navOverlay?.addEventListener('click', () => closeMenu());
-
-    document.querySelectorAll(
-        '.dropdown-content a, .nav-item-row > a.nav-primary-link, .nav-links > li:not(.dropdown) > a'
-    ).forEach(link => {
-        link.addEventListener('click', () => {
-            if (mobileMenuQuery.matches) {
-                closeMenu({ restoreFocus: false });
-            } else {
-                closeAllDropdowns();
-            }
-        });
-    });
-
     dropdownItems.forEach(dropdown => {
         const trigger = dropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]');
         if (!trigger) return;
@@ -317,14 +171,14 @@
 
         dropdown.addEventListener('focusout', () => {
             window.setTimeout(() => {
-                if (!mobileMenuQuery.matches && !dropdown.contains(document.activeElement)) {
+                if (!dropdown.contains(document.activeElement)) {
                     setDropdownState(dropdown, false);
                 }
             }, 0);
         });
 
         dropdown.addEventListener('pointerleave', () => {
-            if (!mobileMenuQuery.matches && !dropdown.contains(document.activeElement)) {
+            if (!dropdown.contains(document.activeElement)) {
                 setDropdownState(dropdown, false);
             }
         });
@@ -336,40 +190,15 @@
     });
 
     document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') {
-            if (mobileMenuQuery.matches && isMenuOpen()) {
-                event.preventDefault();
-                closeMenu();
-            } else {
-                const focusedDropdown = document.activeElement instanceof Element
-                    ? document.activeElement.closest<HTMLElement>('.dropdown')
-                    : null;
-                closeAllDropdowns();
+        if (event.key !== 'Escape') return;
 
-                if (focusedDropdown) {
-                    focusedDropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]')?.focus();
-                }
-            }
-            return;
+        const focusedDropdown = document.activeElement instanceof Element
+            ? document.activeElement.closest<HTMLElement>('.dropdown')
+            : null;
+        closeAllDropdowns();
+
+        if (focusedDropdown) {
+            focusedDropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]')?.focus();
         }
-
-        if (event.key !== 'Tab' || !mobileMenuQuery.matches || !isMenuOpen()) return;
-
-        const controls = getVisibleDrawerControls();
-        if (controls.length === 0) return;
-
-        const firstControl = controls[0];
-        const lastControl = controls[controls.length - 1];
-
-        if (event.shiftKey && document.activeElement === firstControl) {
-            event.preventDefault();
-            lastControl.focus();
-        } else if (!event.shiftKey && document.activeElement === lastControl) {
-            event.preventDefault();
-            firstControl.focus();
-        }
-    }, true);
-
-    mobileMenuQuery.addEventListener('change', syncNavigationMode);
-    syncNavigationMode();
+    });
 </script>

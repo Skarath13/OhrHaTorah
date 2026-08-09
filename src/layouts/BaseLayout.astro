@@ -15,7 +15,7 @@ const {
   stylesheets = [],
 } = Astro.props;
 const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
-const stylesheetVersion = '20260808-ios-layout-1';
+const stylesheetVersion = '20260809-mobile-dialog-1';
 const versionStylesheet = (href: string) => {
   const separator = href.includes('?') ? '&' : '?';
   return `${href}${separator}v=${stylesheetVersion}`;

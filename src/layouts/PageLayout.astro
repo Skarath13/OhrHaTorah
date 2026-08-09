@@ -3,6 +3,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Navigation from '../components/layout/Navigation.astro';
+import MobileNavigation from '../components/layout/MobileNavigation.astro';
 import Footer from '../components/layout/Footer.astro';
 
 interface Props {
@@ -140,6 +141,7 @@ const showSectionCrumb = presentation.sectionHref !== currentPath;
             <Header showLogo={false} />
             <Navigation />
         </div>
+        <MobileNavigation />
 
         {pageTitle && (
             <header class="page-hero">

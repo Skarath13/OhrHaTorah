@@ -6,12 +6,28 @@ const navigationSource = readFileSync(
     new URL('../components/layout/Navigation.astro', import.meta.url),
     'utf8'
 );
+const mobileNavigationSource = readFileSync(
+    new URL('../components/layout/MobileNavigation.astro', import.meta.url),
+    'utf8'
+);
+const headerSource = readFileSync(
+    new URL('../components/layout/Header.astro', import.meta.url),
+    'utf8'
+);
 const chromeStyles = readFileSync(
     new URL('../../public/styles/chrome.css', import.meta.url),
     'utf8'
 );
+const legacyStyles = readFileSync(
+    new URL('../../public/styles/style.css', import.meta.url),
+    'utf8'
+);
 const homeSource = readFileSync(
     new URL('../pages/index.astro', import.meta.url),
+    'utf8'
+);
+const pageLayoutSource = readFileSync(
+    new URL('../layouts/PageLayout.astro', import.meta.url),
     'utf8'
 );
 const heroRouteSource = readFileSync(
@@ -19,21 +35,40 @@ const heroRouteSource = readFileSync(
     'utf8'
 );
 
-test('mobile navigation uses disclosure-first rows without split page and menu cues', () => {
-    assert.doesNotMatch(navigationSource, /nav-page-cue|nav-expand-label/);
-    assert.equal((navigationSource.match(/data-nav-label=/g) ?? []).length, 5);
-    assert.match(navigationSource, /class="nav-mobile-page-link" href="\/"/);
-    assert.match(navigationSource, /class="nav-mobile-page-link" href="\/resources"/);
-    assert.match(chromeStyles, /\.nav-item-row > a\.nav-primary-link \{\s*display: none !important;/);
-    assert.match(navigationSource, /class="nav-drawer-header"/);
-    assert.doesNotMatch(navigationSource, /nav-drawer-scroll/);
-    assert.match(chromeStyles, /\.nav-drawer-header \{[\s\S]*?position: sticky !important;/);
-    assert.match(chromeStyles, /\.site-navigation-shell \.nav-container \{[\s\S]*?position: fixed !important;[\s\S]*?inset: 0 0 0 auto !important;/);
-    assert.match(chromeStyles, /\.site-navigation-shell \.nav-container \{[\s\S]*?display: none !important;[\s\S]*?overflow-y: auto !important;[\s\S]*?transform: none !important;/);
-    assert.match(chromeStyles, /\.site-navigation-shell \.nav-container\.active \{[\s\S]*?display: block !important;/);
-    assert.match(chromeStyles, /\.site-navigation-shell \.nav-links \{[\s\S]*?display: block !important;/);
-    assert.doesNotMatch(navigationSource, /document\.body\.style\.position/);
-    assert.match(navigationSource, /navContainer\.scrollTop = 0/);
+test('mobile navigation is an isolated native dialog with native disclosure groups', () => {
+    assert.match(headerSource, /aria-controls="mobile-nav-dialog"/);
+    assert.match(mobileNavigationSource, /<dialog class="mobile-nav-dialog" id="mobile-nav-dialog"/);
+    assert.equal((mobileNavigationSource.match(/<details class="mobile-nav-group">/g) ?? []).length, 5);
+    assert.match(mobileNavigationSource, /mobileNavDialog\.showModal\(\)/);
+    assert.match(mobileNavigationSource, /mobileNavDialog\.close\(\)/);
+    assert.match(mobileNavigationSource, /mobileNavScroll\.scrollTop = 0/);
+    assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/"/);
+    assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/services"/);
+    assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/resources"/);
+
+    for (const legacyClass of ['nav-container', 'nav-links', 'dropdown', 'nav-overlay', 'nav-drawer']) {
+        assert.doesNotMatch(
+            mobileNavigationSource,
+            new RegExp(`class="[^"]*\\b${legacyClass}\\b`),
+            `mobile dialog must not reuse legacy .${legacyClass} geometry`
+        );
+    }
+
+    assert.match(chromeStyles, /\.mobile-nav-dialog\[open\] \{\s*display: grid !important;/);
+    assert.match(chromeStyles, /\.mobile-nav-dialog \{[\s\S]*?height: 100dvh !important;[\s\S]*?grid-template-rows: auto minmax\(0, 1fr\);/);
+    assert.match(chromeStyles, /\.mobile-nav-scroll \{[\s\S]*?overflow-y: auto;/);
+});
+
+test('legacy 431-768 nav positioning cannot move the mobile dialog below the viewport', () => {
+    assert.match(
+        legacyStyles,
+        /@media \(min-width: 431px\) and \(max-width: 768px\) \{[\s\S]*?\.nav-links \{[\s\S]*?position: absolute;[\s\S]*?top: 100%;/
+    );
+    assert.doesNotMatch(mobileNavigationSource, /class="[^"]*\bnav-links\b/);
+    assert.match(chromeStyles, /\.site-navigation-shell \.nav-container,\s*\.site-navigation-shell \.nav-container\.active \{\s*display: none !important;/);
+    assert.match(homeSource, /<\/div>\s*<MobileNavigation \/>/);
+    assert.match(pageLayoutSource, /<\/div>\s*<MobileNavigation \/>/);
+    assert.doesNotMatch(navigationSource, /nav-drawer-header|nav-close-btn|nav-overlay/);
 });
 
 test('homepage and byte-range route use the versioned forward-reverse hero media', () => {

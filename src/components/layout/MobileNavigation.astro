@@ -1,0 +1,184 @@
+---
+// Mobile-only navigation. It intentionally uses unique class names and a
+// top-layer dialog so legacy desktop navigation CSS cannot change its geometry.
+---
+
+<dialog class="mobile-nav-dialog" id="mobile-nav-dialog" aria-label="Primary navigation">
+    <header class="mobile-nav-header">
+        <span class="mobile-nav-title">Menu</span>
+        <button class="mobile-nav-close" id="mobile-nav-close" type="button" aria-label="Close navigation menu">
+            <i class="fas fa-times" aria-hidden="true"></i>
+            <span>Close</span>
+        </button>
+    </header>
+
+    <div class="mobile-nav-scroll" id="mobile-nav-scroll">
+        <div class="mobile-nav-list">
+            <details class="mobile-nav-group">
+                <summary class="mobile-nav-summary">
+                    <i class="fas fa-home mobile-nav-icon" aria-hidden="true"></i>
+                    <span>Welcome</span>
+                    <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="mobile-nav-submenu">
+                    <a class="mobile-nav-submenu-link mobile-nav-landing-link" href="/"><i class="fas fa-home" aria-hidden="true"></i><span>Home</span></a>
+                    <a class="mobile-nav-submenu-link" href="/about"><i class="fas fa-info-circle" aria-hidden="true"></i><span>About Ohr HaTorah</span></a>
+                    <a class="mobile-nav-submenu-link" href="/expect"><i class="fas fa-door-open" aria-hidden="true"></i><span>What to expect</span></a>
+                    <a class="mobile-nav-submenu-link" href="/mission"><i class="fas fa-bullseye" aria-hidden="true"></i><span>Mission, vision, and values</span></a>
+                    <a class="mobile-nav-submenu-link" href="/location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span>Our location</span></a>
+                    <a class="mobile-nav-submenu-link" href="/faq"><i class="fas fa-question-circle" aria-hidden="true"></i><span>FAQ</span></a>
+                    <a class="mobile-nav-submenu-link" href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i><span>UMJC affiliation</span></a>
+                </div>
+            </details>
+
+            <details class="mobile-nav-group">
+                <summary class="mobile-nav-summary">
+                    <i class="fas fa-calendar-check mobile-nav-icon" aria-hidden="true"></i>
+                    <span>Events &amp; Services</span>
+                    <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="mobile-nav-submenu">
+                    <a class="mobile-nav-submenu-link mobile-nav-landing-link" href="/services"><i class="fas fa-star-of-david" aria-hidden="true"></i><span>Events &amp; Services overview</span></a>
+                    <a class="mobile-nav-submenu-link" href="/holidays"><i class="fas fa-calendar-day" aria-hidden="true"></i><span>Holidays</span></a>
+                    <a class="mobile-nav-submenu-link" href="/events"><i class="fas fa-star" aria-hidden="true"></i><span>Special events</span></a>
+                    <a class="mobile-nav-submenu-link" href="/youth"><i class="fas fa-child" aria-hidden="true"></i><span>Shabbat School for youth</span></a>
+                </div>
+            </details>
+
+            <details class="mobile-nav-group">
+                <summary class="mobile-nav-summary">
+                    <i class="fas fa-users mobile-nav-icon" aria-hidden="true"></i>
+                    <span>Community</span>
+                    <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="mobile-nav-submenu">
+                    <a class="mobile-nav-submenu-link" href="/#congregation-calendar"><i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Congregation calendar</span></a>
+                    <a class="mobile-nav-submenu-link" href="/israel"><i class="fas fa-flag" aria-hidden="true"></i><span>Stand with Israel</span></a>
+                </div>
+            </details>
+
+            <details class="mobile-nav-group">
+                <summary class="mobile-nav-summary">
+                    <i class="fas fa-graduation-cap mobile-nav-icon" aria-hidden="true"></i>
+                    <span>Learn</span>
+                    <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="mobile-nav-submenu">
+                    <a class="mobile-nav-submenu-link mobile-nav-landing-link" href="/resources"><i class="fas fa-book-open" aria-hidden="true"></i><span>Learn overview</span></a>
+                    <a class="mobile-nav-submenu-link" href="/#shabbat-activities-section"><i class="fas fa-scroll" aria-hidden="true"></i><span>Weekly Torah readings</span></a>
+                    <a class="mobile-nav-submenu-link" href="/faq"><i class="fas fa-question-circle" aria-hidden="true"></i><span>Common questions</span></a>
+                </div>
+            </details>
+
+            <details class="mobile-nav-group">
+                <summary class="mobile-nav-summary">
+                    <i class="fas fa-archive mobile-nav-icon" aria-hidden="true"></i>
+                    <span>Resources</span>
+                    <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="mobile-nav-submenu">
+                    <a class="mobile-nav-submenu-link mobile-nav-landing-link" href="/resources"><i class="fas fa-book-open" aria-hidden="true"></i><span>Resources overview</span></a>
+                    <a class="mobile-nav-submenu-link" href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i><span>UMJC affiliation</span></a>
+                    <a class="mobile-nav-submenu-link" href="/#congregation-calendar"><i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Congregation calendar</span></a>
+                </div>
+            </details>
+
+            <a class="mobile-nav-direct-link" href="/contact">
+                <i class="fas fa-envelope mobile-nav-icon" aria-hidden="true"></i>
+                <span>Contact</span>
+            </a>
+
+            <a class="mobile-nav-direct-link" href="/donate">
+                <i class="fas fa-heart mobile-nav-icon" aria-hidden="true"></i>
+                <span>Donate</span>
+            </a>
+        </div>
+    </div>
+</dialog>
+
+<script>
+    const mobileNavDialog = document.getElementById('mobile-nav-dialog') as HTMLDialogElement | null;
+    const mobileNavButton = document.getElementById('mobile-menu-btn') as HTMLButtonElement | null;
+    const mobileNavClose = document.getElementById('mobile-nav-close') as HTMLButtonElement | null;
+    const mobileNavScroll = document.getElementById('mobile-nav-scroll');
+    const mobileNavGroups = Array.from(document.querySelectorAll<HTMLDetailsElement>('.mobile-nav-group'));
+    const mobileNavQuery = window.matchMedia('(max-width: 1359px)');
+    let mobileNavPreviousFocus: HTMLElement | null = null;
+    let mobileNavRestoreFocus = true;
+
+    function resetMobileNavState() {
+        document.documentElement.classList.remove('mobile-nav-open');
+        mobileNavButton?.setAttribute('aria-expanded', 'false');
+        mobileNavButton?.setAttribute('aria-label', 'Open navigation menu');
+        mobileNavGroups.forEach(group => { group.open = false; });
+
+        if (mobileNavRestoreFocus) {
+            mobileNavPreviousFocus?.focus({ preventScroll: true });
+        }
+
+        mobileNavPreviousFocus = null;
+        mobileNavRestoreFocus = true;
+    }
+
+    function closeMobileNav({ restoreFocus = true } = {}) {
+        if (!mobileNavDialog?.open) return;
+
+        mobileNavRestoreFocus = restoreFocus;
+        if (typeof mobileNavDialog.close === 'function') {
+            mobileNavDialog.close();
+        } else {
+            mobileNavDialog.removeAttribute('open');
+            resetMobileNavState();
+        }
+    }
+
+    function openMobileNav() {
+        if (!mobileNavDialog || !mobileNavQuery.matches || mobileNavDialog.open) return;
+
+        mobileNavPreviousFocus = document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : mobileNavButton;
+        mobileNavGroups.forEach(group => { group.open = false; });
+        if (mobileNavScroll) mobileNavScroll.scrollTop = 0;
+        document.documentElement.classList.add('mobile-nav-open');
+
+        if (typeof mobileNavDialog.showModal === 'function') {
+            mobileNavDialog.showModal();
+        } else {
+            mobileNavDialog.setAttribute('open', '');
+        }
+
+        mobileNavButton?.setAttribute('aria-expanded', 'true');
+        mobileNavButton?.setAttribute('aria-label', 'Close navigation menu');
+
+        window.requestAnimationFrame(() => {
+            if (mobileNavScroll) mobileNavScroll.scrollTop = 0;
+            mobileNavClose?.focus({ preventScroll: true });
+        });
+    }
+
+    mobileNavButton?.addEventListener('click', openMobileNav);
+    mobileNavClose?.addEventListener('click', () => closeMobileNav());
+    mobileNavDialog?.addEventListener('close', resetMobileNavState);
+
+    mobileNavDialog?.addEventListener('click', event => {
+        if (event.target === mobileNavDialog) closeMobileNav();
+    });
+
+    mobileNavDialog?.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(link => {
+        link.addEventListener('click', () => closeMobileNav({ restoreFocus: false }));
+    });
+
+    mobileNavGroups.forEach(group => {
+        group.addEventListener('toggle', () => {
+            if (!group.open) return;
+            mobileNavGroups.forEach(otherGroup => {
+                if (otherGroup !== group) otherGroup.open = false;
+            });
+        });
+    });
+
+    mobileNavQuery.addEventListener('change', event => {
+        if (!event.matches) closeMobileNav({ restoreFocus: false });
+    });
+</script>

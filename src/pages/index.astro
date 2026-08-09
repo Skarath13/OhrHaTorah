@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Navigation from '../components/layout/Navigation.astro';
+import MobileNavigation from '../components/layout/MobileNavigation.astro';
 import Footer from '../components/layout/Footer.astro';
 import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
@@ -15,6 +16,7 @@ import { rabbi } from '../data/rabbi';
         <Header showLogo={false} />
         <Navigation />
     </div>
+    <MobileNavigation />
 
     <main class="home-redesign">
         <section class="home-hero" aria-labelledby="home-hero-title">
