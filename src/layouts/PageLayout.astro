@@ -5,6 +5,7 @@ import Header from '../components/layout/Header.astro';
 import Navigation from '../components/layout/Navigation.astro';
 import MobileNavigation from '../components/layout/MobileNavigation.astro';
 import Footer from '../components/layout/Footer.astro';
+import SectionDivider from '../components/layout/SectionDivider.astro';
 
 interface Props {
   title?: string;
@@ -171,6 +172,8 @@ const showSectionCrumb = presentation.sectionHref !== currentPath;
             </header>
         )}
 
+        {pageTitle && <SectionDivider from="var(--interior-navy)" to="var(--interior-cream)" />}
+
         <main class="page-content interior-page" aria-labelledby={pageTitle ? 'page-title' : undefined}>
             <article class="page-container">
             <div class="page-body">
@@ -180,6 +183,7 @@ const showSectionCrumb = presentation.sectionHref !== currentPath;
                     <a href="/" class="page-home-link">Return home <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
             </article>
+            <SectionDivider from="var(--interior-cream)" to="var(--site-chrome-navy)" flip />
         </main>
 
         <Footer />

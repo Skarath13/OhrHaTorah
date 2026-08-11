@@ -1,0 +1,25 @@
+---
+interface Props {
+    from: string;
+    to: string;
+    flip?: boolean;
+    compact?: boolean;
+}
+
+const {
+    from,
+    to,
+    flip = false,
+    compact = false,
+} = Astro.props;
+---
+
+<div
+    class:list={[
+        'organic-section-divider',
+        flip && 'organic-section-divider--flip',
+        compact && 'organic-section-divider--compact',
+    ]}
+    style={`--divider-from: ${from}; --divider-to: ${to};`}
+    aria-hidden="true"
+></div>

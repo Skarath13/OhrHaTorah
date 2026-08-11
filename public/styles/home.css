@@ -666,7 +666,7 @@
 .home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.5; }
 .home-torah-quote cite { display: block; margin-top: 1.1rem; color: var(--home-gold-300); font-family: var(--font-body); font-size: 0.72rem; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.home-calendar-section { background: var(--home-blue-950); color: rgba(255, 255, 255, 0.82); }
+.home-calendar-section { background: var(--home-blue-900); color: rgba(255, 255, 255, 0.82); }
 .home-calendar-section .home-section-heading { align-items: end; }
 .home-calendar-section .home-section-heading { border-color: rgba(230, 201, 120, 0.3); }
 .home-calendar-section .home-section-heading h2 { color: #fff; }

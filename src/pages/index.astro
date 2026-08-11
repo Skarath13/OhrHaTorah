@@ -4,6 +4,7 @@ import Header from '../components/layout/Header.astro';
 import Navigation from '../components/layout/Navigation.astro';
 import MobileNavigation from '../components/layout/MobileNavigation.astro';
 import Footer from '../components/layout/Footer.astro';
+import SectionDivider from '../components/layout/SectionDivider.astro';
 import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
 import LiveClock from '../components/islands/LiveClock.astro';
@@ -70,6 +71,8 @@ import { rabbi } from '../data/rabbi';
             </div>
         </section>
 
+        <SectionDivider from="var(--home-blue-950)" to="var(--home-cream-100)" />
+
         <section class="home-section home-community" aria-labelledby="about-us-title-heading">
             <div class="home-shell">
                 <div class="home-section-heading home-about-heading">
@@ -133,6 +136,8 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
         </section>
+
+        <SectionDivider from="var(--home-cream-100)" to="var(--home-blue-950)" flip />
 
         <section class="home-section home-purpose" aria-labelledby="home-purpose-title">
             <div class="home-shell">
@@ -227,6 +232,8 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
         </section>
+
+        <SectionDivider from="var(--home-blue-950)" to="var(--home-cream-50)" />
 
         <section class="home-section home-visit" aria-labelledby="visit-title">
             <div class="home-shell">
@@ -340,6 +347,8 @@ import { rabbi } from '../data/rabbi';
             </div>
         </section>
 
+        <SectionDivider from="var(--home-cream-50)" to="var(--home-cream-100)" flip compact />
+
         <section class="home-section home-this-shabbat" aria-labelledby="this-shabbat-title">
             <div class="home-shell">
                 <div class="home-section-heading">
@@ -426,6 +435,8 @@ import { rabbi } from '../data/rabbi';
             </div>
         </section>
 
+        <SectionDivider from="var(--home-cream-100)" to="var(--home-blue-950)" />
+
         <aside class="home-torah-quote" aria-label="A reflection from Scripture">
             <div class="home-shell">
                 <div class="home-torah-quote-icon" aria-hidden="true">
@@ -446,6 +457,8 @@ import { rabbi } from '../data/rabbi';
                 </blockquote>
             </div>
         </aside>
+
+        <SectionDivider from="var(--home-blue-950)" to="var(--home-blue-900)" flip compact />
 
         <section class="home-section home-calendar-section" aria-labelledby="congregation-calendar">
             <div class="home-shell">
@@ -486,6 +499,8 @@ import { rabbi } from '../data/rabbi';
                 </div>
             </div>
         </section>
+
+        <SectionDivider from="var(--home-blue-900)" to="var(--site-chrome-navy)" compact />
 
     </main>
 
