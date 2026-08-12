@@ -9,6 +9,7 @@ This file provides project-specific guidance for the Chuck directory containing 
 - **Tech Stack**: Astro 5.x, TypeScript, Cloudflare Workers/Pages, D1, R2
 - **Development Server**: `npm run dev` (port 3002)
 - **Legacy Production URL**: https://ohrhatorah.pages.dev (Dylan account; retained only as rollback until a separately approved domain cutover)
+- **Legacy Preview Redirect**: https://fresh-design-staging.ohrhatorah.pages.dev redirects browser navigation to Chuck staging; deploy only the isolated artifact documented in `docs/cloudflare-staging.md`.
 - **Chuck Staging URL**: https://kehilat-ohr-hatorah-chuck-staging.pages.dev
 - **Repository**: https://github.com/Skarath13/OhrHaTorah.git
 - **Primary Branch**: `main`
@@ -63,6 +64,7 @@ OhrHaTorah/
 - **Output directory**: `dist`
 - **Manual deploy**: follow `docs/cloudflare-staging.md` and name the account, config, project, branch, and verified commit explicitly
 - **Domains**: do not attach a custom domain, route, or DNS record without separate approval
+- **Legacy preview**: keep the redirect scoped to the `fresh-design-staging` preview branch; never deploy it to legacy `master`
 
 ### Database Commands
 ```bash
