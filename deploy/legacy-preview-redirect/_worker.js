@@ -14,7 +14,8 @@ export default {
         }
 
         const source = new URL(request.url);
-        const destination = new URL(source.pathname, destinationOrigin);
+        const destination = new URL(destinationOrigin);
+        destination.pathname = source.pathname;
         destination.search = source.search;
 
         return new Response(null, {

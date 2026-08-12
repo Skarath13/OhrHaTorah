@@ -27,3 +27,14 @@ test('legacy preview does not forward mutations to the isolated staging site', a
     assert.equal(response.headers.get('cache-control'), 'no-store');
     assert.equal(response.headers.get('location'), null);
 });
+
+test('legacy preview cannot redirect double-slash paths to another host', async () => {
+    const response = await legacyPreviewRedirect.fetch(new Request(
+        'https://fresh-design-staging.ohrhatorah.pages.dev//malicious.example/path?from=legacy',
+    ));
+
+    const location = new URL(response.headers.get('location') || '');
+    assert.equal(location.origin, 'https://kehilat-ohr-hatorah-chuck-staging.pages.dev');
+    assert.equal(location.pathname, '//malicious.example/path');
+    assert.equal(location.search, '?from=legacy');
+});
