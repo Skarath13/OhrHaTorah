@@ -96,8 +96,8 @@
         && detailsClose
         && filterInputs
     ) {
-        const mobileQuery = window.matchMedia('(max-width: 599px)');
-        let automaticView = mobileQuery.matches ? 'listMonth' : 'dayGridMonth';
+        const compactCalendarQuery = window.matchMedia('(max-width: 899px)');
+        let automaticView = compactCalendarQuery.matches ? 'listMonth' : 'dayGridMonth';
 
         const readFilters = () => {
             const values = new URLSearchParams();
@@ -221,12 +221,12 @@
         });
 
         const handleResponsiveView = () => {
-            const nextAutomaticView = mobileQuery.matches ? 'listMonth' : 'dayGridMonth';
+            const nextAutomaticView = compactCalendarQuery.matches ? 'listMonth' : 'dayGridMonth';
             if (nextAutomaticView === automaticView) return;
             const wasAutomaticView = calendar.view.type === automaticView;
             automaticView = nextAutomaticView;
             if (wasAutomaticView) calendar.changeView(automaticView, calendar.getDate());
         };
-        mobileQuery.addEventListener('change', handleResponsiveView);
+        compactCalendarQuery.addEventListener('change', handleResponsiveView);
     }
 </script>

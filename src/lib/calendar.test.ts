@@ -148,6 +148,7 @@ test('homepage owns its calendar UI and has no Google Calendar integration', () 
     assert.match(calendarComponent, /fullcalendar\/list/);
     assert.match(calendarComponent, /listMonth/);
     assert.match(calendarComponent, /dayGridMonth/);
+    assert.match(calendarComponent, /matchMedia\('\(max-width: 899px\)'\)/);
     assert.match(calendarComponent, /name="candleLighting" checked/);
     assert.match(calendarComponent, /Shabbat candle lighting/);
     assert.match(calendarComponent, /eventInteractive: true/);
