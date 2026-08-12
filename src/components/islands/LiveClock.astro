@@ -1,23 +1,38 @@
 ---
-// Live Clock Island - shows PST time, Hebrew date, and Gregorian date
+// Shows the next Shabbat's dates alongside the current Pacific time.
 ---
-<div class="sidebar-widget live-clock-widget">
+<div class="sidebar-widget live-clock-widget" aria-labelledby="sidebar-date-time-title">
     <div class="widget-header" data-editable="sidebar-date-time-header" role="heading" aria-level="3">
-        <span data-editable="sidebar-date-time-title">Hebrew Date &amp; Time</span>
+        <span id="sidebar-date-time-title" data-editable="sidebar-date-time-title">Next Shabbat</span>
     </div>
     <div class="widget-content">
         <div class="clock-stack">
             <div class="clock-panel">
-                <div class="clock-label">Hebrew Date</div>
-                <div class="clock-hebrew-date" id="sidebar-hebrew-date">Loading...</div>
+                <div class="clock-label" id="sidebar-hebrew-date-label">Hebrew Date</div>
+                <div
+                    class="clock-hebrew-date"
+                    id="sidebar-hebrew-date"
+                    aria-labelledby="sidebar-hebrew-date-label"
+                    aria-live="polite"
+                    aria-busy="true"
+                >Loading...</div>
             </div>
-            <div class="clock-panel clock-panel-today">
-                <div class="clock-label">Today</div>
-                <div class="clock-gregorian-date" id="sidebar-gregorian-date"></div>
+            <div class="clock-panel clock-panel-date">
+                <div class="clock-label" id="sidebar-gregorian-date-label">Gregorian Date</div>
+                <time
+                    class="clock-gregorian-date"
+                    id="sidebar-gregorian-date"
+                    aria-labelledby="sidebar-gregorian-date-label"
+                ></time>
             </div>
             <div class="clock-panel clock-panel-time">
-                <div class="clock-label">Pacific Time</div>
-                <div class="clock-time" id="sidebar-pacific-time"></div>
+                <div class="clock-label" id="sidebar-pacific-time-label">Pacific Time</div>
+                <time
+                    class="clock-time"
+                    id="sidebar-pacific-time"
+                    aria-labelledby="sidebar-pacific-time-label"
+                    aria-live="off"
+                ></time>
             </div>
         </div>
     </div>
@@ -95,13 +110,12 @@
         overflow-wrap: normal;
     }
 
-    .clock-panel-today {
+    .clock-panel-date {
         grid-template-columns: minmax(110px, auto) minmax(0, 1fr);
     }
 
-    .clock-panel-today .clock-gregorian-date {
+    .clock-panel-date .clock-gregorian-date {
         font-size: 0.94rem;
-        white-space: nowrap;
     }
 
     .clock-time {
@@ -139,187 +153,155 @@
             gap: 10px;
         }
 
-        .clock-panel-today {
+        .clock-panel-date {
             grid-template-columns: minmax(92px, auto) minmax(0, 1fr);
         }
     }
 </style>
 
 <script>
-    // Load Hebrew date from Hebcal API with better date handling
-    const loadHebrewDate = async () => {
-        const hebrewDateElement = document.getElementById('sidebar-hebrew-date');
-        if (!hebrewDateElement) return;
-        hebrewDateElement.textContent = 'Loading...';
+    import { getUpcomingShabbatDate } from '../../lib/parashah';
 
-        try {
-            let hebrewDateString = null;
+    const PACIFIC_TIME_ZONE = 'America/Los_Angeles';
 
-            // Method 1: Use today's Hebrew date from Shabbat API
-            try {
-                const shabbatResponse = await fetch(`https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=33.7175&longitude=-117.8311&tzid=America/Los_Angeles&lg=en`);
-                const shabbatData = await shabbatResponse.json();
-
-                if (shabbatData.items && shabbatData.items.length > 0) {
-                    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
-                    for (const item of shabbatData.items) {
-                        if (item.date === today) {
-                            if (item.hdate) {
-                                hebrewDateString = item.hdate;
-                                break;
-                            } else if (item.hebrew) {
-                                hebrewDateString = item.hebrew;
-                                break;
-                            }
-                        }
-                    }
-                }
-            } catch (shabbatError) {
-                console.warn('Shabbat API failed:', shabbatError);
-            }
-
-            // Method 2: Use converter API if Shabbat API didn't work
-            if (!hebrewDateString) {
-                const now = new Date();
-                const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
-
-                let isAfterSunset = false;
-                try {
-                    const lat = 33.7175;
-                    const lng = -117.8311;
-                    const sunsetResponse = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`);
-                    const sunsetData = await sunsetResponse.json();
-
-                    if (sunsetData.status === 'OK') {
-                        const sunset = new Date(sunsetData.results.sunset);
-                        const currentPSTTime = pstTime.getHours() * 100 + pstTime.getMinutes();
-                        const sunsetPSTDate = new Date(sunset.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
-                        const sunsetPSTTime = sunsetPSTDate.getHours() * 100 + sunsetPSTDate.getMinutes();
-                        isAfterSunset = currentPSTTime >= sunsetPSTTime;
-                    } else {
-                        isAfterSunset = pstTime.getHours() >= 20;
-                    }
-                } catch (sunsetError) {
-                    console.warn('Sunset API failed, using rough estimate');
-                    isAfterSunset = pstTime.getHours() >= 20;
-                }
-
-                let dateToConvert = pstTime;
-                if (isAfterSunset) {
-                    dateToConvert = new Date(pstTime);
-                    dateToConvert.setDate(pstTime.getDate() + 1);
-                }
-
-                const dateString = dateToConvert.toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
-                const [year, month, day] = dateString.split('-');
-
-                const converterResponse = await fetch(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1&lg=en`);
-                const converterData = await converterResponse.json();
-
-                if (converterData.hm !== undefined && converterData.hd !== undefined && converterData.hy !== undefined) {
-                    if (typeof converterData.hm === 'string') {
-                        hebrewDateString = `${converterData.hd} ${converterData.hm} ${converterData.hy}`;
-                    } else if (converterData.hms) {
-                        hebrewDateString = `${converterData.hd} ${converterData.hms} ${converterData.hy}`;
-                    } else {
-                        const hebrewMonths = [
-                            '', 'Tishrei', 'Cheshvan', 'Kislev', 'Tevet',
-                            'Shevat', 'Adar', 'Nisan', 'Iyyar',
-                            'Sivan', 'Tammuz', 'Av', 'Elul'
-                        ];
-
-                        let monthName = hebrewMonths[converterData.hm];
-
-                        if (converterData.leap && converterData.hm >= 6) {
-                            if (converterData.hm === 6) monthName = 'Adar I';
-                            else if (converterData.hm === 7) monthName = 'Adar II';
-                            else if (converterData.hm > 7) monthName = hebrewMonths[converterData.hm - 1];
-                        }
-
-                        if (!monthName) {
-                            console.error('Could not map month number:', converterData.hm);
-                            monthName = `Month ${converterData.hm}`;
-                        }
-
-                        hebrewDateString = `${converterData.hd} ${monthName} ${converterData.hy}`;
-                    }
-                }
-            }
-
-            // Method 3: Try the today API as final fallback
-            if (!hebrewDateString) {
-                const todayResponse = await fetch('https://www.hebcal.com/converter?cfg=json&today=1&g2h=1&lg=en');
-                const todayData = await todayResponse.json();
-
-                if (todayData.hdate) {
-                    hebrewDateString = todayData.hdate;
-                } else if (todayData.hebrew) {
-                    hebrewDateString = todayData.hebrew;
-                } else if (todayData.hm !== undefined && todayData.hd !== undefined && todayData.hy !== undefined) {
-                    const hebrewMonths = {
-                        1: 'Tishrei', 2: 'Cheshvan', 3: 'Kislev', 4: 'Tevet',
-                        5: 'Shevat', 6: 'Adar', 7: 'Nisan', 8: 'Iyyar',
-                        9: 'Sivan', 10: 'Tammuz', 11: 'Av', 12: 'Elul'
-                    };
-
-                    const monthName = hebrewMonths[todayData.hm] || 'Unknown';
-                    hebrewDateString = `${todayData.hd} ${monthName} ${todayData.hy}`;
-                }
-            }
-
-            if (hebrewDateString) {
-                hebrewDateElement.textContent = hebrewDateString;
-            } else {
-                throw new Error('All Hebrew date methods failed');
-            }
-
-        } catch (error) {
-            console.error('Error loading Hebrew date:', error);
-            hebrewDateElement.textContent = 'Hebrew Date Available Soon';
-        }
+    const getRecord = (value: unknown): Record<string, unknown> | null => {
+        return value && typeof value === 'object' && !Array.isArray(value)
+            ? value as Record<string, unknown>
+            : null;
     };
 
-    // Load Gregorian date
-    const loadGregorianDate = () => {
-        const gregorianDateElement = document.getElementById('sidebar-gregorian-date');
-        if (!gregorianDateElement) return;
+    const getInteger = (value: unknown): number | null => {
+        const number = typeof value === 'number' ? value : Number(value);
+        return Number.isInteger(number) ? number : null;
+    };
 
-        const today = new Date();
-        const options = {
+    const formatHebrewDate = (payload: unknown): string | null => {
+        const data = getRecord(payload);
+        const day = getInteger(data?.hd);
+        const year = getInteger(data?.hy);
+        const month = typeof data?.hm === 'string' ? data.hm.trim() : '';
+
+        return day && year && month ? `${day} ${month} ${year}` : null;
+    };
+
+    const parseCalendarDate = (date: string): Date | null => {
+        const match = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (!match) return null;
+
+        const parsed = new Date(Date.UTC(
+            Number(match[1]),
+            Number(match[2]) - 1,
+            Number(match[3]),
+            12
+        ));
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+    };
+
+    const loadUpcomingShabbatDates = async () => {
+        const hebrewDateElement = document.getElementById('sidebar-hebrew-date');
+        const gregorianDateElement = document.getElementById('sidebar-gregorian-date');
+        if (!hebrewDateElement || !(gregorianDateElement instanceof HTMLTimeElement)) return;
+
+        let shabbatDate: string;
+        try {
+            shabbatDate = getUpcomingShabbatDate(new Date(), PACIFIC_TIME_ZONE, {
+                strictlyFollowing: true
+            });
+        } catch (error) {
+            console.error('Could not determine the next Shabbat date:', error);
+            hebrewDateElement.textContent = 'Hebrew date unavailable';
+            hebrewDateElement.setAttribute('aria-busy', 'false');
+            gregorianDateElement.textContent = 'Date unavailable';
+            return;
+        }
+
+        const shabbatCalendarDate = parseCalendarDate(shabbatDate);
+        if (!shabbatCalendarDate) {
+            hebrewDateElement.textContent = 'Hebrew date unavailable';
+            hebrewDateElement.setAttribute('aria-busy', 'false');
+            gregorianDateElement.textContent = 'Date unavailable';
+            return;
+        }
+
+        gregorianDateElement.dateTime = shabbatDate;
+        gregorianDateElement.textContent = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'UTC',
             weekday: 'long',
-            year: 'numeric',
             month: 'long',
             day: 'numeric',
-            timeZone: 'America/Los_Angeles'
-        };
+            year: 'numeric'
+        }).format(shabbatCalendarDate);
 
-        gregorianDateElement.textContent = today.toLocaleDateString('en-US', options);
-    };
+        const [year, month, day] = shabbatDate.split('-');
+        const params = new URLSearchParams({
+            cfg: 'json',
+            gy: year,
+            gm: month,
+            gd: day,
+            g2h: '1',
+            lg: 'en'
+        });
 
-    // PST time clock with modern display
-    const updatePSTTime = () => {
-        const now = new Date();
-        const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+        try {
+            const response = await fetch(`https://www.hebcal.com/converter?${params.toString()}`);
+            if (!response.ok) {
+                throw new Error(`Hebcal converter returned ${response.status}`);
+            }
 
-        let hours = pstTime.getHours();
-        const minutes = pstTime.getMinutes().toString().padStart(2, '0');
-        const seconds = pstTime.getSeconds().toString().padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
+            const hebrewDate = formatHebrewDate(await response.json());
+            if (!hebrewDate) {
+                throw new Error('Hebcal converter returned an incomplete Hebrew date');
+            }
 
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-
-        const timeString = `${hours}:${minutes}:${seconds}`;
-        const timeElement = document.getElementById('sidebar-pacific-time');
-
-        if (timeElement) {
-            timeElement.innerHTML = `${timeString} <span class="clock-time-suffix">${ampm} PST</span>`;
+            hebrewDateElement.textContent = hebrewDate;
+            hebrewDateElement.setAttribute(
+                'aria-label',
+                `Hebrew date for the next Shabbat: ${hebrewDate}`
+            );
+        } catch (error) {
+            console.error('Could not load the Hebrew date for the next Shabbat:', error);
+            hebrewDateElement.textContent = 'Hebrew date unavailable';
+            hebrewDateElement.setAttribute(
+                'aria-label',
+                'Hebrew date for the next Shabbat is currently unavailable'
+            );
+        } finally {
+            hebrewDateElement.setAttribute('aria-busy', 'false');
         }
     };
 
-    // Initialize
-    loadHebrewDate();
-    loadGregorianDate();
-    updatePSTTime();
-    setInterval(updatePSTTime, 1000);
+    const pacificTimeFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: PACIFIC_TIME_ZONE,
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+        timeZoneName: 'short'
+    });
+
+    const updatePacificTime = () => {
+        const timeElement = document.getElementById('sidebar-pacific-time');
+        if (!(timeElement instanceof HTMLTimeElement)) return;
+
+        const now = new Date();
+        const parts = Object.fromEntries(
+            pacificTimeFormatter
+                .formatToParts(now)
+                .filter(({ type }) => type !== 'literal')
+                .map(({ type, value }) => [type, value])
+        );
+        const clockTime = `${parts.hour}:${parts.minute}:${parts.second}`;
+        const suffix = [parts.dayPeriod, parts.timeZoneName].filter(Boolean).join(' ');
+        const suffixElement = document.createElement('span');
+        suffixElement.className = 'clock-time-suffix';
+        suffixElement.textContent = suffix;
+
+        timeElement.dateTime = now.toISOString();
+        timeElement.replaceChildren(document.createTextNode(clockTime), suffixElement);
+        timeElement.setAttribute('aria-label', `Pacific time: ${clockTime} ${suffix}`);
+    };
+
+    loadUpcomingShabbatDates();
+    updatePacificTime();
+    window.setInterval(updatePacificTime, 1000);
 </script>

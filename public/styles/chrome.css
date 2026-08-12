@@ -965,61 +965,30 @@ body .site-footer {
 
 /* Full-bleed organic transitions shared by the homepage and interior layouts. */
 .organic-section-divider {
-    --divider-height: clamp(2rem, 4vw, 3.75rem);
+    --divider-height: clamp(2.5rem, 5vw, 4.75rem);
     position: relative;
     z-index: 3;
     display: block;
     width: 100%;
     height: var(--divider-height);
-    margin: 0;
-    background: var(--divider-to);
-    overflow: hidden;
+    margin-top: calc(-1 * var(--divider-height));
+    margin-bottom: -1px;
+    background: transparent;
+    overflow: visible;
     pointer-events: none;
 }
 
-.organic-section-divider::before,
-.organic-section-divider::after {
+.organic-section-divider__svg {
     position: absolute;
-    background: var(--divider-from);
-    content: '';
-}
-
-.organic-section-divider::before {
-    top: -69%;
-    right: -9%;
-    width: 119%;
-    height: 130%;
-    border-radius: 0 0 48% 57% / 0 0 90% 78%;
-    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.08));
-    transform: rotate(-1.25deg);
-    transform-origin: center bottom;
-}
-
-.organic-section-divider::after {
-    top: -82%;
-    left: -34%;
-    width: 78%;
-    height: 122%;
-    border-radius: 0 0 58% 48% / 0 0 92% 82%;
-    transform: rotate(1.7deg);
-}
-
-.organic-section-divider--flip::before {
-    right: auto;
-    left: -9%;
-    border-radius: 0 0 57% 48% / 0 0 78% 90%;
-    transform: rotate(1.25deg);
-}
-
-.organic-section-divider--flip::after {
-    right: -34%;
-    left: auto;
-    border-radius: 0 0 48% 58% / 0 0 82% 92%;
-    transform: rotate(-1.7deg);
+    inset: 0 0 -1px;
+    display: block;
+    width: 100%;
+    height: calc(100% + 1px);
+    overflow: visible;
 }
 
 .organic-section-divider--compact {
-    --divider-height: clamp(1.5rem, 3vw, 2.75rem);
+    --divider-height: clamp(2rem, 3.5vw, 3.25rem);
 }
 
 body .site-footer .footer-content {

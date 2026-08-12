@@ -2,24 +2,41 @@
 interface Props {
     from: string;
     to: string;
-    flip?: boolean;
+    shape?: 'rise' | 'crest' | 'sweep' | 'sweep-reverse';
     compact?: boolean;
 }
 
 const {
     from,
     to,
-    flip = false,
+    shape = 'sweep',
     compact = false,
 } = Astro.props;
+
+const shapePaths: Record<NonNullable<Props['shape']>, string> = {
+    rise: 'M0 88 C360 62 1080 62 1440 88 V120 H0 Z',
+    crest: 'M0 54 C360 88 1080 88 1440 54 V120 H0 Z',
+    sweep: 'M0 46 C380 86 980 92 1440 60 V120 H0 Z',
+    'sweep-reverse': 'M0 60 C460 92 1060 86 1440 46 V120 H0 Z',
+};
 ---
 
 <div
     class:list={[
         'organic-section-divider',
-        flip && 'organic-section-divider--flip',
+        `organic-section-divider--${shape}`,
         compact && 'organic-section-divider--compact',
     ]}
     style={`--divider-from: ${from}; --divider-to: ${to};`}
     aria-hidden="true"
-></div>
+>
+    <svg
+        class="organic-section-divider__svg"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        focusable="false"
+        aria-hidden="true"
+    >
+        <path d={shapePaths[shape]} fill="var(--divider-to)"></path>
+    </svg>
+</div>

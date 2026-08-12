@@ -12,12 +12,14 @@ interface Props {
   pageTitle?: string;
   pageIcon?: string;
   description?: string;
+  stylesheets?: string[];
 }
 
 const {
   title = "Ohr HaTorah Messianic Congregation",
   pageTitle,
   description,
+  stylesheets = [],
 } = Astro.props;
 
 type PagePresentation = {
@@ -136,7 +138,7 @@ const presentation = pagePresentations[currentPath] ?? pagePresentations['/about
 const showSectionCrumb = presentation.sectionHref !== currentPath;
 ---
 
-<BaseLayout title={title} description={description} stylesheets={['/styles/interior.css']}>
+<BaseLayout title={title} description={description} stylesheets={['/styles/interior.css', ...stylesheets]}>
     <div class="interior-shell">
         <div class="site-navigation-shell">
             <Header showLogo={false} />
@@ -172,7 +174,7 @@ const showSectionCrumb = presentation.sectionHref !== currentPath;
             </header>
         )}
 
-        {pageTitle && <SectionDivider from="var(--interior-navy)" to="var(--interior-cream)" />}
+        {pageTitle && <SectionDivider from="var(--interior-navy)" to="var(--interior-cream)" shape="sweep-reverse" />}
 
         <main class="page-content interior-page" aria-labelledby={pageTitle ? 'page-title' : undefined}>
             <article class="page-container">
@@ -183,7 +185,7 @@ const showSectionCrumb = presentation.sectionHref !== currentPath;
                     <a href="/" class="page-home-link">Return home <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
             </article>
-            <SectionDivider from="var(--interior-cream)" to="var(--site-chrome-navy)" flip />
+            <SectionDivider from="var(--interior-cream)" to="var(--site-chrome-navy)" shape="rise" />
         </main>
 
         <Footer />

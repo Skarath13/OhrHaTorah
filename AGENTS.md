@@ -10,7 +10,8 @@ This file provides project-specific guidance for the Chuck directory containing 
 - **Development Server**: `npm run dev` (port 3002)
 - **Production URL**: https://ohrhatorah.pages.dev
 - **Repository**: https://github.com/Skarath13/OhrHaTorah.git
-- **Branch**: `master` (auto-deploys to Cloudflare Pages on push)
+- **Production Branch**: `master` (auto-deploys to Cloudflare Pages on push)
+- **Fresh Design Branch**: `codex/fresh-design-exploration` in `/Users/dylan/Desktop/chuck-fresh-design`
 
 ### Project Structure
 ```
@@ -117,7 +118,7 @@ npm run preview  # Preview production build
 - `/` - Home page with community info, calendar, leadership
 - `/about` - Who We Are
 - `/expect` - What to Expect in Services
-- `/mission` - Mission, Vision & Core Values
+- `/mission` - Vision, Commitments, Affirmations & Core Values
 - `/location` - Our Location with map
 - `/faq` - Frequently Asked Questions
 - `/umjc` - UMJC Affiliation
@@ -132,7 +133,7 @@ npm run preview  # Preview production build
 
 ### Special Features
 - **Hostage Counter**: Real-time timer (Israeli hostage awareness)
-- **Hebrew Date**: Live Hebrew calendar date display
+- **Upcoming Shabbat Date**: Live Hebrew and Gregorian dates for the following Shabbat
 - **Mobile Menu**: Hamburger menu with smooth animations
 - **Religious Calendar**: Google Calendar integration
 - **Inline Admin Editor**: Wix-style visual editing for content
@@ -152,18 +153,27 @@ npm run preview  # Preview production build
 - **No Cross Icons**: Do not use cross/crucifix icons - use Star of David or other appropriate symbols
 - **Admin PIN**: Set via environment variable when seeding (see scripts/seed-admin.ts)
 
+### Public Content Voice
+
+- Read and follow `CONTENT_VOICE.md` before changing audience-facing copy.
+- Treat `src/data/congregationIdentity.ts` as the canonical implementation source for the congregation's identity, Vision and Purpose, Core Commitments and Affirmations, and Core Values.
+- Preserve the rabbi-approved wording and theological vocabulary. Do not replace it with generic promotional language or silently soften covenant, Israel, resurrection, restoration, or Jewish/non-Jewish identity claims.
+- Use `Kehilat Ohr HaTorah` consistently. Render `HaShem` and `Adonai` in small caps, rather than full-size all caps, when referring to YHVH.
+- Keep bylaws governance content private unless publication is explicitly requested.
+
 ## Git Workflow
 
 ### Repository Management
 - **Origin**: https://github.com/Skarath13/OhrHaTorah.git
 - **Primary Branch**: `master`
+- **Protected Design Worktree**: Make fresh-design changes only in `/Users/dylan/Desktop/chuck-fresh-design` on `codex/fresh-design-exploration` when that branch is in scope. Do not merge or deploy `master` without explicit approval.
 - **Commits**: Descriptive messages for content and code changes
 - **Push**: `git push origin master` (triggers auto-deploy)
 
 ---
 
 **Project Type**: Religious organization website with CMS
-**Last Updated**: November 2025
+**Last Updated**: August 2026
 **Maintainer**: Dylan (dylan@elk.com)
 
 *This configuration overrides global AGENTS.md settings for the OhrHaTorah project.*

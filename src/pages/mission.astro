@@ -1,324 +1,128 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import {
+    coreCommitments,
+    coreValueGroups,
+    officialIdentityStatement,
+    visionAndPurposeParagraphs,
+} from '../data/congregationIdentity';
 ---
 
-<PageLayout title="Mission, Vision, and Values - Ohr HaTorah" pageTitle="Mission, Vision, and Values" pageIcon="fas fa-bullseye" description="The mission, vision, and core values that guide Ohr HaTorah.">
+<PageLayout
+    title="Our Vision, Commitments & Values - Ohr HaTorah"
+    pageTitle="Our Identity"
+    description="Our Vision, Commitments & Values: the public identity, purpose, commitments, affirmations, and values of Kehilat Ohr HaTorah."
+    stylesheets={['/styles/mission.css']}
+>
+    <div class="identity-page">
+        <section class="identity-introduction" aria-labelledby="identity-introduction-title">
+            <div class="identity-introduction__copy">
+                <p class="identity-eyebrow">Vision <span aria-hidden="true">•</span> Commitments <span aria-hidden="true">•</span> Values</p>
+                <h2 id="identity-introduction-title">Covenant faithfulness. Jewish community life. Messiah Yeshua.</h2>
+                <p class="identity-statement">{officialIdentityStatement}</p>
+            </div>
 
-    <!-- Mission Section -->
-    <div class="mission-section">
-        <h3><i class="fas fa-heart"></i> Our Mission</h3>
-        <p class="mission-statement">We are building a congregation where Jewish and non-Jewish people can live the richness of Jewish life, follow Yeshua as Israel's promised Messiah, and grow together in faith.</p>
-        <p>We honor Torah, celebrate the appointed times, and seek to show the unity of Scripture in worship, teaching, and community life.</p>
+            <nav class="identity-navigation" aria-label="On this page">
+                <a href="#vision-and-purpose">
+                    <span class="identity-navigation__number" aria-hidden="true">01</span>
+                    <span>
+                        <strong>Vision and Purpose</strong>
+                        <small>Three foundational statements</small>
+                    </span>
+                </a>
+                <a href="#core-commitments">
+                    <span class="identity-navigation__number" aria-hidden="true">02</span>
+                    <span>
+                        <strong>Core Commitments</strong>
+                        <small>Commitments and affirmations</small>
+                    </span>
+                </a>
+                <a href="#core-values">
+                    <span class="identity-navigation__number" aria-hidden="true">03</span>
+                    <span>
+                        <strong>Core Values</strong>
+                        <small>Three areas of shared life</small>
+                    </span>
+                </a>
+            </nav>
+        </section>
 
-        <div class="highlights-grid">
-            <div class="highlight-item">
-                <i class="fas fa-users"></i>
-                <div class="text-content">
-                    <strong>Welcoming</strong>
-                    <span>All people are welcome</span>
+        <section id="vision-and-purpose" class="identity-section identity-vision" aria-labelledby="vision-and-purpose-title">
+            <header class="identity-section-heading">
+                <span class="identity-section-heading__number" aria-hidden="true">01</span>
+                <div>
+                    <p class="identity-section-heading__eyebrow">Our foundation</p>
+                    <h2 id="vision-and-purpose-title">Vision and Purpose</h2>
                 </div>
+            </header>
+
+            <div class="identity-vision__statements">
+                {visionAndPurposeParagraphs.map((paragraph, index) => (
+                    <article class={`identity-vision__statement identity-vision__statement--${index + 1}`}>
+                        <span class="identity-vision__marker" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                        <p>{paragraph}</p>
+                    </article>
+                ))}
             </div>
-            <div class="highlight-item">
-                <i class="fas fa-scroll"></i>
-                <div class="text-content">
-                    <strong>Torah faithfulness</strong>
-                    <span>Jewish life and practice</span>
+
+            <p class="identity-hebrew-seal" lang="he" dir="rtl">
+                <span aria-hidden="true">✦</span>
+                בָּרוּךְ הַבָּא בְּשֵׁם ה׳
+                <span aria-hidden="true">✦</span>
+            </p>
+        </section>
+
+        <section id="core-commitments" class="identity-section identity-commitments" aria-labelledby="core-commitments-title">
+            <header class="identity-section-heading">
+                <span class="identity-section-heading__number" aria-hidden="true">02</span>
+                <div>
+                    <p class="identity-section-heading__eyebrow">What we commit to and affirm</p>
+                    <h2 id="core-commitments-title">Core Commitments and Affirmations</h2>
                 </div>
-            </div>
-            <div class="highlight-item">
-                <i class="fas fa-star-of-david"></i>
-                <div class="text-content">
-                    <strong>Yeshua the Messiah</strong>
-                    <span>Israel's promised Redeemer</span>
+            </header>
+
+            <ol class="identity-commitment-list">
+                {coreCommitments.map((commitment, index) => (
+                    <li id={commitment.id}>
+                        <span class="identity-commitment-list__number" aria-hidden="true">
+                            {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <p>{commitment.text}</p>
+                    </li>
+                ))}
+            </ol>
+        </section>
+
+        <section id="core-values" class="identity-section identity-values" aria-labelledby="core-values-title">
+            <header class="identity-section-heading">
+                <span class="identity-section-heading__number" aria-hidden="true">03</span>
+                <div>
+                    <p class="identity-section-heading__eyebrow">How we live together</p>
+                    <h2 id="core-values-title">Core Values</h2>
                 </div>
+            </header>
+
+            <div class="identity-value-groups">
+                {coreValueGroups.map((group, groupIndex) => (
+                    <section id={group.id} class="identity-value-group" aria-labelledby={`${group.id}-title`}>
+                        <header class="identity-value-group__heading">
+                            <span class="identity-value-group__symbol" aria-hidden="true">✦</span>
+                            <p>{String(groupIndex + 1).padStart(2, '0')}</p>
+                            <h3 id={`${group.id}-title`}>{group.heading}</h3>
+                            <span class="identity-value-group__count">{group.values.length} values</span>
+                        </header>
+
+                        <ul class="identity-value-list">
+                            {group.values.map((value) => (
+                                <li>
+                                    <span aria-hidden="true">✦</span>
+                                    <p>{value}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                ))}
             </div>
-        </div>
+        </section>
     </div>
-
-    <!-- Vision Section -->
-    <div class="vision-section">
-        <h3><i class="fas fa-eye"></i> Our Vision</h3>
-        <p class="vision-statement">We seek to be a light to the nations, bearing witness to the unity of Scripture and God's promises fulfilled through Yeshua.</p>
-        <p>Our vision is a thriving Messianic Jewish community where Jewish heritage is honored and people grow together in worship, study, and service.</p>
-
-        <div class="highlights-grid gold">
-            <div class="highlight-item">
-                <i class="fas fa-globe-americas"></i>
-                <div class="text-content">
-                    <strong>Light to the nations</strong>
-                    <span>Faith lived in public</span>
-                </div>
-            </div>
-            <div class="highlight-item">
-                <i class="fas fa-hands-helping"></i>
-                <div class="text-content">
-                    <strong>Unity in Messiah</strong>
-                    <span>One community in Yeshua</span>
-                </div>
-            </div>
-            <div class="highlight-item">
-                <i class="fas fa-crown"></i>
-                <div class="text-content">
-                    <strong>Faithful living</strong>
-                    <span>Scripture applied each day</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Core Values Section -->
-    <div class="values-section">
-        <h3><i class="fas fa-gem"></i> Our Core Values</h3>
-        <div class="values-grid">
-            <div class="value-card">
-                <h4><i class="fas fa-scroll"></i> Torah Faithfulness</h4>
-                <p>Living according to God's enduring instruction.</p>
-            </div>
-
-            <div class="value-card">
-                <h4><i class="fas fa-star-of-david"></i> Jewish Identity</h4>
-                <p>Honoring Jewish heritage, practice, and tradition.</p>
-            </div>
-
-            <div class="value-card">
-                <h4><i class="fas fa-star-of-david"></i> Yeshua as Messiah</h4>
-                <p>Following Yeshua as Israel's promised Redeemer.</p>
-            </div>
-
-            <div class="value-card">
-                <h4><i class="fas fa-hands-helping"></i> Loving Community</h4>
-                <p>Welcoming people with love, respect, and care.</p>
-            </div>
-
-            <div class="value-card">
-                <h4><i class="fas fa-book-open"></i> Biblical Study</h4>
-                <p>Studying Scripture deeply in its Jewish context.</p>
-            </div>
-
-            <div class="value-card">
-                <h4><i class="fas fa-praying-hands"></i> Authentic Worship</h4>
-                <p>Praying and singing through Jewish liturgy and contemporary music.</p>
-            </div>
-        </div>
-    </div>
-
 </PageLayout>
-
-<style>
-    .mission-section {
-        background: rgba(0, 102, 204, 0.05);
-        padding: 30px;
-        border-radius: 12px;
-        border-left: 4px solid var(--primary-blue);
-        margin-bottom: 30px;
-    }
-
-    .mission-section h3 {
-        color: var(--primary-blue);
-        margin: 0 0 15px 0;
-    }
-
-    .mission-statement {
-        font-size: 1.15rem;
-        font-weight: 500;
-        color: var(--text-primary);
-        margin-bottom: 15px;
-    }
-
-    .mission-section p {
-        line-height: 1.7;
-        color: var(--text-secondary);
-        margin-bottom: 20px;
-    }
-
-    .vision-section {
-        background: var(--gold-light);
-        padding: 30px;
-        border-radius: 12px;
-        border-left: 4px solid var(--gold-dark);
-        margin-bottom: 30px;
-    }
-
-    .vision-section h3 {
-        color: var(--gold-dark);
-        margin: 0 0 15px 0;
-    }
-
-    .vision-statement {
-        font-size: 1.15rem;
-        font-weight: 500;
-        color: var(--text-primary);
-        margin-bottom: 15px;
-    }
-
-    .vision-section p {
-        line-height: 1.7;
-        color: var(--text-secondary);
-        margin-bottom: 20px;
-    }
-
-    .highlights-grid {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin-top: 20px;
-    }
-
-    .highlight-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: white;
-        padding: 15px 20px;
-        border-radius: 8px;
-        min-width: 0;
-    }
-
-    .highlight-item i {
-        font-size: 1.5rem;
-        color: var(--primary-blue);
-        flex-shrink: 0;
-    }
-
-    .highlights-grid.gold .highlight-item i {
-        color: var(--gold-dark);
-    }
-
-    .highlight-item .text-content {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .highlight-item strong {
-        color: var(--primary-blue);
-        font-size: 0.95rem;
-        line-height: 1.3;
-    }
-
-    .highlights-grid.gold .highlight-item strong {
-        color: var(--gold-dark);
-    }
-
-    .highlight-item span {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-        line-height: 1.3;
-    }
-
-    .values-section {
-        margin-bottom: 30px;
-    }
-
-    .values-section h3 {
-        color: var(--primary-blue);
-        margin-bottom: 20px;
-    }
-
-    .values-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-    }
-
-    .value-card {
-        background: var(--gray-100);
-        padding: 25px;
-        border-radius: 8px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .value-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, var(--primary-blue), #00a896);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s ease;
-    }
-
-    .value-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 12px 30px rgba(0, 168, 150, 0.25);
-        background: white;
-    }
-
-    .value-card:hover::before {
-        transform: scaleX(1);
-    }
-
-    .value-card i {
-        font-size: 1.5rem;
-        color: var(--primary-blue);
-        margin-bottom: 15px;
-        display: inline-block;
-        transition: all 0.4s ease;
-    }
-
-    .value-card:hover i {
-        transform: scale(1.3) rotate(10deg);
-        color: #00a896;
-    }
-
-    .value-card h4 {
-        margin: 0 0 10px 0;
-        color: var(--primary-blue);
-        transition: color 0.3s ease;
-    }
-
-    .value-card:hover h4 {
-        color: #00a896;
-    }
-
-    .value-card p {
-        margin: 0;
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-        line-height: 1.6;
-        transition: color 0.3s ease;
-    }
-
-    .value-card:hover p {
-        color: var(--text-primary);
-    }
-
-    /* Unique animations for each card */
-    .value-card:nth-child(1):hover i { transform: scale(1.3) rotate(-15deg); }
-    .value-card:nth-child(2):hover i { transform: scale(1.4) rotate(0deg); }
-    .value-card:nth-child(3):hover i { transform: scale(1.3) rotate(15deg); }
-    .value-card:nth-child(4):hover i { transform: scale(1.2) translateY(-5px); }
-    .value-card:nth-child(5):hover i { transform: scale(1.3) rotate(-10deg); }
-    .value-card:nth-child(6):hover i { transform: scale(1.2) translateY(-8px); }
-
-    .cta-section {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 30px;
-        border-radius: 12px;
-        text-align: center;
-    }
-
-    .cta-section h3 {
-        color: white;
-        margin: 0 0 15px 0;
-    }
-
-    .cta-section p {
-        margin: 0;
-        font-size: 1.1rem;
-        opacity: 0.95;
-    }
-
-    @media (max-width: 767px) {
-        .highlight-item {
-            width: 100%;
-        }
-    }
-</style>

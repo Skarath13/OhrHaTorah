@@ -185,9 +185,14 @@ export const buildHebcalLeyningUrl = (date: string): string => {
 
 export const getBritOverrideKey = (date: string): string => `brit-chadashah:${date}`;
 
+export interface UpcomingShabbatOptions {
+    strictlyFollowing?: boolean;
+}
+
 export const getUpcomingShabbatDate = (
     now = new Date(),
-    timeZone = 'America/Los_Angeles'
+    timeZone = 'America/Los_Angeles',
+    { strictlyFollowing = false }: UpcomingShabbatOptions = {}
 ): string => {
     const dateParts = new Intl.DateTimeFormat('en-US', {
         timeZone,
@@ -215,7 +220,11 @@ export const getUpcomingShabbatDate = (
     }
 
     const date = new Date(Date.UTC(year, month - 1, day));
-    date.setUTCDate(date.getUTCDate() + ((6 - weekday + 7) % 7));
+    const daysUntilSaturday = (6 - weekday + 7) % 7;
+    const offset = strictlyFollowing && daysUntilSaturday === 0
+        ? 7
+        : daysUntilSaturday;
+    date.setUTCDate(date.getUTCDate() + offset);
     return date.toISOString().slice(0, 10);
 };
 

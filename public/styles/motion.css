@@ -178,17 +178,6 @@
         transform: translateY(-2px);
     }
 
-    @supports (animation-timeline: view()) {
-        .home-redesign > .home-section,
-        .page-body > * {
-            animation-name: oht-fade-rise;
-            animation-duration: 1ms;
-            animation-fill-mode: both;
-            animation-timing-function: var(--motion-ease-lux);
-            animation-timeline: view();
-            animation-range: entry 0% cover 24%;
-        }
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

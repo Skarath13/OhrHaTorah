@@ -27,9 +27,57 @@ const reehLeyningFixture = {
     }]
 };
 
-test('late Pacific evening still resolves the upcoming Saturday', () => {
+test('upcoming Shabbat is based on the Pacific calendar date', () => {
     const lateThursdayPacific = new Date('2026-08-07T06:53:00.000Z');
     assert.equal(getUpcomingShabbatDate(lateThursdayPacific), '2026-08-08');
+});
+
+test('strictly following Shabbat skips the current Pacific Saturday', () => {
+    const saturdayMorningPdt = new Date('2026-08-08T16:00:00.000Z');
+
+    assert.equal(getUpcomingShabbatDate(saturdayMorningPdt), '2026-08-08');
+    assert.equal(
+        getUpcomingShabbatDate(saturdayMorningPdt, 'America/Los_Angeles', {
+            strictlyFollowing: true
+        }),
+        '2026-08-15'
+    );
+});
+
+test('strict following behavior changes at Pacific midnight during PDT', () => {
+    const beforeSaturdayPdt = new Date('2026-08-08T06:59:59.000Z');
+    const startOfSaturdayPdt = new Date('2026-08-08T07:00:00.000Z');
+
+    assert.equal(
+        getUpcomingShabbatDate(beforeSaturdayPdt, 'America/Los_Angeles', {
+            strictlyFollowing: true
+        }),
+        '2026-08-08'
+    );
+    assert.equal(
+        getUpcomingShabbatDate(startOfSaturdayPdt, 'America/Los_Angeles', {
+            strictlyFollowing: true
+        }),
+        '2026-08-15'
+    );
+});
+
+test('strict following behavior changes at Pacific midnight during PST', () => {
+    const beforeSaturdayPst = new Date('2026-01-10T07:59:59.000Z');
+    const startOfSaturdayPst = new Date('2026-01-10T08:00:00.000Z');
+
+    assert.equal(
+        getUpcomingShabbatDate(beforeSaturdayPst, 'America/Los_Angeles', {
+            strictlyFollowing: true
+        }),
+        '2026-01-10'
+    );
+    assert.equal(
+        getUpcomingShabbatDate(startOfSaturdayPst, 'America/Los_Angeles', {
+            strictlyFollowing: true
+        }),
+        '2026-01-17'
+    );
 });
 
 test('Leyning parser uses structured Triennial fields and official year', () => {

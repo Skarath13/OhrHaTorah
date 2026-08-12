@@ -6,7 +6,7 @@
         <span data-editable="candle-card-title">Shabbat Candle Lighting</span>
     </div>
     <div class="card-body">
-        <div class="candle-times">
+        <div class="candle-times" id="candle-times" aria-live="polite" aria-busy="true">
             <div class="candle-row">
                 <div>
                     <div class="candle-day">This Friday</div>
@@ -152,6 +152,14 @@
 </style>
 
 <script>
+    import {
+        addCalendarDays,
+        formatCongregationDate,
+        formatCongregationTime,
+        getCalendarDateParts,
+        getNextFridayDate
+    } from '../../lib/shabbatDetails';
+
     const HEBCAL_ZIP = '92708'; // Fountain Valley, CA
 
     interface HebcalItem {
@@ -174,49 +182,8 @@
         };
     }
 
-    const formatTime = (isoDate: string): string => {
-        const date = new Date(isoDate);
-        return date.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        }).toLowerCase();
-    };
-
-    const formatDate = (isoDate: string): string => {
-        const date = new Date(isoDate);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-        });
-    };
-
-    const getNextFriday = (fromDate: Date = new Date()): Date => {
-        const date = new Date(fromDate);
-        const dayOfWeek = date.getDay();
-        const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
-
-        // If today is Friday, use today; if Saturday/Sunday, get next Friday
-        if (daysUntilFriday === 0 && dayOfWeek === 5) {
-            // It's Friday, use today
-        } else if (dayOfWeek === 6) {
-            // Saturday - get next Friday (6 days)
-            date.setDate(date.getDate() + 6);
-        } else if (dayOfWeek === 0) {
-            // Sunday - get next Friday (5 days)
-            date.setDate(date.getDate() + 5);
-        } else {
-            date.setDate(date.getDate() + daysUntilFriday);
-        }
-
-        return date;
-    };
-
-    const fetchShabbatTimes = async (targetDate: Date): Promise<HebcalResponse | null> => {
-        const year = targetDate.getFullYear();
-        const month = targetDate.getMonth() + 1;
-        const day = targetDate.getDate();
+    const fetchShabbatTimes = async (targetDate: string): Promise<HebcalResponse | null> => {
+        const { year, month, day } = getCalendarDateParts(targetDate);
 
         const url = `https://www.hebcal.com/shabbat?cfg=json&zip=${HEBCAL_ZIP}&M=on&gy=${year}&gm=${month}&gd=${day}`;
 
@@ -232,15 +199,28 @@
 
     const loadCandleLighting = async () => {
         const liveIndicator = document.getElementById('candle-live-indicator');
-        const lastUpdatedEl = document.getElementById('candle-last-updated');
+        const candleTimes = document.getElementById('candle-times');
+        const updatedTimeEl = document.getElementById('candle-updated-time');
+
+        const setText = (id: string, value: string) => {
+            const element = document.getElementById(id);
+            if (element) element.textContent = value;
+        };
+
+        const showUnavailableState = () => {
+            ['next-friday-date', 'havdalah-date', 'following-friday-date'].forEach((id) => {
+                setText(id, 'Date unavailable');
+            });
+            ['candle-time-1', 'havdalah-time', 'candle-time-2'].forEach((id) => {
+                setText(id, 'Unavailable');
+            });
+            liveIndicator?.classList.remove('active');
+            if (updatedTimeEl) updatedTimeEl.textContent = 'Times are temporarily unavailable';
+        };
 
         try {
-            // Get this week's Friday
-            const thisFriday = getNextFriday();
-
-            // Get next week's Friday
-            const nextFriday = new Date(thisFriday);
-            nextFriday.setDate(nextFriday.getDate() + 7);
+            const thisFriday = getNextFridayDate();
+            const nextFriday = addCalendarDays(thisFriday, 7);
 
             // Fetch both weeks in parallel
             const [thisWeekData, nextWeekData] = await Promise.all([
@@ -248,57 +228,32 @@
                 fetchShabbatTimes(nextFriday)
             ]);
 
-            if (thisWeekData && thisWeekData.items) {
-                // Find candle lighting and havdalah for this week
-                const candleLighting = thisWeekData.items.find(item => item.category === 'candles');
-                const havdalah = thisWeekData.items.find(item => item.category === 'havdalah');
-
-                if (candleLighting) {
-                    document.getElementById('next-friday-date')!.textContent = formatDate(candleLighting.date);
-                    document.getElementById('candle-time-1')!.textContent = formatTime(candleLighting.date);
-                }
-
-                if (havdalah) {
-                    document.getElementById('havdalah-date')!.textContent = formatDate(havdalah.date);
-                    document.getElementById('havdalah-time')!.textContent = formatTime(havdalah.date);
-                }
+            const candleLighting = thisWeekData?.items?.find(item => item.category === 'candles');
+            const havdalah = thisWeekData?.items?.find(item => item.category === 'havdalah');
+            const nextCandleLighting = nextWeekData?.items?.find(item => item.category === 'candles');
+            if (!candleLighting || !havdalah || !nextCandleLighting) {
+                throw new Error('Hebcal returned incomplete Shabbat times');
             }
 
-            if (nextWeekData && nextWeekData.items) {
-                // Find candle lighting for next week
-                const nextCandleLighting = nextWeekData.items.find(item => item.category === 'candles');
+            setText('next-friday-date', formatCongregationDate(candleLighting.date));
+            setText('candle-time-1', formatCongregationTime(candleLighting.date));
+            setText('havdalah-date', formatCongregationDate(havdalah.date));
+            setText('havdalah-time', formatCongregationTime(havdalah.date));
+            setText('following-friday-date', formatCongregationDate(nextCandleLighting.date));
+            setText('candle-time-2', formatCongregationTime(nextCandleLighting.date));
 
-                if (nextCandleLighting) {
-                    document.getElementById('following-friday-date')!.textContent = formatDate(nextCandleLighting.date);
-                    document.getElementById('candle-time-2')!.textContent = formatTime(nextCandleLighting.date);
-                }
-            }
+            liveIndicator?.classList.add('active');
 
-            // Show live indicator
-            if (liveIndicator) {
-                liveIndicator.classList.add('active');
-            }
-
-            // Show last updated time
-            const updatedTimeEl = document.getElementById('candle-updated-time');
             if (updatedTimeEl) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    hour12: true
-                });
+                const timeStr = formatCongregationTime(new Date().toISOString());
                 updatedTimeEl.textContent = `Updated ${timeStr} via Hebcal`;
             }
 
         } catch (error) {
             console.error('Error loading candle lighting times:', error);
-
-            // Show error state
-            if (lastUpdatedEl) {
-                lastUpdatedEl.textContent = 'Unable to load times - please refresh';
-                lastUpdatedEl.style.color = 'var(--home-muted, #596476)';
-            }
+            showUnavailableState();
+        } finally {
+            candleTimes?.setAttribute('aria-busy', 'false');
         }
     };
 
@@ -306,5 +261,5 @@
     loadCandleLighting();
 
     // Refresh every 30 minutes
-    setInterval(loadCandleLighting, 30 * 60 * 1000);
+    window.setInterval(loadCandleLighting, 30 * 60 * 1000);
 </script>

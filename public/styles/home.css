@@ -345,15 +345,14 @@
 .home-dashboard-heading::after { height: 1px; flex: 1; background: linear-gradient(90deg, var(--home-gold-500), transparent); content: ''; }
 .home-dashboard-heading h3 { margin-bottom: 0; color: #fff; font-size: clamp(1.55rem, 2.5vw, 2.15rem); font-weight: 500; }
 
-.home-dashboard-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; border-top: 0; }
-.home-prayer-card { min-width: 0; margin: 0; padding: clamp(1.4rem, 2.5vw, 1.9rem) clamp(1.3rem, 2.5vw, 1.75rem) 0 0; color: rgba(255, 255, 255, 0.76); }
-.home-prayer-card > h3 { margin: 0; color: #fff; }
+.home-dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; border-top: 0; }
 
 .home-candle-card,
 .home-clock-card { min-width: 0; }
 .home-candle-card,
-.home-clock-card { padding: clamp(1.4rem, 2.5vw, 1.9rem) clamp(1.3rem, 2.5vw, 1.75rem) 0; border-left: 1px solid rgba(230, 201, 120, 0.2); background: transparent; }
-.home-clock-card { padding-right: 0; }
+.home-clock-card { padding: clamp(1.4rem, 2.5vw, 1.9rem) clamp(1.3rem, 2.5vw, 1.75rem) 0; background: transparent; }
+.home-candle-card { padding-left: 0; }
+.home-clock-card { padding-right: 0; border-left: 1px solid rgba(230, 201, 120, 0.2); }
 
 .home-schedule-content > p:last-child { margin-bottom: 0; }
 .home-redesign .home-schedule-content .time-highlight,
@@ -398,7 +397,7 @@
     font-weight: 600;
 }
 
-.home-redesign .home-shabbat-dashboard :is(.home-prayer-card > h3, .home-candle-card .card-header, .home-clock-card .widget-header) {
+.home-redesign .home-shabbat-dashboard :is(.home-candle-card .card-header, .home-clock-card .widget-header) {
     display: flex;
     min-height: 3.55rem;
     align-items: flex-start;
@@ -412,12 +411,10 @@
     line-height: 1.15;
 }
 
-/* One type, spacing, and color hierarchy across the three live-data panes. */
+/* One type, spacing, and color hierarchy across the two live-data panes. */
 .home-redesign .home-shabbat-dashboard :is(
-    .prayer-name,
     .candle-day,
     .clock-label,
-    .prayer-time,
     .candle-time,
     .clock-hebrew-date,
     .clock-gregorian-date,
@@ -429,7 +426,7 @@
     font-family: var(--font-body) !important;
 }
 
-.home-redesign .home-shabbat-dashboard :is(.prayer-name, .candle-day, .clock-label) {
+.home-redesign .home-shabbat-dashboard :is(.candle-day, .clock-label) {
     color: rgba(255, 255, 255, 0.82) !important;
     font-size: 0.86rem !important;
     font-weight: 750 !important;
@@ -438,7 +435,7 @@
     text-transform: none !important;
 }
 
-.home-redesign .home-shabbat-dashboard :is(.prayer-time, .candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-time) {
+.home-redesign .home-shabbat-dashboard :is(.candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-time) {
     color: #fff !important;
     font-size: 1.16rem !important;
     font-variant-numeric: tabular-nums !important;
@@ -452,11 +449,11 @@
     line-height: 1.3 !important;
 }
 
-.home-redesign .home-shabbat-dashboard :is(.home-prayer-card, .home-candle-card, .home-clock-card) {
+.home-redesign .home-shabbat-dashboard :is(.home-candle-card, .home-clock-card) {
     padding-top: 1.5rem !important;
 }
 
-.home-redesign .home-shabbat-dashboard :is(.home-prayer-card > h3, .home-candle-card .card-header, .home-clock-card .widget-header) {
+.home-redesign .home-shabbat-dashboard :is(.home-candle-card .card-header, .home-clock-card .widget-header) {
     min-height: 3.5rem !important;
     margin: 0 !important;
     padding: 0 0 1rem !important;
@@ -468,7 +465,7 @@
     line-height: 1.2 !important;
 }
 
-.home-redesign .home-shabbat-dashboard :is(.prayer-times, .candle-times, .clock-stack) {
+.home-redesign .home-shabbat-dashboard :is(.candle-times, .clock-stack) {
     border-top: 0 !important;
 }
 
@@ -492,26 +489,12 @@
 
 .home-reading-card .reading-cycle-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
 .home-reading-card .cycle-btn { min-height: 44px; }
-.home-redesign .home-clock-card :is(.clock-panel, .clock-panel-today, .clock-panel-time) { grid-template-columns: minmax(76px, auto) minmax(0, 1fr) !important; }
+.home-redesign .home-clock-card :is(.clock-panel, .clock-panel-date, .clock-panel-time) { grid-template-columns: minmax(76px, auto) minmax(0, 1fr) !important; }
 .home-redesign .home-clock-card .clock-gregorian-date { white-space: normal !important; overflow-wrap: anywhere; }
 
-.home-prayer-card .prayer-times,
 .home-redesign .home-candle-card .candle-times,
 .home-redesign .home-clock-card .clock-stack { border-top: 3px solid var(--home-gold-500); }
-
-.home-prayer-card .prayer-times { display: grid; grid-template-columns: 1fr; gap: 0; }
-.home-prayer-card .prayer-row { display: grid; min-height: 78px; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.8rem; padding: 0.8rem 0; border: 0; border-bottom: 1px solid rgba(230, 201, 120, 0.17); border-radius: 0; background: transparent; }
-.home-prayer-card .prayer-row:last-child { border-bottom: 0; }
-.home-prayer-card .prayer-name { color: rgba(255, 255, 255, 0.64); font-size: 0.76rem; font-weight: 750; letter-spacing: 0.035em; text-transform: uppercase; }
-.home-prayer-card .prayer-time { color: #fff; font-family: var(--font-display); font-size: 1.18rem; font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
-.home-prayer-card .prayer-last-updated { display: flex; align-items: center; justify-content: flex-start; gap: 0.45rem; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid rgba(230, 201, 120, 0.2); color: rgba(255, 255, 255, 0.56); font-size: 0.68rem; }
-.home-prayer-card .prayer-last-updated .live-indicator { padding: 0.18rem 0.55rem; border: 1px solid rgba(230, 201, 120, 0.52); border-radius: 999px; background: rgba(230, 201, 120, 0.12); color: var(--home-gold-300); }
-.home-prayer-card .prayer-last-updated .live-dot { background: var(--home-gold-500); }
-.home-prayer-card .prayer-last-updated .updated-time { color: rgba(255, 255, 255, 0.56); }
-
-.home-prayer-card .prayer-last-updated .live-indicator,
 .home-redesign .home-candle-card .live-indicator { min-height: 24px; gap: 4px; padding: 0.18rem 0.55rem; border-color: rgba(230, 201, 120, 0.52); border-radius: 999px; background: rgba(230, 201, 120, 0.12); color: var(--home-gold-300); font-size: 0.62rem; font-weight: 800; }
-.home-prayer-card .prayer-last-updated .live-dot,
 .home-redesign .home-candle-card .live-dot { width: 6px; height: 6px; background: var(--home-gold-500); }
 
 .home-redesign .home-candle-card .candle-times { gap: 0; }
@@ -623,36 +606,34 @@
     color: rgba(255, 255, 255, 0.82);
     overflow: hidden;
 }
-.home-purpose::before { position: absolute; top: -12rem; right: -8rem; width: 34rem; height: 34rem; border: 1px solid rgba(230, 201, 120, 0.12); border-radius: 50%; box-shadow: 0 0 0 5rem rgba(230, 201, 120, 0.025), 0 0 0 10rem rgba(230, 201, 120, 0.018); content: ''; pointer-events: none; }
 .home-purpose .home-shell { position: relative; }
-.home-purpose .home-section-heading { border: 0; }
-.home-purpose .home-section-heading::before { display: block; width: 64px; height: 2px; margin-bottom: 1.25rem; background: var(--home-gold-500); content: ''; }
 .home-purpose :is(h2, h3, h4) { color: #fff; }
-.home-purpose .home-section-heading > p,
-.home-purpose .home-purpose-grid > .home-card > p { color: rgba(255, 255, 255, 0.72); }
-.home-purpose-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-.home-mission-card,
-.home-vision-card { position: relative; min-height: 235px; padding: clamp(1.6rem, 3vw, 2.35rem) !important; border: 1px solid rgba(230, 201, 120, 0.2) !important; border-top: 2px solid rgba(230, 201, 120, 0.72) !important; border-radius: 20px !important; background: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)) !important; overflow: hidden; }
-.home-mission-card::after,
-.home-vision-card::after { content: none; }
-.home-purpose .home-card-heading { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 0.9rem; margin-bottom: 1.25rem; padding: 0; border: 0; }
-.home-purpose-icon { display: inline-flex; width: 2rem; height: 2rem; flex: 0 0 2rem; align-items: center; justify-content: center; color: var(--home-gold-300); }
-.home-purpose-icon svg { display: block; width: 100%; height: 100%; }
-.home-purpose .home-card-heading h3 { font-size: clamp(1.35rem, 2vw, 1.75rem); }
-.home-purpose .home-purpose-grid > .home-card > p { position: relative; z-index: 1; max-width: 54ch; margin-bottom: 0; font-size: 0.95rem; line-height: 1.7; }
-.home-values-card { grid-column: 1 / -1; padding: clamp(1.6rem, 3vw, 2.35rem) !important; border: 1px solid rgba(230, 201, 120, 0.2) !important; border-top: 2px solid rgba(230, 201, 120, 0.72) !important; border-radius: 20px !important; background: rgba(255, 255, 255, 0.035) !important; }
-.home-reading-details > summary,
-.home-values-details > summary { display: none; }
-.home-tag-list { display: flex; flex-wrap: wrap; gap: 0; margin: 1.1rem 0 0; padding: 0; list-style: none; }
-.home-tag-list li { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.9rem 0.3rem 0; margin-right: 0.9rem; border-right: 1px solid rgba(230, 201, 120, 0.28); color: rgba(255, 255, 255, 0.76); font-size: 0.75rem; font-weight: 700; line-height: 1.35; }
-.home-tag-list li:last-child { border-right: 0; }
-.home-values-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.65rem; border: 0; }
-.home-value-item,
-.home-value-item:nth-child(n) { display: grid; min-height: 132px; padding: 1rem !important; border: 1px solid rgba(230, 201, 120, 0.15); border-radius: 12px; grid-template-columns: 2.25rem minmax(0, 1fr); align-items: start; gap: 0.8rem; background: rgba(255, 255, 255, 0.035); }
-.home-value-icon { display: grid; width: 2.25rem; height: 2.25rem; margin: 0; border: 1px solid rgba(230, 201, 120, 0.48); border-radius: 50%; place-items: center; color: var(--home-gold-300); }
-.home-value-icon svg { display: block; width: 1.15rem; height: 1.15rem; stroke: currentColor; }
-.home-value-item h4 { margin-bottom: 0.3rem; font-size: 1rem; font-weight: 700; line-height: 1.25; }
-.home-value-item p { margin-bottom: 0; color: rgba(255, 255, 255, 0.64); font-size: 0.82rem; line-height: 1.5; }
+.home-reading-details > summary { display: none; }
+.home-identity-intro { display: grid; grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1.42fr); align-items: start; gap: clamp(2rem, 6vw, 6.5rem); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); border-bottom: 1px solid rgba(230, 201, 120, 0.3); }
+.home-identity-heading { padding-top: 0.35rem; }
+.home-identity-heading::before { display: block; width: 64px; height: 2px; margin-bottom: 1.25rem; background: var(--home-gold-500); content: ''; }
+.home-identity-kicker,
+.home-identity-chapter-heading > p { margin: 0 0 0.7rem; color: var(--home-gold-300); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; line-height: 1.4; text-transform: uppercase; }
+.home-identity-heading h2 { margin: 0; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: 0.98; }
+.home-identity-statement { max-width: 43ch; margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(1.35rem, 2.45vw, 2.12rem); line-height: 1.48; text-wrap: balance; }
+.home-identity-preview { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr); border-bottom: 1px solid rgba(230, 201, 120, 0.3); }
+.home-identity-chapter { min-width: 0; padding: clamp(2.35rem, 5vw, 4.3rem) clamp(2rem, 5vw, 4.5rem) clamp(2.6rem, 5vw, 4.5rem) 0; border-right: 1px solid rgba(230, 201, 120, 0.3); }
+.home-identity-chapter + .home-identity-chapter { padding-right: 0; padding-left: clamp(2rem, 5vw, 4.5rem); border-right: 0; }
+.home-identity-chapter-heading { margin-bottom: 1.2rem; }
+.home-identity-chapter-heading h3 { margin: 0; font-size: clamp(1.65rem, 2.8vw, 2.35rem); line-height: 1.1; }
+.home-commitment-list { margin: 0; padding: 0; list-style: none; }
+.home-commitment-list li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 1rem; padding: 1.35rem 0; border-top: 1px solid rgba(255, 255, 255, 0.13); }
+.home-commitment-list li:last-child { padding-bottom: 0; }
+.home-identity-number { padding-top: 0.15rem; color: var(--home-gold-300); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; line-height: 1.5; }
+.home-commitment-list h4,
+.home-value-preview-grid h4 { margin: 0 0 0.45rem; font-size: 1.05rem; line-height: 1.3; }
+.home-commitment-list p,
+.home-value-preview-grid p { margin: 0; color: rgba(255, 255, 255, 0.68); font-size: 0.9rem; line-height: 1.65; }
+.home-value-preview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(255, 255, 255, 0.13); border-left: 1px solid rgba(255, 255, 255, 0.13); }
+.home-value-preview-grid article { min-width: 0; padding: 1.25rem; border-right: 1px solid rgba(255, 255, 255, 0.13); border-bottom: 1px solid rgba(255, 255, 255, 0.13); background: rgba(255, 255, 255, 0.025); }
+.home-identity-action { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-top: clamp(2rem, 4vw, 3rem); }
+.home-identity-action p { max-width: 53ch; margin: 0; color: rgba(255, 255, 255, 0.68); font-size: 0.88rem; line-height: 1.65; }
+.home-identity-action .home-button { flex: 0 0 auto; }
 
 .home-torah-quote { position: relative; padding-block: clamp(3.5rem, 6vw, 5.5rem); background: var(--home-blue-950) url('/media/hero/ohr-hatorah-hero-poster.webp') center 55% / cover no-repeat; color: #fff; isolation: isolate; }
 .home-torah-quote::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(100deg, rgba(6, 26, 50, 0.97), rgba(6, 26, 50, 0.82) 58%, rgba(6, 26, 50, 0.72)); border-block: 1px solid rgba(230, 201, 120, 0.3); content: ''; }
@@ -664,41 +645,30 @@
 .home-torah-quote-primary { padding-right: clamp(1.5rem, 4vw, 3.5rem); border-right: 1px solid rgba(230, 201, 120, 0.34); }
 .home-torah-quote-primary p { font-size: clamp(1.45rem, 2.7vw, 2.25rem); line-height: 1.38; }
 .home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.5; }
+.home-torah-quote .divine-name { font-variant-caps: all-small-caps; letter-spacing: 0.04em; }
 .home-torah-quote cite { display: block; margin-top: 1.1rem; color: var(--home-gold-300); font-family: var(--font-body); font-size: 0.72rem; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.home-calendar-section { background: var(--home-blue-900); color: rgba(255, 255, 255, 0.82); }
+.home-calendar-section { background: var(--home-blue-950); color: rgba(255, 255, 255, 0.82); }
 .home-calendar-section .home-section-heading { align-items: end; }
 .home-calendar-section .home-section-heading { border-color: rgba(230, 201, 120, 0.3); }
 .home-calendar-section .home-section-heading h2 { color: #fff; }
 .home-calendar-section .home-text-link { color: var(--home-gold-300); }
 .home-calendar-layout { display: grid; grid-template-columns: minmax(260px, 0.31fr) minmax(0, 0.69fr); min-height: 520px; border-top: 3px solid var(--home-gold-500); }
 .home-calendar-image { position: relative; min-width: 0; height: 520px; margin: 0; overflow: hidden; }
-.home-calendar-image::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 26, 50, 0.92), rgba(6, 26, 50, 0.04) 66%); content: ''; }
+.home-calendar-image::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 26, 50, 0.76), rgba(6, 26, 50, 0.18) 38%, transparent 68%); content: ''; }
 .home-calendar-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 54% 42%; transition: transform 700ms ease; }
 .home-calendar-image:hover img { transform: scale(1.025); }
-.home-calendar-image figcaption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; color: #fff; }
+.home-calendar-image figcaption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; color: #fff; text-shadow: 0 2px 14px rgba(6, 26, 50, 0.76); }
 .home-calendar-image figcaption strong { display: block; margin-bottom: 0.45rem; font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.18; }
 .home-calendar-image figcaption span { display: block; color: rgba(255, 255, 255, 0.76); font-size: 0.84rem; line-height: 1.5; }
 .home-calendar-frame { height: 520px; padding: 0; border: 0; border-radius: 0; background: #fff; box-shadow: none; overflow: hidden; }
 .home-calendar-frame iframe { height: clamp(420px, 48vw, 520px); }
 
 @media (min-width: 1101px) {
-    .home-prayer-card,
     .home-candle-card,
     .home-clock-card { padding-inline: clamp(1.3rem, 2.5vw, 1.75rem); }
-}
-
-@media (max-width: 1100px) {
-    .home-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .home-prayer-card { grid-column: 1 / -1; padding-right: 0; padding-bottom: 1.35rem; border-bottom: 1px solid rgba(230, 201, 120, 0.2); }
-    .home-prayer-card .prayer-times { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-    .home-prayer-card .prayer-row { min-height: 88px; grid-template-columns: 1fr; grid-template-rows: minmax(1.25rem, auto) minmax(1.65rem, auto); align-content: center; justify-items: center; gap: 0.35rem; padding-inline: 0.75rem; border-right: 1px solid rgba(230, 201, 120, 0.2); border-bottom: 0; text-align: center; }
-    .home-prayer-card .prayer-name,
-    .home-prayer-card .prayer-time { display: flex; width: 100%; align-items: center; justify-content: center; line-height: 1.2; }
-    .home-prayer-card .prayer-last-updated { flex-wrap: wrap; }
-    .home-prayer-card .prayer-row:first-child { padding-left: 0; }
-    .home-prayer-card .prayer-row:last-child { padding-right: 0; border-right: 0; }
-    .home-candle-card { padding-left: 0; border-left: 0; }
+    .home-candle-card { padding-left: 0; }
+    .home-clock-card { padding-right: 0; }
 }
 
 @media (max-width: 980px) {
@@ -706,8 +676,10 @@
     .home-about-grid { grid-template-columns: minmax(0, 1.06fr) minmax(300px, 0.94fr); gap: 3.5rem; }
     .home-rabbi-portrait { right: 1.25rem; left: auto; }
     .home-calendar-layout { grid-template-columns: minmax(230px, 0.34fr) minmax(0, 0.66fr); }
-    .home-values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .home-value-item:nth-child(n) { padding: 1rem; border: 1px solid rgba(230, 201, 120, 0.15); }
+    .home-identity-preview { grid-template-columns: 1fr; }
+    .home-identity-chapter,
+    .home-identity-chapter + .home-identity-chapter { padding-right: 0; padding-left: 0; border-right: 0; }
+    .home-identity-chapter:first-child { border-bottom: 1px solid rgba(230, 201, 120, 0.3); }
 }
 
 @media (max-width: 900px) {
@@ -754,23 +726,15 @@
     .home-shabbat-dashboard { margin-top: 2.25rem; padding: 1.35rem; border-radius: 20px; }
     .home-dashboard-heading { gap: 0.8rem; align-items: center; margin-bottom: 0.85rem; padding: 0; }
     .home-dashboard-grid { grid-template-columns: 1fr; }
-    .home-prayer-card { grid-column: 1; padding: 1.35rem 0 1.1rem; border-bottom: 0; }
-    .home-prayer-card .prayer-times { grid-template-columns: minmax(0, 1fr) !important; }
-    .home-prayer-card .prayer-row { min-height: 70px; grid-template-columns: minmax(0, 1fr) minmax(7.25rem, auto); grid-template-rows: auto; align-content: center; justify-items: stretch; gap: 0.75rem; padding: 0.8rem 0; border-right: 0; border-bottom: 1px solid rgba(230, 201, 120, 0.17); text-align: left; }
-    .home-prayer-card .prayer-row:first-child { padding-left: 0; }
-    .home-prayer-card .prayer-row:last-child { padding-right: 0; border-right: 0; border-bottom: 0; }
-    .home-prayer-card .prayer-name,
-    .home-prayer-card .prayer-time { display: block; width: 100%; }
-    .home-prayer-card .prayer-name { text-align: left; }
-    .home-prayer-card .prayer-time { text-align: right; }
     .home-candle-card,
-    .home-clock-card { padding: 1.45rem 0 1.1rem !important; border: 0; border-top: 1px solid rgba(230, 201, 120, 0.2); }
-    .home-redesign .home-shabbat-dashboard :is(.home-prayer-card > h3, .home-candle-card .card-header, .home-clock-card .widget-header) { min-height: auto !important; padding-bottom: 1rem !important; font-size: 1.2rem !important; }
-    .home-redesign .home-shabbat-dashboard :is(.prayer-row, .candle-row, .clock-panel, .clock-panel:first-child) { min-height: 70px !important; padding: 0.8rem 0 !important; }
+    .home-clock-card { padding: 1.45rem 0 1.1rem !important; border: 0; }
+    .home-clock-card { border-top: 1px solid rgba(230, 201, 120, 0.2); }
+    .home-redesign .home-shabbat-dashboard :is(.home-candle-card .card-header, .home-clock-card .widget-header) { min-height: auto !important; padding-bottom: 1rem !important; font-size: 1.2rem !important; }
+    .home-redesign .home-shabbat-dashboard :is(.candle-row, .clock-panel, .clock-panel:first-child) { min-height: 70px !important; padding: 0.8rem 0 !important; }
     .home-redesign .home-candle-card .candle-row { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(7.25rem, auto) !important; align-items: center !important; gap: 0.75rem !important; }
-    .home-redesign .home-clock-card :is(.clock-panel, .clock-panel-today, .clock-panel-time) { grid-template-columns: minmax(0, 1fr) minmax(7.25rem, auto) !important; align-items: center !important; gap: 0.75rem !important; }
-    .home-redesign .home-shabbat-dashboard :is(.prayer-time, .candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-time) { min-width: 0; justify-content: flex-end !important; text-align: right !important; justify-self: stretch !important; }
-    .home-redesign .home-shabbat-dashboard :is(.prayer-last-updated, .last-updated) { min-height: 42px; margin-top: 0.75rem !important; padding-top: 0.75rem !important; align-content: center; flex-wrap: wrap; }
+    .home-redesign .home-clock-card :is(.clock-panel, .clock-panel-date, .clock-panel-time) { grid-template-columns: minmax(0, 1fr) minmax(7.25rem, auto) !important; align-items: center !important; gap: 0.75rem !important; }
+    .home-redesign .home-shabbat-dashboard :is(.candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-time) { min-width: 0; justify-content: flex-end !important; text-align: right !important; justify-self: stretch !important; }
+    .home-redesign .home-shabbat-dashboard .last-updated { min-height: 42px; margin-top: 0.75rem !important; padding-top: 0.75rem !important; align-content: center; flex-wrap: wrap; }
     .home-visit-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
     .home-visit-image { grid-column: 1; grid-row: auto; height: 210px; }
     .home-arrival-panel { grid-column: 1; grid-row: auto; padding-block: 1.5rem 2.25rem; }
@@ -797,17 +761,14 @@
     .home-rabbi-story > summary::after { color: var(--home-gold-500); content: '+'; font-family: var(--font-body); }
     .home-rabbi-story[open] > summary { margin-bottom: 1rem; }
     .home-rabbi-story[open] > summary::after { content: '−'; }
-    .home-purpose-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .home-mission-card,
-    .home-vision-card { min-height: 0; padding: 1.5rem !important; border: 1px solid rgba(230, 201, 120, 0.2) !important; border-top: 2px solid rgba(230, 201, 120, 0.72) !important; }
-    .home-values-card { padding: 1.5rem !important; }
-    .home-values-grid { grid-template-columns: 1fr; }
-    .home-values-details { border-top: 1px solid rgba(230, 201, 120, 0.28); border-bottom: 1px solid rgba(230, 201, 120, 0.28); }
-    .home-values-details > summary { display: flex; min-height: 52px; align-items: center; justify-content: space-between; gap: 1rem; color: #fff; cursor: pointer; font-weight: 800; }
-    .home-values-details > summary::after { color: var(--home-gold-500); content: '+'; font-size: 1.35rem; }
-    .home-values-details[open] > summary::after { content: '−'; }
-    .home-values-details[open] > .home-values-grid { margin-bottom: 0.5rem; }
-    .home-value-item:nth-child(n) { min-height: 0; padding: 1rem !important; border: 1px solid rgba(230, 201, 120, 0.15); }
+    .home-identity-intro { grid-template-columns: 1fr; gap: 1.5rem; padding-bottom: 2.5rem; }
+    .home-identity-heading h2 { font-size: clamp(2.5rem, 12vw, 3.55rem); }
+    .home-identity-statement { font-size: clamp(1.25rem, 5.8vw, 1.6rem); line-height: 1.48; text-wrap: pretty; }
+    .home-identity-chapter,
+    .home-identity-chapter + .home-identity-chapter { padding-block: 2.35rem; }
+    .home-value-preview-grid { grid-template-columns: 1fr; }
+    .home-identity-action { align-items: stretch; flex-direction: column; gap: 1.35rem; padding-top: 2.25rem; }
+    .home-identity-action .home-button { width: 100%; }
     .home-torah-quote .home-shell { grid-template-columns: 1fr; gap: 1.25rem; }
     .home-torah-quote-icon { width: 52px; height: 52px; }
     .home-torah-quote-icon svg { width: 26px; height: 26px; }
