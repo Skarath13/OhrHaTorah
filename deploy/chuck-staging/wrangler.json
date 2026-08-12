@@ -1,7 +1,7 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
+  "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "kehilat-ohr-hatorah-chuck-staging",
-  "pages_build_output_dir": "./dist",
+  "pages_build_output_dir": "../../dist",
   "compatibility_date": "2025-11-24",
   "compatibility_flags": [
     "nodejs_compat",

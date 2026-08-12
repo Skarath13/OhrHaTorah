@@ -32,7 +32,7 @@ OhrHaTorah/
 │   ├── styles/          # CSS stylesheets
 │   └── favicon.svg      # Site icon
 ├── wrangler.json        # Legacy Dylan Cloudflare config; do not use for Chuck staging
-├── wrangler.chuck-staging.json # Chuck staging Pages/D1 config
+├── deploy/chuck-staging/wrangler.json # Chuck staging Pages/D1 config
 ├── schema.sql           # D1 database schema
 ├── astro.config.mjs     # Astro configuration
 ├── package.json         # Dependencies
@@ -66,11 +66,14 @@ OhrHaTorah/
 
 ### Database Commands
 ```bash
+# Run these from the isolated Chuck deployment directory
+cd deploy/chuck-staging
+
 # Run schema on Chuck staging
-CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --file=schema.sql --config wrangler.chuck-staging.json
+CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --file=../../schema.sql
 
 # Query Chuck staging
-CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --command="SELECT * FROM users;" --config wrangler.chuck-staging.json
+CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --command="SELECT * FROM users;"
 
 # Local development uses .wrangler/state/v3/d1/ SQLite files
 ```
