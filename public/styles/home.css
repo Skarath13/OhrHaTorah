@@ -300,7 +300,7 @@
 .home-timeline-row { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 1rem; padding: 0.95rem 0; border-top: 1px solid rgba(230, 201, 120, 0.2); }
 .home-timeline-row:last-of-type { border-bottom: 1px solid rgba(230, 201, 120, 0.2); }
 .home-timeline-row time,
-.home-timeline-time { color: var(--home-gold-300); font-size: 0.75rem; font-variant-numeric: tabular-nums; font-weight: 850; letter-spacing: 0.03em; }
+.home-timeline-time { color: var(--home-gold-300); font-size: clamp(0.9rem, calc(0.825rem + 0.35vw), 1rem); font-variant-numeric: tabular-nums; font-weight: 850; letter-spacing: 0.03em; white-space: nowrap; }
 .home-timeline-row strong { display: block; margin-bottom: 0.2rem; color: #fff; font-family: var(--font-display); font-size: 1.08rem; }
 .home-timeline-row p { margin-bottom: 0; color: rgba(255, 255, 255, 0.64); font-size: 0.86rem; }
 .home-timeline-time span { display: inline-block; padding-bottom: 0.22rem; border-bottom: 1px solid var(--home-gold-300); }

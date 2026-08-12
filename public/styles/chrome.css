@@ -130,6 +130,7 @@ html.mobile-nav-open body {
         margin: 0;
         padding: 0.75rem 0.75rem calc(24px + env(safe-area-inset-bottom));
         gap: 0.55rem;
+        container-type: inline-size;
     }
 
     .mobile-nav-list > * {
@@ -142,6 +143,7 @@ html.mobile-nav-open body {
         overflow: hidden;
         background: var(--mobile-nav-surface);
         box-shadow: none;
+        container-type: inline-size;
     }
 
     .mobile-nav-list > :nth-child(2) { --mobile-nav-surface: #ffe0f0; --mobile-nav-accent: #f2a9cf; }
@@ -163,11 +165,13 @@ html.mobile-nav-open body {
         gap: 0.65rem;
         color: var(--site-chrome-navy);
         font-family: var(--font-body);
-        font-size: 0.94rem;
+        font-size: 1rem;
+        font-size: clamp(1rem, 5.5cqi, 1.125rem);
         font-weight: 750;
         line-height: 1.2;
         text-align: left;
         text-decoration: none;
+        white-space: nowrap;
         cursor: pointer;
         list-style: none;
         -webkit-tap-highlight-color: transparent;
@@ -217,7 +221,8 @@ html.mobile-nav-open body {
         background: transparent;
         color: var(--site-chrome-ink);
         font-family: var(--font-body);
-        font-size: 0.88rem;
+        font-size: 0.94rem;
+        font-size: clamp(0.94rem, 4.5cqi, 1rem);
         font-weight: 700;
         line-height: 1.25;
         text-decoration: none;
@@ -355,6 +360,7 @@ html.mobile-nav-open body {
         flex: none !important;
         background: var(--nav-surface) !important;
         box-shadow: none !important;
+        container-type: inline-size;
     }
 
     .site-navigation-shell .nav-links > li:first-child {
@@ -393,7 +399,8 @@ html.mobile-nav-open body {
         border-radius: 0 !important;
         background: transparent !important;
         color: var(--site-chrome-navy) !important;
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
+        font-size: clamp(1rem, 8cqi, 1.25rem) !important;
         font-weight: 760 !important;
         font-synthesis: none !important;
         letter-spacing: 0 !important;
@@ -450,7 +457,8 @@ html.mobile-nav-open body {
         width: 1rem !important;
         margin: 0 !important;
         color: currentColor !important;
-        font-size: 0.88rem !important;
+        font-size: 0.95rem !important;
+        font-size: clamp(0.95rem, 7cqi, 1.1rem) !important;
         line-height: 1 !important;
         text-align: center;
         flex: 0 0 1rem !important;
@@ -512,7 +520,8 @@ html.mobile-nav-open body {
         gap: 0.65rem;
         background: rgba(255, 255, 255, 0.28) !important;
         color: var(--site-chrome-ink) !important;
-        font-size: 0.82rem !important;
+        font-size: 0.875rem !important;
+        font-size: clamp(0.875rem, 7cqi, 1rem) !important;
         font-weight: 700 !important;
         line-height: 1.25 !important;
         white-space: normal !important;

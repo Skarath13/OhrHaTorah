@@ -63,6 +63,23 @@ test('mobile navigation is an isolated native dialog with native disclosure grou
     assert.match(chromeStyles, /\.mobile-nav-scroll \{[\s\S]*?overflow-y: auto;/);
 });
 
+test('navigation typography scales with its available menu-card width', () => {
+    assert.match(chromeStyles, /\.mobile-nav-list \{[\s\S]*?container-type: inline-size;/);
+    assert.match(chromeStyles, /\.mobile-nav-list > \* \{[^}]*container-type: inline-size;/s);
+    assert.match(
+        chromeStyles,
+        /\.mobile-nav-summary,\s*\.mobile-nav-direct-link \{[^}]*font-size: clamp\(1rem, 5\.5cqi, 1\.125rem\);[^}]*white-space: nowrap;/s
+    );
+    assert.match(
+        chromeStyles,
+        /\.mobile-nav-submenu-link \{[^}]*font-size: clamp\(0\.94rem, 4\.5cqi, 1rem\);/s
+    );
+    assert.match(
+        chromeStyles,
+        /@media \(min-width: 1360px\) \{[\s\S]*?\.site-navigation-shell \.nav-links > li \{[^}]*container-type: inline-size;[\s\S]*?font-size: clamp\(1rem, 8cqi, 1\.25rem\) !important;/s
+    );
+});
+
 test('legacy 431-768 nav positioning cannot move the mobile dialog below the viewport', () => {
     assert.match(
         legacyStyles,

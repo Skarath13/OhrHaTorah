@@ -47,6 +47,15 @@ test('Shabbat gathering uses the approved afternoon schedule', () => {
     assert.doesNotMatch(homeSource, /home-timeline-row-friday|Shabbat begins at home|Festive Shabbat meals in the home/);
 });
 
+test('Shabbat timeline times scale legibly without squeezing service titles', () => {
+    assert.match(
+        homeStyles,
+        /\.home-timeline-row time,\s*\.home-timeline-time \{[^}]*font-size: clamp\(0\.9rem, calc\(0\.825rem \+ 0\.35vw\), 1rem\);[^}]*white-space: nowrap;/s
+    );
+    assert.match(homeStyles, /grid-template-columns: 5rem minmax\(0, 1fr\)/);
+    assert.match(homeStyles, /grid-template-columns: 4\.5rem minmax\(0, 1fr\)/);
+});
+
 test('homepage identity preview uses canonical approved copy and links to the full page', () => {
     assert.match(homeSource, /congregationName, homepageIdentityPreview, officialIdentityStatement/);
     assert.match(homeSource, /<h2 id="home-purpose-title">Our Identity<\/h2>/);
