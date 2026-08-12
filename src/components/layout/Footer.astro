@@ -6,6 +6,8 @@ import {
 } from '../../data/congregationIdentity';
 
 const currentYear = new Date().getFullYear();
+const turnstileSiteKey = Astro.locals.runtime?.env?.TURNSTILE_SITE_KEY ?? '';
+const updateRequestId = crypto.randomUUID();
 ---
 <footer class="footer site-footer">
     <div class="footer-content">
@@ -31,20 +33,49 @@ const currentYear = new Date().getFullYear();
             <div class="footer-col">
                 <h4><i class="fas fa-envelope"></i> Stay connected</h4>
                 <p>Receive occasional updates about gatherings and community news.</p>
-                <form id="newsletter-form" class="newsletter-form-expanded">
-                    <input type="hidden" name="access_key" value="d3f52dee-3156-4b82-a76a-fe9bbf9eb30e">
-                    <input type="hidden" name="subject" value={`New email updates request - ${congregationName}`}>
-                    <input type="hidden" name="from_name" value={`${congregationName} Website`}>
-                    <input type="checkbox" name="botcheck" class="newsletter-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <form id="newsletter-form" class="newsletter-form-expanded" method="post" action="/api/update-requests">
+                    <input type="hidden" name="submissionId" value={updateRequestId}>
+                    <input type="text" name="website" class="newsletter-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-                    <input type="text" name="first_name" placeholder="First name (optional)" aria-label="First name (optional)" autocomplete="given-name">
-                    <input type="email" name="email" placeholder="Email address *" required aria-label="Email address" autocomplete="email" aria-describedby="newsletter-privacy">
+                    <div class="newsletter-name-fields">
+                        <label class="newsletter-field">
+                            <span class="newsletter-field-label">First name <span aria-hidden="true">*</span></span>
+                            <input type="text" name="firstName" required maxlength="80" autocomplete="given-name">
+                        </label>
+                        <label class="newsletter-field">
+                            <span class="newsletter-field-label">Last name <span aria-hidden="true">*</span></span>
+                            <input type="text" name="lastName" required maxlength="80" autocomplete="family-name">
+                        </label>
+                    </div>
+                    <label class="newsletter-field">
+                        <span class="newsletter-field-label">Email address <span aria-hidden="true">*</span></span>
+                        <input type="email" name="email" required maxlength="254" autocomplete="email" aria-describedby="newsletter-privacy">
+                    </label>
+                    <label class="newsletter-field">
+                        <span class="newsletter-field-label">Phone number <span class="newsletter-optional">(optional)</span></span>
+                        <input type="tel" name="phone" maxlength="40" autocomplete="tel" inputmode="tel">
+                    </label>
                     <label class="newsletter-consent">
-                        <input type="checkbox" name="email_consent" value="Yes, I requested occasional email updates." required>
+                        <input type="checkbox" name="consent" value="true" required>
                         <span>I would like to receive occasional email updates from <strong>{congregationName}</strong>. I can unsubscribe at any time.</span>
                     </label>
-                    <p id="newsletter-privacy" class="newsletter-privacy">We send this request through Web3Forms. Read our <a href="/privacy">Privacy Notice</a> for details.</p>
-                    <button type="submit" class="newsletter-btn-full">
+                    {turnstileSiteKey ? (
+                        <div class="newsletter-turnstile">
+                            <div
+                                class="cf-turnstile"
+                                data-sitekey={turnstileSiteKey}
+                                data-action="updates_request"
+                                data-theme="dark"
+                                data-size="flexible"
+                                data-appearance="interaction-only"
+                                data-response-field-name="turnstileToken"
+                            ></div>
+                        </div>
+                    ) : (
+                        <p class="newsletter-unavailable" role="status">Update requests are temporarily unavailable.</p>
+                    )}
+                    <p id="newsletter-privacy" class="newsletter-privacy">Protected and delivered through Cloudflare. Read our <a href="/privacy">Privacy Notice</a> for details.</p>
+                    <button type="submit" class="newsletter-btn-full" disabled={!turnstileSiteKey}>
                         Request updates <i class="fas fa-arrow-right"></i>
                     </button>
                     <p id="newsletter-status" class="form-status" role="status" aria-live="polite"></p>
@@ -90,6 +121,10 @@ const currentYear = new Date().getFullYear();
 <a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">
     <i class="fas fa-chevron-up"></i>
 </a>
+
+{turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
 
 <script>
     const backToTopButton = document.getElementById('backToTop');
@@ -137,40 +172,66 @@ const currentYear = new Date().getFullYear();
         }
     }
 
-    // Newsletter form submission
+    // Email-updates request submission
     const newsletterForm = document.getElementById('newsletter-form');
     const statusEl = document.getElementById('newsletter-status');
 
-    if (newsletterForm) {
+    if (newsletterForm instanceof HTMLFormElement && statusEl) {
         newsletterForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const formData = new FormData(this);
             const submitBtn = this.querySelector('button[type="submit"]');
+            const turnstileToken = String(formData.get('turnstileToken') || '');
+
+            if (!turnstileToken) {
+                statusEl.textContent = 'Please complete the security check and try again.';
+                statusEl.className = 'form-status error';
+                return;
+            }
 
             statusEl.textContent = 'Sending your request…';
             statusEl.className = 'form-status loading';
-            submitBtn.disabled = true;
+            if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
 
             try {
-                const response = await fetch('https://api.web3forms.com/submit', {
+                const response = await fetch(this.action, {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        submissionId: formData.get('submissionId'),
+                        firstName: formData.get('firstName'),
+                        lastName: formData.get('lastName'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        consent: formData.get('consent') === 'true',
+                        website: formData.get('website'),
+                        turnstileToken,
+                    }),
                 });
-                const data = await response.json();
+                const data = await response.json().catch(() => null);
 
-                if (data.success) {
-                    statusEl.textContent = 'Your request was sent.';
+                if (response.ok && data?.success) {
+                    statusEl.textContent = 'Your update request was received.';
                     statusEl.className = 'form-status success';
                     newsletterForm.reset();
+                    const requestIdInput = newsletterForm.elements.namedItem('submissionId');
+                    if (requestIdInput instanceof HTMLInputElement) requestIdInput.value = crypto.randomUUID();
                 } else {
-                    statusEl.textContent = 'Something went wrong. Please try again.';
+                    statusEl.textContent = data?.message || (response.status === 429
+                        ? 'Please wait a little while before trying again.'
+                        : 'We could not receive your request. Please try again.');
                     statusEl.className = 'form-status error';
                 }
             } catch (error) {
-                statusEl.textContent = 'Something went wrong. Please try again.';
+                statusEl.textContent = 'We could not receive your request. Please try again.';
                 statusEl.className = 'form-status error';
             } finally {
-                submitBtn.disabled = false;
+                if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = false;
+                const turnstileApi = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
+                turnstileApi?.reset();
             }
         });
     }

@@ -17,7 +17,7 @@ const combinedLegalSource = legalPageSources.join('\n');
 test('public policy pages are photo-free, dated, and use the shared legal design', () => {
     for (const source of legalPageSources) {
         assert.match(source, /stylesheets=\{\['\/styles\/policies\.css'\]\}/);
-        assert.match(source, /<time datetime="2026-08-11">August 11, 2026<\/time>/);
+        assert.match(source, /<time datetime="2026-08-(?:11|12)">August (?:11|12), 2026<\/time>/);
         assert.doesNotMatch(source, /<img\b|<picture\b|<figure\b|data-editable/);
     }
 
@@ -41,9 +41,13 @@ test('legal copy reflects the public website without publishing internal mechani
 });
 
 test('privacy notice describes the providers and browser behavior actually present in the site', () => {
-    for (const provider of ['Cloudflare', 'Web3Forms', 'Hebcal', 'Google Maps', 'cdnjs', 'Font Awesome']) {
+    for (const provider of ['Cloudflare', 'D1', 'Turnstile', 'Queues', 'Email Service', 'Google', 'Hebcal', 'Google Maps', 'cdnjs', 'Font Awesome']) {
         assert.match(privacySource, new RegExp(provider));
     }
+
+    assert.doesNotMatch(privacySource, /Web3Forms|web3forms\.com/);
+    assert.match(privacySource, /first and last name, email address, and consent; a phone number is optional/);
+    assert.match(privacySource, /does not represent a guarantee that an address has already been enrolled/);
 
     assert.match(privacySource, /Cookies and local storage/);
     assert.match(privacySource, /Do Not Track/);
@@ -66,22 +70,25 @@ test('website-use and accessibility pages make cautious, specific public commitm
     assert.match(accessibilitySource, /page address, what you were trying to do, the barrier you encountered/);
 });
 
-test('the footer offers policy links and collects only the minimum newsletter request fields', () => {
+test('the footer restores the full update-request form without sending data to Web3Forms', () => {
     assert.match(footerSource, /href="\/privacy">Privacy<\/a>/);
     assert.match(footerSource, /href="\/website-use">Website use<\/a>/);
     assert.match(footerSource, /href="\/accessibility">Accessibility<\/a>/);
     assert.match(footerSource, /href="\/website-use#copyright-sources">Copyright &amp; sources<\/a>/);
 
-    assert.match(footerSource, /name="first_name"[^>]*\(optional\)[^>]*>/);
-    assert.doesNotMatch(footerSource, /name="first_name"[^>]*\brequired\b/);
+    assert.match(footerSource, /name="firstName"[^>]*\brequired\b/);
+    assert.match(footerSource, /name="lastName"[^>]*\brequired\b/);
     assert.match(footerSource, /name="email"[^>]*\brequired\b/);
-    assert.doesNotMatch(footerSource, /name="last_name"|name="phone"/);
-    assert.match(footerSource, /name="botcheck" class="newsletter-botcheck"/);
-    assert.match(footerSource, /name="email_consent"[^>]*\brequired\b/);
-    assert.doesNotMatch(footerSource, /name="email_consent"[^>]*\bchecked\b/);
+    assert.match(footerSource, /name="phone"[^>]*maxlength="40"/);
+    assert.match(footerSource, /name="website" class="newsletter-botcheck"/);
+    assert.match(footerSource, /name="consent"[^>]*\brequired\b/);
+    assert.doesNotMatch(footerSource, /name="consent"[^>]*\bchecked\b/);
     assert.match(footerSource, /I can unsubscribe at any time/);
     assert.match(footerSource, /Read our <a href="\/privacy">Privacy Notice<\/a>/);
-    assert.match(footerSource, /Your request was sent\./);
+    assert.match(footerSource, /action="\/api\/update-requests"/);
+    assert.match(footerSource, /data-action="updates_request"/);
+    assert.match(footerSource, /Your update request was received\./);
+    assert.doesNotMatch(footerSource, /api\.web3forms\.com|access_key|Web3Forms/);
     assert.doesNotMatch(footerSource, /You are subscribed\./);
 });
 

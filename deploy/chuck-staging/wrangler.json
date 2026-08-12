@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "kehilat-ohr-hatorah-chuck-staging",
+  "account_id": "6eddd121eb9f37eb2809d340c433c793",
   "pages_build_output_dir": "../../dist",
   "compatibility_date": "2025-11-24",
   "compatibility_flags": [
@@ -8,11 +9,27 @@
     "disable_nodejs_process_v2",
     "global_fetch_strictly_public"
   ],
+  "vars": {
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAENxbnxNx8oBm8K6"
+  },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "ohrhatorah-staging-db",
       "database_id": "3452876a-7ea9-499c-8efe-e1205e83d9a5"
+    },
+    {
+      "binding": "FORM_DB",
+      "database_name": "ohrhatorah-staging-form-db",
+      "database_id": "f7686528-4a2b-4bb2-a419-3f4707fa9c70"
     }
-  ]
+  ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "UPDATE_REQUEST_QUEUE",
+        "queue": "ohrhatorah-update-requests-staging"
+      }
+    ]
+  }
 }

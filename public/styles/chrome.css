@@ -1132,16 +1132,45 @@ body .site-footer .footer-contact-copy strong {
 body .site-footer .newsletter-form-expanded {
     display: grid !important;
     min-width: 0 !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.65rem !important;
 }
 
-body .site-footer .newsletter-form-expanded > :is(input[type='hidden'], .form-status),
-body .site-footer .newsletter-form-expanded :is(input[type='email'], input[type='tel'], button) {
+body .site-footer .newsletter-form-expanded > * {
     grid-column: 1 / -1 !important;
 }
 
-body .site-footer .newsletter-form-expanded input {
+body .site-footer .newsletter-name-fields {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+body .site-footer .newsletter-field {
+    display: grid;
+    min-width: 0;
+    gap: 0.35rem;
+}
+
+body .site-footer .newsletter-field-label {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.76rem;
+    font-weight: 750;
+    line-height: 1.25;
+}
+
+body .site-footer .newsletter-field-label > span[aria-hidden='true'] {
+    color: var(--site-chrome-gold);
+}
+
+body .site-footer .newsletter-optional {
+    color: rgba(255, 255, 255, 0.58) !important;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+body .site-footer .newsletter-form-expanded .newsletter-field > input {
     display: block !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -1158,7 +1187,7 @@ body .site-footer .newsletter-form-expanded input {
     box-shadow: none !important;
 }
 
-body .site-footer .newsletter-form-expanded input::placeholder {
+body .site-footer .newsletter-form-expanded .newsletter-field > input::placeholder {
     overflow: visible;
     color: rgba(255, 255, 255, 0.7) !important;
     opacity: 1 !important;
@@ -1183,12 +1212,29 @@ body .site-footer .newsletter-btn-full {
     box-shadow: none !important;
 }
 
-body .site-footer .newsletter-form-expanded {
-    grid-template-columns: minmax(0, 1fr) !important;
+body .site-footer .newsletter-btn-full:disabled {
+    cursor: not-allowed;
+    opacity: 0.62;
 }
 
-body .site-footer .newsletter-form-expanded > * {
-    grid-column: 1 / -1 !important;
+body .site-footer .newsletter-turnstile {
+    min-width: 0;
+    overflow: hidden;
+}
+
+body .site-footer .newsletter-turnstile .cf-turnstile {
+    width: 100%;
+    min-width: 0;
+}
+
+body .site-footer .newsletter-unavailable {
+    margin: 0 !important;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.4rem;
+    color: rgba(255, 255, 255, 0.76) !important;
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
 }
 
 body .site-footer .newsletter-consent {
@@ -1391,12 +1437,8 @@ body .site-footer a:hover {
         grid-template-columns: minmax(0, 1fr) !important;
     }
 
-    body .site-footer .newsletter-form-expanded > input[name='first_name'] {
-        grid-column: 1 / -1 !important;
-    }
-
-    body .site-footer .newsletter-form-expanded > :is(input[type='email'], button, .form-status, input[type='hidden']) {
-        grid-column: 1 / -1 !important;
+    body .site-footer .newsletter-form-expanded .newsletter-field > input {
+        font-size: 1rem !important;
     }
 
     body .site-footer .footer-bottom {
@@ -1410,12 +1452,8 @@ body .site-footer a:hover {
 }
 
 @media (max-width: 359px) {
-    body .site-footer .newsletter-form-expanded {
-        grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    body .site-footer .newsletter-form-expanded > * {
-        grid-column: 1 !important;
+    body .site-footer .newsletter-name-fields {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 

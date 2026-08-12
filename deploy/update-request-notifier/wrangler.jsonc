@@ -1,0 +1,47 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "kehilat-ohr-hatorah-staging-update-notifier",
+  "account_id": "6eddd121eb9f37eb2809d340c433c793",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "d1_databases": [
+    {
+      "binding": "FORM_DB",
+      "database_name": "ohrhatorah-staging-form-db",
+      "database_id": "f7686528-4a2b-4bb2-a419-3f4707fa9c70"
+    }
+  ],
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "drburton369@gmail.com",
+      "allowed_sender_addresses": ["admin@ohrhatorahoc.org"]
+    }
+  ],
+  "queues": {
+    "consumers": [
+      {
+        "queue": "ohrhatorah-update-requests-staging",
+        "max_batch_size": 5,
+        "max_batch_timeout": 5,
+        "max_retries": 5,
+        "retry_delay": 60,
+        "dead_letter_queue": "ohrhatorah-update-requests-staging-dlq",
+        "max_concurrency": 1
+      }
+    ]
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.1
+    }
+  }
+}
