@@ -2277,64 +2277,6 @@ body.edit-mode [data-editable]:hover .edit-icon {
     color: var(--gold);
 }
 
-/* Live Indicator and Last Updated for Prayer Times */
-.prayer-last-updated {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.65rem;
-    color: #888;
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid #eee;
-}
-
-.prayer-last-updated .live-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    background: rgba(76, 175, 80, 0.15);
-    border-radius: 12px;
-    font-size: 0.6rem;
-    font-weight: 600;
-    color: #4CAF50;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.prayer-last-updated .live-indicator.active {
-    opacity: 1;
-}
-
-.prayer-last-updated .live-dot {
-    width: 5px;
-    height: 5px;
-    background: #4CAF50;
-    border-radius: 50%;
-    animation: pulse-widget 2s ease-in-out infinite;
-}
-
-@keyframes pulse-widget {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.2);
-    }
-}
-
-.prayer-last-updated .live-text {
-    letter-spacing: 0.5px;
-}
-
-.prayer-last-updated .updated-time {
-    color: #888;
-}
-
 .widget-content {
     padding: var(--space-md);
 }
@@ -3130,45 +3072,6 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     transform: translateY(-3px);
 }
 
-/* Prayer Times */
-.prayer-times {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-}
-
-.prayer-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: var(--space-sm);
-    border-bottom: 1px dotted var(--gray-300);
-}
-
-.prayer-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.prayer-name {
-    font-weight: 600;
-    color: var(--primary-blue);
-    display: grid;
-    grid-template-columns: 24px 1fr;
-    align-items: center;
-    gap: var(--space-xs);
-}
-
-.prayer-name i {
-    color: var(--gold);
-    font-size: var(--font-size-sm);
-    text-align: center;
-}
-
-.prayer-time {
-    color: var(--gray-700);
-}
-
 /* Testimonial */
 .testimonial {
     background-color: var(--primary-blue-lightest);
@@ -3379,15 +3282,6 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     .leader-img {
         width: 60px;
         height: 60px;
-    }
-    
-    /* Compact prayer times */
-    .prayer-times {
-        gap: var(--space-sm);
-    }
-    
-    .prayer-row {
-        padding: var(--space-sm);
     }
     
     /* Adjust buttons */
@@ -4016,48 +3910,6 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     
     .widget-content {
         padding: 20px;
-    }
-    
-    /* Prayer Times Grid */
-    .prayer-times {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-    }
-    
-    .prayer-row {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 15px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        border-bottom: none;
-    }
-    
-    .prayer-name {
-        font-size: 14px;
-        font-weight: 600;
-        color: #13274F;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-    }
-    
-    .prayer-name i {
-        color: #FFD700;
-        font-size: 24px;
-    }
-    
-    .prayer-time {
-        font-size: 16px;
-        color: #333;
-        font-weight: 700;
-        margin: 0;
     }
     
     /* Sidebar Lists */
@@ -5821,15 +5673,6 @@ button {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .prayer-times {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .prayer-row {
-        justify-content: space-between;
-        align-items: center;
-    }
-
     .right-sidebar .community-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -6110,7 +5953,6 @@ button {
     .home-mobile-flow .mobile-service-summary,
     .home-mobile-flow .mobile-welcome-actions,
     .home-mobile-flow .mobile-visit-grid,
-    .home-mobile-flow .mobile-prayer-section,
     .home-mobile-flow .mobile-calendar-title,
     .home-mobile-flow .calendar-container,
     .home-mobile-flow .mobile-reading-stack,
@@ -6235,11 +6077,6 @@ button {
         align-items: center;
         white-space: normal !important;
         word-break: break-word;
-    }
-
-    .mobile-prayer-section {
-        order: 50;
-        background: var(--white);
     }
 
     .mobile-calendar-title {
@@ -6485,25 +6322,6 @@ button {
     .value-item-compact p {
         font-size: 15px;
         line-height: 1.45;
-    }
-
-    .prayer-times {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) !important;
-        gap: 10px;
-    }
-
-    .prayer-row {
-        min-height: 56px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 14px;
-        border: 1px solid rgba(58, 110, 165, 0.14);
-        border-radius: 10px;
-        background: #f8fbff;
     }
 
     .leader-img {

@@ -6,6 +6,7 @@ const readSource = (path: string) => readFileSync(new URL(path, import.meta.url)
 
 const homeSource = readSource('../pages/index.astro');
 const homeStyles = readSource('../../public/styles/home.css');
+const legacyStyles = readSource('../../public/styles/style.css');
 const liveClockSource = readSource('../components/islands/LiveClock.astro');
 const candleLightingSource = readSource('../components/islands/CandleLighting.astro');
 const navigationSource = readSource('../components/layout/Navigation.astro');
@@ -16,6 +17,7 @@ const voiceSource = readSource('../../CONTENT_VOICE.md');
 test('computed prayer times are retired from the homepage without dormant runtime', () => {
     assert.doesNotMatch(homeSource, /Prayer Times|home-prayer|zmanim\?|fetchPrayerTimes/);
     assert.doesNotMatch(homeStyles, /\.home-prayer/);
+    assert.doesNotMatch(legacyStyles, /\.prayer-(?:times|row|name|time|last-updated)|\.mobile-prayer-section/);
     assert.match(archiveSource, /Computed prayer-times panel/i);
     assert.match(archiveSource, /06a750cf192ef3126b7f430e2af5fc58a45b5e95/);
 });
