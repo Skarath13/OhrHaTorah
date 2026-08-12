@@ -29,4 +29,4 @@ Downloaded and transformed on 2026-08-06 from the official Pexels asset pages an
 - Posters: frame at 00:02.4 in the derivative; `ohr-hatorah-hero-mobile-poster.webp` and `ohr-hatorah-hero-mobile-poster.avif`.
 - Poster SHA-256: WebP `9b5263c37847516151cc28f9edf4a150e023b4914e25fcfd9ae99c303ebed951`; AVIF `4dfcb190f8eeea29abe434f36376a7fad4f5800e8663435f59f470edb90352db`.
 
-The video is decorative stock footage. It must not be presented as footage of Ohr HaTorah, its building, clergy, or congregants.
+The video is decorative stock footage. It must not be presented as footage of Kehilat Ohr HaTorah, its building, clergy, or congregants.

@@ -29,16 +29,27 @@ test('Shabbat at a glance keeps candle lighting and presents the next Shabbat da
     assert.match(liveClockSource, />Next Shabbat</);
     assert.match(liveClockSource, />Hebrew Date</);
     assert.match(liveClockSource, />Gregorian Date</);
-    assert.match(liveClockSource, />Pacific Time</);
+    assert.match(liveClockSource, />Mincha Service</);
+    assert.match(liveClockSource, /datetime="14:30"[^>]*>2:30 p\.m\.<\/time>/);
+    assert.doesNotMatch(liveClockSource, /Pacific Time|sidebar-pacific-time|updatePacificTime/);
     assert.match(liveClockSource, /strictlyFollowing: true/);
     assert.match(candleLightingSource, /formatCongregationDate/);
     assert.match(candleLightingSource, /formatCongregationTime/);
 });
 
+test('Shabbat gathering uses the approved afternoon schedule', () => {
+    assert.match(homeSource, /An afternoon of Messianic Music, Dance, Prayers, Torah, and food/);
+    assert.match(homeSource, /<time datetime="14:30">2:30 p\.m\.<\/time>[\s\S]*?<strong>Messianic Jewish Music and Dance<\/strong>/);
+    assert.match(homeSource, /<time datetime="15:00">3:00 p\.m\.<\/time>[\s\S]*?<strong>Traditional Prayers and Torah Service<\/strong>/);
+    assert.match(homeSource, /<time datetime="16:30">4:30 p\.m\.<\/time>[\s\S]*?<strong>Kiddush, food, and discussion<\/strong>/);
+    assert.doesNotMatch(homeSource, /home-timeline-row-friday|Shabbat begins at home|Festive Shabbat meals in the home/);
+});
+
 test('homepage identity preview uses canonical approved copy and links to the full page', () => {
-    assert.match(homeSource, /homepageIdentityPreview, officialIdentityStatement/);
+    assert.match(homeSource, /congregationName, homepageIdentityPreview, officialIdentityStatement/);
     assert.match(homeSource, /<h2 id="home-purpose-title">Our Identity<\/h2>/);
-    assert.match(homeSource, /\{officialIdentityStatement\}/);
+    assert.match(homeSource, /officialIdentityStatement\.slice\(congregationName\.length\)/);
+    assert.match(homeSource, /<strong>\{congregationName\}<\/strong>\{officialIdentityStatementRemainder\}/);
     assert.match(homeSource, /href="\/mission"/);
     assert.match(homeSource, /Explore Our Vision, Commitments &amp; Values/);
     assert.doesNotMatch(homeSource, /Faith, Heritage, and Community|home-values-details/);
@@ -51,5 +62,7 @@ test('approved public voice is durable project guidance', () => {
     assert.match(voiceSource, /Torah Covenant faithfulness/);
     assert.match(voiceSource, /Jewish community life and tradition/);
     assert.match(voiceSource, /atoning death and resurrection of Yeshua/);
+    assert.match(voiceSource, /emphasize the full congregation name with `<strong>`/);
+    assert.match(voiceSource, /payment instructions must use the congregation's verified full name/);
     assert.match(voiceSource, /Do not publish internal bylaws material/);
 });

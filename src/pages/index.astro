@@ -8,9 +8,12 @@ import SectionDivider from '../components/layout/SectionDivider.astro';
 import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
 import LiveClock from '../components/islands/LiveClock.astro';
+import CongregationCalendar from '../components/islands/CongregationCalendar.astro';
 // Admin functionality moved to /admin/ routes
 import { rabbi } from '../data/rabbi';
-import { homepageIdentityPreview, officialIdentityStatement } from '../data/congregationIdentity';
+import { congregationName, homepageIdentityPreview, officialIdentityStatement } from '../data/congregationIdentity';
+
+const officialIdentityStatementRemainder = officialIdentityStatement.slice(congregationName.length);
 ---
 
 <BaseLayout stylesheets={["/styles/home.css"]}>
@@ -80,13 +83,13 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
                             <span data-editable="about-us-title-text">About Us</span>
                         </h2>
                     </div>
-                    <p data-editable="intro-text-2">Ohr HaTorah is a home where Torah, Jewish life, and faith in Yeshua are lived together.</p>
+                    <p data-editable="intro-text-2"><strong>Kehilat Ohr HaTorah</strong> is a home where Torah, Jewish life, and faith in Yeshua are lived together.</p>
                 </div>
 
                 <div class="home-about-grid">
                     <div class="home-about-story">
                         <div class="home-about-copy">
-                        <p data-editable="about-us-text-1">Kehilat Ohr HaTorah is a growing Messianic synagogue in Orange County. We honor Jewish life and practice and joyfully follow Yeshua, the Messiah of Israel. Jewish and non-Jewish people, interfaith couples, and families are welcome here.</p>
+                        <p data-editable="about-us-text-1"><strong>Kehilat Ohr HaTorah</strong> is a growing Messianic synagogue in Orange County. We honor Jewish life and practice and joyfully follow Yeshua, the Messiah of Israel. Jewish and non-Jewish people, interfaith couples, and families are welcome here.</p>
 
                         <p data-editable="about-us-text-2">Our Shabbat services bring together Hebrew and English prayer, Torah and Scripture teaching, music, and community. Whether you are asking your first questions or have walked this road for years, come learn and grow with us.</p>
                         </div>
@@ -98,11 +101,11 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
 
                         <div class="home-about-actions">
                             <details class="home-about-details">
-                                <summary>More about our leadership and affiliation</summary>
+                                <summary>More about our leadership and UMJC membership</summary>
                                 <div>
                                     <p data-editable="about-us-text-3">Rabbi Charles (Chaim) Ott brings decades of Messianic Jewish leadership and graduate study in Jewish studies, theology, apologetics, and public education. He teaches the Tanakh and Brit Chadashah as one story of redemption through Yeshua.</p>
 
-                                    <p data-editable="about-us-text-4">Ohr HaTorah is affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Congregations (UMJC)</a>, a movement committed to Yeshua the Messiah and Jewish life rooted in Torah.</p>
+                                    <p data-editable="about-us-text-4"><strong>Kehilat Ohr HaTorah</strong> is a member of the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Congregations (UMJC)</a>, a movement committed to Yeshua the Messiah and Jewish life rooted in Torah.</p>
                                 </div>
                             </details>
 
@@ -145,7 +148,7 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
                         <p class="home-identity-kicker">Who we are</p>
                         <h2 id="home-purpose-title">Our Identity</h2>
                     </div>
-                    <p class="home-identity-statement">{officialIdentityStatement}</p>
+                    <p class="home-identity-statement"><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</p>
                 </div>
 
                 <div class="home-identity-preview">
@@ -320,26 +323,19 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
                 <div class="home-shabbat-primary">
                     <article class="home-schedule-card" id="shabbat-activities-section">
                         <p class="home-section-kicker">Our Shabbat Gathering</p>
-                        <h3>An afternoon of worship, Torah, and community</h3>
+                        <h3>An afternoon of Messianic Music, Dance, Prayers, Torah, and food</h3>
                         <div class="home-shabbat-timeline" data-editable="service-times">
-                            <div class="home-timeline-row home-timeline-row-friday">
-                                <div class="home-timeline-time"><span>Friday</span></div>
-                                <div>
-                                    <strong>Shabbat begins at home</strong>
-                                    <p>Festive Shabbat meals in the home</p>
-                                </div>
+                            <div class="home-timeline-row">
+                                <time datetime="14:30">2:30 p.m.</time>
+                                <div><strong>Messianic Jewish Music and Dance</strong></div>
                             </div>
                             <div class="home-timeline-row">
-                                <time datetime="14:30">2:30 PM</time>
-                                <div><strong>Music and Dance</strong></div>
+                                <time datetime="15:00">3:00 p.m.</time>
+                                <div><strong>Traditional Prayers and Torah Service</strong></div>
                             </div>
                             <div class="home-timeline-row">
-                                <time datetime="15:00">3:00 PM</time>
-                                <div><strong>Prayer and Torah</strong><p>Traditional prayers and Torah Service (Mincha)</p></div>
-                            </div>
-                            <div class="home-timeline-row">
-                                <time datetime="16:30">4:30 PM</time>
-                                <div><strong>Learn Together</strong><p>Discussion on the weekly readings</p></div>
+                                <time datetime="16:30">4:30 p.m.</time>
+                                <div><strong>Kiddush, food, and discussion</strong></div>
                             </div>
                             <p class="home-timeline-note"><em>We plan soon to offer a morning service (Shacharit).</em></p>
                         </div>
@@ -388,7 +384,7 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
                     <cite>Proverbs 3:17–18</cite>
                 </blockquote>
                 <blockquote class="home-torah-quote-secondary">
-                    <p>“Turn us back to You, <span class="divine-name">HaShem</span>, and we shall be restored. Renew our lives as in days of old.”</p>
+                    <p>“Turn us back to You, <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span></span>, and we shall be restored. Renew our lives as in days of old.”</p>
                     <cite>Lamentations 5:21</cite>
                 </blockquote>
             </div>
@@ -399,15 +395,11 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
                 <div class="home-section-heading">
                     <div>
                         <h2 id="congregation-calendar">Congregation Calendar</h2>
+                        <p>Congregation gatherings, Jewish holidays, and festivals in one clear calendar.</p>
                     </div>
-                    <a
-                        class="home-text-link"
-                        href="https://calendar.google.com/calendar/embed?src=ohrhatorahoc%40gmail.com&ctz=America%2FLos_Angeles"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <span>Open Full Calendar</span>
-                        <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
+                    <a class="home-text-link" href="/events">
+                        <span>Gathering Details</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
                 <div class="home-calendar-layout">
@@ -419,16 +411,7 @@ import { homepageIdentityPreview, officialIdentityStatement } from '../data/cong
                         </figcaption>
                     </figure>
                     <div class="home-calendar-frame">
-                        <iframe
-                            src="https://calendar.google.com/calendar/embed?src=ohrhatorahoc%40gmail.com&ctz=America%2FLos_Angeles"
-                            class="home-calendar-iframe"
-                            title="Ohr HaTorah congregation calendar"
-                            width="800"
-                            height="520"
-                            frameborder="0"
-                            loading="lazy"
-                            scrolling="no"
-                        ></iframe>
+                        <CongregationCalendar />
                     </div>
                 </div>
             </div>

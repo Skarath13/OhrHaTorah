@@ -844,8 +844,11 @@ html.mobile-nav-open body {
 @media (max-width: 359px) {
     .site-navigation-shell .mobile-site-brand {
         top: calc(10px + env(safe-area-inset-top)) !important;
+        right: calc(68px + env(safe-area-inset-right)) !important;
         height: 44px !important;
         min-height: 44px !important;
+        gap: 0.35rem !important;
+        font-size: 0.92rem !important;
     }
 
     .site-navigation-shell .mobile-site-mark {

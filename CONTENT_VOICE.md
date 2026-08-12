@@ -1,4 +1,4 @@
-# Ohr HaTorah Public Content Voice
+# Kehilat Ohr HaTorah Public Content Voice
 
 This guide is the durable source of truth for audience-facing website copy. It is derived from the rabbi's August 11, 2026 website feedback and the June 16, 2026 bylaws. Treat the wording in those sources as deliberate.
 
@@ -19,7 +19,11 @@ The canonical website copy and structured long-form content live in `src/data/co
 - Preserve Jewish theological vocabulary. Translate it on first use where the approved source does, including `Besorah (good news)`, `Brit Chadashah (New Covenant)`, `Ruach HaKodesh (Holy Spirit)`, `talmidim (disciples)`, and `Maasei Tovim (good works)`.
 - Preserve Scripture references and material theological claims. Do not paraphrase away covenant, Israel, resurrection, restoration, repentance, or reconciliation language for brevity.
 - Use the brand spelling `Kehilat Ohr HaTorah` consistently.
-- Render `HaShem` and `Adonai` in small caps only when the term refers to YHVH. Do not render either term in full-size all caps.
+- In visible prose, emphasize the full congregation name with `<strong>` when it reads naturally. Titles, metadata, navigation labels, image descriptions, and accessibility labels should use the full name as plain text.
+- Do not rewrite technical identifiers such as email addresses, domains, asset paths, or account names. Printed payment instructions must use the congregation's verified full name rather than an informal short form.
+- When `Hashem` or `Adonai` substitutes for the Tetragrammaton (YHVH), keep the readable and assistive-technology text spelled `Hashem` or `Adonai`, while rendering a full-height initial followed by true small-cap glyphs when the font provides them (`H` + small-cap `ASHEM`; `A` + small-cap `DONAI`). Use the established `.divine-name` initial/rest markup, whose CSS supplies a visibly smaller uppercase fallback when true small caps are unavailable. Do not type `HaShem`, full-size `HASHEM`/`ADONAI`, or Unicode small-cap lookalikes. Do not apply this treatment when the same letters are not standing in for YHVH.
+
+This is a reverential distinction, not decorative emphasis. The rabbi's August 11 feedback specifically requests small caps for these substitutions. As a closely related Jewish publishing precedent, JPS explains that its small-cap treatment distinguishes the divine name as unique while reflecting the traditional practice of avoiding its direct pronunciation: https://jps.org/wp-content/uploads/2023/05/RJPS_Preface.html
 
 ## Editorial boundaries
 

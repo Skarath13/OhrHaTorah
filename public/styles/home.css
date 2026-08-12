@@ -289,7 +289,7 @@
     content: '';
 }
 
-.home-schedule-card > h3 { max-width: 17ch; margin-bottom: 1.7rem; color: #fff; font-size: clamp(1.65rem, 2.5vw, 2.35rem); font-weight: 500; line-height: 1.08; }
+.home-schedule-card > h3 { max-width: min(100%, 26ch); margin-bottom: 1.7rem; color: #fff; font-size: clamp(1.65rem, 2.5vw, 2.35rem); font-weight: 500; line-height: 1.08; }
 .home-shabbat-timeline { position: relative; }
 .home-timeline-row { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 1rem; padding: 0.95rem 0; border-top: 1px solid rgba(230, 201, 120, 0.2); }
 .home-timeline-row:last-of-type { border-bottom: 1px solid rgba(230, 201, 120, 0.2); }
@@ -542,8 +542,7 @@
 .home-map-caption span { color: var(--home-muted); font-size: 0.68rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
 .home-map-caption strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.12rem; }
 .home-map-card .map-container { position: relative; min-height: 0; flex: 1; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; overflow: hidden; }
-.home-map-card iframe,
-.home-calendar-frame iframe { display: block; width: 100%; border: 0; }
+.home-map-card iframe { display: block; width: 100%; border: 0; }
 .home-map-iframe[hidden] { display: none !important; }
 .home-map-facade { display: grid; width: 100%; height: 100%; min-height: 310px; padding: clamp(1.5rem, 4vw, 2.4rem); place-content: center; justify-items: center; background: radial-gradient(circle at 85% 10%, rgba(208, 163, 61, 0.2), transparent 12rem), linear-gradient(145deg, var(--home-blue-950), var(--home-blue-900)); color: #fff; text-align: center; }
 .home-map-facade[hidden] { display: none !important; }
@@ -645,24 +644,94 @@
 .home-torah-quote-primary { padding-right: clamp(1.5rem, 4vw, 3.5rem); border-right: 1px solid rgba(230, 201, 120, 0.34); }
 .home-torah-quote-primary p { font-size: clamp(1.45rem, 2.7vw, 2.25rem); line-height: 1.38; }
 .home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.5; }
-.home-torah-quote .divine-name { font-variant-caps: all-small-caps; letter-spacing: 0.04em; }
+.home-torah-quote .divine-name { display: inline-block; white-space: nowrap; }
+.home-torah-quote .divine-name__initial { font-variant-caps: normal; }
+.home-torah-quote .divine-name__small-caps {
+    display: inline-block;
+    font-size: 0.76em;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+}
+@supports (font-variant-caps: small-caps) {
+    .home-torah-quote .divine-name__small-caps {
+        font-size: 1em;
+        font-variant-caps: small-caps;
+        font-feature-settings: 'smcp' 1;
+        font-synthesis-small-caps: auto;
+        text-transform: none;
+    }
+}
 .home-torah-quote cite { display: block; margin-top: 1.1rem; color: var(--home-gold-300); font-family: var(--font-body); font-size: 0.72rem; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 
 .home-calendar-section { background: var(--home-blue-950); color: rgba(255, 255, 255, 0.82); }
 .home-calendar-section .home-section-heading { align-items: end; }
 .home-calendar-section .home-section-heading { border-color: rgba(230, 201, 120, 0.3); }
 .home-calendar-section .home-section-heading h2 { color: #fff; }
+.home-calendar-section .home-section-heading p { max-width: 48rem; margin: 0.7rem 0 0; color: rgba(255, 255, 255, 0.68); font-size: 0.9rem; line-height: 1.6; }
 .home-calendar-section .home-text-link { color: var(--home-gold-300); }
-.home-calendar-layout { display: grid; grid-template-columns: minmax(260px, 0.31fr) minmax(0, 0.69fr); min-height: 520px; border-top: 3px solid var(--home-gold-500); }
-.home-calendar-image { position: relative; min-width: 0; height: 520px; margin: 0; overflow: hidden; }
+.home-calendar-layout { display: grid; grid-template-columns: minmax(250px, 0.27fr) minmax(0, 0.73fr); min-height: 640px; border-top: 3px solid var(--home-gold-500); }
+.home-calendar-image { position: relative; min-width: 0; min-height: 640px; height: auto; margin: 0; overflow: hidden; }
 .home-calendar-image::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 26, 50, 0.76), rgba(6, 26, 50, 0.18) 38%, transparent 68%); content: ''; }
 .home-calendar-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 54% 42%; transition: transform 700ms ease; }
 .home-calendar-image:hover img { transform: scale(1.025); }
 .home-calendar-image figcaption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; color: #fff; text-shadow: 0 2px 14px rgba(6, 26, 50, 0.76); }
 .home-calendar-image figcaption strong { display: block; margin-bottom: 0.45rem; font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.18; }
 .home-calendar-image figcaption span { display: block; color: rgba(255, 255, 255, 0.76); font-size: 0.84rem; line-height: 1.5; }
-.home-calendar-frame { height: 520px; padding: 0; border: 0; border-radius: 0; background: #fff; box-shadow: none; overflow: hidden; }
-.home-calendar-frame iframe { height: clamp(420px, 48vw, 520px); }
+.home-calendar-frame { min-width: 0; min-height: 640px; padding: clamp(1rem, 2.4vw, 1.7rem); border: 0; border-radius: 0; background: #fff; box-shadow: none; overflow: clip; }
+.kehilat-calendar-shell {
+    --fc-classic-button: var(--home-blue-900);
+    --fc-classic-button-border: var(--home-blue-900);
+    --fc-classic-button-strong: var(--home-blue-950);
+    --fc-classic-button-strong-border: var(--home-blue-950);
+    --fc-classic-button-outline: rgba(208, 163, 61, 0.42);
+    --fc-classic-button-foreground: #fff;
+    --fc-classic-primary: var(--home-blue-900);
+    --fc-classic-primary-foreground: #fff;
+    --fc-classic-today: rgba(208, 163, 61, 0.16);
+    --fc-classic-border: #d8dee5;
+    --fc-classic-strong-border: #9aa7b5;
+    --fc-classic-foreground: var(--home-blue-950);
+    --fc-classic-muted-foreground: #536476;
+    min-width: 0;
+    color: var(--home-blue-950);
+}
+.kehilat-calendar-controls { margin-bottom: 1rem; padding-bottom: 0.9rem; border-bottom: 1px solid #d8dee5; }
+.kehilat-calendar-controls fieldset { display: flex; min-width: 0; margin: 0; padding: 0; border: 0; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; }
+.kehilat-calendar-controls legend { width: 100%; margin-bottom: 0.35rem; color: #536476; font-size: 0.67rem; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
+.kehilat-calendar-controls label { display: inline-flex; min-height: 44px; align-items: center; gap: 0.5rem; color: var(--home-blue-950); font-size: 0.78rem; font-weight: 750; cursor: pointer; }
+.kehilat-calendar-controls input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--home-blue-900); }
+.kehilat-calendar-key { width: 0.72rem; height: 0.72rem; border-radius: 50%; flex: 0 0 auto; }
+.kehilat-calendar-key--congregation { background: var(--home-blue-900); }
+.kehilat-calendar-key--holiday { background: #9b5a16; }
+.kehilat-calendar-key--candle-lighting { background: #7c2f4c; }
+.kehilat-calendar-key--observance { background: #657464; }
+.kehilat-calendar-status { margin: 0 0 0.75rem; padding: 0.7rem 0.85rem; border-left: 3px solid var(--home-gold-500); background: #fff8e6; color: #624a15; font-size: 0.78rem; line-height: 1.5; }
+.kehilat-calendar-status:empty { display: none; }
+.kehilat-calendar-details { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; margin: 0 0 1rem; padding: 1rem 1.1rem; border: 1px solid #cbd4de; border-left: 4px solid var(--home-gold-500); background: #f7f9fb; color: var(--home-blue-950); }
+.kehilat-calendar-details[hidden] { display: none; }
+.kehilat-calendar-details-kicker { margin: 0 0 0.2rem; color: #536476; font-size: 0.64rem; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
+.kehilat-calendar-details-title { margin: 0; color: var(--home-blue-950); font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.22rem); line-height: 1.25; overflow-wrap: anywhere; }
+.kehilat-calendar-details-time,
+.kehilat-calendar-details-hebrew,
+.kehilat-calendar-details-description,
+.kehilat-calendar-details-location { margin: 0.4rem 0 0; color: #415365; font-size: 0.78rem; line-height: 1.5; }
+.kehilat-calendar-details-hebrew { color: var(--home-blue-900); font-weight: 750; }
+.kehilat-calendar-details-close { display: grid; width: 44px; height: 44px; margin: -0.35rem -0.45rem 0 0; padding: 0; border: 1px solid #cbd4de; border-radius: 50%; place-items: center; background: #fff; color: var(--home-blue-950); font-size: 1.35rem; line-height: 1; cursor: pointer; }
+.kehilat-calendar-details-close:hover,
+.kehilat-calendar-details-close:focus-visible { border-color: var(--home-gold-500); outline: 2px solid rgba(208, 163, 61, 0.32); outline-offset: 2px; }
+.kehilat-calendar { min-width: 0; }
+.kehilat-calendar-shell.is-loading .kehilat-calendar { opacity: 0.58; }
+.kehilat-calendar [role="list"][aria-label="Events"] > :is([role="listitem"], [role="button"]) > div:last-child { min-width: 0; }
+.kehilat-calendar [role="list"][aria-label="Events"] > :is([role="listitem"], [role="button"]) > div:last-child > div:last-child { min-width: 0; overflow: visible !important; white-space: normal !important; text-overflow: clip !important; line-height: 1.35; }
+.kehilat-calendar [role="gridcell"] [role="button"] > div:last-child { display: flex !important; min-width: 0; flex-direction: column; align-items: flex-start !important; line-height: 1.2 !important; }
+.kehilat-calendar [role="gridcell"] [role="button"] > div:last-child > div { overflow: visible !important; white-space: normal !important; text-overflow: clip !important; line-height: 1.2 !important; }
+.kehilat-calendar-event--congregation { --fc-event-color: var(--home-blue-900) !important; --fc-event-contrast-color: #fff !important; }
+.kehilat-calendar-event--holiday { --fc-event-color: #9b5a16 !important; --fc-event-contrast-color: #fff !important; }
+.kehilat-calendar-event--candle-lighting { --fc-event-color: #7c2f4c !important; --fc-event-contrast-color: #fff !important; }
+.kehilat-calendar-event--observance { --fc-event-color: #657464 !important; --fc-event-contrast-color: #fff !important; }
+.kehilat-calendar-attribution { margin: 1rem 0 0; color: #536476; font-size: 0.69rem; line-height: 1.55; }
+.kehilat-calendar-attribution a { color: var(--home-blue-900); font-weight: 800; text-underline-offset: 0.16em; }
+.kehilat-calendar-noscript { margin: 1rem 0 0; padding: 1rem; border: 1px solid #d8dee5; color: var(--home-blue-950); font-size: 0.85rem; line-height: 1.55; }
 
 @media (min-width: 1101px) {
     .home-candle-card,
@@ -675,7 +744,9 @@
     .home-visit-grid { grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr); column-gap: 2.5rem; }
     .home-about-grid { grid-template-columns: minmax(0, 1.06fr) minmax(300px, 0.94fr); gap: 3.5rem; }
     .home-rabbi-portrait { right: 1.25rem; left: auto; }
-    .home-calendar-layout { grid-template-columns: minmax(230px, 0.34fr) minmax(0, 0.66fr); }
+    .home-calendar-layout { grid-template-columns: 1fr; }
+    .home-calendar-image { min-height: 220px; height: 220px; }
+    .home-calendar-frame { min-height: 0; }
     .home-identity-preview { grid-template-columns: 1fr; }
     .home-identity-chapter,
     .home-identity-chapter + .home-identity-chapter { padding-right: 0; padding-left: 0; border-right: 0; }
@@ -705,7 +776,7 @@
     .home-hero-inner { padding-block: clamp(1rem, 2.8dvh, 1.5rem) clamp(1.35rem, 3dvh, 2rem); grid-template-rows: auto minmax(clamp(2.5rem, 8dvh, 5.5rem), 1fr) auto; }
     .home-hero-logo { width: clamp(224px, 62vw, 272px); margin-bottom: 0; }
     .home-hero-copy { margin-top: 0; padding-top: 0; }
-    .home-hero h1 { max-width: 11ch; font-size: clamp(2.35rem, 10.5vw, 3.25rem); line-height: 1.02; }
+    .home-hero h1 { max-width: min(100%, 14ch); font-size: clamp(2.35rem, 10.5vw, 3.25rem); line-height: 1.02; }
     .home-hero-intro { max-width: 32rem; margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.53; }
     .home-hero-actions { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
     .home-button { width: 100%; min-height: 50px; padding-inline: 0.65rem; font-size: 0.78rem; }
@@ -747,8 +818,7 @@
     .home-visit-utility a { min-height: 32px; }
     .home-calendar-layout { grid-template-columns: 1fr; min-height: 0; }
     .home-calendar-image { height: 230px; }
-    .home-calendar-frame { height: 460px; }
-    .home-calendar-frame iframe { height: 460px !important; }
+    .home-calendar-frame { min-height: 0; }
     .home-about-grid { grid-template-columns: 1fr; gap: 2rem; }
     .home-about-story { grid-column: 1; grid-row: 2; }
     .home-about-visual { grid-column: 1; grid-row: 1; min-height: 360px; margin-top: 0; }
@@ -783,12 +853,17 @@
     .home-calendar-section .home-section-heading { margin-bottom: 0; }
     .home-calendar-section .home-text-link { width: 100%; min-height: 50px; justify-content: center; border: 1px solid var(--home-gold-300); background: var(--home-gold-300); color: var(--home-blue-950); }
     .home-calendar-layout { margin-top: 1.5rem; }
-    .home-calendar-image { height: 260px; }
-    .home-calendar-frame { display: none; }
+    .home-calendar-image { min-height: 190px; height: 190px; }
+    .home-calendar-frame { display: block; padding: 1rem 0.85rem 1.15rem; }
+    .kehilat-calendar-controls fieldset { display: grid; grid-template-columns: 1fr; gap: 0; }
+    .kehilat-calendar-controls label { width: 100%; }
+    .kehilat-calendar [role="list"][aria-label="Events"] > :is([role="listitem"], [role="button"]) > div:last-child { display: grid !important; min-width: 0; grid-template-columns: minmax(5.15rem, auto) minmax(0, 1fr); flex: 1 1 auto; gap: 0.65rem; }
+    .kehilat-calendar [role="list"][aria-label="Events"] > :is([role="listitem"], [role="button"]) > div:last-child > div:first-child { min-width: 0; padding-right: 0 !important; font-size: 0.72rem; }
 }
 
 @media (max-width: 360px) {
-    .home-hero h1 { font-size: 2.2rem; }
+    .home-hero h1 { font-size: 2.1rem; }
+    .home-schedule-card > h3 { font-size: 1.55rem; }
     .home-hero-intro { font-size: 0.86rem; }
     .home-button { font-size: 0.72rem; }
 }

@@ -132,9 +132,9 @@ npm run preview  # Preview production build
 
 ### Special Features
 - **Hostage Counter**: Real-time timer (Israeli hostage awareness)
-- **Hebrew Date**: Live Hebrew calendar date display
+- **Upcoming Shabbat Date**: Live Hebrew and Gregorian dates for the following Shabbat
 - **Mobile Menu**: Hamburger menu with smooth animations
-- **Religious Calendar**: Google Calendar integration
+- **Religious Calendar**: Site-owned responsive calendar with local congregation events and Hebcal Jewish holiday data
 - **Inline Admin Editor**: Wix-style visual editing for content
 
 ## Development Standards

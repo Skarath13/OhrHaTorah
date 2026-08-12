@@ -1,13 +1,18 @@
 ---
 // Footer component
+import {
+    congregationName,
+    officialIdentityStatementRemainder,
+} from '../../data/congregationIdentity';
+
 const currentYear = new Date().getFullYear();
 ---
 <footer class="footer site-footer">
     <div class="footer-content">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4><i class="fas fa-star-of-david"></i> Ohr HaTorah</h4>
-                <p>A Messianic Jewish congregation in Orange County, rooted in Torah, Jewish life, and faith in Yeshua.</p>
+                <h4><i class="fas fa-star-of-david" aria-hidden="true"></i><strong>{congregationName}</strong></h4>
+                <p><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</p>
             </div>
 
             <div class="footer-col">
@@ -28,8 +33,8 @@ const currentYear = new Date().getFullYear();
                 <p>Receive occasional updates about gatherings and community news.</p>
                 <form id="newsletter-form" class="newsletter-form-expanded">
                     <input type="hidden" name="access_key" value="d3f52dee-3156-4b82-a76a-fe9bbf9eb30e">
-                    <input type="hidden" name="subject" value="New Newsletter Subscription - Ohr HaTorah">
-                    <input type="hidden" name="from_name" value="Ohr HaTorah Website">
+                    <input type="hidden" name="subject" value={`New Newsletter Subscription - ${congregationName}`}>
+                    <input type="hidden" name="from_name" value={`${congregationName} Website`}>
 
                     <input type="text" name="first_name" placeholder="First name *" required aria-label="First name">
                     <input type="text" name="last_name" placeholder="Last name *" required aria-label="Last name">
@@ -66,7 +71,7 @@ const currentYear = new Date().getFullYear();
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; {currentYear} Ohr HaTorah Messianic Congregation. All rights reserved.</p>
+            <p>&copy; {currentYear} {congregationName}. All rights reserved.</p>
         </div>
     </div>
 </footer>

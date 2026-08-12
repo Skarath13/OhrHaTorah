@@ -135,7 +135,7 @@ npm run preview  # Preview production build
 - **Hostage Counter**: Real-time timer (Israeli hostage awareness)
 - **Upcoming Shabbat Date**: Live Hebrew and Gregorian dates for the following Shabbat
 - **Mobile Menu**: Hamburger menu with smooth animations
-- **Religious Calendar**: Google Calendar integration
+- **Religious Calendar**: Site-owned responsive calendar with local congregation events and Hebcal Jewish holiday data
 - **Inline Admin Editor**: Wix-style visual editing for content
 
 ## Development Standards
@@ -158,7 +158,7 @@ npm run preview  # Preview production build
 - Read and follow `CONTENT_VOICE.md` before changing audience-facing copy.
 - Treat `src/data/congregationIdentity.ts` as the canonical implementation source for the congregation's identity, Vision and Purpose, Core Commitments and Affirmations, and Core Values.
 - Preserve the rabbi-approved wording and theological vocabulary. Do not replace it with generic promotional language or silently soften covenant, Israel, resurrection, restoration, or Jewish/non-Jewish identity claims.
-- Use `Kehilat Ohr HaTorah` consistently. Render `HaShem` and `Adonai` in small caps, rather than full-size all caps, when referring to YHVH.
+- Use `Kehilat Ohr HaTorah` consistently. When `Hashem` or `Adonai` substitutes for YHVH, keep that conventional spelling in the readable text and use the established `.divine-name` initial/rest markup: a full-height first letter followed by small caps. Do not use `HaShem`, full-size all caps, Unicode small-cap lookalikes, or `all-small-caps` on the whole word. See `CONTENT_VOICE.md` for scope and rationale.
 - Keep bylaws governance content private unless publication is explicitly requested.
 
 ## Git Workflow

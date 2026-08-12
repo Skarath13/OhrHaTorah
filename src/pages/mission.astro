@@ -1,15 +1,19 @@
 ---
+import IdentityRichText from '../components/IdentityRichText.astro';
 import PageLayout from '../layouts/PageLayout.astro';
 import {
     coreCommitments,
     coreValueGroups,
+    congregationName,
     officialIdentityStatement,
     visionAndPurposeParagraphs,
 } from '../data/congregationIdentity';
+
+const officialIdentityStatementRemainder = officialIdentityStatement.slice(congregationName.length);
 ---
 
 <PageLayout
-    title="Our Vision, Commitments & Values - Ohr HaTorah"
+    title="Our Vision, Commitments & Values - Kehilat Ohr HaTorah"
     pageTitle="Our Identity"
     description="Our Vision, Commitments & Values: the public identity, purpose, commitments, affirmations, and values of Kehilat Ohr HaTorah."
     stylesheets={['/styles/mission.css']}
@@ -19,7 +23,7 @@ import {
             <div class="identity-introduction__copy">
                 <p class="identity-eyebrow">Vision <span aria-hidden="true">•</span> Commitments <span aria-hidden="true">•</span> Values</p>
                 <h2 id="identity-introduction-title">Covenant faithfulness. Jewish community life. Messiah Yeshua.</h2>
-                <p class="identity-statement">{officialIdentityStatement}</p>
+                <p class="identity-statement"><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</p>
             </div>
 
             <nav class="identity-navigation" aria-label="On this page">
@@ -60,7 +64,7 @@ import {
                 {visionAndPurposeParagraphs.map((paragraph, index) => (
                     <article class={`identity-vision__statement identity-vision__statement--${index + 1}`}>
                         <span class="identity-vision__marker" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                        <p>{paragraph}</p>
+                        <p><IdentityRichText content={paragraph} /></p>
                     </article>
                 ))}
             </div>
@@ -87,7 +91,7 @@ import {
                         <span class="identity-commitment-list__number" aria-hidden="true">
                             {String(index + 1).padStart(2, '0')}
                         </span>
-                        <p>{commitment.text}</p>
+                        <p><IdentityRichText content={commitment} /></p>
                     </li>
                 ))}
             </ol>
@@ -116,7 +120,7 @@ import {
                             {group.values.map((value) => (
                                 <li>
                                     <span aria-hidden="true">✦</span>
-                                    <p>{value}</p>
+                                    <p><IdentityRichText content={value} /></p>
                                 </li>
                             ))}
                         </ul>

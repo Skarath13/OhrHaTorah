@@ -1,0 +1,232 @@
+<div class="kehilat-calendar-shell">
+    <div class="kehilat-calendar-controls" aria-label="Calendar filters">
+        <fieldset>
+            <legend>Show on calendar</legend>
+            <label>
+                <input type="checkbox" name="congregation" checked>
+                <span class="kehilat-calendar-key kehilat-calendar-key--congregation" aria-hidden="true"></span>
+                Congregation events
+            </label>
+            <label>
+                <input type="checkbox" name="holidays" checked>
+                <span class="kehilat-calendar-key kehilat-calendar-key--holiday" aria-hidden="true"></span>
+                Holidays &amp; festivals
+            </label>
+            <label>
+                <input type="checkbox" name="candleLighting" checked>
+                <span class="kehilat-calendar-key kehilat-calendar-key--candle-lighting" aria-hidden="true"></span>
+                Shabbat candle lighting
+            </label>
+            <label>
+                <input type="checkbox" name="observances">
+                <span class="kehilat-calendar-key kehilat-calendar-key--observance" aria-hidden="true"></span>
+                Other observances
+            </label>
+        </fieldset>
+    </div>
+
+    <p class="kehilat-calendar-status" role="status" aria-live="polite"></p>
+    <article class="kehilat-calendar-details" aria-live="polite" hidden>
+        <div>
+            <p class="kehilat-calendar-details-kicker">Calendar event</p>
+            <h4 class="kehilat-calendar-details-title"></h4>
+            <p class="kehilat-calendar-details-time"></p>
+            <p class="kehilat-calendar-details-hebrew" hidden></p>
+            <p class="kehilat-calendar-details-description" hidden></p>
+            <p class="kehilat-calendar-details-location" hidden></p>
+        </div>
+        <button class="kehilat-calendar-details-close" type="button" aria-label="Close event details">
+            <span aria-hidden="true">×</span>
+        </button>
+    </article>
+    <div class="kehilat-calendar" aria-label="Kehilat Ohr HaTorah congregation, Shabbat candle-lighting, and Jewish holiday calendar"></div>
+    <noscript>
+        <p class="kehilat-calendar-noscript">JavaScript is required to view the interactive calendar. Our regular Shabbat gathering begins Saturdays at 2:30 p.m.</p>
+    </noscript>
+
+    <p class="kehilat-calendar-attribution">
+        Jewish holiday and candle-lighting data provided by
+        <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer">Hebcal.com</a>,
+        licensed under
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>;
+        reformatted for this calendar.
+    </p>
+</div>
+
+<script>
+    import { Calendar, type EventInput, type EventSourceFuncInfo } from 'fullcalendar';
+    import dayGridPlugin from 'fullcalendar/daygrid';
+    import listPlugin from 'fullcalendar/list';
+    import classicThemePlugin from 'fullcalendar/themes/classic';
+    import 'fullcalendar/skeleton.css';
+    import 'fullcalendar/themes/classic/theme.css';
+
+    type CalendarPayload = {
+        success: boolean;
+        events?: EventInput[];
+        error?: string;
+        meta?: {
+            holidayStatus?: 'available' | 'unavailable' | 'not-requested';
+            warning?: string;
+        };
+    };
+
+    const calendarRoot = document.querySelector<HTMLElement>('.kehilat-calendar-shell');
+    const calendarElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar');
+    const statusElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-status');
+    const detailsElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-details');
+    const detailsTitle = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-title');
+    const detailsTime = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-time');
+    const detailsHebrew = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-hebrew');
+    const detailsDescription = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-description');
+    const detailsLocation = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-location');
+    const detailsClose = detailsElement?.querySelector<HTMLButtonElement>('.kehilat-calendar-details-close');
+    const filterInputs = calendarRoot?.querySelectorAll<HTMLInputElement>('.kehilat-calendar-controls input[type="checkbox"]');
+
+    if (
+        calendarRoot
+        && calendarElement
+        && statusElement
+        && detailsElement
+        && detailsTitle
+        && detailsTime
+        && detailsHebrew
+        && detailsDescription
+        && detailsLocation
+        && detailsClose
+        && filterInputs
+    ) {
+        const mobileQuery = window.matchMedia('(max-width: 599px)');
+        let automaticView = mobileQuery.matches ? 'listMonth' : 'dayGridMonth';
+
+        const readFilters = () => {
+            const values = new URLSearchParams();
+            filterInputs.forEach((input) => values.set(input.name, input.checked ? '1' : '0'));
+            return values;
+        };
+
+        const fetchEvents = async (info: EventSourceFuncInfo): Promise<EventInput[]> => {
+            const query = readFilters();
+            query.set('start', info.startStr.slice(0, 10));
+            query.set('end', info.endStr.slice(0, 10));
+
+            const response = await fetch(`/api/calendar/events?${query.toString()}`, {
+                headers: { Accept: 'application/json' },
+            });
+            const payload = await response.json() as CalendarPayload;
+            if (!response.ok || !payload.success || !Array.isArray(payload.events)) {
+                throw new Error(payload.error || 'The calendar could not be loaded');
+            }
+
+            statusElement.textContent = payload.meta?.warning || '';
+            return payload.events;
+        };
+
+        const calendar = new Calendar(calendarElement, {
+            plugins: [dayGridPlugin, listPlugin, classicThemePlugin],
+            initialView: automaticView,
+            timeZone: 'America/Los_Angeles',
+            firstDay: 0,
+            height: 'auto',
+            fixedWeekCount: false,
+            showNonCurrentDates: false,
+            dayMaxEvents: 3,
+            eventInteractive: true,
+            headingLevel: 3,
+            displayEventEnd: true,
+            eventTimeFormat: {
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: 'short',
+            },
+            headerToolbar: {
+                start: 'prev,next today',
+                center: 'title',
+                end: 'dayGridMonth,listMonth',
+            },
+            todayText: 'Today',
+            monthText: 'Month',
+            listText: 'Agenda',
+            noEventsText: 'No events in this month.',
+            events: fetchEvents,
+            loading: (isLoading) => {
+                calendarRoot.classList.toggle('is-loading', isLoading);
+                if (isLoading) statusElement.textContent = 'Loading calendar…';
+                else if (statusElement.textContent === 'Loading calendar…') statusElement.textContent = '';
+            },
+            eventSourceFailure: () => {
+                statusElement.textContent = 'The calendar is temporarily unavailable. Please try again shortly.';
+            },
+            eventClick: ({ event }) => {
+                const dateFormatter = new Intl.DateTimeFormat('en-US', {
+                    timeZone: event.allDay ? 'UTC' : 'America/Los_Angeles',
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                });
+                const timeFormatter = new Intl.DateTimeFormat('en-US', {
+                    timeZone: 'America/Los_Angeles',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                });
+
+                detailsTitle.textContent = event.title;
+                if (!event.start) {
+                    detailsTime.textContent = 'Date unavailable';
+                } else if (event.allDay) {
+                    detailsTime.textContent = dateFormatter.format(event.start);
+                } else {
+                    const timeRange = event.end
+                        ? `${timeFormatter.format(event.start)}–${timeFormatter.format(event.end)}`
+                        : timeFormatter.format(event.start);
+                    detailsTime.textContent = `${dateFormatter.format(event.start)} · ${timeRange}`;
+                }
+
+                const setOptionalText = (element: HTMLElement, value: unknown, prefix = '') => {
+                    const text = typeof value === 'string' ? value.trim() : '';
+                    element.textContent = text ? `${prefix}${text}` : '';
+                    element.hidden = !text;
+                };
+                const hebrewDetails = [
+                    event.extendedProps.hebrew,
+                    event.extendedProps.hebrewDate,
+                ].filter((value): value is string => typeof value === 'string' && value.trim().length > 0).join(' · ');
+                setOptionalText(detailsHebrew, hebrewDetails);
+                setOptionalText(detailsDescription, event.extendedProps.description);
+                setOptionalText(detailsLocation, event.extendedProps.location, 'Location: ');
+
+                detailsElement.hidden = false;
+                detailsClose.focus({ preventScroll: true });
+            },
+            eventDidMount: ({ el, event }) => {
+                const details = [
+                    event.title,
+                    event.extendedProps.hebrew,
+                    event.extendedProps.hebrewDate,
+                    event.extendedProps.location,
+                ].filter(Boolean).join(' — ');
+                if (details) el.setAttribute('aria-label', `${details}. Open event details.`);
+            },
+        });
+
+        calendar.render();
+
+        filterInputs.forEach((input) => {
+            input.addEventListener('change', () => calendar.refetchEvents());
+        });
+
+        detailsClose.addEventListener('click', () => {
+            detailsElement.hidden = true;
+        });
+
+        const handleResponsiveView = () => {
+            const nextAutomaticView = mobileQuery.matches ? 'listMonth' : 'dayGridMonth';
+            if (nextAutomaticView === automaticView) return;
+            const wasAutomaticView = calendar.view.type === automaticView;
+            automaticView = nextAutomaticView;
+            if (wasAutomaticView) calendar.changeView(automaticView, calendar.getDate());
+        };
+        mobileQuery.addEventListener('change', handleResponsiveView);
+    }
+</script>

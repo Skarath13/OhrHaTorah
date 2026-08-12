@@ -2,7 +2,7 @@
 
 Downloaded and transformed on 2026-08-06 from the official Pexels image CDN. Pexels permits free website use and modification without required attribution, subject to its restrictions on endorsement, offensive use of identifiable people, standalone resale or redistribution, and trademark use. See the [Pexels License](https://www.pexels.com/legal-pages/license/).
 
-These are general stock images. They must not be presented as photographs of Ohr HaTorah, its venue, clergy, or congregants.
+These are general stock images. They must not be presented as photographs of Kehilat Ohr HaTorah, its venue, clergy, or congregants.
 
 ## Shared table
 

@@ -11,6 +11,15 @@
     box-sizing: border-box;
 }
 
+/* The legacy mobile stylesheet enables automatic hyphenation globally. Long
+   identity headings should wrap between words, never through sacred or formal
+   terminology. */
+.identity-page :is(h1, h2, h3, h4) {
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+}
+
 /* Interior typography is intentionally specific; dark identity surfaces must win that seam. */
 .interior-shell .interior-page .identity-page .identity-eyebrow {
     color: var(--interior-gold-soft);
@@ -102,6 +111,10 @@
     font-family: var(--font-display);
     font-size: clamp(1.08rem, 2vw, 1.38rem);
     line-height: 1.55;
+}
+
+.interior-shell .interior-page .identity-page .identity-statement strong {
+    color: #fff;
 }
 
 .identity-navigation {
@@ -335,9 +348,13 @@
     overflow-wrap: anywhere;
 }
 
-.identity-page .identity-commitment-list p::first-line {
+.identity-page .identity-source-lead {
     color: var(--interior-ink);
     font-weight: 700;
+}
+
+.identity-page .identity-source-lead em {
+    font-style: italic;
 }
 
 .identity-value-groups {
@@ -348,7 +365,7 @@
 
 .identity-value-group {
     display: grid;
-    grid-template-columns: minmax(230px, 0.38fr) minmax(0, 1fr);
+    grid-template-columns: minmax(320px, 0.44fr) minmax(0, 1fr);
     min-width: 0;
     overflow: hidden;
     border: 1px solid var(--interior-line);
@@ -361,7 +378,7 @@
     position: relative;
     display: block;
     min-width: 0;
-    padding: clamp(1.75rem, 4vw, 3rem);
+    padding: clamp(1.75rem, 3vw, 2.5rem);
     overflow: hidden;
     background:
         radial-gradient(circle at 85% 8%, rgba(209, 161, 45, 0.22), transparent 12rem),
@@ -391,14 +408,14 @@
     letter-spacing: 0.12em;
 }
 
-.identity-page .identity-value-group__heading h3 {
+.interior-shell .interior-page .identity-page .identity-value-group__heading h3 {
     position: relative;
     z-index: 1;
     display: block;
     margin: 0 0 1.25rem;
     color: #fff;
     font-family: var(--font-display);
-    font-size: clamp(1.55rem, 3vw, 2.35rem);
+    font-size: clamp(1.55rem, 1.8vw, 1.9rem);
     font-weight: 500;
     letter-spacing: -0.025em;
     line-height: 1.12;
@@ -455,11 +472,6 @@
     overflow-wrap: anywhere;
 }
 
-.identity-page .identity-value-list p::first-line {
-    color: var(--interior-ink);
-    font-weight: 700;
-}
-
 @media (max-width: 900px) {
     .identity-introduction {
         border-radius: 1rem 1rem 3rem 1rem;
@@ -503,7 +515,13 @@
     }
 
     .identity-introduction__copy {
-        padding: 2rem 1.35rem 2.3rem;
+        padding: 2rem clamp(1rem, 5vw, 1.35rem) 2.3rem;
+    }
+
+    .identity-page .identity-introduction h2 {
+        max-width: none;
+        font-size: clamp(1.45rem, 7.25vw, 2rem);
+        text-wrap: pretty;
     }
 
     .identity-page .identity-eyebrow span {
@@ -517,6 +535,17 @@
     .identity-section-heading {
         grid-template-columns: 2.65rem minmax(0, 1fr);
         gap: 0.9rem;
+    }
+
+    .identity-commitments .identity-section-heading {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.8rem;
+    }
+
+    .identity-commitments .identity-section-heading h2 {
+        max-width: none;
+        font-size: clamp(1.85rem, 8vw, 2.1rem);
+        text-wrap: pretty;
     }
 
     .identity-section-heading__number {

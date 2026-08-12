@@ -1,8 +1,9 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import { congregationName } from '../data/congregationIdentity';
 ---
 
-<PageLayout title="Support Ohr HaTorah" pageTitle="Support Ohr HaTorah" pageIcon="fas fa-heart" description="Ways to support Ohr HaTorah by check, with digital giving planned for the future.">
+<PageLayout title="Support Kehilat Ohr HaTorah" pageTitle="Support Kehilat Ohr HaTorah" pageIcon="fas fa-heart" description="Ways to support Kehilat Ohr HaTorah by check, with digital giving planned for the future.">
     <div class="donate-content">
     <blockquote class="donation-verse">
         <p>“God loves a cheerful giver.”</p>
@@ -42,7 +43,7 @@ import PageLayout from '../layouts/PageLayout.astro';
             <dl class="check-details">
                 <div>
                     <dt>Make payable to</dt>
-                    <dd>Ohr HaTorah</dd>
+                    <dd><strong>{congregationName}</strong></dd>
                 </div>
                 <div>
                     <dt>Mail to</dt>
@@ -73,8 +74,8 @@ import PageLayout from '../layouts/PageLayout.astro';
     <div class="contact-box">
         <h4><i class="fas fa-hand-holding-heart"></i> Questions about giving?</h4>
         <div class="contact-links">
-            <a href="tel:+17144061513" aria-label="Call Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
+            <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
+            <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
         </div>
     </div>
     </div>

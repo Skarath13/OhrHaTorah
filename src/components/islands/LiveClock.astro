@@ -1,5 +1,5 @@
 ---
-// Shows the next Shabbat's dates alongside the current Pacific time.
+// Shows the next Shabbat's dates alongside the Mincha service time.
 ---
 <div class="sidebar-widget live-clock-widget" aria-labelledby="sidebar-date-time-title">
     <div class="widget-header" data-editable="sidebar-date-time-header" role="heading" aria-level="3">
@@ -25,14 +25,13 @@
                     aria-labelledby="sidebar-gregorian-date-label"
                 ></time>
             </div>
-            <div class="clock-panel clock-panel-time">
-                <div class="clock-label" id="sidebar-pacific-time-label">Pacific Time</div>
+            <div class="clock-panel clock-panel-service">
+                <div class="clock-label" id="sidebar-mincha-service-label">Mincha Service</div>
                 <time
-                    class="clock-time"
-                    id="sidebar-pacific-time"
-                    aria-labelledby="sidebar-pacific-time-label"
-                    aria-live="off"
-                ></time>
+                    class="clock-service-time"
+                    datetime="14:30"
+                    aria-labelledby="sidebar-mincha-service-label"
+                >2:30 p.m.</time>
             </div>
         </div>
     </div>
@@ -118,7 +117,7 @@
         font-size: 0.94rem;
     }
 
-    .clock-time {
+    .clock-service-time {
         color: var(--home-blue-900, #0b2f5b);
         font-family: inherit;
         font-size: 0.94rem;
@@ -136,15 +135,6 @@
         width: 100%;
         max-width: none;
         white-space: nowrap;
-    }
-
-    .live-clock-widget :global(.clock-time-suffix) {
-        color: var(--home-muted, #596476);
-        font-family: inherit;
-        font-size: 0.76rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
     }
 
     @media (max-width: 768px) {
@@ -270,38 +260,5 @@
         }
     };
 
-    const pacificTimeFormatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: PACIFIC_TIME_ZONE,
-        hour: 'numeric',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-        timeZoneName: 'short'
-    });
-
-    const updatePacificTime = () => {
-        const timeElement = document.getElementById('sidebar-pacific-time');
-        if (!(timeElement instanceof HTMLTimeElement)) return;
-
-        const now = new Date();
-        const parts = Object.fromEntries(
-            pacificTimeFormatter
-                .formatToParts(now)
-                .filter(({ type }) => type !== 'literal')
-                .map(({ type, value }) => [type, value])
-        );
-        const clockTime = `${parts.hour}:${parts.minute}:${parts.second}`;
-        const suffix = [parts.dayPeriod, parts.timeZoneName].filter(Boolean).join(' ');
-        const suffixElement = document.createElement('span');
-        suffixElement.className = 'clock-time-suffix';
-        suffixElement.textContent = suffix;
-
-        timeElement.dateTime = now.toISOString();
-        timeElement.replaceChildren(document.createTextNode(clockTime), suffixElement);
-        timeElement.setAttribute('aria-label', `Pacific time: ${clockTime} ${suffix}`);
-    };
-
     loadUpcomingShabbatDates();
-    updatePacificTime();
-    window.setInterval(updatePacificTime, 1000);
 </script>
