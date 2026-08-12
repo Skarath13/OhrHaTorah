@@ -47,7 +47,7 @@ test('homepage and interior layout use full-width transitions at major color bou
 });
 
 test('divider release has an explicit stylesheet cache version', () => {
-    assert.match(baseLayoutSource, /20260811-safari-upcoming-2/);
+    assert.match(baseLayoutSource, /20260812-upcoming-polish-1/);
 });
 
 test('large sections never remain partially transparent while scrolling', () => {

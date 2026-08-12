@@ -1,37 +1,11 @@
 <div class="kehilat-calendar-shell" aria-busy="true">
-    <div class="kehilat-calendar-controls" aria-label="Upcoming date filters">
-        <fieldset>
-            <legend>Include in upcoming dates</legend>
-            <label>
-                <input type="checkbox" name="congregation" checked>
-                <span class="kehilat-calendar-key kehilat-calendar-key--congregation" aria-hidden="true"></span>
-                Congregation events
-            </label>
-            <label>
-                <input type="checkbox" name="holidays" checked>
-                <span class="kehilat-calendar-key kehilat-calendar-key--holiday" aria-hidden="true"></span>
-                Holidays &amp; festivals
-            </label>
-            <label>
-                <input type="checkbox" name="candleLighting" checked>
-                <span class="kehilat-calendar-key kehilat-calendar-key--candle-lighting" aria-hidden="true"></span>
-                Shabbat candle lighting
-            </label>
-            <label>
-                <input type="checkbox" name="observances">
-                <span class="kehilat-calendar-key kehilat-calendar-key--observance" aria-hidden="true"></span>
-                Other observances
-            </label>
-        </fieldset>
-    </div>
-
     <p class="kehilat-calendar-status" role="status" aria-live="polite" aria-atomic="true">Loading upcoming dates…</p>
     <div
         class="kehilat-calendar"
         role="feed"
         aria-label="Upcoming Kehilat Ohr HaTorah gatherings, Shabbat candle-lighting times, and Jewish dates"
     ></div>
-    <p class="kehilat-calendar-empty" hidden>No upcoming dates match the selected filters.</p>
+    <p class="kehilat-calendar-empty" hidden>No upcoming dates are available right now.</p>
     <div class="kehilat-calendar-actions" hidden>
         <button class="kehilat-calendar-show-more" type="button">Show more dates</button>
         <button class="kehilat-calendar-show-fewer" type="button" hidden>Show fewer dates</button>
@@ -118,7 +92,6 @@
     const detailsDescription = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-description');
     const detailsLocation = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-location');
     const detailsClose = detailsElement?.querySelector<HTMLButtonElement>('.kehilat-calendar-details-close');
-    const filterInputs = calendarRoot?.querySelectorAll<HTMLInputElement>('.kehilat-calendar-controls input[type="checkbox"]');
 
     if (
         calendarRoot
@@ -135,7 +108,6 @@
         && detailsDescription
         && detailsLocation
         && detailsClose
-        && filterInputs
     ) {
         const compactQuery = window.matchMedia('(max-width: 599px)');
         let dateGroups: DateGroup[] = [];
@@ -337,17 +309,16 @@
                 }));
         };
 
-        const readFilters = (): URLSearchParams => {
-            const values = new URLSearchParams();
-            filterInputs.forEach((input) => values.set(input.name, input.checked ? '1' : '0'));
-            return values;
-        };
-
         const loadEvents = async () => {
             activeRequest?.abort();
             activeRequest = new AbortController();
             const requestController = activeRequest;
-            const query = readFilters();
+            const query = new URLSearchParams({
+                congregation: '1',
+                holidays: '1',
+                candleLighting: '1',
+                observances: '1',
+            });
             const start = getBusinessDate();
             query.set('start', start);
             query.set('end', addDateDays(start, maximumRequestDays));
@@ -385,7 +356,6 @@
             }
         };
 
-        filterInputs.forEach((input) => input.addEventListener('change', loadEvents));
         showMoreButton.addEventListener('click', () => {
             const previouslyVisible = visibleDateLimit;
             visibleDateLimit = Math.min(dateGroups.length, visibleDateLimit + defaultDateLimit);

@@ -168,7 +168,9 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.match(calendarComponent, /mobileDateLimit = 3/);
     assert.match(calendarComponent, /wideDateLimit = 8/);
     assert.match(calendarComponent, /matchMedia\('\(max-width: 599px\)'\)/);
-    assert.match(calendarComponent, /name="candleLighting" checked/);
+    assert.doesNotMatch(homepage, /without the empty calendar days/i);
+    assert.doesNotMatch(calendarComponent, /checkbox|kehilat-calendar-controls|readFilters/i);
+    assert.match(calendarComponent, /congregation: '1',[\s\S]*holidays: '1',[\s\S]*candleLighting: '1',[\s\S]*observances: '1'/);
     assert.match(calendarComponent, /Shabbat candle lighting/);
     assert.match(calendarComponent, /class="kehilat-calendar-details"/);
     assert.match(calendarComponent, /textContent = event\.title/);
@@ -182,6 +184,7 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.match(homeStyles, /\.kehilat-calendar \{[^}]*grid-template-columns: 1fr/s);
     assert.match(homeStyles, /@media \(min-width: 600px\) \{[\s\S]*?\.kehilat-calendar \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(homeStyles, /\.kehilat-calendar-event-title[^}]*overflow-wrap: normal[^}]*word-break: normal/s);
+    assert.match(homeStyles, /@media \(max-width: 360px\) \{[\s\S]*?\.kehilat-calendar-event-button \{ grid-template-columns: minmax\(0, 1fr\)/);
     assert.match(homeStyles, /\.kehilat-calendar-show-more\[hidden\],[\s\S]*?\.kehilat-calendar-show-fewer\[hidden\] \{ display: none; \}/);
     assert.doesNotMatch(homeStyles, /--fc-|\[role="gridcell"\]|\[role="list"\]\[aria-label="Events"\]/);
 });

@@ -683,22 +683,11 @@
 .home-calendar-image figcaption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; color: #fff; text-shadow: 0 2px 14px rgba(6, 26, 50, 0.76); }
 .home-calendar-image figcaption strong { display: block; margin-bottom: 0.45rem; font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.18; }
 .home-calendar-image figcaption span { display: block; color: rgba(255, 255, 255, 0.76); font-size: 0.84rem; line-height: 1.5; }
-.home-calendar-frame { min-width: 0; padding: clamp(1rem, 2.4vw, 1.7rem); border: 0; border-radius: 0; background: #fff; box-shadow: none; overflow: visible; }
+.home-calendar-frame { min-width: 0; padding: clamp(1rem, 2.4vw, 1.7rem); border: 0; border-radius: 0; background: #f5f7f9; box-shadow: none; overflow: visible; }
 .kehilat-calendar-shell {
     min-width: 0;
     color: var(--home-blue-950);
 }
-.kehilat-calendar-controls { margin-bottom: 1rem; padding-bottom: 0.9rem; border-bottom: 1px solid #d8dee5; }
-.kehilat-calendar-controls fieldset { display: grid; min-width: 0; margin: 0; padding: 0; border: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
-.kehilat-calendar-controls legend { width: 100%; margin-bottom: 0.35rem; color: #536476; font-size: 0.67rem; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
-.kehilat-calendar-controls label { display: inline-flex; min-width: 0; min-height: 46px; padding: 0.55rem 0.65rem; border: 1px solid #d8dee5; border-radius: 0.55rem; align-items: center; gap: 0.45rem; color: var(--home-blue-950); font-size: 0.75rem; font-weight: 750; line-height: 1.25; cursor: pointer; }
-.kehilat-calendar-controls label:has(input:focus-visible) { border-color: var(--home-gold-500); outline: 3px solid rgba(208, 163, 61, 0.24); outline-offset: 2px; }
-.kehilat-calendar-controls input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--home-blue-900); }
-.kehilat-calendar-key { width: 0.72rem; height: 0.72rem; border-radius: 50%; flex: 0 0 auto; }
-.kehilat-calendar-key--congregation { background: var(--home-blue-900); }
-.kehilat-calendar-key--holiday { background: #9b5a16; }
-.kehilat-calendar-key--candle-lighting { background: #7c2f4c; }
-.kehilat-calendar-key--observance { background: #657464; }
 .kehilat-calendar-status { margin: 0 0 0.75rem; padding: 0.7rem 0.85rem; border-left: 3px solid var(--home-gold-500); background: #fff8e6; color: #624a15; font-size: 0.78rem; line-height: 1.5; }
 .kehilat-calendar-status:empty { display: none; }
 .kehilat-calendar-details { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; margin: 0 0 1rem; padding: 1rem 1.1rem; border: 1px solid #cbd4de; border-left: 4px solid var(--home-gold-500); background: #f7f9fb; color: var(--home-blue-950); }
@@ -713,17 +702,18 @@
 .kehilat-calendar-details-close { display: grid; width: 44px; height: 44px; margin: -0.35rem -0.45rem 0 0; padding: 0; border: 1px solid #cbd4de; border-radius: 50%; place-items: center; background: #fff; color: var(--home-blue-950); font-size: 1.35rem; line-height: 1; cursor: pointer; }
 .kehilat-calendar-details-close:hover,
 .kehilat-calendar-details-close:focus-visible { border-color: var(--home-gold-500); outline: 2px solid rgba(208, 163, 61, 0.32); outline-offset: 2px; }
-.kehilat-calendar { display: grid; min-width: 0; grid-template-columns: 1fr; align-items: start; gap: 0.9rem; }
+.kehilat-calendar { display: grid; min-width: 0; grid-template-columns: 1fr; align-items: start; gap: 1rem; }
 .kehilat-calendar-shell.is-loading .kehilat-calendar { opacity: 0.58; }
-.kehilat-calendar-date-card { min-width: 0; overflow: hidden; border: 1px solid #cbd4de; border-radius: 0.9rem; background: #fff; box-shadow: 0 10px 24px rgba(6, 26, 50, 0.07); }
-.kehilat-calendar-date-header { display: grid; min-width: 0; padding: 0.9rem 1rem 0.85rem; border-bottom: 1px solid #d8dee5; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 0.15rem 0.75rem; background: #f3f6f8; }
+.kehilat-calendar-date-card { min-width: 0; overflow: hidden; border: 1px solid #c8d1da; border-radius: 0.85rem; background: #fff; box-shadow: 0 8px 22px rgba(6, 26, 50, 0.08); }
+.kehilat-calendar-date-header { display: grid; min-width: 0; padding: 0.95rem 1rem 0.9rem; border-bottom: 1px solid #d8dee5; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 0.18rem 0.75rem; background: linear-gradient(145deg, #f7f9fb, #eef2f5); }
 .kehilat-calendar-date-weekday { grid-column: 1 / -1; margin: 0; color: #7c2f4c; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.1em; line-height: 1.3; text-transform: uppercase; }
 .kehilat-calendar-date-heading { min-width: 0; margin: 0; color: var(--home-blue-950); font-family: var(--font-display); font-size: clamp(1.1rem, 2.1vw, 1.35rem); line-height: 1.15; overflow-wrap: normal; word-break: normal; }
 .kehilat-calendar-date-count { margin: 0; color: #536476; font-size: 0.68rem; font-weight: 750; white-space: nowrap; }
 .kehilat-calendar-event-list { margin: 0; padding: 0; list-style: none; }
 .kehilat-calendar-event-item + .kehilat-calendar-event-item { border-top: 1px solid #e3e7eb; }
-.kehilat-calendar-event-button { position: relative; display: grid; width: 100%; min-height: 54px; padding: 0.78rem 0.9rem 0.82rem 1.05rem; border: 0; border-left: 4px solid var(--event-accent, var(--home-blue-900)); grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 0.25rem 0.65rem; background: #fff; color: var(--home-blue-950); text-align: left; cursor: pointer; }
-.kehilat-calendar-event-button:hover { background: #f7f9fb; }
+.kehilat-calendar-event-button { position: relative; display: grid; width: 100%; min-height: 54px; padding: 0.82rem 0.95rem 0.86rem 1.05rem; border: 0; border-left: 4px solid var(--event-accent, var(--home-blue-900)); grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 0.28rem 0.65rem; background: #fff; color: var(--home-blue-950); text-align: left; cursor: pointer; touch-action: manipulation; transition: background-color 160ms ease; }
+.kehilat-calendar-event-button:hover { background: #f5f8fa; }
+.kehilat-calendar-event-button:active { background: #edf2f5; }
 .kehilat-calendar-event-button:focus-visible { z-index: 1; outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: -3px; }
 .kehilat-calendar-event-button--congregation { --event-accent: var(--home-blue-900); }
 .kehilat-calendar-event-button--holiday { --event-accent: #9b5a16; }
@@ -738,7 +728,7 @@
 .kehilat-calendar-actions { display: flex; margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
 .kehilat-calendar-actions[hidden] { display: none; }
 .kehilat-calendar-show-more,
-.kehilat-calendar-show-fewer { min-height: 46px; padding: 0.68rem 1rem; border: 1px solid var(--home-blue-900); border-radius: 2px; background: var(--home-blue-900); color: #fff; font-size: 0.78rem; font-weight: 800; line-height: 1.2; cursor: pointer; white-space: nowrap; }
+.kehilat-calendar-show-fewer { min-height: 46px; padding: 0.68rem 1.05rem; border: 1px solid var(--home-blue-900); border-radius: 0.4rem; background: var(--home-blue-900); color: #fff; font-size: 0.78rem; font-weight: 800; line-height: 1.2; cursor: pointer; touch-action: manipulation; white-space: nowrap; }
 .kehilat-calendar-show-more[hidden],
 .kehilat-calendar-show-fewer[hidden] { display: none; }
 .kehilat-calendar-show-fewer { background: #fff; color: var(--home-blue-900); }
@@ -877,8 +867,10 @@
     .home-calendar-section .home-text-link { width: 100%; min-height: 50px; justify-content: center; border: 1px solid var(--home-gold-300); background: var(--home-gold-300); color: var(--home-blue-950); }
     .home-calendar-layout { margin-top: 1.5rem; }
     .home-calendar-image { min-height: 190px; height: 190px; }
-    .home-calendar-frame { display: block; padding: 1rem 0.85rem 1.15rem; }
-    .kehilat-calendar-controls label { padding-inline: 0.5rem; font-size: 0.7rem; }
+    .home-calendar-frame { display: block; padding: 0.9rem 0.8rem 1.1rem; }
+    .kehilat-calendar { gap: 0.85rem; }
+    .kehilat-calendar-date-header { padding-inline: 0.9rem; }
+    .kehilat-calendar-event-button { padding-right: 0.85rem; padding-left: 0.95rem; }
 }
 
 @media (max-width: 360px) {
@@ -888,6 +880,8 @@
     .home-button { font-size: 0.72rem; }
     .home-hero-actions { grid-template-columns: 1fr; }
     .home-identity-action .home-button { gap: 0.45rem; padding-inline: 0.5rem; font-size: 0.7rem; }
+    .kehilat-calendar-event-button { grid-template-columns: minmax(0, 1fr); }
+    .kehilat-calendar-event-time { grid-column: 1; justify-self: start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
