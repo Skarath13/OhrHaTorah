@@ -164,6 +164,23 @@ test('the homepage preview has stable, compact consumer shapes', () => {
         assert.ok(item.title.length > 0);
         assert.ok(item.description.startsWith('We '));
     }
+    assert.deepEqual(
+        homepageIdentityPreview.commitments.map(({ title }) => title),
+        [
+            'Covenant-Faithful Worship',
+            'A Faithful, Welcoming Synagogue Community',
+            'Connection, Peace, and Mutual Blessing',
+        ],
+    );
+    assert.deepEqual(
+        homepageIdentityPreview.values.map(({ title }) => title),
+        [
+            'Every Person Is Precious to God',
+            'Lifelong Growth in Jewish Life',
+            'Genuine Love and Caring Relationships',
+            'Maasei Tovim—Good Works in Community',
+        ],
+    );
 });
 
 test('the identity page publishes canonical arrays with accessible, responsive structure', () => {

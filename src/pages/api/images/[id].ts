@@ -1,14 +1,23 @@
 import type { APIRoute } from 'astro';
 import { getImage, deleteImageRecord, updateImageAlt } from '../../../lib/db';
-import { validateSession, getSessionFromCookies } from '../../../lib/auth';
+import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFTokenFromRequest } from '../../../lib/auth';
 
-export const GET: APIRoute = async ({ params, locals }) => {
+export const GET: APIRoute = async ({ params, request, locals }) => {
   try {
     const runtime = locals.runtime;
     if (!runtime?.env?.DB) {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const sessionId = getSessionFromCookies(request.headers.get('cookie'));
+    const user = sessionId ? await validateSession(runtime.env.DB, sessionId) : null;
+    if (!user) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -64,6 +73,17 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
       );
     }
 
+    const csrfToken = getCSRFTokenFromRequest(request);
+    const validCSRF = csrfToken && sessionId
+      ? await validateCSRFToken(runtime.env.DB, csrfToken, sessionId)
+      : false;
+    if (!validCSRF) {
+      return new Response(
+        JSON.stringify({ success: false, error: csrfToken ? 'Invalid CSRF token' : 'Missing CSRF token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const id = parseInt(params.id || '', 10);
     if (isNaN(id)) {
       return new Response(
@@ -100,9 +120,9 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 export const DELETE: APIRoute = async ({ params, request, locals }) => {
   try {
     const runtime = locals.runtime;
-    if (!runtime?.env?.DB || !runtime?.env?.IMAGES) {
+    if (!runtime?.env?.DB) {
       return new Response(
-        JSON.stringify({ success: false, error: 'Storage not available' }),
+        JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -116,6 +136,24 @@ export const DELETE: APIRoute = async ({ params, request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const csrfToken = getCSRFTokenFromRequest(request);
+    const validCSRF = csrfToken && sessionId
+      ? await validateCSRFToken(runtime.env.DB, csrfToken, sessionId)
+      : false;
+    if (!validCSRF) {
+      return new Response(
+        JSON.stringify({ success: false, error: csrfToken ? 'Invalid CSRF token' : 'Missing CSRF token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!runtime.env.IMAGES) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Storage not available' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
 

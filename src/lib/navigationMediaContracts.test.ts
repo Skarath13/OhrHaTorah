@@ -93,7 +93,11 @@ test('homepage and byte-range route use the versioned forward-reverse hero media
 });
 
 test('responsive brand fills the fixed header and hero separates brand from copy at every width', () => {
-    assert.match(chromeStyles, /--site-nav-height: 64px;/);
+    assert.match(chromeStyles, /--site-nav-content-height: 64px;/);
+    assert.match(
+        chromeStyles,
+        /--site-nav-height: calc\(var\(--site-nav-content-height\) \+ env\(safe-area-inset-top\)\);/
+    );
     assert.match(chromeStyles, /\.site-navigation-shell \.mobile-site-mark \{[\s\S]*?width: 72px !important;[\s\S]*?height: 48px !important;/);
     assert.match(chromeStyles, /@media \(max-width: 359px\) \{[\s\S]*?width: 66px !important;[\s\S]*?height: 44px !important;/);
     assert.match(chromeStyles, /@media \(min-width: 768px\) and \(max-width: 1023px\) \{[\s\S]*?width: 75px !important;[\s\S]*?height: 50px !important;/);

@@ -207,7 +207,7 @@ export function getSessionFromCookies(cookieHeader: string | null): string | nul
  */
 export function createSessionCookie(sessionId: string, maxAge: number = SESSION_DURATION_MS / 1000): string {
   // Main session cookie (HttpOnly for security)
-  return `oht_session=${sessionId}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}`;
+  return `oht_session=${sessionId}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`;
 }
 
 /**
@@ -215,21 +215,21 @@ export function createSessionCookie(sessionId: string, maxAge: number = SESSION_
  * This doesn't contain any sensitive data, just indicates auth status
  */
 export function createAuthIndicatorCookie(maxAge: number = SESSION_DURATION_MS / 1000): string {
-  return `oht_logged_in=1; Path=/; SameSite=Strict; Max-Age=${maxAge}`;
+  return `oht_logged_in=1; Path=/; Secure; SameSite=Strict; Max-Age=${maxAge}`;
 }
 
 /**
  * Create a cookie that clears the session
  */
 export function createLogoutCookie(): string {
-  return 'oht_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0';
+  return 'oht_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0';
 }
 
 /**
  * Create a cookie that clears the auth indicator
  */
 export function createLogoutIndicatorCookie(): string {
-  return 'oht_logged_in=; Path=/; SameSite=Strict; Max-Age=0';
+  return 'oht_logged_in=; Path=/; Secure; SameSite=Strict; Max-Age=0';
 }
 
 // ============= Rate Limiting Functions =============
@@ -378,12 +378,12 @@ export function getCSRFTokenFromRequest(request: Request): string | null {
  * Create a Set-Cookie header for the CSRF token (non-HttpOnly so JS can read it)
  */
 export function createCSRFCookie(token: string, maxAge: number = CSRF_TOKEN_DURATION_MS / 1000): string {
-  return `oht_csrf=${token}; Path=/; SameSite=Strict; Max-Age=${maxAge}`;
+  return `oht_csrf=${token}; Path=/; Secure; SameSite=Strict; Max-Age=${maxAge}`;
 }
 
 /**
  * Create a cookie that clears the CSRF token
  */
 export function createCSRFLogoutCookie(): string {
-  return 'oht_csrf=; Path=/; SameSite=Strict; Max-Age=0';
+  return 'oht_csrf=; Path=/; Secure; SameSite=Strict; Max-Age=0';
 }

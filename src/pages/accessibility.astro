@@ -1,0 +1,68 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { congregationName } from '../data/congregationIdentity';
+---
+
+<PageLayout
+    title={`Website Accessibility | ${congregationName}`}
+    pageTitle="Website Accessibility"
+    description={`${congregationName}'s commitment to an accessible and welcoming public website.`}
+    stylesheets={['/styles/policies.css']}
+>
+    <div class="policy-page">
+        <header class="policy-intro">
+            <p class="policy-kicker">A welcome meant to be experienced</p>
+            <p class="policy-lede"><strong>{congregationName}</strong> values the dignity of every person. We want our public website to be understandable and usable by people with diverse abilities, devices, and ways of navigating.</p>
+            <p class="policy-updated">Last updated <time datetime="2026-08-11">August 11, 2026</time></p>
+            <nav class="policy-contents" aria-label="Website Accessibility sections">
+                <a href="#commitment">Our commitment</a>
+                <a href="#approach">Our approach</a>
+                <a href="#third-party-accessibility">Third parties</a>
+                <a href="#accessibility-feedback">Feedback</a>
+            </nav>
+        </header>
+
+        <section class="policy-section" id="commitment">
+            <h2>Our commitment</h2>
+            <div class="policy-copy">
+                <p>We are working toward conformance with the <a href="https://www.w3.org/TR/WCAG22/" target="_blank" rel="noopener noreferrer">Web Content Accessibility Guidelines (WCAG) 2.2, Level AA</a> as a practical guide for improving access. This is an ongoing effort, not a claim that every page or third-party feature is free of barriers.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="approach">
+            <h2>How we support access</h2>
+            <div class="policy-copy">
+                <p>Our current approach includes:</p>
+                <ul class="policy-list">
+                    <li>semantic headings, landmarks, labels, and descriptive link text;</li>
+                    <li>keyboard-accessible navigation and visible focus treatment;</li>
+                    <li>responsive layouts that adapt across common phone, tablet, and desktop sizes;</li>
+                    <li>text and interface contrast considered in the site’s visual system;</li>
+                    <li>support for reduced-motion preferences where motion is used; and</li>
+                    <li>ongoing review of content structure, alternative text, form instructions, and error feedback.</li>
+                </ul>
+                <p>Technology and needs change. We will continue to review the site and prioritize practical fixes when a barrier is identified.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="third-party-accessibility">
+            <h2>Third-party content</h2>
+            <div class="policy-copy">
+                <p>Some maps, forms, calendar information, icons, and linked resources are supplied by third parties. We do not control every aspect of those services, but we welcome reports about a barrier and will look for a reasonable alternative when one is available.</p>
+            </div>
+        </section>
+
+        <section class="policy-section policy-section-contact" id="accessibility-feedback">
+            <h2>Request help or report a barrier</h2>
+            <div class="policy-copy">
+                <p>If you have difficulty using this website or need information in another reasonable format, please contact <strong>{congregationName}</strong>:</p>
+                <ul class="policy-contact-list">
+                    <li><span>Email</span><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></li>
+                    <li><span>Phone</span><a href="tel:+17144061513">(714) 406-1513</a></li>
+                    <li><span>Mail</span><address>360 E. 1st Street, #856, Tustin, CA 92780</address></li>
+                </ul>
+                <p>It helps to include the page address, what you were trying to do, the barrier you encountered, and—if you are comfortable sharing it—the browser, device, or assistive technology you were using. We will make a good-faith effort to respond and provide a reasonable way to access the information.</p>
+            </div>
+        </section>
+    </div>
+</PageLayout>

@@ -1,27 +1,23 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 const pageLayoutSource = readFileSync(
     new URL('../layouts/PageLayout.astro', import.meta.url),
     'utf8'
 );
-const stockProvenanceSource = readFileSync(
-    new URL('../../public/images/stock/PROVENANCE.md', import.meta.url),
+const interiorStyles = readFileSync(
+    new URL('../../public/styles/interior.css', import.meta.url),
     'utf8'
 );
 
-test('the identity page uses the documented community table image', () => {
+test('the identity page inherits the deliberate text-only interior hero', () => {
     assert.match(
         pageLayoutSource,
-        /'\/mission': \{[\s\S]*?image: '\/images\/stock\/shared-table\.webp',[\s\S]*?alt: 'Several hands sharing a plate of dates around a table'/
+        /'\/mission': \{\s*section: 'Welcome',\s*sectionHref: '\/about',\s*\}/
     );
-    assert.ok(
-        existsSync(new URL('../../public/images/stock/shared-table.webp', import.meta.url)),
-        'the identity hero image must exist'
-    );
-    assert.match(
-        stockProvenanceSource,
-        /## Shared table[\s\S]*?Output: `shared-table\.webp`/
-    );
+    assert.doesNotMatch(pageLayoutSource, /shared-table\.webp|page-hero-media|<figure|<img/);
+    assert.match(pageLayoutSource, /<header class="page-hero">/);
+    assert.match(interiorStyles, /\.page-hero-inner \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);
+    assert.match(interiorStyles, /\.page-hero::before \{/);
 });

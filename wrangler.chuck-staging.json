@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kehilat-ohr-hatorah-chuck-staging",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2025-11-24",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "disable_nodejs_process_v2",
+    "global_fetch_strictly_public"
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ohrhatorah-staging-db",
+      "database_id": "3452876a-7ea9-499c-8efe-e1205e83d9a5"
+    }
+  ]
+}

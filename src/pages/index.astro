@@ -157,17 +157,16 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                             <p>What we affirm</p>
                             <h3 id="home-commitments-title">Core Commitments</h3>
                         </div>
-                        <ol class="home-commitment-list">
-                            {homepageIdentityPreview.commitments.map((commitment, index) => (
+                        <ul class="home-commitment-list">
+                            {homepageIdentityPreview.commitments.map((commitment) => (
                                 <li>
-                                    <span class="home-identity-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                                     <div>
                                         <h4>{commitment.title}</h4>
                                         <p>{commitment.description}</p>
                                     </div>
                                 </li>
                             ))}
-                        </ol>
+                        </ul>
                     </section>
 
                     <section class="home-identity-chapter home-values-preview" aria-labelledby="home-values-title">
@@ -187,7 +186,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 </div>
 
                 <div class="home-identity-action">
-                    <p>Read our complete Vision and Purpose, thirteen Core Commitments and Affirmations, and twenty-two Core Values.</p>
+                    <p>Read our complete Vision and Purpose, Core Commitments and Affirmations, and Core Values.</p>
                     <a class="home-button home-button-primary" href="/mission">
                         <span>Explore Our Vision, Commitments &amp; Values</span>
                         <i class="fas fa-arrow-right" aria-hidden="true"></i>
@@ -390,12 +389,12 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
             </div>
         </aside>
 
-        <section class="home-section home-calendar-section" aria-labelledby="congregation-calendar">
+        <section class="home-section home-calendar-section" aria-labelledby="upcoming-dates">
             <div class="home-shell">
                 <div class="home-section-heading">
                     <div>
-                        <h2 id="congregation-calendar">Congregation Calendar</h2>
-                        <p>Congregation gatherings, Jewish holidays, and festivals in one clear calendar.</p>
+                        <h2 id="upcoming-dates">Upcoming Dates</h2>
+                        <p>Congregation gatherings, Jewish holidays, festivals, and candle-lighting times—without the empty calendar days.</p>
                     </div>
                     <a class="home-text-link" href="/events">
                         <span>Gathering Details</span>

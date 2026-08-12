@@ -3,13 +3,22 @@ import { getAllContent, setContent, getContent } from '../../../lib/db';
 import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFTokenFromRequest } from '../../../lib/auth';
 import { recordContentRevision } from '../../../lib/revisions';
 
-export const GET: APIRoute = async ({ locals }) => {
+export const GET: APIRoute = async ({ request, locals }) => {
   try {
     const runtime = locals.runtime;
     if (!runtime?.env?.DB) {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const sessionId = getSessionFromCookies(request.headers.get('cookie'));
+    const user = sessionId ? await validateSession(runtime.env.DB, sessionId) : null;
+    if (!user) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 

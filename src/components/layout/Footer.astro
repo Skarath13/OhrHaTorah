@@ -20,7 +20,7 @@ const currentYear = new Date().getFullYear();
                 <ul class="footer-links">
                     <li><a href="/about"><i class="fas fa-chevron-right"></i> About us</a></li>
                     <li><a href="/services"><i class="fas fa-chevron-right"></i> Shabbat services</a></li>
-                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right"></i> Calendar</a></li>
+                    <li><a href="/#upcoming-dates"><i class="fas fa-chevron-right"></i> Upcoming dates</a></li>
                     <li><a href="/resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
                     <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate</a></li>
                     <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
@@ -33,17 +33,21 @@ const currentYear = new Date().getFullYear();
                 <p>Receive occasional updates about gatherings and community news.</p>
                 <form id="newsletter-form" class="newsletter-form-expanded">
                     <input type="hidden" name="access_key" value="d3f52dee-3156-4b82-a76a-fe9bbf9eb30e">
-                    <input type="hidden" name="subject" value={`New Newsletter Subscription - ${congregationName}`}>
+                    <input type="hidden" name="subject" value={`New email updates request - ${congregationName}`}>
                     <input type="hidden" name="from_name" value={`${congregationName} Website`}>
+                    <input type="checkbox" name="botcheck" class="newsletter-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-                    <input type="text" name="first_name" placeholder="First name *" required aria-label="First name">
-                    <input type="text" name="last_name" placeholder="Last name *" required aria-label="Last name">
-                    <input type="email" name="email" placeholder="Email address *" required aria-label="Email address">
-                    <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number">
+                    <input type="text" name="first_name" placeholder="First name (optional)" aria-label="First name (optional)" autocomplete="given-name">
+                    <input type="email" name="email" placeholder="Email address *" required aria-label="Email address" autocomplete="email" aria-describedby="newsletter-privacy">
+                    <label class="newsletter-consent">
+                        <input type="checkbox" name="email_consent" value="Yes, I requested occasional email updates." required>
+                        <span>I would like to receive occasional email updates from <strong>{congregationName}</strong>. I can unsubscribe at any time.</span>
+                    </label>
+                    <p id="newsletter-privacy" class="newsletter-privacy">We send this request through Web3Forms. Read our <a href="/privacy">Privacy Notice</a> for details.</p>
                     <button type="submit" class="newsletter-btn-full">
-                        Subscribe <i class="fas fa-arrow-right"></i>
+                        Request updates <i class="fas fa-arrow-right"></i>
                     </button>
-                    <p id="newsletter-status" class="form-status"></p>
+                    <p id="newsletter-status" class="form-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
 
@@ -71,7 +75,13 @@ const currentYear = new Date().getFullYear();
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; {currentYear} {congregationName}. All rights reserved.</p>
+            <p>&copy; {currentYear} <strong>{congregationName}</strong>. All rights reserved.</p>
+            <nav class="footer-legal" aria-label="Website policies">
+                <a href="/privacy">Privacy</a>
+                <a href="/website-use">Website use</a>
+                <a href="/accessibility">Accessibility</a>
+                <a href="/website-use#copyright-sources">Copyright &amp; sources</a>
+            </nav>
         </div>
     </div>
 </footer>
@@ -137,7 +147,7 @@ const currentYear = new Date().getFullYear();
             const formData = new FormData(this);
             const submitBtn = this.querySelector('button[type="submit"]');
 
-            statusEl.textContent = 'Subscribing…';
+            statusEl.textContent = 'Sending your request…';
             statusEl.className = 'form-status loading';
             submitBtn.disabled = true;
 
@@ -149,7 +159,7 @@ const currentYear = new Date().getFullYear();
                 const data = await response.json();
 
                 if (data.success) {
-                    statusEl.textContent = 'You are subscribed.';
+                    statusEl.textContent = 'Your request was sent.';
                     statusEl.className = 'form-status success';
                     newsletterForm.reset();
                 } else {

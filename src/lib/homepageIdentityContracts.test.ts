@@ -31,6 +31,8 @@ test('Shabbat at a glance keeps candle lighting and presents the next Shabbat da
     assert.match(liveClockSource, />Gregorian Date</);
     assert.match(liveClockSource, />Mincha Service</);
     assert.match(liveClockSource, /datetime="14:30"[^>]*>2:30 p\.m\.<\/time>/);
+    assert.match(homeStyles, /\.clock-service-time[^)]*\.clock-time\) \{\s*color: #fff !important;/);
+    assert.match(homeStyles, /\.clock-panel-service/);
     assert.doesNotMatch(liveClockSource, /Pacific Time|sidebar-pacific-time|updatePacificTime/);
     assert.match(liveClockSource, /strictlyFollowing: true/);
     assert.match(candleLightingSource, /formatCongregationDate/);
@@ -52,6 +54,9 @@ test('homepage identity preview uses canonical approved copy and links to the fu
     assert.match(homeSource, /<strong>\{congregationName\}<\/strong>\{officialIdentityStatementRemainder\}/);
     assert.match(homeSource, /href="\/mission"/);
     assert.match(homeSource, /Explore Our Vision, Commitments &amp; Values/);
+    assert.match(homeSource, /Read our complete Vision and Purpose, Core Commitments and Affirmations, and Core Values\./);
+    assert.doesNotMatch(homeSource, /thirteen Core Commitments|twenty-two Core Values|home-identity-number/);
+    assert.match(homeSource, /<ul class="home-commitment-list">/);
     assert.doesNotMatch(homeSource, /Faith, Heritage, and Community|home-values-details/);
     assert.match(navigationSource, /href="\/mission"[^\n]*Our identity/);
     assert.match(mobileNavigationSource, /href="\/mission"[^\n]*Our identity/);

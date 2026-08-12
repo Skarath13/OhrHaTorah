@@ -1,0 +1,98 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { congregationName } from '../data/congregationIdentity';
+---
+
+<PageLayout
+    title={`Privacy Notice | ${congregationName}`}
+    pageTitle="Privacy Notice"
+    description={`How ${congregationName} handles information shared through its public website.`}
+    stylesheets={['/styles/policies.css']}
+>
+    <div class="policy-page">
+        <header class="policy-intro">
+            <p class="policy-kicker">Care, dignity, and responsible stewardship</p>
+            <p class="policy-lede">At <strong>{congregationName}</strong>, every person is precious to God. That conviction shapes the care with which we receive and handle information shared through this website.</p>
+            <p class="policy-updated">Last updated <time datetime="2026-08-11">August 11, 2026</time></p>
+            <nav class="policy-contents" aria-label="Privacy Notice sections">
+                <a href="#scope">Scope</a>
+                <a href="#information">Information</a>
+                <a href="#use-and-sharing">Use and sharing</a>
+                <a href="#choices">Your choices</a>
+                <a href="#contact-privacy">Contact</a>
+            </nav>
+        </header>
+
+        <section class="policy-section" id="scope">
+            <h2>Scope of this notice</h2>
+            <div class="policy-copy">
+                <p>This notice explains how information is handled when you visit this public website, request email updates, follow a map or calendar link, or contact us using the details shown here. If a different notice is provided when information is collected for another purpose, that notice will apply to that interaction.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="information">
+            <h2>Information we receive</h2>
+            <div class="policy-copy">
+                <h3>Information you choose to share</h3>
+                <p>When you request occasional email updates, we ask for your email address and consent; a first name is optional. If you contact us by email, phone, or mail, we receive the information you include so that we can respond. If you give by check, ordinary contact, payment, and acknowledgment records may be kept as reasonably needed to process and document the gift.</p>
+
+                <h3>Routine website information</h3>
+                <p>Like most websites, hosting and security systems may process information such as an IP address, browser and device type, requested page, referring page, and the date, time, and outcome of a request. This supports reliable delivery, security, troubleshooting, and abuse prevention.</p>
+
+                <h3>Cookies and local storage</h3>
+                <p>The site may use browser storage to remember recently retrieved Torah-reading information and related display choices. Essential cookies are also used for restricted site-management and security functions. We do not use these tools to serve advertising.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="use-and-sharing">
+            <h2>How information is used and shared</h2>
+            <div class="policy-copy">
+                <p>We use information to provide and secure the website, respond to requests, send updates you asked to receive, maintain accurate records, and meet applicable legal or safety obligations. We do not disclose personal information simply because it may be of interest to another organization.</p>
+                <p>Limited information is shared with service providers when needed to operate a feature:</p>
+                <ul class="policy-list">
+                    <li><strong>Cloudflare</strong> supports website delivery and security.</li>
+                    <li><strong>Web3Forms</strong> transmits the email-updates request submitted in the footer form. Its <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">privacy information</a> describes its practices.</li>
+                    <li><strong>Hebcal</strong> supplies Jewish dates, readings, holidays, and candle-lighting information used by website features.</li>
+                    <li><strong>Google Maps</strong> supplies embedded maps on location-related pages.</li>
+                    <li><strong>cdnjs and Font Awesome</strong> deliver the icon font used by the site.</li>
+                </ul>
+                <p>These providers may receive routine request information, including an IP address and device or browser details, when their services are requested. Some providers may independently collect information about visits to this and other websites under their own privacy policies and settings; we do not control those independent practices. We may also disclose information when reasonably necessary to comply with law, protect people or the website, or investigate misuse.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="retention-security">
+            <h2>Retention and security</h2>
+            <div class="policy-copy">
+                <p>Information is kept only as long as reasonably needed for the purpose for which it was received, including communication, recordkeeping, security, and legal needs. Retention periods can differ by record and context.</p>
+                <p>We use reasonable administrative and technical safeguards appropriate to a public congregational website. No internet transmission or storage system can be guaranteed completely secure, so please do not send sensitive personal information through ordinary email or the website form.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="choices">
+            <h2>Your choices</h2>
+            <div class="policy-copy">
+                <ul class="policy-list">
+                    <li><strong>Email updates:</strong> Use the unsubscribe instructions in a message or contact us to stop future updates.</li>
+                    <li><strong>Browser controls:</strong> You can clear cookies or local storage through your browser. Restricted site-management features may not work without essential cookies.</li>
+                    <li><strong>Access or correction:</strong> Depending on applicable law and context, you may ask about personal information associated with you or request a reasonable correction or deletion.</li>
+                </ul>
+                <p>The public site is not configured to alter essential delivery or security functions in response to browser “Do Not Track” or Global Privacy Control signals.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="children">
+            <h2>Children’s privacy</h2>
+            <div class="policy-copy">
+                <p>This public website is intended for a general audience and is not designed to collect personal information directly from children under 13. A parent or guardian should contact us about youth activities. If you believe a child has submitted personal information through the site, please let us know so we can address it.</p>
+            </div>
+        </section>
+
+        <section class="policy-section policy-section-contact" id="contact-privacy">
+            <h2>Questions or requests</h2>
+            <div class="policy-copy">
+                <p>To ask a privacy question or make a request, contact <strong>{congregationName}</strong> at <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>, call <a href="tel:+17144061513">(714) 406-1513</a>, or write to 360 E. 1st Street, #856, Tustin, CA 92780.</p>
+                <p>We may update this notice as the website and its services change. Changes will be posted on this page with an updated date and, when appropriate, an additional notice. The date above identifies the current version.</p>
+            </div>
+        </section>
+    </div>
+</PageLayout>

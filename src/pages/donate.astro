@@ -53,6 +53,17 @@ import { congregationName } from '../data/congregationIdentity';
         </section>
     </div>
 
+    <section class="donation-records-notice" aria-labelledby="giving-records-title">
+        <div>
+            <p class="donation-notice-kicker">A note for your records</p>
+            <h3 id="giving-records-title">Giving acknowledgments and special contributions</h3>
+        </div>
+        <div>
+            <p>Please keep your check or bank record. Contact <strong>{congregationName}</strong> if you need a giving acknowledgment or believe a record should be corrected.</p>
+            <p>Whether a contribution is deductible depends on applicable law and your individual circumstances; nothing on this website is tax advice. Please consult a qualified adviser. Contact us before sending a non-cash or other special contribution so we can confirm whether it can be accepted.</p>
+        </div>
+    </section>
+
     <section class="giving-info" aria-labelledby="why-give-title">
         <div class="giving-info-heading">
             <div class="giving-info-icon" aria-hidden="true"><i class="fas fa-hand-holding-heart"></i></div>
@@ -268,6 +279,45 @@ import { congregationName } from '../data/congregationIdentity';
         font: inherit;
     }
 
+    .donate-content .donation-records-notice {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.75fr) minmax(0, 1.25fr);
+        gap: clamp(1.5rem, 4vw, 2.5rem);
+        padding: clamp(1.35rem, 2.5vw, 1.75rem);
+        margin: 0 0 clamp(1.75rem, 3vw, 2rem);
+        border: 1px solid rgba(209, 161, 45, 0.52);
+        border-radius: 1rem;
+        background: rgba(209, 161, 45, 0.07);
+        align-items: start;
+    }
+
+    .donate-content .donation-records-notice h3 {
+        margin: 0;
+        color: var(--interior-navy, #061a32);
+        font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+        line-height: 1.15;
+    }
+
+    .donate-content .donation-notice-kicker {
+        margin: 0 0 0.5rem;
+        color: #8a6616;
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        line-height: 1.35;
+        text-transform: uppercase;
+    }
+
+    .donate-content .donation-records-notice > div:last-child p {
+        margin: 0 0 0.75rem;
+        color: var(--interior-muted, #5f6973);
+        line-height: 1.65;
+    }
+
+    .donate-content .donation-records-notice > div:last-child p:last-child {
+        margin-bottom: 0;
+    }
+
     .donate-content .giving-info {
         display: grid;
         grid-template-columns: minmax(15rem, 0.75fr) minmax(0, 1.25fr);
@@ -345,6 +395,7 @@ import { congregationName } from '../data/congregationIdentity';
         }
 
         .donate-content .donation-grid.donation-methods,
+        .donate-content .donation-records-notice,
         .donate-content .giving-info {
             grid-template-columns: minmax(0, 1fr);
         }

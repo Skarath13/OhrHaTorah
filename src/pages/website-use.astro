@@ -1,0 +1,89 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { congregationName } from '../data/congregationIdentity';
+---
+
+<PageLayout
+    title={`Website Use | ${congregationName}`}
+    pageTitle="Website Use"
+    description={`Guidelines for respectful and responsible use of the ${congregationName} website.`}
+    stylesheets={['/styles/policies.css']}
+>
+    <div class="policy-page">
+        <header class="policy-intro">
+            <p class="policy-kicker">A welcoming and trustworthy public space</p>
+            <p class="policy-lede">This website shares the public life of <strong>{congregationName}</strong>—our worship, learning, gatherings, and ways to connect. Please use it with the same honesty, dignity, and mutual respect we seek to practice in community.</p>
+            <p class="policy-updated">Last updated <time datetime="2026-08-11">August 11, 2026</time></p>
+            <nav class="policy-contents" aria-label="Website Use sections">
+                <a href="#use">Responsible use</a>
+                <a href="#information-not-advice">Information</a>
+                <a href="#copyright-sources">Copyright &amp; sources</a>
+                <a href="#third-parties">Third parties</a>
+                <a href="#contact-use">Contact</a>
+            </nav>
+        </header>
+
+        <section class="policy-section" id="use">
+            <h2>Respectful and responsible use</h2>
+            <div class="policy-copy">
+                <p>You are welcome to browse, print, or share links to public pages for personal, noncommercial use. Please do not use the site to:</p>
+                <ul class="policy-list">
+                    <li>break the law, misrepresent your identity, harass another person, or interfere with another person’s use of the site;</li>
+                    <li>upload or transmit malicious code, probe restricted areas, bypass access controls, or disrupt website availability;</li>
+                    <li>collect personal information about others without a lawful and appropriate basis; or</li>
+                    <li>copy, republish, or use site content in a way that falsely suggests endorsement by <strong>{congregationName}</strong>.</li>
+                </ul>
+                <p>We may limit access when reasonably necessary to protect people, content, or the operation of the website.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="information-not-advice">
+            <h2>Public information, not professional advice</h2>
+            <div class="policy-copy">
+                <p>Website content is offered for general congregational, religious, and educational information. It is not legal, medical, mental-health, financial, or tax advice and should not replace guidance from a qualified professional.</p>
+                <p>Event details, service times, readings, holiday dates, candle-lighting times, and external resources can change or be delayed. Please confirm time-sensitive information with us before relying on it.</p>
+                <aside class="policy-note">
+                    <strong>Urgent needs:</strong> This website and its email addresses are not emergency services. If someone is in immediate danger, contact the appropriate local emergency service.
+                </aside>
+            </div>
+        </section>
+
+        <section class="policy-section" id="copyright-sources">
+            <h2>Copyright, permissions, and sources</h2>
+            <div class="policy-copy">
+                <p>Unless a different source or license is identified, original website text, design, and graphics are protected content of <strong>{congregationName}</strong>. “All rights reserved” does not restrict ordinary linking, brief quotation allowed by law, or other lawful fair use. Contact us before reproducing a substantial part of the site or using its content commercially.</p>
+                <p>Some material comes from or depends on third-party sources. Their content, marks, data, and licenses remain their own:</p>
+                <ul class="policy-list policy-sources">
+                    <li>Jewish calendar, Torah-reading, and candle-lighting data: <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer">Hebcal.com</a>.</li>
+                    <li>Map imagery and location tools: <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">Google Maps</a>.</li>
+                    <li>Interface icons: <a href="https://fontawesome.com/" target="_blank" rel="noopener noreferrer">Font Awesome</a>, delivered through <a href="https://cdnjs.com/" target="_blank" rel="noopener noreferrer">cdnjs</a>.</li>
+                    <li>Scripture quotations and other identified excerpts are credited where practical and remain subject to applicable rights and lawful-use limits.</li>
+                </ul>
+                <p>If you believe material on the site has been credited incorrectly or infringes your rights, please contact us with the page address, a description of the material, and a way to reach you.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="third-parties">
+            <h2>Links and third-party services</h2>
+            <div class="policy-copy">
+                <p>Links, maps, forms, calendar data, and resources supplied by others are provided for convenience and context. Their availability, content, privacy practices, and security are controlled by their respective providers. A link does not necessarily mean that <strong>{congregationName}</strong> endorses every statement, product, or practice on the linked site.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="availability">
+            <h2>Availability and responsibility</h2>
+            <div class="policy-copy">
+                <p>We work to keep public information useful and the site available, but we cannot promise that every page will always be complete, current, uninterrupted, or error-free. To the extent permitted by applicable law, the site is provided as available, and responsibility for use of it remains with the visitor.</p>
+                <p>Nothing on this page excludes a responsibility that cannot lawfully be excluded. If any part of these guidelines is not enforceable, the remaining parts continue to apply.</p>
+            </div>
+        </section>
+
+        <section class="policy-section policy-section-contact" id="contact-use">
+            <h2>Questions and changes</h2>
+            <div class="policy-copy">
+                <p>Questions about website content, permissions, or these guidelines may be sent to <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a> or mailed to <strong>{congregationName}</strong>, 360 E. 1st Street, #856, Tustin, CA 92780.</p>
+                <p>We may revise this page as the website changes. The date above identifies the current version.</p>
+            </div>
+        </section>
+    </div>
+</PageLayout>

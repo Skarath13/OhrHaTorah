@@ -15,7 +15,7 @@ const {
   stylesheets = [],
 } = Astro.props;
 const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
-const stylesheetVersion = '20260811-identity-shabbat-1';
+const stylesheetVersion = '20260811-safari-upcoming-2';
 const versionStylesheet = (href: string) => {
   const separator = href.includes('?') ? '&' : '?';
   return `${href}${separator}v=${stylesheetVersion}`;
@@ -25,7 +25,11 @@ const versionStylesheet = (href: string) => {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#061d35">
+    <meta name="theme-color" content="#061d35" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#031323" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light">
     <script is:inline set:html={mobileEntryScrollScript}></script>
     <title>{title}</title>
 

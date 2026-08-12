@@ -22,120 +22,87 @@ const {
   stylesheets = [],
 } = Astro.props;
 
-type PagePresentation = {
-    image: string;
-    alt: string;
-    position?: string;
+type PageSection = {
     section: string;
     sectionHref: string;
 };
 
-const pagePresentations: Record<string, PagePresentation> = {
+const pageSections: Record<string, PageSection> = {
     '/about': {
-        image: '/images/stock/torah-study.webp',
-        alt: 'A hand following text in a Torah scroll',
-        position: '50% 54%',
         section: 'Welcome',
         sectionHref: '/about',
     },
+    '/accessibility': {
+        section: 'Accessibility',
+        sectionHref: '/accessibility',
+    },
     '/contact': {
-        image: '/images/stock/mezuzah-light.webp',
-        alt: 'A hand holding a mezuzah in warm light',
-        position: '50% 58%',
         section: 'Connect',
         sectionHref: '/contact',
     },
     '/donate': {
-        image: '/images/stock/olive-branches.webp',
-        alt: 'Olive branches in Mediterranean sunlight',
-        position: '38% 48%',
         section: 'Connect',
         sectionHref: '/contact',
     },
     '/events': {
-        image: '/images/stock/holiday-table.webp',
-        alt: 'A Jewish holiday table set with a Hanukkah menorah',
-        position: '56% 44%',
         section: 'Events & Services',
         sectionHref: '/services',
     },
     '/expect': {
-        image: '/images/stock/open-torah-scroll.webp',
-        alt: 'An open Torah scroll resting on a synagogue reading table',
-        position: '50% 50%',
         section: 'Welcome',
         sectionHref: '/about',
     },
     '/faq': {
-        image: '/images/stock/torah-ark.webp',
-        alt: 'Torah scrolls resting inside an ark',
-        position: '50% 58%',
         section: 'Welcome',
         sectionHref: '/about',
     },
     '/holidays': {
-        image: '/images/stock/holiday-table.webp',
-        alt: 'A Jewish holiday table set with candles and flowers',
-        position: '56% 44%',
         section: 'Events & Services',
         sectionHref: '/services',
     },
     '/israel': {
-        image: '/images/stock/jerusalem-panorama.webp',
-        alt: 'A panoramic view of Jerusalem',
-        position: '50% 58%',
         section: 'Community',
         sectionHref: '/israel',
     },
     '/location': {
-        image: '/images/stock/mezuzah-light.webp',
-        alt: 'A hand holding a mezuzah in warm light',
-        position: '50% 58%',
         section: 'Welcome',
         sectionHref: '/about',
     },
     '/mission': {
-        image: '/images/stock/shared-table.webp',
-        alt: 'Several hands sharing a plate of dates around a table',
-        position: '50% 48%',
         section: 'Welcome',
         sectionHref: '/about',
     },
+    '/privacy': {
+        section: 'Privacy Notice',
+        sectionHref: '/privacy',
+    },
     '/resources': {
-        image: '/images/stock/torah-ark.webp',
-        alt: 'Torah scrolls resting inside an ark',
-        position: '50% 58%',
         section: 'Learn',
         sectionHref: '/resources',
     },
     '/services': {
-        image: '/images/stock/open-torah-scroll.webp',
-        alt: 'An open Torah scroll resting on a synagogue reading table',
-        position: '50% 50%',
         section: 'Events & Services',
         sectionHref: '/services',
     },
     '/umjc': {
-        image: '/images/stock/torah-study.webp',
-        alt: 'A hand following text in a Torah scroll',
-        position: '50% 54%',
         section: 'Welcome',
         sectionHref: '/about',
     },
     '/youth': {
-        image: '/images/stock/torah-study.webp',
-        alt: 'A hand following text in a Torah scroll',
-        position: '50% 54%',
         section: 'Events & Services',
         sectionHref: '/services',
+    },
+    '/website-use': {
+        section: 'Website Use',
+        sectionHref: '/website-use',
     },
 };
 
 const currentPath = Astro.url.pathname === '/'
     ? '/'
     : Astro.url.pathname.replace(/\/+$/, '');
-const presentation = pagePresentations[currentPath] ?? pagePresentations['/about'];
-const showSectionCrumb = presentation.sectionHref !== currentPath;
+const pageSection = pageSections[currentPath] ?? pageSections['/about'];
+const showSectionCrumb = pageSection.sectionHref !== currentPath;
 ---
 
 <BaseLayout title={title} description={description} stylesheets={['/styles/interior.css', ...stylesheets]}>
@@ -153,23 +120,13 @@ const showSectionCrumb = presentation.sectionHref !== currentPath;
                         <nav class="site-breadcrumbs" aria-label="Breadcrumb">
                             <ol>
                                 <li><a href="/">Home</a></li>
-                                {showSectionCrumb && <li><a href={presentation.sectionHref}>{presentation.section}</a></li>}
+                                {showSectionCrumb && <li><a href={pageSection.sectionHref}>{pageSection.section}</a></li>}
                                 <li aria-current="page">{pageTitle}</li>
                             </ol>
                         </nav>
                         <span class="page-hero-rule" aria-hidden="true"></span>
                         <h1 id="page-title">{pageTitle}</h1>
                     </div>
-                    <figure class="page-hero-media" style={`--hero-position: ${presentation.position ?? '50% 50%'}`}>
-                        <img
-                            src={presentation.image}
-                            alt={presentation.alt}
-                            width="1800"
-                            height="1200"
-                            loading="eager"
-                            fetchpriority="high"
-                        >
-                    </figure>
                 </div>
             </header>
         )}

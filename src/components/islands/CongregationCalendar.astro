@@ -1,7 +1,7 @@
-<div class="kehilat-calendar-shell">
-    <div class="kehilat-calendar-controls" aria-label="Calendar filters">
+<div class="kehilat-calendar-shell" aria-busy="true">
+    <div class="kehilat-calendar-controls" aria-label="Upcoming date filters">
         <fieldset>
-            <legend>Show on calendar</legend>
+            <legend>Include in upcoming dates</legend>
             <label>
                 <input type="checkbox" name="congregation" checked>
                 <span class="kehilat-calendar-key kehilat-calendar-key--congregation" aria-hidden="true"></span>
@@ -25,10 +25,21 @@
         </fieldset>
     </div>
 
-    <p class="kehilat-calendar-status" role="status" aria-live="polite"></p>
-    <article class="kehilat-calendar-details" aria-live="polite" hidden>
+    <p class="kehilat-calendar-status" role="status" aria-live="polite" aria-atomic="true">Loading upcoming dates…</p>
+    <div
+        class="kehilat-calendar"
+        role="feed"
+        aria-label="Upcoming Kehilat Ohr HaTorah gatherings, Shabbat candle-lighting times, and Jewish dates"
+    ></div>
+    <p class="kehilat-calendar-empty" hidden>No upcoming dates match the selected filters.</p>
+    <div class="kehilat-calendar-actions" hidden>
+        <button class="kehilat-calendar-show-more" type="button">Show more dates</button>
+        <button class="kehilat-calendar-show-fewer" type="button" hidden>Show fewer dates</button>
+    </div>
+
+    <article class="kehilat-calendar-details" id="kehilat-calendar-event-details" aria-live="polite" hidden>
         <div>
-            <p class="kehilat-calendar-details-kicker">Calendar event</p>
+            <p class="kehilat-calendar-details-kicker">Upcoming date</p>
             <h4 class="kehilat-calendar-details-title"></h4>
             <p class="kehilat-calendar-details-time"></p>
             <p class="kehilat-calendar-details-hebrew" hidden></p>
@@ -39,9 +50,9 @@
             <span aria-hidden="true">×</span>
         </button>
     </article>
-    <div class="kehilat-calendar" aria-label="Kehilat Ohr HaTorah congregation, Shabbat candle-lighting, and Jewish holiday calendar"></div>
+
     <noscript>
-        <p class="kehilat-calendar-noscript">JavaScript is required to view the interactive calendar. Our regular Shabbat gathering begins Saturdays at 2:30 p.m.</p>
+        <p class="kehilat-calendar-noscript">JavaScript is required to view upcoming dates. Our regular Shabbat gathering begins Saturdays at 2:30 p.m.</p>
     </noscript>
 
     <p class="kehilat-calendar-attribution">
@@ -49,31 +60,57 @@
         <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer">Hebcal.com</a>,
         licensed under
         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>;
-        reformatted for this calendar.
+        reformatted for this list.
     </p>
 </div>
 
 <script>
-    import { Calendar, type EventInput, type EventSourceFuncInfo } from 'fullcalendar';
-    import dayGridPlugin from 'fullcalendar/daygrid';
-    import listPlugin from 'fullcalendar/list';
-    import classicThemePlugin from 'fullcalendar/themes/classic';
-    import 'fullcalendar/skeleton.css';
-    import 'fullcalendar/themes/classic/theme.css';
+    type CalendarGroup = 'congregation' | 'candle-lighting' | 'holiday' | 'observance';
+
+    type CalendarEvent = {
+        id: string;
+        title: string;
+        allDay?: boolean;
+        start?: string;
+        end?: string;
+        extendedProps: {
+            source: 'congregation' | 'hebcal';
+            group: CalendarGroup;
+            calendarDate?: string;
+            description?: string;
+            location?: string;
+            hebrew?: string;
+            hebrewDate?: string;
+        };
+    };
 
     type CalendarPayload = {
         success: boolean;
-        events?: EventInput[];
+        events?: CalendarEvent[];
         error?: string;
         meta?: {
-            holidayStatus?: 'available' | 'unavailable' | 'not-requested';
             warning?: string;
         };
     };
 
+    type DateGroup = {
+        date: string;
+        events: CalendarEvent[];
+    };
+
+    const businessTimeZone = 'America/Los_Angeles';
+    const mobileDateLimit = 3;
+    const wideDateLimit = 8;
+    const maximumRequestDays = 400;
+    const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+
     const calendarRoot = document.querySelector<HTMLElement>('.kehilat-calendar-shell');
     const calendarElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar');
     const statusElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-status');
+    const emptyElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-empty');
+    const actionsElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-actions');
+    const showMoreButton = actionsElement?.querySelector<HTMLButtonElement>('.kehilat-calendar-show-more');
+    const showFewerButton = actionsElement?.querySelector<HTMLButtonElement>('.kehilat-calendar-show-fewer');
     const detailsElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-details');
     const detailsTitle = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-title');
     const detailsTime = detailsElement?.querySelector<HTMLElement>('.kehilat-calendar-details-time');
@@ -87,6 +124,10 @@
         calendarRoot
         && calendarElement
         && statusElement
+        && emptyElement
+        && actionsElement
+        && showMoreButton
+        && showFewerButton
         && detailsElement
         && detailsTitle
         && detailsTime
@@ -96,137 +137,279 @@
         && detailsClose
         && filterInputs
     ) {
-        const compactCalendarQuery = window.matchMedia('(max-width: 899px)');
-        let automaticView = compactCalendarQuery.matches ? 'listMonth' : 'dayGridMonth';
+        const compactQuery = window.matchMedia('(max-width: 599px)');
+        let dateGroups: DateGroup[] = [];
+        let defaultDateLimit = compactQuery.matches ? mobileDateLimit : wideDateLimit;
+        let visibleDateLimit = defaultDateLimit;
+        let activeRequest: AbortController | null = null;
+        let lastEventTrigger: HTMLButtonElement | null = null;
 
-        const readFilters = () => {
+        const getBusinessDate = (): string => {
+            const parts = new Intl.DateTimeFormat('en-US', {
+                timeZone: businessTimeZone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            }).formatToParts(new Date());
+            const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+            return `${values.year}-${values.month}-${values.day}`;
+        };
+
+        const addDateDays = (date: string, days: number): string => {
+            const timestamp = Date.parse(`${date}T00:00:00.000Z`);
+            return new Date(timestamp + (days * 86_400_000)).toISOString().slice(0, 10);
+        };
+
+        const formatDate = (date: string, options: Intl.DateTimeFormatOptions): string =>
+            new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'UTC' })
+                .format(new Date(`${date}T12:00:00.000Z`));
+
+        const formatClockTime = (value: string | undefined): string => {
+            const match = value?.match(/T(\d{2}):(\d{2})/);
+            if (!match) return '';
+            const hours = Number(match[1]);
+            const minutes = match[2];
+            const period = hours >= 12 ? 'p.m.' : 'a.m.';
+            const displayHours = hours % 12 || 12;
+            return `${displayHours}:${minutes} ${period}`;
+        };
+
+        const formatEventTime = (event: CalendarEvent): string => {
+            if (event.allDay) return 'All day';
+            const startTime = formatClockTime(event.start);
+            const endTime = formatClockTime(event.end);
+            if (!startTime) return 'Time to be announced';
+            return endTime ? `${startTime}–${endTime}` : startTime;
+        };
+
+        const getGroupLabel = (group: CalendarGroup): string => ({
+            congregation: 'Congregation gathering',
+            holiday: 'Jewish holiday or festival',
+            'candle-lighting': 'Shabbat candle lighting',
+            observance: 'Jewish observance',
+        })[group];
+
+        const setOptionalText = (element: HTMLElement, value: unknown, prefix = '') => {
+            const text = typeof value === 'string' ? value.trim() : '';
+            element.textContent = text ? `${prefix}${text}` : '';
+            element.hidden = !text;
+        };
+
+        const closeDetails = (restoreFocus: boolean) => {
+            detailsElement.hidden = true;
+            lastEventTrigger?.setAttribute('aria-expanded', 'false');
+            if (restoreFocus) lastEventTrigger?.focus();
+            lastEventTrigger = null;
+        };
+
+        const showEventDetails = (event: CalendarEvent, trigger: HTMLButtonElement) => {
+            lastEventTrigger?.setAttribute('aria-expanded', 'false');
+            lastEventTrigger = trigger;
+            trigger.setAttribute('aria-expanded', 'true');
+
+            const calendarDate = event.extendedProps.calendarDate || event.start?.slice(0, 10) || '';
+            detailsTitle.textContent = event.title;
+            detailsTime.textContent = calendarDate && isoDatePattern.test(calendarDate)
+                ? `${formatDate(calendarDate, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} · ${formatEventTime(event)}`
+                : formatEventTime(event);
+            const hebrewDetails = [event.extendedProps.hebrew, event.extendedProps.hebrewDate]
+                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+                .join(' · ');
+            setOptionalText(detailsHebrew, hebrewDetails);
+            setOptionalText(detailsDescription, event.extendedProps.description);
+            setOptionalText(detailsLocation, event.extendedProps.location, 'Location: ');
+
+            detailsElement.hidden = false;
+            detailsElement.scrollIntoView({
+                block: 'nearest',
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+            });
+            detailsClose.focus({ preventScroll: true });
+        };
+
+        const createEventItem = (event: CalendarEvent): HTMLLIElement => {
+            const item = document.createElement('li');
+            item.className = 'kehilat-calendar-event-item';
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `kehilat-calendar-event-button kehilat-calendar-event-button--${event.extendedProps.group}`;
+            button.setAttribute('aria-controls', 'kehilat-calendar-event-details');
+            button.setAttribute('aria-expanded', 'false');
+
+            const type = document.createElement('span');
+            type.className = 'kehilat-calendar-event-type';
+            type.textContent = getGroupLabel(event.extendedProps.group);
+
+            const title = document.createElement('strong');
+            title.className = 'kehilat-calendar-event-title';
+            title.textContent = event.title;
+
+            const time = document.createElement('span');
+            time.className = 'kehilat-calendar-event-time';
+            time.textContent = formatEventTime(event);
+
+            button.append(type, title, time);
+            const hebrewText = [event.extendedProps.hebrew, event.extendedProps.hebrewDate]
+                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+                .join(' · ');
+            if (hebrewText) {
+                const hebrew = document.createElement('span');
+                hebrew.className = 'kehilat-calendar-event-hebrew';
+                hebrew.textContent = hebrewText;
+                button.append(hebrew);
+            }
+            button.addEventListener('click', () => showEventDetails(event, button));
+            item.append(button);
+            return item;
+        };
+
+        const createDateCard = (group: DateGroup, index: number): HTMLElement => {
+            const card = document.createElement('article');
+            card.className = 'kehilat-calendar-date-card';
+            const headingId = `kehilat-calendar-date-${group.date}-${index}`;
+            card.setAttribute('aria-labelledby', headingId);
+            card.setAttribute('aria-posinset', String(index + 1));
+            card.setAttribute('aria-setsize', String(dateGroups.length));
+
+            const header = document.createElement('header');
+            header.className = 'kehilat-calendar-date-header';
+
+            const weekday = document.createElement('p');
+            weekday.className = 'kehilat-calendar-date-weekday';
+            weekday.textContent = formatDate(group.date, { weekday: 'long' });
+
+            const heading = document.createElement('h3');
+            heading.id = headingId;
+            heading.className = 'kehilat-calendar-date-heading';
+            const date = document.createElement('time');
+            date.dateTime = group.date;
+            date.textContent = formatDate(group.date, { month: 'long', day: 'numeric', year: 'numeric' });
+            heading.append(date);
+
+            const count = document.createElement('p');
+            count.className = 'kehilat-calendar-date-count';
+            count.textContent = `${group.events.length} ${group.events.length === 1 ? 'item' : 'items'}`;
+            header.append(weekday, heading, count);
+
+            const eventList = document.createElement('ul');
+            eventList.className = 'kehilat-calendar-event-list';
+            group.events.forEach((event) => eventList.append(createEventItem(event)));
+            card.append(header, eventList);
+            return card;
+        };
+
+        const renderDateGroups = () => {
+            closeDetails(false);
+            calendarElement.replaceChildren();
+            const visibleGroups = dateGroups.slice(0, visibleDateLimit);
+            visibleGroups.forEach((group, index) => calendarElement.append(createDateCard(group, index)));
+
+            emptyElement.hidden = dateGroups.length > 0;
+            const remainingCount = Math.max(0, dateGroups.length - visibleGroups.length);
+            actionsElement.hidden = dateGroups.length <= defaultDateLimit;
+            showMoreButton.hidden = remainingCount === 0;
+            showMoreButton.textContent = remainingCount > 0
+                ? `Show ${Math.min(defaultDateLimit, remainingCount)} more ${remainingCount === 1 ? 'date' : 'dates'}`
+                : 'Show more dates';
+            showFewerButton.hidden = visibleDateLimit <= defaultDateLimit;
+        };
+
+        const groupEventsByDate = (events: CalendarEvent[]): DateGroup[] => {
+            const grouped = new Map<string, CalendarEvent[]>();
+            events.forEach((event) => {
+                const date = event.extendedProps?.calendarDate || event.start?.slice(0, 10) || '';
+                if (!isoDatePattern.test(date)) return;
+                const existingEvents = grouped.get(date) || [];
+                existingEvents.push(event);
+                grouped.set(date, existingEvents);
+            });
+
+            return [...grouped.entries()]
+                .sort(([firstDate], [secondDate]) => firstDate.localeCompare(secondDate))
+                .map(([date, groupedEvents]) => ({
+                    date,
+                    events: groupedEvents.sort((first, second) => {
+                        const firstTime = first.allDay ? '00:00' : first.start?.slice(11, 16) || '23:59';
+                        const secondTime = second.allDay ? '00:00' : second.start?.slice(11, 16) || '23:59';
+                        return firstTime.localeCompare(secondTime) || first.title.localeCompare(second.title);
+                    }),
+                }));
+        };
+
+        const readFilters = (): URLSearchParams => {
             const values = new URLSearchParams();
             filterInputs.forEach((input) => values.set(input.name, input.checked ? '1' : '0'));
             return values;
         };
 
-        const fetchEvents = async (info: EventSourceFuncInfo): Promise<EventInput[]> => {
+        const loadEvents = async () => {
+            activeRequest?.abort();
+            activeRequest = new AbortController();
+            const requestController = activeRequest;
             const query = readFilters();
-            query.set('start', info.startStr.slice(0, 10));
-            query.set('end', info.endStr.slice(0, 10));
+            const start = getBusinessDate();
+            query.set('start', start);
+            query.set('end', addDateDays(start, maximumRequestDays));
 
-            const response = await fetch(`/api/calendar/events?${query.toString()}`, {
-                headers: { Accept: 'application/json' },
-            });
-            const payload = await response.json() as CalendarPayload;
-            if (!response.ok || !payload.success || !Array.isArray(payload.events)) {
-                throw new Error(payload.error || 'The calendar could not be loaded');
-            }
-
-            statusElement.textContent = payload.meta?.warning || '';
-            return payload.events;
-        };
-
-        const calendar = new Calendar(calendarElement, {
-            plugins: [dayGridPlugin, listPlugin, classicThemePlugin],
-            initialView: automaticView,
-            timeZone: 'America/Los_Angeles',
-            firstDay: 0,
-            height: 'auto',
-            fixedWeekCount: false,
-            showNonCurrentDates: false,
-            dayMaxEvents: 3,
-            eventInteractive: true,
-            headingLevel: 3,
-            displayEventEnd: true,
-            eventTimeFormat: {
-                hour: 'numeric',
-                minute: '2-digit',
-                meridiem: 'short',
-            },
-            headerToolbar: {
-                start: 'prev,next today',
-                center: 'title',
-                end: 'dayGridMonth,listMonth',
-            },
-            todayText: 'Today',
-            monthText: 'Month',
-            listText: 'Agenda',
-            noEventsText: 'No events in this month.',
-            events: fetchEvents,
-            loading: (isLoading) => {
-                calendarRoot.classList.toggle('is-loading', isLoading);
-                if (isLoading) statusElement.textContent = 'Loading calendar…';
-                else if (statusElement.textContent === 'Loading calendar…') statusElement.textContent = '';
-            },
-            eventSourceFailure: () => {
-                statusElement.textContent = 'The calendar is temporarily unavailable. Please try again shortly.';
-            },
-            eventClick: ({ event }) => {
-                const dateFormatter = new Intl.DateTimeFormat('en-US', {
-                    timeZone: event.allDay ? 'UTC' : 'America/Los_Angeles',
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
+            calendarRoot.classList.add('is-loading');
+            calendarRoot.setAttribute('aria-busy', 'true');
+            statusElement.textContent = 'Loading upcoming dates…';
+            try {
+                const response = await fetch(`/api/calendar/events?${query.toString()}`, {
+                    headers: { Accept: 'application/json' },
+                    signal: requestController.signal,
                 });
-                const timeFormatter = new Intl.DateTimeFormat('en-US', {
-                    timeZone: 'America/Los_Angeles',
-                    hour: 'numeric',
-                    minute: '2-digit',
-                });
-
-                detailsTitle.textContent = event.title;
-                if (!event.start) {
-                    detailsTime.textContent = 'Date unavailable';
-                } else if (event.allDay) {
-                    detailsTime.textContent = dateFormatter.format(event.start);
-                } else {
-                    const timeRange = event.end
-                        ? `${timeFormatter.format(event.start)}–${timeFormatter.format(event.end)}`
-                        : timeFormatter.format(event.start);
-                    detailsTime.textContent = `${dateFormatter.format(event.start)} · ${timeRange}`;
+                const payload = await response.json() as CalendarPayload;
+                if (!response.ok || !payload.success || !Array.isArray(payload.events)) {
+                    throw new Error(payload.error || 'Upcoming dates could not be loaded');
                 }
 
-                const setOptionalText = (element: HTMLElement, value: unknown, prefix = '') => {
-                    const text = typeof value === 'string' ? value.trim() : '';
-                    element.textContent = text ? `${prefix}${text}` : '';
-                    element.hidden = !text;
-                };
-                const hebrewDetails = [
-                    event.extendedProps.hebrew,
-                    event.extendedProps.hebrewDate,
-                ].filter((value): value is string => typeof value === 'string' && value.trim().length > 0).join(' · ');
-                setOptionalText(detailsHebrew, hebrewDetails);
-                setOptionalText(detailsDescription, event.extendedProps.description);
-                setOptionalText(detailsLocation, event.extendedProps.location, 'Location: ');
-
-                detailsElement.hidden = false;
-                detailsClose.focus({ preventScroll: true });
-            },
-            eventDidMount: ({ el, event }) => {
-                const details = [
-                    event.title,
-                    event.extendedProps.hebrew,
-                    event.extendedProps.hebrewDate,
-                    event.extendedProps.location,
-                ].filter(Boolean).join(' — ');
-                if (details) el.setAttribute('aria-label', `${details}. Open event details.`);
-            },
-        });
-
-        calendar.render();
-
-        filterInputs.forEach((input) => {
-            input.addEventListener('change', () => calendar.refetchEvents());
-        });
-
-        detailsClose.addEventListener('click', () => {
-            detailsElement.hidden = true;
-        });
-
-        const handleResponsiveView = () => {
-            const nextAutomaticView = compactCalendarQuery.matches ? 'listMonth' : 'dayGridMonth';
-            if (nextAutomaticView === automaticView) return;
-            const wasAutomaticView = calendar.view.type === automaticView;
-            automaticView = nextAutomaticView;
-            if (wasAutomaticView) calendar.changeView(automaticView, calendar.getDate());
+                dateGroups = groupEventsByDate(payload.events);
+                visibleDateLimit = defaultDateLimit;
+                statusElement.textContent = payload.meta?.warning || '';
+                renderDateGroups();
+            } catch (error) {
+                if (requestController.signal.aborted) return;
+                dateGroups = [];
+                renderDateGroups();
+                statusElement.textContent = error instanceof Error
+                    ? `${error.message}. Please try again shortly.`
+                    : 'Upcoming dates are temporarily unavailable. Please try again shortly.';
+            } finally {
+                if (activeRequest === requestController) {
+                    activeRequest = null;
+                    calendarRoot.classList.remove('is-loading');
+                    calendarRoot.setAttribute('aria-busy', 'false');
+                }
+            }
         };
-        compactCalendarQuery.addEventListener('change', handleResponsiveView);
+
+        filterInputs.forEach((input) => input.addEventListener('change', loadEvents));
+        showMoreButton.addEventListener('click', () => {
+            const previouslyVisible = visibleDateLimit;
+            visibleDateLimit = Math.min(dateGroups.length, visibleDateLimit + defaultDateLimit);
+            renderDateGroups();
+            calendarElement
+                .querySelector<HTMLButtonElement>(`.kehilat-calendar-date-card:nth-child(${previouslyVisible + 1}) .kehilat-calendar-event-button`)
+                ?.focus();
+        });
+        showFewerButton.addEventListener('click', () => {
+            visibleDateLimit = defaultDateLimit;
+            renderDateGroups();
+            calendarElement.scrollIntoView({ block: 'start', behavior: 'smooth' });
+            showMoreButton.focus({ preventScroll: true });
+        });
+        detailsClose.addEventListener('click', () => closeDetails(true));
+        compactQuery.addEventListener('change', () => {
+            const previousDefault = defaultDateLimit;
+            defaultDateLimit = compactQuery.matches ? mobileDateLimit : wideDateLimit;
+            visibleDateLimit = visibleDateLimit <= previousDefault
+                ? defaultDateLimit
+                : Math.max(defaultDateLimit, visibleDateLimit);
+            renderDateGroups();
+        });
+
+        loadEvents();
     }
 </script>

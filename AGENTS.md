@@ -8,10 +8,12 @@ This file provides project-specific guidance for the Chuck directory containing 
 - **Type**: Astro SSR site with Cloudflare Pages
 - **Tech Stack**: Astro 5.x, TypeScript, Cloudflare Workers/Pages, D1, R2
 - **Development Server**: `npm run dev` (port 3002)
-- **Production URL**: https://ohrhatorah.pages.dev
+- **Legacy Production URL**: https://ohrhatorah.pages.dev (Dylan account; retained only as rollback until a separately approved domain cutover)
+- **Chuck Staging URL**: https://kehilat-ohr-hatorah-chuck-staging.pages.dev
 - **Repository**: https://github.com/Skarath13/OhrHaTorah.git
-- **Production Branch**: `master` (auto-deploys to Cloudflare Pages on push)
-- **Fresh Design Branch**: `codex/fresh-design-exploration` in `/Users/dylan/Desktop/chuck-fresh-design`
+- **Primary Branch**: `main`
+- **Primary Worktree**: `/Users/dylan/Desktop/chuck-fresh-design`
+- **Legacy Branch**: `master` remains attached to the old Dylan Pages project; do not push or deploy it as the current site.
 
 ### Project Structure
 ```
@@ -29,7 +31,8 @@ OhrHaTorah/
 │   ├── images/          # Website assets (logos, community photos)
 │   ├── styles/          # CSS stylesheets
 │   └── favicon.svg      # Site icon
-├── wrangler.json        # Cloudflare Workers/Pages config
+├── wrangler.json        # Legacy Dylan Cloudflare config; do not use for Chuck staging
+├── wrangler.chuck-staging.json # Chuck staging Pages/D1 config
 ├── schema.sql           # D1 database schema
 ├── astro.config.mjs     # Astro configuration
 ├── package.json         # Dependencies
@@ -39,13 +42,13 @@ OhrHaTorah/
 ## Cloudflare Infrastructure
 
 ### Services Used
-- **Cloudflare Pages**: Hosting with auto-deploy from GitHub
-- **Cloudflare D1**: SQLite database (`ohrhatorah-db`)
-- **Cloudflare R2**: Image storage bucket (`ohrhatorah-images`)
+- **Cloudflare Pages**: Chuck-account staging project `kehilat-ohr-hatorah-chuck-staging`
+- **Cloudflare D1**: Isolated staging database `ohrhatorah-staging-db`
+- **Cloudflare R2**: Not enabled in the Chuck account yet; admin uploads remain unavailable there until the account owner enables R2 and a staging bucket is bound.
 
-### Bindings (configured in wrangler.json and Pages dashboard)
-- `DB` → D1 database `ohrhatorah-db`
-- `IMAGES` → R2 bucket `ohrhatorah-images`
+### Staging Bindings
+- `DB` → D1 database `ohrhatorah-staging-db`
+- `IMAGES` → intentionally absent until Chuck-account R2 is enabled
 
 ### Database Tables (schema.sql)
 - `users` - Admin users with PIN hashes
@@ -55,18 +58,19 @@ OhrHaTorah/
 - `images` - Uploaded image metadata
 
 ### Deployment
-- **Auto-deploy**: Push to `master` triggers Cloudflare Pages build
+- **Current release path**: verified direct upload to the Chuck staging-only Pages project
 - **Build command**: `npm run build`
 - **Output directory**: `dist`
-- **Manual deploy**: `npx wrangler pages deploy dist --project-name ohrhatorah`
+- **Manual deploy**: follow `docs/cloudflare-staging.md` and name the account, config, project, branch, and verified commit explicitly
+- **Domains**: do not attach a custom domain, route, or DNS record without separate approval
 
 ### Database Commands
 ```bash
-# Run schema on remote
-npx wrangler d1 execute ohrhatorah-db --remote --file=schema.sql
+# Run schema on Chuck staging
+CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --file=schema.sql --config wrangler.chuck-staging.json
 
-# Query remote database
-npx wrangler d1 execute ohrhatorah-db --remote --command="SELECT * FROM users;"
+# Query Chuck staging
+CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --command="SELECT * FROM users;" --config wrangler.chuck-staging.json
 
 # Local development uses .wrangler/state/v3/d1/ SQLite files
 ```
@@ -130,6 +134,9 @@ npm run preview  # Preview production build
 - `/resources` - Messianic Jewish Resources
 - `/contact` - Contact Us
 - `/donate` - Donation page
+- `/privacy` - Privacy Notice
+- `/website-use` - Website Use
+- `/accessibility` - Website Accessibility
 
 ### Special Features
 - **Hostage Counter**: Real-time timer (Israeli hostage awareness)
@@ -165,10 +172,10 @@ npm run preview  # Preview production build
 
 ### Repository Management
 - **Origin**: https://github.com/Skarath13/OhrHaTorah.git
-- **Primary Branch**: `master`
-- **Protected Design Worktree**: Make fresh-design changes only in `/Users/dylan/Desktop/chuck-fresh-design` on `codex/fresh-design-exploration` when that branch is in scope. Do not merge or deploy `master` without explicit approval.
+- **Primary Branch**: `main`
+- **Primary Worktree**: Make current-site changes in `/Users/dylan/Desktop/chuck-fresh-design`. Treat `master` and the original `/Users/dylan/Desktop/chuck` worktree as archived legacy state.
 - **Commits**: Descriptive messages for content and code changes
-- **Push**: `git push origin master` (triggers auto-deploy)
+- **Push**: `git push origin main`; deployment remains a separate verified Chuck-staging action until Git integration and custom-domain cutover are explicitly approved.
 
 ---
 

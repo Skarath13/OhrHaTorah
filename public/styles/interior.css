@@ -40,14 +40,40 @@
 .page-hero {
     position: relative;
     overflow: hidden;
+    isolation: isolate;
     background:
-        radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.08), transparent 28rem),
-        var(--interior-navy);
+        radial-gradient(circle at 84% 12%, rgba(209, 161, 45, 0.16), transparent 20rem),
+        linear-gradient(135deg, var(--interior-navy) 0%, #092746 100%);
     color: #fff;
 }
 
+.page-hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: max(2.5rem, calc((100vw - 1180px) / 2));
+    width: clamp(7rem, 13vw, 10.5rem);
+    aspect-ratio: 1;
+    border: 1px solid rgba(234, 211, 154, 0.2);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 1.15rem rgba(234, 211, 154, 0.035),
+        0 0 0 2.3rem rgba(234, 211, 154, 0.025);
+    opacity: 0.9;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
 .page-hero::after {
-    content: none;
+    content: '';
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(234, 211, 154, 0.5), transparent);
 }
 
 .page-hero-inner {
@@ -55,17 +81,18 @@
     z-index: 1;
     display: grid;
     box-sizing: border-box;
-    grid-template-columns: minmax(0, 0.92fr) minmax(340px, 1.08fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    gap: clamp(2rem, 5vw, 5rem);
     width: min(1180px, calc(100% - 48px));
-    min-height: 218px;
+    min-height: clamp(188px, 17vw, 236px);
     margin: 0 auto;
-    padding: 1.25rem 0;
+    padding: clamp(2rem, 4vw, 3rem) 0;
 }
 
 .page-hero-title {
+    position: relative;
     min-width: 0;
+    max-width: min(54rem, calc(100% - clamp(7rem, 16vw, 13rem)));
 }
 
 .page-hero-rule {
@@ -77,7 +104,7 @@
 }
 
 .page-hero h1 {
-    max-width: 14ch;
+    max-width: 20ch;
     margin: 0;
     color: #fff;
     font-family: var(--font-display);
@@ -85,34 +112,9 @@
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1;
+    overflow-wrap: normal;
+    word-break: normal;
     text-wrap: balance;
-}
-
-.page-hero-media {
-    position: relative;
-    height: 164px;
-    margin: 0;
-    overflow: hidden;
-    border: 1px solid rgba(234, 211, 154, 0.42);
-    border-radius: 0.9rem 0.9rem 2.5rem 0.9rem;
-    background: var(--interior-navy-soft);
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
-}
-
-.page-hero-media::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(6, 29, 53, 0.2), transparent 55%);
-    pointer-events: none;
-}
-
-.page-hero-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: var(--hero-position, 50% 50%);
-    filter: saturate(0.88) contrast(1.02);
 }
 
 .interior-shell .interior-page {
@@ -1148,10 +1150,6 @@
         background: rgba(255, 255, 255, 0.12) !important;
     }
 
-    .page-hero-inner {
-        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
-    }
-
     .interior-shell .footer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 2.5rem 0;
@@ -1174,19 +1172,13 @@
 
 @media (max-width: 900px) {
     .page-hero-inner {
-        grid-template-columns: minmax(0, 0.95fr) minmax(270px, 1.05fr);
-        gap: 2rem;
-        min-height: 196px;
-        padding: 1.25rem 0;
+        min-height: 176px;
+        padding-block: 1.85rem;
     }
 
     .page-hero h1 {
-        max-width: 14ch;
+        max-width: 18ch;
         font-size: clamp(2.35rem, 5.6vw, 3.15rem);
-    }
-
-    .page-hero-media {
-        height: 148px;
     }
 
     .interior-shell .interior-page .page-body :where(.mission-section, .vision-section),
@@ -1222,9 +1214,18 @@
 
     .page-hero-inner {
         grid-template-columns: minmax(0, 1fr);
-        gap: 1rem;
-        min-height: 0;
-        padding: 1.25rem 0;
+        min-height: 156px;
+        padding: 1.55rem 0;
+    }
+
+    .page-hero-title {
+        max-width: calc(100% - 2rem);
+    }
+
+    .page-hero::before {
+        right: -3.5rem;
+        width: 8.5rem;
+        opacity: 0.68;
     }
 
     .page-hero-rule {
@@ -1233,14 +1234,9 @@
     }
 
     .page-hero h1 {
-        max-width: 15ch;
+        max-width: 16ch;
         font-size: clamp(2.15rem, 9vw, 2.75rem);
         line-height: 1;
-    }
-
-    .page-hero-media {
-        height: 112px;
-        border-radius: 0.75rem 0.75rem 1.8rem 0.75rem;
     }
 
     .interior-shell .interior-page .page-body {

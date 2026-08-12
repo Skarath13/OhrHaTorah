@@ -15,11 +15,6 @@
     to { opacity: 1; }
 }
 
-@keyframes oht-image-settle {
-    from { opacity: 0.86; transform: scale(1.018); }
-    to { opacity: 1; transform: scale(1); }
-}
-
 .home-hero-media video {
     animation: none !important;
     transition: none !important;
@@ -29,8 +24,7 @@
 @media (prefers-reduced-motion: no-preference) {
     .home-hero-logo,
     .home-hero-copy > *,
-    .page-hero-title > *,
-    .page-hero-media img {
+    .page-hero-title > * {
         animation-duration: var(--motion-medium);
         animation-fill-mode: both;
         animation-timing-function: var(--motion-ease-lux);
@@ -57,11 +51,6 @@
     .home-hero-copy > :nth-child(3) {
         animation-name: oht-fade-rise;
         animation-delay: 270ms;
-    }
-
-    .page-hero-media img {
-        animation-name: oht-image-settle;
-        animation-delay: 90ms;
     }
 
     .mobile-nav-group[open] > .mobile-nav-submenu,

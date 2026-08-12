@@ -25,14 +25,6 @@ export type PublicCalendarEvent = {
     readonly allDay?: boolean;
     readonly start?: string;
     readonly end?: string;
-    readonly daysOfWeek?: readonly number[];
-    readonly startTime?: string;
-    readonly endTime?: string;
-    readonly startRecur?: string;
-    readonly endRecur?: string;
-    readonly classNames: readonly string[];
-    readonly color: string;
-    readonly contrastColor: string;
     readonly extendedProps: {
         readonly source: 'congregation' | 'hebcal';
         readonly group: CalendarEventGroup;
@@ -102,9 +94,7 @@ const isSingleEventInRange = (date: string, range: CalendarDateRange): boolean =
 const mapCongregationEvent = (
     event: CongregationEvent,
     range: CalendarDateRange,
-): PublicCalendarEvent | null => {
-    const classNames = ['kehilat-calendar-event', 'kehilat-calendar-event--congregation'] as const;
-    const eventColors = { color: '#0b355f', contrastColor: '#ffffff' } as const;
+): PublicCalendarEvent[] => {
     const extendedProps = {
         source: 'congregation' as const,
         group: 'congregation' as const,
@@ -113,35 +103,31 @@ const mapCongregationEvent = (
     };
 
     if (event.schedule.kind === 'single') {
-        if (!isSingleEventInRange(event.schedule.date, range)) return null;
+        if (!isSingleEventInRange(event.schedule.date, range)) return [];
         if (event.schedule.allDay) {
-            return {
+            return [{
                 id: event.id,
                 title: event.title,
                 allDay: true,
                 start: event.schedule.date,
-                classNames,
-                ...eventColors,
                 extendedProps: {
                     ...extendedProps,
                     calendarDate: event.schedule.date,
                 },
-            };
+            }];
         }
 
-        return {
+        return [{
             id: event.id,
             title: event.title,
             allDay: false,
             start: `${event.schedule.date}T${event.schedule.startTime}:00`,
             end: `${event.schedule.date}T${event.schedule.endTime}:00`,
-            classNames,
-            ...eventColors,
             extendedProps: {
                 ...extendedProps,
                 calendarDate: event.schedule.date,
             },
-        };
+        }];
     }
 
     const seriesEndExclusive = event.schedule.endsOn
@@ -149,28 +135,34 @@ const mapCongregationEvent = (
         : range.end;
     const startRecur = maxDate(event.schedule.startsOn, range.start);
     const endRecur = minDate(seriesEndExclusive, range.end);
-    if (startRecur >= endRecur) return null;
+    if (startRecur >= endRecur) return [];
 
-    return {
-        id: event.id,
-        title: event.title,
-        allDay: false,
-        daysOfWeek: event.schedule.weekdays.map((weekday) => weekdayNumbers[weekday]),
-        startTime: event.schedule.startTime,
-        endTime: event.schedule.endTime,
-        startRecur,
-        endRecur,
-        classNames,
-        ...eventColors,
-        extendedProps,
-    };
+    const includedWeekdays = new Set(
+        event.schedule.weekdays.map((weekday) => weekdayNumbers[weekday]),
+    );
+    const occurrences: PublicCalendarEvent[] = [];
+    for (let calendarDate = startRecur; calendarDate < endRecur; calendarDate = addCalendarDays(calendarDate, 1)) {
+        const timestamp = parseIsoDate(calendarDate);
+        if (timestamp === null || !includedWeekdays.has(new Date(timestamp).getUTCDay())) continue;
+        occurrences.push({
+            id: `${event.id}-${calendarDate}`,
+            title: event.title,
+            allDay: false,
+            start: `${calendarDate}T${event.schedule.startTime}:00`,
+            end: `${calendarDate}T${event.schedule.endTime}:00`,
+            extendedProps: {
+                ...extendedProps,
+                calendarDate,
+            },
+        });
+    }
+    return occurrences;
 };
 
 export const getCongregationCalendarEvents = (
     range: CalendarDateRange,
 ): PublicCalendarEvent[] => congregationEvents
-    .map((event) => mapCongregationEvent(event, range))
-    .filter((event): event is PublicCalendarEvent => event !== null);
+    .flatMap((event) => mapCongregationEvent(event, range));
 
 export const buildHebcalHolidayUrl = (range: CalendarDateRange): string => {
     const url = new URL('https://www.hebcal.com/hebcal');
@@ -276,22 +268,12 @@ export const getHebcalCalendarEvents = (
         })
         .map((item, index) => {
             const group = getHebcalEventGroup(item);
-            const eventColors = group === 'candle-lighting'
-                ? { color: '#7c2f4c', contrastColor: '#ffffff' }
-                : group === 'holiday'
-                    ? { color: '#9b5a16', contrastColor: '#ffffff' }
-                    : { color: '#657464', contrastColor: '#ffffff' };
             const calendarDate = item.date.slice(0, 10);
             return {
                 id: `hebcal-${calendarDate}-${eventIdPart(item.titleOrig || item.title)}-${index}`,
                 title: group === 'candle-lighting' ? 'Shabbat Candle Lighting' : item.title,
                 allDay: group !== 'candle-lighting',
                 start: item.date,
-                classNames: [
-                    'kehilat-calendar-event',
-                    `kehilat-calendar-event--${group}`,
-                ],
-                ...eventColors,
                 extendedProps: {
                     source: 'hebcal',
                     group,

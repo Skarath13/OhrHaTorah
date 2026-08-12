@@ -211,33 +211,33 @@ export const homepageIdentityPreview: {
 } = {
     commitments: [
         {
-            title: 'Covenant Fidelity',
+            title: 'Covenant-Faithful Worship',
             description: 'We are committed to worshiping the God of Israel in covenant fidelity according to the authoritative teachings of the Tanakh and the Brit Chadashah.',
         },
         {
-            title: 'A Loving Synagogue Community',
+            title: 'A Faithful, Welcoming Synagogue Community',
             description: 'We are committed to building a faithful, welcoming, and loving synagogue community that equips individuals and families for joyful service.',
         },
         {
-            title: 'Peace and Mutual Blessing',
+            title: 'Connection, Peace, and Mutual Blessing',
             description: 'We are committed to meaningful connection between the Jewish community and the wider community of Messiah, promoting peace and mutual blessing.',
         },
     ],
     values: [
         {
-            title: 'Every Person',
+            title: 'Every Person Is Precious to God',
             description: 'We value every person as someone precious and valuable to God, made in his image.',
         },
         {
-            title: 'Jewish Life',
+            title: 'Lifelong Growth in Jewish Life',
             description: 'We value life-long learning, experience, and growth in the deep richness of Jewish life, thought, and traditions.',
         },
         {
-            title: 'Genuine Love',
+            title: 'Genuine Love and Caring Relationships',
             description: 'We value genuine love and caring relationships, the foundation for unified healthy service within our congregations.',
         },
         {
-            title: 'Maasei Tovim',
+            title: 'Maasei Tovim—Good Works in Community',
             description: 'We value community service, acts of lovingkindness, humanitarian efforts, and unwavering support for Jewish people in need.',
         },
     ],

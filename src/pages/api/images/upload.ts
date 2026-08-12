@@ -5,9 +5,9 @@ import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFToken
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const runtime = locals.runtime;
-    if (!runtime?.env?.DB || !runtime?.env?.IMAGES) {
+    if (!runtime?.env?.DB) {
       return new Response(
-        JSON.stringify({ success: false, error: 'Storage not available' }),
+        JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -41,9 +41,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    if (!runtime.env.IMAGES) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Storage not available' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const formData = await request.formData();
-    const file = formData.get('file') as File | null;
-    const altText = formData.get('altText') as string | null;
+    const fileEntry = formData.get('file');
+    const file = fileEntry instanceof File ? fileEntry : null;
+    const altTextEntry = formData.get('altText');
+    const altText = typeof altTextEntry === 'string' ? altTextEntry.trim() : null;
 
     if (!file) {
       return new Response(
@@ -53,10 +62,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/svg+xml'];
+    // SVG is intentionally excluded because uploaded active content must never be served from this origin.
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
     if (!allowedTypes.includes(file.type)) {
       return new Response(
-        JSON.stringify({ success: false, error: 'Invalid file type. Allowed: JPEG, PNG, GIF, WEBP, AVIF, SVG' }),
+        JSON.stringify({ success: false, error: 'Invalid file type. Allowed: JPEG, PNG, GIF, WEBP, AVIF' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -66,6 +76,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (file.size > maxSize) {
       return new Response(
         JSON.stringify({ success: false, error: 'File too large. Maximum size: 10MB' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (file.name.length > 200 || (altText && altText.length > 500)) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Filename or alternative text is too long' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }

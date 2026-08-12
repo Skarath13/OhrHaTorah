@@ -16,9 +16,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.11",
     "astro": "^5.16.0",
-    "bcryptjs": "^2.4.3",
-    "fullcalendar": "7.0.2",
-    "temporal-polyfill": "1.0.3"
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6"

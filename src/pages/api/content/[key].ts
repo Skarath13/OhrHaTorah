@@ -23,10 +23,12 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
 
     const decodedKey = decodeURIComponent(key);
 
-    // Check if requesting revision history
+    const isPublicBritChadashahOverride = /^brit-chadashah:\d{4}-\d{2}-\d{2}$/.test(decodedKey);
+
+    // Revision history and all non-public keys are restricted to authenticated editors.
     const url = new URL(request.url);
-    if (url.searchParams.get('history') === 'true') {
-      // Require authentication for viewing history
+    const wantsHistory = url.searchParams.get('history') === 'true';
+    if (wantsHistory || !isPublicBritChadashahOverride) {
       const cookieHeader = request.headers.get('cookie');
       const sessionId = getSessionFromCookies(cookieHeader);
       const user = sessionId ? await validateSession(runtime.env.DB, sessionId) : null;
@@ -38,13 +40,18 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
         );
       }
 
-      const limit = parseInt(url.searchParams.get('limit') || '20', 10);
-      const history = await getRevisionHistory(runtime.env.DB, decodedKey, limit);
+      if (wantsHistory) {
+        const requestedLimit = Number.parseInt(url.searchParams.get('limit') || '20', 10);
+        const limit = Number.isFinite(requestedLimit)
+          ? Math.min(Math.max(requestedLimit, 1), 100)
+          : 20;
+        const history = await getRevisionHistory(runtime.env.DB, decodedKey, limit);
 
-      return new Response(
-        JSON.stringify({ success: true, data: history }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
+        return new Response(
+          JSON.stringify({ success: true, data: history }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     const content = await getContent(runtime.env.DB, decodedKey);
@@ -56,8 +63,12 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
       );
     }
 
+    const publicData = isPublicBritChadashahOverride
+      ? { key: content.key, value: content.value, content_type: content.content_type }
+      : content;
+
     return new Response(
-      JSON.stringify({ success: true, data: content }),
+      JSON.stringify({ success: true, data: publicData }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
