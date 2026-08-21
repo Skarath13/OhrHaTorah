@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { DONOR_RECORD_REQUEST_CONFIRMATION } from './givingRecordRequests.ts';
 import { UPDATE_REQUEST_CONSENT } from './updateRequests.ts';
 
 const readProjectFile = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
@@ -9,6 +10,8 @@ const privacySource = readProjectFile('../pages/privacy.astro');
 const websiteUseSource = readProjectFile('../pages/website-use.astro');
 const accessibilitySource = readProjectFile('../pages/accessibility.astro');
 const donateSource = readProjectFile('../pages/donate.astro');
+const givingDialogSource = readProjectFile('../components/forms/GivingRecordRequestDialog.astro');
+const givingRequestEndpointSource = readProjectFile('../pages/api/giving-record-requests.ts');
 const footerSource = readProjectFile('../components/layout/Footer.astro');
 const updateRequestEndpointSource = readProjectFile('../pages/api/update-requests.ts');
 const pageLayoutSource = readProjectFile('../layouts/PageLayout.astro');
@@ -19,7 +22,7 @@ const combinedLegalSource = legalPageSources.join('\n');
 test('public policy pages are photo-free, dated, and use the shared legal design', () => {
     for (const source of legalPageSources) {
         assert.match(source, /stylesheets=\{\['\/styles\/policies\.css'\]\}/);
-        assert.match(source, /(?:Last updated|Effective) <time datetime="2026-08-(?:11|12|20)">August (?:11|12|20), 2026<\/time>/);
+        assert.match(source, /(?:Last updated|Effective) <time datetime="2026-08-(?:11|12|20|21)">August (?:11|12|20|21), 2026<\/time>/);
         assert.doesNotMatch(source, /<img\b|<picture\b|<figure\b|data-editable/);
     }
 
@@ -50,6 +53,11 @@ test('privacy notice describes the providers and browser behavior actually prese
     assert.doesNotMatch(privacySource, /Web3Forms|web3forms\.com/);
     assert.match(privacySource, /first and last name, email address, and consent; a phone number is optional/);
     assert.match(privacySource, /does not represent a guarantee that an address has already been enrolled/);
+    assert.match(privacySource, /When you request or correct a giving acknowledgment/);
+    assert.match(privacySource, /contribution date, amount and currency as entered, payment method/);
+    assert.match(privacySource, /Do not submit a Social Security or tax identification number, bank login, routing or account number, or full payment-card number/);
+    assert.match(privacySource, /email-update and giving-record requests/);
+    assert.match(privacySource, /Giving-record requests and related contribution or acknowledgment records/);
 
     assert.match(privacySource, /Cookies and local storage/);
     assert.match(privacySource, /Do Not Track/);
@@ -67,6 +75,10 @@ test('terms and accessibility pages make cautious, specific public commitments',
     assert.match(websiteUseSource, /Frequency may vary/);
     assert.match(websiteUseSource, /must process it for enrollment/);
     assert.match(websiteUseSource, /does not authorize text messages or automated calls/);
+    assert.match(websiteUseSource, /id="giving-records"/);
+    assert.match(websiteUseSource, /Submitting a request does not verify that a contribution was received and is not itself a receipt or acknowledgment/);
+    assert.match(websiteUseSource, /only after matching the request against available congregation or payment-provider records/);
+    assert.match(websiteUseSource, /does not determine whether a payment is deductible/);
     assert.match(websiteUseSource, /No part of these terms waives or limits any right or responsibility that cannot lawfully be waived or limited/);
     assert.match(websiteUseSource, /id="copyright-sources"/);
     assert.match(websiteUseSource, /not legal, medical, mental-health, financial, or tax advice/);
@@ -129,6 +141,20 @@ test('donation page gives careful recordkeeping and tax guidance without promisi
     assert.match(donateSource, /Whether a contribution is deductible depends on applicable law and your individual circumstances/);
     assert.match(donateSource, /nothing on this website is tax advice/);
     assert.match(donateSource, /Contact us before sending a non-cash or other special contribution/);
+    assert.match(donateSource, /id="giving-records"/);
+    assert.match(donateSource, /data-open-giving-request/);
+    assert.match(donateSource, /aria-haspopup="dialog"/);
+    assert.match(donateSource, /<GivingRecordRequestDialog \/>/);
+    assert.match(givingDialogSource, /action="\/api\/giving-record-requests"/);
+    assert.match(givingDialogSource, /name="confirmation"[^>]*\brequired\b/);
+    assert.match(givingDialogSource, /Do not enter a bank login, Social Security or tax ID, routing or account number, or full card number/);
+    assert.match(givingDialogSource, /href="\/privacy"/);
+    assert.match(givingDialogSource, /href="\/website-use#giving-records"/);
+    assert.match(givingRequestEndpointSource, /DONOR_RECORD_REQUEST_CONFIRMATION/);
+    assert.equal(
+        DONOR_RECORD_REQUEST_CONFIRMATION,
+        'I confirm that these details are accurate to the best of my knowledge. I understand this is a request to review congregation records, not an acknowledgment, tax receipt, or determination of deductibility.',
+    );
     assert.doesNotMatch(donateSource, /contributions? (?:are|is) tax[- ]deductible/i);
 });
 

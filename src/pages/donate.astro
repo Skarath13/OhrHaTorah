@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import GivingRecordRequestDialog from '../components/forms/GivingRecordRequestDialog.astro';
 import { congregationName } from '../data/congregationIdentity';
 
 const zelleTag = 'ohrhatorahoc';
@@ -143,14 +144,25 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
                 </dl>
             </details>
 
-            <details class="giving-disclosure">
+            <details class="giving-disclosure giving-disclosure-records" id="giving-records">
                 <summary>
                     <span><i class="fas fa-file-shield" aria-hidden="true"></i> Giving records and special gifts</span>
                     <i class="fas fa-plus" aria-hidden="true"></i>
                 </summary>
                 <div class="records-copy">
                     <h2>Giving acknowledgments and special contributions</h2>
-                    <p>Please keep your check or bank record. Contact <strong>{congregationName}</strong> if you need a giving acknowledgment or believe a record should be corrected.</p>
+                    <p>Please keep your check or bank record. If you need an acknowledgment or correction, send us the payment details so we can match them to congregation records.</p>
+                    <button
+                        type="button"
+                        class="giving-record-trigger"
+                        id="giving-record-trigger"
+                        data-open-giving-request
+                        aria-haspopup="dialog"
+                        aria-controls="giving-request-dialog"
+                    >
+                        Request an acknowledgment
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </button>
                     <p>Whether a contribution is deductible depends on applicable law and your individual circumstances; nothing on this website is tax advice. Please consult a qualified adviser. Contact us before sending a non-cash or other special contribution so we can confirm whether it can be accepted.</p>
                 </div>
             </details>
@@ -164,6 +176,8 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
             <p>Zelle® is a registered trademark of Early Warning Services, LLC. Kehilat Ohr HaTorah is not affiliated with, sponsored by, or endorsed by Early Warning Services, LLC.</p>
         </details>
     </section>
+
+    <GivingRecordRequestDialog />
 </PageLayout>
 
 <style>
@@ -647,6 +661,32 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         margin-top: 0.7rem;
     }
 
+    .giving-record-trigger {
+        display: inline-flex;
+        min-height: 44px;
+        gap: 0.55rem;
+        margin: 0.9rem 0 0;
+        padding: 0.65rem 0.95rem;
+        border: 1px solid var(--giving-ink);
+        border-radius: 999px;
+        align-items: center;
+        justify-content: center;
+        background: var(--giving-ink);
+        color: #ffffff;
+        font: 800 0.72rem/1.2 var(--font-body);
+        cursor: pointer;
+        transition: background-color 160ms ease, transform 160ms ease;
+    }
+
+    .giving-record-trigger:hover {
+        background: #17446f;
+        transform: translateY(-1px);
+    }
+
+    .giving-record-trigger + p {
+        margin-top: 0.9rem;
+    }
+
     .provider-legal-disclosure {
         max-width: 60rem;
         margin: 1.25rem auto 0;
@@ -699,6 +739,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     .payment-brand-mark:focus-visible,
     .provider-primary-action:focus-visible,
     .zelle-copy-button:focus-visible,
+    .giving-record-trigger:focus-visible,
     .giving-disclosure summary:focus-visible,
     .provider-legal-disclosure summary:focus-visible {
         outline: 3px solid #0b6eb7;
@@ -766,12 +807,14 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     @media (prefers-reduced-motion: reduce) {
         .payment-qr-frame,
         .provider-primary-action,
+        .giving-record-trigger,
         .giving-disclosure summary > .fa-plus,
         .provider-legal-disclosure summary > .fa-plus {
             transition: none;
         }
 
         .payment-qr-link:hover .payment-qr-frame,
+        .giving-record-trigger:hover,
         .provider-primary-action:hover {
             transform: none;
         }

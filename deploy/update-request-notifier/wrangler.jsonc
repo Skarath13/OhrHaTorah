@@ -18,6 +18,11 @@
       "name": "EMAIL",
       "destination_address": "drburton369@gmail.com",
       "allowed_sender_addresses": ["admin@ohrhatorahoc.org"]
+    },
+    {
+      "name": "DONOR_EMAIL",
+      "destination_address": "ohrhatorahoc2@gmail.com",
+      "allowed_sender_addresses": ["admin@ohrhatorahoc.org"]
     }
   ],
   "queues": {

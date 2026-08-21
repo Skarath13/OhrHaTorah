@@ -6,17 +6,18 @@ import { congregationName } from '../data/congregationIdentity';
 <PageLayout
     title={`Terms and Conditions | ${congregationName}`}
     pageTitle="Terms and Conditions"
-    description={`Terms for respectful website use and requested email updates from ${congregationName}.`}
+    description={`Terms for respectful website use, requested email updates, and giving-record requests from ${congregationName}.`}
     stylesheets={['/styles/policies.css']}
 >
     <div class="policy-page">
         <header class="policy-intro">
             <p class="policy-kicker">A welcoming and trustworthy public space</p>
-            <p class="policy-lede">These terms support respectful use of the <strong>{congregationName}</strong> website and clear expectations when you request our email updates.</p>
-            <p class="policy-updated">Effective <time datetime="2026-08-20">August 20, 2026</time></p>
+            <p class="policy-lede">These terms support respectful use of the <strong>{congregationName}</strong> website and clear expectations when you request email updates or help with a giving record.</p>
+            <p class="policy-updated">Effective <time datetime="2026-08-21">August 21, 2026</time></p>
             <nav class="policy-contents" aria-label="Terms and Conditions sections">
                 <a href="#use">Responsible use</a>
                 <a href="#email-updates">Email updates</a>
+                <a href="#giving-records">Giving records</a>
                 <a href="#information-not-advice">Information</a>
                 <a href="#copyright-sources">Copyright &amp; sources</a>
                 <a href="#third-parties">Third parties</a>
@@ -27,7 +28,7 @@ import { congregationName } from '../data/congregationIdentity';
         <section class="policy-section" id="use">
             <h2>Respectful and responsible use</h2>
             <div class="policy-copy">
-                <p>These terms apply to use of this public website. By using the site, you agree to use it consistently with these terms. The email-update terms below apply when you affirmatively check the required consent box and submit the footer form.</p>
+                <p>These terms apply to use of this public website. By using the site, you agree to use it consistently with these terms. The email-update terms below apply when you affirmatively check the required consent box and submit the footer form. The giving-record terms apply when you confirm and submit a giving-record request.</p>
                 <p>You are welcome to browse, print, or share links to public pages for personal, noncommercial use. Please do not use the site to:</p>
                 <ul class="policy-list">
                     <li>break the law, misrepresent your identity, harass another person, or interfere with another person’s use of the site;</li>
@@ -51,6 +52,16 @@ import { congregationName } from '../data/congregationIdentity';
                 <h3>Delivery and availability</h3>
                 <p>We may use third-party hosting, security, email, and network providers to accept, store, route, and deliver requests and messages. Delivery can be delayed, filtered, blocked, or unavailable for reasons outside our control. We may correct, postpone, or discontinue an update or the email program, subject to applicable law.</p>
                 <p>Email content is general congregational and educational information. It is not professional advice, and time-sensitive details should be confirmed with us before you rely on them. Our <a href="/privacy">Privacy Notice</a> explains how information submitted through the form is handled.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="giving-records">
+            <h2>Giving acknowledgment requests</h2>
+            <div class="policy-copy">
+                <p>The giving-record form lets you ask <strong>{congregationName}</strong> to locate a monetary contribution and email an acknowledgment, or review a correction. Please provide accurate information from a payment record you are authorized to discuss and do not submit bank credentials, Social Security or tax identification numbers, routing or account numbers, or full payment-card numbers.</p>
+                <p>Submitting a request does not verify that a contribution was received and is not itself a receipt or acknowledgment. We issue or correct an acknowledgment only after matching the request against available congregation or payment-provider records. We may contact you for clarification, and we may decline to act on a request that cannot be verified.</p>
+                <p>An acknowledgment reports the congregation’s records; it does not determine whether a payment is deductible. Keep your own payment records and consult a qualified tax adviser about your circumstances. Contact us before sending a non-cash or other special contribution so we can determine whether it can be accepted.</p>
+                <p>Our <a href="/privacy">Privacy Notice</a> explains how information submitted through the form is handled.</p>
             </div>
         </section>
 
@@ -99,7 +110,7 @@ import { congregationName } from '../data/congregationIdentity';
         <section class="policy-section policy-section-contact" id="contact-use">
             <h2>Questions and changes</h2>
             <div class="policy-copy">
-                <p>Questions about website content, permissions, email updates, or these terms may be sent to <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>, by phone at <a href="tel:+17144061513">(714) 406-1513</a>, or mailed to <strong>{congregationName}</strong>, 360 E. 1st Street, #856, Tustin, CA 92780.</p>
+                <p>Questions about website content, permissions, email updates, giving records, or these terms may be sent to <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>, by phone at <a href="tel:+17144061513">(714) 406-1513</a>, or mailed to <strong>{congregationName}</strong>, 360 E. 1st Street, #856, Tustin, CA 92780.</p>
                 <p>We may revise these terms as the website or email program changes. The effective date above identifies the current version. If a change materially affects email consent, we will provide additional notice or seek renewed consent when applicable law requires it.</p>
             </div>
         </section>

@@ -1,6 +1,8 @@
-const QUEUE_MESSAGE_VERSION = 1;
+const UPDATE_REQUEST_QUEUE_MESSAGE_VERSION = 1;
+const DONOR_RECORD_QUEUE_MESSAGE_VERSION = 2;
 const LEASE_DURATION_MS = 5 * 60 * 1000;
-const FIXED_DESTINATION = "drburton369@gmail.com";
+const UPDATE_REQUEST_DESTINATION = "drburton369@gmail.com";
+const DONOR_RECORD_DESTINATION = "ohrhatorahoc2@gmail.com";
 const FIXED_SENDER = "admin@ohrhatorahoc.org";
 const SENDER_NAME = "Kehilat Ohr HaTorah Website";
 
@@ -8,7 +10,10 @@ const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const OUTBOX_ID_PATTERN =
   /^outbox:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const DONOR_OUTBOX_ID_PATTERN =
+  /^donor-outbox:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_PATTERN = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+const CONTRIBUTION_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 const TRANSIENT_EMAIL_ERROR_CODES = new Set([
   "E_DAILY_LIMIT_EXCEEDED",
@@ -41,6 +46,16 @@ export interface UpdateRequestQueueMessage {
   outboxId: string;
 }
 
+export interface DonorRecordRequestQueueMessage {
+  version: 2;
+  type: "donor_record_request";
+  outboxId: string;
+}
+
+export type NotificationQueueMessage =
+  | UpdateRequestQueueMessage
+  | DonorRecordRequestQueueMessage;
+
 export interface UpdateRequestRecord {
   id: string;
   firstName: string;
@@ -52,6 +67,30 @@ export interface UpdateRequestRecord {
   source: string;
   createdAt: string;
 }
+
+export interface DonorRecordRequestRecord {
+  id: string;
+  requestType: "acknowledgment" | "correction";
+  recordName: string;
+  email: string;
+  contributionDate: string;
+  amountText: string;
+  paymentMethod: "zelle" | "paypal" | "check" | "other";
+  reference: string | null;
+  goodsServices: "no" | "yes_or_unsure";
+  reviewDetails: string | null;
+  confirmationText: string;
+  confirmedAt: string;
+  source: string;
+  createdAt: string;
+  status: "pending" | "matched" | "needs_review" | "completed";
+  matchNotes: string | null;
+  acknowledgmentIssuedAt: string | null;
+}
+
+export type NotificationRequestRecord =
+  | UpdateRequestRecord
+  | DonorRecordRequestRecord;
 
 export interface NotificationEmail {
   to: string;
@@ -85,7 +124,7 @@ export interface OutboxRepository {
     nowIso: string,
     leaseExpiresIso: string,
   ): Promise<ClaimResult>;
-  getRequest(requestId: string): Promise<UpdateRequestRecord | null>;
+  getRequest(requestId: string): Promise<NotificationRequestRecord | null>;
   markDelivered(
     outboxId: string,
     leaseToken: string,
@@ -146,6 +185,26 @@ type RawRequestRow = {
   created_at: string;
 };
 
+type RawDonorRecordRequestRow = {
+  id: string;
+  request_type: DonorRecordRequestRecord["requestType"];
+  record_name: string;
+  email: string;
+  contribution_date: string;
+  amount_text: string;
+  payment_method: DonorRecordRequestRecord["paymentMethod"];
+  reference: string | null;
+  goods_services: DonorRecordRequestRecord["goodsServices"];
+  review_details: string | null;
+  confirmation_text: string;
+  confirmed_at: string;
+  source: string;
+  created_at: string;
+  status: DonorRecordRequestRecord["status"];
+  match_notes: string | null;
+  acknowledgment_issued_at: string | null;
+};
+
 type RawClaimedOutboxRow = {
   id: string;
   request_id: string;
@@ -161,16 +220,66 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-export function parseQueueMessage(value: unknown): UpdateRequestQueueMessage | null {
+export function parseQueueMessage(value: unknown): NotificationQueueMessage | null {
   if (!isRecord(value)) return null;
-  if (value.version !== QUEUE_MESSAGE_VERSION) return null;
-  if (typeof value.outboxId !== "string" || !OUTBOX_ID_PATTERN.test(value.outboxId)) return null;
+  if (value.version === UPDATE_REQUEST_QUEUE_MESSAGE_VERSION) {
+    if (typeof value.outboxId !== "string" || !OUTBOX_ID_PATTERN.test(value.outboxId)) {
+      return null;
+    }
 
-  return { version: QUEUE_MESSAGE_VERSION, outboxId: value.outboxId };
+    return { version: UPDATE_REQUEST_QUEUE_MESSAGE_VERSION, outboxId: value.outboxId };
+  }
+
+  if (value.version === DONOR_RECORD_QUEUE_MESSAGE_VERSION) {
+    const keys = Object.keys(value);
+    if (
+      keys.length !== 3 ||
+      keys.some((key) => key !== "version" && key !== "type" && key !== "outboxId")
+    ) {
+      return null;
+    }
+    if (value.type !== "donor_record_request") return null;
+    if (typeof value.outboxId !== "string" || !DONOR_OUTBOX_ID_PATTERN.test(value.outboxId)) {
+      return null;
+    }
+
+    return {
+      version: DONOR_RECORD_QUEUE_MESSAGE_VERSION,
+      type: "donor_record_request",
+      outboxId: value.outboxId,
+    };
+  }
+
+  return null;
 }
 
 function isBoundedText(value: string, maximumLength: number): boolean {
   return value.length > 0 && value.length <= maximumLength;
+}
+
+function isNonBlankBoundedText(value: string, maximumLength: number): boolean {
+  return value.trim().length > 0 && Array.from(value).length <= maximumLength;
+}
+
+function isSingleLineBoundedText(value: string, maximumLength: number): boolean {
+  return (
+    isNonBlankBoundedText(value, maximumLength) &&
+    !/[\u0000-\u001f\u007f]/.test(value)
+  );
+}
+
+function isValidEmail(value: string): boolean {
+  return (
+    isBoundedText(value, 254) &&
+    EMAIL_PATTERN.test(value) &&
+    !/[\u0000-\u001f\u007f]/.test(value)
+  );
+}
+
+function isValidIsoDate(value: string): boolean {
+  if (!CONTRIBUTION_DATE_PATTERN.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
 
 export function isValidUpdateRequest(record: UpdateRequestRecord): boolean {
@@ -185,6 +294,60 @@ export function isValidUpdateRequest(record: UpdateRequestRecord): boolean {
   if (!Number.isFinite(Date.parse(record.consentedAt))) return false;
   if (!Number.isFinite(Date.parse(record.createdAt))) return false;
   return true;
+}
+
+export function isValidDonorRecordRequest(record: DonorRecordRequestRecord): boolean {
+  if (!UUID_PATTERN.test(record.id)) return false;
+  if (!isSingleLineBoundedText(record.recordName, 160)) return false;
+  if (!isValidEmail(record.email)) return false;
+  if (!isValidIsoDate(record.contributionDate)) return false;
+  if (!isSingleLineBoundedText(record.amountText, 40)) return false;
+  if (!["acknowledgment", "correction"].includes(record.requestType)) return false;
+  if (!["zelle", "paypal", "check", "other"].includes(record.paymentMethod)) return false;
+  if (record.reference !== null && !isSingleLineBoundedText(record.reference, 120)) return false;
+  if (!["no", "yes_or_unsure"].includes(record.goodsServices)) return false;
+  if (
+    record.reviewDetails !== null &&
+    (!isNonBlankBoundedText(record.reviewDetails, 2_000) ||
+      /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(record.reviewDetails))
+  ) {
+    return false;
+  }
+  if (
+    (record.requestType === "correction" || record.goodsServices === "yes_or_unsure") &&
+    record.reviewDetails === null
+  ) {
+    return false;
+  }
+  if (!isSingleLineBoundedText(record.confirmationText, 1_000)) return false;
+  if (!Number.isFinite(Date.parse(record.confirmedAt))) return false;
+  if (record.source !== "website_donate") return false;
+  if (!Number.isFinite(Date.parse(record.createdAt))) return false;
+  if (!["pending", "matched", "needs_review", "completed"].includes(record.status)) {
+    return false;
+  }
+  if (record.matchNotes !== null && !isNonBlankBoundedText(record.matchNotes, 2_000)) {
+    return false;
+  }
+  if (
+    record.acknowledgmentIssuedAt !== null &&
+    !Number.isFinite(Date.parse(record.acknowledgmentIssuedAt))
+  ) {
+    return false;
+  }
+  return true;
+}
+
+function isUpdateRequestRecord(
+  record: NotificationRequestRecord,
+): record is UpdateRequestRecord {
+  return "firstName" in record;
+}
+
+function isDonorRecordRequestRecord(
+  record: NotificationRequestRecord,
+): record is DonorRecordRequestRecord {
+  return "requestType" in record;
 }
 
 export function escapeHtml(value: string): string {
@@ -203,6 +366,24 @@ function normalizeBodyText(value: string): string {
 function displayPhone(value: string | null): string {
   const normalized = value === null ? "" : normalizeBodyText(value);
   return normalized.length > 0 ? normalized : "Not provided";
+}
+
+function displayOptionalText(value: string | null): string {
+  const normalized = value === null ? "" : normalizeBodyText(value);
+  return normalized.length > 0 ? normalized : "Not provided";
+}
+
+function buildTextRows(rows: ReadonlyArray<readonly [string, string]>): string {
+  return rows.map(([label, value]) => `${label}: ${value}`).join("\n");
+}
+
+function buildHtmlRows(rows: ReadonlyArray<readonly [string, string]>): string {
+  return rows
+    .map(
+      ([label, value]) =>
+        `<tr><th scope="row" style="padding:8px 12px 8px 0;text-align:left;vertical-align:top;color:#334155;font-weight:600">${escapeHtml(label)}</th><td style="padding:8px 0;vertical-align:top;color:#0f172a;overflow-wrap:anywhere">${escapeHtml(value)}</td></tr>`,
+    )
+    .join("");
 }
 
 export function buildNotificationEmail(
@@ -231,16 +412,11 @@ export function buildNotificationEmail(
     ["Outbox reference", outboxId],
   ];
 
-  const textRows = rows.map(([label, value]) => `${label}: ${value}`).join("\n");
-  const htmlRows = rows
-    .map(
-      ([label, value]) =>
-        `<tr><th scope="row" style="padding:8px 12px 8px 0;text-align:left;vertical-align:top;color:#334155;font-weight:600">${escapeHtml(label)}</th><td style="padding:8px 0;vertical-align:top;color:#0f172a;overflow-wrap:anywhere">${escapeHtml(value)}</td></tr>`,
-    )
-    .join("");
+  const textRows = buildTextRows(rows);
+  const htmlRows = buildHtmlRows(rows);
 
   return {
-    to: FIXED_DESTINATION,
+    to: UPDATE_REQUEST_DESTINATION,
     from: { email: FIXED_SENDER, name: SENDER_NAME },
     replyTo: email,
     subject: "[STAGING] New Kehilat Ohr HaTorah website update request",
@@ -263,6 +439,84 @@ export function buildNotificationEmail(
       "</main></body></html>",
     ].join(""),
   };
+}
+
+export function buildDonorRecordNotificationEmail(
+  request: DonorRecordRequestRecord,
+  outboxId: string,
+): NotificationEmail {
+  const email = request.email.trim();
+  const requestType =
+    request.requestType === "correction" ? "Correction request" : "Acknowledgment request";
+  const paymentMethod =
+    request.paymentMethod === "zelle"
+      ? "Zelle"
+      : request.paymentMethod === "paypal"
+        ? "PayPal"
+        : request.paymentMethod === "check"
+          ? "Check"
+          : "Other";
+  const goodsServices =
+    request.goodsServices === "no" ? "No" : "Yes or requester is unsure";
+
+  const rows: ReadonlyArray<readonly [string, string]> = [
+    ["Request type", requestType],
+    ["Record name", normalizeBodyText(request.recordName)],
+    ["Email", email],
+    ["Contribution date", request.contributionDate],
+    ["Amount supplied", normalizeBodyText(request.amountText)],
+    ["Payment method", paymentMethod],
+    ["Payment reference", displayOptionalText(request.reference)],
+    ["Goods or services received", goodsServices],
+    ["Review details", displayOptionalText(request.reviewDetails)],
+    ["Requester confirmation", normalizeBodyText(request.confirmationText)],
+    ["Confirmed", normalizeBodyText(request.confirmedAt)],
+    ["Submitted", normalizeBodyText(request.createdAt)],
+    ["Request reference", request.id],
+    ["Outbox reference", outboxId],
+  ];
+  const textRows = buildTextRows(rows);
+  const htmlRows = buildHtmlRows(rows);
+
+  return {
+    to: DONOR_RECORD_DESTINATION,
+    from: { email: FIXED_SENDER, name: SENDER_NAME },
+    replyTo: email,
+    subject: "[STAGING] New donor record request",
+    text: [
+      "A donor submitted a request to review Kehilat Ohr HaTorah giving records.",
+      "",
+      textRows,
+      "",
+      "Verify the supplied information against congregation records before issuing or correcting an acknowledgment.",
+      "This submission is not itself proof of a contribution or a charitable acknowledgment.",
+      "Replying to this email addresses the requester directly.",
+    ].join("\n"),
+    html: [
+      '<!doctype html><html lang="en"><body style="margin:0;padding:24px;background:#f8fafc;font-family:Arial,sans-serif">',
+      '<main style="max-width:680px;margin:0 auto;padding:28px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px">',
+      '<h1 style="margin:0 0 14px;color:#0b2946;font-size:24px;line-height:1.25">New donor record request</h1>',
+      '<p style="margin:0 0 18px;color:#334155;line-height:1.6">A donor submitted a request to review <strong>Kehilat Ohr HaTorah</strong> giving records.</p>',
+      `<table role="presentation" style="width:100%;border-collapse:collapse;font-size:15px;line-height:1.5"><tbody>${htmlRows}</tbody></table>`,
+      '<p style="margin:20px 0 0;color:#334155;line-height:1.6"><strong>Verify the supplied information against congregation records</strong> before issuing or correcting an acknowledgment.</p>',
+      '<p style="margin:8px 0 0;color:#64748b;font-size:13px;line-height:1.5">This submission is not itself proof of a contribution or a charitable acknowledgment. Replying to this email addresses the requester directly.</p>',
+      "</main></body></html>",
+    ].join(""),
+  };
+}
+
+function buildValidatedNotificationEmail(
+  message: NotificationQueueMessage,
+  request: NotificationRequestRecord,
+  outboxId: string,
+): NotificationEmail | null {
+  if (message.version === UPDATE_REQUEST_QUEUE_MESSAGE_VERSION) {
+    if (!isUpdateRequestRecord(request) || !isValidUpdateRequest(request)) return null;
+    return buildNotificationEmail(request, outboxId);
+  }
+
+  if (!isDonorRecordRequestRecord(request) || !isValidDonorRecordRequest(request)) return null;
+  return buildDonorRecordNotificationEmail(request, outboxId);
 }
 
 function getEmailErrorCode(error: unknown): string {
@@ -399,7 +653,7 @@ export async function processOutboxMessage(
   }
 
   const claimed = claim.row;
-  let request: UpdateRequestRecord | null;
+  let request: NotificationRequestRecord | null;
   try {
     request = await dependencies.outbox.getRequest(claimed.requestId);
   } catch {
@@ -429,7 +683,13 @@ export async function processOutboxMessage(
       : decision;
   }
 
-  if (!isValidUpdateRequest(request)) {
+  const notificationEmail = buildValidatedNotificationEmail(
+    message,
+    request,
+    claimed.outboxId,
+  );
+
+  if (notificationEmail === null) {
     return markFailureOrRetry(
       dependencies,
       claimed,
@@ -443,7 +703,7 @@ export async function processOutboxMessage(
 
   let emailResult: { messageId: string };
   try {
-    emailResult = await dependencies.email.send(buildNotificationEmail(request, claimed.outboxId));
+    emailResult = await dependencies.email.send(notificationEmail);
   } catch (error) {
     const classification = classifyEmailError(error);
     return markFailureOrRetry(
@@ -493,13 +753,21 @@ function assertOneRowChanged(result: D1Result, operation: string): void {
   if (result.meta.changes !== 1) throw new Error(`${operation} did not change one row`);
 }
 
-function createD1OutboxRepository(database: D1Database): OutboxRepository {
+function createD1OutboxRepository(
+  database: D1Database,
+  message: NotificationQueueMessage | null,
+): OutboxRepository {
+  const isDonorRecordRequest = message?.version === DONOR_RECORD_QUEUE_MESSAGE_VERSION;
+  const outboxTable = isDonorRecordRequest
+    ? "donor_record_request_outbox"
+    : "update_request_outbox";
+
   return {
     async claim(outboxId, leaseToken, nowIso, leaseExpiresIso) {
       const session = database.withSession("first-primary");
       const claimed = await session
         .prepare(
-          `UPDATE update_request_outbox
+          `UPDATE ${outboxTable}
              SET status = 'processing',
                  attempts = attempts + 1,
                  lease_token = ?,
@@ -533,7 +801,7 @@ function createD1OutboxRepository(database: D1Database): OutboxRepository {
       }
 
       const current = await session
-        .prepare("SELECT status, lease_expires_at FROM update_request_outbox WHERE id = ?")
+        .prepare(`SELECT status, lease_expires_at FROM ${outboxTable} WHERE id = ?`)
         .bind(outboxId)
         .first<RawOutboxState>();
 
@@ -548,6 +816,42 @@ function createD1OutboxRepository(database: D1Database): OutboxRepository {
     },
 
     async getRequest(requestId) {
+      if (isDonorRecordRequest) {
+        const row = await database
+          .withSession("first-primary")
+          .prepare(
+            `SELECT id, request_type, record_name, email, contribution_date,
+                    amount_text, payment_method, reference, goods_services,
+                    review_details, confirmation_text, confirmed_at, source,
+                    created_at, status, match_notes, acknowledgment_issued_at
+               FROM donor_record_requests
+              WHERE id = ?`,
+          )
+          .bind(requestId)
+          .first<RawDonorRecordRequestRow>();
+
+        if (row === null) return null;
+        return {
+          id: row.id,
+          requestType: row.request_type,
+          recordName: row.record_name,
+          email: row.email,
+          contributionDate: row.contribution_date,
+          amountText: row.amount_text,
+          paymentMethod: row.payment_method,
+          reference: row.reference,
+          goodsServices: row.goods_services,
+          reviewDetails: row.review_details,
+          confirmationText: row.confirmation_text,
+          confirmedAt: row.confirmed_at,
+          source: row.source,
+          createdAt: row.created_at,
+          status: row.status,
+          matchNotes: row.match_notes,
+          acknowledgmentIssuedAt: row.acknowledgment_issued_at,
+        };
+      }
+
       const row = await database
         .withSession("first-primary")
         .prepare(
@@ -576,7 +880,7 @@ function createD1OutboxRepository(database: D1Database): OutboxRepository {
     async markDelivered(outboxId, leaseToken, providerMessageId, nowIso) {
       const result = await database
         .prepare(
-          `UPDATE update_request_outbox
+          `UPDATE ${outboxTable}
               SET status = 'delivered',
                   provider_message_id = ?,
                   last_error_code = NULL,
@@ -596,7 +900,7 @@ function createD1OutboxRepository(database: D1Database): OutboxRepository {
     async markFailed(outboxId, leaseToken, errorCode, nowIso, dead) {
       const result = await database
         .prepare(
-          `UPDATE update_request_outbox
+          `UPDATE ${outboxTable}
               SET status = ?,
                   last_error_code = ?,
                   lease_token = NULL,
@@ -645,14 +949,21 @@ function structuredLog(
 
 export default {
   async queue(batch, env): Promise<void> {
-    const dependencies: NotifierDependencies = {
-      outbox: createD1OutboxRepository(env.FORM_DB),
-      email: createEmailClient(env.EMAIL),
-      now: () => new Date(),
-      createLeaseToken: () => crypto.randomUUID(),
-    };
-
     for (const message of batch.messages) {
+      const parsedMessage = parseQueueMessage(message.body);
+      const emailBinding = parsedMessage?.version === DONOR_RECORD_QUEUE_MESSAGE_VERSION
+        ? env.DONOR_EMAIL
+        : env.EMAIL;
+      const dependencies: NotifierDependencies = {
+        outbox: createD1OutboxRepository(env.FORM_DB, parsedMessage),
+        email: createEmailClient(emailBinding),
+        now: () => new Date(),
+        createLeaseToken: () => crypto.randomUUID(),
+      };
+      const notificationType =
+        parsedMessage?.version === DONOR_RECORD_QUEUE_MESSAGE_VERSION
+          ? "donor_record_request"
+          : "update_request";
       let decision: ProcessingDecision;
       try {
         decision = await processOutboxMessage(message.body, message.attempts, dependencies);
@@ -667,7 +978,13 @@ export default {
 
       if (decision.action === "retry") {
         message.retry({ delaySeconds: decision.delaySeconds });
-        structuredLog("warn", "update_request_notification_retry", message.id, message.attempts, decision);
+        structuredLog(
+          "warn",
+          `${notificationType}_notification_retry`,
+          message.id,
+          message.attempts,
+          decision,
+        );
         continue;
       }
 
@@ -676,7 +993,13 @@ export default {
         decision.outcome === "delivered" || decision.outcome === "already-terminal"
           ? "info"
           : "warn";
-      structuredLog(level, "update_request_notification_ack", message.id, message.attempts, decision);
+      structuredLog(
+        level,
+        `${notificationType}_notification_ack`,
+        message.id,
+        message.attempts,
+        decision,
+      );
     }
   },
-} satisfies ExportedHandler<Env, UpdateRequestQueueMessage>;
+} satisfies ExportedHandler<Env, NotificationQueueMessage>;

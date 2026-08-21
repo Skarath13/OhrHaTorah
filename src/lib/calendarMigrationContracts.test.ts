@@ -21,10 +21,14 @@ test('site and form D1 migrations are routed to separate binding directories', (
 
   const siteMigration = read('deploy/chuck-staging/migrations/site/0001_congregation_calendar_events.sql');
   const formMigration = read('deploy/chuck-staging/migrations/form/0001_update_request_outbox.sql');
+  const donorMigration = read('deploy/chuck-staging/migrations/form/0002_donor_record_requests.sql');
   assert.match(siteMigration, /CREATE TABLE IF NOT EXISTS congregation_calendar_events/);
   assert.doesNotMatch(siteMigration, /update_requests|update_request_outbox/);
   assert.match(formMigration, /CREATE TABLE IF NOT EXISTS update_requests/);
   assert.doesNotMatch(formMigration, /congregation_calendar_events/);
+  assert.match(donorMigration, /CREATE TABLE IF NOT EXISTS donor_record_requests/);
+  assert.match(donorMigration, /CREATE TABLE IF NOT EXISTS donor_record_request_outbox/);
+  assert.doesNotMatch(donorMigration, /congregation_calendar_events/);
 });
 
 test('baseline schema and deployment instructions include the calendar table and binding-specific commands', () => {

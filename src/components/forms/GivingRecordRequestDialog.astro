@@ -1,0 +1,641 @@
+---
+import { DONOR_RECORD_REQUEST_CONFIRMATION } from '../../lib/givingRecordRequests';
+
+const turnstileSiteKey = Astro.locals.runtime?.env?.TURNSTILE_SITE_KEY ?? '';
+const submissionId = crypto.randomUUID();
+const requestState = Astro.url.searchParams.get('giving');
+---
+
+<dialog
+    class="giving-request-dialog"
+    id="giving-request-dialog"
+    aria-labelledby="giving-request-title"
+    aria-describedby="giving-request-description giving-request-privacy"
+    data-open-on-load={requestState === 'requested' || requestState === 'error' ? requestState : undefined}
+>
+    <div class="giving-request-shell">
+        <header class="giving-request-header">
+            <div>
+                <p class="giving-request-kicker">Giving records</p>
+                <h2 id="giving-request-title">Request an acknowledgment</h2>
+            </div>
+            <button type="button" class="giving-request-close" data-close-giving-request aria-label="Close giving record request">
+                <i class="fas fa-xmark" aria-hidden="true"></i>
+            </button>
+        </header>
+
+        <form id="giving-record-request-form" method="post" action="/api/giving-record-requests">
+            <div class="giving-request-body">
+                <p id="giving-request-description" class="giving-request-intro">Ask us to locate a monetary contribution and email an acknowledgment, or review a correction. Enter the details as they appear in your payment record.</p>
+                <p class="giving-request-note">Submitting this form does not verify a contribution or determine whether an amount is deductible.</p>
+
+                <input type="hidden" name="submissionId" value={submissionId}>
+                <input type="text" name="website" class="giving-request-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                <div class="giving-request-fields">
+                    <label class="giving-request-field giving-request-field-wide">
+                        <span>What do you need? <span aria-hidden="true">*</span></span>
+                        <select name="requestType" required>
+                            <option value="acknowledgment">An acknowledgment for a contribution</option>
+                            <option value="correction">A correction to an acknowledgment</option>
+                        </select>
+                    </label>
+
+                    <label class="giving-request-field giving-request-field-wide">
+                        <span>Name(s) on the contribution record <span aria-hidden="true">*</span></span>
+                        <input type="text" name="recordName" required maxlength="160" autocomplete="name">
+                    </label>
+
+                    <label class="giving-request-field giving-request-field-wide">
+                        <span>Email for the acknowledgment <span aria-hidden="true">*</span></span>
+                        <input type="email" name="email" required maxlength="254" autocomplete="email">
+                    </label>
+
+                    <label class="giving-request-field">
+                        <span>Contribution date <span aria-hidden="true">*</span></span>
+                        <input type="date" name="contributionDate" required>
+                    </label>
+
+                    <label class="giving-request-field">
+                        <span>Amount and currency <span aria-hidden="true">*</span></span>
+                        <input type="text" name="amountText" required maxlength="40" inputmode="decimal" placeholder="$36.00 USD">
+                    </label>
+
+                    <label class="giving-request-field">
+                        <span>Payment method <span aria-hidden="true">*</span></span>
+                        <select name="paymentMethod" required>
+                            <option value="">Choose one</option>
+                            <option value="zelle">Zelle</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="check">Check</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </label>
+
+                    <label class="giving-request-field">
+                        <span>Confirmation or check number <small>(optional)</small></span>
+                        <input type="text" name="reference" maxlength="120" autocomplete="off">
+                    </label>
+
+                    <label class="giving-request-field giving-request-field-wide">
+                        <span>Did you receive or expect goods or services for this payment? <span aria-hidden="true">*</span></span>
+                        <select name="goodsServices" required>
+                            <option value="">Choose one</option>
+                            <option value="no">No</option>
+                            <option value="yes_or_unsure">Yes or not sure</option>
+                        </select>
+                    </label>
+
+                    <label class="giving-request-field giving-request-field-wide giving-request-review" data-review-field hidden>
+                        <span>What should we review? <span aria-hidden="true">*</span></span>
+                        <textarea name="reviewDetails" maxlength="2000" rows="3"></textarea>
+                    </label>
+                </div>
+
+                <p class="giving-request-sensitive"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Enter only the reference needed to locate the payment. Do not enter a bank login, Social Security or tax ID, routing or account number, or full card number.</span></p>
+
+                <label class="giving-request-confirmation">
+                    <input type="checkbox" name="confirmation" value="true" required>
+                    <span>{DONOR_RECORD_REQUEST_CONFIRMATION}</span>
+                </label>
+
+                {turnstileSiteKey ? (
+                    <div class="giving-request-turnstile">
+                        <div id="giving-request-turnstile-widget" data-sitekey={turnstileSiteKey}></div>
+                    </div>
+                ) : (
+                    <p class="giving-request-unavailable" role="status">Giving record requests are temporarily unavailable.</p>
+                )}
+
+                <p id="giving-request-privacy" class="giving-request-privacy">We use these details to match congregation records and respond. See our <a href="/privacy">Privacy Notice</a> and <a href="/website-use#giving-records">Terms and Conditions</a>.</p>
+                <p id="giving-request-status" class="giving-request-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1">
+                    {requestState === 'requested' ? 'Request received. We’ll compare these details with our records and contact you if more information is needed. This confirmation is not a giving acknowledgment.' : requestState === 'error' ? 'We could not receive your request. Please review the form and try again.' : ''}
+                </p>
+            </div>
+
+            <footer class="giving-request-actions">
+                <button type="button" class="giving-request-secondary" data-close-giving-request>Cancel</button>
+                <button type="submit" class="giving-request-submit" disabled={!turnstileSiteKey}>Submit request</button>
+            </footer>
+        </form>
+    </div>
+</dialog>
+
+<style>
+    .giving-request-dialog {
+        width: min(43rem, calc(100% - 2rem));
+        max-width: none;
+        max-height: calc(100dvh - 2rem);
+        margin: auto;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid rgba(11, 45, 87, 0.18);
+        border-radius: 1.2rem;
+        background: #fffdf8;
+        box-shadow: 0 1.8rem 5rem rgba(6, 29, 53, 0.28);
+        color: #0b2d57;
+    }
+
+    .giving-request-dialog::backdrop {
+        background: rgba(4, 20, 36, 0.66);
+        backdrop-filter: blur(3px);
+    }
+
+    .giving-request-shell {
+        display: flex;
+        max-height: calc(100dvh - 2rem);
+        flex-direction: column;
+        overscroll-behavior: contain;
+    }
+
+    .giving-request-header {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 1rem;
+        padding: 1.15rem 1.35rem;
+        border-bottom: 1px solid rgba(11, 45, 87, 0.13);
+        align-items: center;
+        justify-content: space-between;
+        background: #fffdf8;
+    }
+
+    .giving-request-kicker {
+        margin: 0 0 0.2rem;
+        color: #8b671b;
+        font-size: 0.66rem;
+        font-weight: 850;
+        letter-spacing: 0.13em;
+        line-height: 1.3;
+        text-transform: uppercase;
+    }
+
+    .giving-request-header h2 {
+        margin: 0;
+        color: #061d35;
+        font-family: var(--font-display);
+        font-size: clamp(1.45rem, 3vw, 1.9rem);
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+    }
+
+    .giving-request-close {
+        display: inline-grid;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 auto;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        place-items: center;
+        background: transparent;
+        color: #5d6877;
+        cursor: pointer;
+    }
+
+    .giving-request-close:hover {
+        background: #f1ede3;
+        color: #061d35;
+    }
+
+    #giving-record-request-form {
+        display: flex;
+        min-height: 0;
+        flex: 1;
+        flex-direction: column;
+    }
+
+    .giving-request-body {
+        min-height: 0;
+        padding: 1.25rem 1.35rem 1rem;
+        overflow-y: auto;
+    }
+
+    .giving-request-intro,
+    .giving-request-note {
+        margin: 0;
+        color: #4f5f73;
+        font-size: 0.86rem;
+        line-height: 1.55;
+    }
+
+    .giving-request-note {
+        margin-top: 0.35rem;
+        color: #6a7481;
+        font-size: 0.72rem;
+    }
+
+    .giving-request-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem 1rem;
+        margin-top: 1.15rem;
+    }
+
+    .giving-request-field {
+        display: grid;
+        min-width: 0;
+        gap: 0.4rem;
+        color: #18395e;
+        font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+    .giving-request-field-wide {
+        grid-column: 1 / -1;
+    }
+
+    .giving-request-field small {
+        color: #6a7481;
+        font: inherit;
+        font-weight: 600;
+    }
+
+    .giving-request-field input,
+    .giving-request-field select,
+    .giving-request-field textarea {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        border: 1px solid rgba(11, 45, 87, 0.25);
+        border-radius: 0.65rem;
+        background: #ffffff;
+        color: #061d35;
+        font: 500 0.88rem/1.35 var(--font-body);
+    }
+
+    .giving-request-field input,
+    .giving-request-field select {
+        min-height: 44px;
+        padding: 0.65rem 0.75rem;
+    }
+
+    .giving-request-field textarea {
+        min-height: 5.5rem;
+        padding: 0.7rem 0.75rem;
+        resize: vertical;
+    }
+
+    .giving-request-field input:focus,
+    .giving-request-field select:focus,
+    .giving-request-field textarea:focus {
+        border-color: #0b6eb7;
+        outline: 3px solid rgba(11, 110, 183, 0.16);
+        outline-offset: 1px;
+    }
+
+    .giving-request-field [aria-invalid="true"] {
+        border-color: #a13636;
+        outline-color: rgba(161, 54, 54, 0.16);
+    }
+
+    .giving-request-botcheck {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+        clip: rect(0 0 0 0) !important;
+        clip-path: inset(50%) !important;
+        white-space: nowrap !important;
+    }
+
+    .giving-request-sensitive {
+        display: flex;
+        gap: 0.6rem;
+        margin: 1rem 0 0;
+        padding: 0.7rem 0.8rem;
+        border-radius: 0.65rem;
+        background: #f4f0e7;
+        color: #586675;
+        font-size: 0.7rem;
+        line-height: 1.5;
+    }
+
+    .giving-request-sensitive i {
+        flex: 0 0 auto;
+        margin-top: 0.15rem;
+        color: #8b671b;
+    }
+
+    .giving-request-confirmation {
+        display: grid;
+        grid-template-columns: 1.1rem minmax(0, 1fr);
+        gap: 0.65rem;
+        margin-top: 1rem;
+        color: #334b66;
+        font-size: 0.72rem;
+        line-height: 1.5;
+        cursor: pointer;
+    }
+
+    .giving-request-confirmation input {
+        width: 1.1rem;
+        height: 1.1rem;
+        margin: 0.1rem 0 0;
+        accent-color: #0b2d57;
+    }
+
+    .giving-request-turnstile {
+        margin-top: 1rem;
+    }
+
+    #giving-request-turnstile-widget {
+        min-height: 65px;
+    }
+
+    .giving-request-privacy,
+    .giving-request-status,
+    .giving-request-unavailable {
+        margin: 0.8rem 0 0;
+        color: #697687;
+        font-size: 0.68rem;
+        line-height: 1.5;
+    }
+
+    .giving-request-privacy a {
+        color: #0b2d57;
+        font-weight: 750;
+        text-underline-offset: 0.18em;
+    }
+
+    .giving-request-status {
+        min-height: 1.5em;
+        color: #2a6b4d;
+        font-weight: 750;
+    }
+
+    .giving-request-status.error,
+    .giving-request-unavailable {
+        color: #8b2f2f;
+    }
+
+    .giving-request-actions {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 0.75rem;
+        padding: 0.9rem 1.35rem 1.1rem;
+        border-top: 1px solid rgba(11, 45, 87, 0.13);
+        justify-content: flex-end;
+        background: #fffdf8;
+    }
+
+    .giving-request-actions button {
+        min-height: 44px;
+        padding: 0.65rem 1.1rem;
+        border-radius: 999px;
+        font: 800 0.78rem/1 var(--font-body);
+        cursor: pointer;
+    }
+
+    .giving-request-secondary {
+        border: 1px solid rgba(11, 45, 87, 0.25);
+        background: transparent;
+        color: #0b2d57;
+    }
+
+    .giving-request-submit {
+        border: 1px solid #0b2d57;
+        background: #0b2d57;
+        color: #ffffff;
+    }
+
+    .giving-request-submit:disabled {
+        cursor: not-allowed;
+        opacity: 0.52;
+    }
+
+    .giving-request-close:focus-visible,
+    .giving-request-actions button:focus-visible,
+    .giving-request-confirmation input:focus-visible,
+    .giving-request-privacy a:focus-visible {
+        outline: 3px solid #0b6eb7;
+        outline-offset: 3px;
+    }
+
+    @media (max-width: 520px) {
+        .giving-request-dialog {
+            width: calc(100% - 1rem);
+            max-height: calc(100dvh - 1rem);
+            border-radius: 1rem;
+        }
+
+        .giving-request-shell {
+            max-height: calc(100dvh - 1rem);
+        }
+
+        .giving-request-header,
+        .giving-request-body,
+        .giving-request-actions {
+            padding-right: 1rem;
+            padding-left: 1rem;
+        }
+
+        .giving-request-fields {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .giving-request-field-wide {
+            grid-column: auto;
+        }
+
+        .giving-request-field input,
+        .giving-request-field select,
+        .giving-request-field textarea {
+            font-size: 1rem;
+        }
+
+        .giving-request-actions {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .giving-request-dialog::backdrop {
+            backdrop-filter: none;
+        }
+    }
+</style>
+
+<script>
+    type TurnstileApi = {
+        ready(callback: () => void): void;
+        render(container: HTMLElement, options: Record<string, unknown>): string;
+        reset(widgetId: string): void;
+    };
+
+    const dialog = document.getElementById('giving-request-dialog') as HTMLDialogElement | null;
+    const form = document.getElementById('giving-record-request-form') as HTMLFormElement | null;
+    const triggers = document.querySelectorAll<HTMLButtonElement>('[data-open-giving-request]');
+    const closeButtons = dialog?.querySelectorAll<HTMLButtonElement>('[data-close-giving-request]') ?? [];
+    const status = document.getElementById('giving-request-status');
+    const reviewField = dialog?.querySelector<HTMLElement>('[data-review-field]');
+    const reviewInput = form?.elements.namedItem('reviewDetails');
+    const requestType = form?.elements.namedItem('requestType');
+    const goodsServices = form?.elements.namedItem('goodsServices');
+    const turnstileContainer = document.getElementById('giving-request-turnstile-widget');
+    let previousFocus: HTMLElement | null = null;
+    let turnstileWidgetId: string | null = null;
+    let turnstileRenderQueued = false;
+
+    function getTurnstile(): TurnstileApi | undefined {
+        return (window as Window & { turnstile?: TurnstileApi }).turnstile;
+    }
+
+    function renderGivingTurnstile() {
+        if (!turnstileContainer || turnstileWidgetId !== null || turnstileRenderQueued) return;
+        const sitekey = turnstileContainer.dataset.sitekey;
+        const turnstile = getTurnstile();
+        if (!sitekey || !turnstile) return;
+
+        turnstileRenderQueued = true;
+        turnstile.ready(() => {
+            turnstileRenderQueued = false;
+            if (!dialog?.open || turnstileWidgetId !== null) return;
+            turnstileWidgetId = turnstile.render(turnstileContainer, {
+                sitekey,
+                action: 'giving_record_request',
+                theme: 'light',
+                size: 'flexible',
+                appearance: 'interaction-only',
+                'response-field-name': 'turnstileToken',
+            });
+        });
+    }
+
+    function updateReviewField() {
+        if (!(requestType instanceof HTMLSelectElement)
+            || !(goodsServices instanceof HTMLSelectElement)
+            || !(reviewInput instanceof HTMLTextAreaElement)
+            || !reviewField) return;
+
+        const required = requestType.value === 'correction' || goodsServices.value === 'yes_or_unsure';
+        reviewField.hidden = !required;
+        reviewInput.required = required;
+        if (!required) reviewInput.removeAttribute('aria-invalid');
+    }
+
+    function openDialog(trigger?: HTMLElement | null) {
+        if (!dialog || dialog.open) return;
+        previousFocus = trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+        dialog.showModal();
+        updateReviewField();
+        renderGivingTurnstile();
+        window.requestAnimationFrame(() => {
+            const firstField = form?.elements.namedItem('requestType');
+            if (firstField instanceof HTMLElement) firstField.focus({ preventScroll: true });
+        });
+    }
+
+    function closeDialog() {
+        if (dialog?.open) dialog.close();
+    }
+
+    triggers.forEach((trigger) => trigger.addEventListener('click', () => openDialog(trigger)));
+    closeButtons.forEach((button) => button.addEventListener('click', closeDialog));
+    requestType?.addEventListener('change', updateReviewField);
+    goodsServices?.addEventListener('change', updateReviewField);
+
+    dialog?.addEventListener('close', () => {
+        previousFocus?.focus({ preventScroll: true });
+        previousFocus = null;
+    });
+
+    dialog?.addEventListener('click', (event) => {
+        if (event.target === dialog) closeDialog();
+    });
+
+    window.addEventListener('koh:turnstile-ready', renderGivingTurnstile);
+
+    if (dialog?.dataset.openOnLoad) {
+        openDialog(document.getElementById('giving-record-trigger'));
+    }
+
+    form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const formData = new FormData(form);
+        const token = String(formData.get('turnstileToken') || '');
+        const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        if (!token) {
+            if (status) {
+                status.textContent = 'Please complete the security check and try again.';
+                status.className = 'giving-request-status error';
+            }
+            return;
+        }
+
+        form.querySelectorAll('[aria-invalid="true"]').forEach((field) => field.removeAttribute('aria-invalid'));
+        if (status) {
+            status.textContent = 'Sending your request…';
+            status.className = 'giving-request-status';
+        }
+        if (submitButton) submitButton.disabled = true;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    submissionId: formData.get('submissionId'),
+                    requestType: formData.get('requestType'),
+                    recordName: formData.get('recordName'),
+                    email: formData.get('email'),
+                    contributionDate: formData.get('contributionDate'),
+                    amountText: formData.get('amountText'),
+                    paymentMethod: formData.get('paymentMethod'),
+                    reference: formData.get('reference'),
+                    goodsServices: formData.get('goodsServices'),
+                    reviewDetails: formData.get('reviewDetails'),
+                    confirmation: formData.get('confirmation') === 'true',
+                    website: formData.get('website'),
+                    turnstileToken: token,
+                }),
+            });
+            const data = await response.json().catch(() => null) as {
+                success?: boolean;
+                error?: string;
+                fields?: string[];
+            } | null;
+
+            if (response.ok && data?.success) {
+                if (status) {
+                    status.textContent = 'Request received. We’ll compare these details with our records and contact you if more information is needed. This confirmation is not a giving acknowledgment.';
+                    status.className = 'giving-request-status';
+                    status.focus?.();
+                }
+                form.reset();
+                const requestId = form.elements.namedItem('submissionId');
+                if (requestId instanceof HTMLInputElement) requestId.value = crypto.randomUUID();
+                updateReviewField();
+            } else {
+                if (status) {
+                    status.textContent = data?.error || 'We could not receive your request. Please try again.';
+                    status.className = 'giving-request-status error';
+                }
+                const invalidFieldName = data?.fields?.[0];
+                const invalidField = invalidFieldName ? form.elements.namedItem(invalidFieldName) : null;
+                if (invalidField instanceof HTMLElement) {
+                    invalidField.setAttribute('aria-invalid', 'true');
+                    invalidField.focus({ preventScroll: true });
+                }
+            }
+        } catch {
+            if (status) {
+                status.textContent = 'We could not receive your request. Please try again.';
+                status.className = 'giving-request-status error';
+            }
+        } finally {
+            if (submitButton) submitButton.disabled = false;
+            if (turnstileWidgetId !== null) getTurnstile()?.reset(turnstileWidgetId);
+        }
+    });
+</script>

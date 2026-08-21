@@ -67,13 +67,9 @@ const updateRequestId = crypto.randomUUID();
                     {turnstileSiteKey ? (
                         <div class="newsletter-turnstile">
                             <div
-                                class="cf-turnstile"
+                                id="newsletter-turnstile-widget"
                                 data-sitekey={turnstileSiteKey}
                                 data-action="updates_request"
-                                data-theme="dark"
-                                data-size="flexible"
-                                data-appearance="interaction-only"
-                                data-response-field-name="turnstileToken"
                             ></div>
                         </div>
                     ) : (
@@ -128,10 +124,57 @@ const updateRequestId = crypto.randomUUID();
 </a>
 
 {turnstileSiteKey && (
-    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <>
+        <script is:inline>
+            window.onKohTurnstileReady = function () {
+                window.dispatchEvent(new Event('koh:turnstile-ready'));
+            };
+        </script>
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onKohTurnstileReady&render=explicit" async defer></script>
+    </>
 )}
 
 <script>
+    type TurnstileApi = {
+        ready(callback: () => void): void;
+        render(container: HTMLElement, options: Record<string, unknown>): string;
+        reset(widgetId: string): void;
+    };
+
+    const newsletterTurnstileContainer = document.getElementById('newsletter-turnstile-widget');
+    let newsletterTurnstileWidgetId: string | null = null;
+    let newsletterTurnstileRenderQueued = false;
+
+    function getTurnstile(): TurnstileApi | undefined {
+        return (window as Window & { turnstile?: TurnstileApi }).turnstile;
+    }
+
+    function renderNewsletterTurnstile() {
+        if (!newsletterTurnstileContainer
+            || newsletterTurnstileWidgetId !== null
+            || newsletterTurnstileRenderQueued) return;
+        const sitekey = newsletterTurnstileContainer.dataset.sitekey;
+        const turnstile = getTurnstile();
+        if (!sitekey || !turnstile) return;
+
+        newsletterTurnstileRenderQueued = true;
+        turnstile.ready(() => {
+            newsletterTurnstileRenderQueued = false;
+            if (newsletterTurnstileWidgetId !== null) return;
+            newsletterTurnstileWidgetId = turnstile.render(newsletterTurnstileContainer, {
+                sitekey,
+                action: 'updates_request',
+                theme: 'dark',
+                size: 'flexible',
+                appearance: 'interaction-only',
+                'response-field-name': 'turnstileToken',
+            });
+        });
+    }
+
+    window.addEventListener('koh:turnstile-ready', renderNewsletterTurnstile);
+    renderNewsletterTurnstile();
+
     const backToTopButton = document.getElementById('backToTop');
 
     if (backToTopButton) {
@@ -235,8 +278,9 @@ const updateRequestId = crypto.randomUUID();
                 statusEl.className = 'form-status error';
             } finally {
                 if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = false;
-                const turnstileApi = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
-                turnstileApi?.reset();
+                if (newsletterTurnstileWidgetId !== null) {
+                    getTurnstile()?.reset(newsletterTurnstileWidgetId);
+                }
             }
         });
     }
