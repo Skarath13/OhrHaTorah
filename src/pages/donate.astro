@@ -24,7 +24,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
                     <div class="payment-brand-mark zelle-brand-mark">
                         <img src="/images/payments/zelle-bank-wordmark.png" width="1800" height="834" alt="Zelle" />
                     </div>
-                    <span>From your banking app</span>
+                    <span>Banking app</span>
                 </header>
 
                 <div class="payment-card-body">
@@ -79,7 +79,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
                     <a class="payment-brand-mark paypal-brand-mark" href={paypalDonationUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Kehilat Ohr HaTorah donation page on PayPal">
                         <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" width="111" height="69" alt="PayPal" referrerpolicy="strict-origin-when-cross-origin" />
                     </a>
-                    <span>PayPal-hosted giving</span>
+                    <span>Hosted checkout</span>
                 </header>
 
                 <div class="payment-card-body">
@@ -223,13 +223,15 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         background: transparent;
     }
 
-    .donation-card {
+    .donate-content .donation-card {
         --payment-accent: #8b671b;
         --payment-deep: var(--giving-navy);
         --payment-soft: #faf7ef;
         display: flex;
         min-width: 0;
+        box-sizing: border-box;
         overflow: hidden;
+        padding: 0;
         border: 1px solid var(--giving-line);
         border-top: 3px solid var(--payment-accent);
         border-radius: 1.35rem;
@@ -241,13 +243,13 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         text-align: left;
     }
 
-    .donation-card-zelle {
+    .donate-content .donation-card-zelle {
         --payment-accent: var(--zelle-purple);
         --payment-deep: var(--zelle-deep);
         --payment-soft: var(--zelle-soft);
     }
 
-    .donation-card-paypal {
+    .donate-content .donation-card-paypal {
         --payment-accent: var(--paypal-blue);
         --payment-deep: var(--paypal-deep);
         --payment-soft: var(--paypal-soft);
@@ -435,23 +437,29 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     }
 
     .zelle-tag-control {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 0.65rem;
         align-items: center;
-        justify-content: space-between;
     }
 
     .zelle-tag-control code {
+        min-width: max-content;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-size: 0.88rem;
         font-weight: 850;
+        overflow-wrap: normal;
+        white-space: nowrap;
+        word-break: normal;
     }
 
     .zelle-copy-button {
         display: inline-flex;
+        width: auto;
         min-width: 4.5rem;
         min-height: 44px;
         box-sizing: border-box;
+        flex: 0 0 auto;
         gap: 0.35rem;
         padding: 0.6rem 0.75rem;
         border: 1px solid color-mix(in srgb, var(--payment-accent) 45%, transparent);
@@ -459,6 +467,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         align-items: center;
         justify-content: center;
         background: #ffffff;
+        box-shadow: none;
         color: var(--payment-deep);
         font: 800 0.68rem/1 var(--font-body);
         cursor: pointer;
@@ -468,6 +477,10 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     .zelle-copy-button:hover {
         background: var(--payment-deep);
         color: #ffffff;
+    }
+
+    .zelle-copy-button i {
+        margin: 0;
     }
 
     .zelle-copy-status,
@@ -702,9 +715,6 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
             min-height: 0;
         }
 
-        .zelle-tag-control {
-            align-items: center;
-        }
     }
 
     @media (prefers-reduced-motion: reduce) {

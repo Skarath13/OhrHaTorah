@@ -52,7 +52,7 @@ test('payment presentation stays accurate and does not fabricate provider trust'
     assert.match(donateSource, /does not receive your PayPal password or payment credentials/);
     assert.match(donateSource, /bank-generated QR code/);
     assert.match(donateSource, /Confirm recipient/);
-    assert.match(donateSource, /PayPal-hosted giving/);
+    assert.match(donateSource, /Hosted checkout/);
     assert.doesNotMatch(donateSource, /PayPal-hosted giving is being prepared|No payment is collected here yet/);
     assert.doesNotMatch(donateSource, /Friends and Family/i);
     assert.doesNotMatch(donateSource, /verified Zelle|trust badge|purchase-protection badge|guaranteed secure/i);
@@ -94,6 +94,12 @@ test('provider themes use recognizable palettes and provider-issued payment arti
     assert.match(donateSource, /\.payment-qr-link\s*\{[^}]*width:\s*min\(15\.25rem, 100%\)/s);
     assert.match(donateSource, /\.payment-qr-frame\s*\{[^}]*width:\s*100%/s);
     assert.match(donateSource, /width="240" height="240"/);
+    assert.match(donateSource, /\.donate-content \.donation-card\s*\{[^}]*box-sizing:\s*border-box[^}]*padding:\s*0/s);
+    assert.match(donateSource, /\.donate-content \.donation-card-zelle\s*\{[^}]*--payment-accent:\s*var\(--zelle-purple\)/s);
+    assert.match(donateSource, /\.donate-content \.donation-card-paypal\s*\{[^}]*--payment-accent:\s*var\(--paypal-blue\)/s);
+    assert.match(donateSource, /\.zelle-tag-control\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto/s);
+    assert.match(donateSource, /\.zelle-tag-control code\s*\{[^}]*overflow-wrap:\s*normal[^}]*white-space:\s*nowrap[^}]*word-break:\s*normal/s);
+    assert.match(donateSource, /\.zelle-copy-button\s*\{[^}]*width:\s*auto[^}]*flex:\s*0 0 auto/s);
 });
 
 test('the giving experience stays minimal, parallel, and progressively discloses secondary details', () => {
