@@ -4,18 +4,19 @@ import { congregationName } from '../data/congregationIdentity';
 ---
 
 <PageLayout
-    title={`Website Use | ${congregationName}`}
-    pageTitle="Website Use"
-    description={`Guidelines for respectful and responsible use of the ${congregationName} website.`}
+    title={`Terms and Conditions | ${congregationName}`}
+    pageTitle="Terms and Conditions"
+    description={`Terms for respectful website use and requested email updates from ${congregationName}.`}
     stylesheets={['/styles/policies.css']}
 >
     <div class="policy-page">
         <header class="policy-intro">
             <p class="policy-kicker">A welcoming and trustworthy public space</p>
-            <p class="policy-lede">This website shares the public life of <strong>{congregationName}</strong>—our worship, learning, gatherings, and ways to connect. Please use it with the same honesty, dignity, and mutual respect we seek to practice in community.</p>
-            <p class="policy-updated">Last updated <time datetime="2026-08-11">August 11, 2026</time></p>
-            <nav class="policy-contents" aria-label="Website Use sections">
+            <p class="policy-lede">These terms support respectful use of the <strong>{congregationName}</strong> website and clear expectations when you request our email updates.</p>
+            <p class="policy-updated">Effective <time datetime="2026-08-20">August 20, 2026</time></p>
+            <nav class="policy-contents" aria-label="Terms and Conditions sections">
                 <a href="#use">Responsible use</a>
+                <a href="#email-updates">Email updates</a>
                 <a href="#information-not-advice">Information</a>
                 <a href="#copyright-sources">Copyright &amp; sources</a>
                 <a href="#third-parties">Third parties</a>
@@ -26,6 +27,7 @@ import { congregationName } from '../data/congregationIdentity';
         <section class="policy-section" id="use">
             <h2>Respectful and responsible use</h2>
             <div class="policy-copy">
+                <p>These terms apply to use of this public website. By using the site, you agree to use it consistently with these terms. The email-update terms below apply when you affirmatively check the required consent box and submit the footer form.</p>
                 <p>You are welcome to browse, print, or share links to public pages for personal, noncommercial use. Please do not use the site to:</p>
                 <ul class="policy-list">
                     <li>break the law, misrepresent your identity, harass another person, or interfere with another person’s use of the site;</li>
@@ -34,6 +36,21 @@ import { congregationName } from '../data/congregationIdentity';
                     <li>copy, republish, or use site content in a way that falsely suggests endorsement by <strong>{congregationName}</strong>.</li>
                 </ul>
                 <p>We may limit access when reasonably necessary to protect people, content, or the operation of the website.</p>
+            </div>
+        </section>
+
+        <section class="policy-section" id="email-updates">
+            <h2>Weekly emails and regular updates</h2>
+            <div class="policy-copy">
+                <p>By checking the required consent box and submitting the form, you ask <strong>{congregationName}</strong> to send you weekly emails and occasional important or community updates. Topics may include gatherings, schedule changes, community news, learning opportunities, and other congregational information. Frequency may vary. The website accepts and routes the request; authorized congregation staff or an email delivery provider must process it for enrollment, so submission does not guarantee enrollment or delivery.</p>
+
+                <h3>Your choice and information</h3>
+                <p>You may unsubscribe at any time by following the instructions in an email or contacting us. We will process the request within the period required by applicable law; a message already in delivery may still arrive. Please provide an email address you control or are authorized to enroll, and do not submit another person’s address without permission.</p>
+                <p>If you provide the optional phone number, it may be used to follow up about your request. The email consent checkbox does not authorize text messages or automated calls.</p>
+
+                <h3>Delivery and availability</h3>
+                <p>We may use third-party hosting, security, email, and network providers to accept, store, route, and deliver requests and messages. Delivery can be delayed, filtered, blocked, or unavailable for reasons outside our control. We may correct, postpone, or discontinue an update or the email program, subject to applicable law.</p>
+                <p>Email content is general congregational and educational information. It is not professional advice, and time-sensitive details should be confirmed with us before you rely on them. Our <a href="/privacy">Privacy Notice</a> explains how information submitted through the form is handled.</p>
             </div>
         </section>
 
@@ -74,15 +91,16 @@ import { congregationName } from '../data/congregationIdentity';
             <h2>Availability and responsibility</h2>
             <div class="policy-copy">
                 <p>We work to keep public information useful and the site available, but we cannot promise that every page will always be complete, current, uninterrupted, or error-free. To the extent permitted by applicable law, the site is provided as available, and responsibility for use of it remains with the visitor.</p>
-                <p>Nothing on this page excludes a responsibility that cannot lawfully be excluded. If any part of these guidelines is not enforceable, the remaining parts continue to apply.</p>
+                <p>To the extent permitted by applicable law, <strong>{congregationName}</strong> is not responsible for losses caused solely by delivery delays, unavailable third-party services, ordinary transmission errors, or reliance on information that the site or an update identifies as subject to change.</p>
+                <p>No part of these terms waives or limits any right or responsibility that cannot lawfully be waived or limited. If any part is not enforceable, the remaining parts continue to apply.</p>
             </div>
         </section>
 
         <section class="policy-section policy-section-contact" id="contact-use">
             <h2>Questions and changes</h2>
             <div class="policy-copy">
-                <p>Questions about website content, permissions, or these guidelines may be sent to <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a> or mailed to <strong>{congregationName}</strong>, 360 E. 1st Street, #856, Tustin, CA 92780.</p>
-                <p>We may revise this page as the website changes. The date above identifies the current version.</p>
+                <p>Questions about website content, permissions, email updates, or these terms may be sent to <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a>, by phone at <a href="tel:+17144061513">(714) 406-1513</a>, or mailed to <strong>{congregationName}</strong>, 360 E. 1st Street, #856, Tustin, CA 92780.</p>
+                <p>We may revise these terms as the website or email program changes. The effective date above identifies the current version. If a change materially affects email consent, we will provide additional notice or seek renewed consent when applicable law requires it.</p>
             </div>
         </section>
     </div>

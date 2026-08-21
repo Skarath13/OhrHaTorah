@@ -166,8 +166,10 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.match(calendarComponent, /className = 'kehilat-calendar-event-list'/);
     assert.match(calendarComponent, /class="kehilat-calendar-show-more"/);
     assert.match(calendarComponent, /mobileDateLimit = 3/);
-    assert.match(calendarComponent, /wideDateLimit = 8/);
+    assert.match(calendarComponent, /tabletDateLimit = 6/);
+    assert.match(calendarComponent, /desktopDateLimit = 9/);
     assert.match(calendarComponent, /matchMedia\('\(max-width: 599px\)'\)/);
+    assert.match(calendarComponent, /matchMedia\('\(min-width: 1180px\)'\)/);
     assert.doesNotMatch(homepage, /without the empty calendar days/i);
     assert.doesNotMatch(calendarComponent, /checkbox|kehilat-calendar-controls|readFilters/i);
     assert.match(calendarComponent, /congregation: '1',[\s\S]*holidays: '1',[\s\S]*candleLighting: '1',[\s\S]*observances: '1'/);
@@ -178,6 +180,8 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.match(calendarComponent, /extendedProps\.calendarDate/);
     assert.match(calendarComponent, /Hebcal\.com/);
     assert.match(calendarComponent, /CC BY 4\.0/);
+    assert.match(calendarComponent, /<details class="kehilat-calendar-attribution">/);
+    assert.match(calendarComponent, /Calendar sources &amp; license/);
     assert.match(calendarEndpoint, /'Cache-Control': 'no-store'/);
     assert.doesNotMatch(calendarEndpoint, /s-maxage|stale-while-revalidate/);
     assert.match(calendarEndpoint, /includeCandleLighting/);

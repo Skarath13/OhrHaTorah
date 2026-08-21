@@ -29,13 +29,19 @@
         <p class="kehilat-calendar-noscript">JavaScript is required to view upcoming dates. Our regular Shabbat gathering begins Saturdays at 2:30 p.m.</p>
     </noscript>
 
-    <p class="kehilat-calendar-attribution">
-        Jewish holiday and candle-lighting data provided by
-        <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer">Hebcal.com</a>,
-        licensed under
-        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>;
-        reformatted for this list.
-    </p>
+    <details class="kehilat-calendar-attribution">
+        <summary>
+            <span class="kehilat-calendar-attribution-icon" aria-hidden="true">i</span>
+            <span>Calendar sources &amp; license</span>
+        </summary>
+        <p>
+            Jewish holiday and candle-lighting data provided by
+            <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer">Hebcal.com</a>,
+            licensed under
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>;
+            reformatted for this list.
+        </p>
+    </details>
 </div>
 
 <script>
@@ -79,7 +85,8 @@
 
     const businessTimeZone = 'America/Los_Angeles';
     const mobileDateLimit = 3;
-    const wideDateLimit = 8;
+    const tabletDateLimit = 6;
+    const desktopDateLimit = 9;
     const maximumRequestDays = 400;
     const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -114,9 +121,15 @@
         && detailsLocation
         && detailsClose
     ) {
-        const compactQuery = window.matchMedia('(max-width: 599px)');
+        const mobileLayoutQuery = window.matchMedia('(max-width: 599px)');
+        const desktopLayoutQuery = window.matchMedia('(min-width: 1180px)');
+        const getDefaultDateLimit = (): number => {
+            if (mobileLayoutQuery.matches) return mobileDateLimit;
+            if (desktopLayoutQuery.matches) return desktopDateLimit;
+            return tabletDateLimit;
+        };
         let dateGroups: DateGroup[] = [];
-        let defaultDateLimit = compactQuery.matches ? mobileDateLimit : wideDateLimit;
+        let defaultDateLimit = getDefaultDateLimit();
         let visibleDateLimit = defaultDateLimit;
         let activeRequest: AbortController | null = null;
         let lastEventTrigger: HTMLButtonElement | null = null;
@@ -425,14 +438,16 @@
             showMoreButton.focus({ preventScroll: true });
         });
         detailsClose.addEventListener('click', () => closeDetails(true));
-        compactQuery.addEventListener('change', () => {
+        const handleCalendarLayoutChange = () => {
             const previousDefault = defaultDateLimit;
-            defaultDateLimit = compactQuery.matches ? mobileDateLimit : wideDateLimit;
+            defaultDateLimit = getDefaultDateLimit();
             visibleDateLimit = visibleDateLimit <= previousDefault
                 ? defaultDateLimit
                 : Math.max(defaultDateLimit, visibleDateLimit);
             renderDateGroups();
-        });
+        };
+        mobileLayoutQuery.addEventListener('change', handleCalendarLayoutChange);
+        desktopLayoutQuery.addEventListener('change', handleCalendarLayoutChange);
         window.addEventListener('oht:calendar-events-changed', loadEvents);
 
         loadEvents();

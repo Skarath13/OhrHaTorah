@@ -4,6 +4,7 @@ import {
     congregationName,
     officialIdentityStatementRemainder,
 } from '../../data/congregationIdentity';
+import { UPDATE_REQUEST_CONSENT } from '../../lib/updateRequests';
 
 const currentYear = new Date().getFullYear();
 const turnstileSiteKey = Astro.locals.runtime?.env?.TURNSTILE_SITE_KEY ?? '';
@@ -32,7 +33,7 @@ const updateRequestId = crypto.randomUUID();
 
             <div class="footer-col">
                 <h4><i class="fas fa-envelope"></i> Stay connected</h4>
-                <p>Receive occasional updates about gatherings and community news.</p>
+                <p>Stay in the loop with a friendly weekly email about gatherings and community news, plus occasional important updates.</p>
                 <form id="newsletter-form" class="newsletter-form-expanded" method="post" action="/api/update-requests">
                     <input type="hidden" name="submissionId" value={updateRequestId}>
                     <input type="text" name="website" class="newsletter-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -57,7 +58,11 @@ const updateRequestId = crypto.randomUUID();
                     </label>
                     <label class="newsletter-consent">
                         <input type="checkbox" name="consent" value="true" required>
-                        <span>I would like to receive occasional email updates from <strong>{congregationName}</strong>. I can unsubscribe at any time.</span>
+                        <span>
+                            {UPDATE_REQUEST_CONSENT.permission} {UPDATE_REQUEST_CONSENT.frequency}
+                            {UPDATE_REQUEST_CONSENT.termsLead} <a href="/website-use#email-updates">{UPDATE_REQUEST_CONSENT.termsLabel}</a> {UPDATE_REQUEST_CONSENT.termsEffective}
+                            {UPDATE_REQUEST_CONSENT.privacyLead} <a href="/privacy">{UPDATE_REQUEST_CONSENT.privacyLabel}</a>{UPDATE_REQUEST_CONSENT.ending}
+                        </span>
                     </label>
                     {turnstileSiteKey ? (
                         <div class="newsletter-turnstile">
@@ -74,9 +79,9 @@ const updateRequestId = crypto.randomUUID();
                     ) : (
                         <p class="newsletter-unavailable" role="status">Update requests are temporarily unavailable.</p>
                     )}
-                    <p id="newsletter-privacy" class="newsletter-privacy">Protected and delivered through Cloudflare. Read our <a href="/privacy">Privacy Notice</a> for details.</p>
+                    <p id="newsletter-privacy" class="newsletter-privacy">Protected and delivered through Cloudflare. The optional phone field does not enroll you in text messages or automated calls.</p>
                     <button type="submit" class="newsletter-btn-full" disabled={!turnstileSiteKey}>
-                        Request updates <i class="fas fa-arrow-right"></i>
+                        Request weekly emails <i class="fas fa-arrow-right"></i>
                     </button>
                     <p id="newsletter-status" class="form-status" role="status" aria-live="polite"></p>
                 </form>
@@ -109,7 +114,7 @@ const updateRequestId = crypto.randomUUID();
             <p>&copy; {currentYear} <strong>{congregationName}</strong>. All rights reserved.</p>
             <nav class="footer-legal" aria-label="Website policies">
                 <a href="/privacy">Privacy</a>
-                <a href="/website-use">Website use</a>
+                <a href="/website-use">Terms &amp; Conditions</a>
                 <a href="/accessibility">Accessibility</a>
                 <a href="/website-use#copyright-sources">Copyright &amp; sources</a>
             </nav>

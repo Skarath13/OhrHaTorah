@@ -23,16 +23,36 @@ test('homepage contact label and Scripture proportions reflect the requested bal
     );
     assert.match(
         homeStyles,
-        /\.home-torah-quote-primary p \{[^}]*font-size: clamp\(1\.45rem,[^}]*2\.25rem\)/,
+        /\.home-torah-quote-primary p \{[^}]*font-size: clamp\(1\.42rem, 2\.45vw, 2\.1rem\)/,
     );
     assert.match(
         homeStyles,
-        /\.home-torah-quote-secondary p \{[^}]*font-size: clamp\(1\.25rem,[^}]*1\.75rem\)/,
+        /\.home-torah-quote-secondary p \{[^}]*font-size: clamp\(1\.3rem, 2\.2vw, 1\.9rem\)/,
     );
     assert.match(
         homeStyles,
-        /@media \(max-width: 767px\) \{[\s\S]*?\.home-torah-quote-primary p \{ font-size: 1\.3rem;[\s\S]*?\.home-torah-quote-secondary p \{ font-size: 1\.16rem; \}/,
+        /@media \(max-width: 767px\) \{[\s\S]*?\.home-torah-quote-primary p \{ font-size: 1\.28rem;[\s\S]*?\.home-torah-quote-secondary p \{ font-size: 1\.21rem; \}/,
     );
+});
+
+test('calendar fills complete viewport-sized rows and keeps its source license in an accessible disclosure', () => {
+    assert.match(calendarComponent, /mobileDateLimit = 3/);
+    assert.match(calendarComponent, /tabletDateLimit = 6/);
+    assert.match(calendarComponent, /desktopDateLimit = 9/);
+    assert.match(calendarComponent, /matchMedia\('\(max-width: 599px\)'\)/);
+    assert.match(calendarComponent, /matchMedia\('\(min-width: 1180px\)'\)/);
+    assert.match(calendarComponent, /mobileLayoutQuery\.addEventListener\('change', handleCalendarLayoutChange\)/);
+    assert.match(calendarComponent, /desktopLayoutQuery\.addEventListener\('change', handleCalendarLayoutChange\)/);
+    assert.match(calendarComponent, /<details class="kehilat-calendar-attribution">/);
+    assert.match(calendarComponent, /<span>Calendar sources &amp; license<\/span>/);
+    assert.match(
+        calendarComponent,
+        /Jewish holiday and candle-lighting data provided by[\s\S]*?Hebcal\.com[\s\S]*?licensed under[\s\S]*?CC BY 4\.0[\s\S]*?reformatted for this list\./,
+    );
+    assert.doesNotMatch(calendarComponent, /<p class="kehilat-calendar-attribution">/);
+    assert.match(homeStyles, /\.kehilat-calendar-attribution > summary \{[^}]*min-height: 44px;[^}]*cursor: pointer;/);
+    assert.match(homeStyles, /\.kehilat-calendar-attribution > summary:focus-visible \{/);
+    assert.match(homeStyles, /\.kehilat-calendar-attribution > p \{[^}]*max-width: 44rem;/);
 });
 
 test('calendar cards omit item counts and keep fluid Gregorian and Hebrew dates together', () => {

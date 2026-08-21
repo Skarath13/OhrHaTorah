@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { UPDATE_REQUEST_CONSENT } from './updateRequests.ts';
 
 const readProjectFile = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
@@ -9,6 +10,7 @@ const websiteUseSource = readProjectFile('../pages/website-use.astro');
 const accessibilitySource = readProjectFile('../pages/accessibility.astro');
 const donateSource = readProjectFile('../pages/donate.astro');
 const footerSource = readProjectFile('../components/layout/Footer.astro');
+const updateRequestEndpointSource = readProjectFile('../pages/api/update-requests.ts');
 const pageLayoutSource = readProjectFile('../layouts/PageLayout.astro');
 const policyStyles = readProjectFile('../../public/styles/policies.css');
 const legalPageSources = [privacySource, websiteUseSource, accessibilitySource];
@@ -17,7 +19,7 @@ const combinedLegalSource = legalPageSources.join('\n');
 test('public policy pages are photo-free, dated, and use the shared legal design', () => {
     for (const source of legalPageSources) {
         assert.match(source, /stylesheets=\{\['\/styles\/policies\.css'\]\}/);
-        assert.match(source, /<time datetime="2026-08-(?:11|12|20)">August (?:11|12|20), 2026<\/time>/);
+        assert.match(source, /(?:Last updated|Effective) <time datetime="2026-08-(?:11|12|20)">August (?:11|12|20), 2026<\/time>/);
         assert.doesNotMatch(source, /<img\b|<picture\b|<figure\b|data-editable/);
     }
 
@@ -58,7 +60,14 @@ test('privacy notice describes the providers and browser behavior actually prese
     assert.match(privacySource, /please do not send sensitive personal information through ordinary email or the website form/i);
 });
 
-test('website-use and accessibility pages make cautious, specific public commitments', () => {
+test('terms and accessibility pages make cautious, specific public commitments', () => {
+    assert.match(websiteUseSource, /pageTitle="Terms and Conditions"/);
+    assert.match(websiteUseSource, /id="email-updates"/);
+    assert.match(websiteUseSource, /weekly emails and occasional important or community updates/);
+    assert.match(websiteUseSource, /Frequency may vary/);
+    assert.match(websiteUseSource, /must process it for enrollment/);
+    assert.match(websiteUseSource, /does not authorize text messages or automated calls/);
+    assert.match(websiteUseSource, /No part of these terms waives or limits any right or responsibility that cannot lawfully be waived or limited/);
     assert.match(websiteUseSource, /id="copyright-sources"/);
     assert.match(websiteUseSource, /not legal, medical, mental-health, financial, or tax advice/);
     assert.match(websiteUseSource, /confirm time-sensitive information with us before relying on it/);
@@ -72,7 +81,7 @@ test('website-use and accessibility pages make cautious, specific public commitm
 
 test('the footer restores the full update-request form without sending data to Web3Forms', () => {
     assert.match(footerSource, /href="\/privacy">Privacy<\/a>/);
-    assert.match(footerSource, /href="\/website-use">Website use<\/a>/);
+    assert.match(footerSource, /href="\/website-use">Terms &amp; Conditions<\/a>/);
     assert.match(footerSource, /href="\/accessibility">Accessibility<\/a>/);
     assert.match(footerSource, /href="\/website-use#copyright-sources">Copyright &amp; sources<\/a>/);
 
@@ -83,8 +92,16 @@ test('the footer restores the full update-request form without sending data to W
     assert.match(footerSource, /name="website" class="newsletter-botcheck"/);
     assert.match(footerSource, /name="consent"[^>]*\brequired\b/);
     assert.doesNotMatch(footerSource, /name="consent"[^>]*\bchecked\b/);
-    assert.match(footerSource, /I can unsubscribe at any time/);
-    assert.match(footerSource, /Read our <a href="\/privacy">Privacy Notice<\/a>/);
+    for (const part of ['permission', 'frequency', 'termsLead', 'termsLabel', 'termsEffective', 'privacyLead', 'privacyLabel', 'ending']) {
+        assert.match(footerSource, new RegExp(`UPDATE_REQUEST_CONSENT\\.${part}`));
+    }
+    assert.match(footerSource, /href="\/website-use#email-updates"/);
+    assert.match(footerSource, /href="\/privacy">\{UPDATE_REQUEST_CONSENT\.privacyLabel\}<\/a>/);
+    assert.equal(
+        UPDATE_REQUEST_CONSENT.text,
+        'Yes, please send me weekly emails and occasional important or community updates from Kehilat Ohr HaTorah. Email frequency may vary, and I can unsubscribe at any time. I agree to the Terms and Conditions (effective August 20, 2026) and acknowledge the Privacy Notice.',
+    );
+    assert.match(updateRequestEndpointSource, /UPDATE_REQUEST_CONSENT\.text/);
     assert.match(footerSource, /action="\/api\/update-requests"/);
     assert.match(footerSource, /data-action="updates_request"/);
     assert.match(footerSource, /Your update request was received\./);
@@ -116,6 +133,6 @@ test('donation page gives careful recordkeeping and tax guidance without promisi
 
 test('policy routes receive deliberate breadcrumb identities', () => {
     assert.match(pageLayoutSource, /'\/privacy': \{\s*section: 'Privacy Notice',\s*sectionHref: '\/privacy',\s*\}/);
-    assert.match(pageLayoutSource, /'\/website-use': \{\s*section: 'Website Use',\s*sectionHref: '\/website-use',\s*\}/);
+    assert.match(pageLayoutSource, /'\/website-use': \{\s*section: 'Terms and Conditions',\s*sectionHref: '\/website-use',\s*\}/);
     assert.match(pageLayoutSource, /'\/accessibility': \{\s*section: 'Accessibility',\s*sectionHref: '\/accessibility',\s*\}/);
 });

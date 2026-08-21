@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import {
   TURNSTILE_EXPECTED_HOSTNAME,
-  UPDATE_REQUEST_CONSENT_TEXT,
+  UPDATE_REQUEST_CONSENT,
   UPDATE_REQUEST_SOURCE,
   UpdateRequestMalformedBodyError,
   UpdateRequestPayloadTooLargeError,
@@ -170,7 +170,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         validation.value.lastName,
         validation.value.email,
         validation.value.phone,
-        UPDATE_REQUEST_CONSENT_TEXT,
+        UPDATE_REQUEST_CONSENT.text,
         now,
         UPDATE_REQUEST_SOURCE,
         now,

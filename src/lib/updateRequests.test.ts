@@ -4,6 +4,7 @@ import {
   MAX_UPDATE_REQUEST_BODY_BYTES,
   TURNSTILE_EXPECTED_ACTION,
   TURNSTILE_EXPECTED_HOSTNAME,
+  UPDATE_REQUEST_CONSENT,
   UpdateRequestMalformedBodyError,
   UpdateRequestPayloadTooLargeError,
   UpdateRequestUnsupportedMediaTypeError,
@@ -12,6 +13,13 @@ import {
   validateUpdateRequestPayload,
   verifyTurnstile,
 } from './updateRequests.ts';
+
+test('the versioned email consent record is complete and readable', () => {
+  assert.equal(
+    UPDATE_REQUEST_CONSENT.text,
+    'Yes, please send me weekly emails and occasional important or community updates from Kehilat Ohr HaTorah. Email frequency may vary, and I can unsubscribe at any time. I agree to the Terms and Conditions (effective August 20, 2026) and acknowledge the Privacy Notice.',
+  );
+});
 
 const validPayload = {
   submissionId: '550e8400-e29b-41d4-a716-446655440000',

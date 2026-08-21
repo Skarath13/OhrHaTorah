@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { POST } from '../pages/api/update-requests.ts';
-import { TURNSTILE_EXPECTED_ACTION, TURNSTILE_EXPECTED_HOSTNAME } from './updateRequests.ts';
+import {
+  TURNSTILE_EXPECTED_ACTION,
+  TURNSTILE_EXPECTED_HOSTNAME,
+  UPDATE_REQUEST_CONSENT,
+} from './updateRequests.ts';
 
 const endpointUrl = `https://${TURNSTILE_EXPECTED_HOSTNAME}/api/update-requests`;
 const submissionId = '550e8400-e29b-41d4-a716-446655440000';
@@ -83,6 +87,7 @@ test('endpoint durably writes request and outbox before enqueueing an identifier
     assert.deepEqual(eventOrder, ['batch', 'queue']);
     assert.match(prepared[0].sql, /INSERT INTO update_requests/);
     assert.match(prepared[0].sql, /ON CONFLICT\(id\) DO NOTHING/);
+    assert.equal(prepared[0].values?.[5], UPDATE_REQUEST_CONSENT.text);
     assert.match(prepared[1].sql, /INSERT INTO update_request_outbox/);
     assert.match(prepared[1].sql, /ON CONFLICT\(id\) DO NOTHING/);
     assert.deepEqual(enqueued, [{ version: 1, outboxId: `outbox:${submissionId}` }]);

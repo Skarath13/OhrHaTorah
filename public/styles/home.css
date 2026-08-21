@@ -648,8 +648,8 @@
 .home-torah-quote blockquote { margin: 0; color: #fff; }
 .home-torah-quote blockquote p { margin: 0; font-family: var(--font-display); }
 .home-torah-quote-primary { padding-right: clamp(1.5rem, 4vw, 3.5rem); border-right: 1px solid rgba(230, 201, 120, 0.34); }
-.home-torah-quote-primary p { font-size: clamp(1.45rem, 2.7vw, 2.25rem); line-height: 1.38; }
-.home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.25rem, 2.05vw, 1.75rem); line-height: 1.46; }
+.home-torah-quote-primary p { font-size: clamp(1.42rem, 2.45vw, 2.1rem); line-height: 1.38; }
+.home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.3rem, 2.2vw, 1.9rem); line-height: 1.46; }
 .home-torah-quote .divine-name { display: inline-block; white-space: nowrap; }
 .home-torah-quote .divine-name__initial { font-variant-caps: normal; }
 .home-torah-quote .divine-name__small-caps {
@@ -738,6 +738,13 @@
 .kehilat-calendar-show-more:focus-visible,
 .kehilat-calendar-show-fewer:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
 .kehilat-calendar-attribution { margin: 1rem 0 0; color: #536476; font-size: 0.69rem; line-height: 1.55; }
+.kehilat-calendar-attribution > summary { display: inline-flex; min-height: 44px; padding: 0.48rem 0.72rem; border: 1px solid #c8d1da; border-radius: 999px; align-items: center; gap: 0.45rem; background: #fff; color: var(--home-blue-900); font-size: 0.7rem; font-weight: 800; line-height: 1.2; list-style: none; cursor: pointer; touch-action: manipulation; }
+.kehilat-calendar-attribution > summary::-webkit-details-marker { display: none; }
+.kehilat-calendar-attribution > summary:hover { border-color: #9fabb7; background: #f9fbfc; }
+.kehilat-calendar-attribution > summary:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
+.kehilat-calendar-attribution[open] > summary { border-color: var(--home-gold-500); background: #fff8e6; }
+.kehilat-calendar-attribution-icon { display: grid; width: 1.25rem; height: 1.25rem; border: 1px solid currentColor; border-radius: 50%; place-items: center; font-family: var(--font-body); font-size: 0.7rem; font-weight: 900; line-height: 1; }
+.kehilat-calendar-attribution > p { max-width: 44rem; margin: 0.65rem 0 0; padding: 0.75rem 0.85rem; border: 1px solid #d8dee5; border-left: 3px solid var(--home-gold-500); background: #fff; color: #536476; font-size: 0.69rem; line-height: 1.55; }
 .kehilat-calendar-attribution a { color: var(--home-blue-900); font-weight: 800; text-underline-offset: 0.16em; }
 .kehilat-calendar-noscript { margin: 1rem 0 0; padding: 1rem; border: 1px solid #d8dee5; color: var(--home-blue-950); font-size: 0.85rem; line-height: 1.55; }
 
@@ -859,8 +866,8 @@
     .home-torah-quote-icon { width: 52px; height: 52px; }
     .home-torah-quote-icon svg { width: 26px; height: 26px; }
     .home-torah-quote-primary { padding: 0 0 1.5rem; border-right: 0; border-bottom: 1px solid rgba(230, 201, 120, 0.34); }
-    .home-torah-quote-primary p { font-size: 1.3rem; line-height: 1.45; }
-    .home-torah-quote-secondary p { font-size: 1.16rem; }
+    .home-torah-quote-primary p { font-size: 1.28rem; line-height: 1.45; }
+    .home-torah-quote-secondary p { font-size: 1.21rem; }
     .home-calendar-section .home-text-link { justify-self: start; }
     .home-redesign + .footer + .back-to-top { display: none !important; }
 }

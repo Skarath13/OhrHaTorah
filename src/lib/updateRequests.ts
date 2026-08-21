@@ -1,7 +1,36 @@
+import { congregationName } from '../data/congregationIdentity.ts';
+
 export const MAX_UPDATE_REQUEST_BODY_BYTES = 8 * 1024;
 export const UPDATE_REQUEST_SOURCE = 'website_footer' as const;
-export const UPDATE_REQUEST_CONSENT_TEXT =
-  'I would like to receive occasional email updates from Kehilat Ohr HaTorah. I can unsubscribe at any time.';
+
+const updateRequestConsentParts = {
+  permission: `Yes, please send me weekly emails and occasional important or community updates from ${congregationName}.`,
+  frequency: 'Email frequency may vary, and I can unsubscribe at any time.',
+  termsLead: 'I agree to the',
+  termsLabel: 'Terms and Conditions',
+  termsEffective: '(effective August 20, 2026)',
+  privacyLead: 'and acknowledge the',
+  privacyLabel: 'Privacy Notice',
+  ending: '.',
+} as const;
+
+/**
+ * The displayed consent copy and the exact text persisted with each request.
+ * Footer.astro renders these same parts so the record cannot drift from the
+ * material consent presented next to the required checkbox.
+ */
+export const UPDATE_REQUEST_CONSENT = Object.freeze({
+  ...updateRequestConsentParts,
+  text: [
+    updateRequestConsentParts.permission,
+    updateRequestConsentParts.frequency,
+    updateRequestConsentParts.termsLead,
+    updateRequestConsentParts.termsLabel,
+    updateRequestConsentParts.termsEffective,
+    updateRequestConsentParts.privacyLead,
+    updateRequestConsentParts.privacyLabel + updateRequestConsentParts.ending,
+  ].join(' '),
+});
 export const TURNSTILE_EXPECTED_ACTION = 'updates_request';
 export const TURNSTILE_EXPECTED_HOSTNAME = 'kehilat-ohr-hatorah-chuck-staging.pages.dev';
 

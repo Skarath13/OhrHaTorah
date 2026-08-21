@@ -1276,6 +1276,20 @@ body .site-footer .newsletter-consent strong {
     color: #fff;
 }
 
+body .site-footer .newsletter-consent a {
+    color: #fff !important;
+    font-weight: 750;
+    text-decoration: underline;
+    text-decoration-color: rgba(209, 161, 45, 0.82);
+    text-underline-offset: 0.16em;
+}
+
+body .site-footer .newsletter-consent a:hover,
+body .site-footer .newsletter-consent a:focus-visible {
+    color: var(--site-chrome-gold) !important;
+    text-decoration-color: currentColor;
+}
+
 body .site-footer .newsletter-privacy {
     margin: -0.15rem 0 0 !important;
     color: rgba(255, 255, 255, 0.64) !important;
