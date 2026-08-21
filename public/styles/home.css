@@ -646,7 +646,8 @@
 .home-torah-quote-icon { display: grid; width: 64px; height: 64px; place-items: center; border: 1px solid rgba(230, 201, 120, 0.55); border-radius: 50%; background: rgba(230, 201, 120, 0.1); color: var(--home-gold-300); }
 .home-torah-quote-icon svg { width: 31px; height: 31px; }
 .home-torah-quote blockquote { margin: 0; color: #fff; }
-.home-torah-quote blockquote p { margin: 0; font-family: var(--font-display); }
+.home-torah-quote blockquote p { margin: 0; font-family: var(--font-display); text-wrap: balance; }
+.home-torah-quote .home-verse-keep { white-space: nowrap; }
 .home-torah-quote-primary { padding-right: clamp(1.5rem, 4vw, 3.5rem); border-right: 1px solid rgba(230, 201, 120, 0.34); }
 .home-torah-quote-primary p { font-size: clamp(1.42rem, 2.45vw, 2.1rem); line-height: 1.38; }
 .home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.3rem, 2.2vw, 1.9rem); line-height: 1.46; }
@@ -668,6 +669,13 @@
     }
 }
 .home-torah-quote cite { display: block; margin-top: 1.1rem; color: var(--home-gold-300); font-family: var(--font-body); font-size: 0.72rem; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+
+@media (min-width: 768px) and (max-width: 899px) {
+    .home-torah-quote .home-shell { grid-template-columns: 64px minmax(0, 1fr); gap: 1.5rem 2rem; }
+    .home-torah-quote-icon { grid-row: 1 / span 2; }
+    .home-torah-quote-primary { grid-column: 2; padding: 0 0 1.5rem; border-right: 0; border-bottom: 1px solid rgba(230, 201, 120, 0.34); }
+    .home-torah-quote-secondary { grid-column: 2; }
+}
 
 .home-calendar-section { background: var(--home-blue-950); color: rgba(255, 255, 255, 0.82); }
 .home-calendar-section .home-section-heading { align-items: end; }

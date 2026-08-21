@@ -38,7 +38,7 @@ test('the published PayPal destination matches the PayPal-hosted Donate artifact
     assert.match(donateSource, /https:\/\/www\.paypal\.com\/donate\/\?hosted_button_id=/);
     assert.match(donateSource, /href=\{paypalDonationUrl\}/);
     assert.match(donateSource, /href=\{paypalQrDonationUrl\}/);
-    assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/webstatic\/mktg\/logo\/pp_cc_mark_111x69\.jpg/);
+    assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/digitalassets\/c\/website\/logo\/full-text\/pp_fc_hl\.svg/);
     assert.match(donateSource, /class="fab fa-paypal"/);
     assert.match(donateSource, /\/images\/payments\/paypal-donation-qr\.png/);
     assert.match(donateSource, /one-time, monthly, or yearly gift/);
@@ -87,7 +87,7 @@ test('provider themes use recognizable palettes and provider-issued payment arti
     assert.match(donateSource, /--paypal-blue:\s*#0070ba/);
     assert.match(donateSource, /--paypal-deep:\s*#003087/);
     assert.match(donateSource, /#ffc439/);
-    assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/webstatic\/mktg\/logo\/pp_cc_mark_111x69\.jpg/);
+    assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/digitalassets\/c\/website\/logo\/full-text\/pp_fc_hl\.svg/);
     assert.match(donateSource, /\/images\/payments\/zelle-bank-wordmark\.png/);
     assert.match(donateSource, /\/images\/payments\/zelle-ohrhatorahoc-qr\.png/);
     assert.match(donateSource, /\/images\/payments\/paypal-donation-qr\.png/);
@@ -97,6 +97,9 @@ test('provider themes use recognizable palettes and provider-issued payment arti
     assert.match(donateSource, /\.donate-content \.donation-card\s*\{[^}]*box-sizing:\s*border-box[^}]*padding:\s*0/s);
     assert.match(donateSource, /\.donate-content \.donation-card-zelle\s*\{[^}]*--payment-accent:\s*var\(--zelle-purple\)/s);
     assert.match(donateSource, /\.donate-content \.donation-card-paypal\s*\{[^}]*--payment-accent:\s*var\(--paypal-blue\)/s);
+    assert.match(donateSource, /\.paypal-brand-mark\s*\{[^}]*width:\s*7\.25rem[^}]*\}/s);
+    assert.doesNotMatch(donateSource, /\.paypal-brand-mark\s*\{[^}]*(?:border|background):/s);
+    assert.match(donateSource, /\.paypal-brand-mark img\s*\{[^}]*width:\s*7\.25rem/s);
     assert.match(donateSource, /\.zelle-tag-control\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto/s);
     assert.match(donateSource, /\.zelle-tag-control code\s*\{[^}]*overflow-wrap:\s*normal[^}]*white-space:\s*nowrap[^}]*word-break:\s*normal/s);
     assert.match(donateSource, /\.zelle-copy-button\s*\{[^}]*width:\s*auto[^}]*flex:\s*0 0 auto/s);
@@ -110,6 +113,12 @@ test('the giving experience stays minimal, parallel, and progressively discloses
     assert.equal([...donateSource.matchAll(/class="provider-primary-action /g)].length, 2);
     assert.match(donateSource, /<details class="giving-disclosure">/);
     assert.match(donateSource, /Giving records and special gifts/);
+    assert.match(donateSource, /\.giving-heading h1\s*\{[^}]*line-height:\s*1\.06/s);
+    assert.match(donateSource, /\.donation-grid\.donation-methods\s*\{[^}]*overflow:\s*visible[^}]*border:\s*0[^}]*border-radius:\s*0/s);
+    assert.match(donateSource, /\.secondary-giving\s*\{[^}]*align-items:\s*start/s);
+    assert.match(donateSource, /\.donate-content \.provider-note\s*\{[^}]*margin:\s*1\.3rem 0 0/s);
+    assert.match(donateSource, /<details class="provider-legal-disclosure">[\s\S]*?<summary>[\s\S]*?Provider notice[\s\S]*?<\/summary>/);
+    assert.doesNotMatch(donateSource, /<details class="provider-legal-disclosure"\s+open/);
     assert.doesNotMatch(donateSource, /class="giving-intro"|class="giving-confidence"|class="giving-info"/);
     assert.doesNotMatch(donateSource, /method-number|provider-state|payment-assurance-list|paypal-gift-options|paypal-official-button/);
     assert.match(donateSource, /@media \(prefers-reduced-motion: reduce\)/);

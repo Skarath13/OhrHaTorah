@@ -29,6 +29,13 @@ test('homepage contact label and Scripture proportions reflect the requested bal
         homeStyles,
         /\.home-torah-quote-secondary p \{[^}]*font-size: clamp\(1\.3rem, 2\.2vw, 1\.9rem\)/,
     );
+    assert.match(homeStyles, /\.home-torah-quote blockquote p \{[^}]*text-wrap: balance/);
+    assert.match(homeStyles, /\.home-torah-quote \.home-verse-keep \{ white-space: nowrap; \}/);
+    assert.match(homeStyles, /@media \(min-width: 768px\) and \(max-width: 899px\) \{[\s\S]*?\.home-torah-quote \.home-shell \{ grid-template-columns: 64px minmax\(0, 1fr\);/);
+    assert.equal([...homepage.matchAll(/class="home-verse-keep"/g)].length, 12);
+    assert.match(homepage, /home-verse-keep">is a Tree of Life</);
+    assert.match(homepage, /home-verse-keep">are ways of pleasantness</);
+    assert.match(homepage, /home-verse-keep">to You, <span class="divine-name">/);
     assert.match(
         homeStyles,
         /@media \(max-width: 767px\) \{[\s\S]*?\.home-torah-quote-primary p \{ font-size: 1\.28rem;[\s\S]*?\.home-torah-quote-secondary p \{ font-size: 1\.21rem; \}/,

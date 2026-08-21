@@ -17,7 +17,7 @@ import {
 test('the versioned email consent record is complete and readable', () => {
   assert.equal(
     UPDATE_REQUEST_CONSENT.text,
-    'Yes, please send me weekly emails and occasional important or community updates from Kehilat Ohr HaTorah. Email frequency may vary, and I can unsubscribe at any time. I agree to the Terms and Conditions (effective August 20, 2026) and acknowledge the Privacy Notice.',
+    'Yes, send me weekly emails and occasional important updates from Kehilat Ohr HaTorah. I can unsubscribe anytime. I agree to the Terms and Conditions and acknowledge the Privacy Notice.',
   );
 });
 

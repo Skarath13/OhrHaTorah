@@ -59,8 +59,8 @@ const updateRequestId = crypto.randomUUID();
                     <label class="newsletter-consent">
                         <input type="checkbox" name="consent" value="true" required>
                         <span>
-                            {UPDATE_REQUEST_CONSENT.permission} {UPDATE_REQUEST_CONSENT.frequency}
-                            {UPDATE_REQUEST_CONSENT.termsLead} <a href="/website-use#email-updates">{UPDATE_REQUEST_CONSENT.termsLabel}</a> {UPDATE_REQUEST_CONSENT.termsEffective}
+                            {UPDATE_REQUEST_CONSENT.permission} {UPDATE_REQUEST_CONSENT.unsubscribe}
+                            {UPDATE_REQUEST_CONSENT.termsLead} <a href="/website-use#email-updates">{UPDATE_REQUEST_CONSENT.termsLabel}</a>
                             {UPDATE_REQUEST_CONSENT.privacyLead} <a href="/privacy">{UPDATE_REQUEST_CONSENT.privacyLabel}</a>{UPDATE_REQUEST_CONSENT.ending}
                         </span>
                     </label>
@@ -79,7 +79,7 @@ const updateRequestId = crypto.randomUUID();
                     ) : (
                         <p class="newsletter-unavailable" role="status">Update requests are temporarily unavailable.</p>
                     )}
-                    <p id="newsletter-privacy" class="newsletter-privacy">Protected and delivered through Cloudflare. The optional phone field does not enroll you in text messages or automated calls.</p>
+                    <p id="newsletter-privacy" class="newsletter-privacy">Cloudflare-protected. The optional phone field does not authorize texts or automated calls.</p>
                     <button type="submit" class="newsletter-btn-full" disabled={!turnstileSiteKey}>
                         Request weekly emails <i class="fas fa-arrow-right"></i>
                     </button>

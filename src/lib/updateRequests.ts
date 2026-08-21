@@ -4,11 +4,10 @@ export const MAX_UPDATE_REQUEST_BODY_BYTES = 8 * 1024;
 export const UPDATE_REQUEST_SOURCE = 'website_footer' as const;
 
 const updateRequestConsentParts = {
-  permission: `Yes, please send me weekly emails and occasional important or community updates from ${congregationName}.`,
-  frequency: 'Email frequency may vary, and I can unsubscribe at any time.',
+  permission: `Yes, send me weekly emails and occasional important updates from ${congregationName}.`,
+  unsubscribe: 'I can unsubscribe anytime.',
   termsLead: 'I agree to the',
   termsLabel: 'Terms and Conditions',
-  termsEffective: '(effective August 20, 2026)',
   privacyLead: 'and acknowledge the',
   privacyLabel: 'Privacy Notice',
   ending: '.',
@@ -23,10 +22,9 @@ export const UPDATE_REQUEST_CONSENT = Object.freeze({
   ...updateRequestConsentParts,
   text: [
     updateRequestConsentParts.permission,
-    updateRequestConsentParts.frequency,
+    updateRequestConsentParts.unsubscribe,
     updateRequestConsentParts.termsLead,
     updateRequestConsentParts.termsLabel,
-    updateRequestConsentParts.termsEffective,
     updateRequestConsentParts.privacyLead,
     updateRequestConsentParts.privacyLabel + updateRequestConsentParts.ending,
   ].join(' '),

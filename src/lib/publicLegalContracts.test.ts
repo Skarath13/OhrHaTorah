@@ -92,15 +92,16 @@ test('the footer restores the full update-request form without sending data to W
     assert.match(footerSource, /name="website" class="newsletter-botcheck"/);
     assert.match(footerSource, /name="consent"[^>]*\brequired\b/);
     assert.doesNotMatch(footerSource, /name="consent"[^>]*\bchecked\b/);
-    for (const part of ['permission', 'frequency', 'termsLead', 'termsLabel', 'termsEffective', 'privacyLead', 'privacyLabel', 'ending']) {
+    for (const part of ['permission', 'unsubscribe', 'termsLead', 'termsLabel', 'privacyLead', 'privacyLabel', 'ending']) {
         assert.match(footerSource, new RegExp(`UPDATE_REQUEST_CONSENT\\.${part}`));
     }
     assert.match(footerSource, /href="\/website-use#email-updates"/);
     assert.match(footerSource, /href="\/privacy">\{UPDATE_REQUEST_CONSENT\.privacyLabel\}<\/a>/);
     assert.equal(
         UPDATE_REQUEST_CONSENT.text,
-        'Yes, please send me weekly emails and occasional important or community updates from Kehilat Ohr HaTorah. Email frequency may vary, and I can unsubscribe at any time. I agree to the Terms and Conditions (effective August 20, 2026) and acknowledge the Privacy Notice.',
+        'Yes, send me weekly emails and occasional important updates from Kehilat Ohr HaTorah. I can unsubscribe anytime. I agree to the Terms and Conditions and acknowledge the Privacy Notice.',
     );
+    assert.match(footerSource, /Cloudflare-protected\. The optional phone field does not authorize texts or automated calls\./);
     assert.match(updateRequestEndpointSource, /UPDATE_REQUEST_CONSENT\.text/);
     assert.match(footerSource, /action="\/api\/update-requests"/);
     assert.match(footerSource, /data-action="updates_request"/);

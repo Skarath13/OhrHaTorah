@@ -12,7 +12,7 @@ const agentGuidance = readSource('../../AGENTS.md');
 test('the homepage divine-name substitute preserves readable text and cap hierarchy', () => {
     assert.match(
         homeSource,
-        /<span class="divine-name"><span class="divine-name__initial">H<\/span><span class="divine-name__small-caps">ashem<\/span><\/span>/,
+        /<span class="divine-name"><span class="divine-name__initial">H<\/span><span class="divine-name__small-caps">ashem<\/span>,<\/span>/,
     );
     assert.doesNotMatch(homeSource, />HaShem<|>HASHEM</);
 });
