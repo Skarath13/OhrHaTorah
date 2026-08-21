@@ -10,782 +10,451 @@ const paypalDonationUrl = `https://www.paypal.com/donate/?hosted_button_id=${pay
 const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 ---
 
-<PageLayout title="Support Kehilat Ohr HaTorah" pageTitle="Support Kehilat Ohr HaTorah" pageIcon="fas fa-heart" description="Ways to support Kehilat Ohr HaTorah through Zelle, PayPal, or check.">
-    <div class="donate-content">
-        <section class="giving-intro" aria-labelledby="giving-intro-title">
-            <div class="giving-intro-copy">
-                <p class="giving-eyebrow"><span aria-hidden="true"></span> Giving at Kehilat Ohr HaTorah</p>
-                <h2 id="giving-intro-title">Give generously.<br /><em>Give with confidence.</em></h2>
-                <p class="giving-intro-lede">Your gift helps sustain a welcoming home for worship, learning, fellowship, and care. Choose the giving path that works best for you.</p>
-                <ul class="giving-intro-assurances" aria-label="Giving privacy assurances">
-                    <li><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Payment completed with the provider</li>
-                    <li><i class="fas fa-lock" aria-hidden="true"></i> No banking credentials collected here</li>
-                </ul>
-            </div>
-
-            <blockquote class="donation-verse">
-                <span class="verse-mark" aria-hidden="true">“</span>
-                <p class="donation-verse-copy">God loves a cheerful giver.</p>
-                <cite>2 Corinthians 9:7</cite>
-            </blockquote>
-        </section>
-
-        <div class="giving-section-heading">
-            <div>
-                <p class="giving-eyebrow giving-eyebrow-dark"><span aria-hidden="true"></span> Choose a giving method</p>
-                <h2>Two trusted paths, one shared purpose.</h2>
-            </div>
-            <p>Zelle and PayPal open their own payment experiences. Always confirm the congregation details before you send.</p>
+<PageLayout title="Support Kehilat Ohr HaTorah" description="Give to Kehilat Ohr HaTorah through Zelle, PayPal, or check.">
+    <section class="donate-content" aria-labelledby="giving-title">
+        <div class="giving-heading">
+            <p class="giving-kicker">Community giving</p>
+            <h1 id="giving-title">Support Kehilat Ohr HaTorah</h1>
+            <p>Choose Zelle® or PayPal. Your gift is completed directly with the provider.</p>
         </div>
 
         <div class="donation-grid donation-methods">
             <section class="donation-card donation-card-zelle" aria-labelledby="zelle-giving-title">
-                <header class="provider-header">
-                    <div class="provider-brand provider-brand-zelle">
-                        <div class="provider-logo-shell">
-                            <img src="/images/payments/zelle-bank-wordmark.png" width="1800" height="834" alt="Zelle" />
-                        </div>
-                        <div>
-                            <p>Direct from your banking app</p>
-                            <span>Bank-issued payment details</span>
-                        </div>
+                <header class="payment-brand-header">
+                    <div class="payment-brand-mark zelle-brand-mark">
+                        <img src="/images/payments/zelle-bank-wordmark.png" width="1800" height="834" alt="Zelle" />
                     </div>
-                    <span class="provider-state"><i class="fas fa-circle-check" aria-hidden="true"></i> Available now</span>
+                    <span>From your banking app</span>
                 </header>
 
-                <div class="provider-body zelle-layout">
-                    <div class="provider-copy zelle-copy">
-                        <p class="method-number">Giving method 01</p>
-                        <h3 id="zelle-giving-title">Send with Zelle®</h3>
-                        <p class="method-intro">Scan the bank-generated QR code in your participating bank or credit union app, or enter the congregation’s Zelle® tag.</p>
-
-                        <ul class="payment-assurance-list" aria-label="Zelle transfer details">
-                            <li><i class="fas fa-building-columns" aria-hidden="true"></i><span>Bank-generated QR</span></li>
-                            <li><i class="fas fa-shield-halved" aria-hidden="true"></i><span>No bank sign-in on this site</span></li>
-                            <li><i class="fas fa-circle-check" aria-hidden="true"></i><span>Confirm recipient before sending</span></li>
-                        </ul>
-
-                        <dl class="zelle-account-details">
-                            <div>
-                                <dt>Zelle® tag</dt>
-                                <dd class="zelle-tag-control">
-                                    <code id="zelle-tag-value">{zelleTag}</code>
-                                    <button type="button" class="zelle-copy-button" data-copy-zelle-tag data-zelle-tag={zelleTag}>
-                                        <i class="far fa-copy" aria-hidden="true"></i>
-                                        Copy tag
-                                    </button>
-                                </dd>
-                            </div>
-                            <div>
-                                <dt>Confirm recipient</dt>
-                                <dd><strong>{zelleRecipientName}</strong></dd>
-                            </div>
-                        </dl>
-
-                        <p class="zelle-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
-                        <a class="provider-primary-action zelle-primary-action" href={zellePaymentUrl} target="_blank" rel="noopener noreferrer">
-                            Open the Zelle payment link
-                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-                        </a>
+                <div class="payment-card-body">
+                    <div class="payment-intro">
+                        <h2 id="zelle-giving-title">Give with Zelle®</h2>
+                        <p>Scan the bank-generated QR code, or use the congregation’s Zelle® tag.</p>
                     </div>
 
                     <a
-                        class="payment-scan-card zelle-qr-link"
+                        class="payment-qr-link"
                         href={zellePaymentUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Open the Zelle payment link for tag ${zelleTag}`}
                     >
-                        <span class="scan-card-kicker"><i class="fas fa-mobile-screen-button" aria-hidden="true"></i> Scan with your bank app</span>
-                        <span class="payment-qr-frame zelle-qr-frame">
-                            <img src="/images/payments/zelle-ohrhatorahoc-qr.png" width="180" height="180" alt={`Zelle QR code for congregation tag ${zelleTag}`} />
+                        <span class="payment-qr-frame">
+                            <img src="/images/payments/zelle-ohrhatorahoc-qr.png" width="240" height="240" alt={`Zelle QR code for congregation tag ${zelleTag}`} />
                         </span>
-                        <strong>Scan to give with Zelle®</strong>
-                        <small>Tap here instead if you are on mobile</small>
+                        <span class="payment-scan-label"><i class="fas fa-mobile-screen-button" aria-hidden="true"></i> Scan with your banking app</span>
                     </a>
-                </div>
 
-                <aside class="payment-safety-note" aria-label="Zelle payment safety">
-                    <i class="fas fa-circle-info" aria-hidden="true"></i>
-                    <p><strong>Before you send:</strong> confirm the recipient name and tag. Payments to an enrolled recipient generally cannot be canceled, and Zelle® does not offer purchase protection.</p>
-                </aside>
-                <p class="zelle-trademark-note">Zelle® is a registered trademark of Early Warning Services, LLC. Kehilat Ohr HaTorah is not affiliated with, sponsored by, or endorsed by Early Warning Services, LLC.</p>
+                    <dl class="payment-details">
+                        <div>
+                            <dt>Zelle® tag</dt>
+                            <dd class="zelle-tag-control">
+                                <code id="zelle-tag-value">{zelleTag}</code>
+                                <button type="button" class="zelle-copy-button" data-copy-zelle-tag data-zelle-tag={zelleTag}>
+                                    <i class="far fa-copy" aria-hidden="true"></i>
+                                    Copy
+                                </button>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Confirm recipient</dt>
+                            <dd><strong>{zelleRecipientName}</strong></dd>
+                        </div>
+                    </dl>
+
+                    <p class="zelle-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+                    <a class="provider-primary-action zelle-primary-action" href={zellePaymentUrl} target="_blank" rel="noopener noreferrer">
+                        Open Zelle®
+                        <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+
+                    <p class="provider-note">Before sending, confirm the recipient name and tag. Payments to an enrolled recipient generally cannot be canceled, and Zelle® does not offer purchase protection.</p>
+                </div>
             </section>
 
             <section class="donation-card donation-card-paypal" aria-labelledby="paypal-giving-title">
-                <header class="provider-header">
-                    <div class="provider-brand provider-brand-paypal">
-                        <a href={paypalDonationUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Kehilat Ohr HaTorah donation page on PayPal">
-                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" width="111" height="69" alt="PayPal" referrerpolicy="strict-origin-when-cross-origin" />
-                        </a>
-                        <div>
-                            <p>Give on PayPal</p>
-                            <span>PayPal-hosted donation page</span>
-                        </div>
-                    </div>
-                    <span class="provider-state"><i class="fas fa-circle-check" aria-hidden="true"></i> Available now</span>
+                <header class="payment-brand-header">
+                    <a class="payment-brand-mark paypal-brand-mark" href={paypalDonationUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Kehilat Ohr HaTorah donation page on PayPal">
+                        <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" width="111" height="69" alt="PayPal" referrerpolicy="strict-origin-when-cross-origin" />
+                    </a>
+                    <span>PayPal-hosted giving</span>
                 </header>
 
-                <div class="provider-body paypal-layout">
-                    <div class="provider-copy paypal-copy">
-                        <p class="method-number">Giving method 02</p>
-                        <h3 id="paypal-giving-title">Donate with PayPal</h3>
-                        <p class="method-intro">Make a one-time, monthly, or yearly gift on PayPal’s hosted page. Suggested amounts are $18, $36, and $72, or choose your own amount.</p>
-
-                        <ul class="payment-assurance-list" aria-label="PayPal checkout details">
-                            <li><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i><span>PayPal-hosted checkout</span></li>
-                            <li><i class="fas fa-lock" aria-hidden="true"></i><span>No payment credentials stored here</span></li>
-                            <li><i class="fas fa-arrows-rotate" aria-hidden="true"></i><span>One-time or recurring gifts</span></li>
-                        </ul>
-
-                        <a class="provider-primary-action paypal-primary-action" href={paypalDonationUrl} target="_blank" rel="noopener noreferrer">
-                            <i class="fab fa-paypal" aria-hidden="true"></i>
-                            Continue to PayPal
-                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-                        </a>
-
-                        <div class="paypal-official-button">
-                            <span>Official PayPal Donate button</span>
-                            <form class="paypal-donate-form" action="https://www.paypal.com/donate" method="post" target="_top" aria-label="Donate to Kehilat Ohr HaTorah with PayPal">
-                                <input type="hidden" name="hosted_button_id" value={paypalHostedButtonId} />
-                                <input
-                                    type="image"
-                                    src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
-                                    name="submit"
-                                    title="PayPal - The safer, easier way to pay online!"
-                                    alt="Donate with PayPal button"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                />
-                            </form>
-                        </div>
-
-                        <div class="paypal-gift-options" aria-label="Giving options available on PayPal">
-                            <p>Choose your giving rhythm</p>
-                            <ul>
-                                <li><i class="fas fa-heart" aria-hidden="true"></i> One-time</li>
-                                <li><i class="fas fa-calendar-check" aria-hidden="true"></i> Monthly</li>
-                                <li><i class="fas fa-calendar-days" aria-hidden="true"></i> Yearly</li>
-                                <li><i class="fas fa-pen" aria-hidden="true"></i> Your amount</li>
-                            </ul>
-                        </div>
+                <div class="payment-card-body">
+                    <div class="payment-intro">
+                        <h2 id="paypal-giving-title">Give with PayPal</h2>
+                        <p>Make a one-time, monthly, or yearly gift on PayPal’s hosted donation page.</p>
                     </div>
 
                     <a
-                        class="payment-scan-card paypal-qr-link"
+                        class="payment-qr-link"
                         href={paypalQrDonationUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Open the PayPal donation page for Kehilat Ohr HaTorah"
                     >
-                        <span class="scan-card-kicker"><i class="fab fa-paypal" aria-hidden="true"></i> Scan with your camera</span>
-                        <span class="payment-qr-frame paypal-qr-frame">
-                            <img src="/images/payments/paypal-donation-qr.png" width="256" height="256" alt="PayPal QR code for Kehilat Ohr HaTorah donations" />
+                        <span class="payment-qr-frame">
+                            <img src="/images/payments/paypal-donation-qr.png" width="240" height="240" alt="PayPal QR code for Kehilat Ohr HaTorah donations" />
                         </span>
-                        <strong>Scan to give with PayPal</strong>
-                        <small>Opens PayPal’s hosted donation page</small>
+                        <span class="payment-scan-label"><i class="fas fa-camera" aria-hidden="true"></i> Scan with your camera</span>
                     </a>
-                </div>
 
-                <aside class="payment-safety-note paypal-security-note" aria-label="PayPal payment privacy">
-                    <i class="fas fa-shield-halved" aria-hidden="true"></i>
-                    <p><strong>Completed on PayPal:</strong> PayPal processes the donation on its website. This site does not receive your PayPal password or payment credentials.</p>
-                </aside>
+                    <dl class="payment-details">
+                        <div>
+                            <dt>Giving options</dt>
+                            <dd><strong>One-time, monthly, or yearly</strong></dd>
+                        </div>
+                        <div>
+                            <dt>Payment handled by</dt>
+                            <dd><strong>PayPal</strong></dd>
+                        </div>
+                    </dl>
+
+                    <p class="payment-status-placeholder" aria-hidden="true"></p>
+
+                    <a class="provider-primary-action paypal-primary-action" href={paypalDonationUrl} target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-paypal" aria-hidden="true"></i>
+                        Continue to PayPal
+                        <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+
+                    <p class="provider-note">PayPal processes the donation on its website. This site does not receive your PayPal password or payment credentials.</p>
+                </div>
             </section>
+        </div>
 
-            <section class="donation-card donation-card-check" aria-labelledby="check-giving-title">
-                <div class="check-intro">
-                    <span class="check-icon" aria-hidden="true"><i class="fas fa-money-check"></i></span>
-                    <div>
-                        <p class="method-number">Giving method 03</p>
-                        <h3 id="check-giving-title">Prefer to give by check?</h3>
-                        <p>Send your gift through the mail using the details shown here.</p>
-                    </div>
-                </div>
-
+        <div class="secondary-giving" aria-label="Additional giving information">
+            <details class="giving-disclosure">
+                <summary>
+                    <span><i class="fas fa-money-check" aria-hidden="true"></i> Give by check</span>
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </summary>
                 <dl class="check-details">
                     <div>
                         <dt>Make payable to</dt>
                         <dd><strong>{congregationName}</strong></dd>
                     </div>
                     <div>
-                        <dt>Mail to</dt>
+                        <dt>Mailbox</dt>
                         <dd><address>360 E. 1st Street, #856<br />Tustin, CA 92780</address></dd>
                     </div>
                 </dl>
-            </section>
+            </details>
+
+            <details class="giving-disclosure">
+                <summary>
+                    <span><i class="fas fa-file-shield" aria-hidden="true"></i> Giving records and special gifts</span>
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </summary>
+                <div class="records-copy">
+                    <h2>Giving acknowledgments and special contributions</h2>
+                    <p>Please keep your check or bank record. Contact <strong>{congregationName}</strong> if you need a giving acknowledgment or believe a record should be corrected.</p>
+                    <p>Whether a contribution is deductible depends on applicable law and your individual circumstances; nothing on this website is tax advice. Please consult a qualified adviser. Contact us before sending a non-cash or other special contribution so we can confirm whether it can be accepted.</p>
+                </div>
+            </details>
         </div>
 
-        <section class="giving-confidence" aria-labelledby="giving-confidence-title">
-            <div class="confidence-heading">
-                <p class="giving-eyebrow giving-eyebrow-dark"><span aria-hidden="true"></span> A clear giving path</p>
-                <h2 id="giving-confidence-title">Give with confidence in three simple steps.</h2>
-            </div>
-            <ol>
-                <li>
-                    <span>01</span>
-                    <div><strong>Choose your provider</strong><p>Use Zelle, PayPal, or send a check.</p></div>
-                </li>
-                <li>
-                    <span>02</span>
-                    <div><strong>Confirm the destination</strong><p>Review the recipient or hosted page before sending.</p></div>
-                </li>
-                <li>
-                    <span>03</span>
-                    <div><strong>Keep your confirmation</strong><p>Save your bank, PayPal, or check record.</p></div>
-                </li>
-            </ol>
-        </section>
-
-        <section class="giving-info" aria-labelledby="why-give-title">
-            <div class="giving-info-heading">
-                <div class="giving-info-icon" aria-hidden="true"><i class="fas fa-hand-holding-heart"></i></div>
-                <div>
-                    <p class="giving-eyebrow giving-eyebrow-gold">Your gift at work</p>
-                    <h3 id="why-give-title">What your generosity sustains</h3>
-                    <p>Your generosity helps nourish the worship, learning, and care we share.</p>
-                </div>
-            </div>
-            <ul class="giving-list">
-                <li><i class="fas fa-check" aria-hidden="true"></i><span>Shabbat services and teaching</span></li>
-                <li><i class="fas fa-check" aria-hidden="true"></i><span>Jewish learning and teaching</span></li>
-                <li><i class="fas fa-check" aria-hidden="true"></i><span>Community outreach</span></li>
-                <li><i class="fas fa-check" aria-hidden="true"></i><span>Support for Israel ministries</span></li>
-                <li><i class="fas fa-check" aria-hidden="true"></i><span>Future youth learning</span></li>
-                <li><i class="fas fa-check" aria-hidden="true"></i><span>Facility care and operations</span></li>
-            </ul>
-        </section>
-
-        <section class="donation-records-notice" aria-labelledby="giving-records-title">
-            <div class="records-heading">
-                <i class="fas fa-file-shield" aria-hidden="true"></i>
-                <div>
-                    <p class="donation-notice-kicker">For your records</p>
-                    <h3 id="giving-records-title">Giving acknowledgments and special contributions</h3>
-                </div>
-            </div>
-            <div>
-                <p>Please keep your check or bank record. Contact <strong>{congregationName}</strong> if you need a giving acknowledgment or believe a record should be corrected.</p>
-                <p>Whether a contribution is deductible depends on applicable law and your individual circumstances; nothing on this website is tax advice. Please consult a qualified adviser. Contact us before sending a non-cash or other special contribution so we can confirm whether it can be accepted.</p>
-            </div>
-        </section>
-
-        <div class="giving-contact-box">
-            <div>
-                <p class="giving-eyebrow giving-eyebrow-gold">We’re here to help</p>
-                <h4>Questions about giving?</h4>
-                <p class="giving-contact-description">Reach out before sending a special contribution or whenever you need help.</p>
-            </div>
-            <div class="contact-links">
-                <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone" aria-hidden="true"></i> Call us</a>
-                <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> Email us</a>
-            </div>
-        </div>
-    </div>
+        <p class="provider-legal">Zelle® is a registered trademark of Early Warning Services, LLC. Kehilat Ohr HaTorah is not affiliated with, sponsored by, or endorsed by Early Warning Services, LLC.</p>
+    </section>
 </PageLayout>
 
 <style>
     .donate-content {
-        --giving-navy: #061a32;
-        --giving-navy-soft: #102b49;
-        --giving-gold: #d1a12d;
-        --giving-gold-light: #f0cf76;
-        --giving-paper: #fbf8f0;
-        --giving-ink: #061a32;
-        --giving-muted: #596778;
+        --giving-navy: #061d35;
+        --giving-ink: #0b2d57;
+        --giving-muted: #5d6877;
+        --giving-line: rgba(11, 45, 87, 0.14);
+        --giving-paper: #fffdf8;
         --zelle-purple: #6d1ed4;
-        --zelle-deep: #43107f;
-        --zelle-soft: #f3eaff;
+        --zelle-deep: #4f1499;
+        --zelle-soft: #f7f1ff;
         --paypal-blue: #0070ba;
         --paypal-deep: #003087;
         --paypal-yellow: #ffc439;
-        --paypal-soft: #eaf6fd;
+        --paypal-soft: #f1f8fd;
+        max-width: 72rem;
+        margin: 0 auto;
         color: var(--giving-ink);
     }
 
-    .donate-content .giving-intro {
-        display: grid;
-        position: relative;
-        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
-        gap: clamp(2rem, 5vw, 4.75rem);
-        margin: 0 0 clamp(3.25rem, 7vw, 5.5rem);
-        padding: clamp(2.25rem, 5vw, 4.75rem);
-        overflow: hidden;
-        border: 1px solid rgba(240, 207, 118, 0.34);
-        border-radius: clamp(1.25rem, 2.5vw, 2rem);
-        align-items: center;
-        background:
-            radial-gradient(circle at 88% 8%, rgba(240, 207, 118, 0.19), transparent 27%),
-            radial-gradient(circle at 8% 108%, rgba(51, 121, 181, 0.22), transparent 31%),
-            linear-gradient(135deg, #061a32 0%, #0b2948 62%, #102f50 100%);
-        box-shadow: 0 2rem 5rem rgba(6, 26, 50, 0.2);
-        isolation: isolate;
+    .giving-heading {
+        max-width: 46rem;
+        margin: 0 auto clamp(2.25rem, 5vw, 3.75rem);
+        text-align: center;
     }
 
-    .donate-content .giving-intro::before,
-    .donate-content .giving-intro::after {
-        position: absolute;
-        border: 1px solid rgba(240, 207, 118, 0.18);
-        border-radius: 50%;
-        content: '';
-        pointer-events: none;
-        z-index: -1;
-    }
-
-    .donate-content .giving-intro::before {
-        width: clamp(16rem, 34vw, 34rem);
-        height: clamp(16rem, 34vw, 34rem);
-        top: -46%;
-        right: -8%;
-    }
-
-    .donate-content .giving-intro::after {
-        width: clamp(8rem, 18vw, 18rem);
-        height: clamp(8rem, 18vw, 18rem);
-        right: 18%;
-        bottom: -40%;
-    }
-
-    .donate-content .giving-intro-copy {
-        position: relative;
-        z-index: 1;
-    }
-
-    .donate-content .giving-eyebrow {
-        display: flex;
-        gap: 0.65rem;
-        margin: 0 0 1rem;
-        align-items: center;
-        color: var(--giving-gold-light);
-        font-family: var(--font-body);
-        font-size: 0.72rem;
+    .giving-heading .giving-kicker {
+        margin: 0 0 0.75rem;
+        color: #8b671b;
+        font-size: 0.7rem;
         font-weight: 850;
-        letter-spacing: 0.14em;
-        line-height: 1.35;
+        letter-spacing: 0.15em;
+        line-height: 1.3;
         text-transform: uppercase;
     }
 
-    .donate-content .giving-eyebrow > span {
-        width: 2rem;
-        height: 1px;
-        flex: 0 0 auto;
-        background: currentColor;
-    }
-
-    .donate-content .giving-eyebrow-dark {
-        color: #826018;
-    }
-
-    .donate-content .giving-eyebrow-gold {
-        color: var(--giving-gold-light);
-    }
-
-    .donate-content .giving-intro h2 {
-        max-width: 13ch;
-        margin: 0;
-        color: #ffffff;
-        font-family: var(--font-display);
-        font-size: clamp(2.7rem, 6.2vw, 5.45rem);
-        font-weight: 650;
-        letter-spacing: -0.045em;
-        line-height: 0.93;
-    }
-
-    .donate-content .giving-intro h2 em {
-        color: var(--giving-gold-light);
-        font-weight: inherit;
-    }
-
-    .donate-content .giving-intro-lede {
-        max-width: 59ch;
-        margin: clamp(1.35rem, 3vw, 2rem) 0 0;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: clamp(1rem, 1.6vw, 1.15rem);
-        line-height: 1.7;
-    }
-
-    .donate-content .giving-intro-assurances {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.65rem 1.1rem;
-        margin: 1.65rem 0 0;
-        padding: 1.1rem 0 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.14);
-        list-style: none;
-    }
-
-    .donate-content .giving-intro .giving-intro-assurances li {
-        display: inline-flex;
-        gap: 0.5rem;
-        align-items: center;
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.76rem;
-        font-weight: 700;
-        line-height: 1.35;
-    }
-
-    .donate-content .giving-intro-assurances i {
-        color: var(--giving-gold-light);
-    }
-
-    .donate-content .donation-verse {
-        position: relative;
-        margin: 0;
-        padding: clamp(1.5rem, 3vw, 2.25rem);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 1.25rem;
-        background: rgba(255, 255, 255, 0.075);
-        box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
-        color: #ffffff;
-        backdrop-filter: blur(10px);
-    }
-
-    .donate-content .verse-mark {
-        display: block;
-        height: 2rem;
-        margin-bottom: 0.5rem;
-        color: var(--giving-gold-light);
-        font-family: Georgia, serif;
-        font-size: 4.75rem;
-        line-height: 0.85;
-    }
-
-    .donate-content .giving-intro .donation-verse .donation-verse-copy {
-        margin: 0;
-        color: #ffffff;
-        font-family: var(--font-display);
-        font-size: clamp(1.55rem, 2.7vw, 2.25rem);
-        font-style: italic;
-        line-height: 1.2;
-    }
-
-    .donate-content .donation-verse cite {
-        display: block;
-        margin-top: 1.25rem;
-        color: var(--giving-gold-light);
-        font-family: var(--font-body);
-        font-size: 0.72rem;
-        font-style: normal;
-        font-weight: 850;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-    }
-
-    .donate-content .giving-section-heading {
-        display: grid;
-        grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
-        gap: clamp(1.5rem, 5vw, 4rem);
-        margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
-        align-items: end;
-    }
-
-    .donate-content .giving-section-heading h2,
-    .donate-content .confidence-heading h2 {
-        max-width: 17ch;
+    .giving-heading h1 {
         margin: 0;
         color: var(--giving-navy);
         font-family: var(--font-display);
-        font-size: clamp(2.05rem, 4vw, 3.6rem);
-        font-weight: 650;
-        letter-spacing: -0.035em;
-        line-height: 1;
+        font-size: clamp(2.25rem, 4.5vw, 3.65rem);
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+        text-wrap: balance;
     }
 
-    .donate-content .giving-section-heading > p {
-        max-width: 49ch;
-        margin: 0;
-        padding-left: clamp(1rem, 2.5vw, 2rem);
-        border-left: 1px solid rgba(6, 26, 50, 0.2);
+    .giving-heading > p:last-child {
+        max-width: 38rem;
+        margin: 1.1rem auto 0;
         color: var(--giving-muted);
+        font-size: clamp(0.98rem, 1.5vw, 1.08rem);
         line-height: 1.65;
     }
 
-    .donate-content .donation-grid.donation-methods {
+    .donation-grid.donation-methods {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: clamp(1rem, 2.5vw, 1.75rem);
-        margin: 0 0 clamp(3.5rem, 7vw, 5.5rem);
         align-items: stretch;
+        margin: 0;
         background: transparent;
     }
 
-    .donate-content .donation-card {
-        --payment-accent: var(--giving-gold);
+    .donation-card {
+        --payment-accent: #8b671b;
         --payment-deep: var(--giving-navy);
-        --payment-soft: rgba(209, 161, 45, 0.1);
+        --payment-soft: #faf7ef;
         display: flex;
-        position: relative;
         min-width: 0;
-        box-sizing: border-box;
-        flex-direction: column;
         overflow: hidden;
-        border: 1px solid rgba(6, 26, 50, 0.12);
-        border-radius: clamp(1.2rem, 2vw, 1.65rem);
-        background: #ffffff;
+        border: 1px solid var(--giving-line);
+        border-top: 3px solid var(--payment-accent);
+        border-radius: 1.35rem;
+        flex-direction: column;
+        background: var(--giving-paper);
         box-shadow:
-            0 1.5rem 3.5rem rgba(6, 26, 50, 0.1),
-            0 0.2rem 0.8rem rgba(6, 26, 50, 0.04);
+            0 1.25rem 3.25rem rgba(6, 29, 53, 0.08),
+            0 0.15rem 0.45rem rgba(6, 29, 53, 0.035);
         text-align: left;
     }
 
-    .donate-content .donation-card-zelle {
+    .donation-card-zelle {
         --payment-accent: var(--zelle-purple);
         --payment-deep: var(--zelle-deep);
         --payment-soft: var(--zelle-soft);
     }
 
-    .donate-content .donation-card-paypal {
+    .donation-card-paypal {
         --payment-accent: var(--paypal-blue);
         --payment-deep: var(--paypal-deep);
         --payment-soft: var(--paypal-soft);
     }
 
-    .donate-content .donation-card-zelle::after,
-    .donate-content .donation-card-paypal::after {
-        position: absolute;
-        width: 15rem;
-        height: 15rem;
-        top: 4rem;
-        right: -9rem;
-        border: 1px solid color-mix(in srgb, var(--payment-accent) 16%, transparent);
-        border-radius: 50%;
-        content: '';
-        pointer-events: none;
-    }
-
-    .donate-content .provider-header {
+    .payment-brand-header {
         display: flex;
-        position: relative;
-        min-height: 6.25rem;
+        min-height: 5.2rem;
         box-sizing: border-box;
         gap: 1rem;
-        padding: 1.15rem clamp(1.25rem, 2.5vw, 1.75rem);
-        border-bottom: 1px solid color-mix(in srgb, var(--payment-accent) 18%, transparent);
+        padding: 1rem clamp(1.25rem, 3vw, 1.75rem);
+        border-bottom: 1px solid color-mix(in srgb, var(--payment-accent) 16%, transparent);
         align-items: center;
         justify-content: space-between;
-        z-index: 1;
+        background: var(--payment-soft);
     }
 
-    .donate-content .donation-card-zelle .provider-header {
-        background:
-            radial-gradient(circle at 10% 0%, rgba(109, 30, 212, 0.13), transparent 45%),
-            linear-gradient(120deg, #faf7ff 0%, #f2e8ff 100%);
-    }
-
-    .donate-content .donation-card-paypal .provider-header {
-        background:
-            linear-gradient(90deg, rgba(0, 48, 135, 0.065) 0 76%, rgba(255, 196, 57, 0.22) 76% 100%),
-            linear-gradient(120deg, #f7fbff 0%, #e8f5fc 100%);
-    }
-
-    .donate-content .provider-brand {
-        display: flex;
-        min-width: 0;
-        gap: 0.85rem;
-        align-items: center;
-    }
-
-    .donate-content .provider-brand > div:last-child {
-        min-width: 0;
-    }
-
-    .donate-content .provider-brand p {
-        margin: 0;
+    .payment-brand-header > span {
         color: var(--payment-deep);
-        font-size: 0.78rem;
-        font-weight: 850;
+        font-size: 0.7rem;
+        font-weight: 800;
         line-height: 1.3;
+        text-align: right;
     }
 
-    .donate-content .provider-brand span {
-        display: block;
-        margin-top: 0.15rem;
-        color: var(--giving-muted);
-        font-size: 0.65rem;
-        font-weight: 650;
-        line-height: 1.3;
-    }
-
-    .donate-content .provider-logo-shell {
+    .payment-brand-mark {
         display: grid;
-        width: 7rem;
-        height: 3.4rem;
-        flex: 0 0 7rem;
-        padding: 0.15rem 0.4rem;
+        width: 7.1rem;
+        height: 3rem;
+        flex: 0 0 auto;
         box-sizing: border-box;
         place-items: center;
     }
 
-    .donate-content .provider-logo-shell img {
+    .zelle-brand-mark {
+        padding: 0.2rem 0;
+    }
+
+    .zelle-brand-mark img {
         display: block;
-        width: 100%;
+        width: 7rem;
         height: auto;
     }
 
-    .donate-content .provider-brand-paypal > a {
-        display: grid;
-        width: 5.45rem;
-        height: 3.5rem;
-        flex: 0 0 5.45rem;
+    .paypal-brand-mark {
+        width: 5.25rem;
         overflow: hidden;
-        border: 1px solid rgba(0, 48, 135, 0.14);
-        border-radius: 0.7rem;
-        place-items: center;
+        border: 1px solid rgba(0, 48, 135, 0.12);
+        border-radius: 0.55rem;
         background: #ffffff;
-        box-shadow: 0 0.35rem 0.9rem rgba(0, 48, 135, 0.08);
     }
 
-    .donate-content .provider-brand-paypal img {
+    .paypal-brand-mark img {
         display: block;
-        width: 4.7rem;
+        width: 4.5rem;
         height: auto;
     }
 
-    .donate-content .provider-state {
-        display: inline-flex;
-        flex: 0 0 auto;
-        gap: 0.35rem;
-        padding: 0.42rem 0.6rem;
-        border: 1px solid rgba(28, 105, 73, 0.17);
-        border-radius: 999px;
-        align-items: center;
-        background: rgba(240, 253, 247, 0.84);
-        color: #216b4b;
-        font-family: var(--font-body);
-        font-size: 0.66rem;
-        font-weight: 800;
-        line-height: 1;
-        white-space: nowrap;
-    }
-
-    .donate-content .provider-body {
-        display: grid;
-        flex: 1;
-        grid-template-columns: minmax(0, 1fr);
-        gap: clamp(1.35rem, 3vw, 2rem);
-        padding: clamp(1.5rem, 3vw, 2.2rem);
-        align-items: start;
-        z-index: 1;
-    }
-
-    .donate-content .provider-copy {
+    .payment-card-body {
+        display: flex;
         min-width: 0;
+        flex: 1;
+        flex-direction: column;
+        padding: clamp(1.4rem, 3vw, 2rem);
     }
 
-    .donate-content .method-number {
-        margin: 0 0 0.65rem;
-        color: var(--payment-accent);
-        font-size: 0.66rem;
-        font-weight: 900;
-        letter-spacing: 0.13em;
-        line-height: 1.3;
-        text-transform: uppercase;
+    .payment-intro {
+        min-height: 7rem;
+        text-align: center;
     }
 
-    .donate-content .provider-copy h3,
-    .donate-content .check-intro h3 {
+    .payment-intro h2 {
         margin: 0;
         color: var(--payment-deep);
         font-family: var(--font-display);
-        font-size: clamp(1.9rem, 3.2vw, 2.65rem);
-        font-weight: 650;
-        letter-spacing: -0.03em;
+        font-size: clamp(2rem, 3.5vw, 2.75rem);
+        font-weight: 600;
+        letter-spacing: -0.035em;
         line-height: 1;
     }
 
-    .donate-content .method-intro {
-        margin: 1rem 0 0;
+    .payment-intro p {
+        max-width: 31rem;
+        margin: 0.85rem auto 0;
         color: var(--giving-muted);
-        font-size: 0.94rem;
-        line-height: 1.65;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        text-align: center;
     }
 
-    .donate-content .payment-assurance-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-        margin: 1.15rem 0 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .donate-content .payment-assurance-list li {
-        display: inline-flex;
-        min-width: 0;
-        gap: 0.4rem;
-        padding: 0.45rem 0.6rem;
-        border: 1px solid color-mix(in srgb, var(--payment-accent) 20%, transparent);
-        border-radius: 999px;
-        align-items: center;
-        background: var(--payment-soft);
-        color: var(--payment-deep);
-        font-size: 0.65rem;
-        font-weight: 750;
-        line-height: 1.25;
-    }
-
-    .donate-content .payment-assurance-list i {
-        flex: 0 0 auto;
-        color: var(--payment-accent);
-        font-size: 0.62rem;
-    }
-
-    .donate-content .zelle-account-details {
+    .payment-qr-link {
         display: grid;
-        margin: 1.25rem 0 0;
+        width: min(15.25rem, 100%);
+        max-width: 100%;
+        min-height: 44px;
+        gap: 0.8rem;
+        margin: 0.25rem auto 1.45rem;
+        justify-items: center;
+        color: var(--payment-deep);
+        text-decoration: none;
+    }
+
+    .payment-qr-frame {
+        display: grid;
+        width: 100%;
+        aspect-ratio: 1;
+        box-sizing: border-box;
+        padding: 0.8rem;
+        border: 1px solid color-mix(in srgb, var(--payment-accent) 27%, transparent);
+        border-radius: 1rem;
+        place-items: center;
+        background: #ffffff;
+        box-shadow: 0 0.85rem 2rem rgba(6, 29, 53, 0.075);
+        transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .payment-qr-frame img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        image-rendering: pixelated;
+    }
+
+    .payment-scan-label {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        color: var(--payment-deep);
+        font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+    .payment-qr-link:hover .payment-qr-frame {
+        border-color: color-mix(in srgb, var(--payment-accent) 56%, transparent);
+        box-shadow: 0 1rem 2.3rem rgba(6, 29, 53, 0.11);
+        transform: translateY(-2px);
+    }
+
+    .payment-details {
+        margin: 0;
         overflow: hidden;
-        border: 1px solid color-mix(in srgb, var(--payment-accent) 21%, transparent);
-        border-radius: 0.9rem;
-        background: color-mix(in srgb, var(--payment-soft) 45%, #ffffff);
+        border-top: 1px solid var(--giving-line);
+        border-bottom: 1px solid var(--giving-line);
     }
 
-    .donate-content .zelle-account-details > div {
-        min-width: 0;
-        padding: 0.9rem 1rem;
+    .payment-details > div {
+        display: grid;
+        min-height: 4.65rem;
+        box-sizing: border-box;
+        grid-template-columns: minmax(7.25rem, 0.7fr) minmax(0, 1.3fr);
+        gap: 1rem;
+        padding: 0.9rem 0.15rem;
+        align-items: center;
     }
 
-    .donate-content .zelle-account-details > div:first-child {
-        border-bottom: 1px solid color-mix(in srgb, var(--payment-accent) 16%, transparent);
+    .payment-details > div + div {
+        border-top: 1px solid var(--giving-line);
     }
 
-    .donate-content .zelle-account-details dt,
-    .donate-content .check-details dt {
-        margin-bottom: 0.4rem;
+    .payment-details dt,
+    .check-details dt {
         color: var(--giving-muted);
-        font-family: var(--font-body);
         font-size: 0.66rem;
         font-weight: 850;
         letter-spacing: 0.09em;
-        line-height: 1.3;
+        line-height: 1.35;
         text-transform: uppercase;
     }
 
-    .donate-content .zelle-account-details dd {
+    .payment-details dd,
+    .check-details dd {
+        min-width: 0;
         margin: 0;
-        color: var(--giving-navy);
+        color: var(--giving-ink);
+        font-size: 0.82rem;
+        line-height: 1.4;
         overflow-wrap: anywhere;
     }
 
-    .donate-content .zelle-tag-control {
+    .payment-details strong,
+    .check-details strong {
+        color: inherit;
+    }
+
+    .zelle-tag-control {
         display: flex;
-        min-width: 0;
-        gap: 0.7rem;
+        gap: 0.65rem;
         align-items: center;
-        flex-wrap: wrap;
         justify-content: space-between;
     }
 
-    .donate-content .zelle-tag-control code {
+    .zelle-tag-control code {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: clamp(0.95rem, 2vw, 1.08rem);
+        font-size: 0.88rem;
         font-weight: 850;
     }
 
-    .donate-content .zelle-copy-button {
+    .zelle-copy-button {
         display: inline-flex;
-        min-height: 40px;
-        gap: 0.4rem;
-        padding: 0.55rem 0.75rem;
-        border: 1px solid var(--payment-deep);
+        min-width: 4.5rem;
+        min-height: 44px;
+        box-sizing: border-box;
+        gap: 0.35rem;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid color-mix(in srgb, var(--payment-accent) 45%, transparent);
         border-radius: 999px;
         align-items: center;
         justify-content: center;
@@ -793,30 +462,31 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         color: var(--payment-deep);
         font: 800 0.68rem/1 var(--font-body);
         cursor: pointer;
-        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+        transition: background-color 180ms ease, color 180ms ease;
     }
 
-    .donate-content .zelle-copy-button:hover {
-        transform: translateY(-1px);
+    .zelle-copy-button:hover {
         background: var(--payment-deep);
         color: #ffffff;
     }
 
-    .donate-content .zelle-copy-status {
+    .zelle-copy-status,
+    .payment-status-placeholder {
         min-height: 1.05rem;
-        margin: 0.4rem 0 0;
+        margin: 0.45rem 0 0;
         color: #216b4b;
-        font-size: 0.7rem;
+        font-size: 0.68rem;
         font-weight: 750;
+        line-height: 1.4;
     }
 
-    .donate-content .provider-primary-action {
+    .provider-primary-action {
         display: flex;
         width: 100%;
-        min-height: 50px;
+        min-height: 52px;
         box-sizing: border-box;
-        gap: 0.65rem;
-        margin: 1rem 0 0;
+        gap: 0.6rem;
+        margin: 0.8rem 0 0;
         padding: 0.8rem 1rem;
         border-radius: 999px;
         align-items: center;
@@ -829,798 +499,223 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         transition: box-shadow 180ms ease, transform 180ms ease;
     }
 
-    .donate-content .provider-primary-action:hover {
+    .provider-primary-action:hover {
         transform: translateY(-2px);
     }
 
-    .donate-content .zelle-primary-action {
+    .zelle-primary-action {
         background: var(--zelle-deep);
-        box-shadow: 0 0.8rem 1.6rem rgba(67, 16, 127, 0.18);
+        box-shadow: 0 0.75rem 1.5rem rgba(79, 20, 153, 0.15);
         color: #ffffff;
     }
 
-    .donate-content .paypal-primary-action {
+    .paypal-primary-action {
         background: var(--paypal-yellow);
-        box-shadow: 0 0.8rem 1.6rem rgba(0, 48, 135, 0.16);
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 48, 135, 0.13);
         color: var(--paypal-deep);
     }
 
-    .donate-content .paypal-primary-action .fa-paypal {
+    .paypal-primary-action .fa-paypal {
         color: var(--paypal-blue);
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
 
-    .donate-content .payment-scan-card {
-        display: grid;
-        width: 100%;
-        max-width: 18rem;
-        box-sizing: border-box;
-        justify-self: center;
-        gap: 0.65rem;
-        padding: 1rem;
-        border: 1px solid color-mix(in srgb, var(--payment-accent) 24%, transparent);
-        border-radius: 1.15rem;
-        place-items: center;
-        background:
-            radial-gradient(circle at 50% 22%, var(--payment-soft), transparent 58%),
-            #ffffff;
-        box-shadow: 0 1rem 2.4rem color-mix(in srgb, var(--payment-accent) 12%, transparent);
-        color: var(--payment-deep);
-        text-align: center;
-        text-decoration: none;
-        transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-    }
-
-    .donate-content .payment-scan-card:hover {
-        transform: translateY(-3px);
-        border-color: color-mix(in srgb, var(--payment-accent) 52%, transparent);
-        box-shadow: 0 1.25rem 2.8rem color-mix(in srgb, var(--payment-accent) 18%, transparent);
-    }
-
-    .donate-content .scan-card-kicker {
-        display: inline-flex;
-        gap: 0.4rem;
-        align-items: center;
-        color: var(--payment-accent);
-        font-size: 0.62rem;
-        font-weight: 900;
-        letter-spacing: 0.08em;
-        line-height: 1.3;
-        text-transform: uppercase;
-    }
-
-    .donate-content .payment-qr-frame {
-        display: grid;
-        width: min(100%, 10.35rem);
-        box-sizing: border-box;
-        padding: 0.75rem;
-        border: 1px solid color-mix(in srgb, var(--payment-accent) 28%, transparent);
-        border-radius: 0.9rem;
-        place-items: center;
-        background: #ffffff;
-        box-shadow: 0 0.55rem 1.5rem rgba(6, 26, 50, 0.08);
-    }
-
-    .donate-content .payment-qr-frame img {
-        display: block;
-        width: 100%;
-        height: auto;
-        image-rendering: pixelated;
-    }
-
-    .donate-content .payment-scan-card strong {
-        font-size: 0.8rem;
-        line-height: 1.35;
-    }
-
-    .donate-content .payment-scan-card small {
+    .provider-note {
+        min-height: 4.25rem;
+        margin: 1rem 0 0;
         color: var(--giving-muted);
-        font-size: 0.64rem;
-        font-weight: 650;
-        line-height: 1.35;
-    }
-
-    .donate-content .payment-safety-note {
-        display: grid;
-        grid-template-columns: 1rem minmax(0, 1fr);
-        gap: 0.7rem;
-        margin: 0 clamp(1.5rem, 3vw, 2.2rem);
-        padding: 0.95rem 1rem;
-        border: 1px solid color-mix(in srgb, var(--payment-accent) 17%, transparent);
-        border-radius: 0.85rem;
-        background: var(--payment-soft);
-        color: var(--giving-muted);
-    }
-
-    .donate-content .payment-safety-note i {
-        margin-top: 0.15rem;
-        color: var(--payment-deep);
-    }
-
-    .donate-content .payment-safety-note p {
-        margin: 0;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         line-height: 1.55;
+        text-align: center;
     }
 
-    .donate-content .payment-safety-note strong {
-        color: var(--payment-deep);
+    .secondary-giving {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem;
+        margin: clamp(1.5rem, 4vw, 2.5rem) 0 0;
     }
 
-    .donate-content .zelle-trademark-note {
-        margin: 1rem clamp(1.5rem, 3vw, 2.2rem) clamp(1.25rem, 2.5vw, 1.7rem);
-        color: var(--giving-muted);
-        font-size: 0.59rem;
-        line-height: 1.45;
+    .giving-disclosure {
+        min-width: 0;
+        border: 1px solid var(--giving-line);
+        border-radius: 0.9rem;
+        background: rgba(255, 253, 248, 0.72);
     }
 
-    .donate-content .paypal-official-button {
+    .giving-disclosure summary {
         display: flex;
-        min-height: 48px;
-        gap: 0.8rem;
-        margin-top: 0.75rem;
-        padding: 0.6rem 0.8rem;
-        border: 1px solid rgba(0, 48, 135, 0.13);
-        border-radius: 0.8rem;
+        min-height: 54px;
+        box-sizing: border-box;
+        gap: 1rem;
+        padding: 0.85rem 1rem;
         align-items: center;
         justify-content: space-between;
-        background: #ffffff;
+        color: var(--giving-ink);
+        font-size: 0.75rem;
+        font-weight: 800;
+        line-height: 1.35;
+        list-style: none;
+        cursor: pointer;
     }
 
-    .donate-content .paypal-official-button > span {
+    .giving-disclosure summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .giving-disclosure summary > span {
+        display: inline-flex;
+        gap: 0.55rem;
+        align-items: center;
+    }
+
+    .giving-disclosure summary > span i {
+        color: #9b731d;
+    }
+
+    .giving-disclosure summary > .fa-plus {
         color: var(--giving-muted);
-        font-size: 0.62rem;
-        font-weight: 750;
-        line-height: 1.3;
+        font-size: 0.65rem;
+        transition: transform 180ms ease;
     }
 
-    .donate-content .paypal-donate-form {
-        min-width: 147px;
-        min-height: 47px;
+    .giving-disclosure[open] summary {
+        border-bottom: 1px solid var(--giving-line);
+    }
+
+    .giving-disclosure[open] summary > .fa-plus {
+        transform: rotate(45deg);
+    }
+
+    .check-details {
+        display: grid;
         margin: 0;
+        padding: 1rem;
+        gap: 1rem;
     }
 
-    .donate-content .paypal-donate-form input[type='image'] {
-        display: block;
-        width: auto;
-        max-width: 100%;
-        height: auto;
-        border-radius: 999px;
+    .check-details > div {
+        display: grid;
+        grid-template-columns: minmax(7rem, 0.65fr) minmax(0, 1.35fr);
+        gap: 1rem;
     }
 
-    .donate-content .paypal-gift-options {
-        margin-top: 0.8rem;
-        padding: 0.85rem;
-        border: 1px solid rgba(0, 48, 135, 0.12);
-        border-radius: 0.85rem;
-        background: linear-gradient(135deg, rgba(234, 246, 253, 0.82), rgba(255, 255, 255, 0.94));
+    .check-details address {
+        font-style: normal;
     }
 
-    .donate-content .paypal-gift-options > p {
-        margin: 0 0 0.65rem;
-        color: var(--paypal-deep);
-        font-size: 0.66rem;
+    .records-copy {
+        padding: 1rem;
+    }
+
+    .records-copy h2 {
+        margin: 0 0 0.75rem;
+        color: var(--giving-ink);
+        font-family: var(--font-body);
+        font-size: 0.78rem;
         font-weight: 850;
-        letter-spacing: 0.08em;
-        line-height: 1.3;
-        text-transform: uppercase;
+        line-height: 1.4;
     }
 
-    .donate-content .paypal-gift-options ul {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.45rem;
+    .records-copy p {
         margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .donate-content .paypal-gift-options li {
-        display: flex;
-        min-width: 0;
-        gap: 0.4rem;
-        padding: 0.45rem;
-        border-radius: 0.55rem;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.75);
-        color: var(--paypal-deep);
-        font-size: 0.66rem;
-        font-weight: 750;
-        line-height: 1.3;
-    }
-
-    .donate-content .paypal-gift-options i {
-        color: var(--paypal-blue);
-    }
-
-    .donate-content .paypal-security-note {
-        margin-bottom: clamp(1.25rem, 2.5vw, 1.7rem);
-    }
-
-    .donate-content .donation-card-check {
-        display: grid;
-        grid-column: 1 / -1;
-        grid-template-columns: minmax(17rem, 0.85fr) minmax(0, 1.15fr);
-        gap: clamp(1.5rem, 4vw, 3rem);
-        padding: clamp(1.5rem, 3vw, 2.2rem);
-        border-color: rgba(240, 207, 118, 0.28);
-        align-items: center;
-        background:
-            radial-gradient(circle at 90% 0%, rgba(209, 161, 45, 0.14), transparent 31%),
-            linear-gradient(120deg, #061a32 0%, #0b2948 100%);
-        box-shadow: 0 1.25rem 3rem rgba(6, 26, 50, 0.15);
-        color: #ffffff;
-    }
-
-    .donate-content .check-intro {
-        display: grid;
-        grid-template-columns: 3.4rem minmax(0, 1fr);
-        gap: 1rem;
-        align-items: start;
-    }
-
-    .donate-content .check-icon {
-        display: grid;
-        width: 3.4rem;
-        height: 3.4rem;
-        border: 1px solid rgba(240, 207, 118, 0.45);
-        border-radius: 50%;
-        place-items: center;
-        background: rgba(209, 161, 45, 0.1);
-        color: var(--giving-gold-light);
-    }
-
-    .donate-content .check-intro .method-number {
-        color: var(--giving-gold-light);
-    }
-
-    .donate-content .check-intro h3 {
-        color: #ffffff;
-        font-size: clamp(1.55rem, 2.8vw, 2.2rem);
-    }
-
-    .donate-content .check-intro > div > p:last-child {
-        margin: 0.65rem 0 0;
-        color: rgba(255, 255, 255, 0.68);
-        font-size: 0.8rem;
-        line-height: 1.5;
-    }
-
-    .donate-content .check-details {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0;
-        margin: 0;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.06);
-    }
-
-    .donate-content .check-details > div {
-        min-width: 0;
-        padding: 1rem 1.15rem;
-    }
-
-    .donate-content .check-details > div + div {
-        border-left: 1px solid rgba(255, 255, 255, 0.13);
-    }
-
-    .donate-content .check-details dt {
-        color: rgba(255, 255, 255, 0.58);
-    }
-
-    .donate-content .check-details dd {
-        margin: 0;
-        color: #ffffff;
-        font-family: var(--font-display);
-        font-size: clamp(1rem, 1.8vw, 1.22rem);
-        font-weight: 650;
-        line-height: 1.35;
-    }
-
-    .donate-content .donation-card-check .check-details strong {
-        color: #ffffff;
-    }
-
-    .donate-content .check-details address {
-        font: inherit;
-    }
-
-    .donate-content .giving-confidence {
-        display: grid;
-        grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
-        gap: clamp(2rem, 6vw, 5rem);
-        margin: 0 0 clamp(3.5rem, 7vw, 5.5rem);
-        padding: clamp(1.75rem, 4vw, 3rem) 0;
-        border-top: 1px solid rgba(6, 26, 50, 0.15);
-        border-bottom: 1px solid rgba(6, 26, 50, 0.15);
-        align-items: start;
-    }
-
-    .donate-content .giving-confidence ol {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .donate-content .giving-confidence li {
-        min-width: 0;
-        padding: 0 1.15rem;
-    }
-
-    .donate-content .giving-confidence li:first-child {
-        padding-left: 0;
-    }
-
-    .donate-content .giving-confidence li + li {
-        border-left: 1px solid rgba(6, 26, 50, 0.14);
-    }
-
-    .donate-content .giving-confidence li > span {
-        display: block;
-        margin-bottom: 1rem;
-        color: var(--giving-gold);
-        font-family: var(--font-display);
-        font-size: 1.6rem;
-        font-weight: 650;
-        line-height: 1;
-    }
-
-    .donate-content .giving-confidence strong {
-        display: block;
-        color: var(--giving-navy);
-        font-size: 0.83rem;
-        line-height: 1.35;
-    }
-
-    .donate-content .giving-confidence li p {
-        margin: 0.45rem 0 0;
         color: var(--giving-muted);
-        font-size: 0.74rem;
-        line-height: 1.55;
-    }
-
-    .donate-content .giving-info {
-        display: grid;
-        position: relative;
-        grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
-        gap: clamp(2rem, 6vw, 5rem);
-        margin: 0 0 clamp(2rem, 5vw, 3rem);
-        padding: clamp(2rem, 5vw, 4rem);
-        overflow: hidden;
-        border: 1px solid rgba(240, 207, 118, 0.25);
-        border-radius: clamp(1.2rem, 2vw, 1.75rem);
-        align-items: center;
-        background:
-            radial-gradient(circle at 100% 0%, rgba(209, 161, 45, 0.15), transparent 35%),
-            linear-gradient(135deg, #061a32, #102b49);
-        color: #ffffff;
-    }
-
-    .donate-content .giving-info-heading {
-        display: flex;
-        gap: 1rem;
-        align-items: flex-start;
-    }
-
-    .donate-content .giving-info-icon {
-        display: grid;
-        width: 3.35rem;
-        height: 3.35rem;
-        flex: 0 0 3.35rem;
-        border: 1px solid rgba(240, 207, 118, 0.45);
-        border-radius: 50%;
-        place-items: center;
-        background: rgba(209, 161, 45, 0.1);
-        color: var(--giving-gold-light);
-    }
-
-    .donate-content .giving-info h3 {
-        margin: 0 0 0.7rem;
-        color: #ffffff;
-        font-family: var(--font-display);
-        font-size: clamp(1.85rem, 3.5vw, 3rem);
-        font-weight: 650;
-        letter-spacing: -0.03em;
-        line-height: 1;
-    }
-
-    .donate-content .giving-info p {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.72rem;
         line-height: 1.6;
     }
 
-    .donate-content .giving-list {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.65rem;
-        margin: 0 !important;
-        padding: 0 !important;
-        list-style: none;
+    .records-copy p + p {
+        margin-top: 0.7rem;
     }
 
-    .donate-content .giving-info .giving-list li {
-        display: grid;
-        min-width: 0;
-        grid-template-columns: 1.6rem minmax(0, 1fr);
-        gap: 0.55rem;
-        min-height: 3.25rem;
-        box-sizing: border-box;
-        padding: 0.75rem;
-        border: 1px solid rgba(255, 255, 255, 0.11);
-        border-radius: 0.75rem;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.055);
-        color: #ffffff;
-        font-size: 0.75rem;
-        font-weight: 700;
-        line-height: 1.3;
-    }
-
-    .donate-content .giving-list i {
-        display: grid;
-        width: 1.6rem;
-        height: 1.6rem;
-        border-radius: 50%;
-        place-items: center;
-        background: rgba(209, 161, 45, 0.16);
-        color: var(--giving-gold-light);
+    .provider-legal {
+        max-width: 60rem;
+        margin: 1.25rem auto 0;
+        color: #7a828d;
         font-size: 0.62rem;
+        line-height: 1.55;
+        text-align: center;
     }
 
-    .donate-content .donation-records-notice {
-        display: grid;
-        grid-template-columns: minmax(17rem, 0.8fr) minmax(0, 1.2fr);
-        gap: clamp(1.5rem, 5vw, 4rem);
-        margin: 0 0 clamp(2rem, 5vw, 3rem);
-        padding: clamp(1.4rem, 3vw, 2rem);
-        border: 1px solid rgba(209, 161, 45, 0.35);
-        border-radius: 1.1rem;
-        align-items: start;
-        background: linear-gradient(135deg, rgba(209, 161, 45, 0.09), rgba(255, 255, 255, 0.45));
-    }
-
-    .donate-content .records-heading {
-        display: grid;
-        grid-template-columns: 2.5rem minmax(0, 1fr);
-        gap: 0.85rem;
-        align-items: start;
-    }
-
-    .donate-content .records-heading > i {
-        display: grid;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        place-items: center;
-        background: rgba(209, 161, 45, 0.15);
-        color: #856216;
-    }
-
-    .donate-content .donation-notice-kicker {
-        margin: 0 0 0.4rem;
-        color: #856216;
-        font-size: 0.66rem;
-        font-weight: 850;
-        letter-spacing: 0.11em;
-        line-height: 1.3;
-        text-transform: uppercase;
-    }
-
-    .donate-content .donation-records-notice h3 {
-        margin: 0;
-        color: var(--giving-navy);
-        font-family: var(--font-display);
-        font-size: clamp(1.35rem, 2.6vw, 1.85rem);
-        font-weight: 650;
-        line-height: 1.08;
-    }
-
-    .donate-content .donation-records-notice > div:last-child p {
-        margin: 0 0 0.7rem;
-        color: var(--giving-muted);
-        font-size: 0.76rem;
-        line-height: 1.65;
-    }
-
-    .donate-content .donation-records-notice > div:last-child p:last-child {
-        margin-bottom: 0;
-    }
-
-    .donate-content .giving-contact-box {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: clamp(1.5rem, 4vw, 3rem);
-        margin: 0;
-        padding: clamp(1.5rem, 3vw, 2.25rem);
-        border: 0;
-        border-radius: 1.15rem;
-        align-items: center;
-        background: var(--giving-navy);
-        color: #ffffff;
-        text-align: left;
-    }
-
-    .donate-content .giving-contact-box h4 {
-        margin: 0;
-        color: #ffffff;
-        font-family: var(--font-display);
-        font-size: clamp(1.65rem, 3vw, 2.35rem);
-        line-height: 1.05;
-    }
-
-    .donate-content .giving-contact-box .giving-contact-description {
-        margin: 0.55rem 0 0;
-        color: rgba(255, 255, 255, 0.67);
-        font-size: 0.78rem;
-        line-height: 1.5;
-    }
-
-    .donate-content .giving-contact-box .contact-links {
-        display: flex;
-        gap: 0.65rem;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-    }
-
-    .donate-content .giving-contact-box .contact-links a {
-        display: inline-flex;
-        min-width: 8rem;
-        min-height: 46px;
-        box-sizing: border-box;
-        gap: 0.5rem;
-        padding: 0.75rem 1rem;
-        border: 1px solid rgba(240, 207, 118, 0.4);
-        border-radius: 999px;
-        align-items: center;
-        justify-content: center;
-        background: rgba(209, 161, 45, 0.09);
-        color: var(--giving-gold-light);
-        font-size: 0.76rem;
-        font-weight: 800;
-        text-decoration: none;
-        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
-    }
-
-    .donate-content .giving-contact-box .contact-links a:hover {
-        transform: translateY(-2px);
-        background: var(--giving-gold-light);
-        color: var(--giving-navy);
-    }
-
-    .donate-content .zelle-copy-button:focus-visible,
-    .donate-content .provider-primary-action:focus-visible,
-    .donate-content .payment-scan-card:focus-visible,
-    .donate-content .provider-brand-paypal > a:focus-visible,
-    .donate-content .paypal-donate-form input[type='image']:focus-visible,
-    .donate-content .giving-contact-box .contact-links a:focus-visible {
-        outline: 3px solid var(--giving-gold-light);
+    .payment-qr-link:focus-visible,
+    .payment-brand-mark:focus-visible,
+    .provider-primary-action:focus-visible,
+    .zelle-copy-button:focus-visible,
+    .giving-disclosure summary:focus-visible {
+        outline: 3px solid #0b6eb7;
         outline-offset: 3px;
     }
 
-    @media (min-width: 1181px) {
-        .donate-content .provider-body {
-            grid-template-columns: minmax(0, 1fr) minmax(9rem, 0.62fr);
-        }
-
-        .donate-content .payment-scan-card {
-            max-width: none;
-        }
-    }
-
-    @media (max-width: 1080px) {
-        .donate-content .giving-intro {
-            grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
-        }
-
-        .donate-content .provider-header {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .donate-content .provider-state {
-            margin-left: 0.2rem;
-        }
-
-        .donate-content .paypal-official-button {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .donate-content .giving-confidence {
-            grid-template-columns: minmax(13rem, 0.65fr) minmax(0, 1.35fr);
-        }
-    }
-
     @media (max-width: 860px) {
-        .donate-content .giving-intro,
-        .donate-content .giving-section-heading,
-        .donate-content .donation-grid.donation-methods,
-        .donate-content .donation-card-check,
-        .donate-content .giving-confidence,
-        .donate-content .giving-info,
-        .donate-content .donation-records-notice,
-        .donate-content .giving-contact-box {
+        .donation-grid.donation-methods,
+        .secondary-giving {
             grid-template-columns: minmax(0, 1fr);
         }
 
-        .donate-content .giving-intro {
-            gap: 2rem;
+        .donation-card-zelle {
+            order: 1;
         }
 
-        .donate-content .giving-intro h2 {
-            max-width: 12ch;
+        .donation-card-paypal {
+            order: 2;
         }
 
-        .donate-content .donation-verse {
-            max-width: 24rem;
+        .payment-intro {
+            min-height: 0;
+            margin-bottom: 0.5rem;
         }
 
-        .donate-content .giving-section-heading > p {
-            padding: 0;
-            border-left: 0;
-        }
-
-        .donate-content .provider-header {
-            align-items: center;
-            flex-direction: row;
-        }
-
-        .donate-content .paypal-official-button {
-            align-items: center;
-            flex-direction: row;
-        }
-
-        .donate-content .check-details {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .donate-content .giving-confidence ol {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .donate-content .giving-contact-box .contact-links {
-            justify-content: flex-start;
+        .provider-note {
+            min-height: 0;
         }
     }
 
-    @media (max-width: 580px) {
-        .donate-content .giving-intro {
-            margin-inline: -0.25rem;
-            padding: 1.65rem 1.35rem;
-            border-radius: 1.15rem;
+    @media (max-width: 520px) {
+        .giving-heading {
+            margin-bottom: 1.8rem;
         }
 
-        .donate-content .giving-intro h2 {
-            font-size: clamp(2.45rem, 13vw, 3.5rem);
+        .payment-brand-header {
+            min-height: 4.75rem;
+            padding: 0.85rem 1rem;
         }
 
-        .donate-content .giving-intro-assurances {
-            align-items: flex-start;
-            flex-direction: column;
+        .payment-card-body {
+            padding: 1.15rem;
         }
 
-        .donate-content .giving-section-heading h2,
-        .donate-content .confidence-heading h2 {
-            font-size: clamp(2rem, 10vw, 2.8rem);
-        }
-
-        .donate-content .provider-header {
-            min-height: auto;
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .donate-content .provider-state {
-            margin-left: 0;
-        }
-
-        .donate-content .provider-brand {
+        .payment-qr-frame {
             width: 100%;
         }
 
-        .donate-content .provider-logo-shell {
-            width: 6.3rem;
-            flex-basis: 6.3rem;
+        .payment-qr-link {
+            width: min(15rem, 82vw);
         }
 
-        .donate-content .provider-body {
-            padding: 1.25rem;
-        }
-
-        .donate-content .payment-scan-card {
-            max-width: 17rem;
-        }
-
-        .donate-content .payment-safety-note {
-            margin-inline: 1.25rem;
-        }
-
-        .donate-content .zelle-trademark-note {
-            margin-inline: 1.25rem;
-        }
-
-        .donate-content .zelle-tag-control {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .donate-content .zelle-copy-button {
-            min-height: 44px;
-        }
-
-        .donate-content .paypal-official-button {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .donate-content .check-details,
-        .donate-content .giving-confidence ol,
-        .donate-content .giving-list {
+        .payment-details > div,
+        .check-details > div {
             grid-template-columns: minmax(0, 1fr);
+            gap: 0.4rem;
         }
 
-        .donate-content .check-details > div + div {
-            border-top: 1px solid rgba(255, 255, 255, 0.13);
-            border-left: 0;
+        .payment-details > div {
+            min-height: 0;
         }
 
-        .donate-content .giving-confidence li {
-            display: grid;
-            grid-template-columns: 2.75rem minmax(0, 1fr);
-            gap: 0.8rem;
-            padding: 1rem 0;
-        }
-
-        .donate-content .giving-confidence li + li {
-            border-top: 1px solid rgba(6, 26, 50, 0.14);
-            border-left: 0;
-        }
-
-        .donate-content .giving-confidence li > span {
-            margin: 0;
-            font-size: 1.45rem;
-            white-space: nowrap;
-        }
-
-        .donate-content .giving-info-heading {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .donate-content .giving-info h3 {
-            overflow-wrap: normal;
-            hyphens: none;
-            word-break: normal;
-        }
-
-        .donate-content .giving-contact-box .contact-links {
-            align-items: stretch;
-            flex-direction: column;
-        }
-
-        .donate-content .giving-contact-box .contact-links a {
-            width: 100%;
+        .zelle-tag-control {
+            align-items: center;
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .donate-content .zelle-copy-button,
-        .donate-content .provider-primary-action,
-        .donate-content .payment-scan-card,
-        .donate-content .giving-contact-box .contact-links a {
+        .payment-qr-frame,
+        .provider-primary-action,
+        .giving-disclosure summary > .fa-plus {
             transition: none;
         }
 
-        .donate-content .zelle-copy-button:hover,
-        .donate-content .provider-primary-action:hover,
-        .donate-content .payment-scan-card:hover,
-        .donate-content .giving-contact-box .contact-links a:hover {
+        .payment-qr-link:hover .payment-qr-frame,
+        .provider-primary-action:hover {
             transform: none;
         }
     }

@@ -25,11 +25,10 @@ The public donation page uses the PayPal-hosted Donate page created in the congr
 - QR destination: `https://www.paypal.com/donate/?hosted_button_id=LPN2RWR887N84&source=qr`
 - Public QR asset: `public/images/payments/paypal-donation-qr.png`
 - Asset SHA-256: `0d3a54e810b811429f2cd4b3e6f9a28d7252a3d7070c3c48063ef04532c7d93b`
-- Official button image: `https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif`
 - Official PayPal mark image: `https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg`
 
 The PayPal page supports one-time, monthly, and yearly giving; suggested amounts of $18, $36, and $72; a custom amount; optional fee coverage; and an optional donor note. PayPal owns and processes the checkout flow. The website must not collect PayPal credentials or imply that the congregation is a PayPal Confirmed Charity unless that separate status is verified in PayPal.
 
-Before replacing the button ID, URL, QR, button image, or PayPal mark, create or update the donation page inside the congregation-controlled PayPal account, download PayPal's generated QR, decode the final asset, and verify that every public destination uses the same hosted button ID. Keep PayPal-hosted brand images unmodified and link the displayed mark to the PayPal donation destination.
+Before replacing the button ID, URL, QR, or PayPal mark, create or update the donation page inside the congregation-controlled PayPal account, download PayPal's generated QR, decode the final asset, and verify that every public destination uses the same hosted button ID. Keep PayPal-hosted brand images unmodified and link the displayed mark to the PayPal donation destination.
 
 Do not ask donors to select a personal or "Friends and Family" transaction. Donations must follow the account type and payment flow authorized by PayPal.
