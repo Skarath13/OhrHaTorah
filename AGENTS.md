@@ -13,7 +13,7 @@ This file provides project-specific guidance for the Chuck directory containing 
 - **Chuck Staging URL**: https://kehilat-ohr-hatorah-chuck-staging.pages.dev
 - **Repository**: https://github.com/Skarath13/OhrHaTorah.git
 - **Primary Branch**: `main`
-- **Primary Worktree**: `/Users/dylan/Desktop/chuck-fresh-design`
+- **Primary Worktree**: `/Users/dylan/Desktop/chuck`
 - **Legacy Branch**: `master` remains attached to the old Dylan Pages project; do not push or deploy it as the current site.
 
 ### Project Structure
@@ -178,7 +178,7 @@ npm run preview  # Preview production build
 ### Repository Management
 - **Origin**: https://github.com/Skarath13/OhrHaTorah.git
 - **Primary Branch**: `main`
-- **Primary Worktree**: Make current-site changes in `/Users/dylan/Desktop/chuck-fresh-design`. Treat `master` and the original `/Users/dylan/Desktop/chuck` worktree as archived legacy state.
+- **Primary Worktree**: Make current-site changes in `/Users/dylan/Desktop/chuck`. Treat `master` as an archived legacy branch; it no longer has a separate worktree.
 - **Commits**: Descriptive messages for content and code changes
 - **Push**: `git push origin main`; deployment remains a separate verified Chuck-staging action until Git integration and custom-domain cutover are explicitly approved.
 
