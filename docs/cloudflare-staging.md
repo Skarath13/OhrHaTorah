@@ -1,5 +1,9 @@
 # Chuck Cloudflare staging
 
+Follow [`production-data-safety.md`](production-data-safety.md) for every
+release. A normal Pages deployment replaces only the application artifact; it
+must not run database migrations, seeds, imports, or R2 synchronization.
+
 The staging site is isolated in the **Chuck Ott** Cloudflare account. It does not use or attach any custom domain.
 
 - Account ID: `6eddd121eb9f37eb2809d340c433c793`

@@ -1,5 +1,10 @@
 # Chuck staging deployment
 
+Every release and migration must follow
+[`../../docs/production-data-safety.md`](../../docs/production-data-safety.md).
+A normal Pages deployment is code-only and must not be combined with a D1
+execution, migration, seed, import, or R2 synchronization.
+
 This is a Cloudflare Pages configuration. Pages rejects `account_id` inside its
 Wrangler file, so every account-scoped command must explicitly select Chuck's
 account in the environment:

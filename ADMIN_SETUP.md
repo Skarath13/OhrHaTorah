@@ -134,15 +134,23 @@ UPDATE users SET pin_hash = '<new_bcrypt_hash>' WHERE name = 'User Name';
 
 ## Deployment to Cloudflare
 
-1. Ensure `wrangler.jsonc` has the correct database_id
-2. Run migrations on production database
-3. Deploy:
+Follow [`docs/production-data-safety.md`](docs/production-data-safety.md). A
+normal code deployment must preserve all admin-managed D1 and R2 data, including
+calendar events and date-scoped Brit Chadashah overrides.
+
+1. Confirm the intended Cloudflare account, project, and production bindings.
+2. Run tests and build the verified Git revision.
+3. Deploy the application artifact without running database commands:
 
 ```bash
 npx wrangler pages deploy dist
 ```
 
 Or use Cloudflare Pages with Git integration for automatic deployments.
+
+Apply pending numbered database migrations only as a separate reviewed release
+with a recoverable backup and staging verification. Never rerun `schema.sql` or
+a seed script against an established production database.
 
 ## Troubleshooting
 

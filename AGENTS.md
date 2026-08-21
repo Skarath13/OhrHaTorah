@@ -63,16 +63,30 @@ OhrHaTorah/
 - **Build command**: `npm run build`
 - **Output directory**: `dist`
 - **Manual deploy**: follow `docs/cloudflare-staging.md` and name the account, config, project, branch, and verified commit explicitly
+- **Production data invariant**: follow `docs/production-data-safety.md`; a normal code deployment must never execute migrations, seeds, imports, or other D1/R2 mutations
 - **Domains**: do not attach a custom domain, route, or DNS record without separate approval
 - **Legacy preview**: keep the redirect scoped to the `fresh-design-staging` preview branch; never deploy it to legacy `master`
+
+### Production Data Preservation
+
+- Chuck-owned production D1 and R2 data are persistent runtime state, not build artifacts. Deploying a new Git revision must preserve them.
+- Admin-managed calendar rows and `site_content` values are authoritative over defaults in Git.
+- This explicitly includes date-scoped Brit Chadashah overrides named `brit-chadashah:YYYY-MM-DD`.
+- Do not change a production resource binding, rerun `schema.sql`, execute a seed, import staging data, or run destructive SQL during a normal deployment.
+- Database migrations require a separate reviewed operation, a recoverable backup, staging verification, and before/after record checks.
+- Code rollback does not authorize or require database rollback.
 
 ### Database Commands
 ```bash
 # Run these from the isolated Chuck deployment directory
 cd deploy/chuck-staging
 
-# Run schema on Chuck staging
+# Bootstrap a brand-new empty Chuck staging database only.
+# Never run schema.sql against an established staging or production database.
 CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --file=../../schema.sql
+
+# Apply pending numbered site migrations to established Chuck staging
+CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 migrations apply DB --remote --config wrangler.json
 
 # Query Chuck staging
 CLOUDFLARE_ACCOUNT_ID=6eddd121eb9f37eb2809d340c433c793 npx wrangler@4.121.0 d1 execute ohrhatorah-staging-db --remote --command="SELECT * FROM users;"
