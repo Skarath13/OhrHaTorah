@@ -1,9 +1,16 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import { congregationName } from '../data/congregationIdentity';
+
+const zelleTag = 'ohrhatorahoc';
+const zelleRecipientName = 'CONGREGATION OHR HAT';
+const zellePaymentUrl = 'https://enroll.zellepay.com/qr-codes?data=eyJuYW1lIjoiQ09OR1JFR0FUSU9OIE9IUiBIQVQiLCJ0b2tlbiI6Im9ocmhhdG9yYWhvYyJ9';
+const paypalHostedButtonId = 'LPN2RWR887N84';
+const paypalDonationUrl = `https://www.paypal.com/donate/?hosted_button_id=${paypalHostedButtonId}`;
+const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 ---
 
-<PageLayout title="Support Kehilat Ohr HaTorah" pageTitle="Support Kehilat Ohr HaTorah" pageIcon="fas fa-heart" description="Ways to support Kehilat Ohr HaTorah by check, with digital giving planned for the future.">
+<PageLayout title="Support Kehilat Ohr HaTorah" pageTitle="Support Kehilat Ohr HaTorah" pageIcon="fas fa-heart" description="Ways to support Kehilat Ohr HaTorah through Zelle, PayPal, or check.">
     <div class="donate-content">
     <blockquote class="donation-verse">
         <p>“God loves a cheerful giver.”</p>
@@ -14,21 +21,52 @@ import { congregationName } from '../data/congregationIdentity';
         <section class="donation-card donation-card-zelle" aria-labelledby="zelle-giving-title">
             <div class="donation-method-heading">
                 <div class="donation-icon" aria-hidden="true">
-                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-qrcode"></i>
                 </div>
-                <h3 id="zelle-giving-title">Give with Zelle</h3>
-                <span class="donation-status"><i class="fas fa-clock" aria-hidden="true"></i> Coming soon</span>
+                <h3 id="zelle-giving-title">Donate using Zelle® payments</h3>
+                <span class="donation-status donation-status-available"><i class="fas fa-check-circle" aria-hidden="true"></i> Available now</span>
             </div>
 
             <div class="zelle-layout">
                 <div class="zelle-copy">
-                    <p>Digital giving is not active yet. A verified Zelle QR code will appear here when setup is complete.</p>
+                    <p class="zelle-intro">Scan the QR code in your participating bank or credit union app, or enter the congregation’s Zelle® tag.</p>
+
+                    <dl class="zelle-account-details">
+                        <div>
+                            <dt>Zelle® tag</dt>
+                            <dd class="zelle-tag-control">
+                                <code id="zelle-tag-value">{zelleTag}</code>
+                                <button type="button" class="zelle-copy-button" data-copy-zelle-tag data-zelle-tag={zelleTag}>Copy tag</button>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Confirm recipient</dt>
+                            <dd><strong>{zelleRecipientName}</strong></dd>
+                        </div>
+                    </dl>
+
+                    <p class="zelle-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+                    <aside class="payment-safety-note" aria-label="Zelle payment safety">
+                        <i class="fas fa-circle-info" aria-hidden="true"></i>
+                        <p>Confirm the recipient name and tag before authorizing the donation. Payments to an enrolled recipient generally cannot be canceled, and Zelle® does not offer purchase protection.</p>
+                    </aside>
                 </div>
-                <div class="zelle-qr-placeholder" role="img" aria-label="Placeholder for a future Zelle QR code">
-                    <i class="fas fa-qrcode" aria-hidden="true"></i>
-                    <span>Zelle QR coming soon</span>
-                </div>
+                <a
+                    class="zelle-qr-link"
+                    href={zellePaymentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open the Zelle payment link for tag ${zelleTag}`}
+                >
+                    <span class="zelle-qr-frame">
+                        <img src="/images/payments/zelle-ohrhatorahoc-qr.png" width="180" height="180" alt={`Zelle QR code for congregation tag ${zelleTag}`} />
+                    </span>
+                    <span>Scan in your banking app</span>
+                    <small>Or open the payment link</small>
+                </a>
             </div>
+
+            <p class="zelle-trademark-note">Zelle® is a registered trademark of Early Warning Services, LLC. Kehilat Ohr HaTorah is not affiliated with, sponsored by, or endorsed by Early Warning Services, LLC.</p>
         </section>
 
         <section class="donation-card donation-card-check" aria-labelledby="check-giving-title">
@@ -50,6 +88,47 @@ import { congregationName } from '../data/congregationIdentity';
                     <dd><address>360 E. 1st Street, #856<br />Tustin, CA 92780</address></dd>
                 </div>
             </dl>
+        </section>
+
+        <section class="donation-card donation-card-paypal" aria-labelledby="paypal-giving-title">
+            <div class="donation-method-heading">
+                <div class="donation-icon" aria-hidden="true">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3 id="paypal-giving-title">PayPal donations</h3>
+                <span class="donation-status donation-status-available"><i class="fas fa-check-circle" aria-hidden="true"></i> Available now</span>
+            </div>
+
+            <div class="paypal-layout">
+                <div class="paypal-copy">
+                    <p class="paypal-intro">Donate on PayPal’s secure hosted page with a one-time, monthly, or yearly gift. Suggested amounts are $18, $36, and $72, or choose your own amount.</p>
+                    <form class="paypal-donate-form" action="https://www.paypal.com/donate" method="post" target="_top" aria-label="Donate to Kehilat Ohr HaTorah with PayPal">
+                        <input type="hidden" name="hosted_button_id" value={paypalHostedButtonId} />
+                        <input
+                            type="image"
+                            src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
+                            name="submit"
+                            title="PayPal - The safer, easier way to pay online!"
+                            alt="Donate with PayPal button"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                        />
+                    </form>
+                    <p class="paypal-provider-note">PayPal processes the donation on its website. This site does not receive your PayPal password or payment credentials.</p>
+                </div>
+                <a
+                    class="paypal-qr-link"
+                    href={paypalQrDonationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open the PayPal donation page for Kehilat Ohr HaTorah"
+                >
+                    <span class="paypal-qr-frame">
+                        <img src="/images/payments/paypal-donation-qr.png" width="256" height="256" alt="PayPal QR code for Kehilat Ohr HaTorah donations" />
+                    </span>
+                    <span>Scan to donate with PayPal</span>
+                    <small>Opens PayPal’s hosted page</small>
+                </a>
+            </div>
         </section>
     </div>
 
@@ -192,46 +271,247 @@ import { congregationName } from '../data/congregationIdentity';
         white-space: nowrap;
     }
 
+    .donate-content .donation-status-available {
+        color: #276749;
+    }
+
+    .donate-content .donation-card-zelle {
+        grid-column: 1 / -1;
+    }
+
     .donate-content .zelle-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 9.75rem;
-        gap: clamp(1.75rem, 3.5vw, 2.5rem);
+        grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.42fr);
+        gap: clamp(2rem, 5vw, 4rem);
         flex: 1;
         align-items: center;
     }
 
-    .donate-content .zelle-qr-placeholder {
-        display: grid;
-        width: 9.75rem;
-        aspect-ratio: 1;
-        box-sizing: border-box;
-        padding: 0.9rem;
-        border: 1px solid rgba(209, 161, 45, 0.6);
-        border-radius: 0.75rem;
-        place-items: center;
-        align-content: center;
-        gap: 0.55rem;
-        background: rgba(209, 161, 45, 0.08);
-        color: var(--interior-navy, #061a32);
-        text-align: center;
-    }
-
-    .donate-content .zelle-qr-placeholder i {
-        font-size: 2.6rem;
-    }
-
-    .donate-content .zelle-qr-placeholder span {
-        font-family: var(--font-body);
-        font-size: 0.7rem;
-        font-weight: 700;
-        line-height: 1.25;
-    }
-
-    .donate-content .zelle-copy p {
-        max-width: 28ch;
+    .donate-content .zelle-intro {
+        max-width: 60ch;
         margin: 0;
         color: var(--interior-muted, #5f6973);
+        line-height: 1.6;
+    }
+
+    .donate-content .zelle-account-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+        margin: 1.25rem 0 0;
+        border-top: 1px solid var(--interior-line, #c7c9c7);
+        border-bottom: 1px solid var(--interior-line, #c7c9c7);
+    }
+
+    .donate-content .zelle-account-details > div {
+        min-width: 0;
+        padding: 1rem;
+    }
+
+    .donate-content .zelle-account-details > div:first-child {
+        padding-left: 0;
+        border-right: 1px solid var(--interior-line, #c7c9c7);
+    }
+
+    .donate-content .zelle-account-details dt {
+        margin-bottom: 0.45rem;
+        color: var(--interior-muted, #5f6973);
+        font-family: var(--font-body);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .donate-content .zelle-account-details dd {
+        margin: 0;
+        color: var(--interior-navy, #061a32);
+        overflow-wrap: anywhere;
+    }
+
+    .donate-content .zelle-tag-control {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 0.65rem;
+    }
+
+    .donate-content .zelle-tag-control code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: clamp(0.92rem, 2vw, 1.05rem);
+        font-weight: 800;
+    }
+
+    .donate-content .zelle-copy-button {
+        min-height: 38px;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--interior-navy, #061a32);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--interior-navy, #061a32);
+        font: 800 0.72rem/1 var(--font-body);
+        cursor: pointer;
+    }
+
+    .donate-content .zelle-copy-button:hover,
+    .donate-content .zelle-copy-button:focus-visible {
+        background: var(--interior-navy, #061a32);
+        color: #fff;
+    }
+
+    .donate-content .zelle-copy-status {
+        min-height: 1.2rem;
+        margin: 0.45rem 0 0;
+        color: #276749;
+        font-size: 0.75rem;
+        font-weight: 750;
+    }
+
+    .donate-content .payment-safety-note {
+        display: grid;
+        grid-template-columns: 1.15rem minmax(0, 1fr);
+        gap: 0.65rem;
+        margin-top: 0.8rem;
+        padding: 0.85rem 0.95rem;
+        border-left: 3px solid var(--interior-gold, #d1a12d);
+        background: rgba(209, 161, 45, 0.08);
+        color: var(--interior-muted, #5f6973);
+    }
+
+    .donate-content .payment-safety-note i {
+        margin-top: 0.2rem;
+        color: #8a6616;
+    }
+
+    .donate-content .payment-safety-note p {
+        margin: 0;
         line-height: 1.55;
+    }
+
+    .donate-content .zelle-qr-link {
+        display: grid;
+        justify-self: center;
+        place-items: center;
+        gap: 0.45rem;
+        color: var(--interior-navy, #061a32);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .donate-content .zelle-qr-frame {
+        display: grid;
+        width: min(100%, 13.25rem);
+        box-sizing: border-box;
+        padding: 1rem;
+        border: 1px solid rgba(209, 161, 45, 0.68);
+        border-radius: 0.9rem;
+        place-items: center;
+        background: #fff;
+        box-shadow: 0 0.85rem 2rem rgba(6, 26, 50, 0.09);
+    }
+
+    .donate-content .zelle-qr-frame img {
+        display: block;
+        width: 100%;
+        height: auto;
+        image-rendering: pixelated;
+    }
+
+    .donate-content .zelle-qr-link small {
+        color: var(--interior-muted, #5f6973);
+        font-size: 0.7rem;
+        font-weight: 650;
+    }
+
+    .donate-content .zelle-qr-link:hover small,
+    .donate-content .zelle-qr-link:focus-visible small {
+        color: var(--interior-navy, #061a32);
+        text-decoration: underline;
+    }
+
+    .donate-content .zelle-trademark-note {
+        margin: 1.35rem 0 0;
+        color: var(--interior-muted, #5f6973);
+        font-size: 0.66rem;
+        line-height: 1.45;
+    }
+
+    .donate-content .paypal-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(8.5rem, 0.55fr);
+        gap: clamp(1rem, 2.5vw, 1.6rem);
+        flex: 1;
+        align-items: center;
+        color: var(--interior-navy, #061a32);
+    }
+
+    .donate-content .paypal-intro {
+        margin: 0;
+        color: var(--interior-muted, #5f6973);
+        line-height: 1.6;
+    }
+
+    .donate-content .paypal-donate-form {
+        min-height: 47px;
+        margin: 1rem 0 0;
+    }
+
+    .donate-content .paypal-donate-form input[type='image'] {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .donate-content .paypal-provider-note {
+        margin: 0.85rem 0 0;
+        color: var(--interior-muted, #5f6973);
+        font-size: 0.72rem;
+        line-height: 1.5;
+    }
+
+    .donate-content .paypal-qr-link {
+        display: grid;
+        justify-self: center;
+        place-items: center;
+        gap: 0.4rem;
+        color: var(--interior-navy, #061a32);
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .donate-content .paypal-qr-frame {
+        display: grid;
+        width: min(100%, 10rem);
+        box-sizing: border-box;
+        padding: 0.8rem;
+        border: 1px solid rgba(209, 161, 45, 0.68);
+        border-radius: 0.9rem;
+        place-items: center;
+        background: #fff;
+        box-shadow: 0 0.85rem 2rem rgba(6, 26, 50, 0.09);
+    }
+
+    .donate-content .paypal-qr-frame img {
+        display: block;
+        width: 100%;
+        height: auto;
+        image-rendering: pixelated;
+    }
+
+    .donate-content .paypal-qr-link small {
+        color: var(--interior-muted, #5f6973);
+        font-size: 0.67rem;
+        font-weight: 650;
+    }
+
+    .donate-content .paypal-qr-link:hover small,
+    .donate-content .paypal-qr-link:focus-visible small {
+        color: var(--interior-navy, #061a32);
+        text-decoration: underline;
     }
 
     .donate-content .check-details {
@@ -425,12 +705,26 @@ import { congregationName } from '../data/congregationIdentity';
             gap: 1.1rem;
         }
 
-        .donate-content .zelle-qr-placeholder {
+        .donate-content .paypal-layout {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1.1rem;
+        }
+
+        .donate-content .zelle-qr-link {
+            grid-row: 1;
+            justify-self: center;
+        }
+
+        .donate-content .paypal-qr-link {
             grid-row: 1;
             justify-self: center;
         }
 
         .donate-content .zelle-copy {
+            grid-row: 2;
+        }
+
+        .donate-content .paypal-copy {
             grid-row: 2;
         }
 
@@ -452,4 +746,49 @@ import { congregationName } from '../data/congregationIdentity';
             gap: 0.35rem;
         }
     }
+
+    @media (max-width: 460px) {
+        .donate-content .zelle-account-details {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .donate-content .zelle-account-details > div {
+            padding: 0.9rem 0;
+        }
+
+        .donate-content .zelle-account-details > div:first-child {
+            border-right: 0;
+            border-bottom: 1px solid var(--interior-line, #c7c9c7);
+        }
+
+        .donate-content .zelle-tag-control {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
 </style>
+
+<script>
+    const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-zelle-tag]');
+    const copyStatus = document.querySelector<HTMLElement>('.zelle-copy-status');
+    const tagElement = document.getElementById('zelle-tag-value');
+
+    copyButton?.addEventListener('click', async () => {
+        const tag = copyButton.dataset.zelleTag?.trim();
+        if (!tag || !copyStatus) return;
+
+        try {
+            await navigator.clipboard.writeText(tag);
+            copyStatus.textContent = `Copied ${tag} to the clipboard.`;
+        } catch {
+            if (tagElement) {
+                const range = document.createRange();
+                range.selectNodeContents(tagElement);
+                const selection = window.getSelection();
+                selection?.removeAllRanges();
+                selection?.addRange(range);
+            }
+            copyStatus.textContent = 'The tag is selected. Copy it from your browser.';
+        }
+    });
+</script>

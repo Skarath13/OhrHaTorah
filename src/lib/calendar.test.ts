@@ -173,12 +173,13 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.match(calendarComponent, /congregation: '1',[\s\S]*holidays: '1',[\s\S]*candleLighting: '1',[\s\S]*observances: '1'/);
     assert.match(calendarComponent, /Shabbat candle lighting/);
     assert.match(calendarComponent, /class="kehilat-calendar-details"/);
-    assert.match(calendarComponent, /textContent = event\.title/);
+    assert.match(calendarComponent, /detailsTitle\.textContent = stripRepeatedHebrewYear/);
     assert.match(calendarComponent, /businessTimeZone = 'America\/Los_Angeles'/);
     assert.match(calendarComponent, /extendedProps\.calendarDate/);
     assert.match(calendarComponent, /Hebcal\.com/);
     assert.match(calendarComponent, /CC BY 4\.0/);
-    assert.match(calendarEndpoint, /stale-while-revalidate=604800/);
+    assert.match(calendarEndpoint, /'Cache-Control': 'no-store'/);
+    assert.doesNotMatch(calendarEndpoint, /s-maxage|stale-while-revalidate/);
     assert.match(calendarEndpoint, /includeCandleLighting/);
     assert.doesNotMatch(`${calendarComponent}\n${calendarEndpoint}`, /calendar\.google/i);
     assert.match(homeStyles, /\.kehilat-calendar \{[^}]*grid-template-columns: 1fr/s);

@@ -17,7 +17,7 @@ const combinedLegalSource = legalPageSources.join('\n');
 test('public policy pages are photo-free, dated, and use the shared legal design', () => {
     for (const source of legalPageSources) {
         assert.match(source, /stylesheets=\{\['\/styles\/policies\.css'\]\}/);
-        assert.match(source, /<time datetime="2026-08-(?:11|12)">August (?:11|12), 2026<\/time>/);
+        assert.match(source, /<time datetime="2026-08-(?:11|12|20)">August (?:11|12|20), 2026<\/time>/);
         assert.doesNotMatch(source, /<img\b|<picture\b|<figure\b|data-editable/);
     }
 
@@ -41,7 +41,7 @@ test('legal copy reflects the public website without publishing internal mechani
 });
 
 test('privacy notice describes the providers and browser behavior actually present in the site', () => {
-    for (const provider of ['Cloudflare', 'D1', 'Turnstile', 'Queues', 'Email Service', 'Google', 'Hebcal', 'Google Maps', 'cdnjs', 'Font Awesome']) {
+    for (const provider of ['Cloudflare', 'D1', 'Turnstile', 'Queues', 'Email Service', 'Google', 'Hebcal', 'Google Maps', 'Zelle', 'PayPal', 'cdnjs', 'Font Awesome']) {
         assert.match(privacySource, new RegExp(provider));
     }
 
@@ -93,6 +93,19 @@ test('the footer restores the full update-request form without sending data to W
 });
 
 test('donation page gives careful recordkeeping and tax guidance without promising deductibility', () => {
+    assert.match(donateSource, /zelleTag = 'ohrhatorahoc'/);
+    assert.match(donateSource, /zelleRecipientName = 'CONGREGATION OHR HAT'/);
+    assert.match(donateSource, /https:\/\/enroll\.zellepay\.com\/qr-codes\?data=/);
+    assert.match(donateSource, /\/images\/payments\/zelle-ohrhatorahoc-qr\.png/);
+    assert.match(donateSource, /Payments to an enrolled recipient generally cannot be canceled/);
+    assert.match(donateSource, /Zelle® does not offer purchase protection/);
+    assert.match(donateSource, /not affiliated with, sponsored by, or endorsed by Early Warning Services/);
+    assert.match(donateSource, /paypalHostedButtonId = 'LPN2RWR887N84'/);
+    assert.match(donateSource, /https:\/\/www\.paypal\.com\/donate/);
+    assert.match(donateSource, /\/images\/payments\/paypal-donation-qr\.png/);
+    assert.match(donateSource, /PayPal processes the donation on its website/);
+    assert.doesNotMatch(donateSource, /Friends and Family/i);
+    assert.doesNotMatch(donateSource, /trust badge|verified Zelle|purchase-protection badge/i);
     assert.match(donateSource, /Giving acknowledgments and special contributions/);
     assert.match(donateSource, /Please keep your check or bank record/);
     assert.match(donateSource, /Whether a contribution is deductible depends on applicable law and your individual circumstances/);

@@ -5,8 +5,13 @@ import {
     getHebcalCalendarEvents,
     parseCalendarRange,
     type PublicCalendarEvent,
-} from '../../../lib/calendar';
-import { congregationCalendarTimeZone } from '../../../data/congregationEvents';
+} from '../../../lib/calendar.ts';
+import {
+    congregationCalendarTimeZone,
+    congregationEvents,
+    type CongregationEvent,
+} from '../../../data/congregationEvents.ts';
+import { getManagedCongregationCalendarEvents } from '../../../lib/congregationCalendarEvents.ts';
 
 const JSON_HEADERS = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -14,7 +19,7 @@ const JSON_HEADERS = {
 
 const isIncluded = (value: string | null): boolean => value !== '0';
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request, locals }) => {
     const requestUrl = new URL(request.url);
     const start = requestUrl.searchParams.get('start')?.trim() || '';
     const end = requestUrl.searchParams.get('end')?.trim() || '';
@@ -33,11 +38,29 @@ export const GET: APIRoute = async ({ request }) => {
     const includeHolidays = isIncluded(requestUrl.searchParams.get('holidays'));
     const includeObservances = isIncluded(requestUrl.searchParams.get('observances'));
     const includeCandleLighting = isIncluded(requestUrl.searchParams.get('candleLighting'));
-    const localEvents = includeCongregation ? getCongregationCalendarEvents(range) : [];
+
+    const warnings: string[] = [];
+    const congregationDatabase = locals.runtime?.env?.DB;
+    let congregationEventDefinitions: readonly CongregationEvent[] = congregationDatabase
+        ? []
+        : congregationEvents;
+    if (includeCongregation && congregationDatabase) {
+        try {
+            congregationEventDefinitions = await getManagedCongregationCalendarEvents(congregationDatabase);
+        } catch (error) {
+            console.error(JSON.stringify({
+                message: 'congregation calendar database lookup failed',
+                error: error instanceof Error ? error.message : String(error),
+            }));
+            warnings.push('Congregation event data is temporarily unavailable. Jewish dates are still shown.');
+        }
+    }
+    const localEvents = includeCongregation
+        ? getCongregationCalendarEvents(range, congregationEventDefinitions)
+        : [];
 
     let holidayEvents: PublicCalendarEvent[] = [];
     let holidayStatus: 'available' | 'unavailable' | 'not-requested' = 'not-requested';
-    let warning: string | undefined;
 
     if (includeHolidays || includeObservances || includeCandleLighting) {
         const controller = new AbortController();
@@ -59,7 +82,7 @@ export const GET: APIRoute = async ({ request }) => {
         } catch (error) {
             console.error('Jewish holiday calendar lookup failed:', error);
             holidayStatus = 'unavailable';
-            warning = 'Jewish holiday and candle-lighting data is temporarily unavailable. Congregation events are still shown.';
+            warnings.push('Jewish holiday and candle-lighting data is temporarily unavailable. Congregation events are still shown.');
         } finally {
             clearTimeout(timeoutId);
         }
@@ -72,7 +95,7 @@ export const GET: APIRoute = async ({ request }) => {
             timeZone: congregationCalendarTimeZone,
             range,
             holidayStatus,
-            warning,
+            warning: warnings.length > 0 ? warnings.join(' ') : undefined,
             holidaySource: 'Hebcal.com',
             holidayLicense: 'CC BY 4.0',
         },
@@ -80,7 +103,7 @@ export const GET: APIRoute = async ({ request }) => {
         status: 200,
         headers: {
             ...JSON_HEADERS,
-            'Cache-Control': 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800',
+            'Cache-Control': 'no-store',
         },
     });
 };

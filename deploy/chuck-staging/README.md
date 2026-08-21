@@ -12,11 +12,32 @@ Do not run the migration or deployment commands without that value. The form
 pipeline also requires the encrypted Pages secret `TURNSTILE_SECRET_KEY`; its
 value must never be committed.
 
-Apply pending form-database migrations from this directory:
+Site and form migrations use separate per-binding directories. Apply pending
+site-database migrations from this directory:
+
+```sh
+npx wrangler@4.121.0 d1 migrations apply DB --remote --config wrangler.json
+```
+
+The site migration references the existing `users` table for editor audit
+fields. For a brand-new empty site database only, bootstrap the baseline schema
+before applying the site migration:
+
+```sh
+npx wrangler@4.121.0 d1 execute DB --remote --config wrangler.json --file=../../schema.sql
+```
+
+Do not rerun that bootstrap command as a substitute for normal migrations.
+
+Apply pending form-database migrations separately:
 
 ```sh
 npx wrangler@4.121.0 d1 migrations apply FORM_DB --remote --config wrangler.json
 ```
+
+Do not point either command at the other binding. The `migrations_dir` values in
+`wrangler.json` keep site CMS tables out of `FORM_DB` and form submissions out
+of `DB`.
 
 After the repository build and tests pass, deploy the verified Git revision:
 

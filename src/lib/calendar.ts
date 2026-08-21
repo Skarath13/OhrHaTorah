@@ -161,7 +161,8 @@ const mapCongregationEvent = (
 
 export const getCongregationCalendarEvents = (
     range: CalendarDateRange,
-): PublicCalendarEvent[] => congregationEvents
+    sourceEvents: readonly CongregationEvent[] = congregationEvents,
+): PublicCalendarEvent[] => sourceEvents
     .flatMap((event) => mapCongregationEvent(event, range));
 
 export const buildHebcalHolidayUrl = (range: CalendarDateRange): string => {

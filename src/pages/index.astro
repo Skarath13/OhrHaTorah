@@ -9,6 +9,7 @@ import ParashahCard from '../components/islands/ParashahCard.astro';
 import CandleLighting from '../components/islands/CandleLighting.astro';
 import LiveClock from '../components/islands/LiveClock.astro';
 import CongregationCalendar from '../components/islands/CongregationCalendar.astro';
+import CalendarManager from '../components/admin/CalendarManager.astro';
 // Admin functionality moved to /admin/ routes
 import { rabbi } from '../data/rabbi';
 import { congregationName, homepageIdentityPreview, officialIdentityStatement } from '../data/congregationIdentity';
@@ -294,7 +295,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                     <div class="home-visit-utility" id="contact-us-section" data-editable="contact-info">
                         <div>
                             <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 21v-6.5a3.5 3.5 0 0 0 -7 0v6.5h18v-6a4 4 0 0 0 -4 -4h-10.5"></path><path d="M12 11v-8h4l2 2l-2 2h-4"></path><path d="M6 15h1"></path></svg></span>
-                            <div class="home-utility-copy"><strong>Mail</strong><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
+                            <div class="home-utility-copy"><strong>Mailbox</strong><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
                         </div>
                         <div>
                             <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg></span>
@@ -410,6 +411,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                     </figure>
                     <div class="home-calendar-frame">
                         <CongregationCalendar />
+                        <CalendarManager />
                     </div>
                 </div>
             </div>

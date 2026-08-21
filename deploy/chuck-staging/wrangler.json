@@ -15,12 +15,14 @@
     {
       "binding": "DB",
       "database_name": "ohrhatorah-staging-db",
-      "database_id": "3452876a-7ea9-499c-8efe-e1205e83d9a5"
+      "database_id": "3452876a-7ea9-499c-8efe-e1205e83d9a5",
+      "migrations_dir": "migrations/site"
     },
     {
       "binding": "FORM_DB",
       "database_name": "ohrhatorah-staging-form-db",
-      "database_id": "f7686528-4a2b-4bb2-a419-3f4707fa9c70"
+      "database_id": "f7686528-4a2b-4bb2-a419-3f4707fa9c70",
+      "migrations_dir": "migrations/form"
     }
   ],
   "queues": {

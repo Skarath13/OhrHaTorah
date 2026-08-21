@@ -1,0 +1,1329 @@
+---
+// Authenticated calendar CRUD UI. The parent page renders this component, but
+// CSS and the edit-mode observer keep it unavailable outside InlineEditor mode.
+---
+
+<section
+    class="calendar-manager"
+    data-calendar-manager
+    aria-labelledby="calendar-manager-title"
+    aria-hidden="true"
+    inert
+>
+    <header class="calendar-manager-header">
+        <div>
+            <p class="calendar-manager-kicker">Admin calendar tools</p>
+            <h3 id="calendar-manager-title">Manage congregation events</h3>
+            <p class="calendar-manager-intro">
+                Add or revise congregation-owned dates. Jewish holidays, Hebrew dates, and candle-lighting
+                times come from Hebcal and are not editable here.
+            </p>
+        </div>
+        <button class="calendar-manager-add" type="button" data-calendar-add>
+            <span aria-hidden="true">+</span>
+            Add event
+        </button>
+    </header>
+
+    <p
+        class="calendar-manager-status"
+        data-calendar-status
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+    ></p>
+
+    <div class="calendar-manager-error" data-calendar-error role="alert" tabindex="-1" hidden>
+        <p data-calendar-error-message></p>
+        <ul data-calendar-error-list></ul>
+    </div>
+
+    <div class="calendar-manager-layout">
+        <section class="calendar-manager-list-panel" aria-labelledby="calendar-manager-list-title">
+            <div class="calendar-manager-panel-heading">
+                <div>
+                    <h4 id="calendar-manager-list-title">Congregation events</h4>
+                    <p data-calendar-count>Loading…</p>
+                </div>
+                <button class="calendar-manager-refresh" type="button" data-calendar-refresh>
+                    Refresh
+                </button>
+            </div>
+            <div class="calendar-manager-list" data-calendar-list aria-busy="false"></div>
+            <p class="calendar-manager-empty" data-calendar-empty hidden>
+                No congregation events have been added yet.
+            </p>
+        </section>
+
+        <form class="calendar-manager-form" data-calendar-form novalidate hidden>
+            <div class="calendar-manager-form-heading">
+                <div>
+                    <p class="calendar-manager-kicker" data-calendar-form-kicker>New event</p>
+                    <h4 data-calendar-form-title>Add a congregation event</h4>
+                </div>
+                <button class="calendar-manager-form-close" type="button" data-calendar-cancel aria-label="Close event form">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="calendar-manager-field calendar-manager-field--wide">
+                <label for="calendar-event-title">Title <span aria-hidden="true">*</span></label>
+                <input
+                    id="calendar-event-title"
+                    name="title"
+                    type="text"
+                    maxlength="160"
+                    autocomplete="off"
+                    data-field-path="title"
+                    required
+                />
+                <p class="calendar-manager-field-error" data-error-for="title"></p>
+            </div>
+
+            <div class="calendar-manager-field calendar-manager-field--wide">
+                <label for="calendar-event-description">Description</label>
+                <textarea
+                    id="calendar-event-description"
+                    name="description"
+                    rows="4"
+                    maxlength="2000"
+                    data-field-path="description"
+                ></textarea>
+                <p class="calendar-manager-field-hint">Optional; up to 2,000 characters.</p>
+                <p class="calendar-manager-field-error" data-error-for="description"></p>
+            </div>
+
+            <div class="calendar-manager-field calendar-manager-field--wide">
+                <label for="calendar-event-location">Location</label>
+                <input
+                    id="calendar-event-location"
+                    name="location"
+                    type="text"
+                    maxlength="300"
+                    autocomplete="street-address"
+                    data-field-path="location"
+                />
+                <p class="calendar-manager-field-error" data-error-for="location"></p>
+            </div>
+
+            <fieldset class="calendar-manager-fieldset calendar-manager-field--wide">
+                <legend>Schedule <span aria-hidden="true">*</span></legend>
+                <div class="calendar-manager-choice-row">
+                    <label class="calendar-manager-choice">
+                        <input type="radio" name="scheduleKind" value="single" checked />
+                        <span>Single date</span>
+                    </label>
+                    <label class="calendar-manager-choice">
+                        <input type="radio" name="scheduleKind" value="weekly" />
+                        <span>Weekly series</span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <div class="calendar-manager-schedule calendar-manager-field--wide" data-single-fields>
+                <div class="calendar-manager-field">
+                    <label for="calendar-event-date">Date <span aria-hidden="true">*</span></label>
+                    <input
+                        id="calendar-event-date"
+                        name="date"
+                        type="date"
+                        data-field-path="schedule.date"
+                    />
+                    <p class="calendar-manager-field-error" data-error-for="schedule.date"></p>
+                </div>
+                <label class="calendar-manager-checkbox calendar-manager-all-day">
+                    <input name="allDay" type="checkbox" />
+                    <span>All-day event</span>
+                </label>
+            </div>
+
+            <div class="calendar-manager-schedule calendar-manager-field--wide" data-weekly-fields hidden>
+                <fieldset
+                    class="calendar-manager-fieldset calendar-manager-weekdays"
+                    data-field-path="schedule.weekdays"
+                >
+                    <legend>Weekdays <span aria-hidden="true">*</span></legend>
+                    <div class="calendar-manager-weekday-grid">
+                        <label><input type="checkbox" name="weekdays" value="sunday" /> Sun</label>
+                        <label><input type="checkbox" name="weekdays" value="monday" /> Mon</label>
+                        <label><input type="checkbox" name="weekdays" value="tuesday" /> Tue</label>
+                        <label><input type="checkbox" name="weekdays" value="wednesday" /> Wed</label>
+                        <label><input type="checkbox" name="weekdays" value="thursday" /> Thu</label>
+                        <label><input type="checkbox" name="weekdays" value="friday" /> Fri</label>
+                        <label><input type="checkbox" name="weekdays" value="saturday" /> Sat</label>
+                    </div>
+                    <p class="calendar-manager-field-error" data-error-for="schedule.weekdays"></p>
+                </fieldset>
+
+                <div class="calendar-manager-date-row">
+                    <div class="calendar-manager-field">
+                        <label for="calendar-event-starts-on">Starts on <span aria-hidden="true">*</span></label>
+                        <input
+                            id="calendar-event-starts-on"
+                            name="startsOn"
+                            type="date"
+                            data-field-path="schedule.startsOn"
+                        />
+                        <p class="calendar-manager-field-error" data-error-for="schedule.startsOn"></p>
+                    </div>
+                    <div class="calendar-manager-field">
+                        <label for="calendar-event-ends-on">Ends on</label>
+                        <input
+                            id="calendar-event-ends-on"
+                            name="endsOn"
+                            type="date"
+                            data-field-path="schedule.endsOn"
+                        />
+                        <p class="calendar-manager-field-hint">Optional; leave blank for no end date.</p>
+                        <p class="calendar-manager-field-error" data-error-for="schedule.endsOn"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-manager-time-row calendar-manager-field--wide" data-time-fields>
+                <div class="calendar-manager-field">
+                    <label for="calendar-event-start-time">Start time <span aria-hidden="true">*</span></label>
+                    <input
+                        id="calendar-event-start-time"
+                        name="startTime"
+                        type="time"
+                        data-field-path="schedule.startTime"
+                    />
+                    <p class="calendar-manager-field-error" data-error-for="schedule.startTime"></p>
+                </div>
+                <div class="calendar-manager-field">
+                    <label for="calendar-event-end-time">End time <span aria-hidden="true">*</span></label>
+                    <input
+                        id="calendar-event-end-time"
+                        name="endTime"
+                        type="time"
+                        data-field-path="schedule.endTime"
+                    />
+                    <p class="calendar-manager-field-hint">Must be later on the same day.</p>
+                    <p class="calendar-manager-field-error" data-error-for="schedule.endTime"></p>
+                </div>
+            </div>
+
+            <p class="calendar-manager-timezone calendar-manager-field--wide">
+                Times use the congregation’s America/Los_Angeles timezone. Weekly events must have a start and end time.
+            </p>
+
+            <div class="calendar-manager-form-actions calendar-manager-field--wide">
+                <button class="calendar-manager-button calendar-manager-button--secondary" type="button" data-calendar-cancel>
+                    Cancel
+                </button>
+                <button class="calendar-manager-button calendar-manager-button--primary" type="submit" data-calendar-submit>
+                    Add event
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    .calendar-manager {
+        display: none;
+        margin: 1.15rem 0 0;
+        padding: clamp(1rem, 2.5vw, 1.5rem);
+        border: 2px solid #d0a33d;
+        border-radius: 0.8rem;
+        background: #fff;
+        color: #061a32;
+        box-shadow: 0 14px 34px rgba(6, 26, 50, 0.16);
+        font-family: var(--font-body, system-ui, sans-serif);
+    }
+
+    :global(body.admin-edit-mode) .calendar-manager {
+        display: block;
+    }
+
+    .calendar-manager[aria-hidden='true'] {
+        display: none;
+    }
+
+    .calendar-manager-header,
+    .calendar-manager-panel-heading,
+    .calendar-manager-form-heading,
+    .calendar-manager-form-actions {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .calendar-manager-header {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #d8dee5;
+    }
+
+    .calendar-manager-kicker {
+        margin: 0 0 0.25rem;
+        color: #7c2f4c;
+        font-size: 0.68rem;
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        line-height: 1.3;
+        text-transform: uppercase;
+    }
+
+    .calendar-manager h3,
+    .calendar-manager h4,
+    .calendar-manager p {
+        overflow-wrap: anywhere;
+    }
+
+    .calendar-manager h3,
+    .calendar-manager h4 {
+        margin: 0;
+        color: #061a32;
+        font-family: var(--font-display, Georgia, serif);
+        line-height: 1.2;
+    }
+
+    .calendar-manager h3 {
+        font-size: clamp(1.25rem, 2.3vw, 1.65rem);
+    }
+
+    .calendar-manager h4 {
+        font-size: 1.05rem;
+    }
+
+    .calendar-manager-intro {
+        max-width: 55rem;
+        margin: 0.45rem 0 0;
+        color: #536476;
+        font-size: 0.82rem;
+        line-height: 1.55;
+    }
+
+    .calendar-manager button,
+    .calendar-manager input,
+    .calendar-manager textarea {
+        font: inherit;
+    }
+
+    .calendar-manager-add,
+    .calendar-manager-refresh,
+    .calendar-manager-button,
+    .calendar-manager-form-close {
+        min-height: 44px;
+        border: 1px solid #173f67;
+        border-radius: 0.4rem;
+        font-weight: 800;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+
+    .calendar-manager-add {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.65rem 0.9rem;
+        background: #173f67;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .calendar-manager-add span {
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+
+    .calendar-manager-status {
+        min-height: 1.35rem;
+        margin: 0.75rem 0 0;
+        color: #536476;
+        font-size: 0.78rem;
+        line-height: 1.45;
+    }
+
+    .calendar-manager-status:empty {
+        min-height: 0;
+        margin-top: 0;
+    }
+
+    .calendar-manager-error {
+        margin-top: 0.8rem;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid #b42318;
+        border-left-width: 4px;
+        background: #fff1f0;
+        color: #7a271a;
+        font-size: 0.78rem;
+        line-height: 1.45;
+    }
+
+    .calendar-manager-error[hidden] {
+        display: none;
+    }
+
+    .calendar-manager-error p,
+    .calendar-manager-error ul {
+        margin: 0;
+    }
+
+    .calendar-manager-error ul:not(:empty) {
+        margin-top: 0.35rem;
+        padding-left: 1.2rem;
+    }
+
+    .calendar-manager-layout {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.78fr) minmax(20rem, 1.22fr);
+        align-items: start;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .calendar-manager-layout:has(.calendar-manager-form[hidden]) .calendar-manager-list-panel {
+        grid-column: 1 / -1;
+    }
+
+    .calendar-manager-list-panel,
+    .calendar-manager-form {
+        min-width: 0;
+        padding: 1rem;
+        border: 1px solid #cbd4de;
+        border-radius: 0.65rem;
+        background: #f7f9fb;
+    }
+
+    .calendar-manager-form[hidden] {
+        display: none;
+    }
+
+    .calendar-manager-panel-heading {
+        align-items: center;
+    }
+
+    .calendar-manager-panel-heading p {
+        margin: 0.25rem 0 0;
+        color: #536476;
+        font-size: 0.74rem;
+    }
+
+    .calendar-manager-refresh {
+        flex: 0 0 auto;
+        min-height: 38px;
+        padding: 0.45rem 0.7rem;
+        background: #fff;
+        color: #173f67;
+        font-size: 0.73rem;
+    }
+
+    .calendar-manager-list {
+        display: grid;
+        gap: 0.65rem;
+        margin-top: 0.85rem;
+    }
+
+    .calendar-manager-list[aria-busy='true'] {
+        opacity: 0.58;
+        pointer-events: none;
+    }
+
+    .calendar-manager-event {
+        padding: 0.8rem;
+        border: 1px solid #d5dce3;
+        border-left: 4px solid #173f67;
+        border-radius: 0.45rem;
+        background: #fff;
+    }
+
+    .calendar-manager-event-title {
+        margin: 0;
+        color: #061a32;
+        font-size: 0.83rem;
+        font-weight: 850;
+        line-height: 1.35;
+    }
+
+    .calendar-manager-event-schedule,
+    .calendar-manager-event-details {
+        margin: 0.28rem 0 0;
+        color: #536476;
+        font-size: 0.7rem;
+        line-height: 1.45;
+    }
+
+    .calendar-manager-event-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.65rem;
+    }
+
+    .calendar-manager-event-actions button {
+        min-height: 38px;
+        padding: 0.42rem 0.7rem;
+        border: 1px solid #173f67;
+        border-radius: 0.35rem;
+        background: #fff;
+        color: #173f67;
+        font-size: 0.7rem;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .calendar-manager-event-actions button[data-action='delete'] {
+        border-color: #b42318;
+        color: #9a2016;
+    }
+
+    .calendar-manager-empty {
+        margin: 0.85rem 0 0;
+        padding: 0.9rem;
+        border: 1px dashed #aeb9c4;
+        color: #536476;
+        font-size: 0.78rem;
+        text-align: center;
+    }
+
+    .calendar-manager-empty[hidden] {
+        display: none;
+    }
+
+    .calendar-manager-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+        background: #fff;
+    }
+
+    .calendar-manager-form-heading {
+        grid-column: 1 / -1;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e0e5ea;
+    }
+
+    .calendar-manager-form-close {
+        display: grid;
+        flex: 0 0 auto;
+        width: 44px;
+        padding: 0;
+        border-color: #c1cad3;
+        place-items: center;
+        background: #fff;
+        color: #173f67;
+        font-size: 1.4rem;
+        line-height: 1;
+    }
+
+    .calendar-manager-field--wide {
+        grid-column: 1 / -1;
+    }
+
+    .calendar-manager-field,
+    .calendar-manager-fieldset {
+        min-width: 0;
+    }
+
+    .calendar-manager-field label,
+    .calendar-manager-fieldset legend {
+        color: #203d5c;
+        font-size: 0.75rem;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+    .calendar-manager-field > input,
+    .calendar-manager-field > textarea {
+        display: block;
+        width: 100%;
+        margin-top: 0.32rem;
+        padding: 0.62rem 0.7rem;
+        border: 1px solid #aeb9c4;
+        border-radius: 0.35rem;
+        background: #fff;
+        color: #061a32;
+        font-size: 0.82rem;
+        line-height: 1.4;
+        box-sizing: border-box;
+    }
+
+    .calendar-manager-field > textarea {
+        resize: vertical;
+    }
+
+    .calendar-manager-field > input[aria-invalid='true'],
+    .calendar-manager-field > textarea[aria-invalid='true'],
+    .calendar-manager-fieldset[aria-invalid='true'] {
+        border-color: #b42318;
+        box-shadow: 0 0 0 2px rgba(180, 35, 24, 0.12);
+    }
+
+    .calendar-manager-field-hint,
+    .calendar-manager-field-error {
+        margin: 0.25rem 0 0;
+        font-size: 0.68rem;
+        line-height: 1.4;
+    }
+
+    .calendar-manager-field-hint {
+        color: #687887;
+    }
+
+    .calendar-manager-field-error {
+        min-height: 0;
+        color: #9a2016;
+        font-weight: 750;
+    }
+
+    .calendar-manager-field-error:empty {
+        display: none;
+    }
+
+    .calendar-manager-fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .calendar-manager-choice-row,
+    .calendar-manager-weekday-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin-top: 0.4rem;
+    }
+
+    .calendar-manager-choice,
+    .calendar-manager-weekday-grid label,
+    .calendar-manager-checkbox {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        min-height: 40px;
+        padding: 0.35rem 0.58rem;
+        border: 1px solid #cbd4de;
+        border-radius: 0.35rem;
+        background: #f7f9fb;
+        color: #203d5c;
+        font-size: 0.73rem;
+        font-weight: 750;
+        cursor: pointer;
+    }
+
+    .calendar-manager-choice:has(input:checked),
+    .calendar-manager-weekday-grid label:has(input:checked),
+    .calendar-manager-checkbox:has(input:checked) {
+        border-color: #173f67;
+        background: #eaf1f7;
+    }
+
+    .calendar-manager-choice input,
+    .calendar-manager-weekday-grid input,
+    .calendar-manager-checkbox input {
+        width: 1rem;
+        height: 1rem;
+        margin: 0;
+        accent-color: #173f67;
+    }
+
+    .calendar-manager-schedule,
+    .calendar-manager-date-row,
+    .calendar-manager-time-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: end;
+        gap: 0.9rem;
+    }
+
+    .calendar-manager-schedule[hidden],
+    .calendar-manager-time-row[hidden] {
+        display: none;
+    }
+
+    .calendar-manager-weekdays {
+        grid-column: 1 / -1;
+    }
+
+    .calendar-manager-all-day {
+        align-self: end;
+        justify-self: start;
+        margin-bottom: 0.05rem;
+    }
+
+    .calendar-manager-timezone {
+        margin: 0;
+        padding: 0.65rem 0.75rem;
+        border-left: 3px solid #d0a33d;
+        background: #fff8e6;
+        color: #624a15;
+        font-size: 0.7rem;
+        line-height: 1.45;
+    }
+
+    .calendar-manager-form-actions {
+        justify-content: flex-end;
+        padding-top: 0.15rem;
+    }
+
+    .calendar-manager-button {
+        padding: 0.62rem 0.9rem;
+        font-size: 0.75rem;
+    }
+
+    .calendar-manager-button--secondary {
+        background: #fff;
+        color: #173f67;
+    }
+
+    .calendar-manager-button--primary {
+        background: #173f67;
+        color: #fff;
+    }
+
+    .calendar-manager button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+    }
+
+    .calendar-manager button:hover:not(:disabled),
+    .calendar-manager button:focus-visible,
+    .calendar-manager input:focus-visible,
+    .calendar-manager textarea:focus-visible {
+        outline: 3px solid rgba(208, 163, 61, 0.42);
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 860px) {
+        .calendar-manager-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 599px) {
+        .calendar-manager-header {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .calendar-manager-add {
+            justify-content: center;
+        }
+
+        .calendar-manager-form,
+        .calendar-manager-schedule,
+        .calendar-manager-date-row,
+        .calendar-manager-time-row {
+            grid-template-columns: 1fr;
+        }
+
+        .calendar-manager-date-row,
+        .calendar-manager-time-row,
+        .calendar-manager-weekdays {
+            grid-column: 1;
+        }
+
+        .calendar-manager-form-actions {
+            align-items: stretch;
+            flex-direction: column-reverse;
+        }
+
+        .calendar-manager-button {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    import type {
+        CongregationWeekday as Weekday,
+        SingleEventSchedule as SingleSchedule,
+        WeeklyEventSchedule as WeeklySchedule,
+    } from '../../data/congregationEvents';
+    import type {
+        CalendarEventDraft as EventDraft,
+        CalendarEventValidationIssue as ValidationIssue,
+        ManagedCongregationEvent as ManagedEvent,
+    } from '../../lib/congregationCalendarEvents';
+
+    type ApiPayload<T> = {
+        success: boolean;
+        data?: T;
+        error?: string;
+        issues?: ValidationIssue[];
+    };
+
+    const manager = document.querySelector<HTMLElement>('[data-calendar-manager]');
+
+    if (manager) {
+        const endpoint = '/api/admin/calendar/events';
+        const weekdayOrder: readonly Weekday[] = [
+            'sunday',
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+        ];
+        const weekdayLabels: Record<Weekday, string> = {
+            sunday: 'Sunday',
+            monday: 'Monday',
+            tuesday: 'Tuesday',
+            wednesday: 'Wednesday',
+            thursday: 'Thursday',
+            friday: 'Friday',
+            saturday: 'Saturday',
+        };
+        const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+        const timePattern = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+
+        const addButton = manager.querySelector<HTMLButtonElement>('[data-calendar-add]');
+        const refreshButton = manager.querySelector<HTMLButtonElement>('[data-calendar-refresh]');
+        const listElement = manager.querySelector<HTMLElement>('[data-calendar-list]');
+        const emptyElement = manager.querySelector<HTMLElement>('[data-calendar-empty]');
+        const countElement = manager.querySelector<HTMLElement>('[data-calendar-count]');
+        const statusElement = manager.querySelector<HTMLElement>('[data-calendar-status]');
+        const errorElement = manager.querySelector<HTMLElement>('[data-calendar-error]');
+        const errorMessage = manager.querySelector<HTMLElement>('[data-calendar-error-message]');
+        const errorList = manager.querySelector<HTMLUListElement>('[data-calendar-error-list]');
+        const form = manager.querySelector<HTMLFormElement>('[data-calendar-form]');
+        const formKicker = manager.querySelector<HTMLElement>('[data-calendar-form-kicker]');
+        const formTitle = manager.querySelector<HTMLElement>('[data-calendar-form-title]');
+        const submitButton = manager.querySelector<HTMLButtonElement>('[data-calendar-submit]');
+        const cancelButtons = manager.querySelectorAll<HTMLButtonElement>('[data-calendar-cancel]');
+        const singleFields = manager.querySelector<HTMLElement>('[data-single-fields]');
+        const weeklyFields = manager.querySelector<HTMLElement>('[data-weekly-fields]');
+        const timeFields = manager.querySelector<HTMLElement>('[data-time-fields]');
+
+        if (
+            addButton
+            && refreshButton
+            && listElement
+            && emptyElement
+            && countElement
+            && statusElement
+            && errorElement
+            && errorMessage
+            && errorList
+            && form
+            && formKicker
+            && formTitle
+            && submitButton
+            && singleFields
+            && weeklyFields
+            && timeFields
+        ) {
+            const titleInput = form.elements.namedItem('title') as HTMLInputElement;
+            const descriptionInput = form.elements.namedItem('description') as HTMLTextAreaElement;
+            const locationInput = form.elements.namedItem('location') as HTMLInputElement;
+            const dateInput = form.elements.namedItem('date') as HTMLInputElement;
+            const allDayInput = form.elements.namedItem('allDay') as HTMLInputElement;
+            const startsOnInput = form.elements.namedItem('startsOn') as HTMLInputElement;
+            const endsOnInput = form.elements.namedItem('endsOn') as HTMLInputElement;
+            const startTimeInput = form.elements.namedItem('startTime') as HTMLInputElement;
+            const endTimeInput = form.elements.namedItem('endTime') as HTMLInputElement;
+            let events: ManagedEvent[] = [];
+            let editingId: string | null = null;
+            let hasLoaded = false;
+            let loadController: AbortController | null = null;
+
+            const getScheduleKind = (): 'single' | 'weekly' => {
+                const selected = form.querySelector<HTMLInputElement>('input[name="scheduleKind"]:checked');
+                return selected?.value === 'weekly' ? 'weekly' : 'single';
+            };
+
+            const getCSRFToken = (): string | null => {
+                const csrfCookie = document.cookie
+                    .split(';')
+                    .map((cookie) => cookie.trim())
+                    .find((cookie) => cookie.startsWith('oht_csrf='));
+                return csrfCookie ? csrfCookie.slice('oht_csrf='.length) : null;
+            };
+
+            const setStatus = (message = '') => {
+                statusElement.textContent = message;
+            };
+
+            const clearErrors = () => {
+                errorElement.hidden = true;
+                errorMessage.textContent = '';
+                errorList.replaceChildren();
+                manager.querySelectorAll<HTMLElement>('[aria-invalid="true"]').forEach((field) => {
+                    field.removeAttribute('aria-invalid');
+                    field.removeAttribute('aria-describedby');
+                });
+                manager.querySelectorAll<HTMLElement>('[data-error-for]').forEach((element) => {
+                    element.textContent = '';
+                    element.removeAttribute('id');
+                });
+            };
+
+            const showErrors = (message: string, issues: readonly ValidationIssue[] = []) => {
+                clearErrors();
+                errorMessage.textContent = message;
+                issues.forEach((issue, index) => {
+                    const item = document.createElement('li');
+                    item.textContent = issue.message;
+                    errorList.append(item);
+
+                    const field = manager.querySelector<HTMLElement>(`[data-field-path="${CSS.escape(issue.path)}"]`);
+                    const fieldError = manager.querySelector<HTMLElement>(`[data-error-for="${CSS.escape(issue.path)}"]`);
+                    if (!field || !fieldError) return;
+                    const errorId = `calendar-manager-field-error-${index}`;
+                    field.setAttribute('aria-invalid', 'true');
+                    field.setAttribute('aria-describedby', errorId);
+                    fieldError.id = errorId;
+                    fieldError.textContent = issue.message;
+                });
+                errorElement.hidden = false;
+                errorElement.focus({ preventScroll: true });
+            };
+
+            const isRealDate = (value: string): boolean => {
+                if (!isoDatePattern.test(value)) return false;
+                const timestamp = Date.parse(`${value}T00:00:00.000Z`);
+                return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value;
+            };
+
+            const selectedWeekdays = (): Weekday[] => weekdayOrder.filter((weekday) => {
+                const input = form.querySelector<HTMLInputElement>(`input[name="weekdays"][value="${weekday}"]`);
+                return Boolean(input?.checked);
+            });
+
+            const buildDraft = (): { draft?: EventDraft; issues: ValidationIssue[] } => {
+                const title = titleInput.value.trim();
+                const description = descriptionInput.value.trim();
+                const location = locationInput.value.trim();
+                const kind = getScheduleKind();
+                const issues: ValidationIssue[] = [];
+
+                if (!title) issues.push({ path: 'title', message: 'Enter an event title.' });
+                if (title.length > 160) issues.push({ path: 'title', message: 'Keep the title to 160 characters or fewer.' });
+                if (description.length > 2000) issues.push({ path: 'description', message: 'Keep the description to 2,000 characters or fewer.' });
+                if (location.length > 300) issues.push({ path: 'location', message: 'Keep the location to 300 characters or fewer.' });
+
+                let schedule: SingleSchedule | WeeklySchedule | undefined;
+                if (kind === 'single') {
+                    const date = dateInput.value;
+                    if (!isRealDate(date)) {
+                        issues.push({ path: 'schedule.date', message: 'Choose a valid event date.' });
+                    }
+
+                    if (allDayInput.checked) {
+                        schedule = { kind: 'single', date, allDay: true };
+                    } else {
+                        const startTime = startTimeInput.value;
+                        const endTime = endTimeInput.value;
+                        if (!timePattern.test(startTime)) {
+                            issues.push({ path: 'schedule.startTime', message: 'Choose a valid start time.' });
+                        }
+                        if (!timePattern.test(endTime)) {
+                            issues.push({ path: 'schedule.endTime', message: 'Choose a valid end time.' });
+                        } else if (timePattern.test(startTime) && endTime <= startTime) {
+                            issues.push({ path: 'schedule.endTime', message: 'End time must be later than start time on the same day.' });
+                        }
+                        schedule = { kind: 'single', date, allDay: false, startTime, endTime };
+                    }
+                } else {
+                    const weekdays = selectedWeekdays();
+                    const startsOn = startsOnInput.value;
+                    const endsOn = endsOnInput.value;
+                    const startTime = startTimeInput.value;
+                    const endTime = endTimeInput.value;
+                    if (weekdays.length === 0) {
+                        issues.push({ path: 'schedule.weekdays', message: 'Choose at least one weekday.' });
+                    }
+                    if (!isRealDate(startsOn)) {
+                        issues.push({ path: 'schedule.startsOn', message: 'Choose a valid recurrence start date.' });
+                    }
+                    if (endsOn && !isRealDate(endsOn)) {
+                        issues.push({ path: 'schedule.endsOn', message: 'Choose a valid recurrence end date.' });
+                    } else if (endsOn && isRealDate(startsOn) && endsOn < startsOn) {
+                        issues.push({ path: 'schedule.endsOn', message: 'Recurrence end date cannot be before its start date.' });
+                    }
+                    if (!timePattern.test(startTime)) {
+                        issues.push({ path: 'schedule.startTime', message: 'Choose a valid start time.' });
+                    }
+                    if (!timePattern.test(endTime)) {
+                        issues.push({ path: 'schedule.endTime', message: 'Choose a valid end time.' });
+                    } else if (timePattern.test(startTime) && endTime <= startTime) {
+                        issues.push({ path: 'schedule.endTime', message: 'End time must be later than start time on the same day.' });
+                    }
+                    schedule = {
+                        kind: 'weekly',
+                        interval: 1,
+                        weekdays,
+                        startsOn,
+                        ...(endsOn ? { endsOn } : {}),
+                        startTime,
+                        endTime,
+                    };
+                }
+
+                if (issues.length > 0 || !schedule) return { issues };
+                return {
+                    draft: {
+                        title,
+                        ...(description ? { description } : {}),
+                        ...(location ? { location } : {}),
+                        schedule,
+                    },
+                    issues,
+                };
+            };
+
+            const formatDate = (value: string): string => new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC',
+            }).format(new Date(`${value}T12:00:00.000Z`));
+
+            const formatTime = (value: string): string => {
+                const [hours, minutes] = value.split(':').map(Number);
+                return new Intl.DateTimeFormat('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    timeZone: 'UTC',
+                }).format(new Date(Date.UTC(2026, 0, 1, hours, minutes)));
+            };
+
+            const joinLabels = (labels: string[]): string => {
+                if (labels.length < 2) return labels[0] || '';
+                if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
+                return `${labels.slice(0, -1).join(', ')}, and ${labels.at(-1)}`;
+            };
+
+            const scheduleSummary = (event: ManagedEvent): string => {
+                const schedule = event.schedule;
+                if (schedule.kind === 'single') {
+                    const date = formatDate(schedule.date);
+                    return schedule.allDay
+                        ? `${date} · All day`
+                        : `${date} · ${formatTime(schedule.startTime)}–${formatTime(schedule.endTime)}`;
+                }
+                const days = joinLabels(schedule.weekdays.map((weekday) => weekdayLabels[weekday]));
+                const ending = schedule.endsOn ? ` through ${formatDate(schedule.endsOn)}` : '';
+                return `Every ${days} · ${formatTime(schedule.startTime)}–${formatTime(schedule.endTime)} · from ${formatDate(schedule.startsOn)}${ending}`;
+            };
+
+            const eventSortDate = (event: ManagedEvent): string => event.schedule.kind === 'single'
+                ? event.schedule.date
+                : event.schedule.startsOn;
+
+            const renderEvents = () => {
+                listElement.replaceChildren();
+                const sortedEvents = [...events].sort((first, second) =>
+                    eventSortDate(first).localeCompare(eventSortDate(second))
+                    || first.title.localeCompare(second.title),
+                );
+
+                sortedEvents.forEach((event) => {
+                    const article = document.createElement('article');
+                    article.className = 'calendar-manager-event';
+                    article.dataset.eventId = event.id;
+
+                    const title = document.createElement('p');
+                    title.className = 'calendar-manager-event-title';
+                    title.textContent = event.title;
+
+                    const schedule = document.createElement('p');
+                    schedule.className = 'calendar-manager-event-schedule';
+                    schedule.textContent = scheduleSummary(event);
+
+                    const details = document.createElement('p');
+                    details.className = 'calendar-manager-event-details';
+                    const optionalDetails = [event.location, event.description].filter(Boolean);
+                    details.textContent = optionalDetails.join(' · ');
+                    details.hidden = optionalDetails.length === 0;
+
+                    const actions = document.createElement('div');
+                    actions.className = 'calendar-manager-event-actions';
+
+                    const editButton = document.createElement('button');
+                    editButton.type = 'button';
+                    editButton.dataset.action = 'edit';
+                    editButton.dataset.eventId = event.id;
+                    editButton.textContent = 'Edit';
+                    editButton.setAttribute('aria-label', `Edit ${event.title}`);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.type = 'button';
+                    deleteButton.dataset.action = 'delete';
+                    deleteButton.dataset.eventId = event.id;
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.setAttribute('aria-label', `Delete ${event.title}`);
+
+                    actions.append(editButton, deleteButton);
+                    article.append(title, schedule, details, actions);
+                    listElement.append(article);
+                });
+
+                countElement.textContent = `${events.length} congregation event${events.length === 1 ? '' : 's'}`;
+                emptyElement.hidden = events.length !== 0;
+            };
+
+            const parsePayload = async <T>(response: Response): Promise<ApiPayload<T>> => {
+                try {
+                    return await response.json() as ApiPayload<T>;
+                } catch {
+                    return { success: false, error: 'The calendar service returned an unreadable response.' };
+                }
+            };
+
+            const request = async <T>(
+                url: string,
+                options: { method?: 'GET' | 'POST' | 'PUT' | 'DELETE'; draft?: EventDraft; signal?: AbortSignal } = {},
+            ): Promise<{ response: Response; payload: ApiPayload<T> }> => {
+                const method = options.method || 'GET';
+                const headers: Record<string, string> = { Accept: 'application/json' };
+                if (method !== 'GET') {
+                    const csrfToken = getCSRFToken();
+                    if (!csrfToken) throw new Error('Security token unavailable. Please log in again.');
+                    headers['X-CSRF-Token'] = csrfToken;
+                    if (options.draft) headers['Content-Type'] = 'application/json';
+                }
+                const response = await fetch(url, {
+                    method,
+                    headers,
+                    credentials: 'same-origin',
+                    ...(options.draft ? { body: JSON.stringify(options.draft) } : {}),
+                    ...(options.signal ? { signal: options.signal } : {}),
+                });
+                return { response, payload: await parsePayload<T>(response) };
+            };
+
+            const apiErrorMessage = (response: Response, payload: ApiPayload<unknown>): string => {
+                if (response.status === 401) return 'Your admin session has expired. Log in again before managing events.';
+                if (response.status === 403) return 'The security token is missing or expired. Log in again and retry.';
+                if (response.status === 409) return payload.error || 'This event conflicts with an existing calendar record.';
+                return payload.error || 'The calendar change could not be completed.';
+            };
+
+            const loadEvents = async (announce = true) => {
+                loadController?.abort();
+                const controller = new AbortController();
+                loadController = controller;
+                listElement.setAttribute('aria-busy', 'true');
+                refreshButton.disabled = true;
+                addButton.disabled = true;
+                if (announce) setStatus('Loading congregation events…');
+                clearErrors();
+
+                try {
+                    const { response, payload } = await request<ManagedEvent[]>(endpoint, {
+                        signal: controller.signal,
+                    });
+                    if (!response.ok || !payload.success || !Array.isArray(payload.data)) {
+                        showErrors(apiErrorMessage(response, payload));
+                        return;
+                    }
+                    events = payload.data.filter((event): event is ManagedEvent =>
+                        Boolean(event && typeof event === 'object' && typeof event.id === 'string' && event.schedule),
+                    );
+                    hasLoaded = true;
+                    renderEvents();
+                    if (announce) setStatus('Congregation events are up to date.');
+                } catch (error) {
+                    if (error instanceof DOMException && error.name === 'AbortError') return;
+                    showErrors(error instanceof Error ? error.message : 'Unable to load congregation events.');
+                } finally {
+                    if (loadController === controller) {
+                        loadController = null;
+                        listElement.setAttribute('aria-busy', 'false');
+                        refreshButton.disabled = false;
+                        addButton.disabled = false;
+                    }
+                }
+            };
+
+            const updateScheduleVisibility = () => {
+                const isWeekly = getScheduleKind() === 'weekly';
+                singleFields.hidden = isWeekly;
+                weeklyFields.hidden = !isWeekly;
+                timeFields.hidden = !isWeekly && allDayInput.checked;
+            };
+
+            const setScheduleKind = (kind: 'single' | 'weekly') => {
+                const input = form.querySelector<HTMLInputElement>(`input[name="scheduleKind"][value="${kind}"]`);
+                if (input) input.checked = true;
+                updateScheduleVisibility();
+            };
+
+            const closeForm = () => {
+                editingId = null;
+                form.reset();
+                clearErrors();
+                setScheduleKind('single');
+                form.hidden = true;
+            };
+
+            const openNewForm = () => {
+                form.reset();
+                clearErrors();
+                editingId = null;
+                formKicker.textContent = 'New event';
+                formTitle.textContent = 'Add a congregation event';
+                submitButton.textContent = 'Add event';
+                setScheduleKind('single');
+                form.hidden = false;
+                titleInput.focus({ preventScroll: true });
+                form.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            };
+
+            const openEditForm = (event: ManagedEvent) => {
+                form.reset();
+                clearErrors();
+                editingId = event.id;
+                formKicker.textContent = 'Editing event';
+                formTitle.textContent = event.title;
+                submitButton.textContent = 'Save changes';
+                titleInput.value = event.title;
+                descriptionInput.value = event.description || '';
+                locationInput.value = event.location || '';
+                setScheduleKind(event.schedule.kind);
+
+                if (event.schedule.kind === 'single') {
+                    dateInput.value = event.schedule.date;
+                    allDayInput.checked = event.schedule.allDay;
+                    if (!event.schedule.allDay) {
+                        startTimeInput.value = event.schedule.startTime;
+                        endTimeInput.value = event.schedule.endTime;
+                    }
+                } else {
+                    startsOnInput.value = event.schedule.startsOn;
+                    endsOnInput.value = event.schedule.endsOn || '';
+                    startTimeInput.value = event.schedule.startTime;
+                    endTimeInput.value = event.schedule.endTime;
+                    event.schedule.weekdays.forEach((weekday) => {
+                        const input = form.querySelector<HTMLInputElement>(`input[name="weekdays"][value="${weekday}"]`);
+                        if (input) input.checked = true;
+                    });
+                }
+
+                updateScheduleVisibility();
+                form.hidden = false;
+                titleInput.focus({ preventScroll: true });
+                form.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            };
+
+            const setMutating = (mutating: boolean) => {
+                submitButton.disabled = mutating;
+                addButton.disabled = mutating;
+                refreshButton.disabled = mutating;
+                listElement.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+                    button.disabled = mutating;
+                });
+            };
+
+            const dispatchCalendarChange = (operation: 'create' | 'update' | 'delete', id: string) => {
+                window.dispatchEvent(new CustomEvent('oht:calendar-events-changed', {
+                    detail: { operation, id },
+                }));
+            };
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                clearErrors();
+                const { draft, issues } = buildDraft();
+                if (!draft) {
+                    showErrors('Review the highlighted calendar fields.', issues);
+                    return;
+                }
+
+                const eventId = editingId;
+                const method = eventId ? 'PUT' : 'POST';
+                const url = eventId ? `${endpoint}/${encodeURIComponent(eventId)}` : endpoint;
+                loadController?.abort();
+                setMutating(true);
+                setStatus(eventId ? 'Saving calendar changes…' : 'Adding calendar event…');
+
+                try {
+                    const { response, payload } = await request<ManagedEvent>(url, { method, draft });
+                    if (!response.ok || !payload.success || !payload.data) {
+                        showErrors(apiErrorMessage(response, payload), payload.issues || []);
+                        setStatus('Calendar event was not saved.');
+                        return;
+                    }
+                    const savedEvent = payload.data;
+                    if (eventId) {
+                        events = events.map((item) => item.id === eventId ? savedEvent : item);
+                    } else {
+                        events = [...events, savedEvent];
+                    }
+                    renderEvents();
+                    closeForm();
+                    const operation = eventId ? 'update' : 'create';
+                    setStatus(eventId ? 'Calendar event updated.' : 'Calendar event added.');
+                    dispatchCalendarChange(operation, savedEvent.id);
+                } catch (error) {
+                    showErrors(error instanceof Error ? error.message : 'Unable to save the calendar event.');
+                    setStatus('Calendar event was not saved.');
+                } finally {
+                    setMutating(false);
+                }
+            });
+
+            listElement.addEventListener('click', async (event) => {
+                const button = (event.target as Element).closest<HTMLButtonElement>('button[data-action][data-event-id]');
+                if (!button) return;
+                const eventId = button.dataset.eventId || '';
+                const managedEvent = events.find((item) => item.id === eventId);
+                if (!managedEvent) return;
+
+                if (button.dataset.action === 'edit') {
+                    openEditForm(managedEvent);
+                    return;
+                }
+
+                if (!window.confirm(`Delete “${managedEvent.title}” from the congregation calendar? This cannot be undone.`)) {
+                    return;
+                }
+
+                clearErrors();
+                loadController?.abort();
+                setMutating(true);
+                setStatus('Deleting calendar event…');
+                try {
+                    const { response, payload } = await request<{ id: string }>(
+                        `${endpoint}/${encodeURIComponent(eventId)}`,
+                        { method: 'DELETE' },
+                    );
+                    if (!response.ok || !payload.success || payload.data?.id !== eventId) {
+                        showErrors(apiErrorMessage(response, payload));
+                        setStatus('Calendar event was not deleted.');
+                        return;
+                    }
+                    events = events.filter((item) => item.id !== eventId);
+                    if (editingId === eventId) closeForm();
+                    renderEvents();
+                    setStatus('Calendar event deleted.');
+                    dispatchCalendarChange('delete', eventId);
+                } catch (error) {
+                    showErrors(error instanceof Error ? error.message : 'Unable to delete the calendar event.');
+                    setStatus('Calendar event was not deleted.');
+                } finally {
+                    setMutating(false);
+                }
+            });
+
+            addButton.addEventListener('click', openNewForm);
+            refreshButton.addEventListener('click', () => loadEvents());
+            cancelButtons.forEach((button) => button.addEventListener('click', closeForm));
+            form.querySelectorAll<HTMLInputElement>('input[name="scheduleKind"]')
+                .forEach((input) => input.addEventListener('change', updateScheduleVisibility));
+            allDayInput.addEventListener('change', updateScheduleVisibility);
+
+            const applyEditMode = () => {
+                const isActive = document.body.classList.contains('admin-edit-mode');
+                manager.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+                manager.inert = !isActive;
+                if (isActive) {
+                    loadEvents(!hasLoaded);
+                } else {
+                    loadController?.abort();
+                    closeForm();
+                    setStatus('');
+                }
+            };
+
+            const editModeObserver = new MutationObserver(applyEditMode);
+            editModeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+            applyEditMode();
+        }
+    }
+</script>

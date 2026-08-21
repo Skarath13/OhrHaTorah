@@ -39,6 +39,11 @@
 </div>
 
 <script>
+    import {
+        formatHebrewCalendarDate,
+        stripRepeatedHebrewYear,
+    } from '../../lib/calendarDisplay';
+
     type CalendarGroup = 'congregation' | 'candle-lighting' | 'holiday' | 'observance';
 
     type CalendarEvent = {
@@ -167,6 +172,61 @@
             element.hidden = !text;
         };
 
+        const appendHebrewMetadata = (element: HTMLElement, event: CalendarEvent): boolean => {
+            const hebrewName = stripRepeatedHebrewYear(
+                event.extendedProps.hebrew,
+                event.extendedProps.hebrewDate,
+            );
+            const hebrewDate = formatHebrewCalendarDate(event.extendedProps.hebrewDate);
+            element.replaceChildren();
+
+            if (hebrewName) {
+                const name = document.createElement('span');
+                name.className = 'kehilat-calendar-event-hebrew-name';
+                name.lang = 'he';
+                name.dir = 'rtl';
+                name.textContent = hebrewName;
+                element.append(name);
+            }
+
+            if (hebrewName && hebrewDate) {
+                const separator = document.createElement('span');
+                separator.className = 'kehilat-calendar-event-hebrew-separator';
+                separator.textContent = '·';
+                element.append(separator);
+            }
+
+            if (hebrewDate) {
+                const date = document.createElement('span');
+                date.className = 'kehilat-calendar-event-hebrew-date';
+                date.textContent = hebrewDate;
+                element.append(date);
+            }
+
+            return Boolean(hebrewName || hebrewDate);
+        };
+
+        const setEventDateAndTime = (element: HTMLElement, event: CalendarEvent) => {
+            const calendarDate = event.extendedProps.calendarDate || event.start?.slice(0, 10) || '';
+            const eventTime = formatEventTime(event);
+            element.replaceChildren();
+
+            if (calendarDate && isoDatePattern.test(calendarDate)) {
+                const date = document.createElement('span');
+                date.className = 'kehilat-calendar-gregorian-date';
+                date.textContent = formatDate(calendarDate, {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                });
+                element.append(date, ` · ${eventTime}`);
+                return;
+            }
+
+            element.textContent = eventTime;
+        };
+
         const closeDetails = (restoreFocus: boolean) => {
             detailsElement.hidden = true;
             lastEventTrigger?.setAttribute('aria-expanded', 'false');
@@ -179,15 +239,12 @@
             lastEventTrigger = trigger;
             trigger.setAttribute('aria-expanded', 'true');
 
-            const calendarDate = event.extendedProps.calendarDate || event.start?.slice(0, 10) || '';
-            detailsTitle.textContent = event.title;
-            detailsTime.textContent = calendarDate && isoDatePattern.test(calendarDate)
-                ? `${formatDate(calendarDate, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} · ${formatEventTime(event)}`
-                : formatEventTime(event);
-            const hebrewDetails = [event.extendedProps.hebrew, event.extendedProps.hebrewDate]
-                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
-                .join(' · ');
-            setOptionalText(detailsHebrew, hebrewDetails);
+            detailsTitle.textContent = stripRepeatedHebrewYear(
+                event.title,
+                event.extendedProps.hebrewDate,
+            );
+            setEventDateAndTime(detailsTime, event);
+            detailsHebrew.hidden = !appendHebrewMetadata(detailsHebrew, event);
             setOptionalText(detailsDescription, event.extendedProps.description);
             setOptionalText(detailsLocation, event.extendedProps.location, 'Location: ');
 
@@ -215,21 +272,20 @@
 
             const title = document.createElement('strong');
             title.className = 'kehilat-calendar-event-title';
-            title.textContent = event.title;
+            title.textContent = stripRepeatedHebrewYear(
+                event.title,
+                event.extendedProps.hebrewDate,
+            );
 
             const time = document.createElement('span');
             time.className = 'kehilat-calendar-event-time';
             time.textContent = formatEventTime(event);
 
             button.append(type, title, time);
-            const hebrewText = [event.extendedProps.hebrew, event.extendedProps.hebrewDate]
-                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
-                .join(' · ');
-            if (hebrewText) {
+            if (event.extendedProps.hebrew || event.extendedProps.hebrewDate) {
                 const hebrew = document.createElement('span');
                 hebrew.className = 'kehilat-calendar-event-hebrew';
-                hebrew.textContent = hebrewText;
-                button.append(hebrew);
+                if (appendHebrewMetadata(hebrew, event)) button.append(hebrew);
             }
             button.addEventListener('click', () => showEventDetails(event, button));
             item.append(button);
@@ -255,14 +311,11 @@
             heading.id = headingId;
             heading.className = 'kehilat-calendar-date-heading';
             const date = document.createElement('time');
+            date.className = 'kehilat-calendar-gregorian-date';
             date.dateTime = group.date;
             date.textContent = formatDate(group.date, { month: 'long', day: 'numeric', year: 'numeric' });
             heading.append(date);
-
-            const count = document.createElement('p');
-            count.className = 'kehilat-calendar-date-count';
-            count.textContent = `${group.events.length} ${group.events.length === 1 ? 'item' : 'items'}`;
-            header.append(weekday, heading, count);
+            header.append(weekday, heading);
 
             const eventList = document.createElement('ul');
             eventList.className = 'kehilat-calendar-event-list';
@@ -328,6 +381,7 @@
             statusElement.textContent = 'Loading upcoming dates…';
             try {
                 const response = await fetch(`/api/calendar/events?${query.toString()}`, {
+                    cache: 'no-store',
                     headers: { Accept: 'application/json' },
                     signal: requestController.signal,
                 });
@@ -379,6 +433,7 @@
                 : Math.max(defaultDateLimit, visibleDateLimit);
             renderDateGroups();
         });
+        window.addEventListener('oht:calendar-events-changed', loadEvents);
 
         loadEvents();
     }
