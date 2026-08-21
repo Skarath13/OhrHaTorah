@@ -188,8 +188,10 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.doesNotMatch(`${calendarComponent}\n${calendarEndpoint}`, /calendar\.google/i);
     assert.match(homeStyles, /\.kehilat-calendar \{[^}]*grid-template-columns: 1fr/s);
     assert.match(homeStyles, /@media \(min-width: 600px\) \{[\s\S]*?\.kehilat-calendar \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-    assert.match(homeStyles, /\.kehilat-calendar-event-title[^}]*overflow-wrap: normal[^}]*word-break: normal/s);
-    assert.match(homeStyles, /@media \(max-width: 360px\) \{[\s\S]*?\.kehilat-calendar-event-button \{ grid-template-columns: minmax\(0, 1fr\)/);
+    assert.match(homeStyles, /\.kehilat-calendar-event-button[^}]*grid-template-columns: minmax\(0, 1fr\)[^}]*gap: 0\.2rem/s);
+    assert.doesNotMatch(homeStyles, /\.kehilat-calendar-event-button[^}]*grid-template-columns: minmax\(0, 1fr\) auto/s);
+    assert.match(homeStyles, /\.kehilat-calendar-event-title[^}]*overflow-wrap: normal[^}]*text-wrap: pretty[^}]*word-break: normal/s);
+    assert.match(homeStyles, /\.kehilat-calendar-event-time[^}]*grid-column: 1[^}]*justify-self: start[^}]*font-variant-numeric: tabular-nums/s);
     assert.match(homeStyles, /\.kehilat-calendar-show-more\[hidden\],[\s\S]*?\.kehilat-calendar-show-fewer\[hidden\] \{ display: none; \}/);
     assert.doesNotMatch(homeStyles, /--fc-|\[role="gridcell"\]|\[role="list"\]\[aria-label="Events"\]/);
 });
