@@ -39,6 +39,11 @@ test('the form requests only bounded record-matching information', () => {
   assert.doesNotMatch(dialogSource, /name="(?:ssn|tin|routing|accountNumber|cardNumber|phone|address)"/i);
   assert.match(dialogSource, /Submitting this form does not verify a contribution or determine whether an amount is deductible/);
   assert.match(dialogSource, /This confirmation is not a giving acknowledgment/);
+  assert.match(
+    dialogSource,
+    /\.giving-request-review\[hidden\]\s*\{\s*display: none;/,
+    'the author stylesheet must preserve the conditional field hidden state',
+  );
 });
 
 test('multiple Turnstile widgets use explicit rendering and widget-scoped resets', () => {
