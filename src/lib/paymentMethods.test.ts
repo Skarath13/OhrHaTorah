@@ -7,8 +7,10 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = fileURLToPath(new URL('../..', import.meta.url));
 const donateSource = readFileSync(`${repositoryRoot}/src/pages/donate.astro`, 'utf8');
 const zelleQrAsset = readFileSync(`${repositoryRoot}/public/images/payments/zelle-ohrhatorahoc-qr.png`);
+const zelleWordmarkAsset = readFileSync(`${repositoryRoot}/public/images/payments/zelle-bank-wordmark.png`);
 const paypalQrAsset = readFileSync(`${repositoryRoot}/public/images/payments/paypal-donation-qr.png`);
 const expectedZelleQrSha256 = '029cd082d7ed5d771d2cd41d8cf9e9009719d5e08f776c3bf180265747ad27ef';
+const expectedZelleWordmarkSha256 = '8c1e0c88e4706ee97013272b25fe0ae9d9e99cc722773c50048e6bdc26dfbedf';
 const expectedPaypalQrSha256 = '0d3a54e810b811429f2cd4b3e6f9a28d7252a3d7070c3c48063ef04532c7d93b';
 
 test('the published Zelle destination matches the bank-generated QR evidence', () => {
@@ -27,6 +29,8 @@ test('the published Zelle destination matches the bank-generated QR evidence', (
     assert.match(donateSource, /const zelleTag = 'ohrhatorahoc'/);
     assert.match(donateSource, /const zelleRecipientName = 'CONGREGATION OHR HAT'/);
     assert.equal(createHash('sha256').update(zelleQrAsset).digest('hex'), expectedZelleQrSha256);
+    assert.equal(createHash('sha256').update(zelleWordmarkAsset).digest('hex'), expectedZelleWordmarkSha256);
+    assert.match(donateSource, /src="\/images\/payments\/zelle-bank-wordmark\.png"[^>]*alt="Zelle"/);
 });
 
 test('the published PayPal destination matches the PayPal-hosted Donate artifacts', () => {
@@ -35,6 +39,8 @@ test('the published PayPal destination matches the PayPal-hosted Donate artifact
     assert.match(donateSource, /https:\/\/www\.paypal\.com\/donate[^>]*method="post"/);
     assert.match(donateSource, /name="hosted_button_id" value=\{paypalHostedButtonId\}/);
     assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/en_US\/i\/btn\/btn_donateCC_LG\.gif/);
+    assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/webstatic\/mktg\/logo\/pp_cc_mark_111x69\.jpg/);
+    assert.match(donateSource, /class="fab fa-paypal"/);
     assert.match(donateSource, /\/images\/payments\/paypal-donation-qr\.png/);
     assert.match(donateSource, /one-time, monthly, or yearly gift/);
     assert.equal(createHash('sha256').update(paypalQrAsset).digest('hex'), expectedPaypalQrSha256);
@@ -53,7 +59,7 @@ test('payment presentation stays accurate and does not fabricate provider trust'
     assert.doesNotMatch(donateSource, /PayPal-hosted giving is being prepared|No payment is collected here yet/);
     assert.doesNotMatch(donateSource, /Friends and Family/i);
     assert.doesNotMatch(donateSource, /verified Zelle|trust badge|purchase-protection badge|guaranteed secure/i);
-    assert.doesNotMatch(donateSource, /zelle[^"']*logo/i);
+    assert.doesNotMatch(donateSource, /confirmed charity|tax-deductible gift|used with permission/i);
 });
 
 test('primary payment cards remain side by side on desktop and stack Zelle first on mobile', () => {
@@ -74,16 +80,30 @@ test('primary payment cards remain side by side on desktop and stack Zelle first
     );
     assert.match(
         donateSource,
-        /@media \(max-width: 760px\)[\s\S]*?\.donation-grid\.donation-methods,[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\)/,
+        /@media \(max-width: 860px\)[\s\S]*?\.donation-grid\.donation-methods,[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\)/,
     );
 });
 
-test('provider themes use accurate palettes without replacing the official payment artifacts', () => {
-    assert.match(donateSource, /\.donation-card-zelle\s*\{[^}]*--payment-accent:\s*#6d1ed4/s);
-    assert.match(donateSource, /\.donation-card-paypal\s*\{[^}]*--payment-accent:\s*#0070ba/s);
-    assert.match(donateSource, /--payment-accent-deep:\s*#003087/);
+test('provider themes use recognizable palettes and provider-issued payment artifacts', () => {
+    assert.match(donateSource, /--zelle-purple:\s*#6d1ed4/);
+    assert.match(donateSource, /--paypal-blue:\s*#0070ba/);
+    assert.match(donateSource, /--paypal-deep:\s*#003087/);
     assert.match(donateSource, /#ffc439/);
     assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/en_US\/i\/btn\/btn_donateCC_LG\.gif/);
+    assert.match(donateSource, /https:\/\/www\.paypalobjects\.com\/webstatic\/mktg\/logo\/pp_cc_mark_111x69\.jpg/);
+    assert.match(donateSource, /\/images\/payments\/zelle-bank-wordmark\.png/);
     assert.match(donateSource, /\/images\/payments\/zelle-ohrhatorahoc-qr\.png/);
     assert.match(donateSource, /\/images\/payments\/paypal-donation-qr\.png/);
+});
+
+test('the giving experience has an editorial hero, clear provider actions, and factual confidence steps', () => {
+    assert.match(donateSource, /class="giving-intro"/);
+    assert.match(donateSource, /Give generously\.[\s\S]*Give with confidence\./);
+    assert.match(donateSource, /class="provider-primary-action zelle-primary-action"/);
+    assert.match(donateSource, /class="provider-primary-action paypal-primary-action"/);
+    assert.match(donateSource, /class="giving-confidence"/);
+    assert.match(donateSource, /Choose your provider/);
+    assert.match(donateSource, /Confirm the destination/);
+    assert.match(donateSource, /Keep your confirmation/);
+    assert.match(donateSource, /@media \(prefers-reduced-motion: reduce\)/);
 });
