@@ -184,22 +184,26 @@
         line-height: 1.45;
     }
 
-    .reading-source a {
+    .reading-source :global(a) {
         color: var(--home-blue-800, #123f72);
         font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 0.08em;
         text-underline-offset: 0.16em;
     }
 
     .brit-reading-source {
         margin: 0.45rem 0 0 1rem;
         color: var(--home-muted, #596476);
-        font-size: 0.7rem;
-        line-height: 1.4;
+        font-size: 0.75rem;
+        line-height: 1.45;
     }
 
-    .brit-reading-source a {
+    .brit-reading-source :global(a) {
         color: var(--home-blue-800, #123f72);
         font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 0.08em;
         text-underline-offset: 0.16em;
     }
 
@@ -358,7 +362,7 @@
             // Continue with the schedule-backed default.
         }
         try {
-            const overrideResult = await fetchJson(`/api/content/${encodeURIComponent(britKey)}`, 3000) as any;
+            const overrideResult = await fetchJson(`/api/content/${encodeURIComponent(britKey)}?optional=true`, 3000) as any;
             if (overrideResult.success && overrideResult.data?.value) {
                 britOverride = overrideResult.data.value;
                 try {

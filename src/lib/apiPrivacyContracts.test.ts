@@ -22,6 +22,14 @@ test('bulk CMS and image metadata endpoints require an authenticated editor', ()
 test('only date-scoped Brit Chadashah overrides remain publicly readable', () => {
   assert.match(contentItem, /\^brit-chadashah:\\d\{4\}-\\d\{2\}-\\d\{2\}\$/);
   assert.match(contentItem, /wantsHistory \|\| !isPublicBritChadashahOverride/);
+  assert.match(
+    contentItem,
+    /wantsOptionalPublicRead\s*=\s*isPublicBritChadashahOverride && url\.searchParams\.get\('optional'\) === 'true'/,
+  );
+  assert.match(
+    contentItem,
+    /if \(wantsOptionalPublicRead\) \{[\s\S]*?success: true, data: null[\s\S]*?status: 200/,
+  );
   assert.match(contentItem, /\{ key: content\.key, value: content\.value, content_type: content\.content_type \}/);
   assert.doesNotMatch(contentItem, /isPublicBritChadashahOverride[\s\S]*updated_by/);
 });

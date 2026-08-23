@@ -121,7 +121,7 @@ const showSectionCrumb = pageSection.sectionHref !== currentPath;
                             <ol>
                                 <li><a href="/">Home</a></li>
                                 {showSectionCrumb && <li><a href={pageSection.sectionHref}>{pageSection.section}</a></li>}
-                                <li aria-current="page">{pageTitle}</li>
+                                <li aria-current="page"><span>{pageTitle}</span></li>
                             </ol>
                         </nav>
                         <span class="page-hero-rule" aria-hidden="true"></span>

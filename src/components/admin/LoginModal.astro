@@ -355,20 +355,20 @@
 
     // Handle paste
     input.addEventListener('paste', (e) => {
-      e.preventDefault();
       const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
 
-      if (pastedData) {
-        pastedData.split('').forEach((char, i) => {
-          if (inputs[i]) {
-            inputs[i].value = char;
-          }
+      if (!pastedData) return;
+
+      // Allow the browser's native paste, then normalize and distribute the PIN.
+      window.setTimeout(() => {
+        inputs.forEach((pinInput, i) => {
+          pinInput.value = pastedData[i] ?? '';
         });
 
         const nextIndex = Math.min(pastedData.length, inputs.length - 1);
         inputs[nextIndex].focus();
         updateInputStates();
-      }
+      }, 0);
     });
 
     // Handle focus

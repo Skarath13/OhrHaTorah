@@ -967,11 +967,20 @@ html.mobile-nav-open body {
 }
 
 .site-breadcrumbs [aria-current='page'] {
+    flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     color: #fff;
     font-family: var(--font-body);
     font-size: 0.8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.site-breadcrumbs [aria-current='page'] > span {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -1166,7 +1175,7 @@ body .site-footer .newsletter-field-label > span[aria-hidden='true'] {
 
 body .site-footer .newsletter-optional {
     color: rgba(255, 255, 255, 0.58) !important;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
@@ -1392,7 +1401,7 @@ body .site-footer a:hover {
         display: inline-flex;
         min-height: 44px;
         align-items: center;
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         white-space: nowrap;
     }
 
@@ -1405,7 +1414,7 @@ body .site-footer a:hover {
         min-height: 44px;
         align-items: center;
         overflow: hidden;
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         text-overflow: ellipsis;
     }
 

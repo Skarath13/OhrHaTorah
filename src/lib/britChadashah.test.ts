@@ -63,4 +63,20 @@ test('the card has no unverified legacy reading table', () => {
     );
     assert.doesNotMatch(component, /const britReadings/);
     assert.match(component, /getPreferredBritReading/);
+    assert.match(
+        component,
+        /\.brit-reading-source \{[^}]*font-size: 0\.75rem;[^}]*line-height: 1\.45;/s,
+    );
+    assert.match(
+        component,
+        /\.reading-source :global\(a\) \{[^}]*text-decoration: underline;[^}]*text-decoration-thickness: 0\.08em;/s,
+    );
+    assert.match(
+        component,
+        /\.brit-reading-source :global\(a\) \{[^}]*text-decoration: underline;[^}]*text-decoration-thickness: 0\.08em;/s,
+    );
+    assert.match(
+        component,
+        /\/api\/content\/\$\{encodeURIComponent\(britKey\)\}\?optional=true/,
+    );
 });

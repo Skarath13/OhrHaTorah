@@ -28,6 +28,8 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
     // Revision history and all non-public keys are restricted to authenticated editors.
     const url = new URL(request.url);
     const wantsHistory = url.searchParams.get('history') === 'true';
+    const wantsOptionalPublicRead =
+      isPublicBritChadashahOverride && url.searchParams.get('optional') === 'true';
     if (wantsHistory || !isPublicBritChadashahOverride) {
       const cookieHeader = request.headers.get('cookie');
       const sessionId = getSessionFromCookies(cookieHeader);
@@ -57,6 +59,13 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
     const content = await getContent(runtime.env.DB, decodedKey);
 
     if (!content) {
+      if (wantsOptionalPublicRead) {
+        return new Response(
+          JSON.stringify({ success: true, data: null }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+
       return new Response(
         JSON.stringify({ success: false, error: 'Content not found' }),
         { status: 404, headers: { 'Content-Type': 'application/json' } }

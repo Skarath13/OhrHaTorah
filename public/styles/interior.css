@@ -1438,6 +1438,15 @@
     }
 }
 
+@media (max-width: 420px) {
+    .interior-shell .interior-page .page-body .service-contact-actions {
+        box-sizing: border-box !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+}
+
 @media (max-width: 359px) {
     .interior-shell .interior-page .page-body :where(.timeline-item) {
         grid-template-columns: minmax(0, 1fr);

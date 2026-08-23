@@ -70,5 +70,33 @@ test('button sheen is a one-pass fine-pointer enhancement with preserved foregro
     );
     assert.match(homeStyles, /\.home-button > :is\(span, i, svg\) \{ position: relative; z-index: 1; \}/);
     assert.match(homeStyles, /\.home-button:is\(:hover, :focus-visible\)::after/);
+    assert.match(
+        homeStyles,
+        /@media \(max-width: 360px\) \{[\s\S]*?\.home-button \{ font-size: 0\.75rem; \}[\s\S]*?\.home-identity-action \.home-button \{[^}]*font-size: 0\.75rem;/,
+    );
     assert.doesNotMatch(homeStyles, /\.home-button::after[^}]*animation-iteration-count:\s*infinite/s);
+});
+
+test('homepage supporting labels remain legible at production mobile sizes', () => {
+    assert.match(homeStyles, /--home-gold-700: #8a6518;/);
+    assert.match(
+        homeStyles,
+        /\.home-utility-copy > strong \{[^}]*color: var\(--home-gold-700\);/,
+    );
+
+    for (const selector of [
+        'home-timeline-note',
+        'home-service-address span',
+        'home-map-caption span',
+        'home-map-facade-kicker',
+        'home-utility-copy > strong',
+        'home-rabbi-title',
+        'home-torah-quote cite',
+        'kehilat-calendar-date-weekday',
+        'kehilat-calendar-event-time',
+        'kehilat-calendar-attribution > summary',
+        'kehilat-calendar-attribution > p',
+    ]) {
+        assert.match(homeStyles, new RegExp(`\\.${selector.replaceAll('.', '\\\\.')} \\{[^}]*font-size: 0\\.75rem;`));
+    }
 });

@@ -103,6 +103,7 @@ test('provider themes use recognizable palettes and provider-issued payment arti
     assert.match(donateSource, /\.zelle-tag-control\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto/s);
     assert.match(donateSource, /\.zelle-tag-control code\s*\{[^}]*overflow-wrap:\s*normal[^}]*white-space:\s*nowrap[^}]*word-break:\s*normal/s);
     assert.match(donateSource, /\.zelle-copy-button\s*\{[^}]*width:\s*auto[^}]*flex:\s*0 0 auto/s);
+    assert.match(donateSource, /\.zelle-copy-button\s*\{[^}]*font:\s*800 0\.75rem\/1 var\(--font-body\)/s);
 });
 
 test('the giving experience stays minimal, parallel, and progressively discloses secondary details', () => {
@@ -117,7 +118,22 @@ test('the giving experience stays minimal, parallel, and progressively discloses
     assert.match(donateSource, /\.donation-grid\.donation-methods\s*\{[^}]*overflow:\s*visible[^}]*border:\s*0[^}]*border-radius:\s*0/s);
     assert.match(donateSource, /\.secondary-giving\s*\{[^}]*align-items:\s*start/s);
     assert.match(donateSource, /\.donate-content \.provider-note\s*\{[^}]*margin:\s*1\.3rem 0 0/s);
+    assert.match(donateSource, /\.donate-content \.provider-note\s*\{[^}]*font-size:\s*0\.75rem;[^}]*line-height:\s*1\.6/s);
     assert.match(donateSource, /<details class="provider-legal-disclosure">[\s\S]*?<summary>[\s\S]*?Provider notice[\s\S]*?<\/summary>/);
+    assert.match(
+        donateSource,
+        /\.provider-legal-disclosure summary \{[^}]*color: var\(--interior-muted\);[^}]*font-size: 0\.75rem;[^}]*line-height: 1\.5;/s,
+    );
+    assert.match(
+        donateSource,
+        /\.donate-content \.provider-legal-disclosure p \{[^}]*color: var\(--interior-muted\);[^}]*font-size: 0\.75rem;[^}]*line-height: 1\.6;/s,
+    );
+    assert.match(donateSource, /\.records-copy p \{[^}]*font-size:\s*0\.75rem;/s);
+    assert.match(donateSource, /\.giving-record-trigger \{[^}]*font:\s*800 0\.75rem\/1\.2 var\(--font-body\)/s);
+    assert.match(donateSource, /\.giving-heading \.giving-kicker \{[^}]*font-size: 0\.75rem;/s);
+    assert.match(donateSource, /\.payment-brand-header > span \{[^}]*font-size: 0\.75rem;/s);
+    assert.match(donateSource, /\.payment-scan-label \{[^}]*font-size: 0\.75rem;/s);
+    assert.match(donateSource, /\.payment-details dt,[\s\S]*?\.check-details dt \{[^}]*font-size: 0\.75rem;/s);
     assert.doesNotMatch(donateSource, /<details class="provider-legal-disclosure"\s+open/);
     assert.doesNotMatch(donateSource, /class="giving-intro"|class="giving-confidence"|class="giving-info"/);
     assert.doesNotMatch(donateSource, /method-number|provider-state|payment-assurance-list|paypal-gift-options|paypal-official-button/);
