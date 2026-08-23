@@ -464,7 +464,6 @@ const requestState = Astro.url.searchParams.get('giving');
 
 <script>
     type TurnstileApi = {
-        ready(callback: () => void): void;
         render(container: HTMLElement, options: Record<string, unknown>): string;
         reset(widgetId: string): void;
     };
@@ -481,30 +480,24 @@ const requestState = Astro.url.searchParams.get('giving');
     const turnstileContainer = document.getElementById('giving-request-turnstile-widget');
     let previousFocus: HTMLElement | null = null;
     let turnstileWidgetId: string | null = null;
-    let turnstileRenderQueued = false;
 
     function getTurnstile(): TurnstileApi | undefined {
         return (window as Window & { turnstile?: TurnstileApi }).turnstile;
     }
 
     function renderGivingTurnstile() {
-        if (!turnstileContainer || turnstileWidgetId !== null || turnstileRenderQueued) return;
+        if (!turnstileContainer || turnstileWidgetId !== null || !dialog?.open) return;
         const sitekey = turnstileContainer.dataset.sitekey;
         const turnstile = getTurnstile();
         if (!sitekey || !turnstile) return;
 
-        turnstileRenderQueued = true;
-        turnstile.ready(() => {
-            turnstileRenderQueued = false;
-            if (!dialog?.open || turnstileWidgetId !== null) return;
-            turnstileWidgetId = turnstile.render(turnstileContainer, {
-                sitekey,
-                action: 'giving_record_request',
-                theme: 'light',
-                size: 'flexible',
-                appearance: 'interaction-only',
-                'response-field-name': 'turnstileToken',
-            });
+        turnstileWidgetId = turnstile.render(turnstileContainer, {
+            sitekey,
+            action: 'giving_record_request',
+            theme: 'light',
+            size: 'flexible',
+            appearance: 'interaction-only',
+            'response-field-name': 'turnstileToken',
         });
     }
 

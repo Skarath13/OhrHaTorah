@@ -48,6 +48,9 @@ test('the form requests only bounded record-matching information', () => {
 
 test('multiple Turnstile widgets use explicit rendering and widget-scoped resets', () => {
   assert.match(footerSource, /api\.js\?onload=onKohTurnstileReady&render=explicit/);
+  assert.match(footerSource, /render=explicit" defer><\/script>/);
+  assert.doesNotMatch(footerSource, /render=explicit" async/);
+  assert.doesNotMatch(`${footerSource}\n${dialogSource}`, /turnstile\.ready\(/);
   assert.match(footerSource, /newsletterTurnstileWidgetId = turnstile\.render/);
   assert.match(footerSource, /reset\(newsletterTurnstileWidgetId\)/);
   assert.doesNotMatch(footerSource, /turnstileApi\?\.reset\(\)/);

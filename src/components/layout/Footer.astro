@@ -130,20 +130,18 @@ const updateRequestId = crypto.randomUUID();
                 window.dispatchEvent(new Event('koh:turnstile-ready'));
             };
         </script>
-        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onKohTurnstileReady&render=explicit" async defer></script>
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onKohTurnstileReady&render=explicit" defer></script>
     </>
 )}
 
 <script>
     type TurnstileApi = {
-        ready(callback: () => void): void;
         render(container: HTMLElement, options: Record<string, unknown>): string;
         reset(widgetId: string): void;
     };
 
     const newsletterTurnstileContainer = document.getElementById('newsletter-turnstile-widget');
     let newsletterTurnstileWidgetId: string | null = null;
-    let newsletterTurnstileRenderQueued = false;
 
     function getTurnstile(): TurnstileApi | undefined {
         return (window as Window & { turnstile?: TurnstileApi }).turnstile;
@@ -151,24 +149,18 @@ const updateRequestId = crypto.randomUUID();
 
     function renderNewsletterTurnstile() {
         if (!newsletterTurnstileContainer
-            || newsletterTurnstileWidgetId !== null
-            || newsletterTurnstileRenderQueued) return;
+            || newsletterTurnstileWidgetId !== null) return;
         const sitekey = newsletterTurnstileContainer.dataset.sitekey;
         const turnstile = getTurnstile();
         if (!sitekey || !turnstile) return;
 
-        newsletterTurnstileRenderQueued = true;
-        turnstile.ready(() => {
-            newsletterTurnstileRenderQueued = false;
-            if (newsletterTurnstileWidgetId !== null) return;
-            newsletterTurnstileWidgetId = turnstile.render(newsletterTurnstileContainer, {
-                sitekey,
-                action: 'updates_request',
-                theme: 'dark',
-                size: 'flexible',
-                appearance: 'interaction-only',
-                'response-field-name': 'turnstileToken',
-            });
+        newsletterTurnstileWidgetId = turnstile.render(newsletterTurnstileContainer, {
+            sitekey,
+            action: 'updates_request',
+            theme: 'dark',
+            size: 'flexible',
+            appearance: 'interaction-only',
+            'response-field-name': 'turnstileToken',
         });
     }
 
