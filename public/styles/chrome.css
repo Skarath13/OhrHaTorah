@@ -1323,9 +1323,14 @@ body .site-footer .footer-bottom p {
 
 body .site-footer .footer-legal {
     display: flex;
+    position: static;
+    top: auto;
+    z-index: auto;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 0.4rem 1rem;
+    background: transparent;
+    box-shadow: none;
 }
 
 body .site-footer .footer-legal a {

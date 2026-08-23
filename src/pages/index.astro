@@ -341,14 +341,14 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                         </div>
                     </article>
 
-                    <details class="home-reading-card home-reading-details" open>
-                        <summary>Explore this week's Torah readings</summary>
+                    <section class="home-reading-card" aria-labelledby="weekly-readings-title">
+                        <h3 class="home-reading-heading" id="weekly-readings-title">Explore this week's Torah readings</h3>
                         <figure class="home-reading-image">
                             <img src="/images/stock/torah-study.webp" alt="A hand following the text in a Torah scroll" width="1800" height="1200" loading="lazy" decoding="async">
                             <figcaption>Torah for this week</figcaption>
                         </figure>
                         <ParashahCard />
-                    </details>
+                    </section>
                 </div>
 
                 <section class="home-shabbat-dashboard" aria-label="Live Shabbat details">
@@ -510,7 +510,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
         compactMapViewport.addEventListener('change', syncMapLoading);
         syncMapLoading();
 
-        const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-reading-details, .home-rabbi-story');
+        const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-rabbi-story');
         const mobileDisclosureViewport = window.matchMedia('(max-width: 767px)');
         const syncMobileDisclosures = () => {
             mobileDisclosures.forEach((details) => {

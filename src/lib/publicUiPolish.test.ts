@@ -10,6 +10,11 @@ const calendarComponent = readFileSync(
     'utf8',
 );
 const homeStyles = readFileSync(`${repositoryRoot}/public/styles/home.css`, 'utf8');
+const chromeStyles = readFileSync(`${repositoryRoot}/public/styles/chrome.css`, 'utf8');
+const footer = readFileSync(
+    `${repositoryRoot}/src/components/layout/Footer.astro`,
+    'utf8',
+);
 
 test('homepage contact label and Scripture proportions reflect the requested balance', () => {
     assert.match(
@@ -78,4 +83,29 @@ test('calendar cards omit item counts and keep fluid Gregorian and Hebrew dates 
         /\.kehilat-calendar-gregorian-date,[\s\S]*?\.kehilat-calendar-event-hebrew-date \{ white-space: nowrap; \}/,
     );
     assert.doesNotMatch(homeStyles, /\.kehilat-calendar-date-count/);
+});
+
+test('mobile weekly readings stay open and shared footer controls remain stable', () => {
+    assert.match(
+        homepage,
+        /<section class="home-reading-card" aria-labelledby="weekly-readings-title">/,
+    );
+    assert.match(
+        homepage,
+        /<h3 class="home-reading-heading" id="weekly-readings-title">Explore this week's Torah readings<\/h3>/,
+    );
+    assert.doesNotMatch(homepage, /<details class="home-reading-card/);
+    assert.doesNotMatch(homepage, /\.home-reading-details/);
+    assert.match(
+        homeStyles,
+        /@media \(max-width: 767px\) \{[\s\S]*?\.home-reading-heading \{[^}]*display: flex;[^}]*min-height: 170px;/,
+    );
+
+    assert.match(
+        chromeStyles,
+        /body \.site-footer \.footer-legal \{[^}]*position: static;[^}]*background: transparent;[^}]*box-shadow: none;/,
+    );
+    assert.match(footer, /classList\.toggle\('visible', window\.scrollY > 300\)/);
+    assert.doesNotMatch(footer, /getBoundingClientRect\(\)/);
+    assert.doesNotMatch(footer, /style\.setProperty\('bottom'/);
 });
