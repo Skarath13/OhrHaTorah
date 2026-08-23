@@ -17,12 +17,18 @@ import { congregationName, homepageIdentityPreview, officialIdentityStatement } 
 const officialIdentityStatementRemainder = officialIdentityStatement.slice(congregationName.length);
 ---
 
-<BaseLayout stylesheets={["/styles/home.css"]}>
+<BaseLayout stylesheets={["/styles/home.css?v=20260823-home-motion-1"]}>
     <div class="home-site-chrome site-navigation-shell">
         <Header showLogo={false} />
         <Navigation />
     </div>
     <MobileNavigation />
+
+    <div class="home-scroll-thread" data-home-scroll-thread aria-hidden="true">
+        <span class="home-scroll-thread__track"></span>
+        <span class="home-scroll-thread__progress"></span>
+        <span class="home-scroll-thread__marker"></span>
+    </div>
 
     <main class="home-redesign">
         <section class="home-hero" aria-labelledby="home-hero-title">
@@ -78,7 +84,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         <section class="home-section home-community" aria-labelledby="about-us-title-heading">
             <div class="home-shell">
-                <div class="home-section-heading home-about-heading">
+                <div class="home-section-heading home-about-heading" data-home-motion-heading>
                     <div>
                         <h2 id="about-us-title-heading" data-editable="about-us-title">
                             <span data-editable="about-us-title-text">About Us</span>
@@ -145,7 +151,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
         <section class="home-section home-purpose" aria-labelledby="home-purpose-title">
             <div class="home-shell">
                 <div class="home-identity-intro">
-                    <div class="home-identity-heading">
+                    <div class="home-identity-heading" data-home-motion-heading>
                         <p class="home-identity-kicker">Who we are</p>
                         <h2 id="home-purpose-title">Our Identity</h2>
                     </div>
@@ -200,7 +206,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         <section class="home-section home-visit" aria-labelledby="visit-title">
             <div class="home-shell">
-                <div class="home-section-heading">
+                <div class="home-section-heading" data-home-motion-heading>
                     <div>
                         <h2 id="visit-title">Plan Your Visit</h2>
                     </div>
@@ -314,7 +320,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         <section class="home-section home-this-shabbat" aria-labelledby="this-shabbat-title">
             <div class="home-shell">
-                <div class="home-section-heading">
+                <div class="home-section-heading" data-home-motion-heading>
                     <div>
                         <h2 id="this-shabbat-title">This Shabbat</h2>
                     </div>
@@ -352,7 +358,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 </div>
 
                 <section class="home-shabbat-dashboard" aria-label="Live Shabbat details">
-                    <div class="home-dashboard-heading">
+                    <div class="home-dashboard-heading" data-home-motion-heading>
                         <h3>Shabbat at a glance</h3>
                     </div>
                     <div class="home-dashboard-grid">
@@ -392,7 +398,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         <section class="home-section home-calendar-section" aria-labelledby="upcoming-dates">
             <div class="home-shell">
-                <div class="home-section-heading">
+                <div class="home-section-heading" data-home-motion-heading>
                     <div>
                         <h2 id="upcoming-dates">Upcoming Dates</h2>
                     </div>
@@ -520,5 +526,82 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         mobileDisclosureViewport.addEventListener('change', syncMobileDisclosures);
         syncMobileDisclosures();
+
+        const homeMotionHeadings = Array.from(
+            document.querySelectorAll<HTMLElement>('[data-home-motion-heading]'),
+        );
+        const homeScrollThread = document.querySelector<HTMLElement>('[data-home-scroll-thread]');
+        let homeMotionObserver: IntersectionObserver | null = null;
+        let homeScrollFrame = 0;
+        let homeMotionEnabled = false;
+
+        const updateHomeScrollThread = () => {
+            homeScrollFrame = 0;
+            if (!homeScrollThread) return;
+
+            const homepage = document.querySelector<HTMLElement>('.home-redesign');
+            if (!homepage) return;
+
+            const start = homepage.offsetTop;
+            const distance = Math.max(1, homepage.offsetHeight - window.innerHeight);
+            const progress = Math.min(1, Math.max(0, (window.scrollY - start) / distance));
+
+            homeScrollThread.style.setProperty('--home-scroll-progress', progress.toFixed(4));
+        };
+
+        const requestHomeScrollThreadUpdate = () => {
+            if (homeScrollFrame) return;
+            homeScrollFrame = window.requestAnimationFrame(updateHomeScrollThread);
+        };
+
+        const enableHomeMotion = () => {
+            if (homeMotionEnabled || reducedMotion.matches || !('IntersectionObserver' in window)) return;
+
+            homeMotionEnabled = true;
+            document.documentElement.classList.add('home-motion-ready');
+            homeScrollThread?.setAttribute('data-home-scroll-ready', '');
+
+            homeMotionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    (entry.target as HTMLElement).classList.add('is-home-revealed');
+                    observer.unobserve(entry.target);
+                });
+            }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+
+            homeMotionHeadings.forEach((heading) => homeMotionObserver?.observe(heading));
+            window.addEventListener('scroll', requestHomeScrollThreadUpdate, { passive: true });
+            window.addEventListener('resize', requestHomeScrollThreadUpdate, { passive: true });
+            requestHomeScrollThreadUpdate();
+        };
+
+        const disableHomeMotion = () => {
+            if (!homeMotionEnabled) return;
+
+            homeMotionEnabled = false;
+            homeMotionObserver?.disconnect();
+            homeMotionObserver = null;
+            window.removeEventListener('scroll', requestHomeScrollThreadUpdate);
+            window.removeEventListener('resize', requestHomeScrollThreadUpdate);
+            if (homeScrollFrame) window.cancelAnimationFrame(homeScrollFrame);
+            homeScrollFrame = 0;
+
+            document.documentElement.classList.remove('home-motion-ready');
+            homeMotionHeadings.forEach((heading) => heading.classList.remove('is-home-revealed'));
+            homeScrollThread?.removeAttribute('data-home-scroll-ready');
+            homeScrollThread?.style.removeProperty('--home-scroll-progress');
+        };
+
+        const syncHomeMotion = () => {
+            if (reducedMotion.matches) {
+                disableHomeMotion();
+                return;
+            }
+
+            enableHomeMotion();
+        };
+
+        reducedMotion.addEventListener('change', syncHomeMotion);
+        syncHomeMotion();
     </script>
 </BaseLayout>
