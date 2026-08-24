@@ -214,6 +214,10 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-commitment-list p\s*\{[^}]*font-size:\s*clamp\(1\.08rem, 1\.35vw, 1\.18rem\)/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-value-list p\s*\{[^}]*font-size:\s*clamp\(1\.07rem, 1\.25vw, 1\.14rem\)/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-section-heading__eyebrow\s*\{[^}]*color:\s*#8a681f/s);
+    const visionTextRuleIndex = missionStyles.indexOf('.interior-shell .interior-page .identity-page .identity-vision__statement p {');
+    const featureVisionTextRuleIndex = missionStyles.indexOf('.interior-shell .interior-page .identity-page .identity-vision__statement--feature p {');
+    assert.ok(featureVisionTextRuleIndex > visionTextRuleIndex);
+    assert.match(missionStyles.slice(featureVisionTextRuleIndex), /^\.interior-shell[^}]*color:\s*rgba\(255, 255, 255, 0\.9\)/s);
     assert.match(missionStyles, /\.identity-statement strong\s*\{[^}]*color:\s*#fff/s);
     assert.match(missionStyles, /@media \(max-width: 600px\)/);
     assert.doesNotMatch(missionStyles, /::first-line/);

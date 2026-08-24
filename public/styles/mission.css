@@ -31,8 +31,7 @@
     color: #fff;
 }
 
-.interior-shell .interior-page .identity-page .identity-statement,
-.interior-shell .interior-page .identity-page .identity-vision__statement--feature p {
+.interior-shell .interior-page .identity-page .identity-statement {
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -306,7 +305,7 @@
     background: var(--interior-gold-soft);
 }
 
-.identity-page .identity-vision__statement--feature p {
+.interior-shell .interior-page .identity-page .identity-vision__statement--feature p {
     color: rgba(255, 255, 255, 0.9);
 }
 
