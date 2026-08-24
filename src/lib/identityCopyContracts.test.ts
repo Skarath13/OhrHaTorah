@@ -195,6 +195,7 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionSource, /visionAndPurposeParagraphs\.map/);
     assert.match(missionSource, /coreCommitments\.map/);
     assert.match(missionSource, /coreValueGroups\.map/);
+    assert.match(missionSource, /<ul class="identity-commitment-list">/);
     assert.match(missionSource, /<IdentityRichText content=\{paragraph\} \/>/);
     assert.match(missionSource, /<IdentityRichText content=\{commitment\} \/>/);
     assert.match(missionSource, /<IdentityRichText content=\{value\} \/>/);
@@ -205,6 +206,7 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionSource, /בָּרוּךְ הַבָּא בְּשֵׁם ה׳/);
     assert.doesNotMatch(missionSource, /יהוה/);
     assert.doesNotMatch(missionSource, /<details|data-editable/);
+    assert.doesNotMatch(missionSource, /padStart|__number|__count|<ol/);
 
     assert.match(missionStyles, /min-width: 0/);
     assert.match(missionStyles, /overflow-wrap: anywhere/);
@@ -213,4 +215,5 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.doesNotMatch(missionStyles, /::first-line/);
     assert.doesNotMatch(missionStyles, /\.identity-source-lead\s*\{[^}]*font-size/s);
     assert.doesNotMatch(missionStyles, /cursor:\s*pointer/);
+    assert.doesNotMatch(missionStyles, /__number|__count|counter-reset/);
 });

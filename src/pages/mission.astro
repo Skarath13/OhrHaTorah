@@ -28,21 +28,21 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
             <nav class="identity-navigation" aria-label="On this page">
                 <a href="#vision-and-purpose">
-                    <span class="identity-navigation__number" aria-hidden="true">01</span>
+                    <span class="identity-navigation__mark" aria-hidden="true"></span>
                     <span>
                         <strong>Vision and Purpose</strong>
                         <small>Three foundational statements</small>
                     </span>
                 </a>
                 <a href="#core-commitments">
-                    <span class="identity-navigation__number" aria-hidden="true">02</span>
+                    <span class="identity-navigation__mark" aria-hidden="true"></span>
                     <span>
                         <strong>Core Commitments</strong>
                         <small>Commitments and affirmations</small>
                     </span>
                 </a>
                 <a href="#core-values">
-                    <span class="identity-navigation__number" aria-hidden="true">03</span>
+                    <span class="identity-navigation__mark" aria-hidden="true"></span>
                     <span>
                         <strong>Core Values</strong>
                         <small>Three areas of shared life</small>
@@ -53,7 +53,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         <section id="vision-and-purpose" class="identity-section identity-vision" aria-labelledby="vision-and-purpose-title">
             <header class="identity-section-heading">
-                <span class="identity-section-heading__number" aria-hidden="true">01</span>
+                <span class="identity-section-heading__mark" aria-hidden="true"></span>
                 <div>
                     <p class="identity-section-heading__eyebrow">Our foundation</p>
                     <h2 id="vision-and-purpose-title">Vision and Purpose</h2>
@@ -62,8 +62,8 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
             <div class="identity-vision__statements">
                 {visionAndPurposeParagraphs.map((paragraph, index) => (
-                    <article class={`identity-vision__statement identity-vision__statement--${index + 1}`}>
-                        <span class="identity-vision__marker" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <article class={`identity-vision__statement${index === 2 ? ' identity-vision__statement--feature' : ''}`}>
+                        <span class="identity-vision__mark" aria-hidden="true"></span>
                         <p><IdentityRichText content={paragraph} /></p>
                     </article>
                 ))}
@@ -78,28 +78,26 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
 
         <section id="core-commitments" class="identity-section identity-commitments" aria-labelledby="core-commitments-title">
             <header class="identity-section-heading">
-                <span class="identity-section-heading__number" aria-hidden="true">02</span>
+                <span class="identity-section-heading__mark" aria-hidden="true"></span>
                 <div>
                     <p class="identity-section-heading__eyebrow">What we commit to and affirm</p>
                     <h2 id="core-commitments-title">Core Commitments and Affirmations</h2>
                 </div>
             </header>
 
-            <ol class="identity-commitment-list">
-                {coreCommitments.map((commitment, index) => (
+            <ul class="identity-commitment-list">
+                {coreCommitments.map((commitment) => (
                     <li id={commitment.id}>
-                        <span class="identity-commitment-list__number" aria-hidden="true">
-                            {String(index + 1).padStart(2, '0')}
-                        </span>
+                        <span class="identity-commitment-list__mark" aria-hidden="true"></span>
                         <p><IdentityRichText content={commitment} /></p>
                     </li>
                 ))}
-            </ol>
+            </ul>
         </section>
 
         <section id="core-values" class="identity-section identity-values" aria-labelledby="core-values-title">
             <header class="identity-section-heading">
-                <span class="identity-section-heading__number" aria-hidden="true">03</span>
+                <span class="identity-section-heading__mark" aria-hidden="true"></span>
                 <div>
                     <p class="identity-section-heading__eyebrow">How we live together</p>
                     <h2 id="core-values-title">Core Values</h2>
@@ -107,13 +105,11 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
             </header>
 
             <div class="identity-value-groups">
-                {coreValueGroups.map((group, groupIndex) => (
+                {coreValueGroups.map((group) => (
                     <section id={group.id} class="identity-value-group" aria-labelledby={`${group.id}-title`}>
                         <header class="identity-value-group__heading">
                             <span class="identity-value-group__symbol" aria-hidden="true">✦</span>
-                            <p>{String(groupIndex + 1).padStart(2, '0')}</p>
                             <h3 id={`${group.id}-title`}>{group.heading}</h3>
-                            <span class="identity-value-group__count">{group.values.length} values</span>
                         </header>
 
                         <ul class="identity-value-list">
