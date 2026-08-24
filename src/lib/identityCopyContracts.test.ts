@@ -210,6 +210,10 @@ test('the identity page publishes canonical arrays with accessible, responsive s
 
     assert.match(missionStyles, /min-width: 0/);
     assert.match(missionStyles, /overflow-wrap: anywhere/);
+    assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-statement\s*\{[^}]*font-size:\s*clamp\(1\.12rem, 2vw, 1\.45rem\)/s);
+    assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-commitment-list p\s*\{[^}]*font-size:\s*clamp\(1\.08rem, 1\.35vw, 1\.18rem\)/s);
+    assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-value-list p\s*\{[^}]*font-size:\s*clamp\(1\.07rem, 1\.25vw, 1\.14rem\)/s);
+    assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-section-heading__eyebrow\s*\{[^}]*color:\s*#8a681f/s);
     assert.match(missionStyles, /\.identity-statement strong\s*\{[^}]*color:\s*#fff/s);
     assert.match(missionStyles, /@media \(max-width: 600px\)/);
     assert.doesNotMatch(missionStyles, /::first-line/);
