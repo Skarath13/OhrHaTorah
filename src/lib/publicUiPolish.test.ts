@@ -65,6 +65,14 @@ test('calendar fills complete viewport-sized rows and keeps its source license i
     assert.match(homeStyles, /\.kehilat-calendar-attribution > summary \{[^}]*min-height: 44px;[^}]*cursor: pointer;/);
     assert.match(homeStyles, /\.kehilat-calendar-attribution > summary:focus-visible \{/);
     assert.match(homeStyles, /\.kehilat-calendar-attribution > p \{[^}]*max-width: 44rem;/);
+    assert.match(
+        homeStyles,
+        /\.home-calendar-section \.home-text-link \{[^}]*justify-self: end;/,
+    );
+    assert.match(
+        homeStyles,
+        /@media \(max-width: 767px\) \{[\s\S]*?\.home-calendar-section \.home-text-link \{ justify-self: start; \}/,
+    );
 });
 
 test('calendar cards omit item counts and keep fluid Gregorian and Hebrew dates together', () => {
