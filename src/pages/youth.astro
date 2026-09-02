@@ -1,53 +1,165 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import { canViewAdminPreview } from '../lib/adminPreview';
+
+const canPreview = canViewAdminPreview(Astro.locals.user);
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.append('Vary', 'Cookie');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 ---
 
-<PageLayout title="Shabbat School for Youth - Kehilat Ohr HaTorah" pageTitle="Shabbat School for Youth" pageIcon="fas fa-child" description="Kehilat Ohr HaTorah's plans for youth learning rooted in Torah, Jewish life, and faith in Yeshua.">
-    <p class="intro-text"><strong>We are laying the foundation for youth learning rooted in Torah, Jewish life, and faith in Yeshua.</strong></p>
+<PageLayout title="Shabbat School for Youth - Kehilat Ohr HaTorah" pageTitle="Shabbat School for Youth" pageIcon="fas fa-child" description="The Shabbat School for Youth page at Kehilat Ohr HaTorah is under construction.">
+    {canPreview ? (
+        <div class="youth-preview">
+            <aside class="youth-preview__notice" aria-labelledby="youth-preview-title">
+                <span class="youth-preview__badge"><i class="fas fa-lock" aria-hidden="true"></i> Internal admin preview</span>
+                <h2 id="youth-preview-title">The public still sees “under construction.”</h2>
+                <p>This planning page is visible only after a valid administrator session is confirmed on the server. Review the program details before publication.</p>
+            </aside>
 
-    <div class="priority-section">
-        <h3><i class="fas fa-seedling"></i> What We Are Building</h3>
-        <p>As our congregation grows, we are preparing a Shabbat School where children can learn Torah, Hebrew prayer, Jewish history, and the appointed times in an age-appropriate setting.</p>
-        <p>Children of all ages are welcome in our community while this ministry takes shape.</p>
-    </div>
+            <p class="intro-text"><strong>We are laying the foundation for youth learning rooted in Torah, Jewish life, and faith in Yeshua.</strong></p>
 
-    <div class="programs-section">
-        <h3><i class="fas fa-star"></i> What We're Planning</h3>
-        <div class="programs-grid">
-            <div class="program-item">
-                <i class="fas fa-torah"></i>
-                <span>Age-appropriate Torah study and Jewish history</span>
+            <div class="priority-section">
+                <h3><i class="fas fa-seedling"></i> What We Are Building</h3>
+                <p>As our congregation grows, we are preparing a Shabbat School where children can learn Torah, Hebrew prayer, Jewish history, and the appointed times in an age-appropriate setting.</p>
+                <p>Children of all ages are welcome in our community while this ministry takes shape.</p>
             </div>
-            <div class="program-item">
-                <i class="fas fa-language"></i>
-                <span>Hebrew language learning and prayer</span>
+
+            <div class="programs-section">
+                <h3><i class="fas fa-star"></i> What We're Planning</h3>
+                <div class="programs-grid">
+                    <div class="program-item">
+                        <i class="fas fa-torah"></i>
+                        <span>Age-appropriate Torah study and Jewish history</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="fas fa-language"></i>
+                        <span>Hebrew language learning and prayer</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Biblical holidays and traditions</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="fas fa-palette"></i>
+                        <span>Music, crafts, and interactive learning</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="fas fa-star-of-david"></i>
+                        <span>Understanding Yeshua as our Jewish Messiah</span>
+                    </div>
+                </div>
             </div>
-            <div class="program-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Biblical holidays and traditions</span>
-            </div>
-            <div class="program-item">
-                <i class="fas fa-palette"></i>
-                <span>Music, crafts, and interactive learning</span>
-            </div>
-            <div class="program-item">
-                <i class="fas fa-star-of-david"></i>
-                <span>Understanding Yeshua as our Jewish Messiah</span>
+
+            <div class="involvement-section">
+                <h3><i class="fas fa-heart"></i> Get Involved</h3>
+                <p>If you have children or would like to help build this ministry, please contact us.</p>
+                <div class="contact-info">
+                    <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
+                    <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="involvement-section">
-        <h3><i class="fas fa-heart"></i> Get Involved</h3>
-        <p>If you have children or would like to help build this ministry, please contact us.</p>
-        <div class="contact-info">
-            <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
-        </div>
-    </div>
+    ) : (
+        <section class="youth-pending" aria-labelledby="youth-pending-title" data-admin-preview-gate>
+            <span class="youth-pending__icon" aria-hidden="true"><i class="fas fa-child"></i></span>
+            <p class="youth-pending__eyebrow">Youth learning</p>
+            <h2 id="youth-pending-title">This section is under construction.</h2>
+            <p>We are reviewing plans for youth learning and will publish program details after that review is complete.</p>
+        </section>
+    )}
 </PageLayout>
 
 <style>
+    .youth-preview {
+        display: grid;
+        gap: 30px;
+    }
+
+    .youth-preview__notice {
+        padding: clamp(1.5rem, 4vw, 2.5rem);
+        border: 1px solid rgba(177, 128, 24, 0.38);
+        border-radius: 1rem 1rem 3rem 1rem;
+        background: linear-gradient(135deg, rgba(7, 36, 66, 0.98), rgba(13, 51, 91, 0.94));
+        box-shadow: 0 20px 45px rgba(6, 29, 53, 0.17);
+        color: #fff;
+    }
+
+    .youth-preview__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem;
+        color: #f4d56b;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+    }
+
+    .youth-preview__notice h2 {
+        margin: 0 0 0.75rem;
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 4vw, 2.5rem);
+        line-height: 1.15;
+    }
+
+    .youth-preview__notice p {
+        max-width: 66ch;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.88);
+        line-height: 1.7;
+    }
+
+    .youth-pending {
+        box-sizing: border-box;
+        max-width: 760px;
+        margin: clamp(1rem, 4vw, 3rem) auto;
+        padding: clamp(2rem, 6vw, 4.5rem);
+        border: 1px solid rgba(13, 51, 91, 0.18);
+        border-radius: 1rem 1rem 3rem 1rem;
+        background: rgba(255, 253, 248, 0.78);
+        text-align: center;
+    }
+
+    .youth-pending__icon {
+        display: inline-grid;
+        width: 4rem;
+        height: 4rem;
+        margin-bottom: 1.25rem;
+        border: 1px solid rgba(177, 128, 24, 0.42);
+        border-radius: 50%;
+        place-items: center;
+        color: var(--gold-dark);
+        font-size: 1.5rem;
+    }
+
+    .youth-pending__eyebrow {
+        margin: 0 0 0.65rem;
+        color: var(--gold-dark);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .youth-pending h2 {
+        margin: 0 0 1rem;
+        color: var(--primary-blue);
+        font-family: var(--font-display);
+        font-size: clamp(1.9rem, 5vw, 3rem);
+        line-height: 1.12;
+        text-wrap: balance;
+    }
+
+    .youth-pending > p:last-child {
+        max-width: 58ch;
+        margin: 0 auto;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
     .intro-text {
         text-align: center;
         font-size: 1.2rem;

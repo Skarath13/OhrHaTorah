@@ -56,6 +56,18 @@ test('the Messianic Jewish resources directory stays under construction during r
     assert.doesNotMatch(`${resourcesSource}\n${resourceData}`, /Jews for Jesus|Chosen People Ministries|Jewish Voice Ministries/);
 });
 
+test('the Shabbat School page stays under construction during review', () => {
+    const youthSource = readFileSync(join(root, 'src/pages/youth.astro'), 'utf8');
+
+    assert.match(youthSource, /<h2 id="youth-pending-title">This section is under construction\.<\/h2>/);
+    assert.match(youthSource, /will publish program details after that review is complete/);
+    assert.match(youthSource, /const canPreview = canViewAdminPreview\(Astro\.locals\.user\)/);
+    assert.match(youthSource, /Cache-Control', 'private, no-store, max-age=0'/);
+    assert.match(youthSource, /X-Robots-Tag', 'noindex, nofollow'/);
+    assert.match(youthSource, /data-admin-preview-gate/);
+    assert.match(youthSource, /\{canPreview \? \(/);
+});
+
 test('primary navigation does not expose placeholder destinations', () => {
     const navigationSource = readFileSync(join(root, 'src/components/layout/Navigation.astro'), 'utf8');
     assert.doesNotMatch(navigationSource, /href="#"/);
