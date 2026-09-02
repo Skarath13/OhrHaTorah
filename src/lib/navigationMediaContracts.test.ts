@@ -92,12 +92,12 @@ test('legacy 431-768 nav positioning cannot move the mobile dialog below the vie
     assert.doesNotMatch(navigationSource, /nav-drawer-header|nav-close-btn|nav-overlay/);
 });
 
-test('homepage and byte-range route use the versioned forward-reverse hero media', () => {
+test('homepage and byte-range route use the versioned eased forward-reverse hero media', () => {
     const variants = ['desktop', 'mobile'];
 
     for (const variant of variants) {
-        const mp4Name = `ohr-hatorah-hero-${variant}-loop-v2.mp4`;
-        const webmName = `ohr-hatorah-hero-${variant}-loop-v2.webm`;
+        const mp4Name = `ohr-hatorah-hero-${variant}-loop-v3.mp4`;
+        const webmName = `ohr-hatorah-hero-${variant}-loop-v3.webm`;
         assert.match(heroRouteSource, new RegExp(mp4Name.replaceAll('.', '\\.')));
         assert.match(homeSource, new RegExp(webmName.replaceAll('.', '\\.')));
         assert.ok(existsSync(new URL(`../../public/media/hero/${mp4Name}`, import.meta.url)));
@@ -105,8 +105,9 @@ test('homepage and byte-range route use the versioned forward-reverse hero media
     }
 
     assert.match(homeSource, /<video[\s\S]*?\sloop\s/);
-    assert.match(homeSource, /\/api\/hero-video\/mobile-v2/);
-    assert.match(homeSource, /\/api\/hero-video\/desktop-v2/);
+    assert.match(homeSource, /\/api\/hero-video\/mobile-v3/);
+    assert.match(homeSource, /\/api\/hero-video\/desktop-v3/);
+    assert.doesNotMatch(homeSource, /hero-(?:video\/)?(?:mobile|desktop)(?:-loop)?-v2/);
 });
 
 test('responsive brand fills the fixed header and hero separates brand from copy at every width', () => {

@@ -2,10 +2,12 @@ import type { APIRoute } from 'astro';
 import { parseSingleByteRange } from '../../../lib/mediaRange';
 
 const HERO_VIDEOS = {
-    mobile: '/media/hero/ohr-hatorah-hero-mobile-loop-v2.mp4',
-    desktop: '/media/hero/ohr-hatorah-hero-desktop-loop-v2.mp4',
-    'mobile-v2': '/media/hero/ohr-hatorah-hero-mobile-loop-v2.mp4',
-    'desktop-v2': '/media/hero/ohr-hatorah-hero-desktop-loop-v2.mp4'
+    mobile: '/media/hero/ohr-hatorah-hero-mobile-loop-v3.mp4',
+    desktop: '/media/hero/ohr-hatorah-hero-desktop-loop-v3.mp4',
+    'mobile-v2': '/media/hero/ohr-hatorah-hero-mobile-loop-v3.mp4',
+    'desktop-v2': '/media/hero/ohr-hatorah-hero-desktop-loop-v3.mp4',
+    'mobile-v3': '/media/hero/ohr-hatorah-hero-mobile-loop-v3.mp4',
+    'desktop-v3': '/media/hero/ohr-hatorah-hero-desktop-loop-v3.mp4'
 } as const;
 
 type HeroVariant = keyof typeof HERO_VIDEOS;
@@ -14,7 +16,9 @@ function isHeroVariant(value: string | undefined): value is HeroVariant {
     return value === 'mobile'
         || value === 'desktop'
         || value === 'mobile-v2'
-        || value === 'desktop-v2';
+        || value === 'desktop-v2'
+        || value === 'mobile-v3'
+        || value === 'desktop-v3';
 }
 
 function buildHeaders(upstream: Response, contentLength: number): Headers {
