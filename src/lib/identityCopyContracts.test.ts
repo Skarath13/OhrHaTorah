@@ -38,11 +38,13 @@ test('leadership-selected identity language and theological vocabulary remain ex
     );
     assert.match(visionAndPurposeParagraphs[0].text, /living lives worthy of our calling in the full Besorah \(good news\) of Messiah Yeshua/);
     assert.match(visionAndPurposeParagraphs[1].text, /unified and loving bilateral community/);
+    assert.match(visionAndPurposeParagraphs[2].text, /^In the merit of Yeshua, the Kingdom of God will be fully realized/);
     assert.match(visionAndPurposeParagraphs[2].text, /restored, redeemed, and regathered Jewish people in the land of Israel/);
     assert.match(allCommitments, /authoritative teachings of the Tanakh \(Torah, Prophets, and Writings\) and the Brit Chadashah/);
     assert.match(allCommitments, /We affirm the bilateral, variegated, nature of adat haMashiach/);
     assert.match(allCommitments, /residual theological supersessionism/);
     assert.match(allCommitments, /shlichim \(שליחים apostles, emissaries\)/);
+    assert.match(allCommitments, /Paul instead calls for oneness \(unity\) while continuing to retain our distinctions \(Galatians 3:28\)\./);
     assert.match(allValues, /ahavat chinam \(אהבת חינם\), unconditional love/);
     assert.match(allValues, /Tikkun Olam, the repairing \(or at least improving\) of the world/);
 });
@@ -117,6 +119,8 @@ test('source-selected emphasis is encoded as exact rich-text runs', () => {
         [
             ['Besorah,', 'italic'],
             ['Brit Chadashah', 'italic'],
+            ['thoroughly Gentile', 'italic'],
+            ['“one new man”', 'bold'],
         ]
     );
 
@@ -186,7 +190,7 @@ test('the homepage preview has stable, compact consumer shapes', () => {
 test('the identity page publishes canonical arrays with accessible, responsive structure', () => {
     assert.match(missionSource, /title="Our Vision, Commitments & Values - Kehilat Ohr HaTorah"/);
     assert.match(missionSource, /pageTitle="Our Identity"/);
-    assert.match(missionSource, /stylesheets=\{\['\/styles\/mission\.css'\]\}/);
+    assert.match(missionSource, /stylesheets=\{\['\/styles\/mission\.css\?v=20260901-approved-copy-1'\]\}/);
     assert.match(missionSource, /<nav class="identity-navigation" aria-label="On this page">/);
     assert.match(missionSource, /<h2 id="vision-and-purpose-title">Vision and Purpose<\/h2>/);
     assert.match(missionSource, /<h2 id="core-commitments-title">Core Commitments and Affirmations<\/h2>/);
@@ -201,6 +205,7 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionSource, /<IdentityRichText content=\{value\} \/>/);
     assert.match(richTextSource, /content\.runs\.map/);
     assert.match(richTextSource, /<strong class="identity-source-lead"><em>\{run\.text\}<\/em><\/strong>/);
+    assert.match(richTextSource, /run\.style === 'bold'[\s\S]*?<strong>\{run\.text\}<\/strong>/);
     assert.match(richTextSource, /<em><u>\{run\.text\}<\/u><\/em>/);
     assert.match(richTextSource, /<span lang=\{run\.language\} dir=\{run\.direction\}>/);
     assert.match(missionSource, /בָּרוּךְ הַבָּא בְּשֵׁם ה׳/);
@@ -213,6 +218,8 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-statement\s*\{[^}]*font-size:\s*clamp\(1\.12rem, 2vw, 1\.45rem\)/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-commitment-list p\s*\{[^}]*font-size:\s*clamp\(1\.08rem, 1\.35vw, 1\.18rem\)/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-value-list p\s*\{[^}]*font-size:\s*clamp\(1\.07rem, 1\.25vw, 1\.14rem\)/s);
+    assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-hebrew-seal\s*\{[^}]*font-size:\s*clamp\(2\.16rem, 5\.6vw, 3\.6rem\)/s);
+    assert.match(missionStyles, /\.identity-hebrew-seal span\s*\{[^}]*font-size:\s*0\.375em/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-section-heading__eyebrow\s*\{[^}]*color:\s*#8a681f/s);
     const visionTextRuleIndex = missionStyles.indexOf('.interior-shell .interior-page .identity-page .identity-vision__statement p {');
     const featureVisionTextRuleIndex = missionStyles.indexOf('.interior-shell .interior-page .identity-page .identity-vision__statement--feature p {');

@@ -43,6 +43,19 @@ test('visitor guidance does not advertise programs that are still being planned'
     assert.doesNotMatch(faqSource, /We offer Hebrew classes/i);
 });
 
+test('the Messianic Jewish resources directory stays under construction during review', () => {
+    const resourcesSource = readFileSync(join(root, 'src/pages/resources.astro'), 'utf8');
+    const resourceData = readFileSync(join(root, 'src/data/resourceDirectory.ts'), 'utf8');
+
+    assert.match(resourcesSource, /<h2 id="resources-pending-title">This section is under construction\.<\/h2>/);
+    assert.match(resourcesSource, /will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete/);
+    assert.match(resourcesSource, /const canPreview = canViewAdminPreview\(Astro\.locals\.user\)/);
+    assert.match(resourcesSource, /Cache-Control', 'private, no-store, max-age=0'/);
+    assert.match(resourcesSource, /data-admin-preview-gate/);
+    assert.match(resourcesSource, /\{canPreview \? \(/);
+    assert.doesNotMatch(`${resourcesSource}\n${resourceData}`, /Jews for Jesus|Chosen People Ministries|Jewish Voice Ministries/);
+});
+
 test('primary navigation does not expose placeholder destinations', () => {
     const navigationSource = readFileSync(join(root, 'src/components/layout/Navigation.astro'), 'utf8');
     assert.doesNotMatch(navigationSource, /href="#"/);

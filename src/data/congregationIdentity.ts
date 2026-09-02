@@ -1,4 +1,4 @@
-export type IdentityTextStyle = 'lead' | 'italic' | 'italic-underline';
+export type IdentityTextStyle = 'lead' | 'bold' | 'italic' | 'italic-underline';
 
 export type IdentityTextRun = {
     readonly text: string;
@@ -74,7 +74,7 @@ export const visionAndPurposeParagraphs: readonly IdentityRichText[] = [
         { text: ' of Yeshua, to serve Him and to help heal the schism, the “parting of the ways,” between the wider covenant Jewish community and the largely non-Jewish followers of Yeshua.' },
     ),
     richText({
-        text: 'In His merit, the Kingdom of God will be fully realized for a restored, redeemed, and regathered Jewish people in the land of Israel at the return of Yeshua (Acts 1:6, 3:19-21). In that day – may it be soon – we will be joined by all of our Jewish people in welcoming our coming Messiah King (Psalm 118:26, Matthew 23:39).',
+        text: 'In the merit of Yeshua, the Kingdom of God will be fully realized for a restored, redeemed, and regathered Jewish people in the land of Israel at the return of Yeshua (Acts 1:6, 3:19-21). In that day – may it be soon – we will be joined by all of our Jewish people in welcoming our coming Messiah King (Psalm 118:26, Matthew 23:39).',
     }),
 ];
 
@@ -106,9 +106,15 @@ export const coreCommitments: readonly IdentityStatement[] = [
     commitment('bilateral-community', 'We affirm', {
         text: ' the bilateral, variegated, nature of adat haMashiach (the Messiah’s community). As such, all non-Jewish members in Messiah are spiritually connected to the covenant Jewish community (Romans 11:24, Ephesians 2:12-13). Jewish members remain fully responsible to the covenants made with Israel (implied by Paul’s rule in I Corinthians 7:17-18) while non-Jewish members, having no call for Jewish conversion, bear a reduced covenant obligation as determined by the early Jerusalem Council (Acts 15:19-21, 27-29). We affirm the ruling in Acts 15 as a minimum starting point for Gentiles, fully expecting their maturing covenant observance for the sake of so-called table fellowship and personal spiritual growth.',
     }),
-    commitment('distinct-callings-and-unity', 'We affirm and honor', {
-        text: ' the distinct identity and calling of both Jewish and non-Jewish members of our community equally – supporting their differing covenant obligations (Acts 15:19-21, 27-29) while also supporting the absolute unity of all believers within the bilateral community of Messiah. The resulting variegated community of Jewish and non-Jewish members is articulated clearly in Rav Shaul’s “rule” for all congregations in Messiah (1 Corinthians 7:17-18). The consequence of 2,000 years of neglecting Paul’s rule has been the emergence of a thoroughly Gentile “one new man” that Paul never intended (Ephesians 2:15).',
-    }),
+    commitment(
+        'distinct-callings-and-unity',
+        'We affirm and honor',
+        { text: ' the distinct identity and calling of both Jewish and non-Jewish members of our community equally – supporting their differing covenant obligations (Acts 15:19-21, 27-29) while also supporting the absolute unity of all believers within the bilateral community of Messiah. The resulting variegated community of Jewish and non-Jewish members is articulated clearly in Rav Shaul’s “rule” for all congregations in Messiah (1 Corinthians 7:17-18). The consequence of 2,000 years of neglecting Paul’s rule has been the emergence of a ' },
+        { text: 'thoroughly Gentile', style: 'italic' },
+        { text: ' ' },
+        { text: '“one new man”', style: 'bold' },
+        { text: ' that Paul never intended in Ephesians 2:15. Paul instead calls for oneness (unity) while continuing to retain our distinctions (Galatians 3:28).' },
+    ),
     commitment('covenant-community', 'We affirm', {
         text: ' that the wider Jewish community continues to exist as the one and only covenant community – according to the terms of the Abrahamic, Torah, and Brit Chadashah covenants made with Israel exclusively (Jeremiah 31:33). The apostle Paul portrays non-Jewish individuals in Messiah as participating in the covenants when “grafted in” to the covenant community olive tree (Romans 11:17) and thereby becoming members of the “commonwealth” of Israel (Ephesians 2:12-13).',
     }),

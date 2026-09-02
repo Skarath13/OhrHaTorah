@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { rabbi } from '../data/rabbi.ts';
 
 const readSource = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
 const homeSource = readSource('../pages/index.astro');
+const aboutSource = readSource('../pages/about.astro');
+const expectSource = readSource('../pages/expect.astro');
+const servicesSource = readSource('../pages/services.astro');
 const homeStyles = readSource('../../public/styles/home.css');
 const legacyStyles = readSource('../../public/styles/style.css');
 const liveClockSource = readSource('../components/islands/LiveClock.astro');
@@ -22,14 +26,14 @@ test('computed prayer times are retired from the homepage without dormant runtim
     assert.match(archiveSource, /06a750cf192ef3126b7f430e2af5fc58a45b5e95/);
 });
 
-test('Shabbat at a glance keeps candle lighting and presents the next Shabbat dates', () => {
+test('Shabbat at a glance keeps candle lighting and presents the upcoming Shabbat details', () => {
     assert.match(homeSource, /<CandleLighting \/>/);
     assert.match(homeSource, /<LiveClock \/>/);
     assert.match(homeStyles, /\.home-dashboard-grid \{ display: grid; grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-    assert.match(liveClockSource, />Next Shabbat</);
+    assert.match(liveClockSource, />Upcoming Shabbat</);
     assert.match(liveClockSource, />Hebrew Date</);
     assert.match(liveClockSource, />Gregorian Date</);
-    assert.match(liveClockSource, />Mincha Service</);
+    assert.match(liveClockSource, />Mincha Prayer and Torah Service</);
     assert.match(liveClockSource, /datetime="14:30"[^>]*>2:30 p\.m\.<\/time>/);
     assert.match(homeStyles, /\.clock-service-time[^)]*\.clock-time\) \{\s*color: #fff !important;/);
     assert.match(homeStyles, /\.clock-panel-service/);
@@ -44,7 +48,40 @@ test('Shabbat gathering uses the approved afternoon schedule', () => {
     assert.match(homeSource, /<time datetime="14:30">2:30 p\.m\.<\/time>[\s\S]*?<strong>Messianic Jewish Music and Dance<\/strong>/);
     assert.match(homeSource, /<time datetime="15:00">3:00 p\.m\.<\/time>[\s\S]*?<strong>Traditional Prayers and Torah Service<\/strong>/);
     assert.match(homeSource, /<time datetime="16:30">4:30 p\.m\.<\/time>[\s\S]*?<strong>Kiddush, food, and discussion<\/strong>/);
+    for (const source of [servicesSource, expectSource]) {
+        assert.match(source, /<div class="time-badge green">4:30 PM<\/div>[\s\S]*?<strong>Kiddush, food, and discussion<\/strong>/);
+        assert.doesNotMatch(source, /Interactive Scripture Discussion/);
+    }
     assert.doesNotMatch(homeSource, /home-timeline-row-friday|Shabbat begins at home|Festive Shabbat meals in the home/);
+});
+
+test('the leadership-approved welcome, About Us, and rabbi copy remains exact', () => {
+    assert.match(
+        homeSource,
+        /<strong>Kehilat Ohr HaTorah<\/strong> is a Messianic Jewish synagogue in Orange County, California\. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families\./,
+    );
+    assert.match(
+        homeSource,
+        /<strong>Kehilat Ohr HaTorah:<\/strong> where Torah, tradition, Jewish life, and faith in Yeshua unite as one\./,
+    );
+    assert.match(homeSource, /is a newly formed Messianic Jewish synagogue in Orange County, California\./);
+    assert.match(homeSource, /Join with us in exploring the unmeasurable riches of Messiah Yeshua\./);
+    assert.match(homeSource, /Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English\./);
+    assert.match(homeSource, /Translations are always provided for spoken and written Hebrew\. Teachings and homilies are mostly in English\./);
+    assert.match(homeSource, /data-editable="rabbi-bio">\{rabbi\.bio\}<\/p>/);
+    assert.match(homeSource, /data-editable="rabbi-bio-extended">\{rabbi\.bioExtended\}<\/p>/);
+
+    assert.equal(
+        rabbi.bio,
+        'Rabbi Ott has served in Rabbinic and congregational leadership for over 35 years. His extensive graduate work includes classical Jewish literature and commentary, Messianic Jewish and Christian theology, apologetics, music, and public education. He offers a warm, deep understanding of sacred Scripture and expansive Jewish thought with meaningful application to our lives today.',
+    );
+    assert.equal(
+        rabbi.bioExtended,
+        'Rabbi Ott loves welcoming new friends—please feel free to introduce yourself at an upcoming service or reach out to connect directly.',
+    );
+
+    assert.match(aboutSource, /growing Messianic Jewish synagogue in Orange County, California\./);
+    assert.match(aboutSource, /Jewish and non-Jewish individuals, interfaith couples, and families are welcome\./);
 });
 
 test('Shabbat timeline times scale legibly without squeezing service titles', () => {

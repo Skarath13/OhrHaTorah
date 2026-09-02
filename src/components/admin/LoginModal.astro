@@ -428,6 +428,13 @@
         if (fab) {
           fab.style.display = 'flex';
         }
+
+        // Review-only pages are rendered from the validated server session.
+        // Reload after login so the server can replace the public gate with
+        // the administrator preview; never reveal it from client-side state.
+        if (document.querySelector('[data-admin-preview-gate]')) {
+          window.location.reload();
+        }
       } else {
         showError(data.error || 'Invalid PIN');
       }
@@ -465,8 +472,11 @@
       adminLink.addEventListener('click', (e) => {
         e.preventDefault();
 
-        // Check if already logged in
-        if (document.cookie.includes('oht_logged_in')) {
+        // A stale UI indicator must not strand someone on a server-gated page.
+        // Offer a real login there even when the browser hint cookie exists.
+        if (document.querySelector('[data-admin-preview-gate]')) {
+          window.showLoginModal();
+        } else if (document.cookie.includes('oht_logged_in')) {
           // Already logged in - show FAB and maybe enter edit mode
           const fab = document.getElementById('adminEditFab');
           if (fab) {

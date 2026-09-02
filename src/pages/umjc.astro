@@ -3,241 +3,219 @@ import PageLayout from '../layouts/PageLayout.astro';
 ---
 
 <PageLayout title="UMJC Membership - Kehilat Ohr HaTorah" pageTitle="UMJC Membership" pageIcon="fas fa-handshake" description="Kehilat Ohr HaTorah's membership in the Union of Messianic Jewish Congregations.">
-
-    <p class="intro-text"><strong>Kehilat Ohr HaTorah</strong> is a member of the Union of Messianic Jewish Congregations.</p>
-
-    <!-- About UMJC -->
-    <div class="about-section">
-        <h3><i class="fas fa-synagogue"></i> About the UMJC</h3>
-        <p>The UMJC connects Messianic Jewish congregations for mutual support, leadership development, shared learning, and practical guidance.</p>
-    </div>
-
-    <!-- Definition -->
-    <div class="vision-section">
-        <h3><i class="fas fa-scroll"></i> What is Messianic Judaism?</h3>
-        <p class="definition-copy">Messianic Judaism joins faith in Yeshua the Messiah with Jewish life and identity rooted in Torah and expressed through Jewish tradition.</p>
-    </div>
-
-    <!-- UMJC Values -->
-    <div class="values-section">
-        <h3><i class="fas fa-gem"></i> UMJC Values</h3>
-        <div class="values-grid">
-            <div class="value-card">
-                <div class="value-header">
-                    <i class="fas fa-handshake"></i>
-                <h4>Unity in diversity</h4>
-                </div>
-                <p>Standing together in shared faith while respecting the variety within Messianic Judaism.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-header">
-                    <i class="fas fa-users"></i>
-                    <h4>Community relationships</h4>
-                </div>
-                <p>Building lasting relationships among congregations and leaders.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-header">
-                    <i class="fas fa-seedling"></i>
-                    <h4>Communal growth</h4>
-                </div>
-                <p>Strengthening congregations and leaders through learning, mentorship, and shared resources.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-header">
-                    <i class="fas fa-balance-scale"></i>
-                    <h4>Integrity</h4>
-                </div>
-                <p>Practicing accountability in leadership, teaching, and congregational life.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-header">
-                    <i class="fas fa-heart"></i>
-                    <h4>Dignity and inclusion</h4>
-                </div>
-                <p>Treating each person with dignity while honoring Jewish life and identity.</p>
-            </div>
+    <section class="umjc-lead" aria-labelledby="umjc-lead-title">
+        <p class="umjc-kicker"><i class="fas fa-handshake" aria-hidden="true"></i> Member congregation</p>
+        <h2 id="umjc-lead-title"><strong>Kehilat Ohr HaTorah</strong> is a member of the Union of Messianic Jewish Congregations.</h2>
+        <p>The most reliable way to understand the UMJC is through its own published vision and definition. Those primary statements are linked first below.</p>
+        <div class="umjc-primary-links">
+            <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">
+                Read the UMJC vision and beliefs <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.umjc.org/defining-messianic-judaism" target="_blank" rel="noopener noreferrer">
+                Read the UMJC definition <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
         </div>
+    </section>
+
+    <div class="umjc-sections">
+        <section class="umjc-section" aria-labelledby="about-umjc-title">
+            <span class="umjc-section__icon" aria-hidden="true"><i class="fas fa-synagogue"></i></span>
+            <div>
+                <p class="umjc-kicker">About the union</p>
+                <h2 id="about-umjc-title">A shared Messianic Jewish framework</h2>
+                <p>The UMJC's published vision centers Yeshua the Messiah, covenantal Jewish life, Torah, Jewish tradition, and the New Covenant. Its fuller statements address communal life, Jewish and non-Jewish participation, belief, and accountability.</p>
+            </div>
+        </section>
+
+        <section class="umjc-section" aria-labelledby="our-identity-title">
+            <span class="umjc-section__icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
+            <div>
+                <p class="umjc-kicker">Our congregation</p>
+                <h2 id="our-identity-title">How that connects here</h2>
+                <p>Our own approved identity statement and full congregational commitments are published separately so visitors can distinguish what Kehilat Ohr HaTorah affirms from material on an external site.</p>
+                <a class="umjc-text-link" href="/mission">Read our vision, commitments, affirmations, and values <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </section>
     </div>
 
-    <!-- Learn More CTA -->
-    <div class="cta-section">
-        <h3><i class="fas fa-external-link-alt"></i> Learn More</h3>
-        <p>Explore the UMJC's history, vision, and congregational resources.</p>
-        <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer" class="cta-button">
-            <i class="fas fa-globe"></i> Visit the UMJC website
+    <aside class="umjc-site-link" aria-label="UMJC website">
+        <div>
+            <p class="umjc-kicker">Continue at the source</p>
+            <h2>Explore the UMJC</h2>
+            <p>Visit the union's website for its history, congregations, leadership, and current resources.</p>
+        </div>
+        <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer">
+            Visit umjc.org <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
         </a>
-    </div>
+    </aside>
 </PageLayout>
 
 <style>
-    .intro-text {
-        text-align: center;
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-        color: var(--text-primary);
+    .umjc-lead {
+        padding: clamp(1.6rem, 5vw, 3.2rem);
+        border: 1px solid rgba(13, 51, 91, 0.15);
+        border-radius: 1rem 1rem 3rem 1rem;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.75), rgba(237, 226, 196, 0.42));
+        box-shadow: 0 18px 42px rgba(6, 29, 53, 0.08);
     }
 
-    /* About Section */
-    .about-section {
-        background: rgba(0, 102, 204, 0.08);
-        padding: 30px;
-        border-radius: 12px;
-        border-left: 4px solid var(--primary-blue);
-        margin-bottom: 30px;
-    }
-
-    .about-section h3 {
-        color: var(--primary-blue);
-        margin: 0 0 15px 0;
-    }
-
-    .about-section p {
-        line-height: 1.7;
-        color: var(--text-secondary);
-        margin-bottom: 20px;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 15px;
-        margin-top: 20px;
-    }
-
-    .stat-item {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .stat-number {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--primary-blue);
-    }
-
-    .stat-label {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-
-    /* Vision Section */
-    .vision-section {
-        margin-bottom: 30px;
-    }
-
-    .vision-section h3 {
+    .umjc-kicker {
+        margin: 0 0 0.65rem;
         color: var(--gold-dark);
-        margin: 0 0 15px 0;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
     }
 
-    .vision-section .definition-copy {
-        background: var(--gray-100);
-        padding: 25px;
-        border-radius: 8px;
-        border-left: 4px solid var(--gold-dark);
-        margin: 0;
-        font-size: 1.05rem;
-        line-height: 1.7;
-        color: var(--text-primary);
+    .umjc-kicker i {
+        margin-right: 0.4rem;
     }
 
-    /* Values Section */
-    .values-section {
-        margin-bottom: 30px;
-    }
-
-    .values-section h3 {
-        color: var(--primary-blue);
-        margin: 0 0 20px 0;
-    }
-
-    .values-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-    }
-
-    .value-card {
-        background: var(--gray-100);
-        padding: 20px;
-        border-radius: 8px;
-    }
-
-    .value-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 10px;
-    }
-
-    .value-header i {
-        font-size: 1.3rem;
-        color: var(--primary-blue);
-    }
-
-    .value-header h4 {
+    .umjc-lead h2,
+    .umjc-section h2,
+    .umjc-site-link h2 {
         margin: 0;
         color: var(--primary-blue);
-        font-size: 1rem;
+        font-family: var(--font-display);
+        line-height: 1.15;
     }
 
-    .value-card p {
-        margin: 0;
+    .umjc-lead h2 {
+        max-width: 25ch;
+        font-size: clamp(1.75rem, 4.5vw, 2.8rem);
+    }
+
+    .umjc-lead > p:not(.umjc-kicker) {
+        max-width: 70ch;
+        margin: 1rem 0 0;
         color: var(--text-secondary);
-        font-size: 0.95rem;
-        line-height: 1.6;
+        line-height: 1.7;
     }
 
-    /* CTA Section */
-    .cta-section {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 35px;
-        border-radius: 12px;
-        text-align: center;
+    .umjc-primary-links {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.7rem;
+        margin-top: 1.4rem;
     }
 
-    .cta-section h3 {
-        color: white;
-        margin: 0 0 10px 0;
-    }
-
-    .cta-section p {
-        margin: 0 0 20px 0;
-        font-size: 1.1rem;
-        opacity: 0.95;
-    }
-
-    .cta-button {
+    .umjc-primary-links a,
+    .umjc-site-link > a {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        background: var(--gold);
-        color: var(--primary-blue);
+        justify-content: center;
+        gap: 0.55rem;
+        padding: 0.82rem 1rem;
+        border-radius: 0.5rem;
+        background: var(--primary-blue);
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 800;
+        line-height: 1.3;
+        text-align: center;
         text-decoration: none;
-        padding: 14px 28px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    .cta-button:hover {
-        background: var(--gold-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    .umjc-primary-links a:hover,
+    .umjc-primary-links a:focus-visible,
+    .umjc-site-link > a:hover,
+    .umjc-site-link > a:focus-visible {
+        background: #004080;
+    }
+
+    .umjc-sections {
+        display: grid;
+        gap: 1rem;
+        margin: clamp(2rem, 5vw, 3.5rem) 0;
+    }
+
+    .umjc-section {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 1.2rem;
+        padding: clamp(1.4rem, 4vw, 2.2rem);
+        border: 1px solid rgba(13, 51, 91, 0.12);
+        border-radius: 0.8rem;
+        background: rgba(255, 255, 255, 0.58);
+    }
+
+    .umjc-section__icon {
+        display: inline-grid;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: rgba(177, 128, 24, 0.13);
+        place-items: center;
+        color: var(--gold-dark);
+    }
+
+    .umjc-section h2,
+    .umjc-site-link h2 {
+        font-size: clamp(1.45rem, 3.5vw, 2rem);
+    }
+
+    .umjc-section p:not(.umjc-kicker),
+    .umjc-site-link p:not(.umjc-kicker) {
+        margin: 0.8rem 0 0;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
+    .umjc-text-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        color: var(--primary-blue);
+        font-weight: 800;
+        line-height: 1.45;
+        text-underline-offset: 0.2em;
+    }
+
+    .umjc-site-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: clamp(1.5rem, 4vw, 2.5rem);
+        border-radius: 1rem;
+        background: linear-gradient(135deg, rgba(7, 36, 66, 0.98), rgba(13, 51, 91, 0.94));
+        color: #fff;
+    }
+
+    .umjc-site-link h2 {
+        color: #fff;
+    }
+
+    .umjc-site-link p:not(.umjc-kicker) {
+        color: rgba(255, 255, 255, 0.82);
+    }
+
+    .umjc-site-link > a {
+        flex: 0 0 auto;
+        background: var(--gold);
+        color: var(--primary-blue);
     }
 
     @media (max-width: 767px) {
-        .cta-button {
+        .umjc-primary-links,
+        .umjc-primary-links a {
             width: 100%;
-            justify-content: center;
+        }
+
+        .umjc-section {
+            grid-template-columns: 1fr;
+        }
+
+        .umjc-site-link {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .umjc-site-link > a {
+            width: 100%;
         }
     }
 </style>

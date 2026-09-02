@@ -1,186 +1,406 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import { canViewAdminPreview } from '../lib/adminPreview';
+import { candidateReadingList, resourceDirectorySections } from '../data/resourceDirectory';
+
+const canPreview = canViewAdminPreview(Astro.locals.user);
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.append('Vary', 'Cookie');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 ---
 
-<PageLayout title="Messianic Jewish Resources - Kehilat Ohr HaTorah" pageTitle="Messianic Jewish Resources" pageIcon="fas fa-book-open" description="Organizations, books, and study resources for learning about Messianic Jewish faith and practice.">
-    <p class="intro-text"><strong>These organizations and publications are useful places to continue learning.</strong></p>
+<PageLayout
+    title="Messianic Jewish Resources - Kehilat Ohr HaTorah"
+    pageTitle="Messianic Jewish Resources"
+    pageIcon="fas fa-book-open"
+    description="The Messianic Jewish resources directory for Kehilat Ohr HaTorah is under construction."
+>
+    {canPreview ? (
+        <div class="resources-preview">
+            <aside class="resources-preview__notice" aria-labelledby="resources-preview-title">
+                <span class="resources-preview__badge"><i class="fas fa-lock" aria-hidden="true"></i> Internal admin preview</span>
+                <h2 id="resources-preview-title">The public still sees “under construction.”</h2>
+                <p>This working directory is visible only after a valid administrator session is confirmed on the server. The links were checked on September 1, 2026; the reading shelf still requires Rabbi Chuck's review before publication.</p>
+            </aside>
 
-    <!-- Major Organizations -->
-    <div class="resource-section">
-        <h3><i class="fas fa-building"></i> Major Organizations</h3>
+            <section class="resources-preview__start" aria-labelledby="where-to-begin-title">
+                <p class="resources-preview__eyebrow">A clearer path</p>
+                <h2 id="where-to-begin-title">Where to begin</h2>
+                <ol>
+                    <li><strong>Begin here.</strong> Read <a href="/mission">our vision, commitments, affirmations, and values</a>, then review <a href="/umjc">our UMJC membership</a>.</li>
+                    <li><strong>Understand the movement.</strong> Compare the UMJC and MJRC primary statements below.</li>
+                    <li><strong>Build a weekly rhythm.</strong> Follow the congregation's readings and use the focused Torah and Jewish-text links as companions.</li>
+                    <li><strong>Go deeper deliberately.</strong> Compare short courses, certificates, and degree programs directly with each school.</li>
+                    <li><strong>Ask before treating a title as recommended.</strong> The reading shelf is a researched candidate list, not yet an official congregational endorsement.</li>
+                </ol>
+            </section>
 
-        <div class="resource-card">
-            <h4><i class="fas fa-synagogue"></i> Union of Messianic Jewish Congregations (UMJC)</h4>
-            <p>A union of Messianic Jewish congregations committed to Yeshua, Jewish life, mutual support, and congregational leadership.</p>
-            <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit UMJC <i class="fas fa-external-link-alt"></i>
-            </a>
+            {resourceDirectorySections.map((section) => (
+                <section class="resources-preview__section" id={section.id} aria-labelledby={`${section.id}-title`}>
+                    <div class="resources-preview__section-heading">
+                        <p class="resources-preview__eyebrow">Reviewed source links</p>
+                        <h2 id={`${section.id}-title`}>{section.title}</h2>
+                        <p>{section.intro}</p>
+                    </div>
+                    <div class="resources-preview__grid">
+                        {section.entries.map((entry) => (
+                            <article class="resources-preview__card">
+                                <span class="resources-preview__card-icon" aria-hidden="true"><i class={entry.icon}></i></span>
+                                <h3>{entry.name}</h3>
+                                <p>{entry.summary}</p>
+                                {entry.note && <p class="resources-preview__context"><strong>Context:</strong> {entry.note}</p>}
+                                <div class="resources-preview__links">
+                                    {entry.links.map((link) => (
+                                        <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                            {link.label}<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                                        </a>
+                                    ))}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            ))}
+
+            <section class="resources-preview__section resources-preview__reading" aria-labelledby="reading-list-title">
+                <div class="resources-preview__section-heading">
+                    <p class="resources-preview__eyebrow">Pending rabbi review</p>
+                    <h2 id="reading-list-title">Candidate reading shelf</h2>
+                    <p>Every title has a primary author or publisher reference plus a plain, non-affiliate Amazon search link. Confirm, reorder, add, or remove titles before making this public.</p>
+                </div>
+                <div class="resources-preview__books">
+                    {candidateReadingList.map((book, index) => (
+                        <article class="resources-preview__book">
+                            <span class="resources-preview__book-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                            <div>
+                                <h3>{book.title}</h3>
+                                <p class="resources-preview__author">{book.author}</p>
+                                <p>{book.summary}</p>
+                                <div class="resources-preview__links">
+                                    <a href={book.sourceUrl} target="_blank" rel="noopener noreferrer">Publisher or author page<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                                    <a href={book.amazonUrl} target="_blank" rel="noopener noreferrer">Find on Amazon<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+                <p class="resources-preview__disclaimer">External resources are provided for review and context. A link does not mean Kehilat Ohr HaTorah endorses every statement, product, or practice on the linked site.</p>
+            </section>
         </div>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-globe"></i> Jewish Voice Ministries</h4>
-            <p>A Messianic Jewish ministry offering teaching, outreach, and humanitarian programs.</p>
-            <a href="https://www.jewishvoice.org/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit Jewish Voice <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-    </div>
-
-    <!-- Educational Resources -->
-    <div class="resource-section">
-        <h3><i class="fas fa-graduation-cap"></i> Educational Resources</h3>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-seedling"></i> First Fruits of Zion (FFOZ)</h4>
-            <p>Teaching and study materials that explore Scripture in its historical, linguistic, and Jewish context.</p>
-            <a href="https://ffoz.org/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit FFOZ <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-star-of-david"></i> Chosen People Ministries</h4>
-            <p>Resources on Jewish evangelism, Passover, Scripture, and congregational learning.</p>
-            <a href="https://chosenpeople.com/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit Chosen People <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-pray"></i> Jews for Jesus</h4>
-            <p>Articles and resources on Jewish holidays, Scripture, interfaith families, and Jewish life.</p>
-            <a href="https://jewsforjesus.org/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit Jews for Jesus <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-    </div>
-
-    <!-- Publishers and books -->
-    <div class="resource-section">
-        <h3><i class="fas fa-book"></i> Publishers and books</h3>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-bookmark"></i> Messianic Jewish Publishers</h4>
-            <p>A publisher of Messianic Jewish Bibles, Torah studies, devotionals, and reference works.</p>
-            <a href="https://www.messianicjewish.net/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit MJ Publishers <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-tree"></i> Tree of Life Version Bible (TLV)</h4>
-            <p>A Bible translation shaped by Messianic Jewish language, tradition, and the Jewish context of Scripture.</p>
-            <a href="https://tlvbiblesociety.org/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit TLV Bible <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-newspaper"></i> The Messianic Times</h4>
-            <p>News, essays, and perspectives from Messianic Jewish communities.</p>
-            <a href="https://messianictimes.com/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                Visit Messianic Times <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-
-        <div class="resource-card">
-            <h4><i class="fas fa-scroll"></i> Complete Jewish Study Bible</h4>
-            <p>A study Bible with commentary and notes on the Jewish context of Scripture.</p>
-        </div>
-    </div>
-
-    <!-- Getting Started -->
-    <div class="tips-section">
-        <h3><i class="fas fa-lightbulb"></i> Where to begin</h3>
-        <ul>
-            <li>Read the <strong>Complete Jewish Study Bible</strong> alongside your usual translation.</li>
-            <li>Explore <strong>FFOZ Torah Club</strong> for structured study.</li>
-            <li>Use the <strong>UMJC</strong> directory to find affiliated congregations.</li>
-            <li>Read <strong>The Messianic Times</strong> for community news and perspectives.</li>
-        </ul>
-    </div>
+    ) : (
+    <section class="resources-pending" aria-labelledby="resources-pending-title" data-admin-preview-gate>
+        <span class="resources-pending__icon" aria-hidden="true">
+            <i class="fas fa-book-open"></i>
+        </span>
+        <p class="resources-pending__eyebrow">Resource directory</p>
+        <h2 id="resources-pending-title">This section is under construction.</h2>
+        <p>We are reviewing this section and will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete.</p>
+    </section>
+    )}
 </PageLayout>
 
-<style>
-    .intro-text {
+<style is:global>
+    .interior-shell .interior-page .resources-pending {
+        box-sizing: border-box;
+        max-width: 760px;
+        margin: clamp(1rem, 4vw, 3rem) auto;
+        padding: clamp(2rem, 6vw, 4.5rem);
+        border: 1px solid rgba(13, 51, 91, 0.18);
+        border-radius: 1rem 1rem 3rem 1rem;
+        background: rgba(255, 253, 248, 0.78);
         text-align: center;
-        font-size: 1.1rem;
-        margin-bottom: 30px;
     }
 
-    .resource-section {
-        margin-bottom: 35px;
-    }
-
-    .resource-section h3 {
-        color: var(--primary-blue);
-        border-bottom: 2px solid var(--primary-blue);
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-
-    .resource-card {
-        background: var(--gray-100);
-        padding: 20px 25px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
-
-    .resource-card h4 {
-        color: var(--primary-blue);
-        margin: 0 0 12px 0;
-        font-size: 1.1rem;
-    }
-
-    .resource-card h4 i {
-        margin-right: 8px;
+    .interior-shell .interior-page .resources-pending__icon {
+        display: inline-grid;
+        width: 4rem;
+        height: 4rem;
+        margin-bottom: 1.25rem;
+        border: 1px solid rgba(177, 128, 24, 0.42);
+        border-radius: 50%;
+        place-items: center;
         color: var(--gold-dark);
+        font-size: 1.5rem;
     }
 
-    .resource-card p {
-        margin: 0 0 15px 0;
-        line-height: 1.7;
+    .interior-shell .interior-page .resources-pending__eyebrow {
+        margin: 0 0 0.65rem;
+        color: var(--gold-dark);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .interior-shell .interior-page .resources-pending h2 {
+        margin: 0 0 1rem;
+        color: var(--primary-blue);
+        font-family: var(--font-display);
+        font-size: clamp(1.9rem, 5vw, 3rem);
+        line-height: 1.12;
+        text-wrap: balance;
+    }
+
+    .interior-shell .interior-page .resources-pending > p:last-child {
+        max-width: 58ch;
+        margin: 0 auto;
         color: var(--text-secondary);
+        line-height: 1.7;
     }
 
-    .resource-link {
+    .interior-shell .interior-page .resources-preview {
+        display: grid;
+        gap: clamp(2rem, 5vw, 4rem);
+    }
+
+    .interior-shell .interior-page .resources-preview__notice {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(1.5rem, 4vw, 2.5rem);
+        border: 1px solid rgba(177, 128, 24, 0.38);
+        border-radius: 1rem 1rem 3rem 1rem;
+        background: linear-gradient(135deg, rgba(7, 36, 66, 0.98), rgba(13, 51, 91, 0.94));
+        box-shadow: 0 20px 45px rgba(6, 29, 53, 0.17);
+        color: #fff;
+    }
+
+    .interior-shell .interior-page .resources-preview__notice::after {
+        position: absolute;
+        right: -3rem;
+        bottom: -5rem;
+        width: 12rem;
+        height: 12rem;
+        border: 1px solid rgba(216, 177, 75, 0.24);
+        border-radius: 50%;
+        content: '';
+    }
+
+    .interior-shell .interior-page .resources-preview__badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: var(--primary-blue);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 500;
-        transition: background 0.3s ease;
+        gap: 0.5rem;
+        padding: 0.45rem 0.7rem;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #f4d98f;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
     }
 
-    .resource-link:hover {
-        background: #004080;
+    .interior-shell .interior-page .resources-preview__notice h2 {
+        position: relative;
+        z-index: 1;
+        max-width: 19ch;
+        margin: 1rem 0 0.7rem;
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 4vw, 2.7rem);
+        line-height: 1.12;
     }
 
-    .tips-section {
-        background: var(--gold-light);
-        padding: 25px;
-        border-radius: 8px;
-        border-left: 4px solid var(--gold);
-    }
-
-    .tips-section h3 {
-        color: var(--gold-dark);
-        margin: 0 0 15px 0;
-    }
-
-    .tips-section ul {
+    .interior-shell .interior-page .resources-preview__notice p {
+        position: relative;
+        z-index: 1;
+        max-width: 74ch;
         margin: 0;
-        padding-left: 20px;
+        color: rgba(255, 255, 255, 0.84);
+        line-height: 1.7;
     }
 
-    .tips-section li {
-        margin-bottom: 10px;
-        line-height: 1.6;
+    .interior-shell .interior-page .resources-preview__start {
+        padding: clamp(1.5rem, 4vw, 2.5rem);
+        border: 1px solid rgba(177, 128, 24, 0.28);
+        border-radius: 1rem;
+        background: rgba(242, 229, 187, 0.32);
+    }
+
+    .interior-shell .interior-page .resources-preview__eyebrow {
+        margin: 0 0 0.55rem;
+        color: var(--gold-dark);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+    }
+
+    .interior-shell .interior-page .resources-preview__start h2,
+    .interior-shell .interior-page .resources-preview__section-heading h2 {
+        margin: 0;
+        color: var(--primary-blue);
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 4vw, 2.35rem);
+        line-height: 1.15;
+    }
+
+    .interior-shell .interior-page .resources-preview__start ol {
+        display: grid;
+        gap: 0.9rem;
+        margin: 1.4rem 0 0;
+        padding-left: 1.45rem;
+    }
+
+    .interior-shell .interior-page .resources-preview__start li {
+        padding-left: 0.35rem;
         color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .interior-shell .interior-page .resources-preview__start a {
+        color: var(--primary-blue);
+        font-weight: 700;
+        text-underline-offset: 0.18em;
+    }
+
+    .interior-shell .interior-page .resources-preview__section {
+        scroll-margin-top: 2rem;
+    }
+
+    .interior-shell .interior-page .resources-preview__section-heading {
+        max-width: 76ch;
+        margin-bottom: 1.4rem;
+    }
+
+    .interior-shell .interior-page .resources-preview__section-heading > p:last-child {
+        margin: 0.8rem 0 0;
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .interior-shell .interior-page .resources-preview__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    .interior-shell .interior-page .resources-preview__card {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: clamp(1.25rem, 3vw, 1.75rem);
+        border: 1px solid rgba(13, 51, 91, 0.14);
+        border-radius: 0.85rem 0.85rem 1.8rem 0.85rem;
+        background: rgba(255, 255, 255, 0.66);
+        box-shadow: 0 12px 28px rgba(6, 29, 53, 0.07);
+    }
+
+    .interior-shell .interior-page .resources-preview__card-icon {
+        display: inline-grid;
+        width: 2.7rem;
+        height: 2.7rem;
+        margin-bottom: 1rem;
+        border-radius: 50%;
+        background: rgba(177, 128, 24, 0.13);
+        place-items: center;
+        color: var(--gold-dark);
+    }
+
+    .interior-shell .interior-page .resources-preview__card h3,
+    .interior-shell .interior-page .resources-preview__book h3 {
+        margin: 0;
+        color: var(--primary-blue);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        line-height: 1.25;
+    }
+
+    .interior-shell .interior-page .resources-preview__card > p {
+        margin: 0.7rem 0 0;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .interior-shell .interior-page .resources-preview__card .resources-preview__context {
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(13, 51, 91, 0.1);
+        font-size: 0.9rem;
+    }
+
+    .interior-shell .interior-page .resources-preview__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: auto;
+        padding-top: 1.15rem;
+    }
+
+    .interior-shell .interior-page .resources-preview__links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid rgba(13, 51, 91, 0.2);
+        border-radius: 0.45rem;
+        color: var(--primary-blue);
+        font-size: 0.82rem;
+        font-weight: 800;
+        line-height: 1.25;
+        text-decoration: none;
+    }
+
+    .interior-shell .interior-page .resources-preview__links a:hover,
+    .interior-shell .interior-page .resources-preview__links a:focus-visible {
+        border-color: var(--primary-blue);
+        background: var(--primary-blue);
+        color: #fff;
+    }
+
+    .interior-shell .interior-page .resources-preview__books {
+        overflow: hidden;
+        border: 1px solid rgba(13, 51, 91, 0.14);
+        border-radius: 0.9rem;
+        background: rgba(255, 255, 255, 0.55);
+    }
+
+    .interior-shell .interior-page .resources-preview__book {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 1.1rem;
+        padding: clamp(1.2rem, 3vw, 1.7rem);
+    }
+
+    .interior-shell .interior-page .resources-preview__book + .resources-preview__book {
+        border-top: 1px solid rgba(13, 51, 91, 0.12);
+    }
+
+    .interior-shell .interior-page .resources-preview__book-number {
+        color: var(--gold-dark);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .interior-shell .interior-page .resources-preview__book p {
+        margin: 0.55rem 0 0;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .interior-shell .interior-page .resources-preview__book .resources-preview__author {
+        color: var(--gold-dark);
+        font-size: 0.86rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+    }
+
+    .interior-shell .interior-page .resources-preview__disclaimer {
+        margin: 1rem 0 0;
+        color: var(--text-secondary);
+        font-size: 0.86rem;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 760px) {
+        .interior-shell .interior-page .resources-preview__grid {
+            grid-template-columns: 1fr;
+        }
+
+        .interior-shell .interior-page .resources-preview__links a {
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 </style>

@@ -197,7 +197,7 @@ INSERT OR IGNORE INTO congregation_calendar_events (
 )
 SELECT
   'shabbat-weekly-readings-discussion',
-  'Interactive Discussion on Weekly Readings (Torah, Haftara, and Brit Chadashah)',
+  'Kiddush, food, and discussion',
   'America/Los_Angeles',
   'weekly',
   '["saturday"]',

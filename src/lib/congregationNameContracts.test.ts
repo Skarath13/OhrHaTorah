@@ -45,10 +45,10 @@ test('visible prose emphasizes the full congregation name in the corrected ident
     const aboutSource = readFileSync(join(projectRoot, 'src/pages/about.astro'), 'utf8');
     const umjcSource = readFileSync(join(projectRoot, 'src/pages/umjc.astro'), 'utf8');
 
-    assert.match(homeSource, /<strong>Kehilat Ohr HaTorah<\/strong> is a home/);
+    assert.match(homeSource, /<strong>Kehilat Ohr HaTorah:<\/strong> where Torah, tradition, Jewish life/);
     assert.match(homeSource, /<strong>Kehilat Ohr HaTorah<\/strong> is a member of the/);
     assert.match(homeSource, /<strong>\{congregationName\}<\/strong>\{officialIdentityStatementRemainder\}/);
-    assert.match(aboutSource, /<strong>Kehilat Ohr HaTorah<\/strong> is a growing Messianic Jewish synagogue/);
+    assert.match(aboutSource, /<strong>Kehilat Ohr HaTorah<\/strong> is a growing Messianic Jewish synagogue in Orange County, California/);
     assert.match(aboutSource, /Our full name, <strong>Kehilat Ohr HaTorah<\/strong>, can be translated as/);
     assert.match(umjcSource, /<strong>Kehilat Ohr HaTorah<\/strong> is a member of the/);
     assert.match(

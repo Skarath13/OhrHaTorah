@@ -17,7 +17,7 @@ import { congregationName, homepageIdentityPreview, officialIdentityStatement } 
 const officialIdentityStatementRemainder = officialIdentityStatement.slice(congregationName.length);
 ---
 
-<BaseLayout stylesheets={["/styles/home.css?v=20260823-home-motion-1"]}>
+<BaseLayout stylesheets={["/styles/home.css?v=20260901-approved-copy-1"]}>
     <div class="home-site-chrome site-navigation-shell">
         <Header showLogo={false} />
         <Navigation />
@@ -62,7 +62,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                     <h1 id="home-hero-title" data-editable="main-title">
                         <span data-editable="main-title-text">Shalom, and welcome to Kehilat Ohr HaTorah</span>
                     </h1>
-                    <p class="home-hero-intro" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a Messianic Jewish synagogue in Orange County, welcoming Jewish and non-Jewish people, interfaith couples, and families.</p>
+                    <p class="home-hero-intro" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a Messianic Jewish synagogue in Orange County, California. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families.</p>
                     <div class="home-hero-actions" aria-label="Plan a visit">
                         <a class="home-button home-button-primary" href="#shabbat-activities-section">
                             <span>Plan Your Visit</span>
@@ -90,20 +90,21 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                             <span data-editable="about-us-title-text">About Us</span>
                         </h2>
                     </div>
-                    <p data-editable="intro-text-2"><strong>Kehilat Ohr HaTorah</strong> is a home where Torah, Jewish life, and faith in Yeshua are lived together.</p>
+                    <p data-editable="intro-text-2"><strong>Kehilat Ohr HaTorah:</strong> where Torah, tradition, Jewish life, and faith in Yeshua unite as one.</p>
                 </div>
 
                 <div class="home-about-grid">
                     <div class="home-about-story">
                         <div class="home-about-copy">
-                        <p data-editable="about-us-text-1"><strong>Kehilat Ohr HaTorah</strong> is a growing Messianic synagogue in Orange County. We honor Jewish life and practice and joyfully follow Yeshua, the Messiah of Israel. Jewish and non-Jewish people, interfaith couples, and families are welcome here.</p>
+                            <p data-editable="about-us-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly formed Messianic Jewish synagogue in Orange County, California. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families. Join with us in exploring the unmeasurable riches of Messiah Yeshua. Learn with us as we grow in our faithfulness and love for <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span></span> and His Word.</p>
 
-                        <p data-editable="about-us-text-2">Our Shabbat services bring together Hebrew and English prayer, Torah and Scripture teaching, music, and community. Whether you are asking your first questions or have walked this road for years, come learn and grow with us.</p>
+                            <p data-editable="about-us-text-2">Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English. Translations are always provided for spoken and written Hebrew. Teachings and homilies are mostly in English.</p>
                         </div>
 
                         <details class="home-rabbi-story" open>
                             <summary data-editable="rabbi-card-title">Meet Our Rabbi</summary>
                             <p class="home-rabbi-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
+                            <p class="home-rabbi-bio" data-editable="rabbi-bio-extended">{rabbi.bioExtended}</p>
                         </details>
 
                         <div class="home-about-actions">

@@ -732,6 +732,7 @@
 .home-rabbi-story { margin-top: 2rem; padding: 1.25rem 0; border-top: 3px solid var(--home-gold-500); border-bottom: 1px solid var(--home-line); }
 .home-rabbi-story > summary { margin-bottom: 1rem; color: var(--home-blue-900); cursor: pointer; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; list-style: none; }
 .home-rabbi-story > summary::-webkit-details-marker { display: none; }
+.home-rabbi-bio + .home-rabbi-bio { margin-top: 0.85rem; }
 .home-about-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 0; padding-top: 1rem; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }
 .home-about-details { margin-bottom: 0; border: 0; border-right: 1px solid var(--home-line); }
 .home-about-details summary { display: flex; min-height: 58px; padding: 0.85rem 1rem 0.85rem 0; align-items: center; color: var(--home-blue-800); cursor: pointer; font-size: 0.9rem; font-weight: 800; line-height: 1.25; }
@@ -793,16 +794,16 @@
 .home-torah-quote-primary { padding-right: clamp(1.5rem, 4vw, 3.5rem); border-right: 1px solid rgba(230, 201, 120, 0.34); }
 .home-torah-quote-primary p { font-size: clamp(1.42rem, 2.45vw, 2.1rem); line-height: 1.38; }
 .home-torah-quote-secondary p { color: rgba(255, 255, 255, 0.86); font-size: clamp(1.3rem, 2.2vw, 1.9rem); line-height: 1.46; }
-.home-torah-quote .divine-name { display: inline-block; white-space: nowrap; }
-.home-torah-quote .divine-name__initial { font-variant-caps: normal; }
-.home-torah-quote .divine-name__small-caps {
+.home-redesign .divine-name { display: inline-block; white-space: nowrap; }
+.home-redesign .divine-name__initial { font-variant-caps: normal; }
+.home-redesign .divine-name__small-caps {
     display: inline-block;
     font-size: 0.76em;
     letter-spacing: 0.055em;
     text-transform: uppercase;
 }
 @supports (font-variant-caps: small-caps) {
-    .home-torah-quote .divine-name__small-caps {
+    .home-redesign .divine-name__small-caps {
         font-size: 1em;
         font-variant-caps: small-caps;
         font-feature-settings: 'smcp' 1;

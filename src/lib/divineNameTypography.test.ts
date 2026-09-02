@@ -10,21 +10,19 @@ const voiceSource = readSource('../../CONTENT_VOICE.md');
 const agentGuidance = readSource('../../AGENTS.md');
 
 test('the homepage divine-name substitute preserves readable text and cap hierarchy', () => {
-    assert.match(
-        homeSource,
-        /<span class="divine-name"><span class="divine-name__initial">H<\/span><span class="divine-name__small-caps">ashem<\/span>,<\/span>/,
-    );
+    const hashemMarkup = /<span class="divine-name"><span class="divine-name__initial">H<\/span><span class="divine-name__small-caps">ashem<\/span>/g;
+    assert.equal([...homeSource.matchAll(hashemMarkup)].length, 2);
     assert.doesNotMatch(homeSource, />HaShem<|>HASHEM</);
 });
 
 test('divine-name CSS prefers real small caps and retains a visibly smaller fallback', () => {
     assert.match(
         homeStyles,
-        /\.home-torah-quote \.divine-name__small-caps \{[\s\S]*?font-size: 0\.76em;[\s\S]*?text-transform: uppercase;[\s\S]*?\}/,
+        /\.home-redesign \.divine-name__small-caps \{[\s\S]*?font-size: 0\.76em;[\s\S]*?text-transform: uppercase;[\s\S]*?\}/,
     );
     assert.match(
         homeStyles,
-        /@supports \(font-variant-caps: small-caps\) \{[\s\S]*?\.home-torah-quote \.divine-name__small-caps \{[\s\S]*?font-variant-caps: small-caps;[\s\S]*?font-feature-settings: 'smcp' 1;[\s\S]*?\}/,
+        /@supports \(font-variant-caps: small-caps\) \{[\s\S]*?\.home-redesign \.divine-name__small-caps \{[\s\S]*?font-variant-caps: small-caps;[\s\S]*?font-feature-settings: 'smcp' 1;[\s\S]*?\}/,
     );
     assert.doesNotMatch(homeStyles, /\.divine-name[^\{]*\{[^}]*font-variant-caps:\s*all-small-caps/);
 });

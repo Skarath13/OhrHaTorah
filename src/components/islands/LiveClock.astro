@@ -1,9 +1,9 @@
 ---
-// Shows the next Shabbat's dates alongside the Mincha service time.
+// Shows the upcoming Shabbat's dates alongside the Mincha service time.
 ---
 <div class="sidebar-widget live-clock-widget" aria-labelledby="sidebar-date-time-title">
     <div class="widget-header" data-editable="sidebar-date-time-header" role="heading" aria-level="3">
-        <span id="sidebar-date-time-title" data-editable="sidebar-date-time-title">Next Shabbat</span>
+        <span id="sidebar-date-time-title" data-editable="sidebar-date-time-title">Upcoming Shabbat</span>
     </div>
     <div class="widget-content">
         <div class="clock-stack">
@@ -26,7 +26,7 @@
                 ></time>
             </div>
             <div class="clock-panel clock-panel-service">
-                <div class="clock-label" id="sidebar-mincha-service-label">Mincha Service</div>
+                <div class="clock-label" id="sidebar-mincha-service-label">Mincha Prayer and Torah Service</div>
                 <time
                     class="clock-service-time"
                     datetime="14:30"
@@ -198,7 +198,7 @@
                 strictlyFollowing: true
             });
         } catch (error) {
-            console.error('Could not determine the next Shabbat date:', error);
+            console.error('Could not determine the upcoming Shabbat date:', error);
             hebrewDateElement.textContent = 'Hebrew date unavailable';
             hebrewDateElement.setAttribute('aria-busy', 'false');
             gregorianDateElement.textContent = 'Date unavailable';
@@ -246,14 +246,14 @@
             hebrewDateElement.textContent = hebrewDate;
             hebrewDateElement.setAttribute(
                 'aria-label',
-                `Hebrew date for the next Shabbat: ${hebrewDate}`
+                `Hebrew date for the upcoming Shabbat: ${hebrewDate}`
             );
         } catch (error) {
-            console.error('Could not load the Hebrew date for the next Shabbat:', error);
+            console.error('Could not load the Hebrew date for the upcoming Shabbat:', error);
             hebrewDateElement.textContent = 'Hebrew date unavailable';
             hebrewDateElement.setAttribute(
                 'aria-label',
-                'Hebrew date for the next Shabbat is currently unavailable'
+                'Hebrew date for the upcoming Shabbat is currently unavailable'
             );
         } finally {
             hebrewDateElement.setAttribute('aria-busy', 'false');

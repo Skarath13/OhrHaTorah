@@ -20,10 +20,13 @@ test('site and form D1 migrations are routed to separate binding directories', (
   );
 
   const siteMigration = read('deploy/chuck-staging/migrations/site/0001_congregation_calendar_events.sql');
+  const calendarCopyMigration = read('deploy/chuck-staging/migrations/site/0002_align_shabbat_discussion_title.sql');
   const formMigration = read('deploy/chuck-staging/migrations/form/0001_update_request_outbox.sql');
   const donorMigration = read('deploy/chuck-staging/migrations/form/0002_donor_record_requests.sql');
   assert.match(siteMigration, /CREATE TABLE IF NOT EXISTS congregation_calendar_events/);
   assert.doesNotMatch(siteMigration, /update_requests|update_request_outbox/);
+  assert.match(calendarCopyMigration, /UPDATE congregation_calendar_events/);
+  assert.doesNotMatch(calendarCopyMigration, /update_requests|update_request_outbox/);
   assert.match(formMigration, /CREATE TABLE IF NOT EXISTS update_requests/);
   assert.doesNotMatch(formMigration, /congregation_calendar_events/);
   assert.match(donorMigration, /CREATE TABLE IF NOT EXISTS donor_record_requests/);
@@ -42,8 +45,7 @@ test('baseline schema and deployment instructions include the calendar table and
   assert.equal(schema.match(tablePattern)?.[0], siteMigration.match(tablePattern)?.[0]);
   const seedTablePattern = /CREATE TABLE IF NOT EXISTS congregation_calendar_seed_versions \([\s\S]*?\n\);/;
   assert.equal(schema.match(seedTablePattern)?.[0], siteMigration.match(seedTablePattern)?.[0]);
-  const seedBlockPattern = /INSERT OR IGNORE INTO congregation_calendar_events \([\s\S]*?INSERT OR IGNORE INTO congregation_calendar_seed_versions \(version\) VALUES \(1\);/;
-  assert.equal(schema.match(seedBlockPattern)?.[0], siteMigration.match(seedBlockPattern)?.[0]);
+  assert.match(schema, /'Kiddush, food, and discussion'/);
   assert.match(deploymentReadme, /d1 migrations apply DB --remote --config wrangler\.json/);
   assert.match(deploymentReadme, /d1 migrations apply FORM_DB --remote --config wrangler\.json/);
 });
@@ -67,4 +69,15 @@ test('the one-time site migration preserves exactly the three existing congregat
   assert.match(siteMigration, /'Contemporary Messianic Jewish Music and Dance'/);
   assert.match(siteMigration, /'Traditional prayers and Torah Service'/);
   assert.match(siteMigration, /'Interactive Discussion on Weekly Readings \(Torah, Haftara, and Brit Chadashah\)'/);
+  assert.match(schema, /'Kiddush, food, and discussion'/);
+});
+
+test('calendar copy migration updates only the untouched baseline title', () => {
+  const migration = read('deploy/chuck-staging/migrations/site/0002_align_shabbat_discussion_title.sql');
+
+  assert.match(migration, /UPDATE congregation_calendar_events/);
+  assert.match(migration, /SET\s+title = 'Kiddush, food, and discussion'/);
+  assert.match(migration, /WHERE id = 'shabbat-weekly-readings-discussion'/);
+  assert.match(migration, /AND title = 'Interactive Discussion on Weekly Readings \(Torah, Haftara, and Brit Chadashah\)'/);
+  assert.doesNotMatch(migration, /\b(?:DROP|DELETE|INSERT|REPLACE)\b/i);
 });

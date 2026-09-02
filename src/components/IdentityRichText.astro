@@ -11,11 +11,13 @@ const { content } = Astro.props;
 {content.runs.map((run) => (
     run.style === 'lead'
         ? <strong class="identity-source-lead"><em>{run.text}</em></strong>
-        : run.style === 'italic'
-            ? <em>{run.text}</em>
-            : run.style === 'italic-underline'
-                ? <em><u>{run.text}</u></em>
-                : run.language
-                    ? <span lang={run.language} dir={run.direction}>{run.text}</span>
-                    : run.text
+        : run.style === 'bold'
+            ? <strong>{run.text}</strong>
+            : run.style === 'italic'
+                ? <em>{run.text}</em>
+                : run.style === 'italic-underline'
+                    ? <em><u>{run.text}</u></em>
+                    : run.language
+                        ? <span lang={run.language} dir={run.direction}>{run.text}</span>
+                        : run.text
 ))}
