@@ -172,7 +172,7 @@ test("builds a fixed-header, dual-part notification and escapes visitor data", (
     OUTBOX_ID,
   );
 
-  assert.equal(email.to, "drburton369@gmail.com");
+  assert.equal(email.to, "ohrhatorahoc@gmail.com");
   assert.deepEqual(email.from, {
     email: "admin@ohrhatorahoc.org",
     name: "Kehilat Ohr HaTorah Website",

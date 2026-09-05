@@ -16,7 +16,7 @@
   "send_email": [
     {
       "name": "EMAIL",
-      "destination_address": "drburton369@gmail.com",
+      "destination_address": "ohrhatorahoc@gmail.com",
       "allowed_sender_addresses": ["admin@ohrhatorahoc.org"]
     },
     {

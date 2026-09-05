@@ -11,7 +11,7 @@ The Worker has no HTTP handler or public route. Its email bindings are restricte
 by workflow:
 
 - sender: `admin@ohrhatorahoc.org`
-- update requests: `drburton369@gmail.com`
+- newsletter subscription requests: `ohrhatorahoc@gmail.com` (must be verified in Cloudflare before deploy)
 - donor record requests: `ohrhatorahoc2@gmail.com` (must be verified in Cloudflare before deploy)
 
 Run locally from this directory:

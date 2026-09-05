@@ -1,7 +1,7 @@
 const UPDATE_REQUEST_QUEUE_MESSAGE_VERSION = 1;
 const DONOR_RECORD_QUEUE_MESSAGE_VERSION = 2;
 const LEASE_DURATION_MS = 5 * 60 * 1000;
-const UPDATE_REQUEST_DESTINATION = "drburton369@gmail.com";
+const UPDATE_REQUEST_DESTINATION = "ohrhatorahoc@gmail.com";
 const DONOR_RECORD_DESTINATION = "ohrhatorahoc2@gmail.com";
 const FIXED_SENDER = "admin@ohrhatorahoc.org";
 const SENDER_NAME = "Kehilat Ohr HaTorah Website";
