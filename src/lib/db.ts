@@ -8,15 +8,6 @@ export interface SiteContent {
   updated_by: number | null;
 }
 
-export interface Page {
-  slug: string;
-  title: string;
-  content: string;
-  meta_description: string | null;
-  updated_at: string;
-  updated_by: number | null;
-}
-
 export interface ImageRecord {
   id: number;
   filename: string;
@@ -39,17 +30,6 @@ export async function getContent(db: D1Database, key: string): Promise<SiteConte
   ).bind(key).first<SiteContent>();
 
   return result || null;
-}
-
-/**
- * Get multiple content items by key prefix (e.g., 'rabbi.' for all rabbi fields)
- */
-export async function getContentByPrefix(db: D1Database, prefix: string): Promise<SiteContent[]> {
-  const result = await db.prepare(
-    "SELECT key, value, content_type, updated_at, updated_by FROM site_content WHERE key LIKE ? || '%' ORDER BY key"
-  ).bind(prefix).all<SiteContent>();
-
-  return result.results || [];
 }
 
 /**
@@ -89,76 +69,6 @@ export async function setContent(
  */
 export async function deleteContent(db: D1Database, key: string): Promise<void> {
   await db.prepare('DELETE FROM site_content WHERE key = ?').bind(key).run();
-}
-
-/**
- * Get content as a structured object (for templates)
- */
-export async function getContentObject(db: D1Database, prefix: string): Promise<Record<string, string>> {
-  const items = await getContentByPrefix(db, prefix);
-  const obj: Record<string, string> = {};
-
-  for (const item of items) {
-    // Remove prefix from key (e.g., 'rabbi.name' -> 'name')
-    const shortKey = item.key.replace(prefix, '');
-    obj[shortKey] = item.value;
-  }
-
-  return obj;
-}
-
-// ============= Page Functions =============
-
-/**
- * Get a page by slug
- */
-export async function getPage(db: D1Database, slug: string): Promise<Page | null> {
-  const result = await db.prepare(
-    'SELECT slug, title, content, meta_description, updated_at, updated_by FROM pages WHERE slug = ?'
-  ).bind(slug).first<Page>();
-
-  return result || null;
-}
-
-/**
- * Get all pages
- */
-export async function getAllPages(db: D1Database): Promise<Page[]> {
-  const result = await db.prepare(
-    'SELECT slug, title, content, meta_description, updated_at, updated_by FROM pages ORDER BY slug'
-  ).all<Page>();
-
-  return result.results || [];
-}
-
-/**
- * Create or update a page
- */
-export async function savePage(
-  db: D1Database,
-  slug: string,
-  title: string,
-  content: string,
-  metaDescription?: string,
-  userId?: number
-): Promise<void> {
-  await db.prepare(`
-    INSERT INTO pages (slug, title, content, meta_description, updated_at, updated_by)
-    VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
-    ON CONFLICT(slug) DO UPDATE SET
-      title = excluded.title,
-      content = excluded.content,
-      meta_description = excluded.meta_description,
-      updated_at = CURRENT_TIMESTAMP,
-      updated_by = excluded.updated_by
-  `).bind(slug, title, content, metaDescription || null, userId || null).run();
-}
-
-/**
- * Delete a page
- */
-export async function deletePage(db: D1Database, slug: string): Promise<void> {
-  await db.prepare('DELETE FROM pages WHERE slug = ?').bind(slug).run();
 }
 
 // ============= Image Functions =============
@@ -223,41 +133,4 @@ export async function deleteImageRecord(db: D1Database, id: number): Promise<str
   await db.prepare('DELETE FROM images WHERE id = ?').bind(id).run();
 
   return image.r2_key;
-}
-
-// ============= Stats Functions =============
-
-/**
- * Get dashboard stats
- */
-export async function getDashboardStats(db: D1Database): Promise<{
-  contentCount: number;
-  pageCount: number;
-  imageCount: number;
-  recentActivity: Array<{ type: string; key: string; updated_at: string }>;
-}> {
-  const [contentCount, pageCount, imageCount, recentContent, recentPages] = await Promise.all([
-    db.prepare('SELECT COUNT(*) as count FROM site_content').first<{ count: number }>(),
-    db.prepare('SELECT COUNT(*) as count FROM pages').first<{ count: number }>(),
-    db.prepare('SELECT COUNT(*) as count FROM images').first<{ count: number }>(),
-    db.prepare(
-      "SELECT 'content' as type, key, updated_at FROM site_content ORDER BY updated_at DESC LIMIT 5"
-    ).all<{ type: string; key: string; updated_at: string }>(),
-    db.prepare(
-      "SELECT 'page' as type, slug as key, updated_at FROM pages ORDER BY updated_at DESC LIMIT 5"
-    ).all<{ type: string; key: string; updated_at: string }>(),
-  ]);
-
-  // Combine and sort recent activity
-  const allActivity = [
-    ...(recentContent.results || []),
-    ...(recentPages.results || []),
-  ].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()).slice(0, 10);
-
-  return {
-    contentCount: contentCount?.count || 0,
-    pageCount: pageCount?.count || 0,
-    imageCount: imageCount?.count || 0,
-    recentActivity: allActivity,
-  };
 }
