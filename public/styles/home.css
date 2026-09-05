@@ -134,6 +134,7 @@
     min-height: max(620px, calc(100svh - var(--site-nav-height)));
     min-height: max(620px, calc(100dvh - var(--site-nav-height)));
     isolation: isolate;
+    overflow: hidden;
     background: var(--home-blue-950);
 }
 
@@ -151,6 +152,7 @@
 .home-hero-media {
     position: absolute;
     inset: 0;
+    overflow: hidden;
 }
 
 .home-hero-media {
@@ -159,6 +161,9 @@
 }
 
 .home-hero-media video {
+    position: absolute;
+    inset: 0;
+    display: block;
     width: 100%;
     height: 100%;
     background: transparent;
@@ -236,7 +241,7 @@
     padding: 0.78rem 1.15rem;
     border: 1px solid transparent;
     border-radius: 2px;
-    font-size: 0.88rem;
+    font-size: 1rem;
     font-weight: 800;
     letter-spacing: 0.025em;
     line-height: 1.2;
@@ -315,7 +320,7 @@
 
 .home-section-heading h2 { margin-bottom: 0; font-size: clamp(2.3rem, 3.6vw, 3.45rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; text-wrap: pretty; }
 .home-section-heading > p,
-.home-about-heading > p { margin-bottom: 0.1rem; color: var(--home-muted); font-size: 1rem; }
+.home-about-heading > p { margin-bottom: 0.1rem; color: var(--home-muted); font-size: var(--text-body); }
 
 @media (prefers-reduced-motion: no-preference) {
     html.home-motion-ready [data-home-motion-heading] > * {
@@ -394,16 +399,14 @@
 
 .home-this-shabbat .home-section-heading {
     display: block;
-    max-width: 780px;
     margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
 }
 
 .home-purpose .home-section-heading,
 .home-visit .home-section-heading { display: block; }
-.home-about-heading { grid-template-columns: 1fr; max-width: 760px; gap: 0.75rem; }
-.home-about-heading > p { max-width: 62ch; }
+.home-about-heading { grid-template-columns: 1fr; gap: 0.75rem; }
+.home-about-heading > p { max-width: none; }
 
-.home-section-kicker { margin-bottom: 0.7rem; color: var(--home-gold-300); font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
 
 .home-shabbat-primary {
     display: grid;
@@ -421,7 +424,7 @@
     padding: clamp(2rem, 4vw, 3.2rem);
     background:
         linear-gradient(145deg, rgba(6, 26, 50, 0.98), rgba(9, 43, 78, 0.91)),
-        url('/images/stock/open-torah-scroll.webp') center 50% / cover no-repeat;
+        url('/images/generated/open-torah-scroll.webp') center 50% / cover no-repeat;
     color: rgba(255, 255, 255, 0.76);
     isolation: isolate;
 }
@@ -442,11 +445,11 @@
 .home-timeline-row { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 1rem; padding: 0.95rem 0; border-top: 1px solid rgba(230, 201, 120, 0.2); }
 .home-timeline-row:last-of-type { border-bottom: 1px solid rgba(230, 201, 120, 0.2); }
 .home-timeline-row time,
-.home-timeline-time { color: var(--home-gold-300); font-size: clamp(0.9rem, calc(0.825rem + 0.35vw), 1rem); font-variant-numeric: tabular-nums; font-weight: 850; letter-spacing: 0.03em; white-space: nowrap; }
+.home-timeline-time { color: var(--home-gold-300); font-size: clamp(1rem, calc(1rem + 0.35vw), 1rem); font-variant-numeric: tabular-nums; font-weight: 850; letter-spacing: 0.03em; white-space: nowrap; }
 .home-timeline-row strong { display: block; margin-bottom: 0.2rem; color: #fff; font-family: var(--font-display); font-size: 1.08rem; }
-.home-timeline-row p { margin-bottom: 0; color: rgba(255, 255, 255, 0.64); font-size: 0.86rem; }
+.home-timeline-row p { margin-bottom: 0; color: rgba(255, 255, 255, 0.64); font-size: 1rem; }
 .home-timeline-time span { display: inline-block; padding-bottom: 0.22rem; border-bottom: 1px solid var(--home-gold-300); }
-.home-timeline-note { margin: 1rem 0 0 6rem; color: rgba(255, 255, 255, 0.58); font-size: 0.75rem; }
+.home-timeline-note { margin: 1rem 0 0 6rem; color: rgba(255, 255, 255, 0.86); font-size: clamp(1rem, calc(1rem + 0.25vw), 1.125rem); line-height: 1.6; }
 
 .home-reading-card {
     display: flex;
@@ -459,7 +462,8 @@
 
 .home-reading-image {
     position: relative;
-    height: clamp(220px, 22vw, 300px);
+    flex: none;
+    aspect-ratio: 2 / 1;
     margin: 0;
     overflow: hidden;
 }
@@ -577,7 +581,7 @@
 
 .home-redesign .home-shabbat-dashboard :is(.candle-day, .clock-label) {
     color: rgba(255, 255, 255, 0.82) !important;
-    font-size: 0.86rem !important;
+    font-size: 1rem !important;
     font-weight: 750 !important;
     letter-spacing: 0 !important;
     line-height: 1.25 !important;
@@ -594,7 +598,7 @@
 
 .home-redesign .home-shabbat-dashboard :is(.candle-date, .last-updated, .updated-time) {
     color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 0.76rem !important;
+    font-size: 1rem !important;
     line-height: 1.3 !important;
 }
 
@@ -643,7 +647,7 @@
 
 .home-redesign .home-candle-card .candle-times,
 .home-redesign .home-clock-card .clock-stack { border-top: 3px solid var(--home-gold-500); }
-.home-redesign .home-candle-card .live-indicator { min-height: 24px; gap: 4px; padding: 0.18rem 0.55rem; border-color: rgba(230, 201, 120, 0.52); border-radius: 999px; background: rgba(230, 201, 120, 0.12); color: var(--home-gold-300); font-size: 0.62rem; font-weight: 800; }
+.home-redesign .home-candle-card .live-indicator { min-height: 24px; gap: 4px; padding: 0.18rem 0.55rem; border-color: rgba(230, 201, 120, 0.52); border-radius: 999px; background: rgba(230, 201, 120, 0.12); color: var(--home-gold-300); font-size: 1rem; font-weight: 800; }
 .home-redesign .home-candle-card .live-dot { width: 6px; height: 6px; background: var(--home-gold-500); }
 
 .home-redesign .home-candle-card .candle-times { gap: 0; }
@@ -669,11 +673,9 @@
 /* One practical arrival path, with the map as the dominant visual plane. */
 .home-visit { background: var(--home-cream-50); }
 .home-visit-grid { display: grid; grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr); grid-template-rows: auto 1fr auto; gap: 0 clamp(2.5rem, 6vw, 6rem); align-items: stretch; }
-.home-visit-image { position: relative; grid-column: 1; grid-row: 1; height: 175px; margin: 0; background: var(--home-blue-950); overflow: hidden; }
-.home-visit-image::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 26, 50, 0.78), rgba(6, 26, 50, 0.02) 70%); content: ''; }
-.home-visit-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 59%; transition: transform 650ms ease; }
+.home-visit-image { position: relative; grid-column: 1; grid-row: 1; aspect-ratio: 8 / 5; margin: 0; background: var(--home-blue-950); overflow: hidden; }
+.home-visit-image img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; transition: transform 650ms ease; }
 .home-visit-image:hover img { transform: scale(1.025); }
-.home-visit-image figcaption { position: absolute; z-index: 1; right: 1rem; bottom: 0.8rem; left: 1rem; color: #fff; font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; }
 .home-arrival-panel { min-width: 0; grid-column: 1; grid-row: 2; padding-top: 1.3rem; }
 .home-arrival-panel > h3 { margin-bottom: 1.6rem; font-size: clamp(1.55rem, 2.5vw, 2.15rem); font-weight: 500; }
 .home-arrival-steps { margin: 0; padding: 0; border-top: 1px solid var(--home-line); list-style: none; }
@@ -684,44 +686,43 @@
 .home-arrival-icon svg { display: block; width: 100%; height: 100%; }
 .home-arrival-steps strong { display: block; margin-bottom: 0.12rem; font-family: var(--font-display); font-size: 1rem; }
 .home-service-address { display: grid; grid-template-columns: 6rem 1fr; gap: 1rem; margin-top: 1.7rem; padding-top: 1.1rem; border-top: 3px solid var(--home-gold-500); }
-.home-service-address span { color: var(--home-muted); font-size: 0.75rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; }
-.home-service-address strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 0.98rem; line-height: 1.45; }
+.home-service-address span { color: var(--home-muted); font-size: 1rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; }
+.home-service-address strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 1rem; line-height: 1.45; }
 .home-map-card { display: flex; min-width: 0; min-height: 570px; grid-column: 2; grid-row: 1 / 3; flex-direction: column; }
 .home-map-caption { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 1rem; border-top: 3px solid var(--home-blue-900); }
-.home-map-caption span { color: var(--home-muted); font-size: 0.75rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+.home-map-caption span { color: var(--home-muted); font-size: 1rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
 .home-map-caption strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.12rem; }
 .home-map-card .map-container { position: relative; min-height: 0; flex: 1; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; overflow: hidden; }
 .home-map-card iframe { display: block; width: 100%; border: 0; }
 .home-map-iframe[hidden] { display: none !important; }
 .home-map-facade { display: grid; width: 100%; height: 100%; min-height: 310px; padding: clamp(1.5rem, 4vw, 2.4rem); place-content: center; justify-items: center; background: radial-gradient(circle at 85% 10%, rgba(208, 163, 61, 0.2), transparent 12rem), linear-gradient(145deg, var(--home-blue-950), var(--home-blue-900)); color: #fff; text-align: center; }
 .home-map-facade[hidden] { display: none !important; }
-.home-map-facade-icon { display: grid; width: 52px; height: 52px; margin-bottom: 0.9rem; border: 1px solid rgba(230, 201, 120, 0.62); border-radius: 50%; place-items: center; color: var(--home-gold-300); }
+.home-map-facade-icon { display: grid; width: 52px; height: 52px; margin-bottom: 0.9rem; border: 0; border-radius: 0; place-items: center; color: var(--home-gold-300); }
 .home-map-facade-icon svg { width: 26px; height: 26px; }
-.home-map-facade-kicker { margin-bottom: 0.4rem; color: var(--home-gold-300); font-size: 0.75rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
 .home-map-facade > strong { margin-bottom: 0.25rem; font-family: var(--font-display); font-size: clamp(1.25rem, 3vw, 1.6rem); }
-.home-map-facade > span:not(.home-map-facade-icon, .home-map-facade-kicker) { color: rgba(255, 255, 255, 0.76); font-size: 0.88rem; }
-.home-map-load { display: inline-flex; min-height: 46px; margin-top: 1.25rem; padding: 0.7rem 1rem; border: 1px solid var(--home-gold-300); border-radius: 0.35rem; align-items: center; gap: 0.6rem; background: var(--home-gold-300); color: var(--home-blue-950); font-family: var(--font-body); font-size: 0.82rem; font-weight: 800; line-height: 1.2; cursor: pointer; }
+.home-map-facade > span:not(.home-map-facade-icon) { color: rgba(255, 255, 255, 0.76); font-size: 1rem; }
+.home-map-load { display: inline-flex; min-height: 46px; margin-top: 1.25rem; padding: 0.7rem 1rem; border: 1px solid var(--home-gold-300); border-radius: 0.35rem; align-items: center; gap: 0.6rem; background: var(--home-gold-300); color: var(--home-blue-950); font-family: var(--font-body); font-size: 1rem; font-weight: 800; line-height: 1.2; cursor: pointer; }
 .home-map-load:hover { background: #f0d98f; }
-.home-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.6rem; color: var(--home-blue-800); font-size: 0.86rem; font-weight: 800; letter-spacing: 0.02em; text-decoration: none; }
+.home-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.6rem; color: var(--home-blue-800); font-size: 1rem; font-weight: 800; letter-spacing: 0.02em; text-decoration: none; }
 .home-text-link:hover { color: var(--home-gold-500); }
 .home-visit-utility { display: grid; grid-column: 1 / -1; grid-row: 3; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 2.5rem; border: 1px solid var(--home-line); border-top: 3px solid var(--home-gold-500); border-radius: 16px; overflow: hidden; background: color-mix(in srgb, var(--home-gold-300) 13%, white); }
 .home-visit-utility > div { display: grid; min-width: 0; min-height: 108px; padding: 1.1rem 1.25rem; grid-template-columns: 2.7rem minmax(0, 1fr); align-items: center; gap: 0.9rem; border-left: 1px solid var(--home-line); }
 .home-visit-utility > div:first-child { border-left: 0; }
-.home-utility-icon-wrap { display: grid; width: 2.7rem; height: 2.7rem; margin: 0; border: 1px solid color-mix(in srgb, var(--home-gold-500) 60%, transparent); border-radius: 50%; place-items: center; color: var(--home-blue-800); }
+.home-utility-icon-wrap { display: grid; width: 2.7rem; height: 2.7rem; margin: 0; border: 0; border-radius: 0; place-items: center; color: var(--home-blue-800); }
 .home-utility-icon { display: block; width: 1.2rem; height: 1.2rem; color: inherit; }
 .home-utility-copy { min-width: 0; }
-.home-utility-copy > strong { display: block; margin-bottom: 0.3rem; color: var(--home-gold-700); font-family: var(--font-body); font-size: 0.75rem; font-weight: 850; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; }
-.home-visit-utility p { margin-bottom: 0; color: var(--home-muted); font-size: 0.82rem; line-height: 1.5; }
+.home-utility-copy > strong { display: block; margin-bottom: 0.3rem; color: var(--home-gold-700); font-family: var(--font-body); font-size: 1rem; font-weight: 850; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; }
+.home-visit-utility p { margin-bottom: 0; color: var(--home-muted); font-size: 1rem; line-height: 1.5; }
 .home-visit-utility a { display: inline-flex; min-height: 44px; align-items: center; color: var(--home-blue-800); overflow-wrap: anywhere; }
 
 /* The congregational story joins editorial copy, atmosphere, and leadership in one plane. */
 .home-community { background: var(--home-cream-100); }
 .home-about-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(340px, 0.82fr); gap: clamp(3rem, 7vw, 6.5rem); align-items: stretch; }
 .home-about-story { min-width: 0; padding-block: 0.35rem; }
-.home-about-visual { position: relative; min-width: 0; min-height: 590px; border: 1px solid rgba(200, 154, 52, 0.4); border-radius: 24px; background: var(--home-blue-900); box-shadow: 0 26px 60px rgba(6, 26, 50, 0.16); overflow: hidden; }
-.home-about-atmosphere { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 40% center; }
+.home-about-visual { position: relative; width: 100%; min-width: 0; aspect-ratio: 3 / 4; align-self: start; border: 1px solid rgba(200, 154, 52, 0.4); border-radius: 16px; background: var(--home-blue-900); overflow: hidden; }
+.home-about-atmosphere { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 15% center; transform: scaleX(-1); }
 .home-about-visual::after { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6, 26, 50, 0.2), transparent 45%), linear-gradient(0deg, rgba(6, 26, 50, 0.2), transparent 48%); content: ''; }
-.home-rabbi-portrait { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: auto; width: 180px; margin: 0; padding: 8px; background: var(--home-cream-100); box-shadow: 0 18px 34px rgba(6, 26, 50, 0.2); }
+.home-rabbi-portrait { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; width: 180px; margin: 0; padding: 8px; background: var(--home-cream-100); box-shadow: 0 8px 20px rgba(6, 26, 50, 0.15); }
 .home-rabbi-image-frame { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; }
 .home-rabbi-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
 .home-rabbi-portrait figcaption { padding: 0.8rem 0.2rem 0.35rem; }
@@ -733,16 +734,11 @@
 .home-rabbi-story > summary { margin-bottom: 1rem; color: var(--home-blue-900); cursor: pointer; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; list-style: none; }
 .home-rabbi-story > summary::-webkit-details-marker { display: none; }
 .home-rabbi-bio + .home-rabbi-bio { margin-top: 0.85rem; }
-.home-about-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 0; padding-top: 1rem; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }
-.home-about-details { margin-bottom: 0; border: 0; border-right: 1px solid var(--home-line); }
-.home-about-details summary { display: flex; min-height: 58px; padding: 0.85rem 1rem 0.85rem 0; align-items: center; color: var(--home-blue-800); cursor: pointer; font-size: 0.9rem; font-weight: 800; line-height: 1.25; }
-.home-about-details summary::marker { color: var(--home-gold-500); }
-.home-about-details > div { padding: 0.15rem 0 0.75rem; }
-.home-about-details p { color: var(--home-muted); font-size: 0.9rem; }
-.home-about-details p:last-child { margin-bottom: 0; }
-.home-about-actions > .home-text-link { min-height: 58px; padding: 0.85rem 0 0.85rem 0.75rem; justify-content: space-between; font-size: 0.86rem; line-height: 1.25; }
+.home-about-actions { display: flex; flex-wrap: wrap; gap: .25rem 2rem; padding-top: .75rem; }
+.home-rabbi-bio { color: var(--home-muted); font-size: 1rem; line-height: 1.6; }
+.home-about-actions > .home-text-link { min-height: 48px; padding: .65rem 0; font-size: 1rem; line-height: 1.25; }
 .home-rabbi-name { margin-bottom: 0.1rem; color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
-.home-rabbi-title { margin-bottom: 0; color: var(--home-gold-500); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.06em; line-height: 1.4; text-transform: uppercase; }
+.home-rabbi-title { margin-bottom: 0; color: var(--home-gold-700); font-size: 1rem; font-weight: 600; line-height: 1.4; }
 .home-rabbi-bio { margin-bottom: 0; color: var(--home-muted); }
 
 /* One dark purpose chapter, continued by the Scripture reflection. */
@@ -761,32 +757,18 @@
 .home-identity-intro { display: grid; grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1.42fr); align-items: start; gap: clamp(2rem, 6vw, 6.5rem); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); border-bottom: 1px solid rgba(230, 201, 120, 0.3); }
 .home-identity-heading { padding-top: 0.35rem; }
 .home-identity-heading::before { display: block; width: 64px; height: 2px; margin-bottom: 1.25rem; background: var(--home-gold-500); content: ''; }
-.home-identity-kicker,
-.home-identity-chapter-heading > p { margin: 0 0 0.7rem; color: var(--home-gold-300); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; line-height: 1.4; text-transform: uppercase; }
 .home-identity-heading h2 { margin: 0; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: 0.98; }
-.home-identity-statement { max-width: 43ch; margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(1.35rem, 2.45vw, 2.12rem); line-height: 1.48; text-wrap: balance; }
-.home-identity-preview { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr); border-bottom: 1px solid rgba(230, 201, 120, 0.3); }
-.home-identity-chapter { min-width: 0; padding: clamp(2.35rem, 5vw, 4.3rem) clamp(2rem, 5vw, 4.5rem) clamp(2.6rem, 5vw, 4.5rem) 0; border-right: 1px solid rgba(230, 201, 120, 0.3); }
-.home-identity-chapter + .home-identity-chapter { padding-right: 0; padding-left: clamp(2rem, 5vw, 4.5rem); border-right: 0; }
-.home-identity-chapter-heading { margin-bottom: 1.2rem; }
-.home-identity-chapter-heading h3 { margin: 0; font-size: clamp(1.65rem, 2.8vw, 2.35rem); line-height: 1.1; }
-.home-commitment-list { margin: 0; padding: 0; list-style: none; }
-.home-commitment-list li { display: block; padding: 1.35rem 0; border-top: 1px solid rgba(255, 255, 255, 0.13); }
-.home-commitment-list li:last-child { padding-bottom: 0; }
-.home-commitment-list h4,
-.home-value-preview-grid h4 { margin: 0 0 0.45rem; font-size: 1.05rem; line-height: 1.3; }
-.home-commitment-list p,
-.home-value-preview-grid p { margin: 0; color: rgba(255, 255, 255, 0.68); font-size: 0.9rem; line-height: 1.65; }
-.home-value-preview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(255, 255, 255, 0.13); border-left: 1px solid rgba(255, 255, 255, 0.13); }
-.home-value-preview-grid article { min-width: 0; padding: 1.25rem; border-right: 1px solid rgba(255, 255, 255, 0.13); border-bottom: 1px solid rgba(255, 255, 255, 0.13); background: rgba(255, 255, 255, 0.025); }
-.home-identity-action { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-top: clamp(2rem, 4vw, 3rem); }
-.home-identity-action p { max-width: 53ch; margin: 0; color: rgba(255, 255, 255, 0.68); font-size: 0.88rem; line-height: 1.65; }
-.home-identity-action .home-button { flex: 0 0 auto; }
+.home-identity-statement { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(1.35rem, 2.45vw, 2.12rem); line-height: 1.48; text-wrap: pretty; }
+.home-identity-links { position: static; display: grid; width: 100%; background: transparent; box-shadow: none; }
+.home-identity-links a { display: flex; min-height: 80px; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.35rem .5rem; border-bottom: 1px solid rgba(230, 201, 120, .3); color: #fff; font-family: var(--font-display); font-size: clamp(1.35rem, 2.2vw, 1.85rem); line-height: 1.3; text-decoration: none; transition: background-color 160ms ease, color 160ms ease; }
+.home-identity-links a > span:last-child { flex-shrink: 0; color: var(--home-gold-300); }
+.home-identity-links a:hover { background: rgba(255, 255, 255, .06); color: var(--home-gold-300); }
+.home-arrival-note { margin: 1.15rem 0 0; color: var(--home-muted); }
 
 .home-torah-quote { position: relative; padding-block: clamp(3.5rem, 6vw, 5.5rem); background: var(--home-blue-950) url('/media/hero/ohr-hatorah-hero-poster.webp') center 55% / cover no-repeat; color: #fff; isolation: isolate; }
 .home-torah-quote::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(100deg, rgba(6, 26, 50, 0.97), rgba(6, 26, 50, 0.82) 58%, rgba(6, 26, 50, 0.72)); border-block: 1px solid rgba(230, 201, 120, 0.3); content: ''; }
 .home-torah-quote .home-shell { position: relative; display: grid; max-width: 1180px; grid-template-columns: 72px minmax(0, 1.18fr) minmax(280px, 0.82fr); align-items: start; gap: clamp(1.5rem, 4vw, 3.5rem); }
-.home-torah-quote-icon { display: grid; width: 64px; height: 64px; place-items: center; border: 1px solid rgba(230, 201, 120, 0.55); border-radius: 50%; background: rgba(230, 201, 120, 0.1); color: var(--home-gold-300); }
+.home-torah-quote-icon { display: grid; width: 64px; height: 64px; place-items: center; border: 0; border-radius: 0; background: transparent; color: var(--home-gold-300); }
 .home-torah-quote-icon svg { width: 31px; height: 31px; }
 .home-torah-quote blockquote { margin: 0; color: #fff; }
 .home-torah-quote blockquote p { margin: 0; font-family: var(--font-display); text-wrap: balance; }
@@ -811,7 +793,7 @@
         text-transform: none;
     }
 }
-.home-torah-quote cite { display: block; margin-top: 1.1rem; color: var(--home-gold-300); font-family: var(--font-body); font-size: 0.75rem; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.home-torah-quote cite { display: block; margin-top: 1.1rem; color: var(--home-gold-300); font-family: var(--font-body); font-size: 1rem; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 
 @media (min-width: 768px) and (max-width: 899px) {
     .home-torah-quote .home-shell { grid-template-columns: 64px minmax(0, 1fr); gap: 1.5rem 2rem; }
@@ -821,38 +803,34 @@
 }
 
 .home-calendar-section { background: var(--home-blue-950); color: rgba(255, 255, 255, 0.82); }
-.home-calendar-section .home-section-heading { align-items: end; }
+.home-calendar-section .home-section-heading { grid-template-columns: minmax(0, 1fr); }
 .home-calendar-section .home-section-heading { --home-motion-rule: rgba(230, 201, 120, 0.3); border-color: rgba(230, 201, 120, 0.3); }
 .home-calendar-section .home-section-heading h2 { color: #fff; }
-.home-calendar-section .home-section-heading p { max-width: 48rem; margin: 0.7rem 0 0; color: rgba(255, 255, 255, 0.68); font-size: 0.9rem; line-height: 1.6; }
-.home-calendar-section .home-text-link { justify-self: end; color: var(--home-gold-300); }
+.home-calendar-section .home-section-heading p { max-width: 48rem; margin: 0.7rem 0 0; color: rgba(255, 255, 255, 0.68); font-size: 1rem; line-height: 1.6; }
 .home-calendar-layout { display: grid; grid-template-columns: minmax(220px, 0.23fr) minmax(0, 0.77fr); align-items: stretch; border-top: 3px solid var(--home-gold-500); }
-.home-calendar-image { position: relative; min-width: 0; min-height: 720px; height: auto; margin: 0; overflow: hidden; }
-.home-calendar-image::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 26, 50, 0.76), rgba(6, 26, 50, 0.18) 38%, transparent 68%); content: ''; }
-.home-calendar-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 54% 42%; transition: transform 700ms ease; }
-.home-calendar-image:hover img { transform: scale(1.025); }
-.home-calendar-image figcaption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; color: #fff; text-shadow: 0 2px 14px rgba(6, 26, 50, 0.76); }
+.home-calendar-image { min-width: 0; align-self: start; margin: 0; overflow: hidden; }
+.home-calendar-image img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; object-position: 50% 40%; }
+.home-calendar-image figcaption { padding: 1.5rem; color: #fff; }
 .home-calendar-image figcaption strong { display: block; margin-bottom: 0.45rem; font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.18; }
-.home-calendar-image figcaption span { display: block; color: rgba(255, 255, 255, 0.76); font-size: 0.84rem; line-height: 1.5; }
+.home-calendar-image figcaption span { display: block; color: rgba(255, 255, 255, 0.76); font-size: 1rem; line-height: 1.5; }
 .home-calendar-frame { min-width: 0; padding: clamp(1rem, 2.4vw, 1.7rem); border: 0; border-radius: 0; background: #f5f7f9; box-shadow: none; overflow: visible; }
 .kehilat-calendar-shell {
     min-width: 0;
     color: var(--home-blue-950);
 }
-.kehilat-calendar-status { margin: 0 0 0.75rem; padding: 0.7rem 0.85rem; border-left: 3px solid var(--home-gold-500); background: #fff8e6; color: #624a15; font-size: 0.78rem; line-height: 1.5; }
+.kehilat-calendar-status { margin: 0 0 0.75rem; padding: 0.7rem 0.85rem; border-left: 3px solid var(--home-gold-500); background: #fff8e6; color: #624a15; font-size: 1rem; line-height: 1.5; }
 .kehilat-calendar-status:empty { display: none; }
 .kehilat-calendar-details { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; margin: 0 0 1rem; padding: 1rem 1.1rem; border: 1px solid #cbd4de; border-left: 4px solid var(--home-gold-500); background: #f7f9fb; color: var(--home-blue-950); }
 .kehilat-calendar-details[hidden] { display: none; }
-.kehilat-calendar-details-kicker { margin: 0 0 0.2rem; color: #536476; font-size: 0.64rem; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
 .kehilat-calendar-details-title { margin: 0; color: var(--home-blue-950); font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.22rem); line-height: 1.25; overflow-wrap: normal; word-break: normal; }
 .kehilat-calendar-details-time,
 .kehilat-calendar-details-hebrew,
 .kehilat-calendar-details-description,
-.kehilat-calendar-details-location { margin: 0.4rem 0 0; color: #415365; font-size: 0.78rem; line-height: 1.5; }
-.kehilat-calendar-details-hebrew { color: var(--home-blue-900); font-size: clamp(0.7rem, 0.66rem + 0.22vw, 0.8rem); font-weight: 750; }
+.kehilat-calendar-details-location { margin: 0.4rem 0 0; color: #415365; font-size: 1rem; line-height: 1.5; }
+.kehilat-calendar-details-hebrew { color: var(--home-blue-900); font-size: clamp(1rem, 1rem + 0.22vw, 1rem); font-weight: 750; }
 .kehilat-calendar-gregorian-date,
 .kehilat-calendar-event-hebrew-date { white-space: nowrap; }
-.kehilat-calendar-details-time { font-size: clamp(0.72rem, 0.68rem + 0.24vw, 0.8rem); }
+.kehilat-calendar-details-time { font-size: clamp(1rem, 1rem + 0.24vw, 1rem); }
 .kehilat-calendar-event-hebrew-separator { margin-inline: 0.34rem; color: #7a8794; }
 .kehilat-calendar-details-close { display: grid; width: 44px; height: 44px; margin: -0.35rem -0.45rem 0 0; padding: 0; border: 1px solid #cbd4de; border-radius: 50%; place-items: center; background: #fff; color: var(--home-blue-950); font-size: 1.35rem; line-height: 1; cursor: pointer; }
 .kehilat-calendar-details-close:hover,
@@ -861,8 +839,8 @@
 .kehilat-calendar-shell.is-loading .kehilat-calendar { opacity: 0.58; }
 .kehilat-calendar-date-card { min-width: 0; overflow: hidden; border: 1px solid #c8d1da; border-radius: 0.85rem; background: #fff; box-shadow: 0 8px 22px rgba(6, 26, 50, 0.08); }
 .kehilat-calendar-date-header { display: grid; min-width: 0; padding: 0.95rem 1rem 0.9rem; border-bottom: 1px solid #d8dee5; grid-template-columns: minmax(0, 1fr); align-items: end; gap: 0.18rem; background: linear-gradient(145deg, #f7f9fb, #eef2f5); }
-.kehilat-calendar-date-weekday { grid-column: 1 / -1; margin: 0; color: #7c2f4c; font-size: 0.75rem; font-weight: 850; letter-spacing: 0.1em; line-height: 1.3; text-transform: uppercase; }
-.kehilat-calendar-date-heading { min-width: 0; margin: 0; color: var(--home-blue-950); font-family: var(--font-display); font-size: clamp(0.98rem, 0.86rem + 0.52vw, 1.3rem); line-height: 1.15; overflow-wrap: normal; white-space: nowrap; word-break: normal; }
+.kehilat-calendar-date-weekday { grid-column: 1 / -1; margin: 0; color: #7c2f4c; font-size: 1rem; font-weight: 850; letter-spacing: 0.1em; line-height: 1.3; text-transform: uppercase; }
+.kehilat-calendar-date-heading { min-width: 0; margin: 0; color: var(--home-blue-950); font-family: var(--font-display); font-size: clamp(1rem, 1rem + 0.52vw, 1.3rem); line-height: 1.15; overflow-wrap: normal; white-space: nowrap; word-break: normal; }
 .kehilat-calendar-event-list { margin: 0; padding: 0; list-style: none; }
 .kehilat-calendar-event-item + .kehilat-calendar-event-item { border-top: 1px solid #e3e7eb; }
 .kehilat-calendar-event-button { position: relative; display: grid; width: 100%; min-height: 54px; padding: 0.74rem 0.95rem 0.78rem 1.05rem; border: 0; border-left: 4px solid var(--event-accent, var(--home-blue-900)); grid-template-columns: minmax(0, 1fr); align-items: start; gap: 0.2rem; background: #fff; color: var(--home-blue-950); text-align: left; cursor: pointer; touch-action: manipulation; transition: background-color 160ms ease; }
@@ -873,31 +851,36 @@
 .kehilat-calendar-event-button--holiday { --event-accent: #9b5a16; }
 .kehilat-calendar-event-button--candle-lighting { --event-accent: #7c2f4c; }
 .kehilat-calendar-event-button--observance { --event-accent: #657464; }
-.kehilat-calendar-event-type { grid-column: 1 / -1; color: var(--event-accent); font-size: 0.61rem; font-weight: 850; letter-spacing: 0.07em; line-height: 1.25; text-transform: uppercase; }
-.kehilat-calendar-event-title { min-width: 0; color: var(--home-blue-950); font-size: 0.79rem; font-weight: 800; line-height: 1.35; overflow-wrap: normal; text-wrap: pretty; word-break: normal; }
-.kehilat-calendar-event-time { grid-column: 1; justify-self: start; color: #35485c; font-size: 0.75rem; font-variant-numeric: tabular-nums; font-weight: 800; line-height: 1.35; white-space: nowrap; }
-.kehilat-calendar-event-hebrew { grid-column: 1 / -1; color: #536476; font-size: clamp(0.65rem, 0.62rem + 0.18vw, 0.71rem); line-height: 1.35; }
-.kehilat-calendar-empty { margin: 0; padding: 1.15rem; border: 1px dashed #b7c1cc; background: #f7f9fb; color: #415365; font-size: 0.85rem; text-align: center; }
+/* Keep event categories available to screen readers without repeating a visual label above every title. */
+.kehilat-calendar-event-type { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.kehilat-calendar-event-title { min-width: 0; color: var(--home-blue-950); font-size: 1.125rem; font-weight: 700; line-height: 1.35; overflow-wrap: normal; text-wrap: pretty; word-break: normal; }
+.kehilat-calendar-event-time { grid-column: 1; justify-self: start; color: #35485c; font-size: 1rem; font-variant-numeric: tabular-nums; font-weight: 800; line-height: 1.35; white-space: nowrap; }
+.kehilat-calendar-event-description { margin-top: 0.3rem; color: #46566a; font-size: 1rem; font-weight: 400; line-height: 1.5; overflow-wrap: anywhere; }
+.kehilat-calendar-event-button--featured { --event-accent: var(--home-gold-500); background: #fcf5e3; }
+.kehilat-calendar-event-button--featured:hover { background: #f7edcf; }
+.kehilat-calendar-event-button--featured .kehilat-calendar-event-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
+.kehilat-calendar-event-hebrew { grid-column: 1 / -1; color: #536476; font-size: clamp(1rem, 1rem + 0.18vw, 1rem); line-height: 1.35; }
+.kehilat-calendar-empty { margin: 0; padding: 1.15rem; border: 1px dashed #b7c1cc; background: #f7f9fb; color: #415365; font-size: 1rem; text-align: center; }
 .kehilat-calendar-empty[hidden] { display: none; }
 .kehilat-calendar-actions { display: flex; margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
 .kehilat-calendar-actions[hidden] { display: none; }
 .kehilat-calendar-show-more,
-.kehilat-calendar-show-fewer { min-height: 46px; padding: 0.68rem 1.05rem; border: 1px solid var(--home-blue-900); border-radius: 0.4rem; background: var(--home-blue-900); color: #fff; font-size: 0.78rem; font-weight: 800; line-height: 1.2; cursor: pointer; touch-action: manipulation; white-space: nowrap; }
+.kehilat-calendar-show-fewer { min-height: 46px; padding: 0.68rem 1.05rem; border: 1px solid var(--home-blue-900); border-radius: 0.4rem; background: var(--home-blue-900); color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.2; cursor: pointer; touch-action: manipulation; white-space: nowrap; }
 .kehilat-calendar-show-more[hidden],
 .kehilat-calendar-show-fewer[hidden] { display: none; }
 .kehilat-calendar-show-fewer { background: #fff; color: var(--home-blue-900); }
 .kehilat-calendar-show-more:focus-visible,
 .kehilat-calendar-show-fewer:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
-.kehilat-calendar-attribution { margin: 1rem 0 0; color: #536476; font-size: 0.69rem; line-height: 1.55; }
-.kehilat-calendar-attribution > summary { display: inline-flex; min-height: 44px; padding: 0.48rem 0.72rem; border: 1px solid #c8d1da; border-radius: 999px; align-items: center; gap: 0.45rem; background: #fff; color: var(--home-blue-900); font-size: 0.75rem; font-weight: 800; line-height: 1.2; list-style: none; cursor: pointer; touch-action: manipulation; }
+.kehilat-calendar-attribution { margin: 1rem 0 0; color: #536476; font-size: 1rem; line-height: 1.55; }
+.kehilat-calendar-attribution > summary { display: inline-flex; min-height: 44px; padding: 0.48rem 0.72rem; border: 1px solid #c8d1da; border-radius: 999px; align-items: center; gap: 0.45rem; background: #fff; color: var(--home-blue-900); font-size: 1rem; font-weight: 800; line-height: 1.2; list-style: none; cursor: pointer; touch-action: manipulation; }
 .kehilat-calendar-attribution > summary::-webkit-details-marker { display: none; }
 .kehilat-calendar-attribution > summary:hover { border-color: #9fabb7; background: #f9fbfc; }
 .kehilat-calendar-attribution > summary:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
 .kehilat-calendar-attribution[open] > summary { border-color: var(--home-gold-500); background: #fff8e6; }
 .kehilat-calendar-attribution-icon { display: grid; width: 1.25rem; height: 1.25rem; border: 1px solid currentColor; border-radius: 50%; place-items: center; font-family: var(--font-body); font-size: 0.7rem; font-weight: 900; line-height: 1; }
-.kehilat-calendar-attribution > p { max-width: 44rem; margin: 0.65rem 0 0; padding: 0.75rem 0.85rem; border: 1px solid #d8dee5; border-left: 3px solid var(--home-gold-500); background: #fff; color: #536476; font-size: 0.75rem; line-height: 1.6; }
+.kehilat-calendar-attribution > p { max-width: 44rem; margin: 0.65rem 0 0; padding: 0.75rem 0.85rem; border: 1px solid #d8dee5; border-left: 3px solid var(--home-gold-500); background: #fff; color: #536476; font-size: 1rem; line-height: 1.6; }
 .kehilat-calendar-attribution a { color: var(--home-blue-900); font-weight: 800; text-underline-offset: 0.16em; }
-.kehilat-calendar-noscript { margin: 1rem 0 0; padding: 1rem; border: 1px solid #d8dee5; color: var(--home-blue-950); font-size: 0.85rem; line-height: 1.55; }
+.kehilat-calendar-noscript { margin: 1rem 0 0; padding: 1rem; border: 1px solid #d8dee5; color: var(--home-blue-950); font-size: 1rem; line-height: 1.55; }
 
 @media (min-width: 1101px) {
     .home-candle-card,
@@ -917,14 +900,11 @@
 @media (max-width: 980px) {
     .home-visit-grid { grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr); column-gap: 2.5rem; }
     .home-about-grid { grid-template-columns: minmax(0, 1.06fr) minmax(300px, 0.94fr); gap: 3.5rem; }
-    .home-rabbi-portrait { right: 1.25rem; left: auto; }
+    .home-rabbi-portrait { right: 1.25rem; }
     .home-calendar-layout { grid-template-columns: 1fr; }
-    .home-calendar-image { min-height: 220px; height: 220px; }
+    .home-calendar-image { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; }
+    .home-calendar-image img { aspect-ratio: 4 / 5; }
     .home-calendar-frame { min-height: 0; }
-    .home-identity-preview { grid-template-columns: 1fr; }
-    .home-identity-chapter,
-    .home-identity-chapter + .home-identity-chapter { padding-right: 0; padding-left: 0; border-right: 0; }
-    .home-identity-chapter:first-child { border-bottom: 1px solid rgba(230, 201, 120, 0.3); }
 }
 
 @media (max-width: 900px) {
@@ -944,16 +924,17 @@
         min-height: calc(100svh - var(--site-nav-height));
         min-height: calc(100dvh - var(--site-nav-height));
     }
-    .home-hero-media { background-image: url('/media/hero/ohr-hatorah-hero-mobile-poster.webp'); background-position: 55% 50%; }
-    .home-hero-media video { object-position: 55% 50%; }
+    /* Share one enlarged, bottom-anchored frame so the poster and playing video focus on the Torah. */
+    .home-hero-media { top: -40%; background-image: url('/media/hero/ohr-hatorah-hero-mobile-poster.webp'); background-position: 55% 100%; }
+    .home-hero-media video { object-position: 55% 100%; }
     .home-hero::after { background: linear-gradient(0deg, rgba(6, 26, 50, 0.88) 0%, rgba(6, 26, 50, 0.52) 40%, rgba(6, 26, 50, 0.08) 70%, transparent 82%); }
     .home-hero-inner { padding-block: clamp(1rem, 2.8dvh, 1.5rem) clamp(1.35rem, 3dvh, 2rem); grid-template-rows: auto minmax(clamp(2.5rem, 8dvh, 5.5rem), 1fr) auto; }
     .home-hero-logo { width: clamp(224px, 62vw, 272px); margin-bottom: 0; }
     .home-hero-copy { margin-top: 0; padding-top: 0; }
-    .home-hero h1 { max-width: min(100%, 14ch); font-size: clamp(2.35rem, 10.5vw, 3.25rem); line-height: 1.02; }
-    .home-hero-intro { max-width: 32rem; margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.53; }
+    .home-hero h1 { max-width: 100%; font-size: clamp(2.35rem, 10.5vw, 3.25rem); line-height: 1.02; }
+    .home-hero-intro { max-width: 32rem; margin-bottom: 1.25rem; font-size: 1rem; line-height: 1.53; }
     .home-hero-actions { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
-    .home-button { width: 100%; min-height: 50px; padding-inline: 0.65rem; font-size: 0.78rem; }
+    .home-button { width: 100%; min-height: 50px; padding-inline: 0.65rem; font-size: 1rem; }
     .home-section { padding-block: 3rem; }
     .home-section-heading { grid-template-columns: 1fr; gap: 0.75rem; align-items: start; margin-bottom: 2.15rem; }
     .home-section-heading h2 { font-size: clamp(2rem, 9.5vw, 2.75rem); }
@@ -962,7 +943,7 @@
     .home-schedule-card > h3 { font-size: 1.7rem; }
     .home-timeline-row { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.75rem; }
     .home-timeline-note { margin-left: 5.25rem; }
-    .home-reading-heading { display: flex; min-height: 170px; align-items: flex-end; margin: 0 0 1.25rem; padding: 1.15rem; background: linear-gradient(0deg, rgba(6, 26, 50, 0.86), rgba(6, 26, 50, 0.08) 72%), url('/images/stock/torah-study.webp') center 60% / cover no-repeat; color: #fff; font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; }
+    .home-reading-heading { display: flex; min-height: 190px; aspect-ratio: 2 / 1; align-items: flex-end; margin: 0 0 1.25rem; padding: 1.15rem; background: linear-gradient(0deg, rgba(6, 26, 50, 0.86), rgba(6, 26, 50, 0.08) 72%), url('/images/generated/torah-study.webp') center 60% / cover no-repeat; color: #fff; font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; }
     .home-reading-card .home-reading-image { display: none; }
     .home-shabbat-dashboard { margin-top: 2.25rem; padding: 1.35rem; border-radius: 20px; }
     .home-dashboard-heading { gap: 0.8rem; align-items: center; margin-bottom: 0.85rem; padding: 0; }
@@ -977,7 +958,7 @@
     .home-redesign .home-shabbat-dashboard :is(.candle-time, .clock-hebrew-date, .clock-gregorian-date, .clock-service-time, .clock-time) { min-width: 0; justify-content: flex-end !important; text-align: right !important; justify-self: stretch !important; }
     .home-redesign .home-shabbat-dashboard .last-updated { min-height: 42px; margin-top: 0.75rem !important; padding-top: 0.75rem !important; align-content: center; flex-wrap: wrap; }
     .home-visit-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
-    .home-visit-image { grid-column: 1; grid-row: auto; height: 210px; }
+    .home-visit-image { grid-column: 1; grid-row: auto; }
     .home-arrival-panel { grid-column: 1; grid-row: auto; padding-block: 1.5rem 2.25rem; }
     .home-map-card { min-height: 390px; grid-column: 1; grid-row: auto; }
     .home-map-card .map-container { min-height: 280px; }
@@ -987,15 +968,11 @@
     .home-visit-utility > div:first-child { border-top: 0; }
     .home-visit-utility a { min-height: 32px; }
     .home-calendar-layout { grid-template-columns: 1fr; min-height: 0; }
-    .home-calendar-image { height: 230px; }
     .home-calendar-frame { min-height: 0; }
     .home-about-grid { grid-template-columns: 1fr; gap: 2rem; }
     .home-about-story { grid-column: 1; grid-row: 2; }
-    .home-about-visual { grid-column: 1; grid-row: 1; min-height: 360px; margin-top: 0; }
-    .home-rabbi-portrait { right: 1rem; bottom: 1rem; left: auto; width: 155px; }
-    .home-about-actions { grid-template-columns: 1fr; gap: 0; }
-    .home-about-details { border-right: 0; border-bottom: 1px solid var(--home-line); }
-    .home-about-actions > .home-text-link { padding-left: 0; }
+    .home-about-visual { grid-column: 1; grid-row: 1; aspect-ratio: 1; min-height: 360px; margin-top: 0; }
+    .home-rabbi-portrait { right: 1rem; bottom: 1rem; width: 155px; }
     .home-rabbi-story { padding-block: 0.85rem; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }
     .home-rabbi-story > summary { display: flex; min-height: 44px; align-items: center; justify-content: space-between; margin-bottom: 0; }
     .home-rabbi-story > summary::after { color: var(--home-gold-500); content: '+'; font-family: var(--font-body); }
@@ -1004,26 +981,20 @@
     .home-identity-intro { grid-template-columns: 1fr; gap: 1.5rem; padding-bottom: 2.5rem; }
     .home-identity-heading h2 { font-size: clamp(2.5rem, 12vw, 3.55rem); }
     .home-identity-statement { font-size: clamp(1.25rem, 5.8vw, 1.6rem); line-height: 1.48; text-wrap: pretty; }
-    .home-identity-chapter,
-    .home-identity-chapter + .home-identity-chapter { padding-block: 2.35rem; }
-    .home-value-preview-grid { grid-template-columns: 1fr; }
-    .home-identity-action { align-items: stretch; flex-direction: column; gap: 1.35rem; padding-top: 2.25rem; }
-    .home-identity-action .home-button { width: 100%; }
     .home-torah-quote .home-shell { grid-template-columns: 1fr; gap: 1.25rem; }
     .home-torah-quote-icon { width: 52px; height: 52px; }
     .home-torah-quote-icon svg { width: 26px; height: 26px; }
     .home-torah-quote-primary { padding: 0 0 1.5rem; border-right: 0; border-bottom: 1px solid rgba(230, 201, 120, 0.34); }
     .home-torah-quote-primary p { font-size: 1.28rem; line-height: 1.45; }
     .home-torah-quote-secondary p { font-size: 1.21rem; }
-    .home-calendar-section .home-text-link { justify-self: start; }
     .home-redesign + .footer + .back-to-top { display: none !important; }
 }
 
 @media (max-width: 599px) {
     .home-calendar-section .home-section-heading { margin-bottom: 0; }
-    .home-calendar-section .home-text-link { width: 100%; min-height: 50px; justify-content: center; border: 1px solid var(--home-gold-300); background: var(--home-gold-300); color: var(--home-blue-950); }
     .home-calendar-layout { margin-top: 1.5rem; }
-    .home-calendar-image { min-height: 190px; height: 190px; }
+    .home-calendar-image { display: block; }
+    .home-calendar-image figcaption { padding: 1.25rem .5rem 1.75rem; }
     .home-calendar-frame { display: block; padding: 0.9rem 0.8rem 1.1rem; }
     .kehilat-calendar { gap: 0.85rem; }
     .kehilat-calendar-date-header { padding-inline: 0.9rem; }
@@ -1033,10 +1004,9 @@
 @media (max-width: 360px) {
     .home-hero h1 { font-size: 2.1rem; }
     .home-schedule-card > h3 { font-size: 1.55rem; }
-    .home-hero-intro { font-size: 0.86rem; }
-    .home-button { font-size: 0.75rem; }
+    .home-hero-intro { font-size: 1rem; }
+    .home-button { font-size: 1rem; }
     .home-hero-actions { grid-template-columns: 1fr; }
-    .home-identity-action .home-button { gap: 0.45rem; padding-inline: 0.5rem; font-size: 0.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

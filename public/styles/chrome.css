@@ -1,8 +1,6 @@
 /* Shared site chrome. Loaded last so navigation and footer geometry cannot drift by route. */
 
 :root {
-    --font-body: Arial, Helvetica, sans-serif;
-    --font-display: Georgia, 'Times New Roman', serif;
     --site-chrome-navy: #061d35;
     --site-chrome-ink: #0b2d57;
     --site-chrome-gold: #d1a12d;
@@ -108,7 +106,7 @@ html.mobile-nav-open body {
         background: #fff;
         color: var(--site-chrome-ink);
         font-family: var(--font-body);
-        font-size: 0.95rem;
+        font-size: 1rem;
         font-weight: 750;
         line-height: 1;
         box-shadow: none;
@@ -221,8 +219,8 @@ html.mobile-nav-open body {
         background: transparent;
         color: var(--site-chrome-ink);
         font-family: var(--font-body);
-        font-size: 0.94rem;
-        font-size: clamp(0.94rem, 4.5cqi, 1rem);
+        font-size: 1rem;
+        font-size: clamp(1rem, 4.5cqi, 1rem);
         font-weight: 700;
         line-height: 1.25;
         text-decoration: none;
@@ -361,6 +359,7 @@ html.mobile-nav-open body {
         background: var(--nav-surface) !important;
         box-shadow: none !important;
         container-type: inline-size;
+        transition: background-color 160ms ease, box-shadow 160ms ease;
     }
 
     .site-navigation-shell .nav-links > li:first-child {
@@ -388,7 +387,7 @@ html.mobile-nav-open body {
 
     .site-navigation-shell .nav-item-row {
         display: grid !important;
-        grid-template-columns: minmax(0, 1fr) 2.6rem !important;
+        grid-template-columns: minmax(0, 1fr) 2.75rem !important;
         align-items: stretch !important;
     }
 
@@ -399,9 +398,9 @@ html.mobile-nav-open body {
         border-radius: 0 !important;
         background: transparent !important;
         color: var(--site-chrome-navy) !important;
-        font-size: 1rem !important;
-        font-size: clamp(1rem, 8cqi, 1.25rem) !important;
-        font-weight: 760 !important;
+        font-size: 1.125rem !important;
+        font-size: clamp(1.125rem, 9cqi, 1.25rem) !important;
+        font-weight: 650 !important;
         font-synthesis: none !important;
         letter-spacing: 0 !important;
         line-height: 1.15 !important;
@@ -413,16 +412,16 @@ html.mobile-nav-open body {
     .site-navigation-shell :is(.nav-links > li > a, .nav-item-row > .nav-primary-link) {
         display: flex !important;
         min-width: 0 !important;
-        padding: 0 2.7rem 0 1rem !important;
+        padding: 0 1.5rem !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 0.5rem !important;
+        gap: 0.625rem !important;
         flex: 1 1 auto !important;
     }
 
     .site-navigation-shell .nav-item-row > a.nav-primary-link {
         width: auto !important;
-        padding: 0 0 0 2.6rem !important;
+        padding: 0 0 0 2.75rem !important;
         grid-column: 1 !important;
     }
 
@@ -436,32 +435,31 @@ html.mobile-nav-open body {
         padding: 0 !important;
         border-left: 1px solid rgba(6, 29, 53, 0.1) !important;
         grid-column: 2 !important;
-        flex: 0 0 2.6rem !important;
+        flex: 0 0 2.75rem !important;
     }
 
     .site-navigation-shell .nav-item-row > .nav-disclosure-primary {
         position: relative !important;
         width: 100% !important;
-        padding: 0 2.7rem 0 1rem !important;
+        padding: 0 1.5rem !important;
         grid-column: 1 / -1 !important;
         justify-content: center !important;
-        gap: 0.5rem !important;
+        gap: 0.625rem !important;
     }
 
     .site-navigation-shell .nav-disclosure-primary .nav-chevron {
         position: absolute;
-        right: 0.95rem;
+        right: 1.125rem;
     }
 
     .site-navigation-shell :is(.nav-links a i, .nav-primary-link i) {
-        width: 1rem !important;
+        width: 1.125rem !important;
         margin: 0 !important;
         color: currentColor !important;
-        font-size: 0.95rem !important;
-        font-size: clamp(0.95rem, 7cqi, 1.1rem) !important;
+        font-size: 1.125rem !important;
         line-height: 1 !important;
         text-align: center;
-        flex: 0 0 1rem !important;
+        flex: 0 0 1.125rem !important;
         transform: none !important;
     }
 
@@ -471,9 +469,15 @@ html.mobile-nav-open body {
     }
 
     .site-navigation-shell .nav-links > li:hover,
-    .site-navigation-shell .nav-links > li:focus-within {
+    .site-navigation-shell .nav-links > li:focus-within,
+    .site-navigation-shell .nav-links > li.active {
         background: color-mix(in srgb, var(--nav-surface) 88%, white) !important;
         box-shadow: inset 0 -3px 0 var(--nav-accent) !important;
+    }
+
+    .site-navigation-shell :is(.nav-links a, .nav-links button):focus-visible {
+        outline: 2px solid var(--site-chrome-navy);
+        outline-offset: -4px;
     }
 
     .site-navigation-shell .dropdown-content {
@@ -481,8 +485,9 @@ html.mobile-nav-open body {
         position: absolute !important;
         top: var(--site-nav-height) !important;
         left: 0 !important;
-        width: 100% !important;
+        width: max-content !important;
         min-width: 100% !important;
+        max-width: 24rem !important;
         margin: 0 !important;
         padding: 0.4rem !important;
         border: 1px solid color-mix(in srgb, var(--nav-accent) 58%, var(--site-chrome-navy)) !important;
@@ -509,9 +514,9 @@ html.mobile-nav-open body {
 
     .site-navigation-shell .dropdown-content a {
         display: grid !important;
-        min-height: 46px !important;
+        min-height: 48px !important;
         margin: 0 !important;
-        padding: 0.7rem 0.8rem !important;
+        padding: 0.7rem 0.9rem !important;
         border: 0 !important;
         border-bottom: 1px solid color-mix(in srgb, var(--nav-accent) 42%, transparent) !important;
         border-radius: 0 !important;
@@ -520,9 +525,8 @@ html.mobile-nav-open body {
         gap: 0.65rem;
         background: rgba(255, 255, 255, 0.28) !important;
         color: var(--site-chrome-ink) !important;
-        font-size: 0.875rem !important;
-        font-size: clamp(0.875rem, 7cqi, 1rem) !important;
-        font-weight: 700 !important;
+        font-size: 1.125rem !important;
+        font-weight: 600 !important;
         line-height: 1.25 !important;
         white-space: normal !important;
         transform: none !important;
@@ -593,7 +597,7 @@ html.mobile-nav-open body {
         gap: clamp(0.4rem, 1.6vw, 0.65rem) !important;
         color: #fff !important;
         font-family: var(--font-display) !important;
-        font-size: clamp(0.94rem, 4.2vw, 1.08rem) !important;
+        font-size: clamp(1rem, 4.2vw, 1.08rem) !important;
         font-weight: 700 !important;
         line-height: 1.1 !important;
         text-decoration: none !important;
@@ -768,7 +772,7 @@ html.mobile-nav-open body {
         min-height: 58px !important;
         background: transparent !important;
         color: var(--site-chrome-navy) !important;
-        font-size: 0.94rem !important;
+        font-size: 1rem !important;
         font-weight: 750 !important;
         text-shadow: none !important;
     }
@@ -844,7 +848,7 @@ html.mobile-nav-open body {
         border-radius: 0 !important;
         background: transparent !important;
         color: var(--site-chrome-ink) !important;
-        font-size: 0.88rem !important;
+        font-size: 1rem !important;
         grid-template-columns: 1.25rem minmax(0, 1fr) !important;
         align-items: center !important;
         gap: 0.65rem !important;
@@ -870,7 +874,7 @@ html.mobile-nav-open body {
         height: 44px !important;
         min-height: 44px !important;
         gap: 0.35rem !important;
-        font-size: 0.92rem !important;
+        font-size: 1rem !important;
     }
 
     .site-navigation-shell .mobile-site-mark {
@@ -943,7 +947,7 @@ html.mobile-nav-open body {
     align-items: center;
     color: rgba(255, 255, 255, 0.68);
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 760;
     line-height: 1.2;
 }
@@ -972,7 +976,7 @@ html.mobile-nav-open body {
     overflow: hidden;
     color: #fff;
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -1081,7 +1085,7 @@ body .site-footer :is(.footer-links, .footer-contact) i {
     width: 1rem !important;
     margin: 0 !important;
     color: var(--site-chrome-gold) !important;
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     line-height: 1 !important;
     text-align: center;
     flex: 0 0 1rem;
@@ -1089,7 +1093,7 @@ body .site-footer :is(.footer-links, .footer-contact) i {
 
 body .site-footer :is(.footer-col p, .footer-links a, .footer-contact li) {
     color: rgba(255, 255, 255, 0.72) !important;
-    font-size: 0.88rem !important;
+    font-size: 1rem !important;
     line-height: 1.6 !important;
 }
 
@@ -1164,7 +1168,7 @@ body .site-footer .newsletter-field {
 
 body .site-footer .newsletter-field-label {
     color: rgba(255, 255, 255, 0.86);
-    font-size: 0.76rem;
+    font-size: 1rem;
     font-weight: 750;
     line-height: 1.25;
 }
@@ -1175,7 +1179,7 @@ body .site-footer .newsletter-field-label > span[aria-hidden='true'] {
 
 body .site-footer .newsletter-optional {
     color: rgba(255, 255, 255, 0.58) !important;
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 600;
 }
 
@@ -1191,7 +1195,7 @@ body .site-footer .newsletter-form-expanded .newsletter-field > input {
     border-radius: 0.45rem !important;
     background: rgba(255, 255, 255, 0.09) !important;
     color: #fff !important;
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     line-height: 1.2 !important;
     box-shadow: none !important;
 }
@@ -1216,7 +1220,7 @@ body .site-footer .newsletter-btn-full {
     gap: 0.55rem;
     background: var(--site-chrome-gold) !important;
     color: var(--site-chrome-navy) !important;
-    font-size: 0.84rem !important;
+    font-size: 1rem !important;
     font-weight: 850 !important;
     box-shadow: none !important;
 }
@@ -1242,7 +1246,7 @@ body .site-footer .newsletter-unavailable {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 0.4rem;
     color: rgba(255, 255, 255, 0.76) !important;
-    font-size: 0.75rem !important;
+    font-size: 1rem !important;
     line-height: 1.4 !important;
 }
 
@@ -1253,7 +1257,7 @@ body .site-footer .newsletter-consent {
     align-items: start;
     color: rgba(255, 255, 255, 0.84);
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 1rem;
     line-height: 1.45;
 }
 
@@ -1302,7 +1306,7 @@ body .site-footer .newsletter-consent a:focus-visible {
 body .site-footer .newsletter-privacy {
     margin: -0.15rem 0 0 !important;
     color: rgba(255, 255, 255, 0.64) !important;
-    font-size: 0.72rem !important;
+    font-size: 1rem !important;
     line-height: 1.45 !important;
 }
 
@@ -1326,7 +1330,7 @@ body .site-footer .footer-bottom {
 body .site-footer .footer-bottom p {
     margin: 0 !important;
     color: inherit !important;
-    font-size: 0.78rem !important;
+    font-size: 1rem !important;
     line-height: 1.55 !important;
 }
 
@@ -1344,7 +1348,7 @@ body .site-footer .footer-legal {
 
 body .site-footer .footer-legal a {
     color: rgba(255, 255, 255, 0.72) !important;
-    font-size: 0.78rem !important;
+    font-size: 1rem !important;
     line-height: 1.55;
     text-decoration: underline;
     text-decoration-color: rgba(255, 255, 255, 0.25);
@@ -1401,7 +1405,7 @@ body .site-footer a:hover {
         display: inline-flex;
         min-height: 44px;
         align-items: center;
-        font-size: 0.75rem;
+        font-size: 1rem;
         white-space: nowrap;
     }
 
@@ -1414,7 +1418,7 @@ body .site-footer a:hover {
         min-height: 44px;
         align-items: center;
         overflow: hidden;
-        font-size: 0.75rem;
+        font-size: 1rem;
         text-overflow: ellipsis;
     }
 

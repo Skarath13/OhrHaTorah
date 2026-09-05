@@ -13,7 +13,6 @@
 
     <article class="kehilat-calendar-details" id="kehilat-calendar-event-details" aria-live="polite" hidden>
         <div>
-            <p class="kehilat-calendar-details-kicker">Upcoming date</p>
             <h4 class="kehilat-calendar-details-title"></h4>
             <p class="kehilat-calendar-details-time"></p>
             <p class="kehilat-calendar-details-hebrew" hidden></p>
@@ -46,6 +45,7 @@
 
 <script>
     import {
+        formatCalendarEventTime,
         formatHebrewCalendarDate,
         stripRepeatedHebrewYear,
     } from '../../lib/calendarDisplay';
@@ -154,24 +154,6 @@
             new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'UTC' })
                 .format(new Date(`${date}T12:00:00.000Z`));
 
-        const formatClockTime = (value: string | undefined): string => {
-            const match = value?.match(/T(\d{2}):(\d{2})/);
-            if (!match) return '';
-            const hours = Number(match[1]);
-            const minutes = match[2];
-            const period = hours >= 12 ? 'p.m.' : 'a.m.';
-            const displayHours = hours % 12 || 12;
-            return `${displayHours}:${minutes} ${period}`;
-        };
-
-        const formatEventTime = (event: CalendarEvent): string => {
-            if (event.allDay) return 'All day';
-            const startTime = formatClockTime(event.start);
-            const endTime = formatClockTime(event.end);
-            if (!startTime) return 'Time to be announced';
-            return endTime ? `${startTime}–${endTime}` : startTime;
-        };
-
         const getGroupLabel = (group: CalendarGroup): string => ({
             congregation: 'Congregation gathering',
             holiday: 'Jewish holiday or festival',
@@ -221,7 +203,7 @@
 
         const setEventDateAndTime = (element: HTMLElement, event: CalendarEvent) => {
             const calendarDate = event.extendedProps.calendarDate || event.start?.slice(0, 10) || '';
-            const eventTime = formatEventTime(event);
+            const eventTime = formatCalendarEventTime(event);
             element.replaceChildren();
 
             if (calendarDate && isoDatePattern.test(calendarDate)) {
@@ -233,7 +215,8 @@
                     day: 'numeric',
                     year: 'numeric',
                 });
-                element.append(date, ` · ${eventTime}`);
+                element.append(date);
+                if (eventTime) element.append(` · ${eventTime}`);
                 return;
             }
 
@@ -276,6 +259,9 @@
             const button = document.createElement('button');
             button.type = 'button';
             button.className = `kehilat-calendar-event-button kehilat-calendar-event-button--${event.extendedProps.group}`;
+            if (event.extendedProps.source === 'congregation' && event.id === 'holiday-2026-kol-nidre') {
+                button.classList.add('kehilat-calendar-event-button--featured');
+            }
             button.setAttribute('aria-controls', 'kehilat-calendar-event-details');
             button.setAttribute('aria-expanded', 'false');
 
@@ -290,11 +276,22 @@
                 event.extendedProps.hebrewDate,
             );
 
-            const time = document.createElement('span');
-            time.className = 'kehilat-calendar-event-time';
-            time.textContent = formatEventTime(event);
-
-            button.append(type, title, time);
+            button.append(type, title);
+            const eventTime = formatCalendarEventTime(event);
+            if (eventTime) {
+                const time = document.createElement('span');
+                time.className = 'kehilat-calendar-event-time';
+                time.textContent = eventTime;
+                button.append(time);
+            }
+            // Keep service instructions and approximate-time notes visible in the
+            // feed. Use the stored text; third-party holiday essays stay in details.
+            if (event.extendedProps.source === 'congregation' && event.extendedProps.description?.trim()) {
+                const description = document.createElement('span');
+                description.className = 'kehilat-calendar-event-description';
+                description.textContent = event.extendedProps.description;
+                button.append(description);
+            }
             if (event.extendedProps.hebrew || event.extendedProps.hebrewDate) {
                 const hebrew = document.createElement('span');
                 hebrew.className = 'kehilat-calendar-event-hebrew';

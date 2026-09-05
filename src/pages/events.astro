@@ -1,52 +1,54 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ConstructionNotice from '../components/layout/ConstructionNotice.astro';
+import { canViewAdminPreview } from '../lib/adminPreview';
+const canPreview = canViewAdminPreview(Astro.locals.user);
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.append('Vary', 'Cookie');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 ---
 
 <PageLayout title="Special Events - Kehilat Ohr HaTorah" pageTitle="Special Events" pageIcon="fas fa-star" description="Holiday gatherings, learning, music, and community events at Kehilat Ohr HaTorah.">
+    {canPreview ? (<div data-admin-draft>
+        <p class="editorial-note">Internal admin preview · This page is under construction.</p>
+
     <p class="intro-text"><strong>Join us for holiday gatherings, learning, music, and community throughout the year.</strong></p>
 
     <p class="description">Dates and details are added to the congregation calendar as they are confirmed. Our gatherings may include:</p>
 
     <div class="events-grid">
         <div class="event-card">
-            <i class="fas fa-utensils"></i>
-            <h3>Community Dinners</h3>
+            <h3 class="icon-heading"><i class="fas fa-utensils editorial-icon" aria-hidden="true"></i><span>Community Dinners</span></h3>
             <p>Fellowship meals and celebrations</p>
         </div>
 
         <div class="event-card">
-            <i class="fas fa-microphone"></i>
-            <h3>Guest Speakers</h3>
+            <h3 class="icon-heading"><i class="fas fa-microphone editorial-icon" aria-hidden="true"></i><span>Guest Speakers</span></h3>
             <p>Teaching from visiting rabbis and scholars</p>
         </div>
 
         <div class="event-card">
-            <i class="fas fa-music"></i>
-            <h3>Concerts and Music</h3>
+            <h3 class="icon-heading"><i class="fas fa-music editorial-icon" aria-hidden="true"></i><span>Concerts and Music</span></h3>
             <p>Messianic Jewish music and worship gatherings</p>
         </div>
 
         <div class="event-card">
-            <i class="fas fa-chalkboard-teacher"></i>
-            <h3>Educational Workshops</h3>
+            <h3 class="icon-heading"><i class="fas fa-chalkboard-teacher editorial-icon" aria-hidden="true"></i><span>Educational Workshops</span></h3>
             <p>Hebrew language and Jewish culture</p>
         </div>
 
         <div class="event-card">
-            <i class="fas fa-handshake"></i>
-            <h3>Interfaith Dialogues</h3>
+            <h3 class="icon-heading"><i class="fas fa-handshake editorial-icon" aria-hidden="true"></i><span>Interfaith Dialogues</span></h3>
             <p>Building bridges in our community</p>
         </div>
 
         <div class="event-card">
-            <i class="fas fa-child"></i>
-            <h3>Youth Activities</h3>
+            <h3 class="icon-heading"><i class="fas fa-child editorial-icon" aria-hidden="true"></i><span>Youth Activities</span></h3>
             <p>Special programs for children and teens</p>
         </div>
 
         <div class="event-card">
-            <i class="fas fa-hands-helping"></i>
-            <h3>Volunteer Opportunities</h3>
+            <h3 class="icon-heading"><i class="fas fa-hands-helping editorial-icon" aria-hidden="true"></i><span>Volunteer Opportunities</span></h3>
             <p>Serving our local community</p>
         </div>
     </div>
@@ -58,6 +60,8 @@ import PageLayout from '../layouts/PageLayout.astro';
             <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
         </div>
     </div>
+
+    </div>) : <ConstructionNotice />}
 </PageLayout>
 
 <style>
@@ -84,19 +88,13 @@ import PageLayout from '../layouts/PageLayout.astro';
         background: var(--gray-100);
         padding: 25px;
         border-radius: 12px;
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .event-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        text-align: left;
     }
 
     .event-card i {
-        font-size: 2.5rem;
+        font-size: 1.35rem;
         color: var(--primary-blue);
-        margin-bottom: 15px;
+        margin: 0;
     }
 
     .event-card h3 {
@@ -108,7 +106,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     .event-card p {
         margin: 0;
         color: var(--text-secondary);
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .info-box {

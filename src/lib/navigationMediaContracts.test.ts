@@ -47,8 +47,9 @@ test('mobile navigation is an isolated native dialog with native disclosure grou
     assert.match(mobileNavigationSource, /mobileNavDialog\.close\(\)/);
     assert.match(mobileNavigationSource, /mobileNavScroll\.scrollTop = 0/);
     assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/"/);
-    assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/services"/);
-    assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/resources"/);
+    assert.match(mobileNavigationSource, /href="\/services"[^\n]+<span>Shabbat services<\/span>/);
+    assert.match(mobileNavigationSource, /href="\/resources"[^\n]+<span>Messianic Jewish resources<\/span>/);
+    assert.doesNotMatch(mobileNavigationSource, /overview|Common questions/);
 
     for (const legacyClass of ['nav-container', 'nav-links', 'dropdown', 'nav-overlay', 'nav-drawer']) {
         assert.doesNotMatch(
@@ -72,11 +73,11 @@ test('navigation typography scales with its available menu-card width', () => {
     );
     assert.match(
         chromeStyles,
-        /\.mobile-nav-submenu-link \{[^}]*font-size: clamp\(0\.94rem, 4\.5cqi, 1rem\);/s
+        /\.mobile-nav-submenu-link \{[^}]*font-size: clamp\(1rem, 4\.5cqi, 1rem\);/s
     );
     assert.match(
         chromeStyles,
-        /@media \(min-width: 1360px\) \{[\s\S]*?\.site-navigation-shell \.nav-links > li \{[^}]*container-type: inline-size;[\s\S]*?font-size: clamp\(1rem, 8cqi, 1\.25rem\) !important;/s
+        /@media \(min-width: 1360px\) \{[\s\S]*?\.site-navigation-shell \.nav-links > li \{[^}]*container-type: inline-size;[\s\S]*?font-size: clamp\(1\.125rem, 9cqi, 1\.25rem\) !important;/s
     );
 });
 

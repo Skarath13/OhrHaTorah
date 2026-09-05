@@ -64,10 +64,6 @@ const pageSections: Record<string, PageSection> = {
         section: 'Community',
         sectionHref: '/israel',
     },
-    '/location': {
-        section: 'Welcome',
-        sectionHref: '/about',
-    },
     '/mission': {
         section: 'Welcome',
         sectionHref: '/about',
@@ -105,7 +101,7 @@ const pageSection = pageSections[currentPath] ?? pageSections['/about'];
 const showSectionCrumb = pageSection.sectionHref !== currentPath;
 ---
 
-<BaseLayout title={title} description={description} stylesheets={['/styles/interior.css', ...stylesheets]}>
+<BaseLayout title={title} description={description} stylesheets={['/styles/interior.css', '/styles/editorial.css', ...stylesheets]}>
     <div class="interior-shell">
         <div class="site-navigation-shell">
             <Header showLogo={false} />
@@ -133,7 +129,7 @@ const showSectionCrumb = pageSection.sectionHref !== currentPath;
 
         {pageTitle && <SectionDivider from="var(--interior-navy)" to="var(--interior-cream)" shape="sweep-reverse" />}
 
-        <main class="page-content interior-page" aria-labelledby={pageTitle ? 'page-title' : undefined}>
+        <main id="main-content" tabindex="-1" class="page-content interior-page" aria-labelledby={pageTitle ? 'page-title' : undefined}>
             <article class="page-container">
             <div class="page-body">
                 <slot />

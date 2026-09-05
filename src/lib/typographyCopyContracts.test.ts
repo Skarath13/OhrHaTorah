@@ -33,8 +33,8 @@ test('public typography is limited to the shared display and body families', () 
         assert.doesNotMatch(typographySources, new RegExp(bannedFamily.replace('-', '\\-'), 'i'));
     }
 
-    assert.match(typographySources, /--font-display: Georgia, 'Times New Roman', serif;/);
-    assert.match(typographySources, /--font-body: Arial, Helvetica, sans-serif;/);
+    assert.match(typographySources, /--font-display: 'Source Serif 4', Georgia, serif;/);
+    assert.match(typographySources, /--font-body: 'Source Sans 3', Arial, sans-serif;/);
 });
 
 test('visitor guidance does not advertise programs that are still being planned', () => {
@@ -47,7 +47,7 @@ test('the Messianic Jewish resources directory stays under construction during r
     const resourcesSource = readFileSync(join(root, 'src/pages/resources.astro'), 'utf8');
     const resourceData = readFileSync(join(root, 'src/data/resourceDirectory.ts'), 'utf8');
 
-    assert.match(resourcesSource, /<h2 id="resources-pending-title">This section is under construction\.<\/h2>/);
+    assert.match(resourcesSource, /<h2 id="resources-pending-title"[^>]*>[\s\S]*?This section is under construction\.[\s\S]*?<\/h2>/);
     assert.match(resourcesSource, /will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete/);
     assert.match(resourcesSource, /const canPreview = canViewAdminPreview\(Astro\.locals\.user\)/);
     assert.match(resourcesSource, /Cache-Control', 'private, no-store, max-age=0'/);
@@ -59,7 +59,7 @@ test('the Messianic Jewish resources directory stays under construction during r
 test('the Shabbat School page stays under construction during review', () => {
     const youthSource = readFileSync(join(root, 'src/pages/youth.astro'), 'utf8');
 
-    assert.match(youthSource, /<h2 id="youth-pending-title">This section is under construction\.<\/h2>/);
+    assert.match(youthSource, /<h2 id="youth-pending-title"[^>]*>[\s\S]*?This section is under construction\.[\s\S]*?<\/h2>/);
     assert.match(youthSource, /will publish program details after that review is complete/);
     assert.match(youthSource, /const canPreview = canViewAdminPreview\(Astro\.locals\.user\)/);
     assert.match(youthSource, /Cache-Control', 'private, no-store, max-age=0'/);

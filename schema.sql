@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS congregation_calendar_events (
   ends_on TEXT,
   start_time TEXT,
   end_time TEXT,
+  excluded_dates_json TEXT NOT NULL DEFAULT '[]' CHECK (json_valid(excluded_dates_json) AND json_type(excluded_dates_json) = 'array' AND json_array_length(excluded_dates_json) <= 120),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
@@ -114,7 +115,7 @@ CREATE TABLE IF NOT EXISTS congregation_calendar_events (
       AND (
         (all_day = 1 AND start_time IS NULL AND end_time IS NULL)
         OR
-        (all_day = 0 AND start_time IS NOT NULL AND end_time IS NOT NULL AND end_time > start_time)
+        (all_day = 0 AND start_time IS NOT NULL AND (end_time IS NULL OR end_time > start_time))
       )
     )
     OR

@@ -3,7 +3,7 @@
 ---
 
 <!-- Login Modal -->
-<div id="loginModal" class="login-modal">
+<dialog id="loginModal" class="login-modal" aria-labelledby="login-modal-title" aria-describedby="login-modal-description">
   <div class="login-modal-backdrop"></div>
   <div class="login-modal-content">
     <button class="login-modal-close" id="loginModalClose" aria-label="Close">
@@ -13,19 +13,19 @@
       </svg>
     </button>
 
-    <div class="login-logo">&#x2721;</div>
-    <h2>Admin Login</h2>
-    <p class="login-subtitle">Enter your 6-digit PIN</p>
+    <div class="login-logo" aria-hidden="true">&#x2721;</div>
+    <h2 id="login-modal-title">Admin Login</h2>
+    <p class="login-subtitle" id="login-modal-description">Enter your 6-digit PIN</p>
 
     <form id="loginModalForm">
-      <label class="pin-label">Security PIN</label>
-      <div class="pin-inputs">
-        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="0" autocomplete="off">
-        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="1" autocomplete="off">
-        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="2" autocomplete="off">
-        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="3" autocomplete="off">
-        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="4" autocomplete="off">
-        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" data-index="5" autocomplete="off">
+      <p class="pin-label" id="pin-group-label">Security PIN</p>
+      <div class="pin-inputs" role="group" aria-labelledby="pin-group-label">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" aria-label="PIN digit 1 of 6" data-index="0" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" aria-label="PIN digit 2 of 6" data-index="1" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" aria-label="PIN digit 3 of 6" data-index="2" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" aria-label="PIN digit 4 of 6" data-index="3" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" aria-label="PIN digit 5 of 6" data-index="4" autocomplete="off">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-input" aria-label="PIN digit 6 of 6" data-index="5" autocomplete="off">
       </div>
       <input type="hidden" name="pin" id="loginPinValue">
 
@@ -34,244 +34,37 @@
         <div class="loading-spinner"></div>
       </button>
 
-      <div class="error-message" id="loginErrorMessage"></div>
+      <div class="error-message" id="loginErrorMessage" role="alert"></div>
     </form>
   </div>
-</div>
+</dialog>
 
 <style>
-  .login-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10003;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .login-modal.visible {
-    display: flex;
-  }
-
-  .login-modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-  }
-
-  .login-modal-content {
-    position: relative;
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-    text-align: center;
-    animation: modalSlideIn 0.3s ease;
-  }
-
-  @keyframes modalSlideIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95) translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
-  .login-modal-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #718096;
-    padding: 4px;
-    border-radius: 4px;
-    transition: all 0.2s;
-  }
-
-  .login-modal-close:hover {
-    background: #f7fafc;
-    color: #2d3748;
-  }
-
-  .login-logo {
-    font-size: 48px;
-    margin-bottom: 10px;
-    color: #1a365d;
-  }
-
-  .login-modal-content h2 {
-    color: #1a365d;
-    font-size: 24px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .login-subtitle {
-    color: #718096;
-    font-size: 14px;
-    margin-bottom: 30px;
-  }
-
-  .pin-label {
-    color: #4a5568;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .pin-inputs {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 24px;
-  }
-
-  .pin-input {
-    width: 48px;
-    height: 56px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    outline: none;
-    transition: all 0.2s ease;
-    color: #1a365d;
-    -moz-appearance: textfield;
-  }
-
-  .pin-input::-webkit-outer-spin-button,
-  .pin-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  .pin-input:focus {
-    border-color: #3182ce;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
-  }
-
-  .pin-input.filled {
-    background: #f7fafc;
-    border-color: #3182ce;
-  }
-
-  .pin-input.error {
-    border-color: #e53e3e;
-    animation: shake 0.5s ease-in-out;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
-  }
-
-  .submit-btn {
-    width: 100%;
-    padding: 14px 24px;
-    background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .submit-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px -5px rgba(49, 130, 206, 0.4);
-  }
-
-  .submit-btn:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  .submit-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .error-message {
-    color: #e53e3e;
-    font-size: 14px;
-    margin-top: 16px;
-    padding: 12px;
-    background: #fff5f5;
-    border-radius: 8px;
-    display: none;
-  }
-
-  .error-message.show {
-    display: block;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .loading-spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    display: none;
-  }
-
-  .submit-btn.loading .loading-spinner {
-    display: block;
-  }
-
-  .submit-btn.loading .btn-text {
-    display: none;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  @media (max-width: 480px) {
-    .login-modal-content {
-      padding: 30px 20px;
-    }
-
-    .pin-input {
-      width: 42px;
-      height: 50px;
-      font-size: 20px;
-    }
-
-    .pin-inputs {
-      gap: 8px;
-    }
-  }
+  .login-modal { position: fixed; inset: 0; z-index: 10003; display: none; align-items: center; justify-content: center; box-sizing: border-box; width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 1rem; border: 0; background: transparent; }
+  .login-modal.visible { display: flex; }
+  .login-modal-backdrop { position: absolute; inset: 0; background: #061d3599; backdrop-filter: blur(6px); }
+  .login-modal-content { position: relative; box-sizing: border-box; width: min(100%, 29rem); max-height: calc(100dvh - 2rem); overflow-y: auto; padding: clamp(1.5rem, 5vw, 3rem); border: 1px solid #d7c8a5; border-radius: 1rem; background: #fbf8f1; color: #061d35; box-shadow: 0 24px 80px #061d3540; text-align: center; }
+  .login-modal-close { position: absolute; top: .5rem; right: .5rem; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: .4rem; background: transparent; color: #46566a; cursor: pointer; }
+  .login-modal-close:hover { background: #e9e2d4; color: #061d35; }
+  .login-logo { color: #96712e; font-size: 2.5rem; line-height: 1.2; margin-bottom: 1rem; }
+  .login-modal-content h2 { margin: 0 0 .6rem; font: 500 clamp(1.8rem, 5vw, 2.3rem)/1.15 var(--font-display); color: #061d35; }
+  .login-subtitle { color: #46566a; font-size: 1.125rem; margin-bottom: 2rem; }
+  .pin-label { display: block; text-align: left; margin: 0 0 .75rem; color: #46566a; font-size: 1rem; font-weight: 600; }
+  .pin-inputs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(.3rem, 1.5vw, .55rem); margin-bottom: 1.5rem; }
+  .pin-input { width: 100%; min-width: 0; height: 3.4rem; padding: 0; border: 1px solid #a9b1b7; border-radius: .4rem; background: white; color: #061d35; font: 600 1.5rem var(--font-body); text-align: center; }
+  .pin-input:focus { border-color: #0b2d57; outline: 2px solid #0b2d57; outline-offset: 2px; }
+  .pin-input.filled { border-color: #6d8298; background: #edf1f3; }
+  .pin-input.error { border-color: #a52626; }
+  .submit-btn { display: flex; justify-content: center; align-items: center; gap: .5rem; width: 100%; min-height: 52px; padding: .8rem 1rem; background: #0b2d57; color: #fff; border: 0; border-radius: .4rem; font: 650 1.125rem var(--font-body); cursor: pointer; }
+  .submit-btn:hover:not(:disabled) { background: #164770; }
+  .submit-btn:disabled { opacity: .55; cursor: not-allowed; }
+  .error-message { display: none; color: #8f2020; background: #fbece6; border-left: 3px solid #a52626; padding: .8rem; margin-top: 1rem; font-size: 1.125rem; line-height: 1.5; text-align: left; }
+  .error-message.show { display: block; }
+  .loading-spinner { display: none; width: 20px; height: 20px; border: 2px solid #ffffff50; border-top-color: white; border-radius: 50%; animation: spin .8s linear infinite; }
+  .submit-btn.loading .loading-spinner { display: block; }
+  .submit-btn.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .loading-spinner { animation: none; } }
 </style>
 
 <script is:inline>
@@ -287,16 +80,22 @@
   const pinValue = document.getElementById('loginPinValue');
   const errorMessage = document.getElementById('loginErrorMessage');
 
+  let loginPreviousFocus = null;
+
   // Expose global function to show modal
   window.showLoginModal = function() {
+    loginPreviousFocus = document.activeElement;
     modal.classList.add('visible');
+    modal.showModal();
     document.body.style.overflow = 'hidden';
     resetForm();
     inputs[0].focus();
   };
 
   window.hideLoginModal = function() {
+    modal.close();
     modal.classList.remove('visible');
+    loginPreviousFocus?.focus({ preventScroll: true });
     document.body.style.overflow = '';
     resetForm();
   };
@@ -316,11 +115,18 @@
   closeBtn.addEventListener('click', window.hideLoginModal);
   backdrop.addEventListener('click', window.hideLoginModal);
 
-  // Escape key closes modal
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('visible')) {
-      window.hideLoginModal();
-    }
+  // Native modal focus isolation keeps the background out of keyboard navigation.
+  modal.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    window.hideLoginModal();
+  });
+
+  modal.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') return;
+    const controls = [...modal.querySelectorAll('button:not(:disabled), input:not([type="hidden"])')];
+    const first = controls[0], last = controls.at(-1);
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
   });
 
   // PIN input handling
@@ -429,10 +235,9 @@
           fab.style.display = 'flex';
         }
 
-        // Review-only pages are rendered from the validated server session.
-        // Reload after login so the server can replace the public gate with
-        // the administrator preview; never reveal it from client-side state.
-        if (document.querySelector('[data-admin-preview-gate]')) {
+        // Refresh server-rendered draft access and construction-link behavior.
+        // Never reveal a draft or grant preview access from the hint cookie.
+        if (document.querySelector('[data-admin-preview-gate], #underConstructionModal')) {
           window.location.reload();
         }
       } else {

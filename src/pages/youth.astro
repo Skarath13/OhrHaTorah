@@ -62,9 +62,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         </div>
     ) : (
         <section class="youth-pending" aria-labelledby="youth-pending-title" data-admin-preview-gate>
-            <span class="youth-pending__icon" aria-hidden="true"><i class="fas fa-child"></i></span>
-            <p class="youth-pending__eyebrow">Youth learning</p>
-            <h2 id="youth-pending-title">This section is under construction.</h2>
+            <h2 id="youth-pending-title" class="icon-heading"><i class="fas fa-child editorial-icon" aria-hidden="true"></i><span>This section is under construction.</span></h2>
             <p>We are reviewing plans for youth learning and will publish program details after that review is complete.</p>
         </section>
     )}
@@ -79,7 +77,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     .youth-preview__notice {
         padding: clamp(1.5rem, 4vw, 2.5rem);
         border: 1px solid rgba(177, 128, 24, 0.38);
-        border-radius: 1rem 1rem 3rem 1rem;
+        border-radius: .5rem;
         background: linear-gradient(135deg, rgba(7, 36, 66, 0.98), rgba(13, 51, 91, 0.94));
         box-shadow: 0 20px 45px rgba(6, 29, 53, 0.17);
         color: #fff;
@@ -91,7 +89,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         gap: 0.5rem;
         margin-bottom: 0.8rem;
         color: #f4d56b;
-        font-size: 0.78rem;
+        font-size: 1rem;
         font-weight: 800;
         letter-spacing: 0.11em;
         text-transform: uppercase;
@@ -118,31 +116,12 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         margin: clamp(1rem, 4vw, 3rem) auto;
         padding: clamp(2rem, 6vw, 4.5rem);
         border: 1px solid rgba(13, 51, 91, 0.18);
-        border-radius: 1rem 1rem 3rem 1rem;
+        border-radius: .5rem;
         background: rgba(255, 253, 248, 0.78);
         text-align: center;
     }
 
-    .youth-pending__icon {
-        display: inline-grid;
-        width: 4rem;
-        height: 4rem;
-        margin-bottom: 1.25rem;
-        border: 1px solid rgba(177, 128, 24, 0.42);
-        border-radius: 50%;
-        place-items: center;
-        color: var(--gold-dark);
-        font-size: 1.5rem;
-    }
 
-    .youth-pending__eyebrow {
-        margin: 0 0 0.65rem;
-        color: var(--gold-dark);
-        font-size: 0.82rem;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-    }
 
     .youth-pending h2 {
         margin: 0 0 1rem;

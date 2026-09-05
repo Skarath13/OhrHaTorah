@@ -1,221 +1,55 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import IdentityRichText from '../components/IdentityRichText.astro';
+import { umjcMembershipValue } from '../data/congregationIdentity';
 ---
-
-<PageLayout title="UMJC Membership - Kehilat Ohr HaTorah" pageTitle="UMJC Membership" pageIcon="fas fa-handshake" description="Kehilat Ohr HaTorah's membership in the Union of Messianic Jewish Congregations.">
-    <section class="umjc-lead" aria-labelledby="umjc-lead-title">
-        <p class="umjc-kicker"><i class="fas fa-handshake" aria-hidden="true"></i> Member congregation</p>
-        <h2 id="umjc-lead-title"><strong>Kehilat Ohr HaTorah</strong> is a member of the Union of Messianic Jewish Congregations.</h2>
-        <p>The most reliable way to understand the UMJC is through its own published vision and definition. Those primary statements are linked first below.</p>
-        <div class="umjc-primary-links">
-            <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">
-                Read the UMJC vision and beliefs <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-            <a href="https://www.umjc.org/defining-messianic-judaism" target="_blank" rel="noopener noreferrer">
-                Read the UMJC definition <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-        </div>
-    </section>
-
-    <div class="umjc-sections">
-        <section class="umjc-section" aria-labelledby="about-umjc-title">
-            <span class="umjc-section__icon" aria-hidden="true"><i class="fas fa-synagogue"></i></span>
+<PageLayout title="UMJC Membership - Kehilat Ohr HaTorah" pageTitle="Our UMJC Membership" description="Our place in the Union of Messianic Jewish Congregations: Torah covenant faithfulness, Jewish communal life, faith in Yeshua, and mutual support.">
+    <div class="editorial-page">
+        <section class="editorial-lead" aria-labelledby="umjc-lead-title">
             <div>
-                <p class="umjc-kicker">About the union</p>
-                <h2 id="about-umjc-title">A shared Messianic Jewish framework</h2>
-                <p>The UMJC's published vision centers Yeshua the Messiah, covenantal Jewish life, Torah, Jewish tradition, and the New Covenant. Its fuller statements address communal life, Jewish and non-Jewish participation, belief, and accountability.</p>
+                <h2 id="umjc-lead-title">Union of Messianic Jewish Congregations</h2>
+                <p><strong>Kehilat Ohr HaTorah</strong> is a member of the Union of Messianic Jewish Congregations (UMJC).</p>
+                <p>The UMJC brings congregations together around faith in Yeshua the Messiah and responsibility for Jewish covenant life. Its vision connects Torah, Jewish tradition, and the New Covenant with continuing participation in the life of the Jewish people.</p>
+                <a class="text-link" href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Read the UMJC’s vision <span aria-hidden="true">↗</span></a>
+            </div>
+            <aside class="editorial-side" aria-label="Our congregational identity">
+                <ul class="editorial-link-list">
+                    <li><a href="/mission#vision-and-purpose">Vision and Purpose <span aria-hidden="true">→</span></a></li>
+                    <li><a href="/mission#core-commitments">Core Commitments and Affirmations <span aria-hidden="true">→</span></a></li>
+                    <li><a href="/mission#core-values">Core Values <span aria-hidden="true">→</span></a></li>
+                </ul>
+            </aside>
+        </section>
+        <section class="editorial-section editorial-split" aria-labelledby="membership-reason">
+            <h2 id="membership-reason">Why we belong</h2>
+            <div>
+                <p class="membership-statement"><IdentityRichText content={umjcMembershipValue} /></p>
+                <p>Membership connects our congregation with a wider community of learning, mutual support, and accountability. The union offers education and mentoring for congregational leaders, brings families together at conferences, and helps member communities support one another in times of need.</p>
+                <a class="text-link" href="https://www.umjc.org/why-join-the-union" target="_blank" rel="noopener noreferrer">How the union serves its congregations <span aria-hidden="true">↗</span></a>
             </div>
         </section>
-
-        <section class="umjc-section" aria-labelledby="our-identity-title">
-            <span class="umjc-section__icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
+        <section class="editorial-section" aria-labelledby="shared-life">
+            <h2 id="shared-life">Jewish life in Messiah</h2>
+            <div class="editorial-columns">
+                <div>
+                    <h3 class="icon-heading"><i class="fas fa-scroll editorial-icon" aria-hidden="true"></i><span>Torah and covenant faithfulness</span></h3>
+                    <p>In the UMJC’s definition, Messianic Judaism shares the Jewish people’s history and covenantal responsibility. Scripture guides this life, while Jewish tradition connects present-day practice with earlier generations. Torah is lived and applied within the New Covenant.</p>
+                    <a class="text-link" href="https://www.umjc.org/defining-messianic-judaism" target="_blank" rel="noopener noreferrer">The UMJC’s definition of Messianic Judaism <span aria-hidden="true">↗</span></a>
+                </div>
+                <div>
+                    <h3 class="icon-heading"><i class="fas fa-people-group editorial-icon" aria-hidden="true"></i><span>Unity and distinct callings</span></h3>
+                    <p>The UMJC understands Jewish and non-Jewish followers of Yeshua as united in one Body of Messiah, with their distinct identities and callings preserved. Its vision values a full place within the Jewish people and a relationship of mutual blessing with the wider Christian community.</p>
+                    <a class="text-link" href="/mission#core-commitments">Read our congregation’s commitments <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+        </section>
+        <section class="editorial-section editorial-split">
+            <h2>Faith in Yeshua, Israel’s Messiah</h2>
             <div>
-                <p class="umjc-kicker">Our congregation</p>
-                <h2 id="our-identity-title">How that connects here</h2>
-                <p>Our own approved identity statement and full congregational commitments are published separately so visitors can distinguish what Kehilat Ohr HaTorah affirms from material on an external site.</p>
-                <a class="umjc-text-link" href="/mission">Read our vision, commitments, affirmations, and values <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                <p>The UMJC’s Statement of Faith affirms God’s enduring covenant with Israel, the authority of the Tanakh and New Covenant writings, and Yeshua’s atoning death and bodily resurrection. It looks forward to his return, the restoration of Israel, and the renewal of creation.</p>
+                <p>These convictions belong within the Jewish communal life expressed in our congregation’s own Vision and Purpose, Core Commitments and Affirmations, and Core Values.</p>
+                <a class="text-link" href="https://www.umjc.org/statement-of-faith" target="_blank" rel="noopener noreferrer">Read the UMJC’s Statement of Faith <span aria-hidden="true">↗</span></a>
             </div>
         </section>
     </div>
-
-    <aside class="umjc-site-link" aria-label="UMJC website">
-        <div>
-            <p class="umjc-kicker">Continue at the source</p>
-            <h2>Explore the UMJC</h2>
-            <p>Visit the union's website for its history, congregations, leadership, and current resources.</p>
-        </div>
-        <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer">
-            Visit umjc.org <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-        </a>
-    </aside>
 </PageLayout>
-
-<style>
-    .umjc-lead {
-        padding: clamp(1.6rem, 5vw, 3.2rem);
-        border: 1px solid rgba(13, 51, 91, 0.15);
-        border-radius: 1rem 1rem 3rem 1rem;
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.75), rgba(237, 226, 196, 0.42));
-        box-shadow: 0 18px 42px rgba(6, 29, 53, 0.08);
-    }
-
-    .umjc-kicker {
-        margin: 0 0 0.65rem;
-        color: var(--gold-dark);
-        font-size: 0.78rem;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-    }
-
-    .umjc-kicker i {
-        margin-right: 0.4rem;
-    }
-
-    .umjc-lead h2,
-    .umjc-section h2,
-    .umjc-site-link h2 {
-        margin: 0;
-        color: var(--primary-blue);
-        font-family: var(--font-display);
-        line-height: 1.15;
-    }
-
-    .umjc-lead h2 {
-        max-width: 25ch;
-        font-size: clamp(1.75rem, 4.5vw, 2.8rem);
-    }
-
-    .umjc-lead > p:not(.umjc-kicker) {
-        max-width: 70ch;
-        margin: 1rem 0 0;
-        color: var(--text-secondary);
-        line-height: 1.7;
-    }
-
-    .umjc-primary-links {
-        display: inline-flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.7rem;
-        margin-top: 1.4rem;
-    }
-
-    .umjc-primary-links a,
-    .umjc-site-link > a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.55rem;
-        padding: 0.82rem 1rem;
-        border-radius: 0.5rem;
-        background: var(--primary-blue);
-        color: #fff;
-        font-size: 0.9rem;
-        font-weight: 800;
-        line-height: 1.3;
-        text-align: center;
-        text-decoration: none;
-    }
-
-    .umjc-primary-links a:hover,
-    .umjc-primary-links a:focus-visible,
-    .umjc-site-link > a:hover,
-    .umjc-site-link > a:focus-visible {
-        background: #004080;
-    }
-
-    .umjc-sections {
-        display: grid;
-        gap: 1rem;
-        margin: clamp(2rem, 5vw, 3.5rem) 0;
-    }
-
-    .umjc-section {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        gap: 1.2rem;
-        padding: clamp(1.4rem, 4vw, 2.2rem);
-        border: 1px solid rgba(13, 51, 91, 0.12);
-        border-radius: 0.8rem;
-        background: rgba(255, 255, 255, 0.58);
-    }
-
-    .umjc-section__icon {
-        display: inline-grid;
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
-        background: rgba(177, 128, 24, 0.13);
-        place-items: center;
-        color: var(--gold-dark);
-    }
-
-    .umjc-section h2,
-    .umjc-site-link h2 {
-        font-size: clamp(1.45rem, 3.5vw, 2rem);
-    }
-
-    .umjc-section p:not(.umjc-kicker),
-    .umjc-site-link p:not(.umjc-kicker) {
-        margin: 0.8rem 0 0;
-        color: var(--text-secondary);
-        line-height: 1.7;
-    }
-
-    .umjc-text-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        color: var(--primary-blue);
-        font-weight: 800;
-        line-height: 1.45;
-        text-underline-offset: 0.2em;
-    }
-
-    .umjc-site-link {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1.5rem;
-        padding: clamp(1.5rem, 4vw, 2.5rem);
-        border-radius: 1rem;
-        background: linear-gradient(135deg, rgba(7, 36, 66, 0.98), rgba(13, 51, 91, 0.94));
-        color: #fff;
-    }
-
-    .umjc-site-link h2 {
-        color: #fff;
-    }
-
-    .umjc-site-link p:not(.umjc-kicker) {
-        color: rgba(255, 255, 255, 0.82);
-    }
-
-    .umjc-site-link > a {
-        flex: 0 0 auto;
-        background: var(--gold);
-        color: var(--primary-blue);
-    }
-
-    @media (max-width: 767px) {
-        .umjc-primary-links,
-        .umjc-primary-links a {
-            width: 100%;
-        }
-
-        .umjc-section {
-            grid-template-columns: 1fr;
-        }
-
-        .umjc-site-link {
-            align-items: stretch;
-            flex-direction: column;
-        }
-
-        .umjc-site-link > a {
-            width: 100%;
-        }
-    }
-</style>

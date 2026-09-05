@@ -136,6 +136,8 @@ export const coreCommitments: readonly IdentityStatement[] = [
     ),
 ];
 
+export const umjcMembershipValue = value({ text: ' membership and participation with a community of congregations who embrace Messianic Judaism and covenant faithfulness, who recognize that we are stronger when part of a movement of God that is bigger than ourselves alone. Consequently, we are privileged to be a member of the Union of Messianic Jewish Congregations (UMJC).' });
+
 export const coreValueGroups: readonly CoreValueGroup[] = [
     {
         id: 'individual-family-community-strength',
@@ -202,7 +204,7 @@ export const coreValueGroups: readonly CoreValueGroup[] = [
             ),
             // The bylaws predate the congregation's completed UMJC membership.
             // Leadership's current-status wording is the deliberate public exception.
-            value({ text: ' membership and participation with a community of congregations who embrace Messianic Judaism and covenant faithfulness, who recognize that we are stronger when part of a movement of God that is bigger than ourselves alone. Consequently, we are privileged to be a member of the Union of Messianic Jewish Congregations (UMJC).' }),
+            umjcMembershipValue,
             value({ text: ' reproducing ourselves and being supportive of other emerging congregations who share our values.' }),
             value({ text: ' the pursuit of Tikkun Olam, the repairing (or at least improving) of the world. Thus, we value community service, acts of lovingkindness, humanitarian efforts, and unwavering support for all Jewish people in need, both within and outside the State of Israel. At the same time, we pray for and believe with complete faith that Messiah Yeshua will return to us – may it be soon – to save us from our enemies, to usher in lasting peace, and to restore Israel and the world through His Davidic Kingship (Luke 1:67-75).' }),
             value({ text: ' a deep commitment to the well-being and safety of the State of Israel. We offer her our daily prayers, as well as our material and moral support at all times.' }),

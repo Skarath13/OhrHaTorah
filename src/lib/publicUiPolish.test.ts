@@ -65,14 +65,7 @@ test('calendar fills complete viewport-sized rows and keeps its source license i
     assert.match(homeStyles, /\.kehilat-calendar-attribution > summary \{[^}]*min-height: 44px;[^}]*cursor: pointer;/);
     assert.match(homeStyles, /\.kehilat-calendar-attribution > summary:focus-visible \{/);
     assert.match(homeStyles, /\.kehilat-calendar-attribution > p \{[^}]*max-width: 44rem;/);
-    assert.match(
-        homeStyles,
-        /\.home-calendar-section \.home-text-link \{[^}]*justify-self: end;/,
-    );
-    assert.match(
-        homeStyles,
-        /@media \(max-width: 767px\) \{[\s\S]*?\.home-calendar-section \.home-text-link \{ justify-self: start; \}/,
-    );
+    assert.doesNotMatch(homepage, /Gathering Details/);
 });
 
 test('calendar cards omit item counts and keep fluid Gregorian and Hebrew dates together', () => {
@@ -104,10 +97,10 @@ test('mobile weekly readings stay open and shared footer controls remain stable'
     );
     assert.doesNotMatch(homepage, /<details class="home-reading-card/);
     assert.doesNotMatch(homepage, /\.home-reading-details/);
-    assert.match(
-        homeStyles,
-        /@media \(max-width: 767px\) \{[\s\S]*?\.home-reading-heading \{[^}]*display: flex;[^}]*min-height: 170px;/,
+    const mobileReadingFrame = homeStyles.match(
+        /@media \(max-width: 767px\) \{[\s\S]*?\.home-reading-heading \{[^}]*display: flex;[^}]*min-height: (\d+)px;/,
     );
+    assert.ok(mobileReadingFrame && Number(mobileReadingFrame[1]) >= 170, 'mobile readings retain a usable image frame');
 
     assert.match(
         chromeStyles,

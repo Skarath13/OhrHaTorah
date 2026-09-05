@@ -33,7 +33,7 @@ test('Shabbat at a glance keeps candle lighting and presents the upcoming Shabba
     assert.match(liveClockSource, />Upcoming Shabbat</);
     assert.match(liveClockSource, />Hebrew Date</);
     assert.match(liveClockSource, />Gregorian Date</);
-    assert.match(liveClockSource, />Mincha Prayer and Torah Service</);
+    assert.match(liveClockSource, />Afternoon Shabbat Service</);
     assert.match(liveClockSource, /datetime="14:30"[^>]*>2:30 p\.m\.<\/time>/);
     assert.match(homeStyles, /\.clock-service-time[^)]*\.clock-time\) \{\s*color: #fff !important;/);
     assert.match(homeStyles, /\.clock-panel-service/);
@@ -44,7 +44,10 @@ test('Shabbat at a glance keeps candle lighting and presents the upcoming Shabba
 });
 
 test('Shabbat gathering uses the approved afternoon schedule', () => {
-    assert.match(homeSource, /An afternoon of Messianic Music, Dance, Prayers, Torah, and food/);
+    assert.match(homeSource, /<h3>Afternoon Shabbat Service<\/h3>/);
+    for (const source of [homeSource, servicesSource]) {
+        assert.match(source, /We plan to transition to morning services \(<em>Shacharit<\/em>\)\./);
+    }
     assert.match(homeSource, /<time datetime="14:30">2:30 p\.m\.<\/time>[\s\S]*?<strong>Messianic Jewish Music and Dance<\/strong>/);
     assert.match(homeSource, /<time datetime="15:00">3:00 p\.m\.<\/time>[\s\S]*?<strong>Traditional Prayers and Torah Service<\/strong>/);
     assert.match(homeSource, /<time datetime="16:30">4:30 p\.m\.<\/time>[\s\S]*?<strong>Kiddush, food, and discussion<\/strong>/);
@@ -80,32 +83,39 @@ test('the leadership-approved welcome, About Us, and rabbi copy remains exact', 
         'Rabbi Ott loves welcoming new friends—please feel free to introduce yourself at an upcoming service or reach out to connect directly.',
     );
 
-    assert.match(aboutSource, /growing Messianic Jewish synagogue in Orange County, California\./);
-    assert.match(aboutSource, /Jewish and non-Jewish individuals, interfaith couples, and families are welcome\./);
+    assert.match(aboutSource, /href="\/mission"/);
+    assert.match(aboutSource, /Jewish and non-Jewish individuals, interfaith couples, and families are welcome to come, listen, ask questions, and grow with us\./);
 });
 
 test('Shabbat timeline times scale legibly without squeezing service titles', () => {
     assert.match(
         homeStyles,
-        /\.home-timeline-row time,\s*\.home-timeline-time \{[^}]*font-size: clamp\(0\.9rem, calc\(0\.825rem \+ 0\.35vw\), 1rem\);[^}]*white-space: nowrap;/s
+        /\.home-timeline-row time,\s*\.home-timeline-time \{[^}]*font-size: clamp\(1rem, calc\(1rem \+ 0\.35vw\), 1rem\);[^}]*white-space: nowrap;/s
     );
     assert.match(homeStyles, /grid-template-columns: 5rem minmax\(0, 1fr\)/);
     assert.match(homeStyles, /grid-template-columns: 4\.5rem minmax\(0, 1fr\)/);
 });
 
-test('homepage identity preview uses canonical approved copy and links to the full page', () => {
-    assert.match(homeSource, /congregationName, homepageIdentityPreview, officialIdentityStatement/);
+test('homepage identity links lead to complete statements without excerpting commitments or values', () => {
     assert.match(homeSource, /<h2 id="home-purpose-title">Our Identity<\/h2>/);
-    assert.match(homeSource, /officialIdentityStatement\.slice\(congregationName\.length\)/);
-    assert.match(homeSource, /<strong>\{congregationName\}<\/strong>\{officialIdentityStatementRemainder\}/);
-    assert.match(homeSource, /href="\/mission"/);
-    assert.match(homeSource, /Explore Our Vision, Commitments &amp; Values/);
-    assert.match(homeSource, /Read our complete Vision and Purpose, Core Commitments and Affirmations, and Core Values\./);
-    assert.doesNotMatch(homeSource, /thirteen Core Commitments|twenty-two Core Values|home-identity-number/);
-    assert.match(homeSource, /<ul class="home-commitment-list">/);
-    assert.doesNotMatch(homeSource, /Faith, Heritage, and Community|home-values-details/);
+    for (const anchor of ['vision-and-purpose', 'core-commitments', 'core-values']) {
+        assert.ok(homeSource.includes(`href="/mission#${anchor}"`));
+        assert.ok(readSource('../pages/mission.astro').includes(`id="${anchor}"`));
+    }
+    assert.doesNotMatch(homeSource, /homepageIdentityPreview|home-commitment-list|home-value-preview-grid/);
+    assert.doesNotMatch(homeSource, /More about our leadership|about-us-text-3|home-about-details/);
     assert.match(navigationSource, /href="\/mission"[^\n]*Our identity/);
     assert.match(mobileNavigationSource, /href="\/mission"[^\n]*Our identity/);
+});
+
+test('location navigation and old bookmarks converge on the homepage map', () => {
+    assert.match(readSource('../pages/location.astro'), /return Astro\.redirect\('\/#map', 301\)/);
+    assert.match(homeSource, /id="map"[^>]*tabindex="-1"/);
+    assert.match(homeSource, /two street entrances to Coastal Community Fellowship/);
+    for (const source of [navigationSource, mobileNavigationSource, aboutSource, readSource('../pages/contact.astro'), readSource('../pages/holidays.astro')]) {
+        assert.match(source, /href="\/#map"/);
+        assert.doesNotMatch(source, /href="\/location/);
+    }
 });
 
 test('approved public voice is durable project guidance', () => {

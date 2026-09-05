@@ -1,0 +1,40 @@
+/* Interior layouts: generous reading measure and clear sections without nested card grids. */
+.interior-shell .interior-page .editorial-page { --editorial-line: #d3c9b6; }
+.interior-shell .interior-page .editorial-page p { max-width: 66ch; font-size: var(--text-body); line-height: 1.7; }
+.interior-shell .interior-page .editorial-page h2 { font-size: clamp(1.85rem, 3.2vw, 2.75rem); font-weight: 500; letter-spacing: -.025em; line-height: 1.18; margin: 0 0 1.15rem; }
+.interior-shell .interior-page .editorial-page h3 { font-size: clamp(1.45rem, 2vw, 1.85rem); margin: 0 0 .7rem; line-height: 1.25; }
+.editorial-lead { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(15rem, .85fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; margin-bottom: clamp(3rem, 6vw, 5rem); }
+.editorial-lead > div, .editorial-lead > aside { min-width: 0; }
+.interior-shell .interior-page .editorial-lead p { max-width: none; }
+.editorial-side { padding: 1.5rem 0 0; border-top: 2px solid #b48a36; }
+.editorial-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.25rem; margin-top: 1.5rem; }
+.editorial-page .action-link { display: inline-flex; justify-content: center; align-items: center; gap: .65rem; min-height: 50px; padding: .7rem 1.1rem; border: 1px solid #0b2d57; border-radius: .35rem; background: #0b2d57; color: #fff; font: 650 1.125rem/1.3 var(--font-body); text-align: center; text-decoration: none; }
+.editorial-page .action-link:hover { background: #164770; }
+.editorial-page .action-link.secondary { color: #0b2d57; background: transparent; }
+.editorial-page .text-link { display: inline-flex; align-items: center; gap: .7rem; min-height: 48px; color: #0b2d57; font-size: 1.125rem; font-weight: 650; text-underline-offset: .25em; }
+.interior-shell .interior-page .editorial-link-list { display: grid; list-style: none; margin: 0; padding: 0; }
+.interior-shell .interior-page .editorial-link-list li { margin: 0; border-bottom: 1px solid var(--editorial-line); }
+.editorial-link-list a { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .9rem 0; color: #0b2d57; font-size: 1.125rem; font-weight: 600; text-decoration: none; }
+.editorial-link-list a:hover { text-decoration: underline; text-underline-offset: .25em; }
+.editorial-section { padding: clamp(2rem, 4vw, 3.5rem) 0; border-top: 1px solid var(--editorial-line); }
+.editorial-split { display: grid; grid-template-columns: minmax(12rem, .75fr) minmax(0, 1.5fr); gap: clamp(1.5rem, 5vw, 4rem); }
+.editorial-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 4rem; }
+.editorial-columns > *, .editorial-split > * { min-width: 0; }
+.icon-heading { display: flex; align-items: baseline; gap: .75rem; }
+.icon-heading > span { min-width: 0; }
+.editorial-icon { flex: 0 0 1.8rem; width: 1.8rem; margin: 0; color: #866622; font-size: 1.5rem; text-align: center; }
+.editorial-note { padding: 1.25rem 1.5rem; border-left: 3px solid #b48a36; background: #ebe4d4; }
+.editorial-page address { font-style: normal; font-size: var(--text-body); line-height: 1.7; }
+.editorial-page .address-display { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.1rem); color: #0b2d57; line-height: 1.45; }
+.editorial-map { width: 100%; border: 1px solid #d3c9b6; border-radius: .6rem; aspect-ratio: 16/7; min-height: 320px; }
+.editorial-page .contact-address { overflow-wrap: anywhere; }
+.editorial-page .organization-row { display: grid; grid-template-columns: minmax(13rem, .8fr) minmax(0, 1.35fr); gap: 1.5rem 4rem; padding: 2.25rem 0; border-top: 1px solid var(--editorial-line); }
+.editorial-page .organization-row p { margin-bottom: .5rem; }
+.interior-shell .interior-page .editorial-page .membership-statement { font-family: var(--font-display); font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.65; color: #0b2d57; }
+.editorial-page .membership-statement strong { font-weight: 600; }
+@media (max-width: 900px) {
+ .editorial-lead, .editorial-split, .editorial-columns, .editorial-page .organization-row { grid-template-columns: 1fr; gap: 1.5rem; }
+ .editorial-lead { margin-bottom: 3rem; }
+ .editorial-map { min-height: 340px; aspect-ratio: 1; }
+ .editorial-actions .action-link { flex: 1 1 auto; }
+}

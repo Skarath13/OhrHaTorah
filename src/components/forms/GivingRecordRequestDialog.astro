@@ -16,7 +16,7 @@ const requestState = Astro.url.searchParams.get('giving');
     <div class="giving-request-shell">
         <header class="giving-request-header">
             <div>
-                <p class="giving-request-kicker">Giving records</p>
+
                 <h2 id="giving-request-title">Request an acknowledgment</h2>
             </div>
             <button type="button" class="giving-request-close" data-close-giving-request aria-label="Close giving record request">
@@ -159,15 +159,6 @@ const requestState = Astro.url.searchParams.get('giving');
         background: #fffdf8;
     }
 
-    .giving-request-kicker {
-        margin: 0 0 0.2rem;
-        color: #8b671b;
-        font-size: 0.66rem;
-        font-weight: 850;
-        letter-spacing: 0.13em;
-        line-height: 1.3;
-        text-transform: uppercase;
-    }
 
     .giving-request-header h2 {
         margin: 0;
@@ -215,14 +206,14 @@ const requestState = Astro.url.searchParams.get('giving');
     .giving-request-note {
         margin: 0;
         color: #4f5f73;
-        font-size: 0.86rem;
+        font-size: 1rem;
         line-height: 1.55;
     }
 
     .giving-request-note {
         margin-top: 0.35rem;
         color: #6a7481;
-        font-size: 0.72rem;
+        font-size: 1rem;
     }
 
     .giving-request-fields {
@@ -237,7 +228,7 @@ const requestState = Astro.url.searchParams.get('giving');
         min-width: 0;
         gap: 0.4rem;
         color: #18395e;
-        font-size: 0.72rem;
+        font-size: 1rem;
         font-weight: 800;
         line-height: 1.35;
     }
@@ -266,7 +257,7 @@ const requestState = Astro.url.searchParams.get('giving');
         border-radius: 0.65rem;
         background: #ffffff;
         color: #061d35;
-        font: 500 0.88rem/1.35 var(--font-body);
+        font: 500 1.125rem/1.35 var(--font-body);
     }
 
     .giving-request-field input,
@@ -312,7 +303,7 @@ const requestState = Astro.url.searchParams.get('giving');
         border-radius: 0.65rem;
         background: #f4f0e7;
         color: #586675;
-        font-size: 0.7rem;
+        font-size: 1rem;
         line-height: 1.5;
     }
 
@@ -328,7 +319,7 @@ const requestState = Astro.url.searchParams.get('giving');
         gap: 0.65rem;
         margin-top: 1rem;
         color: #334b66;
-        font-size: 0.72rem;
+        font-size: 1rem;
         line-height: 1.5;
         cursor: pointer;
     }
@@ -353,7 +344,7 @@ const requestState = Astro.url.searchParams.get('giving');
     .giving-request-unavailable {
         margin: 0.8rem 0 0;
         color: #697687;
-        font-size: 0.68rem;
+        font-size: 1rem;
         line-height: 1.5;
     }
 
@@ -388,7 +379,7 @@ const requestState = Astro.url.searchParams.get('giving');
         min-height: 44px;
         padding: 0.65rem 1.1rem;
         border-radius: 999px;
-        font: 800 0.78rem/1 var(--font-body);
+        font: 800 1.125rem/1 var(--font-body);
         cursor: pointer;
     }
 

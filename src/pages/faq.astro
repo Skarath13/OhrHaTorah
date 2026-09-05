@@ -1,8 +1,17 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ConstructionNotice from '../components/layout/ConstructionNotice.astro';
+import { canViewAdminPreview } from '../lib/adminPreview';
+const canPreview = canViewAdminPreview(Astro.locals.user);
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.append('Vary', 'Cookie');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 ---
 
 <PageLayout title="Frequently Asked Questions - Kehilat Ohr HaTorah" pageTitle="Frequently Asked Questions" pageIcon="fas fa-question-circle" description="Answers to common questions about Messianic Judaism and visiting Kehilat Ohr HaTorah.">
+    {canPreview ? (<div data-admin-draft>
+        <p class="editorial-note">Internal admin preview · This page is under construction.</p>
+
     <p class="faq-intro">Here are straightforward answers to the questions visitors ask most often.</p>
 
     <div class="faq-container">
@@ -106,6 +115,8 @@ import PageLayout from '../layouts/PageLayout.astro';
             </div>
         </div>
     </div>
+
+    </div>) : <ConstructionNotice />}
 </PageLayout>
 
 <script>

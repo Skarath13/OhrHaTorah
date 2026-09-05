@@ -8,10 +8,11 @@ import {
 } from '../../../lib/calendar.ts';
 import {
     congregationCalendarTimeZone,
-    congregationEvents,
     type CongregationEvent,
 } from '../../../data/congregationEvents.ts';
 import { getManagedCongregationCalendarEvents } from '../../../lib/congregationCalendarEvents.ts';
+
+import { calendarFallbackEvents } from '../../../data/holidayServices.ts';
 
 const JSON_HEADERS = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -43,7 +44,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const congregationDatabase = locals.runtime?.env?.DB;
     let congregationEventDefinitions: readonly CongregationEvent[] = congregationDatabase
         ? []
-        : congregationEvents;
+        : calendarFallbackEvents;
     if (includeCongregation && congregationDatabase) {
         try {
             congregationEventDefinitions = await getManagedCongregationCalendarEvents(congregationDatabase);

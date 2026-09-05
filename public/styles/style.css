@@ -220,7 +220,7 @@
 @media (max-width: 320px) {
     .reading-section .reading-text,
     .parashah-info:has(.reading-text) .reading-text {
-        font-size: 0.9rem;
+        font-size: 1rem;
         margin-left: 8px;
         padding: 6px 10px;
     }
@@ -253,7 +253,7 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 16px;
+    font-size: 100%;
 }
 
 body {
@@ -293,7 +293,7 @@ ul {
 }
 
 /* Page content lists - restore bullets */
-.page-content ul:not(.footer-links):not(.footer-contact):not(.sidebar-list):not(.nav-links):not(.service-times-list),
+.page-content ul:not(.footer-links):not(.footer-contact):not(.sidebar-list):not(.nav-links):not(.service-times-list):not(.editorial-link-list),
 .community-section ul,
 .worship-section ul {
     list-style-type: disc;
@@ -301,7 +301,7 @@ ul {
     margin: var(--space-md) 0;
 }
 
-.page-content ul:not(.footer-links):not(.footer-contact):not(.sidebar-list):not(.nav-links):not(.service-times-list) li,
+.page-content ul:not(.footer-links):not(.footer-contact):not(.sidebar-list):not(.nav-links):not(.service-times-list):not(.editorial-link-list) li,
 .community-section ul li,
 .worship-section ul li {
     margin-bottom: var(--space-xs);
@@ -546,7 +546,7 @@ h1 {
     padding: var(--space-sm) var(--space-md);
     background: var(--primary-blue-lightest);
     border-radius: var(--border-radius-sm);
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--primary-blue);
 }
 
@@ -556,7 +556,7 @@ h1 {
     width: 20px;
     flex-shrink: 0;
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 1rem;
     margin-right: 4px;
 }
 
@@ -591,14 +591,14 @@ h1 {
 
 .value-content h4 {
     margin: 0 0 4px 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--gray-800);
     font-weight: 600;
 }
 
 .value-content p {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--gray-600);
     line-height: 1.4;
 }
@@ -630,7 +630,7 @@ h1 {
 
 .value-item-compact h4 {
     margin: 0 0 4px 0;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--primary-blue);
     font-weight: 600;
     transition: color 0.3s ease;
@@ -641,7 +641,7 @@ h1 {
 }
 
 .value-item-compact h4 i {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--primary-blue);
     margin-left: 6px;
     display: inline-block;
@@ -655,7 +655,7 @@ h1 {
 
 .value-item-compact p {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--gray-600);
     line-height: 1.4;
     transition: color 0.3s ease;
@@ -1268,7 +1268,7 @@ p {
 }
 
 .time-suffix {
-    font-size: 0.6rem;
+    font-size: 1rem;
     font-weight: 400;
     opacity: 0.8;
     text-transform: uppercase;
@@ -1291,7 +1291,7 @@ p {
 
 
 .gregorian-date {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--white);
     font-weight: 300;
     letter-spacing: 0.3px;
@@ -1331,7 +1331,7 @@ p {
     align-items: center;
     justify-content: center;
     color: var(--white);
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.8px;
     margin-bottom: 2px;
@@ -1354,7 +1354,7 @@ p {
 .hostage-subtext {
     display: block;
     color: rgba(255, 255, 255, 0.85);
-    font-size: 0.65rem;
+    font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0.4px;
 }
@@ -1380,7 +1380,7 @@ p {
     padding: 3px 4px;
     border-radius: 3px;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 700;
     min-width: 26px;
     text-align: center;
@@ -1391,7 +1391,7 @@ p {
 
 .timer-label {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 0.6rem;
+    font-size: 1rem;
     font-weight: 500;
     margin-top: 2px;
     letter-spacing: 0.3px;
@@ -1400,7 +1400,7 @@ p {
 
 .timer-separator {
     color: var(--gold);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0 2px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -1414,7 +1414,7 @@ p {
 
 .bring-them-home {
     color: var(--gold);
-    font-size: 0.715rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -1467,7 +1467,7 @@ p {
 .memorial-number {
     color: var(--white);
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1.1;
 }
@@ -1849,7 +1849,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
 .edit-mode-controls .btn {
     flex: 1;
     padding: 8px 12px;
-    font-size: 0.85rem;
+    font-size: 1rem;
     min-width: auto;
 }
 
@@ -2494,7 +2494,7 @@ body.edit-mode [data-editable]:hover .edit-icon {
 
 /* Parashah card header - use shorter month format */
 #parashah-header {
-    font-size: 0.95rem;
+    font-size: 1rem;
 }
 
 .card-header i {
@@ -2919,7 +2919,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     border: 2px solid transparent;
     border-radius: 8px;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 1rem;
     outline: none;
     background: rgba(255, 255, 255, 0.95);
     color: var(--gray-900);
@@ -2985,7 +2985,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
 }
 
 .form-status {
-    font-size: 0.85rem;
+    font-size: 1rem;
     margin-top: 0.5rem;
     min-height: 1.4em;
     text-align: center;
@@ -3665,7 +3665,6 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
         white-space: normal !important;
         word-wrap: break-word;
         overflow-wrap: break-word;
-        hyphens: auto;
         line-height: 1.3;
     }
     
@@ -3758,7 +3757,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
         font-weight: 600;
         margin-top: 10px;
         color: #FFD700;
-        font-size: 14px;
+        font-size: 1rem;
     }
     
     /* Info Grid - Force 2x2 Grid for Service Info */
@@ -3799,7 +3798,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     }
     
     .info-box h4 {
-        font-size: 14px;
+        font-size: 1rem;
         color: #13274F;
         margin: 0 0 6px 0;
         font-weight: 600;
@@ -3815,7 +3814,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     }
     
     .info-box p {
-        font-size: 13px;
+        font-size: 1rem;
         color: #666;
         margin: 0;
         line-height: 1.3;
@@ -3833,7 +3832,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     
     .btn {
         padding: 14px;
-        font-size: 14px;
+        font-size: 1rem;
         border-radius: 10px;
         border: none;
         font-weight: 600;
@@ -4012,14 +4011,14 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     }
     
     .leader-title {
-        font-size: 14px;
+        font-size: 1rem;
         color: #FFD700;
         font-weight: 500;
         margin-bottom: 10px;
     }
     
     .leader-bio {
-        font-size: 14px;
+        font-size: 1rem;
         color: #666;
         line-height: 1.5;
     }
@@ -4068,7 +4067,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     }
     
     .footer-bottom {
-        font-size: 14px;
+        font-size: 1rem;
         padding: 20px;
         border-top: 1px solid rgba(255,255,255,0.1);
         background: rgba(0,0,0,0.2);
@@ -4144,7 +4143,6 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     /* Ensure headings wrap properly */
     h1, h2, h3, h4, h5, h6 {
         white-space: normal !important;
-        hyphens: auto;
     }
 }
 
@@ -4611,7 +4609,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     
     .service-announcement-small,
     .schedule-compact {
-        font-size: 11px;
+        font-size: 1rem;
     }
 }
 
@@ -4701,7 +4699,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
 }
 
 .resource-link i {
-    font-size: 12px;
+    font-size: 1rem;
 }
 
 .getting-started-note {
@@ -4874,7 +4872,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
 }
 
 .ministry-link i {
-    font-size: 12px;
+    font-size: 1rem;
     transition: transform 0.3s ease;
 }
 
@@ -5920,7 +5918,7 @@ button {
         border: 0;
         border-radius: 8px !important;
         background: rgba(255, 255, 255, 0.88) !important;
-        font-size: 15px !important;
+        font-size: 1rem !important;
         font-weight: 600;
     }
 
@@ -6296,7 +6294,7 @@ button {
     .goal-item {
         min-height: 44px;
         padding: 10px 12px;
-        font-size: 15px;
+        font-size: 1rem;
         line-height: 1.3;
     }
 
@@ -6320,7 +6318,7 @@ button {
     }
 
     .value-item-compact p {
-        font-size: 15px;
+        font-size: 1rem;
         line-height: 1.45;
     }
 
@@ -6797,7 +6795,7 @@ button {
         border: 0;
         border-radius: 8px !important;
         background: rgba(255, 255, 255, 0.88) !important;
-        font-size: 15px !important;
+        font-size: 1rem !important;
         font-weight: 600;
         white-space: normal !important;
     }
@@ -6859,7 +6857,7 @@ button {
         min-height: 52px;
         box-sizing: border-box;
         white-space: nowrap !important;
-        font-size: clamp(0.9rem, 1.2vw, 1.08rem) !important;
+        font-size: clamp(1rem, 1.2vw, 1.08rem) !important;
         line-height: 1.1 !important;
     }
 

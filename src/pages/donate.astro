@@ -11,11 +11,11 @@ const paypalDonationUrl = `https://www.paypal.com/donate/?hosted_button_id=${pay
 const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 ---
 
-<PageLayout title="Support Kehilat Ohr HaTorah" description="Give to Kehilat Ohr HaTorah through Zelle, PayPal, or check.">
+<PageLayout title="Donate - Kehilat Ohr HaTorah" description="Support Kehilat Ohr HaTorah through Zelle, PayPal, or check.">
     <section class="donate-content" aria-labelledby="giving-title">
         <div class="giving-heading">
-            <p class="giving-kicker">Community giving</p>
-            <h1 id="giving-title">Support Kehilat Ohr HaTorah</h1>
+
+            <h1 id="giving-title">Donate</h1>
             <p>Choose Zelle® or PayPal. Your gift is completed directly with the provider.</p>
         </div>
 
@@ -30,7 +30,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 
                 <div class="payment-card-body">
                     <div class="payment-intro">
-                        <h2 id="zelle-giving-title">Give with Zelle®</h2>
+                        <h2 id="zelle-giving-title">Giving with Zelle®</h2>
                         <p>Scan the bank-generated QR code, or use the congregation’s Zelle® tag.</p>
                     </div>
 
@@ -85,7 +85,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 
                 <div class="payment-card-body">
                     <div class="payment-intro">
-                        <h2 id="paypal-giving-title">Give with PayPal</h2>
+                        <h2 id="paypal-giving-title">Giving with PayPal</h2>
                         <p>Make a one-time, monthly, or yearly gift on PayPal’s hosted donation page.</p>
                     </div>
 
@@ -129,7 +129,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         <div class="secondary-giving" aria-label="Additional giving information">
             <details class="giving-disclosure">
                 <summary>
-                    <span><i class="fas fa-money-check" aria-hidden="true"></i> Give by check</span>
+                    <span><i class="fas fa-money-check" aria-hidden="true"></i> Giving by check</span>
                     <i class="fas fa-plus" aria-hidden="true"></i>
                 </summary>
                 <dl class="check-details">
@@ -205,15 +205,6 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         text-align: center;
     }
 
-    .giving-heading .giving-kicker {
-        margin: 0 0 0.75rem;
-        color: #8b671b;
-        font-size: 0.75rem;
-        font-weight: 850;
-        letter-spacing: 0.15em;
-        line-height: 1.3;
-        text-transform: uppercase;
-    }
 
     .giving-heading h1 {
         margin: 0;
@@ -230,7 +221,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         max-width: 38rem;
         margin: 1.1rem auto 0;
         color: var(--giving-muted);
-        font-size: clamp(0.98rem, 1.5vw, 1.08rem);
+        font-size: var(--text-body);
         line-height: 1.65;
     }
 
@@ -292,7 +283,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 
     .payment-brand-header > span {
         color: var(--payment-deep);
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 800;
         line-height: 1.3;
         text-align: right;
@@ -354,7 +345,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         max-width: 31rem;
         margin: 0.85rem auto 0;
         color: var(--giving-muted);
-        font-size: 0.92rem;
+        font-size: 1.125rem;
         line-height: 1.6;
         text-align: center;
     }
@@ -398,7 +389,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         gap: 0.5rem;
         align-items: center;
         color: var(--payment-deep);
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 800;
         line-height: 1.35;
     }
@@ -433,7 +424,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     .payment-details dt,
     .check-details dt {
         color: var(--giving-muted);
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 850;
         letter-spacing: 0.09em;
         line-height: 1.35;
@@ -445,7 +436,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         min-width: 0;
         margin: 0;
         color: var(--giving-ink);
-        font-size: 0.82rem;
+        font-size: 1.125rem;
         line-height: 1.4;
         overflow-wrap: anywhere;
     }
@@ -464,8 +455,8 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 
     .zelle-tag-control code {
         min-width: max-content;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 0.88rem;
+        font-family: var(--font-body);
+        font-size: 1.125rem;
         font-weight: 850;
         overflow-wrap: normal;
         white-space: nowrap;
@@ -488,7 +479,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         background: #ffffff;
         box-shadow: none;
         color: var(--payment-deep);
-        font: 800 0.75rem/1 var(--font-body);
+        font: 800 1.125rem/1 var(--font-body);
         cursor: pointer;
         transition: background-color 180ms ease, color 180ms ease;
     }
@@ -507,7 +498,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         min-height: 1.05rem;
         margin: 0.45rem 0 0;
         color: #216b4b;
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 750;
         line-height: 1.4;
     }
@@ -523,7 +514,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         border-radius: 999px;
         align-items: center;
         justify-content: center;
-        font-size: 0.78rem;
+        font-size: 1rem;
         font-weight: 850;
         line-height: 1.25;
         text-align: center;
@@ -556,7 +547,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         min-height: 4.25rem;
         margin: 1.3rem 0 0;
         color: var(--giving-muted);
-        font-size: 0.75rem;
+        font-size: 1rem;
         line-height: 1.6;
         text-align: center;
     }
@@ -585,7 +576,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         align-items: center;
         justify-content: space-between;
         color: var(--giving-ink);
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 800;
         line-height: 1.35;
         list-style: none;
@@ -645,7 +636,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         margin: 0 0 0.75rem;
         color: var(--giving-ink);
         font-family: var(--font-body);
-        font-size: 0.78rem;
+        font-size: 1rem;
         font-weight: 850;
         line-height: 1.4;
     }
@@ -653,7 +644,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     .records-copy p {
         margin: 0;
         color: var(--giving-muted);
-        font-size: 0.75rem;
+        font-size: 1rem;
         line-height: 1.6;
     }
 
@@ -673,7 +664,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         justify-content: center;
         background: var(--giving-ink);
         color: #ffffff;
-        font: 800 0.75rem/1.2 var(--font-body);
+        font: 800 1.125rem/1.2 var(--font-body);
         cursor: pointer;
         transition: background-color 160ms ease, transform 160ms ease;
     }
@@ -699,7 +690,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         gap: 0.45rem;
         align-items: center;
         color: var(--interior-muted);
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 750;
         line-height: 1.5;
         list-style: none;
@@ -730,7 +721,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         margin: 0 auto;
         padding: 0.15rem 0 0.4rem;
         color: var(--interior-muted);
-        font-size: 0.75rem;
+        font-size: 1rem;
         line-height: 1.6;
         text-align: center;
     }

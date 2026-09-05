@@ -1,163 +1,24 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 ---
-
-<PageLayout title="About Kehilat Ohr HaTorah" pageTitle="About Kehilat Ohr HaTorah" pageIcon="fas fa-info-circle" description="Learn about Kehilat Ohr HaTorah's Messianic Jewish identity, worship, and community in Orange County.">
-    <p class="intro-text"><strong>Shalom, and welcome to Kehilat Ohr HaTorah.</strong></p>
-
-    <div class="section identity-section">
-        <h3><i class="fas fa-star-of-david"></i> Our Identity</h3>
-        <p><strong>Kehilat Ohr HaTorah</strong> is a growing Messianic Jewish synagogue in Orange County, California. We honor Jewish life and practice and follow Yeshua (Jesus), the Messiah of Israel.</p>
-        <p>Our full name, <strong>Kehilat Ohr HaTorah</strong>, can be translated as “Congregation of the Light of the Torah.” It speaks to our desire to read the Tanakh and Brit Chadashah as one story of God's faithfulness and redemption.</p>
-    </div>
-
-    <div class="section community-section">
-        <h3><i class="fas fa-users"></i> Our Community</h3>
-        <p>Jewish and non-Jewish individuals, interfaith couples, and families are welcome. You may be:</p>
-        <ul>
-            <li>Exploring your Jewish heritage</li>
-            <li>Seeking to understand Yeshua within an authentic Jewish context</li>
-            <li>Looking for a congregation rooted in Torah, prayer, and community</li>
-        </ul>
-        <p>Wherever you are beginning, you are welcome to come, listen, ask questions, and grow with us.</p>
-    </div>
-
-    <div class="section worship-section">
-        <h3><i class="fas fa-pray"></i> Our Worship</h3>
-        <p>We blend traditional and contemporary Jewish practices, emphasizing:</p>
-        <div class="worship-grid">
-            <div class="worship-item">
-                <i class="fas fa-language"></i>
-                <strong>Community Prayer</strong>
-                <span>Hebrew and English liturgy</span>
+<PageLayout title="About Kehilat Ohr HaTorah" pageTitle="Welcome to Kehilat Ohr HaTorah" description="Meet our Messianic Jewish congregation in Fountain Valley and learn about prayer, Torah, music, and community life.">
+    <div class="editorial-page">
+        <section class="editorial-lead">
+            <div><h2>Congregation of the Light of the Torah</h2><p>Our name, <strong>Kehilat Ohr HaTorah</strong>, speaks to our desire to read the Tanakh and Brit Chadashah as one story of God’s faithfulness and redemption.</p><p>Jewish and non-Jewish individuals, interfaith couples, and families are welcome to come, listen, ask questions, and grow with us.</p><div class="editorial-actions"><a class="action-link" href="/services">Shabbat Services <span aria-hidden="true">→</span></a><a class="text-link" href="/#map">Our location <span aria-hidden="true">→</span></a></div></div>
+            <aside class="editorial-side"><p>Read our complete congregational identity and the commitments that shape our shared life.</p><ul class="editorial-link-list"><li><a href="/mission">Our Identity <span aria-hidden="true">→</span></a></li><li><a href="/mission#core-commitments">Core Commitments <span aria-hidden="true">→</span></a></li><li><a href="/mission#core-values">Core Values <span aria-hidden="true">→</span></a></li><li><a href="/umjc">Our UMJC membership <span aria-hidden="true">→</span></a></li></ul></aside>
+        </section>
+        <section class="editorial-section editorial-split">
+            <div><h2>A place to learn and participate</h2></div>
+            <div><p>You may be exploring your Jewish heritage, seeking to understand Yeshua within a Jewish context, or looking for a congregation rooted in Torah, prayer, and community.</p><p>Wherever you are beginning, you are welcome to join us.</p></div>
+        </section>
+        <section class="editorial-section">
+            <h2>Prayer, Scripture, music, and the appointed times</h2>
+            <div class="editorial-columns">
+                <div><h3 class="icon-heading"><i class="fas fa-scroll editorial-icon" aria-hidden="true"></i><span>Traditional Prayer</span></h3><p>Hebrew and English liturgy.</p></div>
+                <div><h3 class="icon-heading"><i class="fas fa-book-open editorial-icon" aria-hidden="true"></i><span>Scripture Teaching</span></h3><p>Study of the Tanakh (Hebrew Scriptures) and Brit Chadashah (New Covenant).</p></div>
+                <div><h3 class="icon-heading"><i class="fas fa-music editorial-icon" aria-hidden="true"></i><span>Traditional and Messianic Jewish Music</span></h3><p>Music and congregational dance within our shared Jewish life.</p></div>
+                <div><h3 class="icon-heading"><i class="fas fa-menorah editorial-icon" aria-hidden="true"></i><span>The Appointed Times</span></h3><p>Marking Shabbat and the Jewish holidays throughout the year.</p><a class="text-link" href="/holidays">Holiday services <span aria-hidden="true">→</span></a></div>
             </div>
-            <div class="worship-item">
-                <i class="fas fa-book-open"></i>
-                <strong>Scripture Teaching</strong>
-                <span>Tanach (Hebrew Scriptures) and New Testament study</span>
-            </div>
-            <div class="worship-item">
-                <i class="fas fa-music"></i>
-                <strong>Vibrant Music</strong>
-                <span>Contemporary and traditional Messianic Jewish music and dance</span>
-            </div>
-            <div class="worship-item">
-                <i class="fas fa-menorah"></i>
-                <strong>Biblical Festivals</strong>
-                <span>Celebrating God's appointed times</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="highlight-section">
-        <h3><i class="fas fa-heart"></i> Our Heart</h3>
-        <p>We believe Torah and the teachings of Yeshua belong together. As lifelong students of Scripture and Jewish tradition, we seek to grow in faith with love, respect, and mutual understanding.</p>
+        </section>
     </div>
 </PageLayout>
-
-<style>
-    .intro-text {
-        text-align: center;
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-    }
-
-    .section {
-        margin-bottom: 30px;
-    }
-
-    .section h3 {
-        color: var(--primary-blue);
-        margin: 0 0 15px 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .identity-section {
-        background: rgba(0, 102, 204, 0.05);
-        padding: 25px;
-        border-radius: 8px;
-        border-left: 4px solid var(--primary-blue);
-    }
-
-    .identity-section p {
-        margin: 0 0 15px 0;
-        line-height: 1.7;
-        color: var(--text-secondary);
-    }
-
-    .identity-section p:last-child {
-        margin-bottom: 0;
-    }
-
-    .community-section h3 {
-        color: var(--gold-dark);
-    }
-
-    .community-section p {
-        margin: 0 0 15px 0;
-        line-height: 1.7;
-        color: var(--text-secondary);
-    }
-
-    .community-section ul {
-        margin: 0 0 15px 20px;
-        padding: 0;
-    }
-
-    .community-section li {
-        margin-bottom: 8px;
-        color: var(--text-secondary);
-    }
-
-    .worship-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-        margin-top: 20px;
-    }
-
-    .worship-item {
-        background: var(--gray-100);
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .worship-item i {
-        font-size: 2rem;
-        color: var(--primary-blue);
-        margin-bottom: 10px;
-        display: block;
-    }
-
-    .worship-item strong {
-        display: block;
-        color: var(--primary-blue);
-        margin-bottom: 5px;
-    }
-
-    .worship-item span {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-    }
-
-    .highlight-section {
-        background: var(--gold-light);
-        padding: 25px;
-        border-radius: 8px;
-        border-left: 4px solid var(--gold-dark);
-    }
-
-    .highlight-section h3 {
-        color: var(--gold-dark);
-        margin: 0 0 15px 0;
-    }
-
-    .highlight-section p {
-        margin: 0;
-        line-height: 1.7;
-        color: var(--text-secondary);
-    }
-</style>

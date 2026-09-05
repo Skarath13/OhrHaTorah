@@ -50,6 +50,7 @@ const createFakeCalendarDatabase = (seed: StoredRow[] = []) => {
                 endsOn,
                 startTime,
                 endTime,
+                excludedDatesJson,
                 createdBy,
                 updatedBy,
               ] = values;
@@ -67,6 +68,7 @@ const createFakeCalendarDatabase = (seed: StoredRow[] = []) => {
                 ends_on: endsOn,
                 start_time: startTime,
                 end_time: endTime,
+                excluded_dates_json: excludedDatesJson,
                 created_at: '2026-08-20 20:00:00',
                 updated_at: '2026-08-20 20:00:00',
                 created_by: createdBy,
@@ -75,7 +77,7 @@ const createFakeCalendarDatabase = (seed: StoredRow[] = []) => {
               return { success: true, meta: { changes: 1 } };
             }
             if (/UPDATE congregation_calendar_events SET/.test(sql)) {
-              const id = String(values[13]);
+              const id = String(values[14]);
               const existing = rows.get(id);
               if (!existing) return { success: true, meta: { changes: 0 } };
               const [
@@ -91,6 +93,7 @@ const createFakeCalendarDatabase = (seed: StoredRow[] = []) => {
                 endsOn,
                 startTime,
                 endTime,
+                excludedDatesJson,
                 updatedBy,
               ] = values;
               rows.set(id, {
@@ -107,6 +110,7 @@ const createFakeCalendarDatabase = (seed: StoredRow[] = []) => {
                 ends_on: endsOn,
                 start_time: startTime,
                 end_time: endTime,
+                excluded_dates_json: excludedDatesJson,
                 updated_at: '2026-08-20 20:01:00',
                 updated_by: updatedBy,
               });
@@ -157,7 +161,8 @@ test('prepared storage creates, reads, replaces, and deletes congregation events
 
   const insertCall = fake.calls.find((call) => /INSERT INTO congregation_calendar_events/.test(call.sql));
   assert.ok(insertCall);
-  assert.match(insertCall.sql, /VALUES \(\?, \?, \?, \?, \?, \?, \?, \?, \?, \?, \?, \?, \?, \?, \?\)/);
+  assert.equal(insertCall.values.length, 16);
+  assert.equal((insertCall.sql.match(/\?/g) ?? []).length, insertCall.values.length);
   assert.doesNotMatch(insertCall.sql, /Weekly gathering|Sanctuary/);
   assert.equal(insertCall.values[8], '["saturday"]');
 

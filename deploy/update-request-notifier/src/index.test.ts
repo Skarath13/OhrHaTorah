@@ -178,7 +178,7 @@ test("builds a fixed-header, dual-part notification and escapes visitor data", (
     name: "Kehilat Ohr HaTorah Website",
   });
   assert.equal(email.replyTo, "ada@example.com");
-  assert.equal(email.subject, "[STAGING] New Kehilat Ohr HaTorah website update request");
+  assert.equal(email.subject, "[STAGING] NEW NEWSLETTER SIGNUP | Kehilat Ohr HaTorah");
   assert.doesNotMatch(email.subject, /Ada|example\.com/i);
   assert.match(email.text, new RegExp(REQUEST_ID));
   assert.match(email.text, /Phone: Not provided/);

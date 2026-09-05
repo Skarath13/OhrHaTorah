@@ -419,7 +419,7 @@ export function buildNotificationEmail(
     to: UPDATE_REQUEST_DESTINATION,
     from: { email: FIXED_SENDER, name: SENDER_NAME },
     replyTo: email,
-    subject: "[STAGING] New Kehilat Ohr HaTorah website update request",
+    subject: "[STAGING] NEW NEWSLETTER SIGNUP | Kehilat Ohr HaTorah",
     text: [
       "A website visitor asked to receive occasional Kehilat Ohr HaTorah updates.",
       "",

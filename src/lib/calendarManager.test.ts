@@ -57,8 +57,8 @@ test('calendar manager mirrors server validation limits and reports field issues
     assert.match(calendarManager, /maxlength="160"/);
     assert.match(calendarManager, /maxlength="2000"/);
     assert.match(calendarManager, /maxlength="300"/);
-    assert.match(calendarManager, /End time must be later than start time on the same day\./);
-    assert.match(calendarManager, /Recurrence end date cannot be before its start date\./);
+    assert.match(calendarManager, /validateCalendarEventDraft\(/);
+    assert.match(calendarManager, /name="excludedDates"/);
     assert.match(calendarManager, /\[data-field-path=/);
     assert.match(calendarManager, /payload\.issues \|\| \[\]/);
 });

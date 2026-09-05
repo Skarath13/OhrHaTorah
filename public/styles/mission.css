@@ -21,9 +21,6 @@
 }
 
 /* Interior typography is intentionally specific; dark identity surfaces must win that seam. */
-.interior-shell .interior-page .identity-page .identity-eyebrow {
-    color: var(--interior-gold-soft);
-}
 
 .interior-shell .interior-page .identity-page .identity-introduction h2,
 .interior-shell .interior-page .identity-page .identity-navigation strong,
@@ -68,25 +65,10 @@
     padding: clamp(2.25rem, 6vw, 5.5rem);
 }
 
-.interior-shell .interior-page .identity-page .identity-eyebrow,
-.interior-shell .interior-page .identity-page .identity-section-heading__eyebrow {
-    margin: 0 0 1rem;
-    color: var(--interior-gold-soft);
-    font-size: 1rem;
-    font-weight: 800;
-    letter-spacing: 0.16em;
-    line-height: 1.4;
-    text-transform: uppercase;
-}
 
-.identity-page .identity-eyebrow span {
-    display: inline-block;
-    margin: 0 0.45rem;
-    color: var(--interior-gold);
-}
 
 .identity-page .identity-introduction h2 {
-    max-width: 18ch;
+    max-width: 100%;
     margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
     color: #fff;
     font-family: var(--font-display);
@@ -179,7 +161,7 @@
 .identity-navigation small {
     margin-top: 0.25rem;
     color: rgba(255, 255, 255, 0.64);
-    font-size: 0.82rem;
+    font-size: 1rem;
     line-height: 1.45;
 }
 
@@ -221,13 +203,9 @@
     transform: translateY(-50%) rotate(45deg);
 }
 
-.interior-shell .interior-page .identity-page .identity-section-heading__eyebrow {
-    margin-bottom: 0.45rem;
-    color: #8a681f;
-}
 
 .identity-page .identity-section-heading h2 {
-    max-width: 20ch;
+    max-width: 100%;
     margin: 0;
     color: var(--interior-ink);
     font-family: var(--font-display);
@@ -468,7 +446,7 @@
 .identity-value-list li > span {
     padding-top: 0.42rem;
     color: var(--interior-gold);
-    font-size: 0.64rem;
+    font-size: 1rem;
     line-height: 1;
 }
 
@@ -532,9 +510,6 @@
         text-wrap: pretty;
     }
 
-    .identity-page .identity-eyebrow span {
-        margin: 0 0.2rem;
-    }
 
     .identity-navigation a {
         padding: 1.15rem 1.35rem;

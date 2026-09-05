@@ -1,8 +1,17 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ConstructionNotice from '../components/layout/ConstructionNotice.astro';
+import { canViewAdminPreview } from '../lib/adminPreview';
+const canPreview = canViewAdminPreview(Astro.locals.user);
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.append('Vary', 'Cookie');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 ---
 
 <PageLayout title="What to Expect - Kehilat Ohr HaTorah" pageTitle="What to Expect" pageIcon="fas fa-door-open" description="A practical guide to your first Shabbat service at Kehilat Ohr HaTorah.">
+    {canPreview ? (<div data-admin-draft>
+        <p class="editorial-note">Internal admin preview · This page is under construction.</p>
+
     <p class="intro-text"><strong>Your first visit should feel comfortable and unhurried. Here is what to expect.</strong></p>
 
     <!-- Service Flow -->
@@ -39,23 +48,19 @@ import PageLayout from '../layouts/PageLayout.astro';
         <h3><i class="fas fa-star"></i> What You'll Experience</h3>
         <div class="experience-grid">
             <div class="experience-item">
-                <i class="fas fa-language"></i>
-                <h4>Hebrew & English</h4>
+                <h4 class="icon-heading"><i class="fas fa-language editorial-icon" aria-hidden="true"></i><span>Hebrew & English</span></h4>
                 <p>Services blend Hebrew prayers with English explanations. Prayer books provided with transliteration.</p>
             </div>
             <div class="experience-item">
-                <i class="fas fa-music"></i>
-                <h4>Joyful Music</h4>
+                <h4 class="icon-heading"><i class="fas fa-music editorial-icon" aria-hidden="true"></i><span>Joyful Music</span></h4>
                 <p>Contemporary Israeli and Messianic songs with guitar, keyboard, vocals, and congregational dance.</p>
             </div>
             <div class="experience-item">
-                <i class="fas fa-scroll"></i>
-                <h4>Torah Reading</h4>
+                <h4 class="icon-heading"><i class="fas fa-scroll editorial-icon" aria-hidden="true"></i><span>Torah Reading</span></h4>
                 <p>Weekly Torah portion read in Hebrew with English translation and commentary.</p>
             </div>
             <div class="experience-item">
-                <i class="fas fa-comments"></i>
-                <h4>Discussion Time</h4>
+                <h4 class="icon-heading"><i class="fas fa-comments editorial-icon" aria-hidden="true"></i><span>Discussion Time</span></h4>
                 <p>Interactive study where questions are welcomed and insights are shared together.</p>
             </div>
         </div>
@@ -98,6 +103,8 @@ import PageLayout from '../layouts/PageLayout.astro';
         </ul>
     </div>
 
+
+    </div>) : <ConstructionNotice />}
 </PageLayout>
 
 <style>
@@ -154,7 +161,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     .timeline-content p {
         margin: 0;
         color: var(--text-secondary);
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
 
     .experience-grid {
@@ -171,9 +178,9 @@ import PageLayout from '../layouts/PageLayout.astro';
     }
 
     .experience-item i {
-        font-size: 2rem;
+        font-size: 1.35rem;
         color: var(--primary-blue);
-        margin-bottom: 15px;
+        margin: 0;
     }
 
     .experience-item h4 {
@@ -184,7 +191,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     .experience-item p {
         margin: 0;
         color: var(--text-secondary);
-        font-size: 0.9rem;
+        font-size: 1rem;
         line-height: 1.6;
     }
 

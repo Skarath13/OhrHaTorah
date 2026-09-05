@@ -53,6 +53,7 @@ type CalendarEventRow = {
   ends_on: string | null;
   start_time: string | null;
   end_time: string | null;
+  excluded_dates_json?: string;
   created_at: string;
   updated_at: string;
   created_by: number | null;
@@ -67,6 +68,7 @@ type StoredCalendarEventValues = {
   endsOn: string | null;
   startTime: string | null;
   endTime: string | null;
+  excludedDatesJson: string;
 };
 
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -75,25 +77,7 @@ const calendarEventIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const forbiddenControlCharacterPattern = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
 const weekdaySet = new Set<CongregationWeekday>(congregationWeekdays);
 
-const selectedColumns = `
-  id,
-  title,
-  description,
-  location,
-  time_zone,
-  schedule_kind,
-  event_date,
-  all_day,
-  weekdays_json,
-  starts_on,
-  ends_on,
-  start_time,
-  end_time,
-  created_at,
-  updated_at,
-  created_by,
-  updated_by
-`;
+const selectedColumns = '*';
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -185,8 +169,10 @@ const readTime = (
   schedule: Record<string, unknown>,
   field: string,
   issues: CalendarEventValidationIssue[],
+  optional = false,
 ): string | undefined => {
   const value = schedule[field];
+  if (optional && (value === undefined || value === null || value === '')) return undefined;
   if (typeof value !== 'string' || !localTimePattern.test(value)) {
     issues.push({ path: `schedule.${field}`, message: 'Must be a 24-hour time in HH:MM form' });
     return undefined;
@@ -218,10 +204,10 @@ const readSingleSchedule = (
   }
 
   const startTime = readTime(schedule, 'startTime', issues);
-  const endTime = readTime(schedule, 'endTime', issues);
+  const endTime = readTime(schedule, 'endTime', issues, true);
   validateTimeOrder(startTime, endTime, issues);
-  return date && startTime && endTime
-    ? { kind: 'single', date, allDay: false, startTime, endTime }
+  return date && startTime
+    ? { kind: 'single', date, allDay: false, startTime, ...(endTime ? { endTime } : {}) }
     : undefined;
 };
 
@@ -262,6 +248,21 @@ const readWeeklySchedule = (
   const endTime = readTime(schedule, 'endTime', issues);
   validateTimeOrder(startTime, endTime, issues);
 
+  const rawExcludedDates = schedule.excludedDates ?? [];
+  const excludedDates: string[] = [];
+  if (!Array.isArray(rawExcludedDates) || rawExcludedDates.length > 120) {
+    issues.push({ path: 'schedule.excludedDates', message: 'Provide at most 120 dates to skip.' });
+  } else {
+    for (const date of rawExcludedDates) {
+      if (typeof date !== 'string' || !isValidGregorianCalendarDate(date)
+          || (startsOn && date < startsOn) || (endsOn && date > endsOn)
+          || (weekdays && !weekdays.includes(congregationWeekdays[new Date(date + 'T00:00:00Z').getUTCDay()]))) {
+        issues.push({ path: 'schedule.excludedDates', message: 'Skipped dates must be real occurrences within this series.' });
+      } else if (excludedDates.includes(date)) {
+        issues.push({ path: 'schedule.excludedDates', message: 'Remove duplicate skipped dates.' });
+      } else { excludedDates.push(date); }
+    }
+  }
   if (!weekdays || !startsOn || !startTime || !endTime || schedule.interval !== 1) return undefined;
   return {
     kind: 'weekly',
@@ -269,6 +270,7 @@ const readWeeklySchedule = (
     weekdays,
     startsOn,
     ...(endsOn ? { endsOn } : {}),
+    ...(excludedDates.length ? { excludedDates: excludedDates.sort() } : {}),
     startTime,
     endTime,
   };
@@ -388,7 +390,8 @@ const toStoredValues = (draft: CalendarEventDraft): StoredCalendarEventValues =>
       startsOn: null,
       endsOn: null,
       startTime: draft.schedule.allDay ? null : draft.schedule.startTime,
-      endTime: draft.schedule.allDay ? null : draft.schedule.endTime,
+      endTime: draft.schedule.allDay ? null : draft.schedule.endTime || null,
+      excludedDatesJson: '[]',
     };
   }
 
@@ -400,6 +403,7 @@ const toStoredValues = (draft: CalendarEventDraft): StoredCalendarEventValues =>
     endsOn: draft.schedule.endsOn || null,
     startTime: draft.schedule.startTime,
     endTime: draft.schedule.endTime,
+    excludedDatesJson: JSON.stringify(draft.schedule.excludedDates ?? []),
   };
 };
 
@@ -441,6 +445,7 @@ const mapCalendarEventRow = (row: CalendarEventRow): ManagedCongregationEvent =>
     schedule = {
       kind: 'weekly',
       interval: 1,
+      excludedDates: JSON.parse(row.excluded_dates_json ?? '[]'),
       weekdays,
       startsOn: row.starts_on,
       endsOn: row.ends_on,
@@ -522,9 +527,10 @@ export const createManagedCongregationCalendarEvent = async (
       ends_on,
       start_time,
       end_time,
+      excluded_dates_json,
       created_by,
       updated_by
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).bind(
     id,
     draft.title,
@@ -539,6 +545,7 @@ export const createManagedCongregationCalendarEvent = async (
     stored.endsOn,
     stored.startTime,
     stored.endTime,
+    stored.excludedDatesJson,
     userId,
     userId,
   ).run();
@@ -569,6 +576,7 @@ export const updateManagedCongregationCalendarEvent = async (
       ends_on = ?,
       start_time = ?,
       end_time = ?,
+      excluded_dates_json = ?,
       updated_at = CURRENT_TIMESTAMP,
       updated_by = ?
     WHERE id = ?
@@ -585,6 +593,7 @@ export const updateManagedCongregationCalendarEvent = async (
     stored.endsOn,
     stored.startTime,
     stored.endTime,
+    stored.excludedDatesJson,
     userId,
     id,
   ).run();

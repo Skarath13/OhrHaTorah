@@ -24,7 +24,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
             </aside>
 
             <section class="resources-preview__start" aria-labelledby="where-to-begin-title">
-                <p class="resources-preview__eyebrow">A clearer path</p>
+
                 <h2 id="where-to-begin-title">Where to begin</h2>
                 <ol>
                     <li><strong>Begin here.</strong> Read <a href="/mission">our vision, commitments, affirmations, and values</a>, then review <a href="/umjc">our UMJC membership</a>.</li>
@@ -38,15 +38,14 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
             {resourceDirectorySections.map((section) => (
                 <section class="resources-preview__section" id={section.id} aria-labelledby={`${section.id}-title`}>
                     <div class="resources-preview__section-heading">
-                        <p class="resources-preview__eyebrow">Reviewed source links</p>
+
                         <h2 id={`${section.id}-title`}>{section.title}</h2>
                         <p>{section.intro}</p>
                     </div>
                     <div class="resources-preview__grid">
                         {section.entries.map((entry) => (
                             <article class="resources-preview__card">
-                                <span class="resources-preview__card-icon" aria-hidden="true"><i class={entry.icon}></i></span>
-                                <h3>{entry.name}</h3>
+                                <h3 class="icon-heading"><i class={entry.icon + ' editorial-icon'} aria-hidden="true"></i><span>{entry.name}</span></h3>
                                 <p>{entry.summary}</p>
                                 {entry.note && <p class="resources-preview__context"><strong>Context:</strong> {entry.note}</p>}
                                 <div class="resources-preview__links">
@@ -64,7 +63,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
             <section class="resources-preview__section resources-preview__reading" aria-labelledby="reading-list-title">
                 <div class="resources-preview__section-heading">
-                    <p class="resources-preview__eyebrow">Pending rabbi review</p>
+
                     <h2 id="reading-list-title">Candidate reading shelf</h2>
                     <p>Every title has a primary author or publisher reference plus a plain, non-affiliate Amazon search link. Confirm, reorder, add, or remove titles before making this public.</p>
                 </div>
@@ -89,11 +88,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         </div>
     ) : (
     <section class="resources-pending" aria-labelledby="resources-pending-title" data-admin-preview-gate>
-        <span class="resources-pending__icon" aria-hidden="true">
-            <i class="fas fa-book-open"></i>
-        </span>
-        <p class="resources-pending__eyebrow">Resource directory</p>
-        <h2 id="resources-pending-title">This section is under construction.</h2>
+        <h2 id="resources-pending-title" class="icon-heading"><i class="fas fa-book-open editorial-icon" aria-hidden="true"></i><span>This section is under construction.</span></h2>
         <p>We are reviewing this section and will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete.</p>
     </section>
     )}
@@ -106,31 +101,12 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         margin: clamp(1rem, 4vw, 3rem) auto;
         padding: clamp(2rem, 6vw, 4.5rem);
         border: 1px solid rgba(13, 51, 91, 0.18);
-        border-radius: 1rem 1rem 3rem 1rem;
+        border-radius: .5rem;
         background: rgba(255, 253, 248, 0.78);
         text-align: center;
     }
 
-    .interior-shell .interior-page .resources-pending__icon {
-        display: inline-grid;
-        width: 4rem;
-        height: 4rem;
-        margin-bottom: 1.25rem;
-        border: 1px solid rgba(177, 128, 24, 0.42);
-        border-radius: 50%;
-        place-items: center;
-        color: var(--gold-dark);
-        font-size: 1.5rem;
-    }
 
-    .interior-shell .interior-page .resources-pending__eyebrow {
-        margin: 0 0 0.65rem;
-        color: var(--gold-dark);
-        font-size: 0.82rem;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-    }
 
     .interior-shell .interior-page .resources-pending h2 {
         margin: 0 0 1rem;
@@ -158,7 +134,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         overflow: hidden;
         padding: clamp(1.5rem, 4vw, 2.5rem);
         border: 1px solid rgba(177, 128, 24, 0.38);
-        border-radius: 1rem 1rem 3rem 1rem;
+        border-radius: .5rem;
         background: linear-gradient(135deg, rgba(7, 36, 66, 0.98), rgba(13, 51, 91, 0.94));
         box-shadow: 0 20px 45px rgba(6, 29, 53, 0.17);
         color: #fff;
@@ -184,7 +160,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.08);
         color: #f4d98f;
-        font-size: 0.76rem;
+        font-size: 1rem;
         font-weight: 800;
         letter-spacing: 0.09em;
         text-transform: uppercase;
@@ -217,14 +193,6 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         background: rgba(242, 229, 187, 0.32);
     }
 
-    .interior-shell .interior-page .resources-preview__eyebrow {
-        margin: 0 0 0.55rem;
-        color: var(--gold-dark);
-        font-size: 0.76rem;
-        font-weight: 800;
-        letter-spacing: 0.11em;
-        text-transform: uppercase;
-    }
 
     .interior-shell .interior-page .resources-preview__start h2,
     .interior-shell .interior-page .resources-preview__section-heading h2 {
@@ -287,16 +255,6 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         box-shadow: 0 12px 28px rgba(6, 29, 53, 0.07);
     }
 
-    .interior-shell .interior-page .resources-preview__card-icon {
-        display: inline-grid;
-        width: 2.7rem;
-        height: 2.7rem;
-        margin-bottom: 1rem;
-        border-radius: 50%;
-        background: rgba(177, 128, 24, 0.13);
-        place-items: center;
-        color: var(--gold-dark);
-    }
 
     .interior-shell .interior-page .resources-preview__card h3,
     .interior-shell .interior-page .resources-preview__book h3 {
@@ -316,7 +274,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     .interior-shell .interior-page .resources-preview__card .resources-preview__context {
         padding-top: 0.75rem;
         border-top: 1px solid rgba(13, 51, 91, 0.1);
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .interior-shell .interior-page .resources-preview__links {
@@ -335,7 +293,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         border: 1px solid rgba(13, 51, 91, 0.2);
         border-radius: 0.45rem;
         color: var(--primary-blue);
-        font-size: 0.82rem;
+        font-size: 1rem;
         font-weight: 800;
         line-height: 1.25;
         text-decoration: none;
@@ -381,7 +339,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
     .interior-shell .interior-page .resources-preview__book .resources-preview__author {
         color: var(--gold-dark);
-        font-size: 0.86rem;
+        font-size: 1rem;
         font-weight: 800;
         letter-spacing: 0.02em;
     }
@@ -389,7 +347,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     .interior-shell .interior-page .resources-preview__disclaimer {
         margin: 1rem 0 0;
         color: var(--text-secondary);
-        font-size: 0.86rem;
+        font-size: 1rem;
         line-height: 1.6;
     }
 

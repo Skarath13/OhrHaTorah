@@ -42,7 +42,8 @@ test('baseline schema and deployment instructions include the calendar table and
   assert.match(schema, /CREATE TABLE IF NOT EXISTS congregation_calendar_events/);
   assert.match(schema, /time_zone = 'America\/Los_Angeles'/);
   const tablePattern = /CREATE TABLE IF NOT EXISTS congregation_calendar_events \([\s\S]*?\n\);/;
-  assert.equal(schema.match(tablePattern)?.[0], siteMigration.match(tablePattern)?.[0]);
+  const latest = read('deploy/chuck-staging/migrations/site/0003_start_only_and_date_exceptions.sql');
+  assert.equal(schema.match(tablePattern)?.[0], latest.match(/CREATE TABLE congregation_calendar_events_v2 \([\s\S]*?\n\);/)?.[0].replace('CREATE TABLE congregation_calendar_events_v2', 'CREATE TABLE IF NOT EXISTS congregation_calendar_events'));
   const seedTablePattern = /CREATE TABLE IF NOT EXISTS congregation_calendar_seed_versions \([\s\S]*?\n\);/;
   assert.equal(schema.match(seedTablePattern)?.[0], siteMigration.match(seedTablePattern)?.[0]);
   assert.match(schema, /'Kiddush, food, and discussion'/);

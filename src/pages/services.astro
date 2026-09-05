@@ -15,7 +15,7 @@ import PageLayout from '../layouts/PageLayout.astro';
             <div class="timeline-item">
                 <div class="time-badge blue">2:30 PM</div>
                 <div class="timeline-content">
-                    <strong>Messianic Music and Dance</strong>
+                    <strong>Traditional and Messianic Jewish Music</strong>
                     <p>Hebrew and English songs with congregational music and dance.</p>
                 </div>
             </div>
@@ -36,13 +36,7 @@ import PageLayout from '../layouts/PageLayout.astro';
             </div>
         </div>
 
-        <p class="future-note"><em><i class="fas fa-clock"></i> A morning Shacharit service is planned.</em></p>
-    </div>
-
-    <div class="info-section">
-        <h3><i class="fas fa-heart"></i> What to Expect</h3>
-        <p>Our Shabbat gathering brings together Jewish liturgy, Messianic music, Torah reading, and discussion. Hebrew prayers are accompanied by transliteration and English explanations.</p>
-        <p><strong>Jewish and non-Jewish visitors are welcome.</strong> Participate at your own pace, and ask questions whenever you need help.</p>
+        <p class="future-note"><i class="fas fa-clock" aria-hidden="true"></i> We plan to transition to morning services (<em>Shacharit</em>).</p>
     </div>
 
     <aside class="service-contact-strip" aria-labelledby="service-contact-title">
@@ -135,7 +129,7 @@ import PageLayout from '../layouts/PageLayout.astro';
     .timeline-content p {
         margin: 0;
         color: var(--text-secondary);
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
 
     .future-note {
@@ -201,8 +195,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         width: 2.75rem;
         height: 2.75rem;
         flex: 0 0 auto;
-        border: 1px solid rgba(209, 161, 45, 0.58);
-        border-radius: 50%;
+        border: 0;
         align-items: center;
         justify-content: center;
         color: var(--primary-blue);
@@ -232,7 +225,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         background: transparent;
         color: var(--primary-blue);
         font-family: var(--font-body);
-        font-size: 0.92rem;
+        font-size: 1rem;
         font-weight: 700;
         text-decoration: none;
         transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;

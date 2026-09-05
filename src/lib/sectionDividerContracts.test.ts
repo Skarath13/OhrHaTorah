@@ -47,7 +47,7 @@ test('homepage and interior layout use full-width transitions at major color bou
 });
 
 test('divider release has an explicit stylesheet cache version', () => {
-    assert.match(baseLayoutSource, /20260812-responsive-type-1/);
+    assert.match(baseLayoutSource, /20260904-responsive-polish-6/);
 });
 
 test('large sections never remain partially transparent while scrolling', () => {
@@ -55,7 +55,7 @@ test('large sections never remain partially transparent while scrolling', () => 
     assert.doesNotMatch(motionStyles, /\.home-redesign\s*>\s*\.home-section/);
 });
 
-test('calendar artwork keeps a localized caption scrim instead of a heavy full-image wash', () => {
-    assert.match(homeStyles, /\.home-calendar-image::after[^}]*rgba\(6, 26, 50, 0\.76\)[^}]*transparent 68%/s);
-    assert.doesNotMatch(homeStyles, /\.home-calendar-image::after[^}]*0\.92/s);
+test('calendar captions no longer cover the subjects in the artwork', () => {
+    assert.doesNotMatch(homeStyles, /\.home-calendar-image figcaption[^}]*position: absolute/s);
+    assert.doesNotMatch(homeStyles, /\.home-calendar-image::after/);
 });

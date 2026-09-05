@@ -32,7 +32,6 @@ const expectedInteriorRoutes = [
     'faq.astro',
     'holidays.astro',
     'israel.astro',
-    'location.astro',
     'mission.astro',
     'resources.astro',
     'services.astro',
@@ -61,9 +60,9 @@ test('every public interior route keeps its hero free of stock media', () => {
     assert.doesNotMatch(motionStyles, /page-hero-media|oht-image-settle/);
 });
 
-test('the homepage imagery remains outside the interior cleanup', () => {
+test('the homepage retains its hero and generated supporting imagery', () => {
     assert.match(homeSource, /class="home-hero-media"/);
-    assert.match(homeSource, /\/images\/stock\//);
+    assert.match(homeSource, /\/images\/generated\//);
 });
 
 test('the shared interior hero remains responsive and text-led', () => {
@@ -72,7 +71,9 @@ test('the shared interior hero remains responsive and text-led', () => {
     assert.match(pageLayoutSource, /<li aria-current="page"><span>\{pageTitle\}<\/span><\/li>/);
     assert.match(pageLayoutSource, /<h1 id="page-title">\{pageTitle\}<\/h1>/);
     assert.match(interiorStyles, /\.page-hero-inner \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?min-height: clamp\(188px, 17vw, 236px\);/);
-    assert.match(interiorStyles, /@media \(max-width: 680px\) \{[\s\S]*?\.page-hero-title \{[\s\S]*?max-width: calc\(100% - 2rem\);/);
+    assert.match(interiorStyles, /\.page-hero-title \{[^}]*max-width: 100%;/);
+    assert.match(interiorStyles, /\.page-hero h1 \{[^}]*max-width: none;/);
+    assert.doesNotMatch(interiorStyles, /\.page-hero h1 \{[^}]*max-width: \d+ch;/);
     assert.match(interiorStyles, /\.page-hero h1 \{[\s\S]*?overflow-wrap: normal;[\s\S]*?word-break: normal;[\s\S]*?text-wrap: balance;/);
     assert.match(
         chromeStyles,
@@ -80,7 +81,7 @@ test('the shared interior hero remains responsive and text-led', () => {
     );
     assert.match(
         chromeStyles,
-        /@media \(max-width: 680px\) \{[\s\S]*?\.site-breadcrumbs li \{[^}]*font-size: 0\.75rem;[\s\S]*?\.site-breadcrumbs \[aria-current='page'\] \{[^}]*font-size: 0\.75rem;/,
+        /@media \(max-width: 680px\) \{[\s\S]*?\.site-breadcrumbs li \{[^}]*font-size: 1rem;[\s\S]*?\.site-breadcrumbs \[aria-current='page'\] \{[^}]*font-size: 1rem;/,
     );
 });
 

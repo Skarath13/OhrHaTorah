@@ -1,5 +1,5 @@
 ---
-// Shows the upcoming Shabbat's dates alongside the Mincha service time.
+// Shows the upcoming Shabbat's dates alongside the full afternoon gathering start.
 ---
 <div class="sidebar-widget live-clock-widget" aria-labelledby="sidebar-date-time-title">
     <div class="widget-header" data-editable="sidebar-date-time-header" role="heading" aria-level="3">
@@ -26,7 +26,7 @@
                 ></time>
             </div>
             <div class="clock-panel clock-panel-service">
-                <div class="clock-label" id="sidebar-mincha-service-label">Mincha Prayer and Torah Service</div>
+                <div class="clock-label" id="sidebar-mincha-service-label">Afternoon Shabbat Service</div>
                 <time
                     class="clock-service-time"
                     datetime="14:30"
@@ -72,7 +72,7 @@
         margin-bottom: 0;
         color: var(--home-blue-800, #123f72);
         font-family: inherit;
-        font-size: 0.85rem;
+        font-size: 1rem;
         font-weight: 700;
         letter-spacing: 0;
         text-transform: none;
@@ -97,7 +97,7 @@
     .clock-gregorian-date {
         color: var(--home-ink, #172236);
         font-family: inherit;
-        font-size: 0.94rem;
+        font-size: 1rem;
         font-weight: 600;
         line-height: 1.4;
         text-align: right;
@@ -114,13 +114,13 @@
     }
 
     .clock-panel-date .clock-gregorian-date {
-        font-size: 0.94rem;
+        font-size: 1rem;
     }
 
     .clock-service-time {
         color: var(--home-blue-900, #0b2f5b);
         font-family: inherit;
-        font-size: 0.94rem;
+        font-size: 1rem;
         font-weight: 700;
         letter-spacing: 0;
         display: flex;

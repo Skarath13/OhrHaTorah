@@ -1,187 +1,78 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import { getHolidayServiceProgramme } from '../lib/holidayServices';
+import { getCongregationCalendarEvents, parseCalendarRange } from '../lib/calendar';
+import { formatCalendarEventTime } from '../lib/calendarDisplay';
+import type { CongregationEvent } from '../data/congregationEvents';
+
+Astro.response.headers.set('Cache-Control', 'no-store');
+let services: readonly CongregationEvent[] = [];
+let unavailable = false;
+try { services = await getHolidayServiceProgramme(Astro.locals.runtime?.env?.DB); }
+catch { unavailable = true; }
+const dateLabel = (date: string) => new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(date + 'T12:00:00Z'));
+const serviceTime = (event: CongregationEvent) => {
+    if (event.schedule.kind !== 'single') return '';
+    const date = event.schedule.date;
+    const next = new Date(date + 'T12:00:00Z'); next.setUTCDate(next.getUTCDate() + 1);
+    const [entry] = getCongregationCalendarEvents(parseCalendarRange(date, next.toISOString().slice(0, 10)), [event]);
+    return entry ? formatCalendarEventTime(entry) : '';
+};
+const kolNidre = services.find(event => event.id === 'holiday-2026-kol-nidre');
+// Editorial context follows the rabbi's September 2 email and holiday notes.
+// Dates, titles, arrival instructions, and time qualifications remain CMS-owned.
+const serviceIntroductions: Record<string, string> = {
+    'holiday-2026-rosh-hashanah': 'Yom Teruah is the Day of Shofar Sounding. We enter the fall holy days with a call to repentance, taking responsibility for our choices and seeking renewed faithfulness to God and one another.',
+    'holiday-2026-kol-nidre': 'Kol Nidre opens our observance of Yom Kippur. We gather in the evening to begin this time of prayer, repentance, and reflection as a congregation.',
+    'holiday-2026-yom-kippur-mincha': 'On the Day of Atonement, we continue in prayer and reflection. Our prayers express both personal and shared responsibility, with hope for repentance and restoration through Messiah Yeshua.',
+    'holiday-2026-neilah': 'Neilah brings the day’s prayers to a close. We gather for these concluding prayers as Yom Kippur draws toward its end.',
+    'holiday-2026-break-fast': 'Following the concluding prayers, we mark the end of Yom Kippur with Havdalah and break the fast together.',
+    'holiday-2026-sukkot': 'Sukkot, the Festival of Tabernacles, recalls Israel’s wilderness journey and God’s provision. We gather for the first day of the festival.',
+    'holiday-2026-shemini-atzeret': 'Shemini Atzeret is the concluding assembly following Sukkot, and Simchat Torah celebrates rejoicing in the Torah. We observe them together in one congregational gathering.',
+};
+const occasions = [
+    ['Shabbat', 'Our weekly day of rest, prayer, Torah, and fellowship.'],
+    ['Pesach · Passover', 'Remembering the Exodus from Egypt.'],
+    ['Shavuot', 'The giving of Torah and the first fruits of the harvest.'],
+    ['Rosh HaShanah · Yom Teruah', 'The New Year and Day of Shofar Sounding.'],
+    ['Yom Kippur', 'The Day of Atonement.'],
+    ['Sukkot', 'The Festival of Tabernacles.'],
+    ['Shemini Atzeret & Simchat Torah', 'The concluding assembly and rejoicing in the Torah.'],
+    ['Hanukkah', 'The Festival of Lights.'],
+];
 ---
-
-<PageLayout title="Jewish Holidays - Kehilat Ohr HaTorah" pageTitle="Jewish Holidays" pageIcon="fas fa-calendar-day" description="Jewish holidays and appointed times observed by the community of Kehilat Ohr HaTorah.">
-    <p class="intro-text"><strong>Dates and gathering details are posted as each holiday approaches.</strong></p>
-
-    <p class="description">We mark Shabbat and the Jewish holidays throughout the year.</p>
-
-    <div class="holidays-grid">
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-star"></i>
-            </div>
-            <h3>Shabbat</h3>
-            <p>Weekly day of rest and worship</p>
-        </div>
-
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-wine-glass"></i>
-            </div>
-            <h3>Pesach (Passover)</h3>
-            <p>Remembering the Exodus from Egypt</p>
-        </div>
-
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-wheat-awn"></i>
-            </div>
-            <h3>Shavuot (Pentecost)</h3>
-            <p>The giving of Torah and the first fruits of the harvest</p>
-        </div>
-
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-bell"></i>
-            </div>
-            <h3>Rosh Hashanah</h3>
-            <p>The New Year, marked by the shofar and reflection</p>
-        </div>
-
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-scroll"></i>
-            </div>
-            <h3>Yom Kippur</h3>
-            <p>Day of Atonement</p>
-        </div>
-
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-campground"></i>
-            </div>
-            <h3>Sukkot</h3>
-            <p>Festival of Tabernacles</p>
-        </div>
-
-        <div class="holiday-card">
-            <div class="holiday-icon">
-                <i class="fas fa-menorah"></i>
-            </div>
-            <h3>Hanukkah</h3>
-            <p>Festival of Lights</p>
-        </div>
-    </div>
-
-    <div class="contact-box">
-        <h4><i class="fas fa-question-circle"></i> Questions about Jewish holidays?</h4>
-        <div class="contact-links">
-            <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
-            <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
-        </div>
+<PageLayout title="Jewish Holidays - Kehilat Ohr HaTorah" pageTitle="Jewish Holidays" description="Holiday services and the appointed times at Kehilat Ohr HaTorah, including Rosh HaShanah, Kol Nidre, Yom Kippur, and Sukkot." stylesheets={['/styles/holidays.css']}>
+    <div class="editorial-page">
+        <section class="editorial-lead">
+            <div><h2>Fall High Holidays · 2026 / 5787</h2><p>Join us for Rosh HaShanah, Kol Nidre and Yom Kippur, Sukkot, and our combined Shemini Atzeret and Simchat Torah gathering.</p><p>This season calls us to repentance and covenant renewal. We remember that each person matters, that we are accountable to one another, and that God promises repentance and restoration for His people.</p><div class="editorial-actions"><a class="action-link" href="#holiday-services">See the service schedule <span aria-hidden="true">↓</span></a><a class="text-link" href="/#congregation-calendar">Congregational Calendar <span aria-hidden="true">→</span></a></div></div>
+            <aside class="editorial-side"><h3>Join us in Fountain Valley</h3><address>10460 Slater Ave<br>Fountain Valley, CA 92708</address><p>All service times are Pacific time.</p><a class="text-link" href="/#map">Map and directions <span aria-hidden="true">→</span></a></aside>
+        </section>
+        {kolNidre && kolNidre.schedule.kind === 'single' && (
+            <section class="kol-nidre-feature" aria-labelledby="kol-nidre-title">
+                <div><h2 id="kol-nidre-title">Kol Nidre</h2><p>Erev Yom Kippur begins with our Kol Nidre evening service. Join us as we enter the Day of Atonement together.</p></div>
+                <div class="kol-nidre-details"><p>{dateLabel(kolNidre.schedule.date)}</p><strong>{serviceTime(kolNidre)}</strong><a href="/#map">Join us in Fountain Valley <span aria-hidden="true">→</span></a></div>
+            </section>
+        )}
+        <section id="holiday-services" class="editorial-section" aria-labelledby="holiday-services-title">
+            <h2 id="holiday-services-title">Fall holiday service schedule</h2>
+            {services.length ? (
+                <ol class="holiday-programme">
+                    {services.filter(event => event.schedule.kind === 'single').map(event => event.schedule.kind === 'single' && (
+                        <li>
+                            <div class="holiday-programme-heading">
+                                <h3>{event.title}</h3>
+                                <div class="holiday-programme-date"><time datetime={event.schedule.date}>{dateLabel(event.schedule.date)}</time><strong>{serviceTime(event)}</strong></div>
+                            </div>
+                            <div class="holiday-programme-copy">
+                                {serviceIntroductions[event.id] && <p>{serviceIntroductions[event.id]}</p>}
+                                {event.description && <p class="holiday-service-note">{event.description}</p>}
+                            </div>
+                        </li>
+                    ))}
+                </ol>
+            ) : <p class="editorial-note">{unavailable ? 'Service details are temporarily unavailable.' : 'Holiday service details will be posted here as they are confirmed.'} <a href="mailto:OhrHaTorahOC@gmail.com">Email us for the latest schedule.</a></p>}
+        </section>
+        <section class="editorial-section"><h2>Shabbat and the holidays</h2><div class="holiday-year">{occasions.map(([title, text]) => <div><h3>{title}</h3><p>{text}</p></div>)}</div></section>
+        <div class="editorial-note"><p>Questions about joining us for a holiday?</p><a class="text-link" href="mailto:OhrHaTorahOC@gmail.com">Email the congregation <span aria-hidden="true">→</span></a></div>
     </div>
 </PageLayout>
-
-<style>
-    .intro-text {
-        text-align: center;
-        font-size: 1.1rem;
-        margin-bottom: 15px;
-    }
-
-    .description {
-        text-align: center;
-        color: var(--text-secondary);
-        margin-bottom: 30px;
-    }
-
-    .holidays-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-
-    .holiday-card {
-        background: var(--gray-100);
-        padding: 25px 20px;
-        border-radius: 12px;
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .holiday-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .holiday-icon {
-        width: 60px;
-        height: 60px;
-        margin: 0 auto 15px;
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .holiday-icon i {
-        color: white;
-        font-size: 1.5rem;
-    }
-
-    .holiday-card h3 {
-        color: var(--primary-blue);
-        font-size: 1.1rem;
-        margin: 0 0 8px 0;
-    }
-
-    .holiday-card p {
-        margin: 0;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-    }
-
-    .info-box {
-        background: var(--gold-light);
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 4px solid var(--gold);
-        margin-bottom: 30px;
-    }
-
-    .info-box p {
-        margin: 0;
-        color: var(--text-secondary);
-        line-height: 1.7;
-    }
-
-    .contact-box {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, #004080 100%);
-        color: white;
-        padding: 25px;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .contact-box h4 {
-        margin: 0 0 15px 0;
-        color: white;
-    }
-
-    .contact-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-
-    .contact-links a {
-        color: white;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 10px 20px;
-        border-radius: 6px;
-        transition: background 0.3s ease;
-    }
-
-    .contact-links a:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
-</style>

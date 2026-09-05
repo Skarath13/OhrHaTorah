@@ -92,6 +92,7 @@ const createEndpointDatabase = () => {
                 endsOn,
                 startTime,
                 endTime,
+                excludedDatesJson,
                 createdBy,
                 updatedBy,
               ] = values;
@@ -109,6 +110,7 @@ const createEndpointDatabase = () => {
                 ends_on: endsOn,
                 start_time: startTime,
                 end_time: endTime,
+                excluded_dates_json: excludedDatesJson,
                 created_at: '2026-08-20 20:00:00',
                 updated_at: '2026-08-20 20:00:00',
                 created_by: createdBy,
@@ -117,7 +119,7 @@ const createEndpointDatabase = () => {
               return { success: true, meta: { changes: 1 } };
             }
             if (/UPDATE congregation_calendar_events SET/.test(sql)) {
-              if (!storedRow || storedRow.id !== values[13]) {
+              if (!storedRow || storedRow.id !== values[14]) {
                 return { success: true, meta: { changes: 0 } };
               }
               const [
@@ -133,6 +135,7 @@ const createEndpointDatabase = () => {
                 endsOn,
                 startTime,
                 endTime,
+                excludedDatesJson,
                 updatedBy,
               ] = values;
               storedRow = {
@@ -149,6 +152,7 @@ const createEndpointDatabase = () => {
                 ends_on: endsOn,
                 start_time: startTime,
                 end_time: endTime,
+                excluded_dates_json: excludedDatesJson,
                 updated_at: '2026-08-20 20:01:00',
                 updated_by: updatedBy,
               };

@@ -65,7 +65,7 @@ test('the card has no unverified legacy reading table', () => {
     assert.match(component, /getPreferredBritReading/);
     assert.match(
         component,
-        /\.brit-reading-source \{[^}]*font-size: 0\.75rem;[^}]*line-height: 1\.45;/s,
+        /\.brit-reading-source \{[^}]*font-size: 1rem;[^}]*line-height: 1\.45;/s,
     );
     assert.match(
         component,

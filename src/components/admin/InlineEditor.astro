@@ -226,7 +226,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 500;
   }
 
@@ -244,7 +244,7 @@
   }
 
   .change-indicator {
-    font-size: 13px;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);
     padding-left: 16px;
     border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -267,7 +267,7 @@
     gap: 6px;
     padding: 8px 16px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 1rem;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
@@ -357,7 +357,7 @@
     transform: translateX(-50%);
     background: #1a365d;
     color: white;
-    font-size: 11px;
+    font-size: 1rem;
     font-weight: 500;
     padding: 4px 8px;
     border-radius: 4px;
@@ -439,7 +439,7 @@
     transform: translate(-50%, -50%);
     background: rgba(26, 54, 93, 0.9);
     color: white;
-    font-size: 12px;
+    font-size: 1rem;
     font-weight: 500;
     padding: 8px 14px;
     border-radius: 6px;
@@ -489,7 +489,7 @@
     color: #2d3748;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 600;
     font-family: var(--font-body);
     cursor: pointer;
@@ -587,7 +587,7 @@
     text-align: center;
     padding: 40px;
     color: #718096;
-    font-size: 14px;
+    font-size: 1rem;
   }
 
   .library-empty {
@@ -595,7 +595,7 @@
     text-align: center;
     padding: 40px;
     color: #718096;
-    font-size: 14px;
+    font-size: 1rem;
   }
 
   .library-image-item {
@@ -636,7 +636,7 @@
 
   .library-image-item .image-info span {
     color: white;
-    font-size: 11px;
+    font-size: 1rem;
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -671,7 +671,7 @@
     color: white;
     padding: 12px 24px;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 500;
     font-family: var(--font-body);
     display: flex;
@@ -1712,6 +1712,9 @@
         setTimeout(() => {
           window.location.href = '/';
         }, 1000);
+      } else if (document.querySelector('#underConstructionModal[data-can-preview="true"]')) {
+        // Restore public draft gates and navigation from the logged-out server session.
+        window.location.reload();
       }
     } catch (err) {
       showToast('Logout failed', 'error');

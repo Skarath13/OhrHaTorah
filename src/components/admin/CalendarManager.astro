@@ -12,7 +12,6 @@
 >
     <header class="calendar-manager-header">
         <div>
-            <p class="calendar-manager-kicker">Admin calendar tools</p>
             <h3 id="calendar-manager-title">Manage congregation events</h3>
             <p class="calendar-manager-intro">
                 Add or revise congregation-owned dates. Jewish holidays, Hebrew dates, and candle-lighting
@@ -58,8 +57,8 @@
         <form class="calendar-manager-form" data-calendar-form novalidate hidden>
             <div class="calendar-manager-form-heading">
                 <div>
-                    <p class="calendar-manager-kicker" data-calendar-form-kicker>New event</p>
                     <h4 data-calendar-form-title>Add a congregation event</h4>
+                    <p class="calendar-manager-mode" data-calendar-form-kicker>New event</p>
                 </div>
                 <button class="calendar-manager-form-close" type="button" data-calendar-cancel aria-label="Close event form">
                     <span aria-hidden="true">×</span>
@@ -178,6 +177,12 @@
                         <p class="calendar-manager-field-error" data-error-for="schedule.endsOn"></p>
                     </div>
                 </div>
+                <div class="calendar-manager-field calendar-manager-field--wide">
+                    <label for="calendar-excluded-dates">Skip these dates (optional)</label>
+                    <textarea id="calendar-excluded-dates" name="excludedDates" rows="2" maxlength="1440" data-field-path="schedule.excludedDates"></textarea>
+                    <p class="calendar-manager-field-hint">Use YYYY-MM-DD dates, separated by commas. To change one occurrence, skip its date here and add a single-date replacement.</p>
+                    <p class="calendar-manager-field-error" data-error-for="schedule.excludedDates"></p>
+                </div>
             </div>
 
             <div class="calendar-manager-time-row calendar-manager-field--wide" data-time-fields>
@@ -192,14 +197,14 @@
                     <p class="calendar-manager-field-error" data-error-for="schedule.startTime"></p>
                 </div>
                 <div class="calendar-manager-field">
-                    <label for="calendar-event-end-time">End time <span aria-hidden="true">*</span></label>
+                    <label for="calendar-event-end-time">End time</label>
                     <input
                         id="calendar-event-end-time"
                         name="endTime"
                         type="time"
                         data-field-path="schedule.endTime"
                     />
-                    <p class="calendar-manager-field-hint">Must be later on the same day.</p>
+                    <p class="calendar-manager-field-hint">Optional for a single date; required for a weekly series. Must be later on the same day.</p>
                     <p class="calendar-manager-field-error" data-error-for="schedule.endTime"></p>
                 </div>
             </div>
@@ -256,14 +261,12 @@
         border-bottom: 1px solid #d8dee5;
     }
 
-    .calendar-manager-kicker {
-        margin: 0 0 0.25rem;
-        color: #7c2f4c;
-        font-size: 0.68rem;
-        font-weight: 850;
-        letter-spacing: 0.1em;
+    .calendar-manager-mode {
+        margin: .35rem 0 0;
+        color: #536476;
+        font-size: 1rem;
+        font-weight: 500;
         line-height: 1.3;
-        text-transform: uppercase;
     }
 
     .calendar-manager h3,
@@ -292,7 +295,7 @@
         max-width: 55rem;
         margin: 0.45rem 0 0;
         color: #536476;
-        font-size: 0.82rem;
+        font-size: 1rem;
         line-height: 1.55;
     }
 
@@ -334,7 +337,7 @@
         min-height: 1.35rem;
         margin: 0.75rem 0 0;
         color: #536476;
-        font-size: 0.78rem;
+        font-size: 1rem;
         line-height: 1.45;
     }
 
@@ -350,7 +353,7 @@
         border-left-width: 4px;
         background: #fff1f0;
         color: #7a271a;
-        font-size: 0.78rem;
+        font-size: 1rem;
         line-height: 1.45;
     }
 
@@ -400,7 +403,7 @@
     .calendar-manager-panel-heading p {
         margin: 0.25rem 0 0;
         color: #536476;
-        font-size: 0.74rem;
+        font-size: 1rem;
     }
 
     .calendar-manager-refresh {
@@ -409,7 +412,7 @@
         padding: 0.45rem 0.7rem;
         background: #fff;
         color: #173f67;
-        font-size: 0.73rem;
+        font-size: 1rem;
     }
 
     .calendar-manager-list {
@@ -434,7 +437,7 @@
     .calendar-manager-event-title {
         margin: 0;
         color: #061a32;
-        font-size: 0.83rem;
+        font-size: 1rem;
         font-weight: 850;
         line-height: 1.35;
     }
@@ -443,7 +446,7 @@
     .calendar-manager-event-details {
         margin: 0.28rem 0 0;
         color: #536476;
-        font-size: 0.7rem;
+        font-size: 1rem;
         line-height: 1.45;
     }
 
@@ -460,7 +463,7 @@
         border-radius: 0.35rem;
         background: #fff;
         color: #173f67;
-        font-size: 0.7rem;
+        font-size: 1rem;
         font-weight: 800;
         cursor: pointer;
     }
@@ -475,7 +478,7 @@
         padding: 0.9rem;
         border: 1px dashed #aeb9c4;
         color: #536476;
-        font-size: 0.78rem;
+        font-size: 1rem;
         text-align: center;
     }
 
@@ -521,7 +524,7 @@
     .calendar-manager-field label,
     .calendar-manager-fieldset legend {
         color: #203d5c;
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 800;
         line-height: 1.35;
     }
@@ -536,7 +539,7 @@
         border-radius: 0.35rem;
         background: #fff;
         color: #061a32;
-        font-size: 0.82rem;
+        font-size: 1rem;
         line-height: 1.4;
         box-sizing: border-box;
     }
@@ -555,7 +558,7 @@
     .calendar-manager-field-hint,
     .calendar-manager-field-error {
         margin: 0.25rem 0 0;
-        font-size: 0.68rem;
+        font-size: 1rem;
         line-height: 1.4;
     }
 
@@ -599,7 +602,7 @@
         border-radius: 0.35rem;
         background: #f7f9fb;
         color: #203d5c;
-        font-size: 0.73rem;
+        font-size: 1rem;
         font-weight: 750;
         cursor: pointer;
     }
@@ -650,7 +653,7 @@
         border-left: 3px solid #d0a33d;
         background: #fff8e6;
         color: #624a15;
-        font-size: 0.7rem;
+        font-size: 1rem;
         line-height: 1.45;
     }
 
@@ -661,7 +664,7 @@
 
     .calendar-manager-button {
         padding: 0.62rem 0.9rem;
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
 
     .calendar-manager-button--secondary {
@@ -728,6 +731,7 @@
 </style>
 
 <script>
+    import { validateCalendarEventDraft } from '../../lib/congregationCalendarEvents';
     import type {
         CongregationWeekday as Weekday,
         SingleEventSchedule as SingleSchedule,
@@ -815,6 +819,7 @@
             const startsOnInput = form.elements.namedItem('startsOn') as HTMLInputElement;
             const endsOnInput = form.elements.namedItem('endsOn') as HTMLInputElement;
             const startTimeInput = form.elements.namedItem('startTime') as HTMLInputElement;
+            const excludedDatesInput = form.elements.namedItem('excludedDates') as HTMLTextAreaElement;
             const endTimeInput = form.elements.namedItem('endTime') as HTMLInputElement;
             let events: ManagedEvent[] = [];
             let editingId: string | null = null;
@@ -885,85 +890,15 @@
             });
 
             const buildDraft = (): { draft?: EventDraft; issues: ValidationIssue[] } => {
-                const title = titleInput.value.trim();
-                const description = descriptionInput.value.trim();
-                const location = locationInput.value.trim();
                 const kind = getScheduleKind();
-                const issues: ValidationIssue[] = [];
-
-                if (!title) issues.push({ path: 'title', message: 'Enter an event title.' });
-                if (title.length > 160) issues.push({ path: 'title', message: 'Keep the title to 160 characters or fewer.' });
-                if (description.length > 2000) issues.push({ path: 'description', message: 'Keep the description to 2,000 characters or fewer.' });
-                if (location.length > 300) issues.push({ path: 'location', message: 'Keep the location to 300 characters or fewer.' });
-
-                let schedule: SingleSchedule | WeeklySchedule | undefined;
-                if (kind === 'single') {
-                    const date = dateInput.value;
-                    if (!isRealDate(date)) {
-                        issues.push({ path: 'schedule.date', message: 'Choose a valid event date.' });
-                    }
-
-                    if (allDayInput.checked) {
-                        schedule = { kind: 'single', date, allDay: true };
-                    } else {
-                        const startTime = startTimeInput.value;
-                        const endTime = endTimeInput.value;
-                        if (!timePattern.test(startTime)) {
-                            issues.push({ path: 'schedule.startTime', message: 'Choose a valid start time.' });
-                        }
-                        if (!timePattern.test(endTime)) {
-                            issues.push({ path: 'schedule.endTime', message: 'Choose a valid end time.' });
-                        } else if (timePattern.test(startTime) && endTime <= startTime) {
-                            issues.push({ path: 'schedule.endTime', message: 'End time must be later than start time on the same day.' });
-                        }
-                        schedule = { kind: 'single', date, allDay: false, startTime, endTime };
-                    }
-                } else {
-                    const weekdays = selectedWeekdays();
-                    const startsOn = startsOnInput.value;
-                    const endsOn = endsOnInput.value;
-                    const startTime = startTimeInput.value;
-                    const endTime = endTimeInput.value;
-                    if (weekdays.length === 0) {
-                        issues.push({ path: 'schedule.weekdays', message: 'Choose at least one weekday.' });
-                    }
-                    if (!isRealDate(startsOn)) {
-                        issues.push({ path: 'schedule.startsOn', message: 'Choose a valid recurrence start date.' });
-                    }
-                    if (endsOn && !isRealDate(endsOn)) {
-                        issues.push({ path: 'schedule.endsOn', message: 'Choose a valid recurrence end date.' });
-                    } else if (endsOn && isRealDate(startsOn) && endsOn < startsOn) {
-                        issues.push({ path: 'schedule.endsOn', message: 'Recurrence end date cannot be before its start date.' });
-                    }
-                    if (!timePattern.test(startTime)) {
-                        issues.push({ path: 'schedule.startTime', message: 'Choose a valid start time.' });
-                    }
-                    if (!timePattern.test(endTime)) {
-                        issues.push({ path: 'schedule.endTime', message: 'Choose a valid end time.' });
-                    } else if (timePattern.test(startTime) && endTime <= startTime) {
-                        issues.push({ path: 'schedule.endTime', message: 'End time must be later than start time on the same day.' });
-                    }
-                    schedule = {
-                        kind: 'weekly',
-                        interval: 1,
-                        weekdays,
-                        startsOn,
-                        ...(endsOn ? { endsOn } : {}),
-                        startTime,
-                        endTime,
-                    };
-                }
-
-                if (issues.length > 0 || !schedule) return { issues };
-                return {
-                    draft: {
-                        title,
-                        ...(description ? { description } : {}),
-                        ...(location ? { location } : {}),
-                        schedule,
-                    },
-                    issues,
-                };
+                const times = { startTime: startTimeInput.value, ...(endTimeInput.value ? { endTime: endTimeInput.value } : {}) };
+                const schedule = kind === 'single'
+                    ? { kind, date: dateInput.value, allDay: allDayInput.checked, ...(allDayInput.checked ? {} : times) }
+                    : { kind, interval: 1, weekdays: selectedWeekdays(), startsOn: startsOnInput.value,
+                        endsOn: endsOnInput.value, ...times,
+                        excludedDates: excludedDatesInput.value.split(/[\s,]+/).filter(Boolean) };
+                const result = validateCalendarEventDraft({ title: titleInput.value, description: descriptionInput.value, location: locationInput.value, schedule });
+                return result.success ? { draft: result.data, issues: [] } : { issues: [...result.issues] };
             };
 
             const formatDate = (value: string): string => new Intl.DateTimeFormat('en-US', {
@@ -994,10 +929,10 @@
                     const date = formatDate(schedule.date);
                     return schedule.allDay
                         ? `${date} · All day`
-                        : `${date} · ${formatTime(schedule.startTime)}–${formatTime(schedule.endTime)}`;
+                        : `${date} · ${formatTime(schedule.startTime)}${schedule.endTime ? `–${formatTime(schedule.endTime)}` : ''}`;
                 }
                 const days = joinLabels(schedule.weekdays.map((weekday) => weekdayLabels[weekday]));
-                const ending = schedule.endsOn ? ` through ${formatDate(schedule.endsOn)}` : '';
+                const ending = (schedule.endsOn ? ` through ${formatDate(schedule.endsOn)}` : '') + (schedule.excludedDates?.length ? ` · Skipping: ${schedule.excludedDates.map(formatDate).join(', ')}` : '');
                 return `Every ${days} · ${formatTime(schedule.startTime)}–${formatTime(schedule.endTime)} · from ${formatDate(schedule.startsOn)}${ending}`;
             };
 
@@ -1182,13 +1117,14 @@
                     allDayInput.checked = event.schedule.allDay;
                     if (!event.schedule.allDay) {
                         startTimeInput.value = event.schedule.startTime;
-                        endTimeInput.value = event.schedule.endTime;
+                        endTimeInput.value = event.schedule.endTime || '';
                     }
                 } else {
+                    excludedDatesInput.value = (event.schedule.excludedDates ?? []).join(', ');
                     startsOnInput.value = event.schedule.startsOn;
                     endsOnInput.value = event.schedule.endsOn || '';
                     startTimeInput.value = event.schedule.startTime;
-                    endTimeInput.value = event.schedule.endTime;
+                    endTimeInput.value = event.schedule.endTime || '';
                     event.schedule.weekdays.forEach((weekday) => {
                         const input = form.querySelector<HTMLInputElement>(`input[name="weekdays"][value="${weekday}"]`);
                         if (input) input.checked = true;

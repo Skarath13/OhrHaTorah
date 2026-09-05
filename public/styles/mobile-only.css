@@ -32,7 +32,7 @@
     
     /* === HOSTAGE COUNTER === */
     .hostage-counter {
-        font-size: 10px !important;
+        font-size: 1rem !important;
         padding: 6px 8px !important;
         position: fixed !important;
         bottom: 80px !important;
@@ -47,7 +47,7 @@
     }
     
     .timer-number {
-        font-size: 14px !important;
+        font-size: 1rem !important;
     }
     
     .timer-label {
@@ -68,7 +68,7 @@
     }
     
     .time-date-container {
-        font-size: 12px !important;
+        font-size: 1rem !important;
     }
     
     /* === MOBILE NAVIGATION === */
@@ -282,7 +282,7 @@
         background: rgba(255,255,255,0.8) !important;
         margin: 2px 0 !important;
         padding: 12px 16px !important;
-        font-size: 14px !important;
+        font-size: 1rem !important;
         border-radius: 6px !important;
     }
     
@@ -335,7 +335,7 @@
     .content-card p, 
     .content-card ul, 
     .content-card ol {
-        font-size: 14px !important;
+        font-size: 1rem !important;
         line-height: 1.5 !important;
     }
     
@@ -371,7 +371,7 @@
     .footer {
         padding: 20px 10px !important;
         text-align: center !important;
-        font-size: 12px !important;
+        font-size: 1rem !important;
         margin-bottom: 60px !important;
     }
     
@@ -408,12 +408,12 @@
     .content-card p, 
     .content-card ul, 
     .content-card ol {
-        font-size: 15px !important;
+        font-size: 1rem !important;
     }
     
     .hostage-counter {
         max-width: 200px !important;
-        font-size: 11px !important;
+        font-size: 1rem !important;
     }
     
 }
@@ -441,7 +441,7 @@
     
     .nav-links a {
         padding: 14px 12px !important;
-        font-size: 14px !important;
+        font-size: 1rem !important;
         min-height: 44px !important;
     }
     

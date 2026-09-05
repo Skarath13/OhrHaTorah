@@ -155,9 +155,109 @@ test('Hebcal payloads are allowlisted, classified, and rendered as plain event d
     assert.equal(candleLightingOnly[0]?.extendedProps.location, 'Fountain Valley, CA 92708');
 });
 
+const fall2026HolidayItems = [
+    { date: '2026-09-12', title: 'Rosh Hashana 5787', category: 'holiday' },
+    { date: '2026-09-13', title: 'Rosh Hashana II', category: 'holiday' },
+    { date: '2026-09-14', title: 'Tzom Gedaliah', category: 'holiday', subcat: 'fast' },
+    { date: '2026-09-20', title: 'Erev Yom Kippur', category: 'holiday' },
+    { date: '2026-09-21', title: 'Yom Kippur', category: 'holiday' },
+    { date: '2026-09-26', title: 'Sukkot I', category: 'holiday' },
+    { date: '2026-09-27', title: 'Sukkot II', category: 'holiday' },
+    { date: '2026-09-28', title: 'Sukkot III (CH’’M)', title_orig: "Sukkot III (CH''M)", category: 'holiday' },
+    { date: '2026-09-29', title: 'Sukkot IV (CH’’M)', category: 'holiday' },
+    { date: '2026-09-30', title: 'Sukkot V (CH’’M)', category: 'holiday' },
+    { date: '2026-10-01', title: "Sukkot VI (CH''M)", category: 'holiday' },
+    { date: '2026-10-02', title: 'Sukkot VII (Hoshana Raba)', category: 'holiday' },
+    {
+        date: '2026-10-02T18:16:00-07:00',
+        title: 'Candle lighting: 6:16pm',
+        title_orig: 'Candle lighting',
+        category: 'candles',
+        memo: 'Sukkot VII (Hoshana Raba)',
+    },
+    { date: '2026-10-03', title: 'Shmini Atzeret', category: 'holiday' },
+    { date: '2026-10-04', title: 'Simchat Torah', category: 'holiday' },
+];
+
+const includeAllHebcalGroups = {
+    includeHolidays: true,
+    includeObservances: true,
+    includeCandleLighting: true,
+};
+
+test('the approved 2026 holiday presentation preserves Sukkot I and October 2 Shabbat candles', () => {
+    const events = getHebcalCalendarEvents(
+        { items: fall2026HolidayItems },
+        parseCalendarRange('2026-09-01', '2026-10-06'),
+        includeAllHebcalGroups,
+    );
+
+    assert.deepEqual(events.map(({ title, extendedProps }) => [extendedProps.calendarDate, title]), [
+        ['2026-09-12', 'Rosh Hashana 5787'],
+        ['2026-09-20', 'Erev Yom Kippur'],
+        ['2026-09-21', 'Yom Kippur'],
+        ['2026-09-26', 'Sukkot I'],
+        ['2026-10-02', 'Shabbat Candle Lighting'],
+        ['2026-10-03', 'Simchat Torah / Shemini Atzeret'],
+    ]);
+    const candles = events.find((event) => event.extendedProps.group === 'candle-lighting');
+    assert.equal(candles?.start, '2026-10-02T18:16:00-07:00');
+    assert.equal(candles?.allDay, false);
+    assert.equal(candles?.extendedProps.location, 'Fountain Valley, CA 92708');
+    assert.equal(events.find((event) => event.title === 'Erev Yom Kippur')?.start, '2026-09-20');
+    assert.ok(events.every((event) => event.extendedProps.source === 'hebcal'));
+});
+
+test('2026 holiday choices require both the exact date and title and leave other years untouched', () => {
+    const otherDateAndTitleItems = [
+        { date: '2026-09-12', title: 'Rosh Hashana II', category: 'holiday' },
+        { date: '2026-09-13', title: 'An unrelated observance', category: 'holiday' },
+        { date: '2026-10-03', title: 'An unrelated festival', category: 'holiday' },
+        { date: '2026-10-04', title: 'Shmini Atzeret', category: 'holiday' },
+    ];
+    const unrelatedEvents = getHebcalCalendarEvents(
+        { items: otherDateAndTitleItems },
+        parseCalendarRange('2026-09-01', '2026-10-06'),
+        includeAllHebcalGroups,
+    );
+    assert.deepEqual(unrelatedEvents.map(({ title }) => title), otherDateAndTitleItems.map(({ title }) => title));
+
+    const futureItems = fall2026HolidayItems
+        .filter((item) => item.category === 'holiday')
+        .map((item) => ({ ...item, date: item.date.replace('2026-', '2027-') }));
+    const futureEvents = getHebcalCalendarEvents(
+        { items: futureItems },
+        parseCalendarRange('2027-09-01', '2027-10-06'),
+        includeAllHebcalGroups,
+    );
+    assert.deepEqual(futureEvents.map(({ title }) => title), futureItems.map(({ title }) => title));
+});
+
+test('holiday presentation never suppresses congregation events with the same date and title', () => {
+    const range = parseCalendarRange('2026-10-04', '2026-10-05');
+    const managedEvents = getCongregationCalendarEvents(range, [{
+        id: 'admin-managed-festival',
+        title: 'Simchat Torah',
+        description: 'The administrator controls this event.',
+        timeZone: 'America/Los_Angeles',
+        schedule: { kind: 'single', date: '2026-10-04', allDay: true },
+    }]);
+    const hebcalEvents = getHebcalCalendarEvents(
+        { items: fall2026HolidayItems },
+        range,
+        includeAllHebcalGroups,
+    );
+
+    assert.deepEqual(hebcalEvents, []);
+    assert.equal(managedEvents.length, 1);
+    assert.equal(managedEvents[0]?.title, 'Simchat Torah');
+    assert.equal(managedEvents[0]?.extendedProps.description, 'The administrator controls this event.');
+    assert.equal(managedEvents[0]?.extendedProps.source, 'congregation');
+});
+
 test('homepage uses an event-first upcoming-date feed with no calendar grid or Google integration', () => {
     assert.match(homepage, /<CongregationCalendar\s*\/>/);
-    assert.match(homepage, /<h2 id="upcoming-dates">Upcoming Dates<\/h2>/);
+    assert.match(homepage, /<h2 id="upcoming-dates">Congregational Calendar<\/h2>/);
     assert.doesNotMatch(homepage, /calendar\.google|googleapis\.com\/calendar|home-calendar-iframe/i);
     assert.doesNotMatch(calendarComponent, /fullcalendar|dayGrid|listMonth|Agenda|role="grid"/i);
     assert.doesNotMatch(packageManifest, /fullcalendar|temporal-polyfill/i);
@@ -176,6 +276,8 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.match(calendarComponent, /Shabbat candle lighting/);
     assert.match(calendarComponent, /class="kehilat-calendar-details"/);
     assert.match(calendarComponent, /detailsTitle\.textContent = stripRepeatedHebrewYear/);
+    assert.match(calendarComponent, /event\.extendedProps\.source === 'congregation' && event\.extendedProps\.description\?\.trim\(\)/);
+    assert.match(calendarComponent, /description\.textContent = event\.extendedProps\.description/);
     assert.match(calendarComponent, /businessTimeZone = 'America\/Los_Angeles'/);
     assert.match(calendarComponent, /extendedProps\.calendarDate/);
     assert.match(calendarComponent, /Hebcal\.com/);

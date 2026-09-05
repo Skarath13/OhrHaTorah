@@ -24,7 +24,7 @@ export type SingleEventSchedule = {
     /** Congregation-local 24-hour time in HH:MM form. */
     readonly startTime: string;
     /** Congregation-local 24-hour time in HH:MM form. */
-    readonly endTime: string;
+    readonly endTime?: string;
 };
 
 export type WeeklyEventSchedule = {
@@ -35,6 +35,8 @@ export type WeeklyEventSchedule = {
     readonly startsOn: string;
     /** Optional inclusive Gregorian recurrence end in YYYY-MM-DD form. */
     readonly endsOn?: string;
+    /** Dates omitted from this series; use a single event for a replacement. */
+    readonly excludedDates?: readonly string[];
     /** Congregation-local 24-hour time in HH:MM form. */
     readonly startTime: string;
     /** Congregation-local 24-hour time in HH:MM form. */

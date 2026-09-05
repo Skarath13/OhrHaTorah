@@ -47,23 +47,7 @@
     color: #fff;
 }
 
-.page-hero::before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    top: 50%;
-    right: max(2.5rem, calc((100vw - 1180px) / 2));
-    width: clamp(7rem, 13vw, 10.5rem);
-    aspect-ratio: 1;
-    border: 1px solid rgba(234, 211, 154, 0.2);
-    border-radius: 50%;
-    box-shadow:
-        0 0 0 1.15rem rgba(234, 211, 154, 0.035),
-        0 0 0 2.3rem rgba(234, 211, 154, 0.025);
-    opacity: 0.9;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
+.page-hero::before { content: none; }
 
 .page-hero::after {
     content: '';
@@ -92,7 +76,7 @@
 .page-hero-title {
     position: relative;
     min-width: 0;
-    max-width: min(54rem, calc(100% - clamp(7rem, 16vw, 13rem)));
+    max-width: 100%;
 }
 
 .page-hero-rule {
@@ -104,7 +88,7 @@
 }
 
 .page-hero h1 {
-    max-width: 20ch;
+    max-width: none;
     margin: 0;
     color: #fff;
     font-family: var(--font-display);
@@ -155,8 +139,8 @@
 
 .interior-shell .interior-page .page-body :where(p, li) {
     color: var(--interior-muted);
-    font-size: 1rem;
-    line-height: 1.75;
+    font-size: var(--text-body);
+    line-height: 1.7;
 }
 
 .interior-shell .interior-page .page-body :where(p) {
@@ -198,24 +182,22 @@
     flex: 0 0 1.15em;
 }
 
-.interior-shell .interior-page .page-body h3 > i {
-    display: inline-grid !important;
-    width: 2.15rem !important;
-    height: 2.15rem !important;
-    margin: 0 !important;
-    border: 1px solid rgba(209, 161, 45, 0.55) !important;
-    border-radius: 50% !important;
-    place-items: center;
-    overflow: hidden;
-    background: rgba(209, 161, 45, 0.12) !important;
-    color: var(--interior-ink) !important;
-    font-size: 0.78rem !important;
-    line-height: 1 !important;
-    flex: 0 0 2.15rem !important;
+ .interior-shell .interior-page .page-body h3 > i {
+    display: inline-flex;
+    width: 1.15em;
+    height: auto;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--interior-ink);
+    font-size: .72em;
+    line-height: 1;
+    flex: 0 0 1.15em;
 }
 
 .interior-shell .interior-page .page-body > :where(.intro-text, .faq-intro, .description) {
-    max-width: 780px;
+    max-width: none;
     margin: 0 0 clamp(3.25rem, 6vw, 5.25rem);
     padding: 0 0 0 1.5rem;
     border-left: 3px solid var(--interior-gold);
@@ -435,11 +417,11 @@
     width: 2.75rem !important;
     height: 2.75rem !important;
     margin: 0 0 1.2rem;
-    border: 1px solid rgba(209, 161, 45, 0.48);
-    border-radius: 50%;
+    border: 0;
+    border-radius: 0;
     align-items: center;
     justify-content: center;
-    background: rgba(209, 161, 45, 0.08);
+    background: transparent;
     overflow: hidden;
     color: var(--interior-ink) !important;
     font-size: 1rem !important;
@@ -593,7 +575,7 @@
 
 .interior-shell .interior-page .page-body :where(.schedule-note, .future-note, .ministry-note, .note) {
     color: var(--interior-muted);
-    font-size: 0.93rem;
+    font-size: 1rem;
 }
 
 .interior-shell .interior-page .page-body :where(.service-schedule > h3 + .schedule-note) {
@@ -621,7 +603,7 @@
     border: 0;
     border-left: 3px solid var(--interior-gold);
     border-radius: 0;
-    background: rgba(209, 161, 45, 0.08);
+    background: transparent;
 }
 
 .interior-shell .interior-page .page-body :where(.info-box p) {
@@ -795,7 +777,7 @@
     align-items: center !important;
     justify-content: center !important;
     gap: 0.55rem !important;
-    font-size: 0.92rem !important;
+    font-size: 1rem !important;
     line-height: 1.1 !important;
     text-align: center !important;
     white-space: nowrap;
@@ -973,7 +955,7 @@
 .interior-shell .interior-page .page-body :where(.ministry-meta) {
     padding: 0 0 1rem;
     border-bottom: 1px solid var(--interior-line);
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .interior-shell .interior-page .page-body :where(.stat-number) {
@@ -986,7 +968,7 @@
 .interior-shell .interior-page .page-body :where(.stat-label) {
     margin-top: 0.7rem;
     color: var(--interior-muted);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1091,7 +1073,7 @@
 .interior-shell .footer-contact li,
 .interior-shell .footer-links a {
     color: rgba(255, 255, 255, 0.72);
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.65;
 }
 
@@ -1177,7 +1159,6 @@
     }
 
     .page-hero h1 {
-        max-width: 18ch;
         font-size: clamp(2.35rem, 5.6vw, 3.15rem);
     }
 
@@ -1218,10 +1199,6 @@
         padding: 1.55rem 0;
     }
 
-    .page-hero-title {
-        max-width: calc(100% - 2rem);
-    }
-
     .page-hero::before {
         right: -3.5rem;
         width: 8.5rem;
@@ -1234,7 +1211,6 @@
     }
 
     .page-hero h1 {
-        max-width: 16ch;
         font-size: clamp(2.15rem, 9vw, 2.75rem);
         line-height: 1;
     }

@@ -122,7 +122,7 @@ const mapCongregationEvent = (
             title: event.title,
             allDay: false,
             start: `${event.schedule.date}T${event.schedule.startTime}:00`,
-            end: `${event.schedule.date}T${event.schedule.endTime}:00`,
+            ...(event.schedule.endTime ? { end: `${event.schedule.date}T${event.schedule.endTime}:00` } : {}),
             extendedProps: {
                 ...extendedProps,
                 calendarDate: event.schedule.date,
@@ -142,6 +142,7 @@ const mapCongregationEvent = (
     );
     const occurrences: PublicCalendarEvent[] = [];
     for (let calendarDate = startRecur; calendarDate < endRecur; calendarDate = addCalendarDays(calendarDate, 1)) {
+        if (event.schedule.excludedDates?.includes(calendarDate)) continue;
         const timestamp = parseIsoDate(calendarDate);
         if (timestamp === null || !includedWeekdays.has(new Date(timestamp).getUTCDay())) continue;
         occurrences.push({
@@ -243,6 +244,24 @@ const eventIdPart = (value: string): string => value
     .toLowerCase()
     .slice(0, 60) || 'event';
 
+// The September 3, 2026 feedback narrows this year's displayed holiday dates.
+// These presentation choices apply only to the matching Hebcal records, never
+// congregation-owned events or the holiday calendar in future years.
+const omittedHebcal2026Holidays: Readonly<Record<string, string>> = {
+    '2026-09-13': 'Rosh Hashana II',
+    '2026-09-14': 'Tzom Gedaliah',
+    '2026-09-27': 'Sukkot II',
+    '2026-09-28': "Sukkot III (CH''M)",
+    '2026-09-29': "Sukkot IV (CH''M)",
+    '2026-09-30': "Sukkot V (CH''M)",
+    '2026-10-01': "Sukkot VI (CH''M)",
+    '2026-10-02': 'Sukkot VII (Hoshana Raba)',
+    '2026-10-04': 'Simchat Torah',
+};
+
+const getHebcalTitleKey = (item: HebcalHolidayItem): string =>
+    (item.titleOrig || item.title).replace(/[‘’]/gu, "'");
+
 export const getHebcalCalendarEvents = (
     payload: unknown,
     range: CalendarDateRange,
@@ -258,6 +277,8 @@ export const getHebcalCalendarEvents = (
         .map(parseHebcalHolidayItem)
         .filter((item): item is HebcalHolidayItem => item !== null)
         .filter((item) => isSingleEventInRange(item.date.slice(0, 10), range))
+        .filter((item) => item.category !== 'holiday'
+            || omittedHebcal2026Holidays[item.date] !== getHebcalTitleKey(item))
         .filter((item) => {
             const group = getHebcalEventGroup(item);
             if (group === 'candle-lighting') {
@@ -270,9 +291,14 @@ export const getHebcalCalendarEvents = (
         .map((item, index) => {
             const group = getHebcalEventGroup(item);
             const calendarDate = item.date.slice(0, 10);
+            const isCombinedFestival = item.category === 'holiday'
+                && calendarDate === '2026-10-03'
+                && getHebcalTitleKey(item) === 'Shmini Atzeret';
             return {
                 id: `hebcal-${calendarDate}-${eventIdPart(item.titleOrig || item.title)}-${index}`,
-                title: group === 'candle-lighting' ? 'Shabbat Candle Lighting' : item.title,
+                title: group === 'candle-lighting'
+                    ? 'Shabbat Candle Lighting'
+                    : isCombinedFestival ? 'Simchat Torah / Shemini Atzeret' : item.title,
                 allDay: group !== 'candle-lighting',
                 start: item.date,
                 extendedProps: {
