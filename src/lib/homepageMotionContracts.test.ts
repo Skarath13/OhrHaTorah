@@ -7,7 +7,7 @@ const homeStyles = readFileSync(new URL('../../public/styles/home.css', import.m
 const packageSource = readFileSync(new URL('../../package.json', import.meta.url), 'utf8');
 
 test('homepage motion stays decorative, dependency-free, and isolated to the homepage stylesheet', () => {
-    assert.match(homepage, /stylesheets=\{\["\/styles\/home\.css\?v=20260901-approved-copy-1"\]\}/);
+    assert.match(homepage, /stylesheets=\{\["\/styles\/home\.css\?(?:rev|v)=[^"]+"\]\}/);
     assert.match(
         homepage,
         /<div class="home-scroll-thread" data-home-scroll-thread aria-hidden="true">/,

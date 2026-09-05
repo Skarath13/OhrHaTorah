@@ -421,6 +421,8 @@
 
 .home-schedule-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
     padding: clamp(2rem, 4vw, 3.2rem);
     background:
         linear-gradient(145deg, rgba(6, 26, 50, 0.98), rgba(9, 43, 78, 0.91)),
@@ -450,6 +452,28 @@
 .home-timeline-row p { margin-bottom: 0; color: rgba(255, 255, 255, 0.64); font-size: 1rem; }
 .home-timeline-time span { display: inline-block; padding-bottom: 0.22rem; border-bottom: 1px solid var(--home-gold-300); }
 .home-timeline-note { margin: 1rem 0 0 6rem; color: rgba(255, 255, 255, 0.86); font-size: clamp(1rem, calc(1rem + 0.25vw), 1.125rem); line-height: 1.6; }
+
+.home-schedule-card > h3,
+.home-shabbat-timeline { flex: none; }
+
+.home-schedule-image {
+    position: relative;
+    flex: 1 0 16rem;
+    min-height: 16rem;
+    margin: 2rem 0 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.home-schedule-image img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
 
 .home-reading-card {
     display: flex;
@@ -910,6 +934,8 @@
 @media (max-width: 900px) {
     .home-shabbat-primary { grid-template-columns: 1fr; }
     .home-schedule-card::after { top: auto; right: 2rem; bottom: 0; left: 2rem; width: auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(230, 201, 120, 0.5), transparent); }
+    .home-schedule-image { flex: none; width: min(100%, 28rem); min-height: 0; aspect-ratio: 4 / 3; margin-inline: auto; }
+    .home-schedule-image img { object-position: center 72%; }
     .home-reading-card { padding: 0 0 2rem; border: 0; }
 }
 

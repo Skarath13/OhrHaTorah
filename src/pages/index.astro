@@ -14,7 +14,7 @@ import CalendarManager from '../components/admin/CalendarManager.astro';
 import { rabbi } from '../data/rabbi';
 ---
 
-<BaseLayout stylesheets={["/styles/home.css?v=20260901-approved-copy-1"]}>
+<BaseLayout stylesheets={["/styles/home.css?rev=20260905-schedule-image-1"]}>
     <div class="home-site-chrome site-navigation-shell">
         <Header showLogo={false} />
         <Navigation />
@@ -300,6 +300,9 @@ import { rabbi } from '../data/rabbi';
                             </div>
                             <p class="home-timeline-note">We plan to transition to morning services (<em>Shacharit</em>).</p>
                         </div>
+                        <figure class="home-schedule-image">
+                            <img src="/images/generated/shabbat-guitar.webp" srcset="/images/generated/shabbat-guitar-480.webp 480w, /images/generated/shabbat-guitar-960.webp 960w, /images/generated/shabbat-guitar.webp 1024w" sizes="(max-width: 767px) calc(100vw - 72px), (max-width: 900px) 80vw, 40vw" alt="Illustration of an acoustic guitar beside a wooden bench with navy linen in warm afternoon light" width="1024" height="1024" loading="lazy" decoding="async">
+                        </figure>
                     </article>
 
                     <section class="home-reading-card" aria-labelledby="weekly-readings-title">
