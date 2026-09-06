@@ -46,8 +46,8 @@ test('homepage and interior layout use full-width transitions at major color bou
     assert.match(pageLayoutSource, /interior-cream\)" to="var\(--site-chrome-navy/);
 });
 
-test('divider release has an explicit stylesheet cache version', () => {
-    assert.match(baseLayoutSource, /20260904-responsive-polish-6/);
+test('divider styles participate in the shared stylesheet cache version', () => {
+    assert.match(baseLayoutSource, /versionStylesheet\('\/styles\/chrome\.css'\)/);
 });
 
 test('large sections never remain partially transparent while scrolling', () => {

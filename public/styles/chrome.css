@@ -386,8 +386,7 @@ html.mobile-nav-open body {
     }
 
     .site-navigation-shell .nav-item-row {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) 2.75rem !important;
+        display: flex !important;
         align-items: stretch !important;
     }
 
@@ -410,46 +409,19 @@ html.mobile-nav-open body {
     }
 
     .site-navigation-shell :is(.nav-links > li > a, .nav-item-row > .nav-primary-link) {
-        display: flex !important;
+        display: grid !important;
         min-width: 0 !important;
-        padding: 0 1.5rem !important;
+        padding: 0 clamp(1rem, 10cqi, 1.75rem) !important;
+        grid-template-columns: 1.125rem minmax(0, 1fr) 0.75rem;
         align-items: center !important;
-        justify-content: center !important;
+        text-align: left;
         gap: 0.625rem !important;
         flex: 1 1 auto !important;
     }
 
-    .site-navigation-shell .nav-item-row > a.nav-primary-link {
-        width: auto !important;
-        padding: 0 0 0 2.75rem !important;
-        grid-column: 1 !important;
-    }
-
-    .site-navigation-shell .nav-links > li > a {
-        padding-inline: 1rem !important;
-    }
-
-    .site-navigation-shell .nav-item-row > .nav-disclosure:not(.nav-disclosure-primary) {
-        position: static !important;
-        width: auto !important;
-        padding: 0 !important;
-        border-left: 1px solid rgba(6, 29, 53, 0.1) !important;
-        grid-column: 2 !important;
-        flex: 0 0 2.75rem !important;
-    }
-
     .site-navigation-shell .nav-item-row > .nav-disclosure-primary {
-        position: relative !important;
+        position: static !important;
         width: 100% !important;
-        padding: 0 1.5rem !important;
-        grid-column: 1 / -1 !important;
-        justify-content: center !important;
-        gap: 0.625rem !important;
-    }
-
-    .site-navigation-shell .nav-disclosure-primary .nav-chevron {
-        position: absolute;
-        right: 1.125rem;
     }
 
     .site-navigation-shell :is(.nav-links a i, .nav-primary-link i) {
@@ -463,9 +435,16 @@ html.mobile-nav-open body {
         transform: none !important;
     }
 
-    .site-navigation-shell .nav-chevron {
+    .site-navigation-shell .nav-disclosure .nav-chevron {
+        position: static;
+        width: 0.75rem !important;
+        justify-self: end;
         color: currentColor !important;
-        font-size: 0.62rem !important;
+        font-size: 0.7rem !important;
+    }
+
+    .site-navigation-shell .dropdown.active .nav-chevron {
+        transform: rotate(180deg) !important;
     }
 
     .site-navigation-shell .nav-links > li:hover,
@@ -480,7 +459,7 @@ html.mobile-nav-open body {
         outline-offset: -4px;
     }
 
-    .site-navigation-shell .dropdown-content {
+    .site-navigation-shell .nav-container .dropdown-content {
         display: grid !important;
         position: absolute !important;
         top: var(--site-nav-height) !important;
@@ -500,11 +479,11 @@ html.mobile-nav-open body {
         pointer-events: none;
         transform: translateY(6px) !important;
         visibility: hidden;
-        transition: opacity 150ms ease, transform 150ms ease, visibility 150ms linear;
+        transition: opacity 150ms ease, transform 150ms ease;
     }
 
-    .site-navigation-shell .dropdown:hover .dropdown-content,
-    .site-navigation-shell .dropdown:focus-within .dropdown-content,
+    .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:hover .dropdown-content,
+    .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:focus-within .dropdown-content,
     .site-navigation-shell .dropdown.active .dropdown-content {
         opacity: 1;
         pointer-events: auto;
@@ -536,11 +515,8 @@ html.mobile-nav-open body {
         border-bottom: 0 !important;
     }
 
-    .site-navigation-shell .dropdown-content a.nav-mobile-page-link {
-        display: none !important;
-    }
-
-    .site-navigation-shell .dropdown-content a:hover {
+    .site-navigation-shell .dropdown-content a:hover,
+    .site-navigation-shell .dropdown-content a:focus-visible {
         background: rgba(255, 255, 255, 0.72) !important;
         transform: none !important;
     }

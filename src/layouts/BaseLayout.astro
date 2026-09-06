@@ -15,7 +15,7 @@ const {
   stylesheets = [],
 } = Astro.props;
 const socialImage = new URL('/images/ohr-hatorah-social.png', Astro.url);
-const stylesheetVersion = '20260904-responsive-polish-6';
+const stylesheetVersion = '20260905-navigation-polish-1';
 // Public CSS does not participate in Astro HMR. Refresh it during local reviews.
 const activeStylesheetVersion = import.meta.env.DEV ? Date.now().toString() : stylesheetVersion;
 const versionStylesheet = (href: string) => {

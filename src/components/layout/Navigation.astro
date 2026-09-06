@@ -7,25 +7,22 @@
     <ul class="nav-links">
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/" class="nav-primary-link" aria-label="Go to home"><i class="fas fa-home"></i><span>Home</span></a>
                 <button
                     id="welcome-header"
-                    class="nav-disclosure"
+                    class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Open Welcome submenu"
-                    aria-haspopup="true"
+                    aria-label="Welcome"
                     aria-expanded="false"
                     aria-controls="nav-welcome-submenu"
-                    data-nav-label="Home"
                     data-nav-disclosure
                 >
-                    <i class="fas fa-home nav-mobile-trigger-icon" aria-hidden="true"></i>
-                    <span class="nav-mobile-trigger-label" aria-hidden="true">Home</span>
-                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>Welcome</span>
+                    <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-welcome-submenu">
-                <a class="nav-mobile-page-link" href="/" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+                <a href="/" aria-label="Home"><i class="fas fa-home"></i> Home</a>
                 <a href="/about" aria-label="About Kehilat Ohr HaTorah"><i class="fas fa-info-circle"></i> About Kehilat Ohr HaTorah</a>
                 <a href="/expect" aria-label="What to expect"><i class="fas fa-door-open"></i> What to expect</a>
                 <a href="/mission" aria-label="Our identity, vision, commitments, and values"><i class="fas fa-bullseye"></i> Our identity</a>
@@ -36,21 +33,19 @@
         </li>
         <li class="dropdown">
             <div class="nav-item-row">
-                <a href="/services" class="nav-primary-link" aria-label="Events and services"><i class="fas fa-calendar-check"></i><span class="nav-label-default">Events &amp; Services</span><span class="nav-label-compact" aria-hidden="true">Services</span></a>
                 <button
                     id="events-header"
-                    class="nav-disclosure"
+                    class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Open Events & Services submenu"
-                    aria-haspopup="true"
+                    aria-label="Events & Services"
                     aria-expanded="false"
                     aria-controls="nav-events-submenu"
-                    data-nav-label="Events & Services"
                     data-nav-disclosure
                 >
-                    <i class="fas fa-calendar-check nav-mobile-trigger-icon" aria-hidden="true"></i>
-                    <span class="nav-mobile-trigger-label" aria-hidden="true">Events &amp; Services</span>
-                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                    <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                    <span class="nav-label-default">Events &amp; Services</span>
+                    <span class="nav-label-compact" aria-hidden="true">Services</span>
+                    <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-events-submenu">
@@ -66,16 +61,14 @@
                     id="community-header"
                     class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Open Community submenu"
-                    aria-haspopup="true"
+                    aria-label="Community"
                     aria-expanded="false"
                     aria-controls="nav-community-submenu"
-                    data-nav-label="Community"
                     data-nav-disclosure
                 >
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users" aria-hidden="true"></i>
                     <span>Community</span>
-                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                    <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-community-submenu">
@@ -89,16 +82,14 @@
                     id="learn-header"
                     class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Open Learn submenu"
-                    aria-haspopup="true"
+                    aria-label="Learn"
                     aria-expanded="false"
                     aria-controls="nav-learn-submenu"
-                    data-nav-label="Learn"
                     data-nav-disclosure
                 >
                     <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                     <span>Learn</span>
-                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                    <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-learn-submenu">
@@ -112,16 +103,14 @@
                     id="resources-header"
                     class="nav-primary-link nav-disclosure nav-disclosure-primary"
                     type="button"
-                    aria-label="Open Resources submenu"
-                    aria-haspopup="true"
+                    aria-label="Resources"
                     aria-expanded="false"
                     aria-controls="nav-resources-submenu"
-                    data-nav-label="Resources"
                     data-nav-disclosure
                 >
-                    <i class="fas fa-archive"></i>
+                    <i class="fas fa-archive" aria-hidden="true"></i>
                     <span>Resources</span>
-                    <span class="nav-chevron" aria-hidden="true">&#9660;</span>
+                    <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-resources-submenu">
@@ -136,7 +125,10 @@
 </nav>
 
 <script>
-    const dropdownItems = Array.from(document.querySelectorAll<HTMLElement>('.nav-links .dropdown'));
+    const navigation = document.getElementById('nav-container');
+    const dropdownItems = Array.from(navigation?.querySelectorAll<HTMLElement>('.dropdown') ?? []);
+    const desktopNavQuery = window.matchMedia('(min-width: 1360px)');
+    const hoverOpenedDropdowns = new Set<HTMLElement>();
 
     function setDropdownState(dropdown: HTMLElement | null, expanded: boolean) {
         if (!dropdown) return;
@@ -145,10 +137,7 @@
 
         const trigger = dropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]');
         trigger?.setAttribute('aria-expanded', String(expanded));
-        if (trigger) {
-            const navLabel = trigger.dataset.navLabel ?? 'navigation';
-            trigger.setAttribute('aria-label', `${expanded ? 'Close' : 'Open'} ${navLabel} submenu`);
-        }
+        if (!expanded) hoverOpenedDropdowns.delete(dropdown);
     }
 
     function closeAllDropdowns(except: HTMLElement | null = null) {
@@ -162,9 +151,20 @@
         if (!trigger) return;
 
         trigger.addEventListener('click', () => {
-            const shouldExpand = !dropdown.classList.contains('active');
+            // The first click keeps a hover-opened menu open; a second closes it.
+            const shouldExpand = !dropdown.classList.contains('active') || hoverOpenedDropdowns.has(dropdown);
+            hoverOpenedDropdowns.delete(dropdown);
             closeAllDropdowns(dropdown);
             setDropdownState(dropdown, shouldExpand);
+        });
+
+        dropdown.addEventListener('pointerenter', event => {
+            if (!desktopNavQuery.matches || event.pointerType !== 'mouse') return;
+            closeAllDropdowns(dropdown);
+            if (!dropdown.classList.contains('active')) {
+                setDropdownState(dropdown, true);
+                hoverOpenedDropdowns.add(dropdown);
+            }
         });
 
         dropdown.addEventListener('focusout', () => {
@@ -183,8 +183,10 @@
     });
 
     document.addEventListener('click', event => {
-        if (!(event.target instanceof Element) || event.target.closest('.dropdown')) return;
-        closeAllDropdowns();
+        if (!(event.target instanceof Element)) return;
+        if (!navigation?.contains(event.target) || event.target.closest('a[href]')) {
+            closeAllDropdowns();
+        }
     });
 
     document.addEventListener('keydown', event => {
@@ -193,10 +195,16 @@
         const focusedDropdown = document.activeElement instanceof Element
             ? document.activeElement.closest<HTMLElement>('.dropdown')
             : null;
+        const wasExpanded = focusedDropdown?.classList.contains('active');
         closeAllDropdowns();
 
-        if (focusedDropdown) {
+        if (focusedDropdown && wasExpanded) {
+            event.preventDefault();
             focusedDropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]')?.focus();
         }
     });
+
+    desktopNavQuery.addEventListener('change', () => closeAllDropdowns());
+    // CSS hover/focus is a fallback only; enhanced menus share one visible/ARIA state.
+    navigation?.setAttribute('data-nav-enhanced', '');
 </script>

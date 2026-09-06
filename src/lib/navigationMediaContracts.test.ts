@@ -39,6 +39,36 @@ const heroRouteSource = readFileSync(
     'utf8'
 );
 
+test('desktop dropdown headers are single disclosure buttons with navigable destinations only inside', () => {
+    const rows = [...navigationSource.matchAll(/<div class="nav-item-row">([\s\S]*?)<\/div>/g)];
+    assert.equal(rows.length, 5);
+    for (const [, row] of rows) {
+        assert.equal((row.match(/<button\b/g) ?? []).length, 1);
+        assert.doesNotMatch(row, /<a\b|\bhref=/);
+        assert.match(row, /type="button"/);
+        assert.match(row, /aria-expanded="false"/);
+        const submenuId = row.match(/aria-controls="([^"]+)"/)?.[1];
+        assert.ok(submenuId);
+        assert.match(navigationSource, new RegExp(`<div class="dropdown-content" id="${submenuId}">\\s*<a[^>]*href="/[^\"]*"`));
+    }
+    assert.match(navigationSource, /id="nav-welcome-submenu">\s*<a href="\/"/);
+    assert.doesNotMatch(navigationSource, /nav-mobile-page-link/);
+    assert.match(navigationSource, /<li><a href="\/contact"/);
+    assert.match(navigationSource, /<li><a href="\/donate"/);
+});
+
+test('mobile section covers only disclose and retain the same destinations as desktop', () => {
+    const summaries = [...mobileNavigationSource.matchAll(/<summary class="mobile-nav-summary">([\s\S]*?)<\/summary>/g)];
+    assert.equal(summaries.length, 5);
+    for (const [, summary] of summaries) {
+        assert.doesNotMatch(summary, /<a\b|<button\b|\bhref=|onclick=/);
+    }
+    const destinations = (source: string) => [...source.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1]).sort();
+    assert.deepEqual(destinations(mobileNavigationSource), destinations(navigationSource));
+    assert.match(mobileNavigationSource, /class="mobile-nav-direct-link" href="\/contact"/);
+    assert.match(mobileNavigationSource, /class="mobile-nav-direct-link" href="\/donate"/);
+});
+
 test('mobile navigation is an isolated native dialog with native disclosure groups', () => {
     assert.match(headerSource, /aria-controls="mobile-nav-dialog"/);
     assert.match(mobileNavigationSource, /<dialog class="mobile-nav-dialog" id="mobile-nav-dialog"/);
