@@ -22,7 +22,7 @@ const {
     <Header />
     <Navigation />
 
-    <main class="page-content">
+    <main class="page-content" id="main-content" tabindex="-1">
         <div class="page-container">
             {pageTitle && (
                 <div class="page-header">
@@ -129,31 +129,49 @@ const {
 
     @media (max-width: 767px) {
         .page-content {
-            padding: 18px 12px;
+            padding: 0;
         }
 
         .page-container {
-            border-radius: 10px;
+            border-radius: 0;
+            box-shadow: none;
         }
 
         .page-header {
-            padding: 20px 18px;
+            padding: 22px 16px;
+            text-align: left;
         }
 
         .page-header h1 {
-            font-size: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: clamp(1.4rem, 6vw, 1.65rem);
         }
 
         .page-header h1 i {
-            margin-right: 8px;
+            margin: 3px 0 0;
+            flex: 0 0 auto;
         }
 
         .page-body {
-            padding: 24px 18px;
+            padding: 24px 16px;
         }
 
         .page-footer {
-            padding: 20px 18px 24px;
+            padding: 20px 16px calc(24px + env(safe-area-inset-bottom));
+        }
+
+        .page-footer .btn {
+            min-height: 48px;
+        }
+
+        .page-body :where(p, li) {
+            line-height: 1.68;
+        }
+
+        .page-body :where(a) {
+            overflow-wrap: anywhere;
         }
 
         .page-body :where(.section, .resource-section, .service-schedule, .values-section, .programs-section, .directions-section, .location-card, .info-section, .tips-section, .highlight-section, .priority-section, .involvement-section, .vision-section, .mission-section, .about-section, .contact-box, .welcome-banner, .cta-section) {
@@ -161,7 +179,7 @@ const {
         }
 
         .page-body :where(.identity-section, .highlight-section, .priority-section, .tips-section, .resource-card, .event-card, .contact-card, .direction-card, .location-card, .mission-section, .vision-section, .cta-section, .about-section, .info-section, .involvement-section, .practical-item, .experience-item, .stat-item, .value-card, .program-item) {
-            padding: 20px;
+            padding: 18px;
         }
 
         .page-body :where(.worship-grid, .events-grid, .values-grid, .directions-grid, .location-grid, .contact-grid, .experience-grid, .practical-grid, .stats-grid) {

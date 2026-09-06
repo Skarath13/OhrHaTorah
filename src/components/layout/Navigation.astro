@@ -8,7 +8,10 @@
 <nav class="nav-container" id="nav-container">
     <ul class="nav-links">
         <li class="dropdown">
-            <a href="/" id="welcome-header" aria-label="Welcome - Go to Home" aria-haspopup="true" aria-expanded="false" aria-controls="nav-welcome-submenu"><i class="fas fa-home"></i> Welcome</a>
+            <div class="dropdown-trigger">
+                <a href="/" id="welcome-header"><i class="fas fa-home"></i> Welcome</a>
+                <button class="dropdown-toggle" type="button" aria-label="Show Welcome links" aria-expanded="false" aria-controls="nav-welcome-submenu"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            </div>
             <div class="dropdown-content" id="nav-welcome-submenu">
                 <a href="/about" aria-label="Who Are We"><i class="fas fa-info-circle"></i> Who Are We</a>
                 <a href="/expect" aria-label="What to Expect"><i class="fas fa-door-open"></i> What to Expect In Our Services</a>
@@ -19,7 +22,10 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="/services" id="events-header" aria-label="Events & Services" aria-haspopup="true" aria-expanded="false" aria-controls="nav-events-submenu"><i class="fas fa-calendar-check"></i> Events & Services</a>
+            <div class="dropdown-trigger">
+                <a href="/services" id="events-header"><i class="fas fa-calendar-check"></i> Events & Services</a>
+                <button class="dropdown-toggle" type="button" aria-label="Show Events and Services links" aria-expanded="false" aria-controls="nav-events-submenu"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            </div>
             <div class="dropdown-content" id="nav-events-submenu">
                 <a href="/services" aria-label="Shabbat Services"><i class="fas fa-star-of-david"></i> Shabbat Services</a>
                 <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
@@ -28,7 +34,10 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="#" id="community-header" aria-label="Community" aria-haspopup="true" aria-expanded="false" aria-controls="nav-community-submenu"><i class="fas fa-users"></i> Community</a>
+            <div class="dropdown-trigger">
+                <a href="/#congregation-calendar" id="community-header"><i class="fas fa-users"></i> Community</a>
+                <button class="dropdown-toggle" type="button" aria-label="Show Community links" aria-expanded="false" aria-controls="nav-community-submenu"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            </div>
             <div class="dropdown-content" id="nav-community-submenu">
                 <a href="/#congregation-calendar" aria-label="Calendar"><i class="fas fa-calendar-alt"></i> Calendar</a>
                 <a href="#" aria-label="Weekly Bulletin"><i class="fas fa-newspaper"></i> Weekly Bulletin</a>
@@ -36,7 +45,10 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="/resources" id="learn-header" aria-label="Learn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-learn-submenu"><i class="fas fa-graduation-cap"></i> Learn</a>
+            <div class="dropdown-trigger">
+                <a href="/resources" id="learn-header"><i class="fas fa-graduation-cap"></i> Learn</a>
+                <button class="dropdown-toggle" type="button" aria-label="Show Learn links" aria-expanded="false" aria-controls="nav-learn-submenu"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            </div>
             <div class="dropdown-content" id="nav-learn-submenu">
                 <a href="#" aria-label="Sermons"><i class="fas fa-microphone"></i> Sermons and Teachings</a>
                 <a href="#" aria-label="Torah Portion"><i class="fas fa-scroll"></i> Torah Portion and Weekly Readings</a>
@@ -46,7 +58,10 @@
             </div>
         </li>
         <li class="dropdown">
-            <a href="#" id="resources-header" aria-label="Resources" aria-haspopup="true" aria-expanded="false" aria-controls="nav-resources-submenu"><i class="fas fa-archive"></i> Resources</a>
+            <div class="dropdown-trigger">
+                <a href="/resources" id="resources-header"><i class="fas fa-archive"></i> Resources</a>
+                <button class="dropdown-toggle" type="button" aria-label="Show Resources links" aria-expanded="false" aria-controls="nav-resources-submenu"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            </div>
             <div class="dropdown-content" id="nav-resources-submenu">
                 <a href="#" aria-label="Music Samples"><i class="fas fa-music"></i> Samples of Music Praise</a>
                 <a href="#" aria-label="Liturgy Recordings"><i class="fas fa-podcast"></i> Recordings of Liturgy</a>
@@ -62,15 +77,21 @@
 <script>
     const mobileMenuQuery = window.matchMedia('(max-width: 1023px)');
     const dropdownItems = Array.from(document.querySelectorAll('.nav-links .dropdown'));
+    const menuButton = document.getElementById('mobile-menu-btn');
+    const navContainer = document.getElementById('nav-container');
+    const navOverlay = document.getElementById('nav-overlay');
+    let lastFocusedElement: HTMLElement | null = null;
 
     function setDropdownState(dropdown: Element | null, expanded: boolean) {
         if (!dropdown) return;
 
         dropdown.classList.toggle('active', expanded);
 
-        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
+        const trigger = dropdown.querySelector<HTMLButtonElement>(':scope > .dropdown-trigger .dropdown-toggle');
         if (trigger) {
             trigger.setAttribute('aria-expanded', String(expanded));
+            const label = trigger.getAttribute('aria-label') ?? 'Show submenu';
+            trigger.setAttribute('aria-label', expanded ? label.replace(/^Show/, 'Hide') : label.replace(/^Hide/, 'Show'));
         }
     }
 
@@ -78,78 +99,84 @@
         dropdownItems.forEach(dropdown => setDropdownState(dropdown, false));
     }
 
-    // Mobile menu toggle functions
-    function toggleMenu() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navContainer = document.getElementById('nav-container');
-        const navOverlay = document.getElementById('nav-overlay');
+    function syncMenuAccessibility() {
+        if (!navContainer) return;
 
-        menuBtn?.classList.toggle('active');
-        navContainer?.classList.toggle('active');
-        navOverlay?.classList.toggle('active');
-
-        const isOpen = navContainer?.classList.contains('active') ?? false;
-        menuBtn?.setAttribute('aria-expanded', String(isOpen));
-        menuBtn?.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-            closeAllDropdowns();
+        if (!mobileMenuQuery.matches) {
+            navContainer.removeAttribute('aria-hidden');
+            navContainer.inert = false;
+            return;
         }
+
+        const isOpen = navContainer.classList.contains('active');
+        navContainer.setAttribute('aria-hidden', String(!isOpen));
+        navContainer.inert = !isOpen;
     }
 
-    function closeMenu() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navContainer = document.getElementById('nav-container');
-        const navOverlay = document.getElementById('nav-overlay');
+    function setMenuState(isOpen: boolean, returnFocus = false) {
+        menuButton?.classList.toggle('active', isOpen);
+        navContainer?.classList.toggle('active', isOpen);
+        navOverlay?.classList.toggle('active', isOpen);
+        menuButton?.setAttribute('aria-expanded', String(isOpen));
+        menuButton?.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        document.body.classList.toggle('nav-open', isOpen);
+        syncMenuAccessibility();
 
-        menuBtn?.classList.remove('active');
-        navContainer?.classList.remove('active');
-        navOverlay?.classList.remove('active');
-        menuBtn?.setAttribute('aria-expanded', 'false');
-        menuBtn?.setAttribute('aria-label', 'Open navigation menu');
-        document.body.style.overflow = '';
+        if (isOpen) {
+            lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+            requestAnimationFrame(() => menuButton?.focus());
+            return;
+        }
+
         closeAllDropdowns();
+        if (returnFocus) (lastFocusedElement ?? menuButton)?.focus();
+    }
+
+    function toggleMenu() {
+        setMenuState(!(navContainer?.classList.contains('active') ?? false), true);
+    }
+
+    function closeMenu(returnFocus = false) {
+        setMenuState(false, returnFocus);
     }
 
     // Initialize mobile menu
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
-    document.getElementById('nav-overlay')?.addEventListener('click', closeMenu);
+    menuButton?.addEventListener('click', toggleMenu);
+    navOverlay?.addEventListener('click', () => closeMenu(true));
 
     // Close menu when clicking final nav links
-    document.querySelectorAll('.dropdown-content a, .nav-links > li:not(.dropdown) > a').forEach(link => {
-        link.addEventListener('click', closeMenu);
+    document.querySelectorAll('.dropdown-content a, .dropdown-trigger > a, .nav-links > li:not(.dropdown) > a').forEach(link => {
+        link.addEventListener('click', () => closeMenu());
     });
 
     // Toggle dropdowns for touch layouts
     dropdownItems.forEach(dropdown => {
-        const trigger = dropdown.querySelector<HTMLAnchorElement>(':scope > a');
+        const trigger = dropdown.querySelector<HTMLButtonElement>(':scope > .dropdown-trigger .dropdown-toggle');
         if (!trigger) return;
 
         trigger.addEventListener('click', event => {
             if (!mobileMenuQuery.matches) return;
-
-            const href = trigger.getAttribute('href') ?? '#';
             const isExpanded = dropdown.classList.contains('active');
-            const isPlaceholderLink = href === '#';
+            event.preventDefault();
 
-            if (!isExpanded || isPlaceholderLink) {
-                event.preventDefault();
+            dropdownItems.forEach(otherDropdown => {
+                if (otherDropdown !== dropdown) setDropdownState(otherDropdown, false);
+            });
 
-                dropdownItems.forEach(otherDropdown => {
-                    if (otherDropdown !== dropdown) {
-                        setDropdownState(otherDropdown, false);
-                    }
-                });
-
-                setDropdownState(dropdown, !isExpanded);
-                return;
-            }
-
-            closeMenu();
+            setDropdownState(dropdown, !isExpanded);
         });
+    });
+
+    // Mark the current page for orientation in both navigation layouts.
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    let currentPageMarked = false;
+    document.querySelectorAll<HTMLAnchorElement>('.nav-links a[href]').forEach(link => {
+        const url = new URL(link.href, window.location.origin);
+        const linkPath = url.pathname.replace(/\/$/, '') || '/';
+        if (!currentPageMarked && url.origin === window.location.origin && linkPath === currentPath && !url.hash) {
+            link.setAttribute('aria-current', 'page');
+            currentPageMarked = true;
+        }
     });
 
     // Dynamic navigation text wrap detection
@@ -192,17 +219,36 @@
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-            if (!mobileMenuQuery.matches) {
-                closeMenu();
-            }
+            if (!mobileMenuQuery.matches) closeMenu();
 
             checkNavTextWrapping();
+            syncMenuAccessibility();
         }, 150);
     });
 
     window.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
-            closeMenu();
+            closeMenu(true);
+            return;
+        }
+
+        if (event.key === 'Tab' && mobileMenuQuery.matches && navContainer?.classList.contains('active')) {
+            const navFocusable = Array.from(navContainer.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'))
+                .filter(element => element.offsetParent !== null);
+            const focusable = menuButton ? [menuButton, ...navFocusable] : navFocusable;
+            if (!focusable.length) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
         }
     });
+
+    syncMenuAccessibility();
 </script>

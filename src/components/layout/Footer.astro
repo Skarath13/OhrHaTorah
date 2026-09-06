@@ -1,5 +1,6 @@
 ---
 // Footer component
+const currentYear = new Date().getFullYear();
 ---
 <footer class="footer">
     <div class="footer-content">
@@ -44,8 +45,8 @@
             <div class="footer-col">
                 <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
                 <ul class="footer-contact">
-                    <li><i class="fas fa-envelope"></i> OhrHaTorahOC@gmail.com</li>
-                    <li><i class="fas fa-phone"></i> (714) 406-1513</li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+17144061513">(714) 406-1513</a></li>
                     <li>
                         <i class="fas fa-map-marker-alt"></i>
                         <span><strong>Services:</strong> 10460 Slater Ave<br>Fountain Valley, CA 92708</span>
@@ -59,7 +60,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2025 Ohr HaTorah Messianic Congregation. All rights reserved.</p>
+            <p>&copy; {currentYear} Ohr HaTorah Messianic Congregation. All rights reserved.</p>
             <p>
                 <a href="#">Privacy Policy</a> |
                 <a href="#">Terms of Use</a> |

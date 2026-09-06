@@ -13,6 +13,7 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#13274f">
     <title>{title}</title>
 
     <!-- Favicon -->
@@ -42,12 +43,14 @@ const { title = "Ohr HaTorah Messianic Congregation" } = Astro.props;
     <meta name="keywords" content="Messianic Judaism, Jewish congregation, Yeshua, Jesus, Allen Texas, synagogue, Torah, Hebrew calendar, Jewish holidays">
 
     <!-- Font Awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <slot />
     <InlineEditor />
     <LoginModal />

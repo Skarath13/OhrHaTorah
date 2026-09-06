@@ -150,7 +150,7 @@ import { rabbi } from '../data/rabbi';
         </aside>
 
         <!-- Main Content -->
-        <main class="content">
+        <main class="content" id="main-content" tabindex="-1">
             <h1 class="mobile-home-title" data-editable="main-title"><i class="fas fa-star-of-david"></i> <span data-editable="main-title-text">Welcome to Kehilat Ohr HaTorah Messianic Jewish Synagogue</span></h1>
 
             <div class="infobox mobile-service-summary">
@@ -158,9 +158,15 @@ import { rabbi } from '../data/rabbi';
                 <strong>Shabbat Service This Week:</strong> Join us each Saturday at 2:30 p.m. for contemporary Messianic Jewish music and dance, a traditional Mincha Torah Service, and Scripture study at our Fountain Valley location.
             </div>
 
-            <p class="mobile-intro-copy" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families – all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
+            <nav class="mobile-primary-actions" aria-label="Visitor shortcuts">
+                <a href="/services"><i class="fas fa-calendar-check"></i><span>Service details</span></a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708" target="_blank" rel="noopener noreferrer"><i class="fas fa-diamond-turn-right"></i><span>Directions</span></a>
+                <a href="#congregation-calendar"><i class="fas fa-calendar-alt"></i><span>Calendar</span></a>
+            </nav>
 
-            <p class="mobile-intro-copy" data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together — with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
+            <p class="mobile-intro-copy mobile-intro-copy-first" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly developing Messianic Jewish Synagogue located in the heart of Orange County, California. We warmly welcome all Jewish, non-Jewish, and interfaith couples and families – all who desire to experience and grow in the deep richness of Jewish life, thought, and tradition.</p>
+
+            <p class="mobile-intro-copy mobile-intro-copy-last" data-editable="intro-text-2">Ours is a home where the teachings of Torah and the teachings of our Messiah Yeshua come together as one, where we as life-long learners of the Bible and of Judaism can grow together — with love, respect, and mutual understanding. We look forward to you visiting us soon!</p>
 
             <div class="ticker-banner mobile-torah-quote">
                 <div class="ticker-content">
@@ -208,7 +214,7 @@ import { rabbi } from '../data/rabbi';
 
             <p class="mobile-about-copy" data-editable="about-us-text-3">At the head of our leadership team is Rabbi Charles (Chaim) Ott who brings with him many years of experience in Messianic leadership, having completed extensive graduate work in Jewish studies, New Testament studies and public Education. Rabbi Ott is especially passionate and skilled in his presentation of the entire Bible – Hebrew Scriptures and Brit Chadashah (New Testament) – as one unified message of individual and national redemption through Yeshua our Messiah.</p>
 
-            <p class="mobile-about-copy" data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
+            <p class="mobile-about-copy mobile-about-copy-last" data-editable="about-us-text-4">Congregation Ohr HaTorah is newly affiliated with the <a href="https://www.umjc.org/vision" target="_blank" rel="noopener noreferrer">Union of Messianic Jewish Synagogues (UMJC)</a>. As stated on its website, the UMJC spearheads a "movement of Jewish congregations and groups committed to Yeshua the Messiah that embrace the covenantal responsibility of Jewish life and identity rooted in Torah, expressed in tradition, and renewed and applied in the context of the New Covenant."</p>
 
             <div class="info-grid mobile-visit-grid">
                 <div class="info-box" id="shabbat-activities-section">
@@ -301,16 +307,16 @@ import { rabbi } from '../data/rabbi';
                 <div class="card-body">
                     <div class="community-grid">
                         <div class="community-item">
-                            <img src="/images/Passover.PNG" alt="Passover Seder" class="community-image">
+                            <img src="/images/passover-800.webp" alt="Community members gathered for a Passover Seder" class="community-image" width="800" height="533" loading="lazy" decoding="async">
                         </div>
                         <div class="community-item">
-                            <img src="/images/Community.PNG" alt="Community Gathering" class="community-image">
+                            <img src="/images/community-800.webp" alt="Ohr HaTorah community gathering" class="community-image" width="800" height="800" loading="lazy" decoding="async">
                         </div>
                         <div class="community-item">
-                            <img src="/images/Torah.PNG" alt="Torah" class="community-image">
+                            <img src="/images/torah-800.webp" alt="Torah study at Ohr HaTorah" class="community-image" width="800" height="533" loading="lazy" decoding="async">
                         </div>
                         <div class="community-item">
-                            <img src="/images/Dancing.PNG" alt="Israeli Dancing" class="community-image">
+                            <img src="/images/dancing-800.webp" alt="Community members participating in Israeli dancing" class="community-image" width="533" height="800" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
