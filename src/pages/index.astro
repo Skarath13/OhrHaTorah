@@ -14,7 +14,7 @@ import CalendarManager from '../components/admin/CalendarManager.astro';
 import { rabbi } from '../data/rabbi';
 ---
 
-<BaseLayout stylesheets={["/styles/home.css?rev=20260905-schedule-image-1"]}>
+<BaseLayout stylesheets={["/styles/home.css?rev=20260905-map-lazy-1"]}>
     <div class="home-site-chrome site-navigation-shell">
         <Header showLogo={false} />
         <Navigation />
@@ -218,20 +218,8 @@ import { rabbi } from '../data/rabbi';
                     <article id="map" class="home-map-card" tabindex="-1" aria-label="Map and directions">
                         <div class="home-map-caption"><strong>Find Our Service</strong></div>
                         <div class="map-container">
-                            <div class="home-map-facade" data-map-facade>
-                                <span class="home-map-facade-icon" aria-hidden="true">
-                                    <!-- Tabler Icons: map-pin, MIT License -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"></path></svg>
-                                </span>
-                                <strong>10460 Slater Avenue</strong>
-                                <span>Fountain Valley, CA 92708</span>
-                                <button class="home-map-load" type="button" data-map-load>
-                                    <span>Load interactive map</span>
-                                    <i class="fas fa-map" aria-hidden="true"></i>
-                                </button>
-                            </div>
                             <iframe
-                                data-src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 class="home-map-iframe"
                                 title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"
                                 width="100%"
@@ -239,7 +227,6 @@ import { rabbi } from '../data/rabbi';
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
-                                hidden
                             ></iframe>
                         </div>
                         <a
@@ -440,35 +427,6 @@ import { rabbi } from '../data/rabbi';
             window.addEventListener('keydown', retryAfterInteraction, { once: true });
             requestHeroPlayback();
         }
-
-        const mapIframe = document.querySelector<HTMLIFrameElement>('.home-map-iframe[data-src]');
-        const mapFacade = document.querySelector<HTMLElement>('[data-map-facade]');
-        const mapLoadButton = document.querySelector<HTMLButtonElement>('[data-map-load]');
-        const compactMapViewport = window.matchMedia('(max-width: 767px)');
-        let mapLoadTimer = 0;
-
-        const loadInteractiveMap = () => {
-            if (!mapIframe || !mapFacade) return;
-
-            const mapSource = mapIframe.dataset.src;
-            if (mapSource && !mapIframe.src) {
-                mapIframe.src = mapSource;
-            }
-
-            mapFacade.hidden = true;
-            mapIframe.hidden = false;
-        };
-
-        const syncMapLoading = () => {
-            if (compactMapViewport.matches || mapIframe?.src) return;
-
-            window.clearTimeout(mapLoadTimer);
-            mapLoadTimer = window.setTimeout(loadInteractiveMap, 250);
-        };
-
-        mapLoadButton?.addEventListener('click', loadInteractiveMap);
-        compactMapViewport.addEventListener('change', syncMapLoading);
-        syncMapLoading();
 
         const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-rabbi-story');
         const mobileDisclosureViewport = window.matchMedia('(max-width: 767px)');

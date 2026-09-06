@@ -260,8 +260,7 @@
 }
 
 .home-button > span,
-.home-text-link > span,
-.home-map-load > span {
+.home-text-link > span {
     white-space: nowrap;
 }
 
@@ -718,15 +717,6 @@
 .home-map-caption strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.12rem; }
 .home-map-card .map-container { position: relative; min-height: 0; flex: 1; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; overflow: hidden; }
 .home-map-card iframe { display: block; width: 100%; border: 0; }
-.home-map-iframe[hidden] { display: none !important; }
-.home-map-facade { display: grid; width: 100%; height: 100%; min-height: 310px; padding: clamp(1.5rem, 4vw, 2.4rem); place-content: center; justify-items: center; background: radial-gradient(circle at 85% 10%, rgba(208, 163, 61, 0.2), transparent 12rem), linear-gradient(145deg, var(--home-blue-950), var(--home-blue-900)); color: #fff; text-align: center; }
-.home-map-facade[hidden] { display: none !important; }
-.home-map-facade-icon { display: grid; width: 52px; height: 52px; margin-bottom: 0.9rem; border: 0; border-radius: 0; place-items: center; color: var(--home-gold-300); }
-.home-map-facade-icon svg { width: 26px; height: 26px; }
-.home-map-facade > strong { margin-bottom: 0.25rem; font-family: var(--font-display); font-size: clamp(1.25rem, 3vw, 1.6rem); }
-.home-map-facade > span:not(.home-map-facade-icon) { color: rgba(255, 255, 255, 0.76); font-size: 1rem; }
-.home-map-load { display: inline-flex; min-height: 46px; margin-top: 1.25rem; padding: 0.7rem 1rem; border: 1px solid var(--home-gold-300); border-radius: 0.35rem; align-items: center; gap: 0.6rem; background: var(--home-gold-300); color: var(--home-blue-950); font-family: var(--font-body); font-size: 1rem; font-weight: 800; line-height: 1.2; cursor: pointer; }
-.home-map-load:hover { background: #f0d98f; }
 .home-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.6rem; color: var(--home-blue-800); font-size: 1rem; font-weight: 800; letter-spacing: 0.02em; text-decoration: none; }
 .home-text-link:hover { color: var(--home-gold-500); }
 .home-visit-utility { display: grid; grid-column: 1 / -1; grid-row: 3; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 2.5rem; border: 1px solid var(--home-line); border-top: 3px solid var(--home-gold-500); border-radius: 16px; overflow: hidden; background: color-mix(in srgb, var(--home-gold-300) 13%, white); }
@@ -988,7 +978,6 @@
     .home-arrival-panel { grid-column: 1; grid-row: auto; padding-block: 1.5rem 2.25rem; }
     .home-map-card { min-height: 390px; grid-column: 1; grid-row: auto; }
     .home-map-card .map-container { min-height: 280px; }
-    .home-map-facade { min-height: 280px; }
     .home-visit-utility { grid-column: 1; grid-row: auto; grid-template-columns: 1fr; margin-top: 2rem; }
     .home-visit-utility > div { min-height: 82px; padding: 0.85rem 1rem; border-top: 1px solid var(--home-line); border-left: 0; }
     .home-visit-utility > div:first-child { border-top: 0; }

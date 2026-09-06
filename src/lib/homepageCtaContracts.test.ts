@@ -11,7 +11,7 @@ test('homepage CTAs keep labels intact and stack the hero actions on narrow scre
     assert.match(homeStyles, /\.home-hero-actions \{[\s\S]*?width: min\(100%, 400px\);/);
     assert.match(
         homeStyles,
-        /\.home-button > span,[\s\S]*?\.home-text-link > span,[\s\S]*?\.home-map-load > span \{\s*white-space: nowrap;/
+        /\.home-button > span,[\s\S]*?\.home-text-link > span \{\s*white-space: nowrap;/
     );
     assert.match(
         homeStyles,

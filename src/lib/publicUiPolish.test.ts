@@ -16,6 +16,19 @@ const footer = readFileSync(
     'utf8',
 );
 
+test('the homepage map loads natively without a mobile button gate', () => {
+    const iframe = homepage.match(/<iframe\b[^>]*class="home-map-iframe"[^>]*>/s)?.[0];
+    assert.ok(iframe, 'the map iframe is present in the server-rendered page');
+    assert.match(iframe, /\ssrc="https:\/\/maps\.google\.com\/maps\?[^"]*output=embed"/);
+    assert.match(iframe, /loading="lazy"/);
+    assert.match(iframe, /title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"/);
+    assert.doesNotMatch(iframe, /\shidden\b|data-src=/);
+    assert.doesNotMatch(homepage, /data-map-load|data-map-facade|syncMapLoading|loadInteractiveMap/);
+    assert.match(homepage, /<span>Open directions<\/span>/);
+    assert.match(homeStyles, /\.home-map-card \{[^}]*min-height: 390px;/);
+    assert.match(homeStyles, /\.home-map-card \.map-container \{ min-height: 280px; \}/);
+});
+
 test('homepage contact label and Scripture proportions reflect the requested balance', () => {
     assert.match(
         homepage,
