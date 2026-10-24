@@ -882,12 +882,17 @@
 .kehilat-calendar-actions { display: flex; margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
 .kehilat-calendar-actions[hidden] { display: none; }
 .kehilat-calendar-show-more,
-.kehilat-calendar-show-fewer { min-height: 46px; padding: 0.68rem 1.05rem; border: 1px solid var(--home-blue-900); border-radius: 0.4rem; background: var(--home-blue-900); color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.2; cursor: pointer; touch-action: manipulation; white-space: nowrap; }
+.kehilat-calendar-show-fewer,
+.kehilat-calendar-retry { min-height: 46px; padding: 0.68rem 1.05rem; border: 1px solid var(--home-blue-900); border-radius: 0.4rem; background: var(--home-blue-900); color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.2; cursor: pointer; touch-action: manipulation; white-space: nowrap; }
 .kehilat-calendar-show-more[hidden],
-.kehilat-calendar-show-fewer[hidden] { display: none; }
+.kehilat-calendar-show-fewer[hidden],
+.kehilat-calendar-retry[hidden] { display: none; }
 .kehilat-calendar-show-fewer { background: #fff; color: var(--home-blue-900); }
+.kehilat-calendar-retry { margin-bottom: 1rem; }
+.kehilat-calendar-retry[aria-disabled="true"] { border-color: var(--home-muted); background: var(--home-muted); cursor: wait; }
 .kehilat-calendar-show-more:focus-visible,
-.kehilat-calendar-show-fewer:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
+.kehilat-calendar-show-fewer:focus-visible,
+.kehilat-calendar-retry:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
 .kehilat-calendar-attribution { margin: 1rem 0 0; color: #536476; font-size: 1rem; line-height: 1.55; }
 .kehilat-calendar-attribution > summary { display: inline-flex; min-height: 44px; padding: 0.48rem 0.72rem; border: 1px solid rgba(13, 51, 91, 0.18); border-radius: 999px; align-items: center; gap: 0.45rem; background: #fff; color: var(--home-blue-900); font-size: 1rem; font-weight: 800; line-height: 1.2; list-style: none; cursor: pointer; touch-action: manipulation; }
 .kehilat-calendar-attribution > summary::-webkit-details-marker { display: none; }

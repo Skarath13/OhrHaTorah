@@ -1,5 +1,9 @@
 # Chuck Cloudflare staging
 
+For the future full-site domain cutover, follow the
+[launch checklist](launch-checklist.md), including archiving and replacing the
+public construction page while preserving protective redirects.
+
 Follow [`production-data-safety.md`](production-data-safety.md) for every
 release. A normal Pages deployment replaces only the application artifact; it
 must not run database migrations, seeds, imports, or R2 synchronization.

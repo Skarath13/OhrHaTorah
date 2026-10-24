@@ -1,11 +1,12 @@
 <div class="kehilat-calendar-shell" aria-busy="true">
-    <p class="kehilat-calendar-status" role="status" aria-live="polite" aria-atomic="true">Loading upcoming dates…</p>
+    <p class="kehilat-calendar-status" id="kehilat-calendar-status" role="status" aria-live="polite" aria-atomic="true">Loading upcoming dates…</p>
+    <button class="kehilat-calendar-retry" type="button" aria-describedby="kehilat-calendar-status" hidden>Retry loading dates</button>
     <div
         class="kehilat-calendar"
         role="feed"
         aria-label="Upcoming Kehilat Ohr HaTorah gatherings, Shabbat candle-lighting times, and Jewish dates"
     ></div>
-    <p class="kehilat-calendar-empty" hidden>No upcoming dates are available right now.</p>
+    <p class="kehilat-calendar-empty" tabindex="-1" hidden>No upcoming dates are available right now.</p>
     <div class="kehilat-calendar-actions" hidden>
         <button class="kehilat-calendar-show-more" type="button">Show more dates</button>
         <button class="kehilat-calendar-show-fewer" type="button" hidden>Show fewer dates</button>
@@ -93,6 +94,7 @@
     const calendarRoot = document.querySelector<HTMLElement>('.kehilat-calendar-shell');
     const calendarElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar');
     const statusElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-status');
+    const retryButton = calendarRoot?.querySelector<HTMLButtonElement>('.kehilat-calendar-retry');
     const emptyElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-empty');
     const actionsElement = calendarRoot?.querySelector<HTMLElement>('.kehilat-calendar-actions');
     const showMoreButton = actionsElement?.querySelector<HTMLButtonElement>('.kehilat-calendar-show-more');
@@ -109,6 +111,7 @@
         calendarRoot
         && calendarElement
         && statusElement
+        && retryButton
         && emptyElement
         && actionsElement
         && showMoreButton
@@ -132,6 +135,7 @@
         let defaultDateLimit = getDefaultDateLimit();
         let visibleDateLimit = defaultDateLimit;
         let activeRequest: AbortController | null = null;
+        let hasCompleteResponse = false;
         let lastEventTrigger: HTMLButtonElement | null = null;
 
         const getBusinessDate = (): string => {
@@ -340,7 +344,7 @@
             const visibleGroups = dateGroups.slice(0, visibleDateLimit);
             visibleGroups.forEach((group, index) => calendarElement.append(createDateCard(group, index)));
 
-            emptyElement.hidden = dateGroups.length > 0;
+            emptyElement.hidden = dateGroups.length > 0 || !hasCompleteResponse;
             const remainingCount = Math.max(0, dateGroups.length - visibleGroups.length);
             actionsElement.hidden = dateGroups.length <= defaultDateLimit;
             showMoreButton.hidden = remainingCount === 0;
@@ -376,6 +380,7 @@
             activeRequest?.abort();
             activeRequest = new AbortController();
             const requestController = activeRequest;
+            hasCompleteResponse = false;
             const query = new URLSearchParams({
                 congregation: '1',
                 holidays: '1',
@@ -388,6 +393,10 @@
 
             calendarRoot.classList.add('is-loading');
             calendarRoot.setAttribute('aria-busy', 'true');
+            // Keep a keyboard user's place while blocking repeated retry requests.
+            retryButton.setAttribute('aria-disabled', 'true');
+            retryButton.textContent = 'Loading dates…';
+            emptyElement.hidden = true;
             statusElement.textContent = 'Loading upcoming dates…';
             try {
                 const response = await fetch(`/api/calendar/events?${query.toString()}`, {
@@ -396,6 +405,7 @@
                     signal: requestController.signal,
                 });
                 const payload = await response.json() as CalendarPayload;
+                if (activeRequest !== requestController || requestController.signal.aborted) return;
                 if (!response.ok || !payload.success || !Array.isArray(payload.events)) {
                     throw new Error(payload.error || 'Upcoming dates could not be loaded');
                 }
@@ -403,22 +413,34 @@
                 dateGroups = groupEventsByDate(payload.events);
                 visibleDateLimit = defaultDateLimit;
                 statusElement.textContent = payload.meta?.warning || '';
+                hasCompleteResponse = !payload.meta?.warning;
+                const retryHadFocus = document.activeElement === retryButton;
+                retryButton.hidden = hasCompleteResponse;
                 renderDateGroups();
-            } catch (error) {
-                if (requestController.signal.aborted) return;
-                dateGroups = [];
-                renderDateGroups();
-                statusElement.textContent = error instanceof Error
-                    ? `${error.message}. Please try again shortly.`
-                    : 'Upcoming dates are temporarily unavailable. Please try again shortly.';
+                if (retryHadFocus && retryButton.hidden) {
+                    (calendarElement.querySelector<HTMLButtonElement>('.kehilat-calendar-event-button') || emptyElement)
+                        .focus({ preventScroll: true });
+                }
+            } catch {
+                if (activeRequest !== requestController || requestController.signal.aborted) return;
+                retryButton.hidden = false;
+                statusElement.textContent = dateGroups.length > 0
+                    ? 'Upcoming dates could not be refreshed. Previously loaded dates are still shown.'
+                    : 'Upcoming dates could not be loaded. Please try again.';
             } finally {
                 if (activeRequest === requestController) {
                     activeRequest = null;
                     calendarRoot.classList.remove('is-loading');
                     calendarRoot.setAttribute('aria-busy', 'false');
+                    retryButton.setAttribute('aria-disabled', 'false');
+                    retryButton.textContent = 'Retry loading dates';
                 }
             }
         };
+
+        retryButton.addEventListener('click', () => {
+            if (!activeRequest) void loadEvents();
+        });
 
         showMoreButton.addEventListener('click', () => {
             const previouslyVisible = visibleDateLimit;
@@ -431,10 +453,18 @@
         showFewerButton.addEventListener('click', () => {
             visibleDateLimit = defaultDateLimit;
             renderDateGroups();
-            calendarElement.scrollIntoView({ block: 'start', behavior: 'smooth' });
+            calendarElement.scrollIntoView({
+                block: 'start',
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+            });
             showMoreButton.focus({ preventScroll: true });
         });
         detailsClose.addEventListener('click', () => closeDetails(true));
+        detailsElement.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            event.preventDefault();
+            closeDetails(true);
+        });
         const handleCalendarLayoutChange = () => {
             const previousDefault = defaultDateLimit;
             defaultDateLimit = getDefaultDateLimit();

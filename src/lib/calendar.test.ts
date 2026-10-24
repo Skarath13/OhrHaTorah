@@ -294,6 +294,8 @@ test('homepage uses an event-first upcoming-date feed with no calendar grid or G
     assert.doesNotMatch(homeStyles, /\.kehilat-calendar-event-button[^}]*grid-template-columns: minmax\(0, 1fr\) auto/s);
     assert.match(homeStyles, /\.kehilat-calendar-event-title[^}]*overflow-wrap: normal[^}]*text-wrap: pretty[^}]*word-break: normal/s);
     assert.match(homeStyles, /\.kehilat-calendar-event-time[^}]*grid-column: 1[^}]*justify-self: start[^}]*font-variant-numeric: tabular-nums/s);
-    assert.match(homeStyles, /\.kehilat-calendar-show-more\[hidden\],[\s\S]*?\.kehilat-calendar-show-fewer\[hidden\] \{ display: none; \}/);
+    for (const control of ['show-more', 'show-fewer', 'retry']) {
+        assert.match(homeStyles, new RegExp(`\\.kehilat-calendar-${control}\\[hidden\\][^{]*\\{\\s*display: none;\\s*\\}`));
+    }
     assert.doesNotMatch(homeStyles, /--fc-|\[role="gridcell"\]|\[role="list"\]\[aria-label="Events"\]/);
 });

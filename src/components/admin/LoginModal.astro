@@ -81,6 +81,8 @@
   const errorMessage = document.getElementById('loginErrorMessage');
 
   let loginPreviousFocus = null;
+  let activeLoginRequest = null;
+  let loginErrorTimer;
 
   // Expose global function to show modal
   window.showLoginModal = function() {
@@ -101,14 +103,17 @@
   };
 
   function resetForm() {
+    activeLoginRequest?.abort();
+    activeLoginRequest = null;
+    clearTimeout(loginErrorTimer);
+    loginErrorTimer = undefined;
     inputs.forEach(inp => {
       inp.value = '';
       inp.classList.remove('filled', 'error');
     });
-    pinValue.value = '';
-    submitBtn.disabled = true;
     submitBtn.classList.remove('loading');
     errorMessage.classList.remove('show');
+    updateInputStates();
   }
 
   // Close modal handlers
@@ -123,7 +128,7 @@
 
   modal.addEventListener('keydown', (event) => {
     if (event.key !== 'Tab') return;
-    const controls = [...modal.querySelectorAll('button:not(:disabled), input:not([type="hidden"])')];
+    const controls = [...modal.querySelectorAll('button:not(:disabled), input:not([type="hidden"]):not(:disabled)')];
     const first = controls[0], last = controls.at(-1);
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
@@ -137,11 +142,10 @@
       // Only allow numbers
       if (!/^\d*$/.test(value)) {
         e.target.value = '';
-        return;
       }
 
       // Move to next input
-      if (value && index < inputs.length - 1) {
+      if (/^\d$/.test(e.target.value) && index < inputs.length - 1) {
         inputs[index + 1].focus();
       }
 
@@ -188,7 +192,8 @@
     let pin = '';
 
     inputs.forEach(input => {
-      if (input.value) {
+      input.disabled = activeLoginRequest !== null;
+      if (/^\d$/.test(input.value)) {
         input.classList.add('filled');
         pin += input.value;
       } else {
@@ -198,18 +203,25 @@
     });
 
     pinValue.value = pin;
-    submitBtn.disabled = !allFilled;
+    submitBtn.disabled = !allFilled || activeLoginRequest !== null;
+    submitBtn.setAttribute('aria-label', activeLoginRequest ? 'Signing in' : 'Sign In');
+    form.setAttribute('aria-busy', String(activeLoginRequest !== null));
   }
 
   // Form submission
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (activeLoginRequest || !modal.open) return;
 
+    // Reconcile with the visible fields before accepting a submission.
+    updateInputStates();
     const pin = pinValue.value;
-    if (pin.length !== 6) return;
+    if (!/^\d{6}$/.test(pin)) return;
 
+    const requestController = new AbortController();
+    activeLoginRequest = requestController;
     submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
+    updateInputStates();
 
     try {
       const response = await fetch('/api/auth/login', {
@@ -218,9 +230,11 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ pin }),
+        signal: requestController.signal,
       });
 
       const data = await response.json();
+      if (activeLoginRequest !== requestController || requestController.signal.aborted) return;
 
       if (response.ok && data.success) {
         // Success - close modal and dispatch event
@@ -244,10 +258,16 @@
         showError(data.error || 'Invalid PIN');
       }
     } catch (err) {
-      showError('Connection error. Please try again.');
+      if (activeLoginRequest === requestController && !requestController.signal.aborted) {
+        showError('Connection error. Please try again.');
+      }
     } finally {
-      submitBtn.classList.remove('loading');
-      updateInputStates();
+      if (activeLoginRequest === requestController) {
+        activeLoginRequest = null;
+        submitBtn.classList.remove('loading');
+        updateInputStates();
+        if (errorMessage.classList.contains('show')) inputs[0].focus();
+      }
     }
   });
 
@@ -261,10 +281,9 @@
       inp.value = '';
       inp.classList.remove('filled');
     });
-    inputs[0].focus();
-
     // Auto-hide after 5 seconds
-    setTimeout(() => {
+    clearTimeout(loginErrorTimer);
+    loginErrorTimer = setTimeout(() => {
       errorMessage.classList.remove('show');
       inputs.forEach(inp => inp.classList.remove('error'));
     }, 5000);

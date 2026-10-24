@@ -363,7 +363,15 @@
         }
         try {
             const overrideResult = await fetchJson(`/api/content/${encodeURIComponent(britKey)}?optional=true`, 3000) as any;
-            if (overrideResult.success && overrideResult.data?.value) {
+            if (overrideResult.success && overrideResult.data === null) {
+                // A confirmed deletion is authoritative over a returning visitor's cache.
+                britOverride = null;
+                try {
+                    localStorage.removeItem(britOverrideStorageKey);
+                } catch {
+                    // The schedule-backed reading still renders when storage is blocked.
+                }
+            } else if (overrideResult.success && overrideResult.data?.value) {
                 britOverride = overrideResult.data.value;
                 try {
                     localStorage.setItem(britOverrideStorageKey, britOverride);
