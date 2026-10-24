@@ -14,25 +14,25 @@ const updateRequestId = crypto.randomUUID();
     <div class="footer-content">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4><i class="fas fa-star-of-david" aria-hidden="true"></i><strong>{congregationName}</strong></h4>
+                <h2><i class="fas fa-star-of-david" aria-hidden="true"></i><strong>{congregationName}</strong></h2>
                 <p><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</p>
             </div>
 
             <div class="footer-col">
-                <h4><i class="fas fa-link"></i> Quick links</h4>
+                <h2><i class="fas fa-link" aria-hidden="true"></i> Quick links</h2>
                 <ul class="footer-links">
-                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About us</a></li>
-                    <li><a href="/services"><i class="fas fa-chevron-right"></i> Shabbat services</a></li>
-                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right"></i> Congregational Calendar</a></li>
-                    <li><a href="/resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
-                    <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate</a></li>
-                    <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
-                    <li><a href="#" id="adminLoginLink"><i class="fas fa-chevron-right"></i> Admin</a></li>
+                    <li><a href="/about"><i class="fas fa-chevron-right" aria-hidden="true"></i> About us</a></li>
+                    <li><a href="/services"><i class="fas fa-chevron-right" aria-hidden="true"></i> Shabbat services</a></li>
+                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right" aria-hidden="true"></i> Congregational Calendar</a></li>
+                    <li><a href="/resources"><i class="fas fa-chevron-right" aria-hidden="true"></i> Resources</a></li>
+                    <li><a href="/donate"><i class="fas fa-chevron-right" aria-hidden="true"></i> Donate</a></li>
+                    <li><a href="/contact"><i class="fas fa-chevron-right" aria-hidden="true"></i> Contact</a></li>
+                    <li><a href="#" id="adminLoginLink"><i class="fas fa-chevron-right" aria-hidden="true"></i> Admin</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
-                <h4><i class="fas fa-envelope"></i> Stay connected</h4>
+                <h2><i class="fas fa-envelope" aria-hidden="true"></i> Stay connected</h2>
                 <p>Stay in the loop with a friendly weekly email about gatherings and community news, plus occasional important updates.</p>
                 <form id="newsletter-form" class="newsletter-form-expanded" method="post" action="/api/update-requests">
                     <input type="hidden" name="submissionId" value={updateRequestId}>
@@ -77,14 +77,14 @@ const updateRequestId = crypto.randomUUID();
                     )}
                     <p id="newsletter-privacy" class="newsletter-privacy">Cloudflare-protected. The optional phone field does not authorize texts or automated calls.</p>
                     <button type="submit" class="newsletter-btn-full" disabled={!turnstileSiteKey}>
-                        Request weekly emails <i class="fas fa-arrow-right"></i>
+                        Request weekly emails <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     </button>
                     <p id="newsletter-status" class="form-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
 
             <div class="footer-col">
-                <h4><i class="fas fa-map-marker-alt"></i> Contact</h4>
+                <h2><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contact</h2>
                 <ul class="footer-contact">
                     <li>
                         <i class="fas fa-envelope" aria-hidden="true"></i>
@@ -120,7 +120,7 @@ const updateRequestId = crypto.randomUUID();
 
 <!-- Back to Top Button -->
 <a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">
-    <i class="fas fa-chevron-up"></i>
+    <i class="fas fa-chevron-up" aria-hidden="true"></i>
 </a>
 
 {turnstileSiteKey && (

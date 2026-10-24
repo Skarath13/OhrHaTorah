@@ -17,9 +17,9 @@ test('shared footer renders the full congregation name with semantic emphasis', 
     assert.equal(congregationName, 'Kehilat Ohr HaTorah');
     assert.match(
         footerSource,
-        /<h4><i[^>]*aria-hidden="true"[^>]*><\/i><strong>\{congregationName\}<\/strong><\/h4>/
+        /<h2><i[^>]*aria-hidden="true"[^>]*><\/i><strong>\{congregationName\}<\/strong><\/h2>/
     );
-    assert.doesNotMatch(footerSource, /<h4><i[^>]*><\/i>\s*Ohr HaTorah<\/h4>/);
+    assert.doesNotMatch(footerSource, /<h[2-6]><i[^>]*><\/i>\s*Ohr HaTorah<\/h[2-6]>/);
 });
 
 test('shared footer uses the exact canonical identity statement without copying it', () => {

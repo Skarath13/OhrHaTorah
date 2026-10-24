@@ -2744,7 +2744,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     margin-bottom: var(--space-xl);
 }
 
-.footer-col h4 {
+.footer-col h2 {
     color: var(--white);
     margin-bottom: var(--space-md);
     padding-bottom: var(--space-sm);
@@ -2753,7 +2753,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
     align-items: center;
 }
 
-.footer-col h4 i {
+.footer-col h2 i {
     margin-right: var(--space-sm);
     color: var(--gold);
 }
@@ -4274,7 +4274,7 @@ body.admin-edit-mode [data-brit-editable].actively-editing {
         text-align: center;
     }
 
-    .footer-col h4 {
+    .footer-col h2 {
         justify-content: center;
     }
 
@@ -5700,7 +5700,7 @@ button {
         text-align: left;
     }
 
-    .footer-col h4 {
+    .footer-col h2 {
         justify-content: flex-start;
     }
 

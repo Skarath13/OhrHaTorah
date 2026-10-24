@@ -7,6 +7,7 @@
     --interior-ink: #0b2d57;
     --interior-gold: #d1a12d;
     --interior-gold-soft: #ead39a;
+    --interior-gold-deep: #866622;
     --interior-cream: #f4efe3;
     --interior-paper: #fbf8f1;
     --interior-line: rgba(11, 45, 87, 0.18);
@@ -94,7 +95,7 @@
     font-family: var(--font-display);
     font-size: clamp(2.55rem, 4.25vw, 3.85rem);
     font-weight: 500;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.03em;
     line-height: 1;
     overflow-wrap: normal;
     word-break: normal;
@@ -122,7 +123,7 @@
 
 .interior-shell .interior-page .page-body {
     min-width: 0;
-    padding: clamp(3.5rem, 6vw, 5.25rem) 0 clamp(3.5rem, 6vw, 6rem);
+    padding: clamp(3.5rem, 6vw, 5.25rem) 0 clamp(2rem, 3vw, 3rem);
 }
 
 .interior-shell .interior-page .page-body > * {
@@ -190,7 +191,7 @@
     border: 0;
     border-radius: 0;
     background: transparent;
-    color: var(--interior-ink);
+    color: var(--interior-gold-deep);
     font-size: .72em;
     line-height: 1;
     flex: 0 0 1.15em;
@@ -553,7 +554,6 @@
     min-height: 54px;
     padding: 0.65rem 0.75rem !important;
     border: 1px solid rgba(209, 161, 45, 0.72) !important;
-    border-left: 4px solid var(--interior-gold) !important;
     border-radius: 0.45rem !important;
     place-items: center;
     background: var(--interior-navy) !important;
@@ -578,11 +578,11 @@
     font-size: 1rem;
 }
 
-.interior-shell .interior-page .page-body :where(.service-schedule > h3 + .schedule-note) {
+.interior-shell .interior-page .page-body :where(.service-schedule > :is(h2, h3) + .schedule-note) {
     margin: -0.9rem 0 2.5rem;
 }
 
-.interior-shell .interior-page .page-body :where(.service-schedule > h3:nth-of-type(2)) {
+.interior-shell .interior-page .page-body :where(.service-schedule > :is(h2, h3):nth-of-type(2)) {
     margin-top: 3.5rem;
     padding-top: 2.5rem;
     border-top: 1px solid var(--interior-line);
@@ -1058,14 +1058,14 @@
     border-right: 0;
 }
 
-.interior-shell .footer-col h4 {
+.interior-shell .footer-col h2 {
     margin: 0 0 1.25rem;
     color: #fff;
     font-family: var(--font-display);
     font-size: 1.2rem;
 }
 
-.interior-shell .footer-col h4 i {
+.interior-shell .footer-col h2 i {
     color: var(--interior-gold);
 }
 
@@ -1391,7 +1391,7 @@
         gap: 0 1rem !important;
     }
 
-    body .site-footer .footer-col h4 {
+    body .site-footer .footer-col h2 {
         margin-bottom: 0.9rem !important;
     }
 

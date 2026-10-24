@@ -24,5 +24,6 @@ test('candle lighting values render in the congregation timezone', () => {
     const candleLighting = '2026-08-14T19:21:00-07:00';
 
     assert.equal(formatCongregationDate(candleLighting), 'Aug 14, 2026');
-    assert.equal(formatCongregationTime(candleLighting), '7:21 pm');
+    assert.equal(formatCongregationTime(candleLighting), '7:21 p.m.');
+    assert.equal(formatCongregationTime('2026-08-15T09:05:00-07:00'), '9:05 a.m.');
 });

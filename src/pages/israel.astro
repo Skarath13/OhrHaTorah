@@ -6,13 +6,13 @@ import { reliefOrganizations } from '../data/reliefOrganizations';
     <div class="editorial-page">
         <section class="editorial-lead">
             <div><h2>Supporting Jewish people in need</h2><p>We value community service, acts of lovingkindness, humanitarian efforts, and unwavering support for Jewish people in need, within and outside the State of Israel.</p><p>Learn about the organizations below and the people their work serves.</p></div>
-            <aside class="editorial-side"><p>Our support for Israel is part of our shared congregational life and values.</p><a class="text-link" href="/mission#core-values">Read our Core Values <span aria-hidden="true">→</span></a></aside>
+            <aside class="editorial-side"><p>Our support for Israel is part of our shared congregational life and values.</p><a class="text-link" href="/mission#core-values">Read our Core Values <i class="fas fa-arrow-right" aria-hidden="true"></i></a></aside>
         </section>
         <section aria-label="Humanitarian relief organizations">
             {reliefOrganizations.map(org => (
                 <article class="organization-row">
                     <h2 class="icon-heading"><i class={org.icon + ' editorial-icon'} aria-hidden="true"></i><span>{org.name}</span></h2>
-                    <div>{org.paragraphs.map(paragraph => <p>{paragraph}</p>)}<a class="text-link" href={org.url} target="_blank" rel="noopener noreferrer">Visit {org.name} <span aria-hidden="true">↗</span></a></div>
+                    <div>{org.paragraphs.map(paragraph => <p>{paragraph}</p>)}<a class="text-link" href={org.url} target="_blank" rel="noopener noreferrer">Visit {org.name} <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i><span class="visually-hidden"> (opens in a new tab)</span></a></div>
                 </article>
             ))}
         </section>

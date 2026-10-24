@@ -161,8 +161,8 @@
     .parashah-info:has(.reading-text) .reading-text {
         width: calc(100% - 16px);
         margin-left: 16px;
-        border-left: 3px solid var(--home-gold-500, #d0a33d);
-        border-radius: 0 2px 2px 0;
+        border: 1px solid rgba(200, 154, 52, 0.34);
+        border-radius: 0.4rem;
         background: var(--home-cream-100, #f8f3e8);
         box-shadow: none;
         color: var(--home-ink, #172236);
@@ -328,7 +328,7 @@
 
         const headerEl = document.getElementById('parashah-header');
         if (headerEl && annualData.date) {
-            headerEl.textContent = `Weekly Parashah - ${formatParashahDate(annualData.date)}`;
+            headerEl.textContent = `Weekly Parashah – ${formatParashahDate(annualData.date)}`;
             // Auto-fit header text after render
             requestAnimationFrame(() => autoFitText(headerEl, 13));
         }
@@ -423,7 +423,8 @@
             document.getElementById('triennial-year')!.textContent = String(triennialData.year);
             if (triennialYearInfo) triennialYearInfo.dataset.yearReady = 'true';
             if (triennialButton) {
-                triennialButton.textContent = `Triennial · Year ${triennialData.year} of 3`;
+                // Non-breaking spaces keep "Year 2 of 3" together when the tab wraps on phones.
+                triennialButton.textContent = `Triennial · Year ${triennialData.year} of 3`;
                 triennialButton.hidden = false;
                 triennialButton.disabled = false;
             }

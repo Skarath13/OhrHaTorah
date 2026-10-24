@@ -208,7 +208,7 @@
     color: #fff;
     font-size: clamp(3.1rem, 4.4vw, 4.5rem);
     font-weight: 500;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.03em;
     line-height: 1.01;
     text-shadow: 0 3px 18px rgba(2, 12, 25, 0.82);
 }
@@ -489,10 +489,11 @@
     aspect-ratio: 2 / 1;
     margin: 0;
     overflow: hidden;
+    background: var(--home-blue-950);
 }
 
 .home-reading-image::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 26, 50, 0.7), transparent 62%); content: ''; }
-.home-reading-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
+.home-reading-image img { display: block; width: 100%; height: 100%; color: transparent; object-fit: cover; object-position: center 62%; }
 .home-reading-image figcaption { position: absolute; z-index: 1; right: 1.75rem; bottom: 1.3rem; left: 1.75rem; color: #fff; font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.65rem); font-weight: 700; }
 
 .home-shabbat-dashboard {
@@ -664,7 +665,7 @@
 .home-reading-card .reading-cycle-toggle { margin-block: 0.4rem 1rem; }
 
 .home-reading-card .reading-cycle-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
-.home-reading-card .cycle-btn { min-height: 44px; }
+.home-reading-card .cycle-btn { min-height: 44px; font-size: 1rem; text-wrap: balance; }
 .home-redesign .home-clock-card :is(.clock-panel, .clock-panel-date, .clock-panel-service, .clock-panel-time) { grid-template-columns: minmax(76px, auto) minmax(0, 1fr) !important; }
 .home-redesign .home-clock-card .clock-gregorian-date { white-space: normal !important; overflow-wrap: anywhere; }
 
@@ -715,7 +716,8 @@
 .home-map-caption { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 1rem; border-top: 3px solid var(--home-blue-900); }
 .home-map-caption span { color: var(--home-muted); font-size: 1rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
 .home-map-caption strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.12rem; }
-.home-map-card .map-container { position: relative; min-height: 0; flex: 1; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; overflow: hidden; }
+/* Placeholder pin under the lazy map iframe: Tabler Icons map-pin, MIT License */
+.home-map-card .map-container { position: relative; min-height: 0; flex: 1; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; overflow: hidden; background: #efe8da url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b48a36' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0'/%3E%3Cpath d='M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z'/%3E%3C/svg%3E") center / 2.75rem no-repeat; }
 .home-map-card iframe { display: block; width: 100%; border: 0; }
 .home-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.6rem; color: var(--home-blue-800); font-size: 1rem; font-weight: 800; letter-spacing: 0.02em; text-decoration: none; }
 .home-text-link:hover { color: var(--home-gold-500); }
@@ -745,11 +747,14 @@
 .home-about-copy > p:first-child { padding-left: 1.15rem; border-left: 3px solid var(--home-gold-500); color: var(--home-blue-900); font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.72rem); line-height: 1.48; }
 .home-about-copy > p:last-child { margin-bottom: 0; }
 .home-rabbi-story { margin-top: 2rem; padding: 1.25rem 0; border-top: 3px solid var(--home-gold-500); border-bottom: 1px solid var(--home-line); }
-.home-rabbi-story > summary { margin-bottom: 1rem; color: var(--home-blue-900); cursor: pointer; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; list-style: none; }
+.home-rabbi-story > summary { display: flex; min-height: 44px; align-items: center; justify-content: space-between; margin-bottom: 0; color: var(--home-blue-900); cursor: pointer; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; list-style: none; }
+.home-rabbi-story > summary::after { color: var(--home-gold-500); content: '+'; font-family: var(--font-body); }
+.home-rabbi-story[open] > summary { margin-bottom: 1rem; }
+.home-rabbi-story[open] > summary::after { content: '−'; }
 .home-rabbi-story > summary::-webkit-details-marker { display: none; }
 .home-rabbi-bio + .home-rabbi-bio { margin-top: 0.85rem; }
 .home-about-actions { display: flex; flex-wrap: wrap; gap: .25rem 2rem; padding-top: .75rem; }
-.home-rabbi-bio { color: var(--home-muted); font-size: 1rem; line-height: 1.6; }
+.home-rabbi-bio { max-width: 66ch; color: var(--home-muted); font-size: var(--text-body); line-height: 1.7; }
 .home-about-actions > .home-text-link { min-height: 48px; padding: .65rem 0; font-size: 1rem; line-height: 1.25; }
 .home-rabbi-name { margin-bottom: 0.1rem; color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
 .home-rabbi-title { margin-bottom: 0; color: var(--home-gold-700); font-size: 1rem; font-weight: 600; line-height: 1.4; }
@@ -827,7 +832,7 @@
 .home-calendar-image figcaption { padding: 1.5rem; color: #fff; }
 .home-calendar-image figcaption strong { display: block; margin-bottom: 0.45rem; font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.18; }
 .home-calendar-image figcaption span { display: block; color: rgba(255, 255, 255, 0.76); font-size: 1rem; line-height: 1.5; }
-.home-calendar-frame { min-width: 0; padding: clamp(1rem, 2.4vw, 1.7rem); border: 0; border-radius: 0; background: #f5f7f9; box-shadow: none; overflow: visible; }
+.home-calendar-frame { min-width: 0; padding: clamp(1rem, 2.4vw, 1.7rem); border: 0; border-radius: 0; background: var(--home-cream-50); box-shadow: none; overflow: visible; }
 .kehilat-calendar-shell {
     min-width: 0;
     color: var(--home-blue-950);
@@ -851,15 +856,15 @@
 .kehilat-calendar-details-close:focus-visible { border-color: var(--home-gold-500); outline: 2px solid rgba(208, 163, 61, 0.32); outline-offset: 2px; }
 .kehilat-calendar { display: grid; min-width: 0; grid-template-columns: 1fr; align-items: start; gap: 1rem; }
 .kehilat-calendar-shell.is-loading .kehilat-calendar { opacity: 0.58; }
-.kehilat-calendar-date-card { min-width: 0; overflow: hidden; border: 1px solid #c8d1da; border-radius: 0.85rem; background: #fff; box-shadow: 0 8px 22px rgba(6, 26, 50, 0.08); }
-.kehilat-calendar-date-header { display: grid; min-width: 0; padding: 0.95rem 1rem 0.9rem; border-bottom: 1px solid #d8dee5; grid-template-columns: minmax(0, 1fr); align-items: end; gap: 0.18rem; background: linear-gradient(145deg, #f7f9fb, #eef2f5); }
-.kehilat-calendar-date-weekday { grid-column: 1 / -1; margin: 0; color: #7c2f4c; font-size: 1rem; font-weight: 850; letter-spacing: 0.1em; line-height: 1.3; text-transform: uppercase; }
+.kehilat-calendar-date-card { min-width: 0; overflow: hidden; border: 1px solid rgba(13, 51, 91, 0.16); border-radius: 0.85rem; background: #fff; box-shadow: 0 8px 22px rgba(6, 26, 50, 0.08); }
+.kehilat-calendar-date-header { display: grid; min-width: 0; padding: 0.95rem 1rem 0.9rem; border-bottom: 1px solid rgba(13, 51, 91, 0.12); grid-template-columns: minmax(0, 1fr); align-items: end; gap: 0.18rem; background: var(--home-cream-100); }
+.kehilat-calendar-date-weekday { grid-column: 1 / -1; margin: 0; color: var(--home-gold-700); font-size: 1rem; font-weight: 850; letter-spacing: 0.1em; line-height: 1.3; text-transform: uppercase; }
 .kehilat-calendar-date-heading { min-width: 0; margin: 0; color: var(--home-blue-950); font-family: var(--font-display); font-size: clamp(1rem, 1rem + 0.52vw, 1.3rem); line-height: 1.15; overflow-wrap: normal; white-space: nowrap; word-break: normal; }
 .kehilat-calendar-event-list { margin: 0; padding: 0; list-style: none; }
-.kehilat-calendar-event-item + .kehilat-calendar-event-item { border-top: 1px solid #e3e7eb; }
+.kehilat-calendar-event-item + .kehilat-calendar-event-item { border-top: 1px solid rgba(13, 51, 91, 0.1); }
 .kehilat-calendar-event-button { position: relative; display: grid; width: 100%; min-height: 54px; padding: 0.74rem 0.95rem 0.78rem 1.05rem; border: 0; border-left: 4px solid var(--event-accent, var(--home-blue-900)); grid-template-columns: minmax(0, 1fr); align-items: start; gap: 0.2rem; background: #fff; color: var(--home-blue-950); text-align: left; cursor: pointer; touch-action: manipulation; transition: background-color 160ms ease; }
-.kehilat-calendar-event-button:hover { background: #f5f8fa; }
-.kehilat-calendar-event-button:active { background: #edf2f5; }
+.kehilat-calendar-event-button:hover { background: #fbf7ee; }
+.kehilat-calendar-event-button:active { background: #f6efe1; }
 .kehilat-calendar-event-button:focus-visible { z-index: 1; outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: -3px; }
 .kehilat-calendar-event-button--congregation { --event-accent: var(--home-blue-900); }
 .kehilat-calendar-event-button--holiday { --event-accent: #9b5a16; }
@@ -886,15 +891,15 @@
 .kehilat-calendar-show-more:focus-visible,
 .kehilat-calendar-show-fewer:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
 .kehilat-calendar-attribution { margin: 1rem 0 0; color: #536476; font-size: 1rem; line-height: 1.55; }
-.kehilat-calendar-attribution > summary { display: inline-flex; min-height: 44px; padding: 0.48rem 0.72rem; border: 1px solid #c8d1da; border-radius: 999px; align-items: center; gap: 0.45rem; background: #fff; color: var(--home-blue-900); font-size: 1rem; font-weight: 800; line-height: 1.2; list-style: none; cursor: pointer; touch-action: manipulation; }
+.kehilat-calendar-attribution > summary { display: inline-flex; min-height: 44px; padding: 0.48rem 0.72rem; border: 1px solid rgba(13, 51, 91, 0.18); border-radius: 999px; align-items: center; gap: 0.45rem; background: #fff; color: var(--home-blue-900); font-size: 1rem; font-weight: 800; line-height: 1.2; list-style: none; cursor: pointer; touch-action: manipulation; }
 .kehilat-calendar-attribution > summary::-webkit-details-marker { display: none; }
 .kehilat-calendar-attribution > summary:hover { border-color: #9fabb7; background: #f9fbfc; }
 .kehilat-calendar-attribution > summary:focus-visible { outline: 3px solid rgba(208, 163, 61, 0.42); outline-offset: 2px; }
 .kehilat-calendar-attribution[open] > summary { border-color: var(--home-gold-500); background: #fff8e6; }
 .kehilat-calendar-attribution-icon { display: grid; width: 1.25rem; height: 1.25rem; border: 1px solid currentColor; border-radius: 50%; place-items: center; font-family: var(--font-body); font-size: 0.7rem; font-weight: 900; line-height: 1; }
-.kehilat-calendar-attribution > p { max-width: 44rem; margin: 0.65rem 0 0; padding: 0.75rem 0.85rem; border: 1px solid #d8dee5; border-left: 3px solid var(--home-gold-500); background: #fff; color: #536476; font-size: 1rem; line-height: 1.6; }
+.kehilat-calendar-attribution > p { max-width: 44rem; margin: 0.65rem 0 0; padding: 0.75rem 0.85rem; border: 1px solid rgba(13, 51, 91, 0.14); border-radius: 0.5rem; background: #fff; color: #536476; font-size: 1rem; line-height: 1.6; }
 .kehilat-calendar-attribution a { color: var(--home-blue-900); font-weight: 800; text-underline-offset: 0.16em; }
-.kehilat-calendar-noscript { margin: 1rem 0 0; padding: 1rem; border: 1px solid #d8dee5; color: var(--home-blue-950); font-size: 1rem; line-height: 1.55; }
+.kehilat-calendar-noscript { margin: 1rem 0 0; padding: 1rem; border: 1px solid rgba(13, 51, 91, 0.14); color: var(--home-blue-950); font-size: 1rem; line-height: 1.55; }
 
 @media (min-width: 1101px) {
     .home-candle-card,
@@ -959,7 +964,7 @@
     .home-schedule-card > h3 { font-size: 1.7rem; }
     .home-timeline-row { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.75rem; }
     .home-timeline-note { margin-left: 5.25rem; }
-    .home-reading-heading { display: flex; min-height: 190px; aspect-ratio: 2 / 1; align-items: flex-end; margin: 0 0 1.25rem; padding: 1.15rem; background: linear-gradient(0deg, rgba(6, 26, 50, 0.86), rgba(6, 26, 50, 0.08) 72%), url('/images/generated/torah-study.webp') center 60% / cover no-repeat; color: #fff; font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; }
+    .home-reading-heading { display: flex; min-height: 190px; aspect-ratio: 2 / 1; align-items: flex-end; margin: 0 0 1.25rem; padding: 1.15rem; background: linear-gradient(0deg, rgba(6, 26, 50, 0.86), rgba(6, 26, 50, 0.08) 72%), url('/images/generated/torah-study.webp') center 60% / cover no-repeat; background-color: var(--home-blue-950); color: #fff; font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; }
     .home-reading-card .home-reading-image { display: none; }
     .home-shabbat-dashboard { margin-top: 2.25rem; padding: 1.35rem; border-radius: 20px; }
     .home-dashboard-heading { gap: 0.8rem; align-items: center; margin-bottom: 0.85rem; padding: 0; }
@@ -981,7 +986,6 @@
     .home-visit-utility { grid-column: 1; grid-row: auto; grid-template-columns: 1fr; margin-top: 2rem; }
     .home-visit-utility > div { min-height: 82px; padding: 0.85rem 1rem; border-top: 1px solid var(--home-line); border-left: 0; }
     .home-visit-utility > div:first-child { border-top: 0; }
-    .home-visit-utility a { min-height: 32px; }
     .home-calendar-layout { grid-template-columns: 1fr; min-height: 0; }
     .home-calendar-frame { min-height: 0; }
     .home-about-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -989,10 +993,6 @@
     .home-about-visual { grid-column: 1; grid-row: 1; aspect-ratio: 1; min-height: 360px; margin-top: 0; }
     .home-rabbi-portrait { right: 1rem; bottom: 1rem; width: 155px; }
     .home-rabbi-story { padding-block: 0.85rem; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }
-    .home-rabbi-story > summary { display: flex; min-height: 44px; align-items: center; justify-content: space-between; margin-bottom: 0; }
-    .home-rabbi-story > summary::after { color: var(--home-gold-500); content: '+'; font-family: var(--font-body); }
-    .home-rabbi-story[open] > summary { margin-bottom: 1rem; }
-    .home-rabbi-story[open] > summary::after { content: '−'; }
     .home-identity-intro { grid-template-columns: 1fr; gap: 1.5rem; padding-bottom: 2.5rem; }
     .home-identity-heading h2 { font-size: clamp(2.5rem, 12vw, 3.55rem); }
     .home-identity-statement { font-size: clamp(1.25rem, 5.8vw, 1.6rem); line-height: 1.48; text-wrap: pretty; }

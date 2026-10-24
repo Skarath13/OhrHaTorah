@@ -87,7 +87,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
             </section>
         </div>
     ) : (
-    <section class="resources-pending" aria-labelledby="resources-pending-title" data-admin-preview-gate>
+    <section class="resources-pending pending-notice" aria-labelledby="resources-pending-title" data-admin-preview-gate>
         <h2 id="resources-pending-title" class="icon-heading"><i class="fas fa-book-open editorial-icon" aria-hidden="true"></i><span>This section is under construction.</span></h2>
         <p>We are reviewing this section and will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete.</p>
     </section>
@@ -95,35 +95,6 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 </PageLayout>
 
 <style is:global>
-    .interior-shell .interior-page .resources-pending {
-        box-sizing: border-box;
-        max-width: 760px;
-        margin: clamp(1rem, 4vw, 3rem) auto;
-        padding: clamp(2rem, 6vw, 4.5rem);
-        border: 1px solid rgba(13, 51, 91, 0.18);
-        border-radius: .5rem;
-        background: rgba(255, 253, 248, 0.78);
-        text-align: center;
-    }
-
-
-
-    .interior-shell .interior-page .resources-pending h2 {
-        margin: 0 0 1rem;
-        color: var(--primary-blue);
-        font-family: var(--font-display);
-        font-size: clamp(1.9rem, 5vw, 3rem);
-        line-height: 1.12;
-        text-wrap: balance;
-    }
-
-    .interior-shell .interior-page .resources-pending > p:last-child {
-        max-width: 58ch;
-        margin: 0 auto;
-        color: var(--text-secondary);
-        line-height: 1.7;
-    }
-
     .interior-shell .interior-page .resources-preview {
         display: grid;
         gap: clamp(2rem, 5vw, 4rem);

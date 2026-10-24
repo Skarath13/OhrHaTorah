@@ -4,9 +4,9 @@ const canPreview = canViewAdminPreview(Astro.locals.user);
 ---
 <dialog id="underConstructionModal" class="uc-modal" aria-labelledby="uc-title" aria-describedby="uc-description" data-can-preview={String(canPreview)}>
     <div class="uc-modal-content">
-        <h2 id="uc-title"><span class="uc-symbol" aria-hidden="true">🚧</span><span>We’re preparing this page.</span></h2>
+        <h2 id="uc-title"><i class="uc-symbol fas fa-person-digging" aria-hidden="true"></i><span>We’re preparing this page.</span></h2>
         <p id="uc-description">This section is under construction. Please check back soon.</p>
-        <form method="dialog"><button class="uc-close" autofocus>Back to browsing <span aria-hidden="true">→</span></button></form>
+        <form method="dialog"><button class="uc-close" autofocus>Back to browsing <i class="fas fa-arrow-right" aria-hidden="true"></i></button></form>
         <p class="uc-timing">This notice closes automatically. Interact with it to keep it open.</p>
     </div>
 </dialog>
@@ -14,12 +14,12 @@ const canPreview = canViewAdminPreview(Astro.locals.user);
     .uc-modal { width: min(31rem, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); padding: 0; border: 1px solid #d7c8a5; border-radius: 1rem; margin: auto; background: #fbf8f1; color: #061d35; box-shadow: 0 24px 80px #061d3540; overflow: auto; }
     .uc-modal::backdrop { background: #061d3580; backdrop-filter: blur(5px); }
     .uc-modal-content { padding: clamp(1.5rem, 5vw, 2.75rem); text-align: left; }
-    .uc-symbol { flex-shrink: 0; font-size: 1.75rem; }
-    .uc-modal h2 { display: flex; align-items: baseline; gap: .75rem; margin: 0 0 1rem; color: #061d35; font-size: clamp(1.8rem, 5vw, 2.4rem); line-height: 1.15; font-weight: 500; }
-    #uc-description { font-size: 1.25rem; line-height: 1.6; color: #46566a; }
+    .uc-symbol { flex: 0 0 1.8rem; width: 1.8rem; color: #866622; font-size: 1.35rem; text-align: center; }
+    .uc-modal h2 { display: flex; align-items: baseline; gap: .75rem; margin: 0 0 1rem; color: #061d35; font-size: clamp(1.8rem, 5vw, 2.4rem); line-height: 1.15; font-weight: 500; text-wrap: balance; }
+    #uc-description { font-size: 1.25rem; line-height: 1.6; color: #46566a; text-wrap: pretty; }
     .uc-close { display: flex; align-items: center; justify-content: center; gap: 1rem; width: 100%; min-height: 50px; margin-top: 1.5rem; padding: .75rem 1rem; border: 0; border-radius: .4rem; background: #0b2d57; color: white; font: 650 1.125rem var(--font-body); cursor: pointer; }
     .uc-close:hover { background: #164770; }
-    .uc-timing { color: #59677b; font-size: 1rem; line-height: 1.45; margin: 1rem 0 0; }
+    .uc-timing { color: #59677b; font-size: 1rem; line-height: 1.45; margin: 1rem 0 0; text-wrap: pretty; }
 </style>
 <script>
     import { isPendingPage } from '../../data/pendingPages';

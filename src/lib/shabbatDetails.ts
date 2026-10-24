@@ -85,9 +85,15 @@ export const formatCongregationDate = (
 export const formatCongregationTime = (
     isoDate: string,
     timeZone = CONGREGATION_TIME_ZONE
-): string => new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-}).format(new Date(isoDate)).toLowerCase();
+): string => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    }).formatToParts(new Date(isoDate));
+    const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === type)?.value ?? '';
+    // Match the calendar's "p.m." style so one event never shows two time formats.
+    const period = part('dayPeriod').toUpperCase() === 'AM' ? 'a.m.' : 'p.m.';
+    return `${part('hour')}:${part('minute')} ${period}`;
+};
