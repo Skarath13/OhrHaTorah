@@ -1,6 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { getHolidayServiceProgramme } from '../lib/holidayServices';
+import { congregationClock, getHolidayServiceProgramme, isUpcomingService } from '../lib/holidayServices';
 import { getCongregationCalendarEvents, parseCalendarRange } from '../lib/calendar';
 import { formatCalendarEventTime } from '../lib/calendarDisplay';
 import type { CongregationEvent } from '../data/congregationEvents';
@@ -18,7 +18,11 @@ const serviceTime = (event: CongregationEvent) => {
     const [entry] = getCongregationCalendarEvents(parseCalendarRange(date, next.toISOString().slice(0, 10)), [event]);
     return entry ? formatCalendarEventTime(entry) : '';
 };
-const kolNidre = services.find(event => event.id === 'holiday-2026-kol-nidre');
+// Invitations follow the congregation's clock: each service leaves the page once it ends.
+const clock = congregationClock();
+const upcoming = services.filter(event => isUpcomingService(event, clock));
+const seasonStarted = upcoming.length < services.length;
+const kolNidre = upcoming.find(event => event.id === 'holiday-2026-kol-nidre');
 // Editorial context follows the rabbi's September 2 email and holiday notes.
 // Dates, titles, arrival instructions, and time qualifications remain CMS-owned.
 const serviceIntroductions: Record<string, string> = {
@@ -44,7 +48,11 @@ const occasions = [
 <PageLayout title="Jewish Holidays - Kehilat Ohr HaTorah" pageTitle="Jewish Holidays" description="Holiday services and the appointed times at Kehilat Ohr HaTorah, including Rosh HaShanah, Kol Nidre, Yom Kippur, and Sukkot." stylesheets={['/styles/holidays.css']}>
     <div class="editorial-page">
         <section class="editorial-lead">
-            <div><h2>Fall High Holidays&nbsp;· 2026&nbsp;/&nbsp;5787</h2><p>Join us for Rosh HaShanah, Kol Nidre and Yom Kippur, Sukkot, and our combined Shemini Atzeret and Simchat Torah gathering.</p><p>This season calls us to repentance and covenant renewal. We remember that each person matters, that we are accountable to one another, and that God promises repentance and restoration for His people.</p><div class="editorial-actions"><a class="action-link" href="#holiday-services">See the service schedule <i class="fas fa-arrow-down" aria-hidden="true"></i></a><a class="text-link" href="/#congregation-calendar">Congregational Calendar <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div></div>
+            {upcoming.length ? (
+                <div><h2>Fall High Holidays&nbsp;· 2026&nbsp;/&nbsp;5787</h2>{!seasonStarted && <p>Join us for Rosh HaShanah, Kol Nidre and Yom Kippur, Sukkot, and our combined Shemini Atzeret and Simchat Torah gathering.</p>}<p>This season calls us to repentance and covenant renewal. We remember that each person matters, that we are accountable to one another, and that God promises repentance and restoration for His people.</p><div class="editorial-actions"><a class="action-link" href="#holiday-services">See the service schedule <i class="fas fa-arrow-down" aria-hidden="true"></i></a><a class="text-link" href="/#congregation-calendar">Congregational Calendar <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div></div>
+            ) : (
+                <div><h2>Holiday services</h2><p>{unavailable ? 'Service details are temporarily unavailable.' : 'Holiday service details will be posted here as they are confirmed.'}</p><div class="editorial-actions"><a class="action-link" href="/#congregation-calendar">Congregational Calendar <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div></div>
+            )}
             <aside class="editorial-side"><h3>Join us in Fountain Valley</h3><address>10460 Slater Ave<br>Fountain Valley, CA 92708</address><p>All service times are Pacific time.</p><a class="text-link" href="/#map">Map and directions <i class="fas fa-arrow-right" aria-hidden="true"></i></a></aside>
         </section>
         {kolNidre && kolNidre.schedule.kind === 'single' && (
@@ -53,11 +61,11 @@ const occasions = [
                 <div class="kol-nidre-details"><p>{dateLabel(kolNidre.schedule.date)}</p><strong>{serviceTime(kolNidre)}</strong><a href="/#map">Join us in Fountain Valley <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>
             </section>
         )}
-        <section id="holiday-services" class="editorial-section" aria-labelledby="holiday-services-title">
-            <h2 id="holiday-services-title">Fall holiday service schedule</h2>
-            {services.length ? (
+        {upcoming.length > 0 && (
+            <section id="holiday-services" class="editorial-section" aria-labelledby="holiday-services-title">
+                <h2 id="holiday-services-title">Fall holiday service schedule</h2>
                 <ol class="holiday-programme">
-                    {services.filter(event => event.schedule.kind === 'single').map(event => event.schedule.kind === 'single' && (
+                    {upcoming.map(event => event.schedule.kind === 'single' && (
                         <li>
                             <div class="holiday-programme-heading">
                                 <h3>{event.title}</h3>
@@ -70,8 +78,8 @@ const occasions = [
                         </li>
                     ))}
                 </ol>
-            ) : <p class="editorial-note">{unavailable ? 'Service details are temporarily unavailable.' : 'Holiday service details will be posted here as they are confirmed.'} <a href="mailto:OhrHaTorahOC@gmail.com">Email us for the latest schedule.</a></p>}
-        </section>
+            </section>
+        )}
         <section class="editorial-section"><h2>Shabbat and the holidays</h2><div class="holiday-year">{occasions.map(([title, text]) => <div><h3>{title}</h3><p>{text}</p></div>)}</div></section>
         <div class="editorial-note"><p>Questions about joining us for a holiday?</p><a class="text-link" href="mailto:OhrHaTorahOC@gmail.com">Email the congregation <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>
     </div>
