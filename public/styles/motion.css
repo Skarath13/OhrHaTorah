@@ -15,6 +15,37 @@
     to { opacity: 1; }
 }
 
+/* Site reveal (src/lib/siteReveal.ts): each section is ruled before it is
+   written. Keyframes only name the first frame, so every reveal ends on the
+   element's own styles and later hover transforms stay untouched. */
+@keyframes oht-reveal-heading {
+    from { opacity: 0; transform: translateY(14px); filter: blur(2px); }
+}
+
+@keyframes oht-reveal-text {
+    from { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes oht-reveal-item {
+    from { opacity: 0; transform: translateY(12px); }
+}
+
+@keyframes oht-reveal-media {
+    from { opacity: 0; transform: scale(1.02); }
+}
+
+@keyframes oht-reveal-trace {
+    from { opacity: 0; transform: translateX(-10px); }
+}
+
+@keyframes oht-reveal-fade {
+    from { opacity: 0; }
+}
+
+@keyframes oht-reveal-rule {
+    from { transform: scaleX(0); }
+}
+
 .home-hero-media video {
     animation: none !important;
     transition: none !important;
@@ -167,6 +198,66 @@
         transform: translateY(-2px);
     }
 
+}
+
+/* Only content the script marked while it was still below the fold waits here,
+   held on a paused first frame. Print, reduced motion, and forced colors never
+   match, so they always show the page as authored. */
+@media screen and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+    html.site-motion-ready [data-site-reveal] {
+        animation: oht-reveal-text 600ms var(--motion-ease-lux) backwards paused;
+    }
+
+    html.site-motion-ready [data-site-reveal='heading'] {
+        animation-name: oht-reveal-heading;
+        animation-duration: 640ms;
+    }
+
+    html.site-motion-ready [data-site-reveal='item'] {
+        animation-name: oht-reveal-item;
+    }
+
+    html.site-motion-ready [data-site-reveal='media'] {
+        animation-name: oht-reveal-media;
+        animation-duration: 650ms;
+    }
+
+    html.site-motion-ready [data-site-reveal='trace'] {
+        animation-name: oht-reveal-trace;
+        animation-duration: 520ms;
+    }
+
+    html.site-motion-ready [data-site-reveal='fade'] {
+        animation-name: oht-reveal-fade;
+        animation-duration: 520ms;
+    }
+
+    /* The hairline is redrawn in its own color and weight, then handed back to the border. */
+    html.site-motion-ready [data-site-rule] {
+        border-top-color: transparent;
+    }
+
+    html.site-motion-ready [data-site-rule='anchor'] {
+        position: relative;
+    }
+
+    html.site-motion-ready [data-site-rule]::before {
+        position: absolute;
+        top: calc(-1 * var(--site-rule-width, 1px));
+        right: 0;
+        left: 0;
+        height: var(--site-rule-width, 1px);
+        background: var(--site-rule-color, currentColor);
+        content: '';
+        pointer-events: none;
+        transform-origin: left center;
+        animation: oht-reveal-rule 880ms var(--motion-ease-lux) backwards paused;
+    }
+
+    html.site-motion-ready .is-site-revealing,
+    html.site-motion-ready .is-site-revealing::before {
+        animation-play-state: running;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
