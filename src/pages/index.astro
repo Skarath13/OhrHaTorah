@@ -10,6 +10,7 @@ import CandleLighting from '../components/islands/CandleLighting.astro';
 import LiveClock from '../components/islands/LiveClock.astro';
 import CongregationCalendar from '../components/islands/CongregationCalendar.astro';
 import CalendarManager from '../components/admin/CalendarManager.astro';
+import DirectionsMap from '../components/maps/DirectionsMap.astro';
 // Admin functionality moved to /admin/ routes
 import { rabbi } from '../data/rabbi';
 ---
@@ -218,16 +219,7 @@ import { rabbi } from '../data/rabbi';
                     <article id="map" class="home-map-card" tabindex="-1" aria-label="Map and directions">
                         <div class="home-map-caption"><strong>Find Our Service</strong></div>
                         <div class="map-container">
-                            <iframe
-                                src="https://maps.google.com/maps?q=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,Fountain+Valley,CA&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                class="home-map-iframe"
-                                title="Map to Kehilat Ohr HaTorah Messianic Jewish Synagogue"
-                                width="100%"
-                                height="100%"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                            ></iframe>
+                            <DirectionsMap />
                         </div>
                         <a
                             href="https://www.google.com/maps/dir/?api=1&destination=Kehilat+OhrHaTorah+Messianic+Jewish+Synagogue,+10460+Slater+Ave,+Fountain+Valley,+CA+92708"

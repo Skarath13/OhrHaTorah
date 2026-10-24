@@ -716,9 +716,7 @@
 .home-map-caption { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 1rem; border-top: 3px solid var(--home-blue-900); }
 .home-map-caption span { color: var(--home-muted); font-size: 1rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
 .home-map-caption strong { color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.12rem; }
-/* Placeholder pin under the lazy map iframe: Tabler Icons map-pin, MIT License */
-.home-map-card .map-container { position: relative; min-height: 0; flex: 1; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; overflow: hidden; background: #efe8da url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b48a36' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0'/%3E%3Cpath d='M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z'/%3E%3C/svg%3E") center / 2.75rem no-repeat; }
-.home-map-card iframe { display: block; width: 100%; border: 0; }
+.home-map-card .map-container { position: relative; flex: none; height: auto; margin: 0 0 0.8rem; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
 .home-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.6rem; color: var(--home-blue-800); font-size: 1rem; font-weight: 800; letter-spacing: 0.02em; text-decoration: none; }
 .home-text-link:hover { color: var(--home-gold-500); }
 .home-visit-utility { display: grid; grid-column: 1 / -1; grid-row: 3; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 2.5rem; border: 1px solid var(--home-line); border-top: 3px solid var(--home-gold-500); border-radius: 16px; overflow: hidden; background: color-mix(in srgb, var(--home-gold-300) 13%, white); }
@@ -981,8 +979,7 @@
     .home-visit-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
     .home-visit-image { grid-column: 1; grid-row: auto; }
     .home-arrival-panel { grid-column: 1; grid-row: auto; padding-block: 1.5rem 2.25rem; }
-    .home-map-card { min-height: 390px; grid-column: 1; grid-row: auto; }
-    .home-map-card .map-container { min-height: 280px; }
+    .home-map-card { min-height: 0; grid-column: 1; grid-row: auto; }
     .home-visit-utility { grid-column: 1; grid-row: auto; grid-template-columns: 1fr; margin-top: 2rem; }
     .home-visit-utility > div { min-height: 82px; padding: 0.85rem 1rem; border-top: 1px solid var(--home-line); border-left: 0; }
     .home-visit-utility > div:first-child { border-top: 0; }

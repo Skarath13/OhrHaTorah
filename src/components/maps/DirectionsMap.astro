@@ -1,0 +1,72 @@
+---
+// A drawn, self-contained directions map: no third-party tiles, places, or tracking.
+// Wide layouts show the neighborhood; narrower ones crop to the route so labels stay readable.
+import DirectionsMapArt from './DirectionsMapArt.astro';
+
+const description = 'From the 405 freeway, take the Brookhurst Street exit and go north to Slater Avenue. Turn right on Slater Avenue. Kehilat Ohr HaTorah is at 10460 Slater Ave in Fountain Valley, on the right just before Ward Street.';
+---
+<figure class="directions-map">
+    <svg class="directions-map__art directions-map__art--full" viewBox="0 0 560 510" role="img" aria-labelledby="directions-map-full-title directions-map-full-desc">
+        <title id="directions-map-full-title">Map to Kehilat Ohr HaTorah</title>
+        <desc id="directions-map-full-desc">{description}</desc>
+        <DirectionsMapArt variant="full" />
+    </svg>
+    <svg class="directions-map__art directions-map__art--focus" viewBox="28 196 352 208" role="img" aria-labelledby="directions-map-focus-title directions-map-focus-desc">
+        <title id="directions-map-focus-title">Map to Kehilat Ohr HaTorah</title>
+        <desc id="directions-map-focus-desc">{description}</desc>
+        <DirectionsMapArt variant="focus" />
+    </svg>
+</figure>
+
+<style>
+    /* An engraved plate: hairline edge, cream mat, then a gold rule around the drawing. */
+    .directions-map {
+        margin: 0;
+        padding: 6px;
+        border: 1px solid rgba(11, 45, 87, 0.16);
+        background: #f4efe3;
+    }
+
+    .directions-map__art {
+        display: block;
+        width: 100%;
+        height: auto;
+        outline: 1px solid rgba(200, 154, 52, 0.55);
+    }
+
+    .directions-map__art--full { aspect-ratio: 560 / 510; }
+
+    .directions-map__art--focus {
+        display: none;
+        aspect-ratio: 352 / 208;
+    }
+
+    @media (max-width: 1100px) {
+        .directions-map { max-width: 560px; }
+        .directions-map__art--full { display: none; }
+        .directions-map__art--focus { display: block; }
+    }
+</style>
+
+<script>
+    // Draw the route once, the first time the map scrolls into view. Maps already on screen
+    // (or arrived at through #map) stay as authored, as do reduced-motion and no-JS visits.
+    const maps = Array.from(document.querySelectorAll<HTMLElement>('.directions-map'));
+    const motionSafe = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+    if (maps.length > 0 && motionSafe && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-drawn');
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.45 });
+
+        maps.forEach((map) => {
+            if (map.getBoundingClientRect().top < window.innerHeight * 0.85) return;
+            map.classList.add('dm-animate');
+            observer.observe(map);
+        });
+    }
+</script>

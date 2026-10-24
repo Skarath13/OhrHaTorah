@@ -1,0 +1,170 @@
+---
+// Schematic drawing in a 560 × 510 space. Streets, parks, and the 405 follow the
+// real grid around 10460 Slater Ave; spacing is approximate, so the map says so.
+interface Props {
+    variant: 'full' | 'focus';
+}
+
+const { variant } = Astro.props;
+const north = variant === 'full' ? { x: 538, y: 452 } : { x: 362, y: 352 };
+const note = variant === 'full' ? { x: 14, y: 500 } : { x: 36, y: 397 };
+const shadowId = `directions-map-shadow-${variant}`;
+const arterials = 'M-20 46H580M-20 248H580M-20 450H580M132 -20V530M335 -20V530M540 -20V530';
+const minorStreets = 'M235 253V336M190 336H330';
+const freeway = 'M-20 203.8L400 544.8';
+---
+<defs>
+    <filter id={shadowId} x="-20%" y="-30%" width="140%" height="170%">
+        <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#061d35" flood-opacity="0.16" />
+    </filter>
+</defs>
+
+<rect class="dm-ground" x="-40" y="-40" width="640" height="590" />
+<rect class="dm-park" x="137" y="-10" width="398" height="51" />
+<rect class="dm-park" x="392" y="166" width="58" height="40" rx="4" />
+<path class="dm-minor-casing" d={minorStreets} />
+<path class="dm-minor" d={minorStreets} />
+<path class="dm-road-casing" d={arterials} />
+<path class="dm-road" d={arterials} />
+<path class="dm-freeway-casing" d={freeway} />
+<path class="dm-freeway" d={freeway} />
+<path class="dm-freeway-line" d={freeway} />
+
+{variant === 'full' && <text class="dm-place" x="440" y="350">Fountain Valley</text>}
+<text class="dm-park-label" x="336" y="27">Mile Square Regional Park</text>
+<text class="dm-park-label dm-park-label--small" x="421" y="157">Green Valley Park</text>
+<text class="dm-street" x="472" y="68" text-anchor="middle">Warner Ave</text>
+<text class="dm-street" x="448" y="237" text-anchor="middle">Slater Ave</text>
+<text class="dm-street" x="440" y="439" text-anchor="middle">Talbert Ave</text>
+<text class="dm-street" x="121" y="150" text-anchor="middle" transform="rotate(-90 121 150)">Brookhurst St</text>
+<text class="dm-street" x="323" y="372" text-anchor="middle" transform="rotate(-90 323 372)">Ward St</text>
+<text class="dm-street" x="529" y="150" text-anchor="middle" transform="rotate(-90 529 150)">Euclid St</text>
+
+<g class="dm-shield" aria-hidden="true">
+    <rect x="61" y="272" width="34" height="22" rx="5" />
+    <text x="78" y="283">405</text>
+</g>
+
+<circle class="dm-halo" cx="320" cy="272" r="23" />
+<path class="dm-route" d="M132 327V248H320V258" pathLength="1" />
+
+<g class="dm-step-group dm-step-group--exit">
+    <g class="dm-node">
+        <circle cx="132" cy="327" r="10.5" />
+        <text x="132" y="327">1</text>
+    </g>
+    <text class="dm-step" x="119" y="355" text-anchor="end">Exit at</text>
+    <text class="dm-step" x="119" y="371" text-anchor="end">Brookhurst St</text>
+</g>
+
+<g class="dm-step-group dm-step-group--turn">
+    <g class="dm-node">
+        <circle cx="132" cy="248" r="10.5" />
+        <text x="132" y="248">2</text>
+    </g>
+    <text class="dm-step" x="149" y="236">Right on Slater Ave</text>
+</g>
+
+<g class="dm-arrival">
+    <circle class="dm-pulse" cx="320" cy="272" r="14" />
+    <g class="dm-site">
+        <circle class="dm-site-ring" cx="320" cy="272" r="14" />
+        <path class="dm-site-star" d="M320 264L326.9 276H313.1ZM320 280L326.9 268H313.1Z" />
+    </g>
+    <g class="dm-card" filter={`url(#${shadowId})`}>
+        <rect x="148" y="262" width="152" height="44" rx="6" />
+        <text class="dm-card-title" x="224" y="281">Kehilat Ohr HaTorah</text>
+        <text class="dm-card-address" x="224" y="298">10460 Slater Ave</text>
+    </g>
+</g>
+
+<g class="dm-north" aria-hidden="true">
+    <path d={`M${north.x} ${north.y}l6 16l-6 -4l-6 4z`} />
+    <text x={north.x} y={north.y + 31}>N</text>
+</g>
+<text class="dm-note" x={note.x} y={note.y}>Map not to scale</text>
+
+<style>
+    .dm-ground { fill: #f4efe3; }
+    .dm-park { fill: #e1e5cf; }
+    .dm-road-casing,
+    .dm-road,
+    .dm-minor-casing,
+    .dm-minor,
+    .dm-freeway-casing,
+    .dm-freeway,
+    .dm-freeway-line,
+    .dm-route { fill: none; }
+    .dm-road-casing { stroke: #d6c8ad; stroke-width: 10; }
+    .dm-road { stroke: #fdfbf6; stroke-width: 7; }
+    .dm-minor-casing { stroke: #ddd2bc; stroke-width: 6; }
+    .dm-minor { stroke: #fbf8f1; stroke-width: 3.6; }
+    .dm-freeway-casing { stroke: #061d35; stroke-width: 17; }
+    .dm-freeway { stroke: #1d4a78; stroke-width: 12; }
+    .dm-freeway-line { stroke: #f4efe3; stroke-width: 1.2; stroke-dasharray: 7 6; opacity: 0.7; }
+    .dm-route { stroke: #c89a34; stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
+    .dm-halo { fill: rgba(200, 154, 52, 0.2); }
+
+    text {
+        paint-order: stroke;
+        stroke: #f4efe3;
+        stroke-width: 3px;
+        stroke-linejoin: round;
+    }
+
+    .dm-street { fill: #5c6878; font: 600 12px var(--font-body); letter-spacing: 0.02em; }
+    .dm-step { fill: #0b2d57; font: 700 13px var(--font-body); }
+    .dm-place { fill: #6f6553; font: italic 500 15px var(--font-display); letter-spacing: 0.12em; text-anchor: middle; }
+    .dm-park-label { fill: #536149; font: italic 500 12.5px var(--font-display); text-anchor: middle; stroke: #e1e5cf; }
+    .dm-park-label--small { font-size: 11px; stroke: #f4efe3; }
+    .dm-note { fill: #5c6878; font: 400 10.5px var(--font-body); }
+
+    .dm-shield rect { fill: #0b2d57; stroke: #e6c978; stroke-width: 1.2; }
+    .dm-shield text { fill: #fff; font: 700 11.5px var(--font-body); text-anchor: middle; dominant-baseline: central; stroke: none; }
+
+    .dm-node circle { fill: #0b2d57; stroke: #fbf8f1; stroke-width: 2.5; }
+    .dm-node text { fill: #e6c978; font: 700 12px var(--font-body); text-anchor: middle; dominant-baseline: central; stroke: none; }
+
+    .dm-pulse { fill: none; stroke: #c89a34; stroke-width: 2; opacity: 0; }
+    .dm-site-ring { fill: #061d35; stroke: #fbf8f1; stroke-width: 3; }
+    .dm-site-star { fill: none; stroke: #e6c978; stroke-width: 1.6; stroke-linejoin: round; }
+
+    .dm-card rect { fill: #fbf8f1; stroke: rgba(11, 45, 87, 0.18); stroke-width: 1; }
+    .dm-card text { stroke: none; text-anchor: middle; }
+    .dm-card-title { fill: #061d35; font: 600 14px var(--font-display); }
+    .dm-card-address { fill: #59677b; font: 400 12px var(--font-body); }
+
+    .dm-north path { fill: #0b2d57; }
+    .dm-north text { fill: #0b2d57; font: 700 11px var(--font-body); text-anchor: middle; }
+
+    /* One authored moment: the route draws from the exit to the door, each step arriving as the
+       line reaches it. The map script adds .dm-animate only for motion-safe visitors who have not
+       seen the map yet, so print, reduced motion, and no-JS show this drawing as authored. */
+    @media screen {
+        :global(.dm-animate) .dm-route { stroke-dasharray: 1; stroke-dashoffset: 1; }
+        :global(.dm-animate) .dm-step-group,
+        :global(.dm-animate) .dm-arrival,
+        :global(.dm-animate) .dm-halo { opacity: 0; }
+        :global(.dm-animate) .dm-node,
+        :global(.dm-animate) .dm-site,
+        :global(.dm-animate) .dm-pulse { transform-box: fill-box; transform-origin: center; }
+
+        :global(.dm-animate.is-drawn) .dm-route { animation: dm-draw 1.7s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards; }
+        :global(.dm-animate.is-drawn) .dm-step-group--exit { animation: dm-arrive 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards; }
+        :global(.dm-animate.is-drawn) .dm-step-group--turn { animation: dm-arrive 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.68s forwards; }
+        :global(.dm-animate.is-drawn) .dm-arrival { animation: dm-arrive 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1.82s forwards; }
+        :global(.dm-animate.is-drawn) .dm-halo { animation: dm-arrive 0.9s ease-out 1.95s forwards; }
+        :global(.dm-animate.is-drawn) .dm-node { animation: dm-pop 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
+        :global(.dm-animate.is-drawn) .dm-step-group--turn .dm-node { animation-delay: 0.68s; }
+        :global(.dm-animate.is-drawn) .dm-site { animation: dm-pop 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1.82s both; }
+        :global(.dm-animate.is-drawn) .dm-pulse { animation: dm-pulse 1.3s ease-out 2.15s forwards; }
+    }
+
+    @keyframes dm-draw { to { stroke-dashoffset: 0; } }
+    @keyframes dm-arrive { to { opacity: 1; } }
+    @keyframes dm-pop { from { transform: scale(0.55); } }
+    @keyframes dm-pulse {
+        from { opacity: 0.75; transform: scale(1); }
+        to { opacity: 0; transform: scale(2.3); }
+    }
+</style>
