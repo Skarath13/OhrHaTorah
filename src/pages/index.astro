@@ -106,11 +106,11 @@ import { rabbi } from '../data/rabbi';
                             <p data-editable="about-us-text-2">Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English. Translations are always provided for spoken and written Hebrew. Teachings and homilies are mostly in English.</p>
                         </div>
 
-                        <details class="home-rabbi-story" open>
-                            <summary data-editable="rabbi-card-title">Meet Our Rabbi</summary>
+                        <section class="home-rabbi-story" aria-labelledby="home-rabbi-title">
+                            <h3 id="home-rabbi-title" data-editable="rabbi-card-title">Meet Our Rabbi</h3>
                             <p class="home-rabbi-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
                             <p class="home-rabbi-bio" data-editable="rabbi-bio-extended">{rabbi.bioExtended}</p>
-                        </details>
+                        </section>
 
                         <section class="home-umjc-story" aria-labelledby="home-umjc-title">
                             <h3 id="home-umjc-title">UMJC Affiliation</h3>
@@ -473,17 +473,6 @@ import { rabbi } from '../data/rabbi';
                     delete heroScrollHost.dataset.heroScroll;
                 });
         }
-
-        const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-rabbi-story');
-        const mobileDisclosureViewport = window.matchMedia('(max-width: 767px)');
-        const syncMobileDisclosures = () => {
-            mobileDisclosures.forEach((details) => {
-                details.open = !mobileDisclosureViewport.matches;
-            });
-        };
-
-        mobileDisclosureViewport.addEventListener('change', syncMobileDisclosures);
-        syncMobileDisclosures();
 
         const homeMotionHeadings = Array.from(
             document.querySelectorAll<HTMLElement>('[data-home-motion-heading]'),
