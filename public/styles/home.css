@@ -757,7 +757,8 @@
 .home-rabbi-story[open] > summary::after { content: '−'; }
 .home-rabbi-story > summary::-webkit-details-marker { display: none; }
 .home-rabbi-bio + .home-rabbi-bio { margin-top: 0.85rem; }
-.home-rabbi-story + .home-rabbi-story { margin-top: 0; border-top-width: 1px; }
+.home-umjc-story { padding: 1.25rem 0; border-bottom: 1px solid var(--home-line); }
+.home-umjc-story > h3 { display: flex; min-height: 44px; align-items: center; margin: 0 0 1rem; color: var(--home-blue-900); font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
 .home-umjc-story .home-rabbi-bio a { color: var(--home-blue-800); font-weight: 600; text-decoration: underline; text-decoration-color: var(--home-gold-500); text-underline-offset: 0.18em; }
 .home-umjc-story .home-rabbi-bio a:hover { color: var(--home-blue-900); text-decoration-thickness: 2px; }
 .home-umjc-links { display: flex; flex-wrap: wrap; gap: .25rem 2rem; margin-top: .75rem; }
