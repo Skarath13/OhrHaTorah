@@ -84,7 +84,7 @@ export const SITE_REVEAL_CONTAINERS = [
     '.home-torah-quote',
     '.home-shell',
     '.home-about-grid',
-    '.home-about-story',
+    '.home-about-aside',
     '.home-identity-intro',
     '.home-visit-grid',
     '.home-shabbat-primary',

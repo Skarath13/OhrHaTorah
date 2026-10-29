@@ -77,6 +77,6 @@ test('homepage protects copy legibility and leads with imagery on mobile About',
     const homeStyles = readFileSync(join(root, 'public/styles/home.css'), 'utf8');
     assert.match(homeStyles, /\.home-hero::after\s*\{[\s\S]*?linear-gradient/);
     assert.match(homeStyles, /\.home-hero-logo\s*\{[\s\S]*?clamp\(280px, min\(30vw, 45dvh\), 460px\)/);
-    assert.match(homeStyles, /\.home-about-story\s*\{\s*grid-column: 1;\s*grid-row: 2;/);
+    assert.match(homeStyles, /\.home-about-aside\s*\{\s*display: contents;/);
     assert.match(homeStyles, /\.home-about-visual\s*\{\s*grid-column: 1;\s*grid-row: 1;/);
 });
