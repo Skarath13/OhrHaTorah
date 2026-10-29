@@ -88,7 +88,8 @@
     const mobileDateLimit = 3;
     const tabletDateLimit = 6;
     const desktopDateLimit = 9;
-    const maximumRequestDays = 400;
+    // Visitors can browse about three months ahead; later dates are not yet curated.
+    const maximumRequestDays = 90;
     const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
     const calendarRoot = document.querySelector<HTMLElement>('.kehilat-calendar-shell');

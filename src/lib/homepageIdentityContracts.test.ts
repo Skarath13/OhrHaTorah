@@ -67,7 +67,7 @@ test('the leadership-approved welcome, About Us, and rabbi copy remains exact', 
         homeSource,
         /<strong>Kehilat Ohr HaTorah:<\/strong> where Torah, tradition, Jewish life, and faith in Yeshua unite as one\./,
     );
-    assert.match(homeSource, /is a newly formed Messianic Jewish synagogue in Orange County, California\./);
+    assert.match(homeSource, /is a newly formed UMJC-affiliated Messianic Jewish synagogue in Orange County, California\./);
     assert.match(homeSource, /Join with us in exploring the unmeasurable riches of Messiah Yeshua\./);
     assert.match(homeSource, /Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English\./);
     assert.match(homeSource, /Translations are always provided for spoken and written Hebrew\. Teachings and homilies are mostly in English\./);

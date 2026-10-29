@@ -32,7 +32,8 @@ function calendar(fetch: (...args: any[]) => Promise<unknown>, initialGroups: un
     const scope = { document, retryButton, statusElement, emptyElement, calendarRoot,
         calendarElement: { querySelector: () => eventButton },
         URLSearchParams, AbortController, fetch, initialGroups,
-        getBusinessDate: () => '2026-10-17', addDateDays: () => '2027-11-21', maximumRequestDays: 400,
+        getBusinessDate: () => '2026-10-17', addDateDays: (start: string, days: number) => new Date(Date.parse(`${start}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10),
+        maximumRequestDays: 90,
         groupEventsByDate: (events: unknown[]) => events,
     };
     const result = vm.runInNewContext(stripTypeScriptTypes(`(() => {
@@ -164,4 +165,14 @@ test('collapsing dates respects reduced motion and retains keyboard focus', () =
         assert.equal((ui.scrolls[0] as { behavior: string }).behavior, reducedMotion ? 'auto' : 'smooth');
         assert.equal(ui.document.activeElement, ui.showMoreButton);
     }
+});
+
+test('public calendar requests stop 90 days after the business date', async () => {
+    assert.match(component, /const maximumRequestDays = 90;/);
+    const requests: string[] = [];
+    const calendarUI = calendar(async (url: string) => { requests.push(url); return response([]); });
+    await calendarUI.loadEvents();
+    const query = new URL(requests[0] ?? '', 'https://example.test').searchParams;
+    assert.equal(query.get('start'), '2026-10-17');
+    assert.equal(query.get('end'), '2027-01-15');
 });
