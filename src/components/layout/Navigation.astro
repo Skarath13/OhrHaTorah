@@ -130,7 +130,7 @@
     const desktopNavQuery = window.matchMedia('(min-width: 1360px)');
     const hoverOpenedDropdowns = new Set<HTMLElement>();
 
-    // The scroll rods sit outside the clipped panel, so they need its measured size.
+    // The rolled edge sits outside the clipped panel, so it needs the panel size.
     function measureScroll(dropdown: HTMLElement) {
         const panel = dropdown.querySelector<HTMLElement>('.dropdown-content');
         if (!panel) return;
