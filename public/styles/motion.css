@@ -15,6 +15,12 @@
     to { opacity: 1; }
 }
 
+/* Mobile nav groups unroll top-down like the desktop parchment dropdowns. */
+@keyframes oht-scroll-unroll {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
 /* Site reveal (src/lib/siteReveal.ts): each section is ruled before it is
    written. Keyframes only name the first frame, so every reveal ends on the
    element's own styles and later hover transforms stay untouched. */
@@ -88,6 +94,10 @@
     .faq-item.active .faq-answer,
     details[open] > :not(summary) {
         animation: oht-soft-reveal 240ms ease-out both;
+    }
+
+    .mobile-nav-group[open] > .mobile-nav-submenu {
+        animation: oht-scroll-unroll 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     :where(

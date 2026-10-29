@@ -203,7 +203,14 @@ html.mobile-nav-open body {
         width: 100%;
         padding: 0.35rem 0.55rem 0.55rem;
         border-top: 1px solid rgba(6, 29, 53, 0.14);
-        background: color-mix(in srgb, var(--mobile-nav-surface) 82%, white);
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--mobile-nav-accent) 32%, #d9c290),
+            color-mix(in srgb, var(--mobile-nav-surface) 34%, #f7eed6) 12%,
+            color-mix(in srgb, var(--mobile-nav-surface) 34%, #f7eed6) 88%,
+            color-mix(in srgb, var(--mobile-nav-accent) 32%, #d9c290)
+        );
+        box-shadow: inset 0 10px 9px -8px rgba(70, 45, 12, 0.4), inset 0 -10px 9px -8px rgba(70, 45, 12, 0.4);
     }
 
     .mobile-nav-submenu-link {
@@ -527,6 +534,118 @@ html.mobile-nav-open body {
         color: var(--site-chrome-ink) !important;
         text-align: center;
         transform: none !important;
+    }
+}
+
+/* Desktop dropdowns unroll as parchment scrolls tinted with their tab color.
+   The paper reveals with clip-path; the lower rod rides the clip edge using
+   the panel size measured in Navigation.astro (--scroll-h, --scroll-w). */
+@media (min-width: 1360px) {
+    .site-navigation-shell .nav-links > li.dropdown {
+        --scroll-open: 640ms;
+        --scroll-close: 380ms;
+        --scroll-ease-open: cubic-bezier(0.22, 1, 0.36, 1);
+        --scroll-ease-close: cubic-bezier(0.65, 0, 0.35, 1);
+        --scroll-paper: color-mix(in srgb, var(--nav-surface) 34%, #f7eed6);
+        --scroll-paper-edge: color-mix(in srgb, var(--nav-accent) 32%, #d9c290);
+    }
+
+    .site-navigation-shell .nav-container .dropdown-content {
+        padding: 0.95rem 0.55rem !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .3 0 0 0 0 .14 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+            linear-gradient(90deg, var(--scroll-paper-edge), var(--scroll-paper) 14%, var(--scroll-paper) 86%, var(--scroll-paper-edge)) !important;
+        box-shadow:
+            inset 0 12px 10px -9px rgba(70, 45, 12, 0.42),
+            inset 0 -12px 10px -9px rgba(70, 45, 12, 0.42),
+            0 22px 40px rgba(6, 29, 53, 0.22) !important;
+        opacity: 1;
+        transform: none !important;
+        clip-path: inset(0 -32px 100% -32px);
+        transition:
+            clip-path var(--scroll-close) var(--scroll-ease-close),
+            visibility 0s linear var(--scroll-close);
+    }
+
+    .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:hover .dropdown-content,
+    .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:focus-within .dropdown-content,
+    .site-navigation-shell .dropdown.active .dropdown-content {
+        clip-path: inset(0 -32px -64px -32px);
+        transition: clip-path var(--scroll-open) var(--scroll-ease-open), visibility 0s;
+    }
+
+    .site-navigation-shell .dropdown-content a {
+        border-bottom: 1px dashed color-mix(in srgb, var(--nav-accent) 55%, rgba(70, 45, 12, 0.35)) !important;
+        background: transparent !important;
+        opacity: 0;
+        transition: opacity 160ms ease, background-color 160ms ease;
+    }
+
+    .site-navigation-shell .dropdown-content a:hover,
+    .site-navigation-shell .dropdown-content a:focus-visible {
+        background: rgba(255, 255, 255, 0.45) !important;
+    }
+
+    .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:hover .dropdown-content a,
+    .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:focus-within .dropdown-content a,
+    .site-navigation-shell .dropdown.active .dropdown-content a {
+        opacity: 1;
+        transition: opacity 360ms ease calc(140ms + var(--ink-step, 0) * 55ms), background-color 160ms ease;
+    }
+
+    .site-navigation-shell .dropdown-content a:nth-child(2) { --ink-step: 1; }
+    .site-navigation-shell .dropdown-content a:nth-child(3) { --ink-step: 2; }
+    .site-navigation-shell .dropdown-content a:nth-child(4) { --ink-step: 3; }
+    .site-navigation-shell .dropdown-content a:nth-child(5) { --ink-step: 4; }
+    .site-navigation-shell .dropdown-content a:nth-child(6) { --ink-step: 5; }
+    .site-navigation-shell .dropdown-content a:nth-child(n + 7) { --ink-step: 6; }
+
+    /* Rods: ::before stays at the top, ::after rolls down with the paper. */
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown::before,
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown::after {
+        content: "";
+        position: absolute;
+        z-index: 1001;
+        top: calc(var(--site-nav-height) - 7px);
+        left: -10px;
+        width: calc(var(--scroll-w, 100%) + 20px);
+        height: 14px;
+        border-radius: 7px;
+        background:
+            radial-gradient(circle at 5px 50%, color-mix(in srgb, var(--nav-accent) 60%, #f3d98c) 4px, transparent 5px),
+            radial-gradient(circle at calc(100% - 5px) 50%, color-mix(in srgb, var(--nav-accent) 60%, #f3d98c) 4px, transparent 5px),
+            linear-gradient(#a8743d, #6b4423 45%, #3d250f 55%, #8b5a2b);
+        box-shadow: 0 3px 6px rgba(6, 29, 53, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transition:
+            transform var(--scroll-close) var(--scroll-ease-close),
+            opacity 140ms ease var(--scroll-close),
+            visibility 0s linear calc(var(--scroll-close) + 140ms);
+    }
+
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown.active::before,
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown.active::after {
+        opacity: 1;
+        visibility: visible;
+        transition:
+            transform var(--scroll-open) var(--scroll-ease-open),
+            opacity 120ms ease,
+            visibility 0s;
+    }
+
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown.active::after {
+        transform: translateY(var(--scroll-h, 0px));
+    }
+}
+
+@media (min-width: 1360px) and (prefers-reduced-motion: reduce) {
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown::before,
+    .site-navigation-shell .nav-container[data-nav-enhanced] .dropdown::after {
+        transition: none !important;
     }
 }
 

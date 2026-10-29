@@ -130,9 +130,18 @@
     const desktopNavQuery = window.matchMedia('(min-width: 1360px)');
     const hoverOpenedDropdowns = new Set<HTMLElement>();
 
+    // The scroll rods sit outside the clipped panel, so they need its measured size.
+    function measureScroll(dropdown: HTMLElement) {
+        const panel = dropdown.querySelector<HTMLElement>('.dropdown-content');
+        if (!panel) return;
+        dropdown.style.setProperty('--scroll-h', `${panel.offsetHeight}px`);
+        dropdown.style.setProperty('--scroll-w', `${panel.offsetWidth}px`);
+    }
+
     function setDropdownState(dropdown: HTMLElement | null, expanded: boolean) {
         if (!dropdown) return;
 
+        if (expanded) measureScroll(dropdown);
         dropdown.classList.toggle('active', expanded);
 
         const trigger = dropdown.querySelector<HTMLButtonElement>('[data-nav-disclosure]');
@@ -205,6 +214,8 @@
     });
 
     desktopNavQuery.addEventListener('change', () => closeAllDropdowns());
+    window.addEventListener('resize', () => dropdownItems.forEach(measureScroll));
+    dropdownItems.forEach(measureScroll);
     // CSS hover/focus is a fallback only; enhanced menus share one visible/ARIA state.
     navigation?.setAttribute('data-nav-enhanced', '');
 </script>
