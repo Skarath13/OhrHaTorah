@@ -15,7 +15,7 @@ import DirectionsMap from '../components/maps/DirectionsMap.astro';
 import { rabbi } from '../data/rabbi';
 ---
 
-<BaseLayout stylesheets={["/styles/home.css?rev=20261014-calendar-recovery-1"]}>
+<BaseLayout stylesheets={["/styles/home.css?rev=20261028-hero-scroll-1"]}>
     <div class="home-site-chrome site-navigation-shell">
         <Header showLogo={false} />
         <Navigation />
@@ -52,8 +52,16 @@ import { rabbi } from '../data/rabbi';
             </div>
 
             <div class="home-shell home-hero-inner">
-                <div class="home-hero-logo">
+                <div class="home-hero-logo" data-hero-scroll-host>
                     <img src="/images/logo.png" alt="Kehilat Ohr HaTorah" width="612" height="408">
+                    <script is:inline>
+                        // Hide the flat logo before first paint only when the 3D unfurl can run.
+                        (function (host) {
+                            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'WebGL2RenderingContext' in window) {
+                                host.dataset.heroScroll = 'pending';
+                            }
+                        })(document.currentScript.parentElement);
+                    </script>
                 </div>
                 <div class="home-hero-copy">
                     <h1 id="home-hero-title" data-editable="main-title">
@@ -445,6 +453,25 @@ import { rabbi } from '../data/rabbi';
             window.addEventListener('touchstart', retryAfterInteraction, { once: true, passive: true });
             window.addEventListener('keydown', retryAfterInteraction, { once: true });
             requestHeroPlayback();
+        }
+
+        const heroScrollHost = document.querySelector<HTMLElement>('[data-hero-scroll-host][data-hero-scroll="pending"]');
+        if (heroScrollHost) {
+            // Show the flat logo if three.js or WebGL fails or is too slow to start.
+            const showFlatLogo = () => {
+                if (heroScrollHost.dataset.heroScroll === 'pending') delete heroScrollHost.dataset.heroScroll;
+            };
+            const slowStart = window.setTimeout(showFlatLogo, 3000);
+            void import('../lib/heroScroll.ts')
+                .then(({ mountHeroScroll }) => {
+                    if (heroScrollHost.dataset.heroScroll !== 'pending') return;
+                    window.clearTimeout(slowStart);
+                    return mountHeroScroll(heroScrollHost);
+                })
+                .catch(() => {
+                    heroScrollHost.querySelector('.home-hero-logo-scroll')?.remove();
+                    delete heroScrollHost.dataset.heroScroll;
+                });
         }
 
         const mobileDisclosures = document.querySelectorAll<HTMLDetailsElement>('.home-rabbi-story');

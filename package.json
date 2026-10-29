@@ -16,9 +16,11 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.11",
     "astro": "^5.16.0",
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "three": "^0.180.0"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6"
+    "@types/bcryptjs": "^2.4.6",
+    "@types/three": "^0.180.0"
   }
 }
