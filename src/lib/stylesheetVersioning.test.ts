@@ -9,7 +9,7 @@ const baseLayoutSource = readFileSync(
 
 test('site stylesheets use a shared cache-busting version for mobile Safari', () => {
     assert.match(baseLayoutSource, /const stylesheetVersion = '[^']+';/);
-    assert.match(baseLayoutSource, /20261028-rabbi-feedback-1/);
+    assert.match(baseLayoutSource, /20261030-holiday-guide-1/);
     assert.match(baseLayoutSource, /import\.meta\.env\.DEV \? Date\.now\(\)\.toString\(\) : stylesheetVersion/);
     assert.match(baseLayoutSource, /const versionStylesheet = \(href: string\)/);
     assert.match(baseLayoutSource, /versionStylesheet\('\/styles\/style\.css'\)/);

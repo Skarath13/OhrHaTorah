@@ -10,5 +10,50 @@
 .interior-shell .interior-page .holiday-service-note { color: #0b2d57; font-weight: 600; }
 .holiday-programme-date time { display: block; color: #46566a; font-size: 1rem; }
 .holiday-programme-date strong { display: block; font-size: 1.25rem; font-weight: 650; color: #0b2d57; margin-top: .5rem; }
-.holiday-year { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 4rem; margin-top: 2rem; }
-@media (max-width: 700px) { .kol-nidre-feature, .holiday-programme > li, .holiday-year { grid-template-columns: 1fr; } .kol-nidre-details { border-left: 0; border-top: 1px solid #ffffff40; padding: 1rem 0 0; } }
+@media (max-width: 700px) { .kol-nidre-feature, .holiday-programme > li { grid-template-columns: 1fr; } .kol-nidre-details { border-left: 0; border-top: 1px solid #ffffff40; padding: 1rem 0 0; } }
+
+/* Holiday guide: Shabbat band, a calendar-order ribbon, then each season's appointed times. */
+.holiday-guide { padding-top: clamp(2rem, 4vw, 3.5rem); border-top: 1px solid var(--editorial-line); }
+.holiday-guide-intro { margin-bottom: 2rem; }
+.holiday-hebrew { margin: 0; text-align: left; font-family: 'Times New Roman', 'Arial Hebrew', serif; font-weight: 400; line-height: 1.2; }
+.interior-shell .interior-page .holiday-guide .holiday-hebrew { max-width: none; font-size: clamp(2.4rem, 4.4vw, 3.4rem); line-height: 1.2; color: #7d5f1f; }
+.holiday-shabbat { display: grid; grid-template-columns: minmax(10rem, .5fr) minmax(0, 1.5fr); gap: 1.5rem clamp(2rem, 5vw, 4rem); align-items: start; padding: clamp(1.5rem, 5vw, 3rem); background: #061d35; border-top: 3px solid #b48a36; border-radius: .5rem; }
+.interior-shell .interior-page .holiday-guide .holiday-shabbat .holiday-hebrew { color: #e6c978; font-size: clamp(3.4rem, 7vw, 5.5rem); }
+.interior-shell .interior-page .editorial-page .holiday-shabbat h3 { color: #fff; }
+.interior-shell .interior-page .editorial-page .holiday-shabbat p { color: #e2e6eb; }
+.interior-shell .interior-page .editorial-page .holiday-shabbat .holiday-when { color: #e6c978; font-weight: 650; }
+.interior-shell .interior-page .editorial-page .holiday-shabbat .holiday-messiah { border-left-color: #e6c978; }
+.interior-shell .interior-page .editorial-page .holiday-shabbat .holiday-sources { color: #c4ccd6; }
+.holiday-shabbat-link { display: inline-flex; min-height: 48px; gap: .75rem; align-items: center; color: #fff; font-weight: 650; text-underline-offset: .25em; }
+.holiday-shabbat-link:hover { color: #e6c978; }
+.interior-shell .interior-page .editorial-page .holiday-sources { font-size: .95rem; color: #46566a; margin: 1rem 0 .25rem; }
+.interior-shell .interior-page .editorial-page .holiday-messiah { margin: 1.25rem 0 0; padding: .1rem 0 .1rem 1.1rem; border-left: 3px solid #b48a36; font-style: italic; }
+.interior-shell .interior-page .editorial-page aside.holiday-messiah p { margin: 0; }
+
+.holiday-year-ribbon { margin: clamp(2.5rem, 5vw, 4rem) 0 0; }
+.interior-shell .interior-page .holiday-year-ribbon ol { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; border-top: 2px solid #b48a36; }
+.holiday-year-ribbon li { position: relative; margin: 0; min-width: 0; }
+.holiday-year-ribbon li::before { content: ''; position: absolute; top: -7px; left: .75rem; width: 12px; height: 12px; border-radius: 50%; background: var(--interior-cream, #f3eee2); border: 2px solid #b48a36; }
+.holiday-year-ribbon a { display: flex; flex-direction: column; gap: .2rem; min-height: 48px; padding: 1.1rem .75rem .75rem; color: #0b2d57; font-weight: 650; line-height: 1.3; text-decoration: none; cursor: pointer; border-radius: .25rem; }
+.holiday-year-ribbon a:hover span:last-child { text-decoration: underline; text-underline-offset: .2em; }
+.holiday-year-ribbon a:focus-visible { outline: 3px solid #0b2d57; outline-offset: 2px; }
+.holiday-ribbon-month { color: #46566a; font-size: .875rem; font-weight: 500; }
+
+.holiday-season { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.holiday-season-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1.5rem; padding-bottom: .75rem; border-bottom: 2px solid #0b2d57; }
+.interior-shell .interior-page .editorial-page .holiday-season-heading h2 { margin: 0; }
+.interior-shell .interior-page .editorial-page .holiday-season-heading p { margin: 0; color: #46566a; }
+.holiday-entry { display: grid; grid-template-columns: minmax(12rem, .55fr) minmax(0, 1.45fr); gap: 1.25rem clamp(2rem, 5vw, 4rem); padding: 2.25rem 0; border-bottom: 1px solid var(--editorial-line); scroll-margin-top: 1.5rem; }
+.holiday-entry > div { min-width: 0; }
+.holiday-entry dl { margin: 1rem 0 0; display: grid; gap: .65rem; }
+.holiday-entry dt { color: #46566a; font-size: .875rem; }
+.holiday-entry dd { margin: 0; color: #0b2d57; font-weight: 600; line-height: 1.4; }
+.holiday-entry:target .holiday-entry-copy h3 { text-decoration: underline; text-decoration-color: #b48a36; text-decoration-thickness: 2px; text-underline-offset: .3em; }
+@media (max-width: 900px) { .interior-shell .interior-page .holiday-year-ribbon ol { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 1rem; } }
+@media (max-width: 700px) {
+    .holiday-shabbat, .holiday-entry { grid-template-columns: 1fr; }
+    .interior-shell .interior-page .holiday-year-ribbon ol { grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 0; }
+    .holiday-year-ribbon li { border-top: 2px solid #b48a36; }
+    .holiday-entry dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .holiday-entry dl > div:last-child { grid-column: 1 / -1; }
+}
