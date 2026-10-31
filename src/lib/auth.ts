@@ -235,6 +235,28 @@ export function createLogoutIndicatorCookie(): string {
 // ============= Rate Limiting Functions =============
 
 /**
+ * Get client IP address from request headers
+ */
+export function getClientIP(request: Request): string {
+  // Cloudflare provides the real IP in CF-Connecting-IP header
+  const cfIP = request.headers.get('CF-Connecting-IP');
+  if (cfIP) return cfIP;
+
+  // Fallback to X-Forwarded-For
+  const forwarded = request.headers.get('X-Forwarded-For');
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+
+  // Fallback to X-Real-IP
+  const realIP = request.headers.get('X-Real-IP');
+  if (realIP) return realIP;
+
+  // Default fallback
+  return 'unknown';
+}
+
+/**
  * Check if an IP is currently locked out
  */
 export async function isIPLockedOut(db: D1Database, ipAddress: string): Promise<{ locked: boolean; remainingSeconds?: number }> {

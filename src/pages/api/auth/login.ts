@@ -8,30 +8,9 @@ import {
   recordFailedAttempt,
   clearFailedAttempts,
   generateCSRFToken,
-  createCSRFCookie
+  createCSRFCookie,
+  getClientIP
 } from '../../../lib/auth';
-
-/**
- * Get client IP address from request headers
- */
-function getClientIP(request: Request): string {
-  // Cloudflare provides the real IP in CF-Connecting-IP header
-  const cfIP = request.headers.get('CF-Connecting-IP');
-  if (cfIP) return cfIP;
-
-  // Fallback to X-Forwarded-For
-  const forwarded = request.headers.get('X-Forwarded-For');
-  if (forwarded) {
-    return forwarded.split(',')[0].trim();
-  }
-
-  // Fallback to X-Real-IP
-  const realIP = request.headers.get('X-Real-IP');
-  if (realIP) return realIP;
-
-  // Default fallback
-  return 'unknown';
-}
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {

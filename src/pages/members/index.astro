@@ -1,0 +1,16 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ConstructionNotice from '../../components/layout/ConstructionNotice.astro';
+import { congregationName } from '../../data/congregationIdentity';
+
+// Placeholder for the code-gated members area. Middleware blocks this route
+// unless the visitor holds a valid access session or is a signed-in admin.
+---
+
+<PageLayout
+    title={`Members | ${congregationName}`}
+    pageTitle="Members"
+    description="Private area for select members of the congregation."
+>
+    <ConstructionNotice icon="fas fa-lock" />
+</PageLayout>

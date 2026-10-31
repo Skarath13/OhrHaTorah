@@ -1,0 +1,81 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { congregationName } from '../data/congregationIdentity';
+import { exclusiveAreas, getExclusiveAreaByName, safeNextPath } from '../lib/exclusiveAccess';
+
+// One page for every code-gated area. Plain HTML form: works without JavaScript.
+const area = getExclusiveAreaByName(Astro.url.searchParams.get('area')) ?? exclusiveAreas[0];
+const next = area ? safeNextPath(Astro.url.searchParams.get('next'), area) : '/';
+const error = Astro.url.searchParams.get('error');
+const errorMessages: Record<string, string> = {
+  invalid: 'That code did not work. Please check it and try again, or ask the congregation office for a new one.',
+  locked: 'Too many tries. Please wait 15 minutes and try again.',
+  unavailable: 'This area is not open yet. Please try again later.',
+};
+const errorMessage = error ? errorMessages[error] ?? errorMessages.invalid : null;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+---
+
+<PageLayout
+    title={`Enter your access code | ${congregationName}`}
+    pageTitle="Enter your access code"
+    description="This page is shared with select members of the congregation."
+>
+    <section class="pending-notice access-gate" aria-labelledby="access-heading">
+        <h2 id="access-heading">{area ? `${area.title} area` : 'Private area'}</h2>
+        <p>This page is shared with select members of <strong>{congregationName}</strong>. Type the code you were given. Capital letters and dashes do not matter.</p>
+
+        {errorMessage && <p id="access-error" class="access-error" role="alert">{errorMessage}</p>}
+
+        {area && (
+            <form class="access-form" method="post" action="/api/access/unlock">
+                <input type="hidden" name="area" value={area.area} />
+                <input type="hidden" name="next" value={next} />
+                <label for="access-code">Access code</label>
+                <input
+                    id="access-code"
+                    name="code"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    maxlength="40"
+                    required
+                    aria-invalid={errorMessage ? 'true' : undefined}
+                    aria-describedby={errorMessage ? 'access-error' : undefined}
+                />
+                <div class="editorial-page">
+                    <button type="submit" class="action-link">Open <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                </div>
+            </form>
+        )}
+    </section>
+</PageLayout>
+
+<style>
+    .access-form { display: grid; gap: .75rem; max-width: 26rem; margin-top: 1.75rem; }
+    .access-form label { color: var(--interior-ink); font-weight: 650; }
+    .access-form input[type='text'] {
+        min-height: 56px;
+        padding: .75rem 1rem;
+        border: 1px solid #b9ad94;
+        border-radius: .35rem;
+        background: #fff;
+        color: var(--interior-ink);
+        font: 600 1.375rem/1.2 var(--font-body);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+    .access-form .action-link { width: 100%; cursor: pointer; }
+    .access-error {
+        margin: 1.25rem 0 0;
+        padding: .9rem 1.1rem;
+        border: 1px solid #b5533c;
+        border-radius: .35rem;
+        background: #fbeee9;
+        color: #7a2b19;
+    }
+</style>

@@ -1,6 +1,12 @@
 import { defineMiddleware } from 'astro:middleware';
 import { validateSession, getSessionFromCookies } from './lib/auth';
 import { requiresAdminAuthentication } from './lib/adminPreview';
+import {
+  ACCESS_GATE_PATH,
+  findExclusiveArea,
+  getAccessTokenFromCookies,
+  hasValidAccessSession,
+} from './lib/exclusiveAccess';
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
@@ -29,5 +35,30 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return context.redirect('/admin/login');
   }
 
-  return next();
+  // Code-gated areas. Signed-in admins pass; everyone else needs a valid
+  // access session. Missing tables or D1 fail closed to the code page.
+  const exclusiveArea = findExclusiveArea(pathname);
+  if (exclusiveArea && !context.locals.user) {
+    let allowed = false;
+    if (db) {
+      try {
+        allowed = await hasValidAccessSession(db, exclusiveArea, getAccessTokenFromCookies(cookieHeader, exclusiveArea.area));
+      } catch {
+        console.warn('Access session validation unavailable');
+      }
+    }
+    if (!allowed) {
+      const gate = new URL(ACCESS_GATE_PATH, context.url);
+      gate.searchParams.set('area', exclusiveArea.area);
+      gate.searchParams.set('next', pathname + context.url.search);
+      return context.redirect(gate.pathname + gate.search, 303);
+    }
+  }
+
+  const response = await next();
+  if (exclusiveArea) {
+    response.headers.set('Cache-Control', 'private, no-store');
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+  return response;
 });
