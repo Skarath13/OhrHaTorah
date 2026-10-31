@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Editable from '../components/content/Editable.astro';
 import { canViewAdminPreview } from '../lib/adminPreview';
 
 const canPreview = canViewAdminPreview(Astro.locals.user);
@@ -17,46 +18,46 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
                 <p>This planning page is visible only after a valid administrator session is confirmed on the server. Review the program details before publication.</p>
             </aside>
 
-            <p class="intro-text"><strong>We are laying the foundation for youth learning rooted in Torah, Jewish life, and faith in Yeshua.</strong></p>
+            <Editable field="youth.intro" as="p" class="intro-text"><strong>We are laying the foundation for youth learning rooted in Torah, Jewish life, and faith in Yeshua.</strong></Editable>
 
             <div class="priority-section">
-                <h3><i class="fas fa-seedling"></i> What We Are Building</h3>
-                <p>As our congregation grows, we are preparing a Shabbat School where children can learn Torah, Hebrew prayer, Jewish history, and the appointed times in an age-appropriate setting.</p>
-                <p>Children of all ages are welcome in our community while this ministry takes shape.</p>
+                <h3><i class="fas fa-seedling"></i> <Editable field="youth.building-heading">What We Are Building</Editable></h3>
+                <Editable field="youth.building-1" as="p">As our congregation grows, we are preparing a Shabbat School where children can learn Torah, Hebrew prayer, Jewish history, and the appointed times in an age-appropriate setting.</Editable>
+                <Editable field="youth.building-2" as="p">Children of all ages are welcome in our community while this ministry takes shape.</Editable>
             </div>
 
             <div class="programs-section">
-                <h3><i class="fas fa-star"></i> What We're Planning</h3>
+                <h3><i class="fas fa-star"></i> <Editable field="youth.planning-heading">What We're Planning</Editable></h3>
                 <div class="programs-grid">
                     <div class="program-item">
                         <i class="fas fa-torah"></i>
-                        <span>Age-appropriate Torah study and Jewish history</span>
+                        <Editable field="youth.planning-torah">Age-appropriate Torah study and Jewish history</Editable>
                     </div>
                     <div class="program-item">
                         <i class="fas fa-language"></i>
-                        <span>Hebrew language learning and prayer</span>
+                        <Editable field="youth.planning-hebrew">Hebrew language learning and prayer</Editable>
                     </div>
                     <div class="program-item">
                         <i class="fas fa-calendar-alt"></i>
-                        <span>Biblical holidays and traditions</span>
+                        <Editable field="youth.planning-holidays">Biblical holidays and traditions</Editable>
                     </div>
                     <div class="program-item">
                         <i class="fas fa-palette"></i>
-                        <span>Music, crafts, and interactive learning</span>
+                        <Editable field="youth.planning-music-crafts">Music, crafts, and interactive learning</Editable>
                     </div>
                     <div class="program-item">
                         <i class="fas fa-star-of-david"></i>
-                        <span>Understanding Yeshua as our Jewish Messiah</span>
+                        <Editable field="youth.planning-yeshua">Understanding Yeshua as our Jewish Messiah</Editable>
                     </div>
                 </div>
             </div>
 
             <div class="involvement-section">
-                <h3><i class="fas fa-heart"></i> Get Involved</h3>
-                <p>If you have children or would like to help build this ministry, please contact us.</p>
+                <h3><i class="fas fa-heart"></i> <Editable field="youth.involved-heading">Get Involved</Editable></h3>
+                <Editable field="youth.involved-text" as="p">If you have children or would like to help build this ministry, please contact us.</Editable>
                 <div class="contact-info">
-                    <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> Call us</a>
-                    <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> Email us</a>
+                    <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513"><i class="fas fa-phone"></i> <Editable field="youth.contact-call">Call us</Editable></a>
+                    <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com"><i class="fas fa-envelope"></i> <Editable field="youth.contact-email">Email us</Editable></a>
                 </div>
             </div>
         </div>

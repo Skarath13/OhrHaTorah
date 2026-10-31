@@ -23,7 +23,7 @@ test('the homepage map is drawn on the site, with no third-party map or cross ma
     assert.match(homepage, /<div class="map-container">\s*<DirectionsMap \/>\s*<\/div>/);
     assert.doesNotMatch(homepage, /<iframe\b|maps\.google\.com\/maps\?|output=embed/);
     assert.doesNotMatch(homepage, /data-map-load|data-map-facade|syncMapLoading|loadInteractiveMap/);
-    assert.match(homepage, /<span>Open directions<\/span>/);
+    assert.match(homepage, /as="span">Open directions<\/Editable>/);
     // Both crops describe the route for assistive technology.
     assert.equal(directionsMap.match(/role="img"/g)?.length, 2);
     assert.match(directionsMap, /take the Brookhurst Street exit and go north to Slater Avenue\. Turn right on Slater Avenue\./);
@@ -42,7 +42,7 @@ test('the homepage map is drawn on the site, with no third-party map or cross ma
 test('homepage contact label and Scripture proportions reflect the requested balance', () => {
     assert.match(
         homepage,
-        /<strong>Mailbox<\/strong><p>360 E\. 1st Street, #856<br>Tustin, CA 92780<\/p>/,
+        />Mailbox<\/Editable><Editable[^>]*>360 E\. 1st Street, #856<br>Tustin, CA 92780<\/Editable>/,
     );
     assert.doesNotMatch(homepage, /<strong>Mail<\/strong><p>360 E\. 1st Street/);
     assert.match(
@@ -116,7 +116,7 @@ test('mobile weekly readings stay open and shared footer controls remain stable'
     );
     assert.match(
         homepage,
-        /<h3 class="home-reading-heading" id="weekly-readings-title">Explore this week's Torah readings<\/h3>/,
+        /<Editable field="home\.readings-title" as="h3" class="home-reading-heading" id="weekly-readings-title">Explore this week's Torah readings<\/Editable>/,
     );
     assert.doesNotMatch(homepage, /<details class="home-reading-card/);
     assert.doesNotMatch(homepage, /\.home-reading-details/);

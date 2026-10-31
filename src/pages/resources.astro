@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Editable from '../components/content/Editable.astro';
 import { canViewAdminPreview } from '../lib/adminPreview';
 import { candidateReadingList, resourceDirectorySections } from '../data/resourceDirectory';
 
@@ -18,20 +19,20 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     {canPreview ? (
         <div class="resources-preview">
             <aside class="resources-preview__notice" aria-labelledby="resources-preview-title">
-                <span class="resources-preview__badge"><i class="fas fa-lock" aria-hidden="true"></i> Internal admin preview</span>
-                <h2 id="resources-preview-title">The public still sees “under construction.”</h2>
-                <p>This working directory is visible only after a valid administrator session is confirmed on the server. The links were checked on September 1, 2026; the reading shelf still requires Rabbi Chuck's review before publication.</p>
+                <span class="resources-preview__badge"><i class="fas fa-lock" aria-hidden="true"></i> <Editable field="resources.preview-badge">Internal admin preview</Editable></span>
+                <Editable field="resources.preview-title" as="h2" id="resources-preview-title">The public still sees “under construction.”</Editable>
+                <Editable field="resources.preview-notice" as="p">This working directory is visible only after a valid administrator session is confirmed on the server. The links were checked on September 1, 2026; the reading shelf still requires Rabbi Chuck's review before publication.</Editable>
             </aside>
 
             <section class="resources-preview__start" aria-labelledby="where-to-begin-title">
 
-                <h2 id="where-to-begin-title">Where to begin</h2>
+                <Editable field="resources.begin-heading" as="h2" id="where-to-begin-title">Where to begin</Editable>
                 <ol>
-                    <li><strong>Begin here.</strong> Read <a href="/mission">our vision, commitments, affirmations, and values</a>, then review <a href="/umjc">our UMJC membership</a>.</li>
-                    <li><strong>Understand the movement.</strong> Compare the UMJC and MJRC primary statements below.</li>
-                    <li><strong>Build a weekly rhythm.</strong> Follow the congregation's readings and use the focused Torah and Jewish-text links as companions.</li>
-                    <li><strong>Go deeper deliberately.</strong> Compare short courses, certificates, and degree programs directly with each school.</li>
-                    <li><strong>Ask before treating a title as recommended.</strong> The reading shelf is a researched candidate list, not yet an official congregational endorsement.</li>
+                    <Editable field="resources.begin-1" as="li"><strong>Begin here.</strong> Read <a href="/mission">our vision, commitments, affirmations, and values</a>, then review <a href="/umjc">our UMJC membership</a>.</Editable>
+                    <Editable field="resources.begin-2" as="li"><strong>Understand the movement.</strong> Compare the UMJC and MJRC primary statements below.</Editable>
+                    <Editable field="resources.begin-3" as="li"><strong>Build a weekly rhythm.</strong> Follow the congregation's readings and use the focused Torah and Jewish-text links as companions.</Editable>
+                    <Editable field="resources.begin-4" as="li"><strong>Go deeper deliberately.</strong> Compare short courses, certificates, and degree programs directly with each school.</Editable>
+                    <Editable field="resources.begin-5" as="li"><strong>Ask before treating a title as recommended.</strong> The reading shelf is a researched candidate list, not yet an official congregational endorsement.</Editable>
                 </ol>
             </section>
 
@@ -39,15 +40,17 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
                 <section class="resources-preview__section" id={section.id} aria-labelledby={`${section.id}-title`}>
                     <div class="resources-preview__section-heading">
 
-                        <h2 id={`${section.id}-title`}>{section.title}</h2>
-                        <p>{section.intro}</p>
+                        <Editable field={`resources.${section.id}.title`} as="h2" id={`${section.id}-title`}>{section.title}</Editable>
+                        <Editable field={`resources.${section.id}.intro`} as="p">{section.intro}</Editable>
                     </div>
                     <div class="resources-preview__grid">
-                        {section.entries.map((entry) => (
+                        {section.entries.map((entry) => {
+                            const slug = entry.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                            return (
                             <article class="resources-preview__card">
-                                <h3 class="icon-heading"><i class={entry.icon + ' editorial-icon'} aria-hidden="true"></i><span>{entry.name}</span></h3>
-                                <p>{entry.summary}</p>
-                                {entry.note && <p class="resources-preview__context"><strong>Context:</strong> {entry.note}</p>}
+                                <h3 class="icon-heading"><i class={entry.icon + ' editorial-icon'} aria-hidden="true"></i><Editable field={`resources.${slug}.name`}>{entry.name}</Editable></h3>
+                                <Editable field={`resources.${slug}.summary`} as="p">{entry.summary}</Editable>
+                                {entry.note && <Editable field={`resources.${slug}.note`} as="p" class="resources-preview__context"><strong>Context:</strong> {entry.note}</Editable>}
                                 <div class="resources-preview__links">
                                     {entry.links.map((link) => (
                                         <a href={link.url} target="_blank" rel="noopener noreferrer">
@@ -56,7 +59,8 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
                                     ))}
                                 </div>
                             </article>
-                        ))}
+                            );
+                        })}
                     </div>
                 </section>
             ))}
@@ -64,32 +68,35 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
             <section class="resources-preview__section resources-preview__reading" aria-labelledby="reading-list-title">
                 <div class="resources-preview__section-heading">
 
-                    <h2 id="reading-list-title">Candidate reading shelf</h2>
-                    <p>Every title has a primary author or publisher reference plus a plain, non-affiliate Amazon search link. Confirm, reorder, add, or remove titles before making this public.</p>
+                    <Editable field="resources.reading-heading" as="h2" id="reading-list-title">Candidate reading shelf</Editable>
+                    <Editable field="resources.reading-intro" as="p">Every title has a primary author or publisher reference plus a plain, non-affiliate Amazon search link. Confirm, reorder, add, or remove titles before making this public.</Editable>
                 </div>
                 <div class="resources-preview__books">
-                    {candidateReadingList.map((book, index) => (
+                    {candidateReadingList.map((book, index) => {
+                        const slug = book.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                        return (
                         <article class="resources-preview__book">
                             <span class="resources-preview__book-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                             <div>
-                                <h3>{book.title}</h3>
-                                <p class="resources-preview__author">{book.author}</p>
-                                <p>{book.summary}</p>
+                                <Editable field={`resources.book-${slug}.title`} as="h3">{book.title}</Editable>
+                                <Editable field={`resources.book-${slug}.author`} as="p" class="resources-preview__author">{book.author}</Editable>
+                                <Editable field={`resources.book-${slug}.summary`} as="p">{book.summary}</Editable>
                                 <div class="resources-preview__links">
-                                    <a href={book.sourceUrl} target="_blank" rel="noopener noreferrer">Publisher or author page<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-                                    <a href={book.amazonUrl} target="_blank" rel="noopener noreferrer">Find on Amazon<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                                    <a href={book.sourceUrl} target="_blank" rel="noopener noreferrer"><Editable field="resources.book-source-label">Publisher or author page</Editable><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                                    <a href={book.amazonUrl} target="_blank" rel="noopener noreferrer"><Editable field="resources.book-amazon-label">Find on Amazon</Editable><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </article>
-                    ))}
+                        );
+                    })}
                 </div>
-                <p class="resources-preview__disclaimer">External resources are provided for review and context. A link does not mean Kehilat Ohr HaTorah endorses every statement, product, or practice on the linked site.</p>
+                <Editable field="resources.disclaimer" as="p" class="resources-preview__disclaimer">External resources are provided for review and context. A link does not mean Kehilat Ohr HaTorah endorses every statement, product, or practice on the linked site.</Editable>
             </section>
         </div>
     ) : (
     <section class="resources-pending pending-notice" aria-labelledby="resources-pending-title" data-admin-preview-gate>
-        <h2 id="resources-pending-title" class="icon-heading"><i class="fas fa-book-open editorial-icon" aria-hidden="true"></i><span>This section is under construction.</span></h2>
-        <p>We are reviewing this section and will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete.</p>
+        <h2 id="resources-pending-title" class="icon-heading"><i class="fas fa-book-open editorial-icon" aria-hidden="true"></i><Editable field="resources.pending-heading">This section is under construction.</Editable></h2>
+        <Editable field="resources.pending-text" as="p">We are reviewing this section and will publish an updated collection of organizations, educational resources, and recommended reading after that review is complete.</Editable>
     </section>
     )}
 </PageLayout>

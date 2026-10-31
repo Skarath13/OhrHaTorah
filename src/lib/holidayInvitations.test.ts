@@ -25,7 +25,7 @@ test('holiday invitations drop each service once it has ended', () => {
 test('the holidays page invites only to services that have not ended', () => {
     assert.match(holidaysSource, /const upcoming = services\.filter\(event => isUpcomingService\(event, clock\)\)/);
     assert.match(holidaysSource, /const kolNidre = upcoming\.find\(/);
-    assert.match(holidaysSource, /\{!seasonStarted && <p>Join us for Rosh HaShanah/);
+    assert.match(holidaysSource, /\{!seasonStarted && <Editable field="holidays\.lead-fall-invite" as="p">Join us for Rosh HaShanah/);
     assert.match(holidaysSource, /upcoming\.map\(event =>/);
     assert.match(holidaysSource, /Holiday service details will be posted here as they are confirmed\./);
 });

@@ -760,7 +760,57 @@
       transition: none;
     }
   }
+  /* Tiptap formatting bar: large labelled buttons, docked above the admin toolbar. */
+  :global(.oht-format-bar) {
+    position: fixed;
+    z-index: 10001;
+    left: 50%;
+    bottom: 96px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    padding: 8px;
+    border: 1px solid rgba(11, 45, 87, 0.22);
+    border-radius: 12px;
+    background: #fbf8f1;
+    box-shadow: 0 8px 22px rgba(6, 29, 53, 0.18);
+    font-family: var(--font-body, sans-serif);
+  }
+  :global(.oht-format-bar button) {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+    box-shadow: none;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid rgba(11, 45, 87, 0.28);
+    border-radius: 8px;
+    background: #fff;
+    color: #0b2d57;
+    font: 650 1rem/1 var(--font-body, sans-serif);
+    cursor: pointer;
+  }
+  :global(.oht-format-bar button:hover) { background: #f4efe3; }
+  :global(.oht-format-bar button[aria-pressed='true']) { background: #0b2d57; border-color: #0b2d57; color: #fff; }
+  :global(.oht-format-hint) { padding: 0 8px; color: #59677b; font-size: 1rem; }
+  :global(.oht-rich-editor) { outline: none; white-space: pre-wrap; }
+  :global(.oht-rich-inline), :global(.oht-rich-inline p) { display: inline; margin: 0; }
+  @media (max-width: 680px) {
+    :global(.oht-format-bar) { bottom: 140px; }
+    :global(.oht-format-hint) { display: none; }
+  }
 </style>
+
+<script>
+  import { installRichEditor } from '../../lib/richEditorClient';
+  installRichEditor();
+</script>
 
 <script is:inline>
 (function() {
@@ -905,6 +955,10 @@
       restoreOriginals();
     }
 
+    if (currentlyEditing && currentlyEditing._ohtSession) {
+      cancelEditing(currentlyEditing);
+    }
+
     isEditMode = false;
     document.body.classList.remove('admin-edit-mode');
 
@@ -964,63 +1018,72 @@
       return;
     }
 
-    startEditing(element);
+    startEditing(element, { x: e.clientX, y: e.clientY });
   }
 
-  function startEditing(element) {
+  // Text editing runs through Tiptap (src/lib/richEditorTiptap.ts), loaded on
+  // first use. Values are saved as rich-text JSON; the page re-renders with the
+  // same allowlist renderer the server uses.
+  async function startEditing(element, point) {
     const key = element.dataset.editable;
-
-    // Store original value if not already tracked
-    if (!pendingChanges.has(key)) {
-      pendingChanges.set(key, {
-        original: element.textContent,
-        current: element.textContent,
-        element: element,
-        type: 'text'
-      });
+    const rich = window.ohtRichEditor;
+    if (!rich) {
+      showToast('The editor is still loading. Please try again in a moment.', 'info');
+      return;
     }
 
-    // Make editable
-    element.setAttribute('contenteditable', 'true');
-    element.classList.add('actively-editing');
-    element.focus();
-
-    // Select all text for easy replacement
-    const selection = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents(element);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
     currentlyEditing = element;
+    element.classList.add('actively-editing');
+    const originalHTML = pendingChanges.has(key) ? pendingChanges.get(key).originalHTML : element.innerHTML;
 
-    // Handle paste to strip HTML
-    element.addEventListener('paste', handlePaste);
+    let session;
+    try {
+      session = await rich.mount(element, element.dataset.rich === 'block' ? 'block' : 'inline', point || null);
+    } catch (err) {
+      element.classList.remove('actively-editing');
+      currentlyEditing = null;
+      showToast('The editor could not start. Please refresh the page.', 'error');
+      return;
+    }
 
-    // Handle input for live tracking
-    element.addEventListener('input', handleInput);
+    // Another element was clicked while the editor was loading.
+    if (currentlyEditing !== element) {
+      session.cancel();
+      element.classList.remove('actively-editing');
+      return;
+    }
+
+    element._ohtSession = session;
+    if (!pendingChanges.has(key)) {
+      pendingChanges.set(key, {
+        original: session.baseline,
+        current: session.baseline,
+        originalHTML,
+        element: element,
+        type: 'rich'
+      });
+    }
+    updateUI();
   }
 
   function finishEditing(element) {
     if (!element) return;
 
-    element.removeAttribute('contenteditable');
     element.classList.remove('actively-editing');
-    element.removeEventListener('paste', handlePaste);
-    element.removeEventListener('input', handleInput);
-
+    const session = element._ohtSession;
+    element._ohtSession = null;
     const key = element.dataset.editable;
     const data = pendingChanges.get(key);
 
-    if (data) {
-      const newValue = element.textContent.trim();
+    if (session && data) {
+      const newValue = session.finish();
 
       if (newValue !== data.original) {
-        // Mark as modified
         data.current = newValue;
         element.classList.add('modified');
       } else {
-        // Value restored to original, remove from pending
+        // Back to the original: keep the exact original markup.
+        element.innerHTML = data.originalHTML;
         pendingChanges.delete(key);
         element.classList.remove('modified');
       }
@@ -1028,6 +1091,13 @@
 
     currentlyEditing = null;
     updateUI();
+  }
+
+  function cancelEditing(element) {
+    const session = element._ohtSession;
+    element._ohtSession = null;
+    if (session) session.cancel();
+    element.classList.remove('actively-editing');
   }
 
   function handlePaste(e) {
@@ -1437,6 +1507,28 @@
     // Only handle these when actively editing
     if (!currentlyEditing) return;
 
+    // Tiptap owns typing (Enter, lists). Escape cancels, Ctrl/Cmd+Enter finishes.
+    if (currentlyEditing.hasAttribute('data-editable')) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        const element = currentlyEditing;
+        const key = element.dataset.editable;
+        const data = pendingChanges.get(key);
+        cancelEditing(element);
+        if (data) {
+          element.innerHTML = data.originalHTML;
+          pendingChanges.delete(key);
+          element.classList.remove('modified');
+        }
+        currentlyEditing = null;
+        updateUI();
+      } else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        finishEditing(currentlyEditing);
+      }
+      return;
+    }
+
     const isMultiline = isMultilineElement(currentlyEditing);
 
     // Escape: Cancel and restore
@@ -1488,7 +1580,7 @@
     }
 
     // Finish editing when clicking outside the element
-    if (currentlyEditing && !currentlyEditing.contains(e.target)) {
+    if (currentlyEditing && !currentlyEditing.contains(e.target) && !e.target.closest('.oht-format-bar')) {
       // Check if it's a Brit Chadashah element
       if (currentlyEditing.hasAttribute('data-brit-editable')) {
         finishBritEditing(currentlyEditing);
@@ -1511,7 +1603,7 @@
     let errorCount = 0;
 
     for (const [key, data] of pendingChanges) {
-      if (data.type === 'text') {
+      if (data.type === 'text' || data.type === 'rich') {
         try {
           const response = await fetch('/api/content', {
             method: 'POST',
@@ -1519,7 +1611,7 @@
             body: JSON.stringify({
               key,
               value: data.current,
-              contentType: 'text'
+              contentType: data.type === 'rich' ? 'json' : 'text'
             })
           });
 
@@ -1529,6 +1621,7 @@
             savedCount++;
             data.element.classList.remove('modified');
             data.original = data.current; // Update baseline
+            if (data.type === 'rich') data.originalHTML = data.element.innerHTML;
             pendingChanges.delete(key);
           } else {
             // Check for CSRF error
@@ -1627,7 +1720,10 @@
 
   function restoreOriginals() {
     for (const [key, data] of pendingChanges) {
-      if (data.type === 'text' || data.type === 'brit') {
+      if (data.type === 'rich') {
+        cancelEditing(data.element);
+        data.element.innerHTML = data.originalHTML;
+      } else if (data.type === 'text' || data.type === 'brit') {
         data.element.textContent = data.original;
       } else if (data.type === 'image') {
         data.element.src = data.original;

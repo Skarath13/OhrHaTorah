@@ -1,0 +1,21 @@
+---
+// Admin-editable text. The slot is the default copy; a saved override from
+// `site_content` replaces it. `block` allows paragraphs, headings and lists
+// (use a block-level tag); otherwise the text stays inline (bold, italic,
+// links, line breaks), safe inside headings, buttons and spans.
+import type { HTMLTag } from 'astro/types';
+import { renderTextOverride } from '../../lib/siteContent';
+
+interface Props {
+  field: string;
+  as?: HTMLTag;
+  block?: boolean;
+  [attribute: string]: unknown;
+}
+
+const { field, as: Tag = 'span', block = false, ...attributes } = Astro.props;
+const override = renderTextOverride(Astro.locals.siteContent?.get(field), block ? 'block' : 'inline');
+---
+{override === null
+  ? <Tag {...attributes} data-editable={field} data-rich={block ? 'block' : 'inline'}><slot /></Tag>
+  : <Tag {...attributes} data-editable={field} data-rich={block ? 'block' : 'inline'} set:html={override} />}

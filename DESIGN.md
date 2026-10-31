@@ -204,7 +204,9 @@ full hairline border.
 2. Add the route to `pageSections` in `PageLayout.astro`.
 3. Compose with the editorial classes above; scoped `<style>` only for what they
    lack, using `--interior-*` tokens.
-4. Copy follows `CONTENT_VOICE.md`. Editable text uses `data-editable="key"`.
+4. Copy follows `CONTENT_VOICE.md`. Wrap every piece of copy in
+   `<Editable field="<page>.<block>">` and content photos in `<EditableImage>`
+   (see `docs/editable-content.md`).
 5. To make the page private, put it under a prefix listed in `exclusiveAreas`
    (`src/lib/exclusiveAccess.ts`); see `docs/exclusive-access.md`.
 6. Check 390px and 1440px widths, contrast, 44px targets, reduced motion.

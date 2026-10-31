@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getContent, setContent, deleteContent } from '../../../lib/db';
 import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFTokenFromRequest } from '../../../lib/auth';
 import { recordContentRevision, getRevisionHistory } from '../../../lib/revisions';
+import { validateSiteContentWrite } from '../../../lib/siteContent';
 
 export const GET: APIRoute = async ({ params, locals, request }) => {
   try {
@@ -147,6 +148,14 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     }
 
     const decodedKey = decodeURIComponent(key);
+
+    const writeCheck = validateSiteContentWrite(decodedKey, value, contentType);
+    if (!writeCheck.ok) {
+      return new Response(
+        JSON.stringify({ success: false, error: writeCheck.error }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Get old value for revision history
     const existingContent = await getContent(runtime.env.DB, decodedKey);

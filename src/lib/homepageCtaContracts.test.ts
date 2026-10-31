@@ -6,8 +6,8 @@ const homeSource = readFileSync(new URL('../pages/index.astro', import.meta.url)
 const homeStyles = readFileSync(new URL('../../public/styles/home.css', import.meta.url), 'utf8');
 
 test('homepage CTAs keep labels intact and stack the hero actions on narrow screens', () => {
-    assert.match(homeSource, /<span>Plan Your Visit<\/span>/);
-    assert.match(homeSource, /<span>Get Directions<\/span>/);
+    assert.match(homeSource, /as="span">Plan Your Visit<\/Editable>/);
+    assert.match(homeSource, /as="span">Get Directions<\/Editable>/);
     assert.match(homeStyles, /\.home-hero-actions \{[\s\S]*?width: min\(100%, 400px\);/);
     assert.match(
         homeStyles,

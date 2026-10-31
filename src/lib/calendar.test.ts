@@ -257,7 +257,7 @@ test('holiday presentation never suppresses congregation events with the same da
 
 test('homepage uses an event-first upcoming-date feed with no calendar grid or Google integration', () => {
     assert.match(homepage, /<CongregationCalendar\s*\/>/);
-    assert.match(homepage, /<h2 id="upcoming-dates">Congregational Calendar<\/h2>/);
+    assert.match(homepage, /<Editable field="home\.calendar-title" as="h2" id="upcoming-dates">Congregational Calendar<\/Editable>/);
     assert.doesNotMatch(homepage, /calendar\.google|googleapis\.com\/calendar|home-calendar-iframe/i);
     assert.doesNotMatch(calendarComponent, /fullcalendar|dayGrid|listMonth|Agenda|role="grid"/i);
     assert.doesNotMatch(packageManifest, /fullcalendar|temporal-polyfill/i);

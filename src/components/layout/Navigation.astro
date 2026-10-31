@@ -1,5 +1,6 @@
 ---
 // Navigation component with dropdown menus
+import Editable from '../content/Editable.astro';
 ---
 <!-- Desktop navigation. Mobile uses MobileNavigation.astro so legacy desktop
      selectors can never affect the mobile drawer geometry. -->
@@ -17,18 +18,18 @@
                     data-nav-disclosure
                 >
                     <i class="fas fa-home" aria-hidden="true"></i>
-                    <span>Welcome</span>
+                    <Editable field="nav.welcome" as="span">Welcome</Editable>
                     <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-welcome-submenu">
-                <a href="/" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-                <a href="/about" aria-label="About Kehilat Ohr HaTorah"><i class="fas fa-info-circle"></i> About Kehilat Ohr HaTorah</a>
-                <a href="/expect" aria-label="What to expect"><i class="fas fa-door-open"></i> What to expect</a>
-                <a href="/mission" aria-label="Our identity, vision, commitments, and values"><i class="fas fa-bullseye"></i> Our identity</a>
-                <a href="/#map" aria-label="Our location"><i class="fas fa-map-marker-alt"></i> Our location</a>
-                <a href="/faq" aria-label="FAQs"><i class="fas fa-question-circle"></i> FAQs</a>
-                <a href="/umjc" aria-label="UMJC membership"><i class="fas fa-handshake"></i> UMJC membership</a>
+                <a href="/" aria-label="Home"><i class="fas fa-home"></i> <Editable field="nav.home" as="span">Home</Editable></a>
+                <a href="/about" aria-label="About Kehilat Ohr HaTorah"><i class="fas fa-info-circle"></i> <Editable field="nav.about" as="span">About Kehilat Ohr HaTorah</Editable></a>
+                <a href="/expect" aria-label="What to expect"><i class="fas fa-door-open"></i> <Editable field="nav.expect" as="span">What to expect</Editable></a>
+                <a href="/mission" aria-label="Our identity, vision, commitments, and values"><i class="fas fa-bullseye"></i> <Editable field="nav.identity" as="span">Our identity</Editable></a>
+                <a href="/#map" aria-label="Our location"><i class="fas fa-map-marker-alt"></i> <Editable field="nav.location" as="span">Our location</Editable></a>
+                <a href="/faq" aria-label="FAQs"><i class="fas fa-question-circle"></i> <Editable field="nav.faq" as="span">FAQs</Editable></a>
+                <a href="/umjc" aria-label="UMJC membership"><i class="fas fa-handshake"></i> <Editable field="nav.umjc" as="span">UMJC membership</Editable></a>
             </div>
         </li>
         <li class="dropdown">
@@ -43,16 +44,16 @@
                     data-nav-disclosure
                 >
                     <i class="fas fa-calendar-check" aria-hidden="true"></i>
-                    <span class="nav-label-default">Events &amp; Services</span>
-                    <span class="nav-label-compact" aria-hidden="true">Services</span>
+                    <Editable field="nav.events" as="span" class="nav-label-default">Events &amp; Services</Editable>
+                    <Editable field="nav.events-compact" as="span" class="nav-label-compact" aria-hidden="true">Services</Editable>
                     <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-events-submenu">
-                <a href="/services" aria-label="Shabbat services"><i class="fas fa-star-of-david"></i> Shabbat services</a>
-                <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> Holidays</a>
-                <a href="/events" aria-label="Special events"><i class="fas fa-star"></i> Special events</a>
-                <a href="/youth" aria-label="Shabbat School for youth"><i class="fas fa-child"></i> Shabbat School for youth</a>
+                <a href="/services" aria-label="Shabbat services"><i class="fas fa-star-of-david"></i> <Editable field="nav.services" as="span">Shabbat services</Editable></a>
+                <a href="/holidays" aria-label="Holidays"><i class="fas fa-calendar-day"></i> <Editable field="nav.holidays" as="span">Holidays</Editable></a>
+                <a href="/events" aria-label="Special events"><i class="fas fa-star"></i> <Editable field="nav.special-events" as="span">Special events</Editable></a>
+                <a href="/youth" aria-label="Shabbat School for youth"><i class="fas fa-child"></i> <Editable field="nav.youth" as="span">Shabbat School for youth</Editable></a>
             </div>
         </li>
         <li class="dropdown">
@@ -67,13 +68,13 @@
                     data-nav-disclosure
                 >
                     <i class="fas fa-users" aria-hidden="true"></i>
-                    <span>Community</span>
+                    <Editable field="nav.community" as="span">Community</Editable>
                     <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-community-submenu">
-                <a href="/#congregation-calendar" aria-label="Congregational Calendar"><i class="fas fa-calendar-alt"></i> Congregational Calendar</a>
-                <a href="/israel" aria-label="Stand with Israel"><i class="fas fa-flag"></i> Stand with Israel</a>
+                <a href="/#congregation-calendar" aria-label="Congregational Calendar"><i class="fas fa-calendar-alt"></i> <Editable field="nav.calendar" as="span">Congregational Calendar</Editable></a>
+                <a href="/israel" aria-label="Stand with Israel"><i class="fas fa-flag"></i> <Editable field="nav.israel" as="span">Stand with Israel</Editable></a>
             </div>
         </li>
         <li class="dropdown">
@@ -88,13 +89,13 @@
                     data-nav-disclosure
                 >
                     <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-                    <span>Learn</span>
+                    <Editable field="nav.learn" as="span">Learn</Editable>
                     <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-learn-submenu">
-                <a href="/#shabbat-activities-section" aria-label="Weekly Torah readings"><i class="fas fa-scroll"></i> Weekly Torah readings</a>
-                <a href="/faq" aria-label="FAQs"><i class="fas fa-question-circle"></i> FAQs</a>
+                <a href="/#shabbat-activities-section" aria-label="Weekly Torah readings"><i class="fas fa-scroll"></i> <Editable field="nav.torah-readings" as="span">Weekly Torah readings</Editable></a>
+                <a href="/faq" aria-label="FAQs"><i class="fas fa-question-circle"></i> <Editable field="nav.faq" as="span">FAQs</Editable></a>
             </div>
         </li>
         <li class="dropdown">
@@ -109,18 +110,18 @@
                     data-nav-disclosure
                 >
                     <i class="fas fa-archive" aria-hidden="true"></i>
-                    <span>Resources</span>
+                    <Editable field="nav.resources" as="span">Resources</Editable>
                     <i class="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="dropdown-content" id="nav-resources-submenu">
-                <a href="/resources" aria-label="Messianic Jewish resources"><i class="fas fa-book-open"></i> Messianic Jewish resources</a>
-                <a href="/umjc" aria-label="UMJC membership"><i class="fas fa-handshake"></i> UMJC membership</a>
-                <a href="/#congregation-calendar" aria-label="Congregational Calendar"><i class="fas fa-calendar-alt"></i> Congregational Calendar</a>
+                <a href="/resources" aria-label="Messianic Jewish resources"><i class="fas fa-book-open"></i> <Editable field="nav.resources-list" as="span">Messianic Jewish resources</Editable></a>
+                <a href="/umjc" aria-label="UMJC membership"><i class="fas fa-handshake"></i> <Editable field="nav.umjc" as="span">UMJC membership</Editable></a>
+                <a href="/#congregation-calendar" aria-label="Congregational Calendar"><i class="fas fa-calendar-alt"></i> <Editable field="nav.calendar" as="span">Congregational Calendar</Editable></a>
             </div>
         </li>
-        <li><a href="/contact" aria-label="Contact us"><i class="fas fa-envelope"></i><span class="nav-label-default">Contact Us</span><span class="nav-label-compact" aria-hidden="true">Contact</span></a></li>
-        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i><span>Donate</span></a></li>
+        <li><a href="/contact" aria-label="Contact us"><i class="fas fa-envelope"></i><Editable field="nav.contact-us" as="span" class="nav-label-default">Contact Us</Editable><Editable field="nav.contact" as="span" class="nav-label-compact" aria-hidden="true">Contact</Editable></a></li>
+        <li><a href="/donate" class="donate-btn" aria-label="Donate"><i class="fas fa-heart"></i><Editable field="nav.donate" as="span">Donate</Editable></a></li>
     </ul>
 </nav>
 

@@ -18,6 +18,11 @@ primary source.
 - The site runs on Cloudflare Pages Functions; anything needing a separate Node
   server adds a new thing to host and maintain.
 
+## Decision (October 31, 2026)
+
+Adopted: **Tiptap 3.31.4** (pinned) inside the existing PIN inline editor.
+How it works and how to make new copy editable: `docs/editable-content.md`.
+
 ## Recommendation
 
 **Keep the existing PIN inline editor as the admin portal, and embed small

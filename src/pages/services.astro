@@ -1,42 +1,43 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Editable from '../components/content/Editable.astro';
 ---
 
 <PageLayout title="Shabbat Services - Kehilat Ohr HaTorah" pageTitle="Shabbat Services" pageIcon="fas fa-star-of-david" description="Saturday Shabbat services at Kehilat Ohr HaTorah with prayer, Torah, music, and discussion.">
-    <p class="intro-text"><strong>Join us each Saturday for Shabbat prayer, Torah, music, and fellowship.</strong></p>
+    <Editable field="services.intro" as="p" class="intro-text"><strong>Join us each Saturday for Shabbat prayer, Torah, music, and fellowship.</strong></Editable>
 
     <div class="service-schedule">
-        <h2><i class="fas fa-moon" aria-hidden="true"></i> Friday Evening</h2>
-        <p class="schedule-note">Festive Shabbat meals in the home</p>
+        <h2><i class="fas fa-moon" aria-hidden="true"></i> <Editable field="services.friday-heading">Friday Evening</Editable></h2>
+        <Editable field="services.friday-note" as="p" class="schedule-note">Festive Shabbat meals in the home</Editable>
 
-        <h2><i class="fas fa-sun" aria-hidden="true"></i> Saturday Service Schedule</h2>
+        <h2><i class="fas fa-sun" aria-hidden="true"></i> <Editable field="services.saturday-heading">Saturday Service Schedule</Editable></h2>
 
         <div class="timeline">
             <div class="timeline-item">
                 <div class="time-badge blue">2:30 PM</div>
                 <div class="timeline-content">
-                    <strong>Traditional and Messianic Jewish Music</strong>
-                    <p>Hebrew and English songs with congregational music and dance.</p>
+                    <Editable field="services.music-title" as="strong">Traditional and Messianic Jewish Music</Editable>
+                    <Editable field="services.music-description" as="p">Hebrew and English songs with congregational music and dance.</Editable>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="time-badge gold">3:00 PM</div>
                 <div class="timeline-content">
-                    <strong>Traditional Mincha Service</strong>
-                    <p>Hebrew prayer, Torah reading, and blessings, with guidance in English.</p>
+                    <Editable field="services.mincha-title" as="strong">Traditional Mincha Service</Editable>
+                    <Editable field="services.mincha-description" as="p">Hebrew prayer, Torah reading, and blessings, with guidance in English.</Editable>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="time-badge green">4:30 PM</div>
                 <div class="timeline-content">
-                    <strong>Kiddush, food, and discussion</strong>
+                    <Editable field="services.kiddush-title" as="strong">Kiddush, food, and discussion</Editable>
                 </div>
             </div>
         </div>
 
-        <p class="future-note"><i class="fas fa-clock" aria-hidden="true"></i> We plan to transition to morning services (<em>Shacharit</em>).</p>
+        <p class="future-note"><i class="fas fa-clock" aria-hidden="true"></i> <Editable field="services.shacharit-note">We plan to transition to morning services (<em>Shacharit</em>).</Editable></p>
     </div>
 
     <aside class="service-contact-strip" aria-labelledby="service-contact-title">
@@ -45,16 +46,16 @@ import PageLayout from '../layouts/PageLayout.astro';
                 <!-- Tabler Icons: message-question, MIT License -->
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"></path><path d="M8 13h6"></path><path d="M14 18h-1l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5"></path><path d="M19 22v.01"></path><path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path></svg>
             </span>
-            <h2 id="service-contact-title">Questions about Shabbat services?</h2>
+            <Editable field="services.contact-heading" as="h2" id="service-contact-title">Questions about Shabbat services?</Editable>
         </div>
         <div class="service-contact-actions">
             <a href="tel:+17144061513" aria-label="Call Kehilat Ohr HaTorah at (714) 406-1513">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path></svg>
-                <span>Call us</span>
+                <Editable field="services.contact-call">Call us</Editable>
             </a>
             <a href="mailto:OhrHaTorahOC@gmail.com" aria-label="Email Kehilat Ohr HaTorah at OhrHaTorahOC@gmail.com">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg>
-                <span>Email us</span>
+                <Editable field="services.contact-email">Email us</Editable>
             </a>
         </div>
     </aside>

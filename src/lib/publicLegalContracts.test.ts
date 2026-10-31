@@ -92,10 +92,10 @@ test('terms and accessibility pages make cautious, specific public commitments',
 });
 
 test('the footer restores the full update-request form without sending data to Web3Forms', () => {
-    assert.match(footerSource, /href="\/privacy">Privacy<\/a>/);
-    assert.match(footerSource, /href="\/website-use">Terms &amp; Conditions<\/a>/);
-    assert.match(footerSource, /href="\/accessibility">Accessibility<\/a>/);
-    assert.match(footerSource, /href="\/website-use#copyright-sources">Copyright &amp; sources<\/a>/);
+    assert.match(footerSource, /href="\/privacy"><Editable[^>]*>Privacy<\/Editable><\/a>/);
+    assert.match(footerSource, /href="\/website-use"><Editable[^>]*>Terms &amp; Conditions<\/Editable><\/a>/);
+    assert.match(footerSource, /href="\/accessibility"><Editable[^>]*>Accessibility<\/Editable><\/a>/);
+    assert.match(footerSource, /href="\/website-use#copyright-sources"><Editable[^>]*>Copyright &amp; sources<\/Editable><\/a>/);
 
     assert.match(footerSource, /name="firstName"[^>]*\brequired\b/);
     assert.match(footerSource, /name="lastName"[^>]*\brequired\b/);

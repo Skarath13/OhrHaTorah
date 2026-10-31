@@ -1,0 +1,25 @@
+---
+// Admin-replaceable image. `src` is the default; a saved override (an uploaded
+// image URL on this site) replaces it. Alt text is editable under `<field>.alt`.
+import { imageOverrideSrc } from '../../lib/siteContent';
+
+interface Props {
+  field: string;
+  src: string;
+  alt: string;
+  [attribute: string]: unknown;
+}
+
+const { field, src, alt, ...attributes } = Astro.props;
+const content = Astro.locals.siteContent;
+const altOverride = content?.get(`${field}.alt`);
+const overrideSrc = imageOverrideSrc(content?.get(field));
+const resolvedSrc = overrideSrc ?? src;
+// An override replaces the whole image, so the default's responsive candidates must not win.
+if (overrideSrc) {
+  delete attributes.srcset;
+  delete attributes.sizes;
+}
+const resolvedAlt = altOverride?.contentType === 'text' ? altOverride.value : alt;
+---
+<img {...attributes} src={resolvedSrc} alt={resolvedAlt} data-editable-image={field} />

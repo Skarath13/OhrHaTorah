@@ -2,6 +2,7 @@
 /// <reference types="astro/client" />
 
 import type { User } from './lib/auth';
+import type { SiteContentMap } from './lib/siteContent';
 import type { DonorRecordRequestQueueMessage } from './lib/givingRecordRequests';
 import type { UpdateRequestQueueMessage } from './lib/updateRequests';
 
@@ -19,5 +20,6 @@ declare namespace App {
       };
     };
     user?: User;
+    siteContent?: SiteContentMap;
   }
 }

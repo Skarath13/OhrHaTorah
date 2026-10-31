@@ -1,20 +1,21 @@
 ---
 // Weekly Parashah Card - fetches Torah readings from Hebcal API
+import Editable from '../content/Editable.astro';
 ---
 <div class="feature-card">
     <div class="card-header" role="heading" aria-level="3">
-        <span id="parashah-header" data-editable="parashah-card-title">Weekly Parashah</span>
+        <Editable field="parashah-card-title" id="parashah-header">Weekly Parashah</Editable>
     </div>
     <div class="card-body">
         <div class="parashah-info">
-            <span class="parashah-label" data-editable="parashah-label-text">Parashah:</span>
+            <Editable field="parashah-label-text" class="parashah-label">Parashah:</Editable>
             <span id="parashah-name">Loading...</span>
         </div>
 
         <!-- Reading Cycle Toggle -->
         <div class="reading-cycle-toggle" role="tablist" aria-label="Torah reading cycle">
             <button class="cycle-btn active" id="annual-cycle-tab" type="button" role="tab" aria-selected="true" aria-controls="annual-readings" data-cycle="annual" disabled>
-                Full annual reading
+                <Editable field="parashah.annual-tab">Full annual reading</Editable>
             </button>
             <button class="cycle-btn" id="triennial-cycle-tab" type="button" role="tab" aria-selected="false" aria-controls="triennial-readings" data-cycle="triennial" disabled hidden>
                 Triennial reading
@@ -30,13 +31,13 @@
         <div id="annual-readings" class="reading-section" role="tabpanel" aria-labelledby="annual-cycle-tab">
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-label" data-editable="torah-label-text">Torah:</span>
+                    <Editable field="torah-label-text" class="reading-label">Torah:</Editable>
                 </div>
                 <div class="reading-text" id="torah-reading">Loading...</div>
             </div>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-label" data-editable="haftarah-label-text">Haftarah:</span>
+                    <Editable field="haftarah-label-text" class="reading-label">Haftarah:</Editable>
                 </div>
                 <div class="reading-text" id="haftarah-reading">Loading...</div>
             </div>
@@ -46,13 +47,13 @@
         <div id="triennial-readings" class="reading-section" role="tabpanel" aria-labelledby="triennial-cycle-tab" hidden>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-label">Torah:</span>
+                    <Editable field="torah-label-text" class="reading-label">Torah:</Editable>
                 </div>
                 <div class="reading-text" id="triennial-torah-reading">Loading...</div>
             </div>
             <div class="parashah-info">
                 <div class="reading-row">
-                    <span class="reading-label">Haftarah:</span>
+                    <Editable field="haftarah-label-text" class="reading-label">Haftarah:</Editable>
                 </div>
                 <div class="reading-text" id="triennial-haftarah-reading">Loading...</div>
             </div>
@@ -61,7 +62,7 @@
         <!-- Brit Chadashah -->
         <div class="parashah-info brit-chadashah-section">
             <div class="reading-row">
-                <span class="reading-label" data-editable="brit-label-text">Brit Chadashah:</span>
+                <Editable field="brit-label-text" class="reading-label">Brit Chadashah:</Editable>
             </div>
             <div class="reading-text" id="brit-reading" data-brit-editable="true" data-brit-key="">Loading...</div>
             <p class="brit-reading-source" id="brit-reading-source"></p>

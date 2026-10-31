@@ -1,13 +1,14 @@
 ---
 import { canViewAdminPreview } from '../../lib/adminPreview';
+import Editable from '../content/Editable.astro';
 const canPreview = canViewAdminPreview(Astro.locals.user);
 ---
 <dialog id="underConstructionModal" class="uc-modal" aria-labelledby="uc-title" aria-describedby="uc-description" data-can-preview={String(canPreview)}>
     <div class="uc-modal-content">
-        <h2 id="uc-title"><i class="uc-symbol fas fa-person-digging" aria-hidden="true"></i><span>We’re preparing this page.</span></h2>
-        <p id="uc-description">This section is under construction. Please check back soon.</p>
-        <form method="dialog"><button class="uc-close" autofocus>Back to browsing <i class="fas fa-arrow-right" aria-hidden="true"></i></button></form>
-        <p class="uc-timing">This notice closes automatically. Interact with it to keep it open.</p>
+        <h2 id="uc-title"><i class="uc-symbol fas fa-person-digging" aria-hidden="true"></i><Editable field="construction.title" as="span">We’re preparing this page.</Editable></h2>
+        <Editable field="construction.text" as="p" id="uc-description">This section is under construction. Please check back soon.</Editable>
+        <form method="dialog"><button class="uc-close" autofocus><Editable field="construction.back">Back to browsing</Editable> <i class="fas fa-arrow-right" aria-hidden="true"></i></button></form>
+        <Editable field="construction.timing" as="p" class="uc-timing">This notice closes automatically. Interact with it to keep it open.</Editable>
     </div>
 </dialog>
 <style>

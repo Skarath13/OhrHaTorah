@@ -1,14 +1,15 @@
 ---
 // Shows the upcoming Shabbat's dates alongside the full afternoon gathering start.
+import Editable from '../content/Editable.astro';
 ---
 <div class="sidebar-widget live-clock-widget" aria-labelledby="sidebar-date-time-title">
-    <div class="widget-header" data-editable="sidebar-date-time-header" role="heading" aria-level="3">
-        <span id="sidebar-date-time-title" data-editable="sidebar-date-time-title">Upcoming Shabbat</span>
+    <div class="widget-header" role="heading" aria-level="3">
+        <Editable field="sidebar-date-time-title" id="sidebar-date-time-title">Upcoming Shabbat</Editable>
     </div>
     <div class="widget-content">
         <div class="clock-stack">
             <div class="clock-panel">
-                <div class="clock-label" id="sidebar-hebrew-date-label">Hebrew Date</div>
+                <Editable field="clock.hebrew-date-label" as="div" class="clock-label" id="sidebar-hebrew-date-label">Hebrew Date</Editable>
                 <div
                     class="clock-hebrew-date"
                     id="sidebar-hebrew-date"
@@ -18,7 +19,7 @@
                 >Loading...</div>
             </div>
             <div class="clock-panel clock-panel-date">
-                <div class="clock-label" id="sidebar-gregorian-date-label">Gregorian Date</div>
+                <Editable field="clock.gregorian-date-label" as="div" class="clock-label" id="sidebar-gregorian-date-label">Gregorian Date</Editable>
                 <time
                     class="clock-gregorian-date"
                     id="sidebar-gregorian-date"
@@ -26,7 +27,7 @@
                 ></time>
             </div>
             <div class="clock-panel clock-panel-service">
-                <div class="clock-label" id="sidebar-mincha-service-label">Afternoon Shabbat Service</div>
+                <Editable field="clock.service-label" as="div" class="clock-label" id="sidebar-mincha-service-label">Afternoon Shabbat Service</Editable>
                 <time
                     class="clock-service-time"
                     datetime="14:30"

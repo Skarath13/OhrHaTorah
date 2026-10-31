@@ -192,10 +192,10 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionSource, /pageTitle="Our Identity"/);
     assert.match(missionSource, /stylesheets=\{\['\/styles\/mission\.css\?v=20260901-approved-copy-1'\]\}/);
     assert.match(missionSource, /<nav class="identity-navigation" aria-label="On this page">/);
-    assert.match(missionSource, /<h2 id="vision-and-purpose-title">Vision and Purpose<\/h2>/);
-    assert.match(missionSource, /<h2 id="core-commitments-title">Core Commitments and Affirmations<\/h2>/);
-    assert.match(missionSource, /<h2 id="core-values-title">Core Values<\/h2>/);
-    assert.match(missionSource, /<h3 id=\{`\$\{group\.id\}-title`\}>\{group\.heading\}<\/h3>/);
+    assert.match(missionSource, /<Editable field="mission\.vision-heading" as="h2" id="vision-and-purpose-title">Vision and Purpose<\/Editable>/);
+    assert.match(missionSource, /<Editable field="mission\.commitments-heading" as="h2" id="core-commitments-title">Core Commitments and Affirmations<\/Editable>/);
+    assert.match(missionSource, /<Editable field="mission\.values-heading" as="h2" id="core-values-title">Core Values<\/Editable>/);
+    assert.match(missionSource, /as="h3" id=\{`\$\{group\.id\}-title`\}>\{group\.heading\}<\/Editable>/);
     assert.match(missionSource, /visionAndPurposeParagraphs\.map/);
     assert.match(missionSource, /coreCommitments\.map/);
     assert.match(missionSource, /coreValueGroups\.map/);

@@ -77,8 +77,8 @@ test('mobile navigation is an isolated native dialog with native disclosure grou
     assert.match(mobileNavigationSource, /mobileNavDialog\.close\(\)/);
     assert.match(mobileNavigationSource, /mobileNavScroll\.scrollTop = 0/);
     assert.match(mobileNavigationSource, /mobile-nav-landing-link" href="\/"/);
-    assert.match(mobileNavigationSource, /href="\/services"[^\n]+<span>Shabbat services<\/span>/);
-    assert.match(mobileNavigationSource, /href="\/resources"[^\n]+<span>Messianic Jewish resources<\/span>/);
+    assert.match(mobileNavigationSource, /href="\/services"[^\n]+>Shabbat services<\/Editable>/);
+    assert.match(mobileNavigationSource, /href="\/resources"[^\n]+>Messianic Jewish resources<\/Editable>/);
     assert.doesNotMatch(mobileNavigationSource, /overview|Common questions/);
 
     for (const legacyClass of ['nav-container', 'nav-links', 'dropdown', 'nav-overlay', 'nav-drawer']) {

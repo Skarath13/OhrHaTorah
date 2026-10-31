@@ -1,14 +1,15 @@
 ---
 // Mobile-only navigation. It intentionally uses unique class names and a
 // top-layer dialog so legacy desktop navigation CSS cannot change its geometry.
+import Editable from '../content/Editable.astro';
 ---
 
 <dialog class="mobile-nav-dialog" id="mobile-nav-dialog" aria-label="Primary navigation">
     <header class="mobile-nav-header">
-        <span class="mobile-nav-title">Menu</span>
+        <span class="mobile-nav-title"><Editable field="nav.menu">Menu</Editable></span>
         <button class="mobile-nav-close" id="mobile-nav-close" type="button" aria-label="Close navigation menu">
             <i class="fas fa-times" aria-hidden="true"></i>
-            <span>Close</span>
+            <Editable field="nav.close" as="span">Close</Editable>
         </button>
     </header>
 
@@ -17,79 +18,79 @@
             <details class="mobile-nav-group">
                 <summary class="mobile-nav-summary">
                     <i class="fas fa-home mobile-nav-icon" aria-hidden="true"></i>
-                    <span>Welcome</span>
+                    <Editable field="nav.welcome" as="span">Welcome</Editable>
                     <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
                 </summary>
                 <div class="mobile-nav-submenu">
-                    <a class="mobile-nav-submenu-link mobile-nav-landing-link" href="/"><i class="fas fa-home" aria-hidden="true"></i><span>Home</span></a>
-                    <a class="mobile-nav-submenu-link" href="/about"><i class="fas fa-info-circle" aria-hidden="true"></i><span>About Kehilat Ohr HaTorah</span></a>
-                    <a class="mobile-nav-submenu-link" href="/expect"><i class="fas fa-door-open" aria-hidden="true"></i><span>What to expect</span></a>
-                    <a class="mobile-nav-submenu-link" href="/mission"><i class="fas fa-bullseye" aria-hidden="true"></i><span>Our identity</span></a>
-                    <a class="mobile-nav-submenu-link" href="/#map"><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span>Our location</span></a>
-                    <a class="mobile-nav-submenu-link" href="/faq"><i class="fas fa-question-circle" aria-hidden="true"></i><span>FAQs</span></a>
-                    <a class="mobile-nav-submenu-link" href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i><span>UMJC membership</span></a>
+                    <a class="mobile-nav-submenu-link mobile-nav-landing-link" href="/"><i class="fas fa-home" aria-hidden="true"></i><Editable field="nav.home" as="span">Home</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/about"><i class="fas fa-info-circle" aria-hidden="true"></i><Editable field="nav.about" as="span">About Kehilat Ohr HaTorah</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/expect"><i class="fas fa-door-open" aria-hidden="true"></i><Editable field="nav.expect" as="span">What to expect</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/mission"><i class="fas fa-bullseye" aria-hidden="true"></i><Editable field="nav.identity" as="span">Our identity</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/#map"><i class="fas fa-map-marker-alt" aria-hidden="true"></i><Editable field="nav.location" as="span">Our location</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/faq"><i class="fas fa-question-circle" aria-hidden="true"></i><Editable field="nav.faq" as="span">FAQs</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i><Editable field="nav.umjc" as="span">UMJC membership</Editable></a>
                 </div>
             </details>
 
             <details class="mobile-nav-group">
                 <summary class="mobile-nav-summary">
                     <i class="fas fa-calendar-check mobile-nav-icon" aria-hidden="true"></i>
-                    <span>Events &amp; Services</span>
+                    <Editable field="nav.events" as="span">Events &amp; Services</Editable>
                     <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
                 </summary>
                 <div class="mobile-nav-submenu">
-                    <a class="mobile-nav-submenu-link" href="/services"><i class="fas fa-star-of-david" aria-hidden="true"></i><span>Shabbat services</span></a>
-                    <a class="mobile-nav-submenu-link" href="/holidays"><i class="fas fa-calendar-day" aria-hidden="true"></i><span>Holidays</span></a>
-                    <a class="mobile-nav-submenu-link" href="/events"><i class="fas fa-star" aria-hidden="true"></i><span>Special events</span></a>
-                    <a class="mobile-nav-submenu-link" href="/youth"><i class="fas fa-child" aria-hidden="true"></i><span>Shabbat School for youth</span></a>
+                    <a class="mobile-nav-submenu-link" href="/services"><i class="fas fa-star-of-david" aria-hidden="true"></i><Editable field="nav.services" as="span">Shabbat services</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/holidays"><i class="fas fa-calendar-day" aria-hidden="true"></i><Editable field="nav.holidays" as="span">Holidays</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/events"><i class="fas fa-star" aria-hidden="true"></i><Editable field="nav.special-events" as="span">Special events</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/youth"><i class="fas fa-child" aria-hidden="true"></i><Editable field="nav.youth" as="span">Shabbat School for youth</Editable></a>
                 </div>
             </details>
 
             <details class="mobile-nav-group">
                 <summary class="mobile-nav-summary">
                     <i class="fas fa-users mobile-nav-icon" aria-hidden="true"></i>
-                    <span>Community</span>
+                    <Editable field="nav.community" as="span">Community</Editable>
                     <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
                 </summary>
                 <div class="mobile-nav-submenu">
-                    <a class="mobile-nav-submenu-link" href="/#congregation-calendar"><i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Congregational Calendar</span></a>
-                    <a class="mobile-nav-submenu-link" href="/israel"><i class="fas fa-flag" aria-hidden="true"></i><span>Stand with Israel</span></a>
+                    <a class="mobile-nav-submenu-link" href="/#congregation-calendar"><i class="fas fa-calendar-alt" aria-hidden="true"></i><Editable field="nav.calendar" as="span">Congregational Calendar</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/israel"><i class="fas fa-flag" aria-hidden="true"></i><Editable field="nav.israel" as="span">Stand with Israel</Editable></a>
                 </div>
             </details>
 
             <details class="mobile-nav-group">
                 <summary class="mobile-nav-summary">
                     <i class="fas fa-graduation-cap mobile-nav-icon" aria-hidden="true"></i>
-                    <span>Learn</span>
+                    <Editable field="nav.learn" as="span">Learn</Editable>
                     <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
                 </summary>
                 <div class="mobile-nav-submenu">
-                    <a class="mobile-nav-submenu-link" href="/#shabbat-activities-section"><i class="fas fa-scroll" aria-hidden="true"></i><span>Weekly Torah readings</span></a>
-                    <a class="mobile-nav-submenu-link" href="/faq"><i class="fas fa-question-circle" aria-hidden="true"></i><span>FAQs</span></a>
+                    <a class="mobile-nav-submenu-link" href="/#shabbat-activities-section"><i class="fas fa-scroll" aria-hidden="true"></i><Editable field="nav.torah-readings" as="span">Weekly Torah readings</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/faq"><i class="fas fa-question-circle" aria-hidden="true"></i><Editable field="nav.faq" as="span">FAQs</Editable></a>
                 </div>
             </details>
 
             <details class="mobile-nav-group">
                 <summary class="mobile-nav-summary">
                     <i class="fas fa-archive mobile-nav-icon" aria-hidden="true"></i>
-                    <span>Resources</span>
+                    <Editable field="nav.resources" as="span">Resources</Editable>
                     <i class="fas fa-chevron-down mobile-nav-chevron" aria-hidden="true"></i>
                 </summary>
                 <div class="mobile-nav-submenu">
-                    <a class="mobile-nav-submenu-link" href="/resources"><i class="fas fa-book-open" aria-hidden="true"></i><span>Messianic Jewish resources</span></a>
-                    <a class="mobile-nav-submenu-link" href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i><span>UMJC membership</span></a>
-                    <a class="mobile-nav-submenu-link" href="/#congregation-calendar"><i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Congregational Calendar</span></a>
+                    <a class="mobile-nav-submenu-link" href="/resources"><i class="fas fa-book-open" aria-hidden="true"></i><Editable field="nav.resources-list" as="span">Messianic Jewish resources</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/umjc"><i class="fas fa-handshake" aria-hidden="true"></i><Editable field="nav.umjc" as="span">UMJC membership</Editable></a>
+                    <a class="mobile-nav-submenu-link" href="/#congregation-calendar"><i class="fas fa-calendar-alt" aria-hidden="true"></i><Editable field="nav.calendar" as="span">Congregational Calendar</Editable></a>
                 </div>
             </details>
 
             <a class="mobile-nav-direct-link" href="/contact">
                 <i class="fas fa-envelope mobile-nav-icon" aria-hidden="true"></i>
-                <span>Contact</span>
+                <Editable field="nav.contact" as="span">Contact</Editable>
             </a>
 
             <a class="mobile-nav-direct-link" href="/donate">
                 <i class="fas fa-heart mobile-nav-icon" aria-hidden="true"></i>
-                <span>Donate</span>
+                <Editable field="nav.donate" as="span">Donate</Editable>
             </a>
         </div>
     </div>

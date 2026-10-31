@@ -1,6 +1,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { validateSession, getSessionFromCookies } from './lib/auth';
 import { requiresAdminAuthentication } from './lib/adminPreview';
+import { loadSiteContent } from './lib/siteContent';
 import {
   ACCESS_GATE_PATH,
   findExclusiveArea,
@@ -52,6 +53,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
       gate.searchParams.set('area', exclusiveArea.area);
       gate.searchParams.set('next', pathname + context.url.search);
       return context.redirect(gate.pathname + gate.search, 303);
+    }
+  }
+
+  // Saved admin edits for page rendering. Failure keeps the default copy.
+  if (db && context.request.method === 'GET' && !pathname.startsWith('/api/')) {
+    try {
+      context.locals.siteContent = await loadSiteContent(db);
+    } catch {
+      console.warn('Site content unavailable');
     }
   }
 

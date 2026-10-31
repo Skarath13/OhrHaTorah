@@ -6,6 +6,7 @@ import Navigation from '../components/layout/Navigation.astro';
 import MobileNavigation from '../components/layout/MobileNavigation.astro';
 import Footer from '../components/layout/Footer.astro';
 import SectionDivider from '../components/layout/SectionDivider.astro';
+import Editable from '../components/content/Editable.astro';
 
 interface Props {
   title?: string;
@@ -106,6 +107,7 @@ const currentPath = Astro.url.pathname === '/'
     ? '/'
     : Astro.url.pathname.replace(/\/+$/, '');
 const pageSection = pageSections[currentPath] ?? pageSections['/about'];
+const pageTitleField = `page.${currentPath.replace(/^\//, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/-+$/, '') || 'home'}.title`;
 const showSectionCrumb = pageSection.sectionHref !== currentPath;
 ---
 
@@ -123,13 +125,13 @@ const showSectionCrumb = pageSection.sectionHref !== currentPath;
                     <div class="page-hero-title">
                         <nav class="site-breadcrumbs" aria-label="Breadcrumb">
                             <ol>
-                                <li><a href="/">Home</a></li>
+                                <li><a href="/"><Editable field="nav.home">Home</Editable></a></li>
                                 {showSectionCrumb && <li><a href={pageSection.sectionHref}>{pageSection.section}</a></li>}
-                                <li aria-current="page"><span>{pageTitle}</span></li>
+                                <li aria-current="page"><Editable field={pageTitleField} as="span">{pageTitle}</Editable></li>
                             </ol>
                         </nav>
                         <span class="page-hero-rule" aria-hidden="true"></span>
-                        <h1 id="page-title">{pageTitle}</h1>
+                        <Editable field={pageTitleField} as="h1" id="page-title">{pageTitle}</Editable>
                     </div>
                 </div>
             </header>
@@ -143,7 +145,7 @@ const showSectionCrumb = pageSection.sectionHref !== currentPath;
                 <slot />
             </div>
             <div class="page-footer">
-                    <a href="/" class="page-home-link">Return home <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                    <a href="/" class="page-home-link"><Editable field="page.return-home">Return home</Editable> <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
             </article>
             <SectionDivider from="var(--interior-cream)" to="var(--site-chrome-navy)" shape="rise" />

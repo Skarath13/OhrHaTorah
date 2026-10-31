@@ -44,15 +44,15 @@ test('Shabbat at a glance keeps candle lighting and presents the upcoming Shabba
 });
 
 test('Shabbat gathering uses the approved afternoon schedule', () => {
-    assert.match(homeSource, /<h3>Afternoon Shabbat Service<\/h3>/);
+    assert.match(homeSource, /<Editable field="home\.shabbat-service-title" as="h3">Afternoon Shabbat Service<\/Editable>/);
     for (const source of [homeSource, servicesSource]) {
         assert.match(source, /We plan to transition to morning services \(<em>Shacharit<\/em>\)\./);
     }
-    assert.match(homeSource, /<time datetime="14:30">2:30 p\.m\.<\/time>[\s\S]*?<strong>Messianic Jewish Music and Dance<\/strong>/);
-    assert.match(homeSource, /<time datetime="15:00">3:00 p\.m\.<\/time>[\s\S]*?<strong>Traditional Prayers and Torah Service<\/strong>/);
-    assert.match(homeSource, /<time datetime="16:30">4:30 p\.m\.<\/time>[\s\S]*?<strong>Kiddush, food, and discussion<\/strong>/);
+    assert.match(homeSource, /<time datetime="14:30">2:30 p\.m\.<\/time>[\s\S]*?>Messianic Jewish Music and Dance<\/Editable>/);
+    assert.match(homeSource, /<time datetime="15:00">3:00 p\.m\.<\/time>[\s\S]*?>Traditional Prayers and Torah Service<\/Editable>/);
+    assert.match(homeSource, /<time datetime="16:30">4:30 p\.m\.<\/time>[\s\S]*?>Kiddush, food, and discussion<\/Editable>/);
     for (const source of [servicesSource, expectSource]) {
-        assert.match(source, /<div class="time-badge green">4:30 PM<\/div>[\s\S]*?<strong>Kiddush, food, and discussion<\/strong>/);
+        assert.match(source, /(?:<div class="time-badge green">|<Editable field="[^"]+" as="div" class="time-badge green">)4:30 PM<\/(?:div|Editable)>[\s\S]*?(?:<strong>|<Editable field="[^"]+" as="strong">)Kiddush, food, and discussion<\/(?:strong|Editable)>/);
         assert.doesNotMatch(source, /Interactive Scripture Discussion/);
     }
     assert.doesNotMatch(homeSource, /home-timeline-row-friday|Shabbat begins at home|Festive Shabbat meals in the home/);
@@ -71,8 +71,8 @@ test('the leadership-approved welcome, About Us, and rabbi copy remains exact', 
     assert.match(homeSource, /Join with us in exploring the unmeasurable riches of Messiah Yeshua\./);
     assert.match(homeSource, /Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English\./);
     assert.match(homeSource, /Translations are always provided for spoken and written Hebrew\. Teachings and homilies are mostly in English\./);
-    assert.match(homeSource, /data-editable="rabbi-bio">\{rabbi\.bio\}<\/p>/);
-    assert.match(homeSource, /data-editable="rabbi-bio-extended">\{rabbi\.bioExtended\}<\/p>/);
+    assert.match(homeSource, /<Editable field="rabbi-bio" as="p" class="home-rabbi-bio">\{rabbi\.bio\}<\/Editable>/);
+    assert.match(homeSource, /<Editable field="rabbi-bio-extended" as="p" class="home-rabbi-bio">\{rabbi\.bioExtended\}<\/Editable>/);
 
     assert.equal(
         rabbi.bio,
@@ -97,7 +97,7 @@ test('Shabbat timeline times scale legibly without squeezing service titles', ()
 });
 
 test('homepage identity links lead to complete statements without excerpting commitments or values', () => {
-    assert.match(homeSource, /<h2 id="home-purpose-title">Our Identity<\/h2>/);
+    assert.match(homeSource, /<Editable field="home\.identity-title" as="h2" id="home-purpose-title">Our Identity<\/Editable>/);
     for (const anchor of ['vision-and-purpose', 'core-commitments', 'core-values']) {
         assert.ok(homeSource.includes(`href="/mission#${anchor}"`));
         assert.ok(readSource('../pages/mission.astro').includes(`id="${anchor}"`));

@@ -5,6 +5,7 @@ import {
     officialIdentityStatementRemainder,
 } from '../../data/congregationIdentity';
 import { UPDATE_REQUEST_CONSENT } from '../../lib/updateRequests';
+import Editable from '../content/Editable.astro';
 
 const currentYear = new Date().getFullYear();
 const turnstileSiteKey = Astro.locals.runtime?.env?.TURNSTILE_SITE_KEY ?? '';
@@ -14,26 +15,26 @@ const updateRequestId = crypto.randomUUID();
     <div class="footer-content">
         <div class="footer-grid">
             <div class="footer-col">
-                <h2><i class="fas fa-star-of-david" aria-hidden="true"></i><strong>{congregationName}</strong></h2>
-                <p><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</p>
+                <h2><i class="fas fa-star-of-david" aria-hidden="true"></i><Editable field="footer.identity-title" as="strong">{congregationName}</Editable></h2>
+                <Editable field="footer.identity-text" as="p"><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</Editable>
             </div>
 
             <div class="footer-col">
-                <h2><i class="fas fa-link" aria-hidden="true"></i> Quick links</h2>
+                <h2><i class="fas fa-link" aria-hidden="true"></i> <Editable field="footer.links-title" as="span">Quick links</Editable></h2>
                 <ul class="footer-links">
-                    <li><a href="/about"><i class="fas fa-chevron-right" aria-hidden="true"></i> About us</a></li>
-                    <li><a href="/services"><i class="fas fa-chevron-right" aria-hidden="true"></i> Shabbat services</a></li>
-                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right" aria-hidden="true"></i> Congregational Calendar</a></li>
-                    <li><a href="/resources"><i class="fas fa-chevron-right" aria-hidden="true"></i> Resources</a></li>
-                    <li><a href="/donate"><i class="fas fa-chevron-right" aria-hidden="true"></i> Donate</a></li>
-                    <li><a href="/contact"><i class="fas fa-chevron-right" aria-hidden="true"></i> Contact</a></li>
+                    <li><a href="/about"><i class="fas fa-chevron-right" aria-hidden="true"></i> <Editable field="footer.link-about" as="span">About us</Editable></a></li>
+                    <li><a href="/services"><i class="fas fa-chevron-right" aria-hidden="true"></i> <Editable field="footer.link-services" as="span">Shabbat services</Editable></a></li>
+                    <li><a href="/#congregation-calendar"><i class="fas fa-chevron-right" aria-hidden="true"></i> <Editable field="footer.link-calendar" as="span">Congregational Calendar</Editable></a></li>
+                    <li><a href="/resources"><i class="fas fa-chevron-right" aria-hidden="true"></i> <Editable field="footer.link-resources" as="span">Resources</Editable></a></li>
+                    <li><a href="/donate"><i class="fas fa-chevron-right" aria-hidden="true"></i> <Editable field="footer.link-donate" as="span">Donate</Editable></a></li>
+                    <li><a href="/contact"><i class="fas fa-chevron-right" aria-hidden="true"></i> <Editable field="footer.link-contact" as="span">Contact</Editable></a></li>
                     <li><a href="#" id="adminLoginLink"><i class="fas fa-chevron-right" aria-hidden="true"></i> Admin</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
-                <h2><i class="fas fa-envelope" aria-hidden="true"></i> Stay connected</h2>
-                <p>Stay in the loop with a friendly weekly email about gatherings and community news, plus occasional important updates.</p>
+                <h2><i class="fas fa-envelope" aria-hidden="true"></i> <Editable field="footer.connect-title" as="span">Stay connected</Editable></h2>
+                <Editable field="footer.connect-text" as="p">Stay in the loop with a friendly weekly email about gatherings and community news, plus occasional important updates.</Editable>
                 <form id="newsletter-form" class="newsletter-form-expanded" method="post" action="/api/update-requests">
                     <input type="hidden" name="submissionId" value={updateRequestId}>
                     <input type="text" name="website" class="newsletter-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -84,35 +85,35 @@ const updateRequestId = crypto.randomUUID();
             </div>
 
             <div class="footer-col">
-                <h2><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contact</h2>
+                <h2><i class="fas fa-map-marker-alt" aria-hidden="true"></i> <Editable field="footer.contact-title" as="span">Contact</Editable></h2>
                 <ul class="footer-contact">
                     <li>
                         <i class="fas fa-envelope" aria-hidden="true"></i>
-                        <span class="footer-contact-copy">OhrHaTorahOC@gmail.com</span>
+                        <Editable field="footer.contact-email" as="span" class="footer-contact-copy">OhrHaTorahOC@gmail.com</Editable>
                     </li>
                     <li>
                         <i class="fas fa-phone" aria-hidden="true"></i>
-                        <span class="footer-contact-copy">(714) 406-1513</span>
+                        <Editable field="footer.contact-phone" as="span" class="footer-contact-copy">(714) 406-1513</Editable>
                     </li>
                     <li>
                         <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                        <span class="footer-contact-copy"><strong>Services:</strong> 10460 Slater Ave<br>Fountain Valley, CA 92708</span>
+                        <Editable field="footer.contact-services" as="span" class="footer-contact-copy"><strong>Services:</strong> 10460 Slater Ave<br>Fountain Valley, CA 92708</Editable>
                     </li>
                     <li>
                         <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                        <span class="footer-contact-copy"><strong>Mailing:</strong> 360 E. 1st Street, #856<br>Tustin, CA 92780</span>
+                        <Editable field="footer.contact-mailing" as="span" class="footer-contact-copy"><strong>Mailing:</strong> 360 E. 1st Street, #856<br>Tustin, CA 92780</Editable>
                     </li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; {currentYear} <strong>{congregationName}</strong>. All rights reserved.</p>
+            <p>&copy; {currentYear} <strong>{congregationName}</strong>. <Editable field="footer.rights" as="span">All rights reserved.</Editable></p>
             <nav class="footer-legal" aria-label="Website policies">
-                <a href="/privacy">Privacy</a>
-                <a href="/website-use">Terms &amp; Conditions</a>
-                <a href="/accessibility">Accessibility</a>
-                <a href="/website-use#copyright-sources">Copyright &amp; sources</a>
+                <a href="/privacy"><Editable field="footer.legal-privacy" as="span">Privacy</Editable></a>
+                <a href="/website-use"><Editable field="footer.legal-terms" as="span">Terms &amp; Conditions</Editable></a>
+                <a href="/accessibility"><Editable field="footer.legal-accessibility" as="span">Accessibility</Editable></a>
+                <a href="/website-use#copyright-sources"><Editable field="footer.legal-copyright" as="span">Copyright &amp; sources</Editable></a>
             </nav>
         </div>
     </div>

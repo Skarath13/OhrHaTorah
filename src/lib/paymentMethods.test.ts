@@ -108,7 +108,7 @@ test('provider themes use recognizable palettes and provider-issued payment arti
 
 test('the giving experience stays minimal, parallel, and progressively discloses secondary details', () => {
     assert.match(donateSource, /class="giving-heading"/);
-    assert.match(donateSource, /<h1 id="giving-title">Donate<\/h1>/);
+    assert.match(donateSource, /<Editable field="donate\.heading" as="h1" id="giving-title">Donate<\/Editable>/);
     assert.match(donateSource, /class="provider-primary-action zelle-primary-action"/);
     assert.match(donateSource, /class="provider-primary-action paypal-primary-action"/);
     assert.equal([...donateSource.matchAll(/class="provider-primary-action /g)].length, 2);

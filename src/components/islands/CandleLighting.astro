@@ -1,29 +1,30 @@
 ---
 // Candle Lighting Times Card - Using Hebcal API
+import Editable from '../content/Editable.astro';
 ---
 <div class="feature-card">
     <div class="card-header" role="heading" aria-level="3">
-        <span data-editable="candle-card-title">Shabbat Candle Lighting</span>
+        <Editable field="candle-card-title">Shabbat Candle Lighting</Editable>
     </div>
     <div class="card-body">
         <div class="candle-times" id="candle-times" aria-live="polite" aria-busy="true">
             <div class="candle-row">
                 <div>
-                    <div class="candle-day">This Friday</div>
+                    <Editable field="candle.this-friday" as="div" class="candle-day">This Friday</Editable>
                     <div class="candle-date" id="next-friday-date">Loading...</div>
                 </div>
                 <div class="candle-time"><span id="candle-time-1">Loading...</span></div>
             </div>
             <div class="candle-row">
                 <div>
-                    <div class="candle-day">Havdalah</div>
+                    <Editable field="candle.havdalah" as="div" class="candle-day">Havdalah</Editable>
                     <div class="candle-date" id="havdalah-date">Loading...</div>
                 </div>
                 <div class="candle-time"><span id="havdalah-time">Loading...</span></div>
             </div>
             <div class="candle-row">
                 <div>
-                    <div class="candle-day">Next Friday</div>
+                    <Editable field="candle.next-friday" as="div" class="candle-day">Next Friday</Editable>
                     <div class="candle-date" id="following-friday-date">Loading...</div>
                 </div>
                 <div class="candle-time"><span id="candle-time-2">Loading...</span></div>

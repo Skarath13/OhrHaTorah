@@ -1,6 +1,7 @@
 ---
 import IdentityRichText from '../components/IdentityRichText.astro';
 import PageLayout from '../layouts/PageLayout.astro';
+import Editable from '../components/content/Editable.astro';
 import {
     coreCommitments,
     coreValueGroups,
@@ -10,6 +11,11 @@ import {
 } from '../data/congregationIdentity';
 
 const officialIdentityStatementRemainder = officialIdentityStatement.slice(congregationName.length);
+
+// Identity copy has no ids for vision paragraphs and values, so editor keys come
+// from the first words of the approved text (scoped by group id for values).
+const identityKey = (text: string) =>
+    text.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ').slice(0, 6).join('-');
 ---
 
 <PageLayout
@@ -22,30 +28,30 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
         <section class="identity-introduction" aria-labelledby="identity-introduction-title">
             <div class="identity-introduction__copy">
 
-                <h2 id="identity-introduction-title">Covenant faithfulness. Jewish community life. Messiah Yeshua.</h2>
-                <p class="identity-statement"><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</p>
+                <Editable field="mission.intro-heading" as="h2" id="identity-introduction-title">Covenant faithfulness. Jewish community life. Messiah Yeshua.</Editable>
+                <Editable field="mission.intro-statement" as="p" class="identity-statement"><strong>{congregationName}</strong>{officialIdentityStatementRemainder}</Editable>
             </div>
 
             <nav class="identity-navigation" aria-label="On this page">
                 <a href="#vision-and-purpose">
                     <span class="identity-navigation__mark" aria-hidden="true"></span>
                     <span>
-                        <strong>Vision and Purpose</strong>
-                        <small>Three foundational statements</small>
+                        <Editable field="mission.nav-vision-and-purpose.title" as="strong">Vision and Purpose</Editable>
+                        <Editable field="mission.nav-vision-and-purpose.subtitle" as="small">Three foundational statements</Editable>
                     </span>
                 </a>
                 <a href="#core-commitments">
                     <span class="identity-navigation__mark" aria-hidden="true"></span>
                     <span>
-                        <strong>Core Commitments</strong>
-                        <small>Commitments and affirmations</small>
+                        <Editable field="mission.nav-core-commitments.title" as="strong">Core Commitments</Editable>
+                        <Editable field="mission.nav-core-commitments.subtitle" as="small">Commitments and affirmations</Editable>
                     </span>
                 </a>
                 <a href="#core-values">
                     <span class="identity-navigation__mark" aria-hidden="true"></span>
                     <span>
-                        <strong>Core Values</strong>
-                        <small>Three areas of shared life</small>
+                        <Editable field="mission.nav-core-values.title" as="strong">Core Values</Editable>
+                        <Editable field="mission.nav-core-values.subtitle" as="small">Three areas of shared life</Editable>
                     </span>
                 </a>
             </nav>
@@ -56,7 +62,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 <span class="identity-section-heading__mark" aria-hidden="true"></span>
                 <div>
 
-                    <h2 id="vision-and-purpose-title">Vision and Purpose</h2>
+                    <Editable field="mission.vision-heading" as="h2" id="vision-and-purpose-title">Vision and Purpose</Editable>
                 </div>
             </header>
 
@@ -64,7 +70,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 {visionAndPurposeParagraphs.map((paragraph, index) => (
                     <article class={`identity-vision__statement${index === 2 ? ' identity-vision__statement--feature' : ''}`}>
                         <span class="identity-vision__mark" aria-hidden="true"></span>
-                        <p><IdentityRichText content={paragraph} /></p>
+                        <Editable field={`mission.vision-${identityKey(paragraph.text)}`} as="p"><IdentityRichText content={paragraph} /></Editable>
                     </article>
                 ))}
             </div>
@@ -81,7 +87,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 <span class="identity-section-heading__mark" aria-hidden="true"></span>
                 <div>
 
-                    <h2 id="core-commitments-title">Core Commitments and Affirmations</h2>
+                    <Editable field="mission.commitments-heading" as="h2" id="core-commitments-title">Core Commitments and Affirmations</Editable>
                 </div>
             </header>
 
@@ -89,7 +95,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 {coreCommitments.map((commitment) => (
                     <li id={commitment.id}>
                         <span class="identity-commitment-list__mark" aria-hidden="true"></span>
-                        <p><IdentityRichText content={commitment} /></p>
+                        <Editable field={`mission.commitment-${commitment.id}`} as="p"><IdentityRichText content={commitment} /></Editable>
                     </li>
                 ))}
             </ul>
@@ -100,7 +106,7 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                 <span class="identity-section-heading__mark" aria-hidden="true"></span>
                 <div>
 
-                    <h2 id="core-values-title">Core Values</h2>
+                    <Editable field="mission.values-heading" as="h2" id="core-values-title">Core Values</Editable>
                 </div>
             </header>
 
@@ -109,14 +115,14 @@ const officialIdentityStatementRemainder = officialIdentityStatement.slice(congr
                     <section id={group.id} class="identity-value-group" aria-labelledby={`${group.id}-title`}>
                         <header class="identity-value-group__heading">
                             <span class="identity-value-group__symbol" aria-hidden="true">✦</span>
-                            <h3 id={`${group.id}-title`}>{group.heading}</h3>
+                            <Editable field={`mission.group-${group.id}.heading`} as="h3" id={`${group.id}-title`}>{group.heading}</Editable>
                         </header>
 
                         <ul class="identity-value-list">
                             {group.values.map((value) => (
                                 <li>
                                     <span aria-hidden="true">✦</span>
-                                    <p><IdentityRichText content={value} /></p>
+                                    <Editable field={`mission.value-${group.id}-${identityKey(value.text)}`} as="p"><IdentityRichText content={value} /></Editable>
                                 </li>
                             ))}
                         </ul>

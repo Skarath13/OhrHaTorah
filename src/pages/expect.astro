@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Editable from '../components/content/Editable.astro';
 import ConstructionNotice from '../components/layout/ConstructionNotice.astro';
 import { canViewAdminPreview } from '../lib/adminPreview';
 const canPreview = canViewAdminPreview(Astro.locals.user);
@@ -12,32 +13,32 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     {canPreview ? (<div data-admin-draft>
         <p class="editorial-note">Internal admin preview · This page is under construction.</p>
 
-    <p class="intro-text"><strong>Your first visit should feel comfortable and unhurried. Here is what to expect.</strong></p>
+    <Editable field="expect.intro" as="p" class="intro-text"><strong>Your first visit should feel comfortable and unhurried. Here is what to expect.</strong></Editable>
 
     <!-- Service Flow -->
     <div class="section">
-        <h3><i class="fas fa-clock"></i> Saturday Service Flow</h3>
+        <h3><i class="fas fa-clock"></i> <Editable field="expect.flow-heading">Saturday Service Flow</Editable></h3>
         <div class="timeline">
             <div class="timeline-item">
-                <div class="time-badge blue">2:30 PM</div>
+                <Editable field="expect.flow-music.time" as="div" class="time-badge blue">2:30 PM</Editable>
                 <div class="timeline-content">
-                    <strong>Messianic Music and Dance</strong>
-                    <p>We begin with music and Israeli dance. You are welcome to join or simply watch.</p>
+                    <Editable field="expect.flow-music.title" as="strong">Messianic Music and Dance</Editable>
+                    <Editable field="expect.flow-music.text" as="p">We begin with music and Israeli dance. You are welcome to join or simply watch.</Editable>
                 </div>
             </div>
 
             <div class="timeline-item">
-                <div class="time-badge gold">3:00 PM</div>
+                <Editable field="expect.flow-mincha.time" as="div" class="time-badge gold">3:00 PM</Editable>
                 <div class="timeline-content">
-                    <strong>Traditional Mincha Service</strong>
-                    <p>The Mincha service includes Hebrew and English prayer, Torah reading, and blessings.</p>
+                    <Editable field="expect.flow-mincha.title" as="strong">Traditional Mincha Service</Editable>
+                    <Editable field="expect.flow-mincha.text" as="p">The Mincha service includes Hebrew and English prayer, Torah reading, and blessings.</Editable>
                 </div>
             </div>
 
             <div class="timeline-item">
-                <div class="time-badge green">4:30 PM</div>
+                <Editable field="expect.flow-kiddush.time" as="div" class="time-badge green">4:30 PM</Editable>
                 <div class="timeline-content">
-                    <strong>Kiddush, food, and discussion</strong>
+                    <Editable field="expect.flow-kiddush.title" as="strong">Kiddush, food, and discussion</Editable>
                 </div>
             </div>
         </div>
@@ -45,47 +46,47 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
     <!-- What You'll Experience -->
     <div class="section">
-        <h3><i class="fas fa-star"></i> What You'll Experience</h3>
+        <h3><i class="fas fa-star"></i> <Editable field="expect.experience-heading">What You'll Experience</Editable></h3>
         <div class="experience-grid">
             <div class="experience-item">
-                <h4 class="icon-heading"><i class="fas fa-language editorial-icon" aria-hidden="true"></i><span>Hebrew & English</span></h4>
-                <p>Services blend Hebrew prayers with English explanations. Prayer books provided with transliteration.</p>
+                <h4 class="icon-heading"><i class="fas fa-language editorial-icon" aria-hidden="true"></i><Editable field="expect.experience-language.title">Hebrew & English</Editable></h4>
+                <Editable field="expect.experience-language.text" as="p">Services blend Hebrew prayers with English explanations. Prayer books provided with transliteration.</Editable>
             </div>
             <div class="experience-item">
-                <h4 class="icon-heading"><i class="fas fa-music editorial-icon" aria-hidden="true"></i><span>Joyful Music</span></h4>
-                <p>Contemporary Israeli and Messianic songs with guitar, keyboard, vocals, and congregational dance.</p>
+                <h4 class="icon-heading"><i class="fas fa-music editorial-icon" aria-hidden="true"></i><Editable field="expect.experience-music.title">Joyful Music</Editable></h4>
+                <Editable field="expect.experience-music.text" as="p">Contemporary Israeli and Messianic songs with guitar, keyboard, vocals, and congregational dance.</Editable>
             </div>
             <div class="experience-item">
-                <h4 class="icon-heading"><i class="fas fa-scroll editorial-icon" aria-hidden="true"></i><span>Torah Reading</span></h4>
-                <p>Weekly Torah portion read in Hebrew with English translation and commentary.</p>
+                <h4 class="icon-heading"><i class="fas fa-scroll editorial-icon" aria-hidden="true"></i><Editable field="expect.experience-torah.title">Torah Reading</Editable></h4>
+                <Editable field="expect.experience-torah.text" as="p">Weekly Torah portion read in Hebrew with English translation and commentary.</Editable>
             </div>
             <div class="experience-item">
-                <h4 class="icon-heading"><i class="fas fa-comments editorial-icon" aria-hidden="true"></i><span>Discussion Time</span></h4>
-                <p>Interactive study where questions are welcomed and insights are shared together.</p>
+                <h4 class="icon-heading"><i class="fas fa-comments editorial-icon" aria-hidden="true"></i><Editable field="expect.experience-discussion.title">Discussion Time</Editable></h4>
+                <Editable field="expect.experience-discussion.text" as="p">Interactive study where questions are welcomed and insights are shared together.</Editable>
             </div>
         </div>
     </div>
 
     <!-- Practical Information -->
     <div class="section practical-section">
-        <h3><i class="fas fa-info-circle"></i> Practical Information</h3>
+        <h3><i class="fas fa-info-circle"></i> <Editable field="expect.practical-heading">Practical Information</Editable></h3>
         <div class="practical-grid">
             <div class="practical-item">
-                <h4><i class="fas fa-tshirt"></i> What to Wear</h4>
+                <h4><i class="fas fa-tshirt"></i> <Editable field="expect.practical-wear-heading">What to Wear</Editable></h4>
                 <ul>
-                    <li>Casual to semi-formal attire</li>
-                    <li>Modest clothing preferred</li>
-                    <li>Men may wear kippah (optional for visitors)</li>
-                    <li>Comfortable shoes for dancing</li>
+                    <li><Editable field="expect.wear-casual">Casual to semi-formal attire</Editable></li>
+                    <li><Editable field="expect.wear-modest">Modest clothing preferred</Editable></li>
+                    <li><Editable field="expect.wear-kippah">Men may wear kippah (optional for visitors)</Editable></li>
+                    <li><Editable field="expect.wear-shoes">Comfortable shoes for dancing</Editable></li>
                 </ul>
             </div>
             <div class="practical-item">
-                <h4><i class="fas fa-book"></i> What's Provided</h4>
+                <h4><i class="fas fa-book"></i> <Editable field="expect.practical-provided-heading">What's Provided</Editable></h4>
                 <ul>
-                    <li>Siddur (prayer book) with transliteration</li>
-                    <li>Torah reading handouts</li>
-                    <li>Visitor welcome packet</li>
-                    <li>Explanation of customs and prayers</li>
+                    <li><Editable field="expect.provided-siddur">Siddur (prayer book) with transliteration</Editable></li>
+                    <li><Editable field="expect.provided-handouts">Torah reading handouts</Editable></li>
+                    <li><Editable field="expect.provided-packet">Visitor welcome packet</Editable></li>
+                    <li><Editable field="expect.provided-explanation">Explanation of customs and prayers</Editable></li>
                 </ul>
             </div>
         </div>
@@ -93,13 +94,13 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
     <!-- First-Time Visitor Tips -->
     <div class="tips-section">
-        <h3><i class="fas fa-lightbulb"></i> First-Time Visitor Tips</h3>
+        <h3><i class="fas fa-lightbulb"></i> <Editable field="expect.tips-heading">First-Time Visitor Tips</Editable></h3>
         <ul>
-            <li><strong>Arrive 10 to 15 minutes early</strong> to get settled</li>
-            <li><strong>No Hebrew is required.</strong> Transliteration and English explanations are provided</li>
-            <li><strong>Participate at your own pace</strong></li>
-            <li><strong>Stay after the service</strong> to meet the community</li>
-            <li><strong>No advance notice is needed</strong></li>
+            <li><Editable field="expect.tip-arrive-early"><strong>Arrive 10 to 15 minutes early</strong> to get settled</Editable></li>
+            <li><Editable field="expect.tip-no-hebrew"><strong>No Hebrew is required.</strong> Transliteration and English explanations are provided</Editable></li>
+            <li><Editable field="expect.tip-own-pace"><strong>Participate at your own pace</strong></Editable></li>
+            <li><Editable field="expect.tip-stay-after"><strong>Stay after the service</strong> to meet the community</Editable></li>
+            <li><Editable field="expect.tip-no-notice"><strong>No advance notice is needed</strong></Editable></li>
         </ul>
     </div>
 

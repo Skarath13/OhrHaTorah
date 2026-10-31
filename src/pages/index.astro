@@ -13,6 +13,8 @@ import CalendarManager from '../components/admin/CalendarManager.astro';
 import DirectionsMap from '../components/maps/DirectionsMap.astro';
 // Admin functionality moved to /admin/ routes
 import { rabbi } from '../data/rabbi';
+import Editable from '../components/content/Editable.astro';
+import EditableImage from '../components/content/EditableImage.astro';
 ---
 
 <BaseLayout stylesheets={["/styles/home.css?rev=20261028-hero-scroll-1"]}>
@@ -64,13 +66,13 @@ import { rabbi } from '../data/rabbi';
                     </script>
                 </div>
                 <div class="home-hero-copy">
-                    <h1 id="home-hero-title" data-editable="main-title">
-                        <span data-editable="main-title-text">Shalom, and welcome to Kehilat Ohr HaTorah</span>
+                    <h1 id="home-hero-title">
+                        <Editable field="main-title-text">Shalom, and welcome to Kehilat Ohr HaTorah</Editable>
                     </h1>
-                    <p class="home-hero-intro" data-editable="intro-text-1"><strong>Kehilat Ohr HaTorah</strong> is a Messianic Jewish synagogue in Orange County, California. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families.</p>
+                    <Editable field="intro-text-1" as="p" class="home-hero-intro"><strong>Kehilat Ohr HaTorah</strong> is a Messianic Jewish synagogue in Orange County, California. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families.</Editable>
                     <div class="home-hero-actions" aria-label="Plan a visit">
                         <a class="home-button home-button-primary" href="#location">
-                            <span>Plan Your Visit</span>
+                            <Editable field="home.hero-cta-visit" as="span">Plan Your Visit</Editable>
                             <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
                         <a
@@ -79,7 +81,7 @@ import { rabbi } from '../data/rabbi';
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <span>Get Directions</span>
+                            <Editable field="home.hero-cta-directions" as="span">Get Directions</Editable>
                             <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -91,60 +93,61 @@ import { rabbi } from '../data/rabbi';
             <div class="home-shell">
                 <div class="home-section-heading home-about-heading" data-home-motion-heading>
                     <div>
-                        <h2 id="about-us-title-heading" data-editable="about-us-title">
-                            <span data-editable="about-us-title-text">About Us</span>
+                        <h2 id="about-us-title-heading">
+                            <Editable field="about-us-title-text">About Us</Editable>
                         </h2>
                     </div>
-                    <p data-editable="intro-text-2"><strong>Kehilat Ohr HaTorah:</strong> where Torah, tradition, Jewish life, and faith in Yeshua unite as one.</p>
+                    <Editable field="intro-text-2" as="p"><strong>Kehilat Ohr HaTorah:</strong> where Torah, tradition, Jewish life, and faith in Yeshua unite as one.</Editable>
                 </div>
 
                 <div class="home-about-grid">
                     <div class="home-about-copy">
-                        <p data-editable="about-us-text-1"><strong>Kehilat Ohr HaTorah</strong> is a newly formed UMJC-affiliated Messianic Jewish synagogue in Orange County, California. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families. Join with us in exploring the unmeasurable riches of Messiah Yeshua. Learn with us as we grow in our Torah covenant faithfulness and love for <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span></span> and His Word.</p>
+                        <Editable field="about-us-text-1" as="p"><strong>Kehilat Ohr HaTorah</strong> is a newly formed UMJC-affiliated Messianic Jewish synagogue in Orange County, California. We warmly welcome both Jewish and non-Jewish individuals, interfaith couples, and families. Join with us in exploring the unmeasurable riches of Messiah Yeshua. Learn with us as we grow in our Torah covenant faithfulness and love for <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span></span> and His Word.</Editable>
 
-                        <p data-editable="about-us-text-2">Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English. Translations are always provided for spoken and written Hebrew. Teachings and homilies are mostly in English.</p>
+                        <Editable field="about-us-text-2" as="p">Our Shabbat services – prayers, Torah readings, and music – utilize both Hebrew and English. Translations are always provided for spoken and written Hebrew. Teachings and homilies are mostly in English.</Editable>
                     </div>
 
                     <div class="home-about-aside">
                         <div class="home-about-visual">
-                            <img class="home-about-atmosphere" src="/images/generated/olive-branches.webp" srcset="/images/generated/olive-branches-480.webp 480w, /images/generated/olive-branches-960.webp 960w, /images/generated/olive-branches.webp 1536w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of olive branches in warm sunlight" width="1536" height="1024" loading="lazy" decoding="async">
+                            <EditableImage field="home.image-olive-branches" class="home-about-atmosphere" src="/images/generated/olive-branches.webp" srcset="/images/generated/olive-branches-480.webp 480w, /images/generated/olive-branches-960.webp 960w, /images/generated/olive-branches.webp 1536w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of olive branches in warm sunlight" width="1536" height="1024" loading="lazy" decoding="async" />
                             <figure class="home-rabbi-portrait">
                                 <div class="home-rabbi-image-frame">
-                                    <img
+                                    <EditableImage
+                                        field="home.image-rabbi"
                                         src="/images/optimized/rabbi-charles-ott.webp"
                                         alt={rabbi.name}
                                         width="640"
                                         height="640"
                                         loading="lazy"
                                         decoding="async"
-                                    >
+                                    />
                                 </div>
                                 <figcaption>
-                                    <p class="home-rabbi-name" data-editable="rabbi-name">{rabbi.name}</p>
-                                    <p class="home-rabbi-title" data-editable="rabbi-title">{rabbi.title}</p>
+                                    <Editable field="rabbi-name" as="p" class="home-rabbi-name">{rabbi.name}</Editable>
+                                    <Editable field="rabbi-title" as="p" class="home-rabbi-title">{rabbi.title}</Editable>
                                 </figcaption>
                             </figure>
                         </div>
 
                         <section class="home-rabbi-story" aria-labelledby="home-rabbi-title">
-                            <h3 id="home-rabbi-title" data-editable="rabbi-card-title">Meet Our Rabbi</h3>
-                            <p class="home-rabbi-bio" data-editable="rabbi-bio">{rabbi.bio}</p>
-                            <p class="home-rabbi-bio" data-editable="rabbi-bio-extended">{rabbi.bioExtended}</p>
+                            <Editable field="rabbi-card-title" as="h3" id="home-rabbi-title">Meet Our Rabbi</Editable>
+                            <Editable field="rabbi-bio" as="p" class="home-rabbi-bio">{rabbi.bio}</Editable>
+                            <Editable field="rabbi-bio-extended" as="p" class="home-rabbi-bio">{rabbi.bioExtended}</Editable>
                         </section>
                     </div>
 
                     <section class="home-umjc-story" aria-labelledby="home-umjc-title">
-                        <h3 id="home-umjc-title">UMJC Affiliation</h3>
-                        <p class="home-rabbi-bio"><strong>Kehilat Ohr HaTorah</strong> is honored to be a member of the <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer">UMJC (Union of Messianic Jewish Congregations)<span class="visually-hidden"> (opens in a new tab)</span></a>. We support and identify with its bylaws, practices, and <a href="https://www.umjc.org/statement-of-faith" target="_blank" rel="noopener noreferrer">Statement of Faith<span class="visually-hidden"> (opens in a new tab)</span></a>. We are strengthened by our bond with other like-minded congregations and leaders through conferences, joint activities, and leadership development.</p>
-                        <p class="home-rabbi-bio">The UMJC has for more than 40 years built itself on the framework of <em>Messianic Judaism</em>. The essential addition of “Judaism” to the generic term “Messianic” reveals our commitment to covenant faithfulness with <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span></span> and a commitment to walk orderly (Acts 21:24) in a recognizable Jewish context.</p>
+                        <Editable field="home.umjc-title" as="h3" id="home-umjc-title">UMJC Affiliation</Editable>
+                        <Editable field="home.umjc-text-1" as="p" class="home-rabbi-bio"><strong>Kehilat Ohr HaTorah</strong> is honored to be a member of the <a href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer">UMJC (Union of Messianic Jewish Congregations)<span class="visually-hidden"> (opens in a new tab)</span></a>. We support and identify with its bylaws, practices, and <a href="https://www.umjc.org/statement-of-faith" target="_blank" rel="noopener noreferrer">Statement of Faith<span class="visually-hidden"> (opens in a new tab)</span></a>. We are strengthened by our bond with other like-minded congregations and leaders through conferences, joint activities, and leadership development.</Editable>
+                        <Editable field="home.umjc-text-2" as="p" class="home-rabbi-bio">The UMJC has for more than 40 years built itself on the framework of <em>Messianic Judaism</em>. The essential addition of “Judaism” to the generic term “Messianic” reveals our commitment to covenant faithfulness with <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span></span> and a commitment to walk orderly (Acts 21:24) in a recognizable Jewish context.</Editable>
                         <div class="home-umjc-links">
                             <a class="home-text-link" href="https://www.umjc.org/" target="_blank" rel="noopener noreferrer">
-                                <span>Visit the UMJC</span>
+                                <Editable field="home.umjc-link-visit" as="span">Visit the UMJC</Editable>
                                 <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
                                 <span class="visually-hidden"> (opens in a new tab)</span>
                             </a>
                             <a class="home-text-link" href="https://www.umjc.org/statement-of-faith" target="_blank" rel="noopener noreferrer">
-                                <span>UMJC Statement of Faith</span>
+                                <Editable field="home.umjc-link-faith" as="span">UMJC Statement of Faith</Editable>
                                 <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
                                 <span class="visually-hidden"> (opens in a new tab)</span>
                             </a>
@@ -153,11 +156,11 @@ import { rabbi } from '../data/rabbi';
 
                     <div class="home-about-actions">
                         <a class="home-text-link" href="/about">
-                            <span>Learn more about us</span>
+                            <Editable field="home.about-link-learn" as="span">Learn more about us</Editable>
                             <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
                         <a class="home-text-link" href="/umjc">
-                            <span>Our UMJC membership</span>
+                            <Editable field="home.about-link-umjc" as="span">Our UMJC membership</Editable>
                             <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -171,15 +174,15 @@ import { rabbi } from '../data/rabbi';
             <div class="home-shell">
                 <div class="home-identity-intro">
                     <div class="home-identity-heading" data-home-motion-heading>
-                        <h2 id="home-purpose-title">Our Identity</h2>
+                        <Editable field="home.identity-title" as="h2" id="home-purpose-title">Our Identity</Editable>
                     </div>
-                    <p class="home-identity-statement">Learn about the beliefs and commitments that shape our life as a Messianic Jewish congregation.</p>
+                    <Editable field="home.identity-statement" as="p" class="home-identity-statement">Learn about the beliefs and commitments that shape our life as a Messianic Jewish congregation.</Editable>
                 </div>
 
                 <nav class="home-identity-links" aria-label="Read our identity">
-                    <a href="/mission#vision-and-purpose"><span>Vision and Purpose</span><span aria-hidden="true">→</span></a>
-                    <a href="/mission#core-commitments"><span>Core Commitments and Affirmations</span><span aria-hidden="true">→</span></a>
-                    <a href="/mission#core-values"><span>Core Values</span><span aria-hidden="true">→</span></a>
+                    <a href="/mission#vision-and-purpose"><Editable field="home.identity-link-vision" as="span">Vision and Purpose</Editable><span aria-hidden="true">→</span></a>
+                    <a href="/mission#core-commitments"><Editable field="home.identity-link-commitments" as="span">Core Commitments and Affirmations</Editable><span aria-hidden="true">→</span></a>
+                    <a href="/mission#core-values"><Editable field="home.identity-link-values" as="span">Core Values</Editable><span aria-hidden="true">→</span></a>
                 </nav>
             </div>
         </section>
@@ -190,17 +193,17 @@ import { rabbi } from '../data/rabbi';
             <div class="home-shell">
                 <div class="home-section-heading" data-home-motion-heading>
                     <div>
-                        <h2 id="visit-title">Plan Your Visit</h2>
+                        <Editable field="home.visit-title" as="h2" id="visit-title">Plan Your Visit</Editable>
                     </div>
                 </div>
 
                 <div class="home-visit-grid">
                     <figure class="home-visit-image">
-                        <img src="/images/generated/mezuzah-light.webp" srcset="/images/generated/mezuzah-light-480.webp 480w, /images/generated/mezuzah-light-960.webp 960w, /images/generated/mezuzah-light.webp 1024w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of a mezuzah on a warmly lit doorway" width="1024" height="1536" loading="lazy" decoding="async">
+                        <EditableImage field="home.image-mezuzah" src="/images/generated/mezuzah-light.webp" srcset="/images/generated/mezuzah-light-480.webp 480w, /images/generated/mezuzah-light-960.webp 960w, /images/generated/mezuzah-light.webp 1024w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of a mezuzah on a warmly lit doorway" width="1024" height="1536" loading="lazy" decoding="async" />
                     </figure>
                     <div class="home-arrival-panel">
-                        <h3 data-editable="sidebar-welcome-header"><span data-editable="sidebar-welcome-title">Shalom, visitor</span></h3>
-                        <p>Join us on Saturdays, beginning at 2:30 p.m.</p>
+                        <h3><Editable field="sidebar-welcome-title">Shalom, visitor</Editable></h3>
+                        <Editable field="home.visit-intro" as="p">Join us on Saturdays, beginning at 2:30 p.m.</Editable>
                         <nav aria-label="Visitor information">
                             <ol class="home-arrival-steps">
                                 <li>
@@ -209,7 +212,7 @@ import { rabbi } from '../data/rabbi';
                                             <!-- Tabler Icons: calendar-time, MIT License -->
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path><path d="M14 18a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path><path d="M15 3v4"></path><path d="M7 3v4"></path><path d="M3 11h16"></path><path d="M18 16.496v1.504l1 1"></path></svg>
                                         </span>
-                                        <strong>Service times</strong>
+                                        <Editable field="home.visit-step-times" as="strong">Service times</Editable>
                                         <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                     </a>
                                 </li>
@@ -219,7 +222,7 @@ import { rabbi } from '../data/rabbi';
                                             <!-- Tabler Icons: map-pin, MIT License -->
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"></path></svg>
                                         </span>
-                                        <strong>Directions</strong>
+                                        <Editable field="home.visit-step-directions" as="strong">Directions</Editable>
                                         <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                     </a>
                                 </li>
@@ -229,21 +232,21 @@ import { rabbi } from '../data/rabbi';
                                             <!-- Tabler Icons: message-question, MIT License -->
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"></path><path d="M8 13h6"></path><path d="M14 18h-1l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5"></path><path d="M19 22v.01"></path><path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path></svg>
                                         </span>
-                                        <strong>FAQs</strong>
+                                        <Editable field="home.visit-step-faq" as="strong">FAQs</Editable>
                                         <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                     </a>
                                 </li>
                             </ol>
                         </nav>
-                        <div class="home-service-address" data-editable="location-text">
-                            <span>Service location</span>
-                            <strong>10460 Slater Ave<br>Fountain Valley, CA 92708</strong>
+                        <div class="home-service-address">
+                            <Editable field="home.visit-address-label" as="span">Service location</Editable>
+                            <Editable field="home.visit-address" as="strong">10460 Slater Ave<br>Fountain Valley, CA 92708</Editable>
                         </div>
-                        <p class="home-arrival-note">Just off the 405 freeway at the Brookhurst exit. Look for our signs at the two street entrances to Coastal Community Fellowship. Free parking is available beside our meeting space.</p>
+                        <Editable field="home.visit-note" as="p" class="home-arrival-note">Just off the 405 freeway at the Brookhurst exit. Look for our signs at the two street entrances to Coastal Community Fellowship. Free parking is available beside our meeting space.</Editable>
                     </div>
 
                     <article id="map" class="home-map-card" tabindex="-1" aria-label="Map and directions">
-                        <div class="home-map-caption"><strong>Find Our Service</strong></div>
+                        <div class="home-map-caption"><Editable field="home.map-caption" as="strong">Find Our Service</Editable></div>
                         <div class="map-container">
                             <DirectionsMap />
                         </div>
@@ -253,23 +256,23 @@ import { rabbi } from '../data/rabbi';
                             rel="noopener noreferrer"
                             class="home-text-link"
                         >
-                            <span>Open directions</span>
+                            <Editable field="home.map-link" as="span">Open directions</Editable>
                             <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
                         </a>
                     </article>
 
-                    <div class="home-visit-utility" id="contact-us-section" data-editable="contact-info">
+                    <div class="home-visit-utility" id="contact-us-section">
                         <div>
                             <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 21v-6.5a3.5 3.5 0 0 0 -7 0v6.5h18v-6a4 4 0 0 0 -4 -4h-10.5"></path><path d="M12 11v-8h4l2 2l-2 2h-4"></path><path d="M6 15h1"></path></svg></span>
-                            <div class="home-utility-copy"><strong>Mailbox</strong><p>360 E. 1st Street, #856<br>Tustin, CA 92780</p></div>
+                            <div class="home-utility-copy"><Editable field="home.contact-mailbox-label" as="strong">Mailbox</Editable><Editable field="home.contact-mailbox-address" as="p">360 E. 1st Street, #856<br>Tustin, CA 92780</Editable></div>
                         </div>
                         <div>
                             <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"></path><path d="M3 7l9 6l9 -6"></path></svg></span>
-                            <div class="home-utility-copy"><strong>Email</strong><p><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p></div>
+                            <div class="home-utility-copy"><Editable field="home.contact-email-label" as="strong">Email</Editable><p><a href="mailto:OhrHaTorahOC@gmail.com">OhrHaTorahOC@gmail.com</a></p></div>
                         </div>
                         <div>
                             <span class="home-utility-icon-wrap"><svg class="home-utility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path></svg></span>
-                            <div class="home-utility-copy"><strong>Call</strong><p><a href="tel:+17144061513">(714) 406-1513</a></p></div>
+                            <div class="home-utility-copy"><Editable field="home.contact-call-label" as="strong">Call</Editable><p><a href="tel:+17144061513">(714) 406-1513</a></p></div>
                         </div>
                     </div>
                 </div>
@@ -282,46 +285,46 @@ import { rabbi } from '../data/rabbi';
             <div class="home-shell">
                 <div class="home-section-heading" data-home-motion-heading>
                     <div>
-                        <h2 id="this-shabbat-title">This Shabbat</h2>
+                        <Editable field="home.shabbat-title" as="h2" id="this-shabbat-title">This Shabbat</Editable>
                     </div>
                 </div>
 
                 <div class="home-shabbat-primary">
                     <article class="home-schedule-card" id="shabbat-activities-section">
 
-                        <h3>Afternoon Shabbat Service</h3>
-                        <div class="home-shabbat-timeline" data-editable="service-times">
+                        <Editable field="home.shabbat-service-title" as="h3">Afternoon Shabbat Service</Editable>
+                        <div class="home-shabbat-timeline">
                             <div class="home-timeline-row">
                                 <time datetime="14:30">2:30 p.m.</time>
-                                <div><strong>Messianic Jewish Music and Dance</strong></div>
+                                <div><Editable field="home.shabbat-row-music" as="strong">Messianic Jewish Music and Dance</Editable></div>
                             </div>
                             <div class="home-timeline-row">
                                 <time datetime="15:00">3:00 p.m.</time>
-                                <div><strong>Traditional Prayers and Torah Service</strong></div>
+                                <div><Editable field="home.shabbat-row-prayers" as="strong">Traditional Prayers and Torah Service</Editable></div>
                             </div>
                             <div class="home-timeline-row">
                                 <time datetime="16:30">4:30 p.m.</time>
-                                <div><strong>Kiddush, food, and discussion</strong></div>
+                                <div><Editable field="home.shabbat-row-kiddush" as="strong">Kiddush, food, and discussion</Editable></div>
                             </div>
-                            <p class="home-timeline-note">We plan to transition to morning services (<em>Shacharit</em>).</p>
+                            <Editable field="home.shabbat-note" as="p" class="home-timeline-note">We plan to transition to morning services (<em>Shacharit</em>).</Editable>
                         </div>
                         <figure class="home-schedule-image">
-                            <img src="/images/generated/shabbat-guitar.webp" srcset="/images/generated/shabbat-guitar-480.webp 480w, /images/generated/shabbat-guitar-960.webp 960w, /images/generated/shabbat-guitar.webp 1024w" sizes="(max-width: 767px) calc(100vw - 72px), (max-width: 900px) 80vw, 40vw" alt="Illustration of an acoustic guitar beside a wooden bench with navy linen in warm afternoon light" width="1024" height="1024" loading="lazy" decoding="async">
+                            <EditableImage field="home.image-shabbat-guitar" src="/images/generated/shabbat-guitar.webp" srcset="/images/generated/shabbat-guitar-480.webp 480w, /images/generated/shabbat-guitar-960.webp 960w, /images/generated/shabbat-guitar.webp 1024w" sizes="(max-width: 767px) calc(100vw - 72px), (max-width: 900px) 80vw, 40vw" alt="Illustration of an acoustic guitar beside a wooden bench with navy linen in warm afternoon light" width="1024" height="1024" loading="lazy" decoding="async" />
                         </figure>
                     </article>
 
                     <section class="home-reading-card" aria-labelledby="weekly-readings-title">
-                        <h3 class="home-reading-heading" id="weekly-readings-title">Explore this week's Torah readings</h3>
+                        <Editable field="home.readings-title" as="h3" class="home-reading-heading" id="weekly-readings-title">Explore this week's Torah readings</Editable>
                         <figure class="home-reading-image">
-                            <img src="/images/generated/torah-study.webp" srcset="/images/generated/torah-study-480.webp 480w, /images/generated/torah-study-960.webp 960w, /images/generated/torah-study.webp 1536w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of study books, a tallit, and a Torah reading pointer" width="1536" height="1024" loading="lazy" decoding="async">
-                            <figcaption>Torah for this week</figcaption>
+                            <EditableImage field="home.image-torah-study" src="/images/generated/torah-study.webp" srcset="/images/generated/torah-study-480.webp 480w, /images/generated/torah-study-960.webp 960w, /images/generated/torah-study.webp 1536w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of study books, a tallit, and a Torah reading pointer" width="1536" height="1024" loading="lazy" decoding="async" />
+                            <figcaption><Editable field="home.readings-caption">Torah for this week</Editable></figcaption>
                         </figure>
                         <ParashahCard />
                         <aside class="home-torah-club" aria-labelledby="torah-club-title">
-                            <h4 id="torah-club-title">Study with a Torah Club</h4>
-                            <p>Torah Club, from First Fruits of Zion, is a weekly small-group Bible study. Use their club finder to locate a club near you.</p>
+                            <Editable field="home.torah-club-title" as="h4" id="torah-club-title">Study with a Torah Club</Editable>
+                            <Editable field="home.torah-club-text" as="p">Torah Club, from First Fruits of Zion, is a weekly small-group Bible study. Use their club finder to locate a club near you.</Editable>
                             <a class="home-text-link" href="https://ffoz.org/torahclub/clubfinder" target="_blank" rel="noopener noreferrer">
-                                <span>Find a Torah Club</span>
+                                <Editable field="home.torah-club-link" as="span">Find a Torah Club</Editable>
                                 <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
                                 <span class="visually-hidden"> (opens in a new tab)</span>
                             </a>
@@ -331,7 +334,7 @@ import { rabbi } from '../data/rabbi';
 
                 <section class="home-shabbat-dashboard" aria-label="Live Shabbat details">
                     <div class="home-dashboard-heading" data-home-motion-heading>
-                        <h3>Shabbat at a glance</h3>
+                        <Editable field="home.glance-title" as="h3">Shabbat at a glance</Editable>
                     </div>
                     <div class="home-dashboard-grid">
                         <div class="home-candle-card">
@@ -358,12 +361,12 @@ import { rabbi } from '../data/rabbi';
                     </svg>
                 </div>
                 <blockquote class="home-torah-quote-primary">
-                    <p>“God’s Torah <span class="home-verse-keep">is a Tree of Life</span> <span class="home-verse-keep" lang="he-Latn">[etz chaim]</span> <span class="home-verse-keep">for those who take hold of it</span>, <span class="home-verse-keep">and happy</span> <span class="home-verse-keep">are those who uphold it</span>. <span class="home-verse-keep">Its ways</span> <span class="home-verse-keep">are ways of pleasantness</span>, <span class="home-verse-keep">and all its paths are peace.</span>”</p>
-                    <cite>Proverbs 3:17–18</cite>
+                    <Editable field="home.quote-primary" as="p">“God’s Torah <span class="home-verse-keep">is a Tree of Life</span> <span class="home-verse-keep" lang="he-Latn">[etz chaim]</span> <span class="home-verse-keep">for those who take hold of it</span>, <span class="home-verse-keep">and happy</span> <span class="home-verse-keep">are those who uphold it</span>. <span class="home-verse-keep">Its ways</span> <span class="home-verse-keep">are ways of pleasantness</span>, <span class="home-verse-keep">and all its paths are peace.</span>”</Editable>
+                    <Editable field="home.quote-primary-cite" as="cite">Proverbs 3:17–18</Editable>
                 </blockquote>
                 <blockquote class="home-torah-quote-secondary">
-                    <p>“Turn us back <span class="home-verse-keep">to You, <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span>,</span></span> <span class="home-verse-keep">and we shall be restored.</span> <span class="home-verse-keep">Renew our lives</span> <span class="home-verse-keep">as in days of old.</span>”</p>
-                    <cite>Lamentations 5:21</cite>
+                    <Editable field="home.quote-secondary" as="p">“Turn us back <span class="home-verse-keep">to You, <span class="divine-name"><span class="divine-name__initial">H</span><span class="divine-name__small-caps">ashem</span>,</span></span> <span class="home-verse-keep">and we shall be restored.</span> <span class="home-verse-keep">Renew our lives</span> <span class="home-verse-keep">as in days of old.</span>”</Editable>
+                    <Editable field="home.quote-secondary-cite" as="cite">Lamentations 5:21</Editable>
                 </blockquote>
             </div>
         </aside>
@@ -372,15 +375,15 @@ import { rabbi } from '../data/rabbi';
             <div class="home-shell">
                 <div class="home-section-heading" data-home-motion-heading>
                     <div>
-                        <h2 id="upcoming-dates">Congregational Calendar</h2>
+                        <Editable field="home.calendar-title" as="h2" id="upcoming-dates">Congregational Calendar</Editable>
                     </div>
                 </div>
                 <div class="home-calendar-layout">
                     <figure class="home-calendar-image">
-                        <img src="/images/generated/holiday-table.webp" srcset="/images/generated/holiday-table-480.webp 480w, /images/generated/holiday-table-960.webp 960w, /images/generated/holiday-table.webp 1024w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of a Shabbat table with two candles, challah, and a kiddush cup" width="1024" height="1536" loading="lazy" decoding="async">
+                        <EditableImage field="home.image-holiday-table" src="/images/generated/holiday-table.webp" srcset="/images/generated/holiday-table-480.webp 480w, /images/generated/holiday-table-960.webp 960w, /images/generated/holiday-table.webp 1024w" sizes="(max-width: 760px) 100vw, 45vw" alt="Illustration of a Shabbat table with two candles, challah, and a kiddush cup" width="1024" height="1536" loading="lazy" decoding="async" />
                         <figcaption>
-                            <strong>Gather through the Jewish year.</strong>
-                            <span>Shabbat, holidays, learning, and community.</span>
+                            <Editable field="home.calendar-caption-title" as="strong">Gather through the Jewish year.</Editable>
+                            <Editable field="home.calendar-caption-text" as="span">Shabbat, holidays, learning, and community.</Editable>
                         </figcaption>
                     </figure>
                     <div class="home-calendar-frame">

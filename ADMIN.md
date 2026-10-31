@@ -23,11 +23,13 @@ npx wrangler d1 execute ohrhatorah-db --remote --command="<generated SQL>"
 
 ## Editable Elements
 
-| Attribute | Usage |
+Use the components, not raw attributes (details in `docs/editable-content.md`):
+
+| Component / attribute | Usage |
 |-----------|-------|
-| `data-editable="key"` | Text content |
-| `data-editable-image="key"` | Images (uploads to R2) |
-| `data-multiline="true"` | Multi-line text |
+| `<Editable field="key">` | Inline text: bold, italic, links, line breaks (Tiptap) |
+| `<Editable field="key" as="div" block>` | Prose region: also headings, lists, paragraphs |
+| `<EditableImage field="key" src alt>` | Images (uploads to R2) |
 | `data-brit-editable="true"` | Brit Chadashah override |
 
 ## Keyboard Shortcuts

@@ -68,8 +68,8 @@ test('the homepage retains its hero and generated supporting imagery', () => {
 test('the shared interior hero remains responsive and text-led', () => {
     assert.match(pageLayoutSource, /type PageSection = \{[\s\S]*?section: string;[\s\S]*?sectionHref: string;/);
     assert.match(pageLayoutSource, /<nav class="site-breadcrumbs" aria-label="Breadcrumb">/);
-    assert.match(pageLayoutSource, /<li aria-current="page"><span>\{pageTitle\}<\/span><\/li>/);
-    assert.match(pageLayoutSource, /<h1 id="page-title">\{pageTitle\}<\/h1>/);
+    assert.match(pageLayoutSource, /<li aria-current="page"><Editable field=\{pageTitleField\} as="span">\{pageTitle\}<\/Editable><\/li>/);
+    assert.match(pageLayoutSource, /<Editable field=\{pageTitleField\} as="h1" id="page-title">\{pageTitle\}<\/Editable>/);
     assert.match(interiorStyles, /\.page-hero-inner \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?min-height: clamp\(188px, 17vw, 236px\);/);
     assert.match(interiorStyles, /\.page-hero-title \{[^}]*max-width: 100%;/);
     assert.match(interiorStyles, /\.page-hero h1 \{[^}]*max-width: none;/);

@@ -1,4 +1,5 @@
 ---
+import Editable from '../content/Editable.astro';
 // Safe direct-URL and no-JavaScript fallback. Draft content is never a client-side overlay.
 interface Props {
     icon?: string;
@@ -7,6 +8,6 @@ interface Props {
 const { icon = 'fas fa-person-digging' } = Astro.props;
 ---
 <section class="construction-notice pending-notice" data-admin-preview-gate aria-labelledby="construction-title">
-    <h2 id="construction-title" class="icon-heading"><i class={`${icon} editorial-icon`} aria-hidden="true"></i><span>We’re preparing this page.</span></h2>
-    <p>This section is under construction. Please check back soon.</p>
+    <h2 id="construction-title" class="icon-heading"><i class={`${icon} editorial-icon`} aria-hidden="true"></i><Editable field="construction.title" as="span">We’re preparing this page.</Editable></h2>
+    <Editable field="construction.text" as="p">This section is under construction. Please check back soon.</Editable>
 </section>

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getAllContent, setContent, getContent } from '../../../lib/db';
 import { validateSession, getSessionFromCookies, validateCSRFToken, getCSRFTokenFromRequest } from '../../../lib/auth';
 import { recordContentRevision } from '../../../lib/revisions';
+import { validateSiteContentWrite } from '../../../lib/siteContent';
 
 export const GET: APIRoute = async ({ request, locals }) => {
   try {
@@ -89,6 +90,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (value === undefined || value === null) {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid value' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const writeCheck = validateSiteContentWrite(key, value, contentType);
+    if (!writeCheck.ok) {
+      return new Response(
+        JSON.stringify({ success: false, error: writeCheck.error }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }

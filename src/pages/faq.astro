@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Editable from '../components/content/Editable.astro';
 import ConstructionNotice from '../components/layout/ConstructionNotice.astro';
 import { canViewAdminPreview } from '../lib/adminPreview';
 const canPreview = canViewAdminPreview(Astro.locals.user);
@@ -12,106 +13,106 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     {canPreview ? (<div data-admin-draft>
         <p class="editorial-note">Internal admin preview · This page is under construction.</p>
 
-    <p class="faq-intro">Here are straightforward answers to the questions visitors ask most often.</p>
+    <Editable field="faq.intro" as="p" class="faq-intro">Here are straightforward answers to the questions visitors ask most often.</Editable>
 
     <div class="faq-container">
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-star-of-david faq-icon"></i>
-                <span>What is Messianic Judaism?</span>
+                <Editable field="faq.q-messianic-judaism.question">What is Messianic Judaism?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>Messianic Judaism is a movement of Jewish people who believe that Yeshua (Jesus) is the promised Messiah of Israel, while maintaining Jewish identity, traditions, and observance of Torah.</p>
+                <Editable field="faq.q-messianic-judaism.answer" as="p">Messianic Judaism is a movement of Jewish people who believe that Yeshua (Jesus) is the promised Messiah of Israel, while maintaining Jewish identity, traditions, and observance of Torah.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-users faq-icon"></i>
-                <span>Do I need to be Jewish to attend?</span>
+                <Editable field="faq.q-need-jewish.question">Do I need to be Jewish to attend?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>No. Jewish and non-Jewish people, interfaith couples, and families are welcome.</p>
+                <Editable field="faq.q-need-jewish.answer" as="p">No. Jewish and non-Jewish people, interfaith couples, and families are welcome.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-synagogue faq-icon"></i>
-                <span>What should I expect during a service?</span>
+                <Editable field="faq.q-during-service.question">What should I expect during a service?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>Our services include Messianic music, Hebrew and English prayer, Torah reading, and teaching. We explain the liturgy and customs as we go.</p>
+                <Editable field="faq.q-during-service.answer" as="p">Our services include Messianic music, Hebrew and English prayer, Torah reading, and teaching. We explain the liturgy and customs as we go.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-menorah faq-icon"></i>
-                <span>Do you follow Jewish holidays and traditions?</span>
+                <Editable field="faq.q-holidays.question">Do you follow Jewish holidays and traditions?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>Yes. We observe Shabbat and the Jewish holidays while recognizing Yeshua as our Messiah.</p>
+                <Editable field="faq.q-holidays.answer" as="p">Yes. We observe Shabbat and the Jewish holidays while recognizing Yeshua as our Messiah.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-language faq-icon"></i>
-                <span>Is Hebrew required?</span>
+                <Editable field="faq.q-hebrew-required.question">Is Hebrew required?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>No. We pray and read in Hebrew and English, with transliteration and explanations for visitors.</p>
+                <Editable field="faq.q-hebrew-required.answer" as="p">No. We pray and read in Hebrew and English, with transliteration and explanations for visitors.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-scroll faq-icon"></i>
-                <span>What is the Torah?</span>
+                <Editable field="faq.q-torah.question">What is the Torah?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>The Torah is the first five books of the Bible (Genesis through Deuteronomy), containing God's instructions for living. We believe Torah remains relevant for believers today.</p>
+                <Editable field="faq.q-torah.answer" as="p">The Torah is the first five books of the Bible (Genesis through Deuteronomy), containing God's instructions for living. We believe Torah remains relevant for believers today.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-balance-scale faq-icon"></i>
-                <span>How is Messianic Judaism different from Christianity?</span>
+                <Editable field="faq.q-vs-christianity.question">How is Messianic Judaism different from Christianity?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>We believe Yeshua is the Messiah while remaining rooted in Jewish identity, worship, and practice.</p>
+                <Editable field="faq.q-vs-christianity.answer" as="p">We believe Yeshua is the Messiah while remaining rooted in Jewish identity, worship, and practice.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-tshirt faq-icon"></i>
-                <span>What should I wear to services?</span>
+                <Editable field="faq.q-what-to-wear.question">What should I wear to services?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>Come in casual or semi-formal clothing. Men may wear a kippah, but visitors are not required to do so.</p>
+                <Editable field="faq.q-what-to-wear.answer" as="p">Come in casual or semi-formal clothing. Men may wear a kippah, but visitors are not required to do so.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-child faq-icon"></i>
-                <span>Can children attend?</span>
+                <Editable field="faq.q-children.question">Can children attend?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>Children are welcome. We are planning a Shabbat School as the congregation grows, and families are welcome in our services.</p>
+                <Editable field="faq.q-children.answer" as="p">Children are welcome. We are planning a Shabbat School as the congregation grows, and families are welcome in our services.</Editable>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false">
                 <i class="fas fa-graduation-cap faq-icon"></i>
-                <span>How can I learn more?</span>
+                <Editable field="faq.q-learn-more.question">How can I learn more?</Editable>
             </button>
             <div class="faq-answer" hidden>
-                <p>Attend a Shabbat service, speak with Rabbi Charles, or contact us with your questions.</p>
+                <Editable field="faq.q-learn-more.answer" as="p">Attend a Shabbat service, speak with Rabbi Charles, or contact us with your questions.</Editable>
             </div>
         </div>
     </div>
