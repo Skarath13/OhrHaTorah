@@ -14,11 +14,11 @@
     "r2:create": "wrangler r2 bucket create ohrhatorah-images"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.11",
+    "@astrojs/cloudflare": "^12.6.13",
     "@tiptap/core": "3.31.4",
     "@tiptap/pm": "3.31.4",
     "@tiptap/starter-kit": "3.31.4",
-    "astro": "^5.16.0",
+    "astro": "^5.18.2",
     "bcryptjs": "^2.4.3",
     "three": "^0.180.0"
   },
