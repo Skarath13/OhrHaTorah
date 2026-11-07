@@ -202,7 +202,8 @@ full hairline border.
 - Hover lifts are at most 2px and only under `(hover: hover) and
   (pointer: fine)`; on touch they stick after a tap. No bounce or overshoot.
 - No endless loops beside reading content; confirmation pulses run once or twice.
-- Autoplaying video needs a visible pause control (WCAG 2.2.2).
+- The home hero video has a pause control at 768px and wider. Phones get no
+  control by owner decision (2026-11-07); reduced motion still pauses it.
 - Wrap non-essential motion in `prefers-reduced-motion: no-preference`.
 
 ## Accessibility baseline

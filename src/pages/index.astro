@@ -413,6 +413,8 @@ import EditableImage from '../components/content/EditableImage.astro';
             // A visitor who pauses the hero keeps it paused for the rest of the visit (WCAG 2.2.2).
             const PAUSE_KEY = 'oht-hero-video-paused';
             const heroToggle = document.getElementById('home-hero-video-toggle') as HTMLButtonElement | null;
+            // Phones get no pause control, so a pause chosen at a wider width does not apply there.
+            const phoneHero = window.matchMedia('(max-width: 767px)');
             let userPaused = false;
             try { userPaused = window.sessionStorage.getItem(PAUSE_KEY) === '1'; } catch { userPaused = false; }
             let autoplayRetryTimer = 0;
@@ -431,8 +433,9 @@ import EditableImage from '../components/content/EditableImage.astro';
             const requestHeroPlayback = () => {
                 clearAutoplayRetry();
 
-                if (heroToggle) heroToggle.hidden = reducedMotion.matches;
-                if (userPaused || reducedMotion.matches || document.hidden || !heroIsVisible) {
+                if (heroToggle) heroToggle.hidden = reducedMotion.matches || phoneHero.matches;
+                const pausedByVisitor = userPaused && !phoneHero.matches;
+                if (pausedByVisitor || reducedMotion.matches || document.hidden || !heroIsVisible) {
                     heroVideo.pause();
                     return;
                 }
@@ -471,6 +474,7 @@ import EditableImage from '../components/content/EditableImage.astro';
 
             heroObserver.observe(heroVideo);
             reducedMotion.addEventListener('change', requestHeroPlayback);
+            phoneHero.addEventListener('change', requestHeroPlayback);
             heroVideo.addEventListener('loadeddata', requestHeroPlayback);
             heroVideo.addEventListener('canplay', requestHeroPlayback);
             document.addEventListener('visibilitychange', requestHeroPlayback);

@@ -176,9 +176,9 @@
 
 .home-hero-video-toggle[hidden] { display: none; }
 
-/* Phones: the hero buttons fill the bottom edge, so the control moves to the top corner. */
+/* Desktop and tablet only: phones get no video control. */
 @media (max-width: 767px) {
-    .home-hero-video-toggle { top: 0.75rem; bottom: auto; right: max(0.75rem, env(safe-area-inset-right, 0px)); }
+    .home-hero-video-toggle { display: none; }
 }
 
 .home-hero-video-toggle:hover { border-color: #fff; background: rgba(6, 26, 50, 0.85); }
