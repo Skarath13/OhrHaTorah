@@ -39,7 +39,6 @@ export const SITE_REVEAL_PROTECTED = [
     '.home-hero',
     '.page-hero',
     '.organic-section-divider',
-    '.home-scroll-thread',
     'dialog',
 ].join(', ');
 

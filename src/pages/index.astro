@@ -24,11 +24,6 @@ import EditableImage from '../components/content/EditableImage.astro';
     </div>
     <MobileNavigation />
 
-    <div class="home-scroll-thread" data-home-scroll-thread aria-hidden="true">
-        <span class="home-scroll-thread__track"></span>
-        <span class="home-scroll-thread__progress"></span>
-        <span class="home-scroll-thread__marker"></span>
-    </div>
 
     <main id="main-content" tabindex="-1" class="home-redesign">
         <section class="home-hero" aria-labelledby="home-hero-title">
@@ -513,36 +508,14 @@ import EditableImage from '../components/content/EditableImage.astro';
         const homeMotionHeadings = Array.from(
             document.querySelectorAll<HTMLElement>('[data-home-motion-heading]'),
         );
-        const homeScrollThread = document.querySelector<HTMLElement>('[data-home-scroll-thread]');
         let homeMotionObserver: IntersectionObserver | null = null;
-        let homeScrollFrame = 0;
         let homeMotionEnabled = false;
-
-        const updateHomeScrollThread = () => {
-            homeScrollFrame = 0;
-            if (!homeScrollThread) return;
-
-            const homepage = document.querySelector<HTMLElement>('.home-redesign');
-            if (!homepage) return;
-
-            const start = homepage.offsetTop;
-            const distance = Math.max(1, homepage.offsetHeight - window.innerHeight);
-            const progress = Math.min(1, Math.max(0, (window.scrollY - start) / distance));
-
-            homeScrollThread.style.setProperty('--home-scroll-progress', progress.toFixed(4));
-        };
-
-        const requestHomeScrollThreadUpdate = () => {
-            if (homeScrollFrame) return;
-            homeScrollFrame = window.requestAnimationFrame(updateHomeScrollThread);
-        };
 
         const enableHomeMotion = () => {
             if (homeMotionEnabled || reducedMotion.matches || !('IntersectionObserver' in window)) return;
 
             homeMotionEnabled = true;
             document.documentElement.classList.add('home-motion-ready');
-            homeScrollThread?.setAttribute('data-home-scroll-ready', '');
 
             homeMotionObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach((entry) => {
@@ -553,9 +526,6 @@ import EditableImage from '../components/content/EditableImage.astro';
             }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
 
             homeMotionHeadings.forEach((heading) => homeMotionObserver?.observe(heading));
-            window.addEventListener('scroll', requestHomeScrollThreadUpdate, { passive: true });
-            window.addEventListener('resize', requestHomeScrollThreadUpdate, { passive: true });
-            requestHomeScrollThreadUpdate();
         };
 
         const disableHomeMotion = () => {
@@ -564,15 +534,9 @@ import EditableImage from '../components/content/EditableImage.astro';
             homeMotionEnabled = false;
             homeMotionObserver?.disconnect();
             homeMotionObserver = null;
-            window.removeEventListener('scroll', requestHomeScrollThreadUpdate);
-            window.removeEventListener('resize', requestHomeScrollThreadUpdate);
-            if (homeScrollFrame) window.cancelAnimationFrame(homeScrollFrame);
-            homeScrollFrame = 0;
 
             document.documentElement.classList.remove('home-motion-ready');
             homeMotionHeadings.forEach((heading) => heading.classList.remove('is-home-revealed'));
-            homeScrollThread?.removeAttribute('data-home-scroll-ready');
-            homeScrollThread?.style.removeProperty('--home-scroll-progress');
         };
 
         const syncHomeMotion = () => {

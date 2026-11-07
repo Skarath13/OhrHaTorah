@@ -1,8 +1,6 @@
 /* Homepage-only Torah editorial system. Shared interior-page chrome remains untouched. */
 .home-site-chrome,
 .home-site-chrome *,
-.home-scroll-thread,
-.home-scroll-thread *,
 .home-redesign,
 .home-redesign *,
 .home-redesign + .footer,
@@ -23,73 +21,6 @@
     --home-ink: #172236;
     --home-muted: #596476;
     --home-line: rgba(13, 51, 91, 0.18);
-}
-
-/* A quiet page-position thread: horizontal with compact navigation, vertical on wide screens. */
-.home-scroll-thread {
-    --home-scroll-progress: 0;
-    position: fixed;
-    z-index: 1100;
-    top: calc(var(--site-nav-height) - 1px);
-    right: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 280ms ease;
-}
-
-.home-scroll-thread[data-home-scroll-ready] { opacity: 0.82; }
-
-.home-scroll-thread__track,
-.home-scroll-thread__progress {
-    position: absolute;
-    inset: 0;
-    border-radius: 999px;
-}
-
-.home-scroll-thread__track { background: rgba(230, 201, 120, 0.2); }
-
-.home-scroll-thread__progress {
-    background: linear-gradient(90deg, var(--home-gold-500), #f2d98f);
-    box-shadow: 0 0 9px rgba(230, 201, 120, 0.34);
-    transform: scaleX(var(--home-scroll-progress));
-    transform-origin: left center;
-}
-
-.home-scroll-thread__marker {
-    position: absolute;
-    top: 50%;
-    left: calc(var(--home-scroll-progress) * 100%);
-    width: 7px;
-    height: 7px;
-    border: 1px solid rgba(246, 224, 159, 0.96);
-    background: var(--home-blue-950);
-    box-shadow: 0 0 0 2px rgba(6, 26, 50, 0.38), 0 0 9px rgba(230, 201, 120, 0.48);
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-@media (min-width: 1360px) {
-    .home-scroll-thread {
-        top: calc(var(--site-nav-height) + 22px);
-        right: 10px;
-        bottom: 24px;
-        left: auto;
-        width: 2px;
-        height: auto;
-    }
-
-    .home-scroll-thread__progress {
-        background: linear-gradient(180deg, var(--home-gold-500), #f2d98f);
-        transform: scaleY(var(--home-scroll-progress));
-        transform-origin: center top;
-    }
-
-    .home-scroll-thread__marker {
-        top: calc(var(--home-scroll-progress) * 100%);
-        left: 50%;
-    }
 }
 
 .home-redesign {
@@ -1087,7 +1018,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .home-scroll-thread { display: none; }
     .home-redesign *,
     .home-redesign *::before,
     .home-redesign *::after,
@@ -1106,7 +1036,6 @@
 }
 
 @media (forced-colors: active) {
-    .home-scroll-thread,
     .home-button::after { display: none; }
     .home-site-chrome,
     .home-redesign .home-service-callout,
@@ -1117,7 +1046,6 @@
 }
 
 @media print {
-    .home-scroll-thread { display: none; }
     html.home-motion-ready [data-home-motion-heading] > * {
         opacity: 1 !important;
         transform: none !important;
