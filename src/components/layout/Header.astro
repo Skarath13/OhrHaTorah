@@ -3,21 +3,25 @@ import Editable from '../content/Editable.astro';
 
 interface Props {
     showLogo?: boolean;
+    // The home hero already shows the full logo, so its compact header drops the mark.
+    showMobileMark?: boolean;
 }
 
-const { showLogo = true } = Astro.props;
+const { showLogo = true, showMobileMark = true } = Astro.props;
 ---
 
 <div class="header">
     <a class="mobile-site-brand" href="/" aria-label="Kehilat Ohr HaTorah home">
-        <img
-            class="mobile-site-mark"
-            src="/images/logo.png"
-            alt=""
-            width="612"
-            height="408"
-            aria-hidden="true"
-        >
+        {showMobileMark && (
+            <img
+                class="mobile-site-mark"
+                src="/images/logo.png"
+                alt=""
+                width="612"
+                height="408"
+                aria-hidden="true"
+            >
+        )}
         <Editable field="nav.brand" as="span">Kehilat Ohr HaTorah</Editable>
     </a>
     <button
