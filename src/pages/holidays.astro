@@ -85,7 +85,7 @@ const guideEntries = holidaySeasons.flatMap(season => season.entries);
                     <Editable field="holidays.shabbat.when" as="p" class="holiday-when">{shabbatGuide.when}</Editable>
                     {shabbatGuide.about.map((text, index) => <Editable field={`holidays.shabbat.about-${index + 1}`} as="p">{text}</Editable>)}
                     {shabbatGuide.messiah && <Editable field="holidays.shabbat.messiah" as="p" class="holiday-messiah">{shabbatGuide.messiah}</Editable>}
-                    <Editable field="holidays.shabbat.sources" as="p" class="holiday-sources">{shabbatGuide.sources}</Editable>
+                    <Editable field="holidays.shabbat.sources" as="p" class="holiday-sources">{shabbatGuide.sources.split(' · ').map((ref, index) => <Fragment>{index > 0 && ' · '}<span class="holiday-ref">{ref}</span></Fragment>)}</Editable>
                     <a class="holiday-shabbat-link" href="/services"><Editable field="holidays.shabbat.services-link">Join us for Shabbat services</Editable> <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
             </article>
@@ -104,7 +104,7 @@ const guideEntries = holidaySeasons.flatMap(season => season.entries);
                                 <dl>
                                     <div><dt><Editable field="holidays.entry-label-hebrew-date">Hebrew date</Editable></dt><dd><Editable field={`holidays.entry.${entry.id}.when`}>{entry.when}</Editable></dd></div>
                                     <div><dt><Editable field="holidays.entry-label-usually">Usually</Editable></dt><dd><Editable field={`holidays.entry.${entry.id}.season`}>{entry.season}</Editable></dd></div>
-                                    <div><dt><Editable field="holidays.entry-label-scripture">Scripture</Editable></dt><dd><Editable field={`holidays.entry.${entry.id}.sources`}>{entry.sources}</Editable></dd></div>
+                                    <div><dt><Editable field="holidays.entry-label-scripture">Scripture</Editable></dt><dd><Editable field={`holidays.entry.${entry.id}.sources`}>{entry.sources.split(' · ').map((ref, index) => <Fragment>{index > 0 && ' · '}<span class="holiday-ref">{ref}</span></Fragment>)}</Editable></dd></div>
                                 </dl>
                             </div>
                             <div class="holiday-entry-copy">

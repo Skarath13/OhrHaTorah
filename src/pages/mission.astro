@@ -76,9 +76,9 @@ const identityKey = (text: string) =>
             </div>
 
             <p class="identity-hebrew-seal" lang="he" dir="rtl">
-                <span aria-hidden="true">✦</span>
+                <span class="identity-hebrew-seal__mark" aria-hidden="true"></span>
                 בָּרוּךְ הַבָּא בְּשֵׁם ה׳
-                <span aria-hidden="true">✦</span>
+                <span class="identity-hebrew-seal__mark" aria-hidden="true"></span>
             </p>
         </section>
 
@@ -114,14 +114,14 @@ const identityKey = (text: string) =>
                 {coreValueGroups.map((group) => (
                     <section id={group.id} class="identity-value-group" aria-labelledby={`${group.id}-title`}>
                         <header class="identity-value-group__heading">
-                            <span class="identity-value-group__symbol" aria-hidden="true">✦</span>
+                            <span class="identity-value-group__symbol" aria-hidden="true"></span>
                             <Editable field={`mission.group-${group.id}.heading`} as="h3" id={`${group.id}-title`}>{group.heading}</Editable>
                         </header>
 
                         <ul class="identity-value-list">
                             {group.values.map((value) => (
                                 <li>
-                                    <span aria-hidden="true">✦</span>
+                                    <span class="identity-value-list__mark" aria-hidden="true"></span>
                                     <Editable field={`mission.value-${group.id}-${identityKey(value.text)}`} as="p"><IdentityRichText content={value} /></Editable>
                                 </li>
                             ))}

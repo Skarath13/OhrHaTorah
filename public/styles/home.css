@@ -709,7 +709,7 @@
 .home-redesign .home-clock-card .clock-panel,
 .home-redesign .home-clock-card .clock-panel:first-child { display: grid !important; min-height: 78px; grid-template-columns: minmax(82px, auto) minmax(0, 1fr) !important; align-items: center; gap: 0.75rem; margin: 0; padding: 0.8rem 0; border: 0; border-bottom: 1px solid rgba(230, 201, 120, 0.17); border-radius: 0; background: transparent; }
 .home-redesign .home-clock-card .clock-panel:last-child { border-bottom: 0; }
-.home-redesign .home-clock-card .clock-label { color: rgba(255, 255, 255, 0.58); }
+.home-redesign .home-clock-card .clock-label { color: rgba(255, 255, 255, 0.58); overflow-wrap: normal; word-break: normal; hyphens: manual; }
 .home-redesign .home-clock-card :is(.clock-hebrew-date, .clock-gregorian-date, .clock-service-time, .clock-time) { color: #fff; }
 .home-redesign .home-clock-card .clock-panel:first-child .clock-label { margin-bottom: 0; }
 .home-redesign .home-clock-card .clock-panel:first-child .clock-hebrew-date { color: var(--home-gold-300); font-size: 1.2rem; text-align: right; }

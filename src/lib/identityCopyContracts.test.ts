@@ -219,7 +219,8 @@ test('the identity page publishes canonical arrays with accessible, responsive s
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-commitment-list p\s*\{[^}]*font-size:\s*clamp\(1\.08rem, 1\.35vw, 1\.18rem\)/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-value-list p\s*\{[^}]*font-size:\s*clamp\(1\.07rem, 1\.25vw, 1\.14rem\)/s);
     assert.match(missionStyles, /\.interior-shell \.interior-page \.identity-page \.identity-hebrew-seal\s*\{[^}]*font-size:\s*clamp\(2\.16rem, 5\.6vw, 3\.6rem\)/s);
-    assert.match(missionStyles, /\.identity-hebrew-seal span\s*\{[^}]*font-size:\s*0\.375em/s);
+    assert.match(missionStyles, /\.identity-hebrew-seal__mark\s*\{[^}]*transform:\s*rotate\(45deg\)/s);
+    assert.doesNotMatch(missionSource, /✦/);
     assert.doesNotMatch(missionSource, /class="[^"]*eyebrow/);
     const visionTextRuleIndex = missionStyles.indexOf('.interior-shell .interior-page .identity-page .identity-vision__statement p {');
     const featureVisionTextRuleIndex = missionStyles.indexOf('.interior-shell .interior-page .identity-page .identity-vision__statement--feature p {');

@@ -1322,7 +1322,7 @@ body .site-footer .newsletter-unavailable {
 
 body .site-footer .newsletter-consent {
     display: grid;
-    grid-template-columns: 1.15rem minmax(0, 1fr);
+    grid-template-columns: 1.35rem minmax(0, 1fr);
     gap: 0.65rem;
     align-items: start;
     color: rgba(255, 255, 255, 0.84);
@@ -1333,11 +1333,12 @@ body .site-footer .newsletter-consent {
 
 body .site-footer .newsletter-form-expanded .newsletter-consent input[type='checkbox'] {
     display: block !important;
-    width: 1.05rem !important;
-    min-width: 1.05rem !important;
-    height: 1.05rem !important;
-    min-height: 1.05rem !important;
-    margin: 0.13rem 0 0 !important;
+    width: 1.35rem !important;
+    min-width: 1.35rem !important;
+    height: 1.35rem !important;
+    min-height: 1.35rem !important;
+    margin: 0.05rem 0 0 !important;
+    cursor: pointer;
     padding: 0 !important;
     border: 1px solid rgba(255, 255, 255, 0.55) !important;
     border-radius: 0.2rem !important;

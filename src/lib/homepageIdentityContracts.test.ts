@@ -52,7 +52,7 @@ test('Shabbat gathering uses the approved afternoon schedule', () => {
     assert.match(homeSource, /<time datetime="15:00">3:00 p\.m\.<\/time>[\s\S]*?>Traditional Prayers and Torah Service<\/Editable>/);
     assert.match(homeSource, /<time datetime="16:30">4:30 p\.m\.<\/time>[\s\S]*?>Kiddush, food, and discussion<\/Editable>/);
     for (const source of [servicesSource, expectSource]) {
-        assert.match(source, /(?:<div class="time-badge green">|<Editable field="[^"]+" as="div" class="time-badge green">)4:30 PM<\/(?:div|Editable)>[\s\S]*?(?:<strong>|<Editable field="[^"]+" as="strong">)Kiddush, food, and discussion<\/(?:strong|Editable)>/);
+        assert.match(source, /(?:<div class="time-badge green">|<Editable field="[^"]+" as="div" class="time-badge green">)4:30 p\.m\.<\/(?:div|Editable)>[\s\S]*?(?:<strong>|<Editable field="[^"]+" as="strong">)Kiddush, food, and discussion<\/(?:strong|Editable)>/);
         assert.doesNotMatch(source, /Interactive Scripture Discussion/);
     }
     assert.doesNotMatch(homeSource, /home-timeline-row-friday|Shabbat begins at home|Festive Shabbat meals in the home/);

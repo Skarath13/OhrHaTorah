@@ -46,15 +46,16 @@
     color: #fff;
 }
 
+/* Star of David watermark, drawn as geometry rather than a font glyph. */
 .identity-introduction::before {
     position: absolute;
-    top: -2rem;
+    top: clamp(1rem, 3vw, 2.5rem);
     right: clamp(1rem, 5vw, 5rem);
-    color: rgba(234, 211, 154, 0.08);
-    content: '✦';
-    font-family: var(--font-display);
-    font-size: clamp(11rem, 25vw, 23rem);
-    line-height: 1;
+    width: clamp(9rem, 20vw, 17rem);
+    aspect-ratio: 1;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23ead39a' stroke-width='2.4' stroke-linejoin='round'%3E%3Cpath d='M50 6 88 72H12Z'/%3E%3Cpath d='M50 94 12 28H88Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    content: '';
+    opacity: 0.1;
     pointer-events: none;
 }
 
@@ -301,9 +302,12 @@
     text-wrap: balance;
 }
 
-.identity-hebrew-seal span {
-    color: var(--interior-gold);
-    font-size: 0.375em;
+.identity-hebrew-seal__mark {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--interior-gold);
+    transform: rotate(45deg);
 }
 
 .identity-commitment-list {
@@ -387,12 +391,12 @@
 
 .identity-value-group__symbol {
     position: absolute;
-    right: -1.25rem;
-    bottom: -2.5rem;
-    color: rgba(234, 211, 154, 0.1);
-    font-family: var(--font-display);
-    font-size: 9rem;
-    line-height: 1;
+    right: -1.5rem;
+    bottom: -1.5rem;
+    width: 7rem;
+    aspect-ratio: 1;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23ead39a' stroke-width='2.4' stroke-linejoin='round'%3E%3Cpath d='M50 6 88 72H12Z'/%3E%3Cpath d='M50 94 12 28H88Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    opacity: 0.1;
     pointer-events: none;
 }
 
@@ -443,11 +447,13 @@
     border-top: 0;
 }
 
-.identity-value-list li > span {
-    padding-top: 0.42rem;
-    color: var(--interior-gold);
-    font-size: 1rem;
-    line-height: 1;
+/* Same outlined diamond as the commitment list, so both lists read as one system. */
+.identity-value-list__mark {
+    width: 0.48rem;
+    height: 0.48rem;
+    margin-top: 0.68rem;
+    border: 1px solid #8a681f;
+    transform: rotate(45deg);
 }
 
 .interior-shell .interior-page .identity-page .identity-value-list p {
