@@ -59,8 +59,8 @@ const solidRule = {
     beforeContent: 'none',
 };
 
-test('short groups stagger by at most 70ms a step, four steps in total', () => {
-    assert.deepEqual([0, 1, 2, 3, 4, 9].map(revealDelay), [0, 70, 140, 210, 210, 210]);
+test('short groups stagger by at most 40ms a step, four steps in total', () => {
+    assert.deepEqual([0, 1, 2, 3, 4, 9].map(revealDelay), [0, 40, 80, 120, 120, 120]);
     assert.equal(revealDelay(-1), 0);
 });
 

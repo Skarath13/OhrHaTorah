@@ -143,6 +143,8 @@ const hasOnlyElementChildren = (element: Element): boolean =>
     Array.from(element.childNodes).every((node) => node.nodeType !== Node.TEXT_NODE || !node.textContent?.trim());
 
 const ruleFor = (element: HTMLElement, style: CSSStyleDeclaration): RuleDraw | null => {
+    // List rows rise with their text; redrawing every row's hairline is noise.
+    if (element.matches('li')) return null;
     if (style.borderTopStyle !== 'solid' || !hasOnlyElementChildren(element)) return null;
 
     return drawableRule({

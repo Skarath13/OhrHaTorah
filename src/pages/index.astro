@@ -57,9 +57,12 @@ import EditableImage from '../components/content/EditableImage.astro';
                 <div class="home-hero-logo" data-hero-scroll-host>
                     <img src="/images/logo.png" alt="Kehilat Ohr HaTorah" width="612" height="408">
                     <script is:inline>
-                        // Hide the flat logo before first paint only when the 3D unfurl can run.
+                        // Hide the flat logo before first paint only when the 3D unfurl can run,
+                        // and only on the first home visit of a browser session.
                         (function (host) {
-                            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'WebGL2RenderingContext' in window) {
+                            var seen = false;
+                            try { seen = window.sessionStorage.getItem('oht-hero-scroll-seen') === '1'; } catch (error) { seen = false; }
+                            if (!seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'WebGL2RenderingContext' in window) {
                                 host.dataset.heroScroll = 'pending';
                             }
                         })(document.currentScript.parentElement);
@@ -87,6 +90,9 @@ import EditableImage from '../components/content/EditableImage.astro';
                     </div>
                 </div>
             </div>
+            <button class="home-hero-video-toggle" id="home-hero-video-toggle" type="button" aria-controls="home-hero-video" aria-label="Pause background video" hidden>
+                <i class="fas fa-pause" aria-hidden="true"></i>
+            </button>
         </section>
 
         <section class="home-section home-community" aria-labelledby="about-us-title-heading">
@@ -404,6 +410,11 @@ import EditableImage from '../components/content/EditableImage.astro';
 
         if (heroVideo) {
             let heroIsVisible = true;
+            // A visitor who pauses the hero keeps it paused for the rest of the visit (WCAG 2.2.2).
+            const PAUSE_KEY = 'oht-hero-video-paused';
+            const heroToggle = document.getElementById('home-hero-video-toggle') as HTMLButtonElement | null;
+            let userPaused = false;
+            try { userPaused = window.sessionStorage.getItem(PAUSE_KEY) === '1'; } catch { userPaused = false; }
             let autoplayRetryTimer = 0;
             let autoplayRetryCount = 0;
 
@@ -420,7 +431,8 @@ import EditableImage from '../components/content/EditableImage.astro';
             const requestHeroPlayback = () => {
                 clearAutoplayRetry();
 
-                if (reducedMotion.matches || document.hidden || !heroIsVisible) {
+                if (heroToggle) heroToggle.hidden = reducedMotion.matches;
+                if (userPaused || reducedMotion.matches || document.hidden || !heroIsVisible) {
                     heroVideo.pause();
                     return;
                 }
@@ -439,6 +451,23 @@ import EditableImage from '../components/content/EditableImage.astro';
                 heroIsVisible = entry?.isIntersecting ?? false;
                 requestHeroPlayback();
             }, { threshold: 0.08 });
+
+            const syncHeroToggle = () => {
+                if (!heroToggle) return;
+                heroToggle.setAttribute('aria-label', userPaused ? 'Play background video' : 'Pause background video');
+                heroToggle.querySelector('i')?.setAttribute('class', userPaused ? 'fas fa-play' : 'fas fa-pause');
+            };
+
+            heroToggle?.addEventListener('click', () => {
+                userPaused = !userPaused;
+                try {
+                    if (userPaused) window.sessionStorage.setItem(PAUSE_KEY, '1');
+                    else window.sessionStorage.removeItem(PAUSE_KEY);
+                } catch { /* storage unavailable: the choice lasts for this page only */ }
+                syncHeroToggle();
+                requestHeroPlayback();
+            });
+            syncHeroToggle();
 
             heroObserver.observe(heroVideo);
             reducedMotion.addEventListener('change', requestHeroPlayback);

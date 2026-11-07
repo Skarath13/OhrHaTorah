@@ -68,6 +68,67 @@ html.mobile-nav-open body {
         background: rgba(6, 29, 53, 0.58);
     }
 
+    /* The drawer slides in from the edge its button sits on and leaves the same
+       way, a little faster. Browsers without @starting-style or the overlay
+       property open and close instantly, as before. */
+    @media (prefers-reduced-motion: no-preference) {
+        .mobile-nav-dialog {
+            transform: translateX(100%);
+            transition:
+                transform 200ms cubic-bezier(0.4, 0, 1, 1),
+                overlay 200ms allow-discrete,
+                display 200ms allow-discrete;
+        }
+
+        .mobile-nav-dialog[open] {
+            transform: translateX(0);
+            transition:
+                transform 260ms var(--motion-ease-lux, cubic-bezier(0.22, 1, 0.36, 1)),
+                overlay 260ms allow-discrete,
+                display 260ms allow-discrete;
+        }
+
+        @starting-style {
+            .mobile-nav-dialog[open] { transform: translateX(100%); }
+        }
+
+        .mobile-nav-dialog::backdrop {
+            background: rgba(6, 29, 53, 0);
+            transition:
+                background-color 200ms ease,
+                overlay 200ms allow-discrete,
+                display 200ms allow-discrete;
+        }
+
+        .mobile-nav-dialog[open]::backdrop {
+            background: rgba(6, 29, 53, 0.58);
+        }
+
+        @starting-style {
+            .mobile-nav-dialog[open]::backdrop { background: rgba(6, 29, 53, 0); }
+        }
+
+        /* Sections open and close together, so the list below moves instead of jumping. */
+        @supports (interpolate-size: allow-keywords) and selector(::details-content) {
+            .mobile-nav-dialog { interpolate-size: allow-keywords; }
+
+            .mobile-nav-group::details-content {
+                block-size: 0;
+                overflow: clip;
+                transition:
+                    block-size 180ms cubic-bezier(0.4, 0, 0.2, 1),
+                    content-visibility 180ms allow-discrete;
+            }
+
+            .mobile-nav-group[open]::details-content {
+                block-size: auto;
+                transition:
+                    block-size 220ms var(--motion-ease-lux, cubic-bezier(0.22, 1, 0.36, 1)),
+                    content-visibility 220ms allow-discrete;
+            }
+        }
+    }
+
     .mobile-nav-header {
         display: flex;
         min-height: calc(64px + env(safe-area-inset-top));
@@ -533,13 +594,20 @@ html.mobile-nav-open body {
 /* Desktop dropdowns unfurl: the panel keeps its tab-colored look and reveals
    top-down with clip-path while a rolled edge rides the reveal and settles as
    the panel's bottom lip. Panel size comes from Navigation.astro (--scroll-h,
-   --scroll-w). */
+   --scroll-w). The clip's bottom edge ends at the roller's bottom edge (-4px)
+   so the reveal never runs ahead of the roll; the roller's own shadow is the
+   panel's bottom shadow. Moving from one open menu to the next plays a
+   shorter unroll (data-nav-switching). */
 @media (min-width: 1360px) {
     .site-navigation-shell .nav-links > li.dropdown {
-        --scroll-open: 640ms;
-        --scroll-close: 380ms;
+        --scroll-open: 380ms;
+        --scroll-close: 220ms;
         --scroll-ease-open: cubic-bezier(0.22, 1, 0.36, 1);
         --scroll-ease-close: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .site-navigation-shell .nav-container[data-nav-switching] .dropdown {
+        --scroll-open: 240ms;
     }
 
     .site-navigation-shell .nav-container .dropdown-content {
@@ -554,7 +622,7 @@ html.mobile-nav-open body {
     .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:hover .dropdown-content,
     .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:focus-within .dropdown-content,
     .site-navigation-shell .dropdown.active .dropdown-content {
-        clip-path: inset(0 -32px -64px -32px);
+        clip-path: inset(0 -32px -4px -32px);
         transition: clip-path var(--scroll-open) var(--scroll-ease-open), visibility 0s;
     }
 
@@ -567,7 +635,7 @@ html.mobile-nav-open body {
     .site-navigation-shell .nav-container:not([data-nav-enhanced]) .dropdown:focus-within .dropdown-content a,
     .site-navigation-shell .dropdown.active .dropdown-content a {
         opacity: 1;
-        transition: opacity 360ms ease calc(140ms + var(--ink-step, 0) * 55ms), background-color 160ms ease;
+        transition: opacity 200ms ease-out calc(90ms + var(--ink-step, 0) * 30ms), background-color 160ms ease;
     }
 
     .site-navigation-shell .dropdown-content a:nth-child(2) { --ink-step: 1; }

@@ -118,7 +118,11 @@ import Editable from '../content/Editable.astro';
         height: 6px;
         background: var(--home-gold-500, #d0a33d);
         border-radius: 50%;
-        animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Two beats when fresh times arrive, then rest: confirmation, not a loop. */
+    .live-indicator.active .live-dot {
+        animation: pulse 900ms ease-in-out 2;
     }
 
     @keyframes pulse {
@@ -146,7 +150,7 @@ import Editable from '../content/Editable.astro';
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .live-dot {
+        .live-indicator.active .live-dot {
             animation: none;
         }
     }

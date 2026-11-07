@@ -130,6 +130,24 @@ import Editable from '../content/Editable.astro';
     const dropdownItems = Array.from(navigation?.querySelectorAll<HTMLElement>('.dropdown') ?? []);
     const desktopNavQuery = window.matchMedia('(min-width: 1360px)');
     const hoverOpenedDropdowns = new Set<HTMLElement>();
+    // A cursor passing over the bar should not unroll every menu it crosses.
+    const HOVER_INTENT_MS = 100;
+    let hoverIntentTimer = 0;
+    // A menu closed by the pointer this recently means the visitor is moving tab to tab.
+    const SWITCH_WINDOW_MS = 250;
+    let lastHoverCloseAt = -Infinity;
+
+    function cancelHoverIntent() {
+        window.clearTimeout(hoverIntentTimer);
+        hoverIntentTimer = 0;
+    }
+
+    // Moving from one open menu to the next plays the shorter unroll.
+    function markSwitching(switching: boolean) {
+        if (!navigation) return;
+        if (switching) navigation.setAttribute('data-nav-switching', '');
+        else navigation.removeAttribute('data-nav-switching');
+    }
 
     // The rolled edge sits outside the clipped panel, so it needs the panel size.
     function measureScroll(dropdown: HTMLElement) {
@@ -161,6 +179,8 @@ import Editable from '../content/Editable.astro';
         if (!trigger) return;
 
         trigger.addEventListener('click', () => {
+            cancelHoverIntent();
+            markSwitching(false);
             // The first click keeps a hover-opened menu open; a second closes it.
             const shouldExpand = !dropdown.classList.contains('active') || hoverOpenedDropdowns.has(dropdown);
             hoverOpenedDropdowns.delete(dropdown);
@@ -170,11 +190,22 @@ import Editable from '../content/Editable.astro';
 
         dropdown.addEventListener('pointerenter', event => {
             if (!desktopNavQuery.matches || event.pointerType !== 'mouse') return;
-            closeAllDropdowns(dropdown);
-            if (!dropdown.classList.contains('active')) {
+            cancelHoverIntent();
+            if (dropdown.classList.contains('active')) return;
+
+            const open = () => {
+                hoverIntentTimer = 0;
+                const anotherIsOpen = dropdownItems.some(item => item !== dropdown && item.classList.contains('active'));
+                markSwitching(anotherIsOpen || performance.now() - lastHoverCloseAt < SWITCH_WINDOW_MS);
+                closeAllDropdowns(dropdown);
                 setDropdownState(dropdown, true);
                 hoverOpenedDropdowns.add(dropdown);
-            }
+            };
+
+            const moving = dropdownItems.some(item => item.classList.contains('active'))
+                || performance.now() - lastHoverCloseAt < SWITCH_WINDOW_MS;
+            if (moving) open();
+            else hoverIntentTimer = window.setTimeout(open, HOVER_INTENT_MS);
         });
 
         dropdown.addEventListener('focusout', () => {
@@ -186,7 +217,9 @@ import Editable from '../content/Editable.astro';
         });
 
         dropdown.addEventListener('pointerleave', () => {
+            cancelHoverIntent();
             if (!dropdown.contains(document.activeElement)) {
+                if (dropdown.classList.contains('active')) lastHoverCloseAt = performance.now();
                 setDropdownState(dropdown, false);
             }
         });

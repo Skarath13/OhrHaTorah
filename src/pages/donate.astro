@@ -55,7 +55,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
                                 <code id="zelle-tag-value">{zelleTag}</code>
                                 <button type="button" class="zelle-copy-button" data-copy-zelle-tag data-zelle-tag={zelleTag}>
                                     <i class="far fa-copy" aria-hidden="true"></i>
-                                    Copy
+                                    <span data-copy-label>Copy</span>
                                 </button>
                             </dd>
                         </div>
@@ -398,7 +398,13 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     .payment-qr-link:hover .payment-qr-frame {
         border-color: color-mix(in srgb, var(--payment-accent) 56%, transparent);
         box-shadow: 0 1rem 2.3rem rgba(6, 29, 53, 0.11);
-        transform: translateY(-2px);
+    }
+
+    /* Lifts only where a pointer can hover; on touch they stick after a tap. */
+    @media (hover: hover) and (pointer: fine) {
+        .payment-qr-link:hover .payment-qr-frame { transform: translateY(-2px); }
+        .provider-primary-action:hover { transform: translateY(-2px); }
+        .giving-record-trigger:hover { transform: translateY(-1px); }
     }
 
     .payment-details {
@@ -495,6 +501,23 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         margin: 0;
     }
 
+    /* Confirmation on the button itself: check and "Copied" for two seconds, one beat. */
+    .zelle-copy-button.is-copied {
+        border-color: #216b4b;
+        background: #e6f2ec;
+        color: #1c5c40;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .zelle-copy-button.is-copied {
+            animation: zelle-copied 320ms var(--motion-ease-lux, cubic-bezier(0.22, 1, 0.36, 1));
+        }
+
+        @keyframes zelle-copied {
+            40% { scale: 1.06; }
+        }
+    }
+
     .zelle-copy-status,
     .payment-status-placeholder {
         min-height: 1.05rem;
@@ -524,9 +547,6 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         transition: box-shadow 180ms ease, transform 180ms ease;
     }
 
-    .provider-primary-action:hover {
-        transform: translateY(-2px);
-    }
 
     .zelle-primary-action {
         background: var(--zelle-deep);
@@ -673,7 +693,6 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
 
     .giving-record-trigger:hover {
         background: #17446f;
-        transform: translateY(-1px);
     }
 
     .giving-record-trigger + p {
@@ -818,6 +837,24 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
     const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-zelle-tag]');
     const copyStatus = document.querySelector<HTMLElement>('.zelle-copy-status');
     const tagElement = document.getElementById('zelle-tag-value');
+    const copyIcon = copyButton?.querySelector('i');
+    const copyLabel = copyButton?.querySelector<HTMLElement>('[data-copy-label]');
+    let copiedTimer = 0;
+
+    function showCopied() {
+        if (!copyButton || !copyIcon || !copyLabel) return;
+        window.clearTimeout(copiedTimer);
+        copyButton.classList.remove('is-copied');
+        void copyButton.offsetWidth; // restart the beat on a repeat copy
+        copyButton.classList.add('is-copied');
+        copyIcon.className = 'fas fa-check';
+        copyLabel.textContent = 'Copied';
+        copiedTimer = window.setTimeout(() => {
+            copyButton.classList.remove('is-copied');
+            copyIcon.className = 'far fa-copy';
+            copyLabel.textContent = 'Copy';
+        }, 2000);
+    }
 
     copyButton?.addEventListener('click', async () => {
         const tag = copyButton.dataset.zelleTag?.trim();
@@ -826,6 +863,7 @@ const paypalQrDonationUrl = `${paypalDonationUrl}&source=qr`;
         try {
             await navigator.clipboard.writeText(tag);
             copyStatus.textContent = `Copied ${tag} to the clipboard.`;
+            showCopied();
         } catch {
             if (tagElement) {
                 const range = document.createRange();

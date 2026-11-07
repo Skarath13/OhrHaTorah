@@ -183,11 +183,27 @@ full hairline border.
 
 ## Motion
 
-- One curve: `var(--motion-ease-lux)`; durations `--motion-fast` (180ms) and
-  `--motion-medium` (620ms).
-- Hover lifts are at most 2px. No bounce or overshoot.
-- Wrap non-essential motion in `prefers-reduced-motion: no-preference`; hover
-  shimmer additionally requires `(hover: hover) and (pointer: fine)`.
+- One curve: `var(--motion-ease-lux)` for arrivals; exits may use a short
+  ease-in. Durations `--motion-fast` (180ms) and `--motion-medium` (620ms).
+- Timing scale (November 2026 motion audit):
+
+  | Use | Duration |
+  |---|---|
+  | Press feedback, color, chevrons | 90–180ms |
+  | Phone menu sections, tab indicator | 220ms open, 180ms close |
+  | Desktop menu unroll | 380ms open (240ms tab to tab), 220ms close |
+  | Phone drawer, dialogs | 200–260ms in, 200ms out |
+  | Scroll reveal | 320–480ms, 40ms stagger, max 3 steps |
+  | Home hero entrance | 620ms, staggered |
+  | 3D logo unfurl | 3.4s, first home visit of a session only |
+
+- Exits are shorter than entrances. Things leave the way they came.
+- Press: buttons scale to 0.97 on `:active`, full-width rows to 0.985.
+- Hover lifts are at most 2px and only under `(hover: hover) and
+  (pointer: fine)`; on touch they stick after a tap. No bounce or overshoot.
+- No endless loops beside reading content; confirmation pulses run once or twice.
+- Autoplaying video needs a visible pause control (WCAG 2.2.2).
+- Wrap non-essential motion in `prefers-reduced-motion: no-preference`.
 
 ## Accessibility baseline
 

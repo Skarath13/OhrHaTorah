@@ -15,12 +15,6 @@
     to { opacity: 1; }
 }
 
-/* Mobile nav groups unfurl top-down like the desktop dropdowns. */
-@keyframes oht-scroll-unroll {
-    from { clip-path: inset(0 0 100% 0); }
-    to { clip-path: inset(0 0 0 0); }
-}
-
 /* Site reveal (src/lib/siteReveal.ts): each section is ruled before it is
    written. Keyframes only name the first frame, so every reveal ends on the
    element's own styles and later hover transforms stay untouched. */
@@ -59,28 +53,25 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+    /* The home hero keeps its staggered entrance: it is the site's one authored arrival. */
     .home-hero-logo,
-    .home-hero-copy > *,
-    .page-hero-title > * {
+    .home-hero-copy > * {
         animation-duration: var(--motion-medium);
         animation-fill-mode: both;
         animation-timing-function: var(--motion-ease-lux);
     }
 
-    .home-hero-logo,
-    .page-hero-title > :first-child {
+    .home-hero-logo {
         animation-name: oht-fade-rise;
         animation-delay: 70ms;
     }
 
-    .home-hero-copy > :nth-child(1),
-    .page-hero-title > :nth-child(2) {
+    .home-hero-copy > :nth-child(1) {
         animation-name: oht-fade-rise;
         animation-delay: 130ms;
     }
 
-    .home-hero-copy > :nth-child(2),
-    .page-hero-title > :nth-child(3) {
+    .home-hero-copy > :nth-child(2) {
         animation-name: oht-fade-rise;
         animation-delay: 200ms;
     }
@@ -90,16 +81,24 @@
         animation-delay: 270ms;
     }
 
+    /* Interior titles are read on every page change: no delay, one short fade. */
+    .page-hero-title > * {
+        animation: oht-soft-reveal 300ms ease-out both;
+    }
+
     .mobile-nav-group[open] > .mobile-nav-submenu,
     .faq-item.active .faq-answer,
     details[open] > :not(summary) {
         animation: oht-soft-reveal 240ms ease-out both;
     }
 
+    /* Phone menu sections grow in height (chrome.css); links settle in just behind. */
     .mobile-nav-group[open] > .mobile-nav-submenu {
-        animation: oht-scroll-unroll 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation: oht-soft-reveal 200ms ease-out 40ms both;
     }
 
+    /* Buttons and button-like links: one transition list so hover, press and
+       color changes share timing. */
     :where(
         .home-button,
         .cta-button,
@@ -109,10 +108,15 @@
         .contact-links a,
         .contact-info a,
         .service-contact-actions a,
-        .page-home-link
+        .page-home-link,
+        .action-link,
+        .provider-primary-action,
+        .giving-record-trigger,
+        .zelle-copy-button
     ) {
         transition:
             transform var(--motion-fast) var(--motion-ease-lux),
+            scale 160ms var(--motion-ease-lux),
             background-color var(--motion-fast) ease,
             border-color var(--motion-fast) ease,
             color var(--motion-fast) ease,
@@ -128,39 +132,16 @@
         .contact-links a,
         .contact-info a,
         .service-contact-actions a,
-        .page-home-link
-    ):hover {
-        transform: translateY(-2px);
-    }
-
-    :where(
-        .home-button,
-        .cta-button,
-        .directions-btn,
-        .resource-link,
-        .ministry-link,
-        .contact-links a,
-        .contact-info a,
-        .service-contact-actions a,
-        .page-home-link
-    ):active {
-        transform: translateY(0);
-    }
-
-    :where(
-        .home-button,
-        .cta-button,
-        .directions-btn,
-        .resource-link,
-        .ministry-link,
-        .contact-links a,
-        .contact-info a,
-        .service-contact-actions a,
-        .page-home-link
+        .page-home-link,
+        .action-link,
+        .provider-primary-action,
+        .giving-record-trigger,
+        .zelle-copy-button
     ) :where(i, svg) {
         transition: transform var(--motion-fast) var(--motion-ease-lux);
     }
 
+    /* Press: answers on touch-down, on every device. */
     :where(
         .home-button,
         .cta-button,
@@ -170,9 +151,24 @@
         .contact-links a,
         .contact-info a,
         .service-contact-actions a,
-        .page-home-link
-    ):hover :where(i, svg) {
-        transform: translateX(2px);
+        .page-home-link,
+        .action-link,
+        .provider-primary-action,
+        .giving-record-trigger,
+        .zelle-copy-button
+    ):active {
+        scale: 0.97;
+        transition-duration: var(--motion-fast), 90ms, var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-fast) !important;
+    }
+
+    /* Full-width rows press more gently. */
+    :where(.mobile-nav-summary, .mobile-nav-direct-link, .mobile-nav-submenu-link, .home-identity-links a, .editorial-link-list a) {
+        transition: scale 160ms var(--motion-ease-lux), background-color var(--motion-fast) ease, color var(--motion-fast) ease;
+    }
+
+    :where(.mobile-nav-summary, .mobile-nav-direct-link, .mobile-nav-submenu-link, .home-identity-links a, .editorial-link-list a):active {
+        scale: 0.985;
+        transition-duration: 90ms, var(--motion-fast), var(--motion-fast);
     }
 
     :where(
@@ -193,19 +189,65 @@
             box-shadow 260ms ease;
     }
 
+    /* Hover lifts only where a pointer can hover; on touch they would stick after a tap. */
+    @media (hover: hover) and (pointer: fine) {
+        :where(
+            .home-button,
+            .cta-button,
+            .directions-btn,
+            .resource-link,
+            .ministry-link,
+            .contact-links a,
+            .contact-info a,
+            .service-contact-actions a,
+            .page-home-link
+        ):hover {
+            transform: translateY(-2px);
+        }
+
+        :where(
+            .home-button,
+            .cta-button,
+            .directions-btn,
+            .resource-link,
+            .ministry-link,
+            .contact-links a,
+            .contact-info a,
+            .service-contact-actions a,
+            .page-home-link
+        ):hover :where(i, svg) {
+            transform: translateX(2px);
+        }
+
+        :where(
+            .home-card,
+            .contact-card,
+            .event-card,
+            .holiday-card,
+            .resource-card,
+            .value-card,
+            .ministry-card,
+            .donation-card,
+            .direction-card,
+            .faq-item
+        ):hover {
+            transform: translateY(-2px);
+        }
+    }
+
+    /* A pressed button drops back from its hover lift. */
     :where(
-        .home-card,
-        .contact-card,
-        .event-card,
-        .holiday-card,
-        .resource-card,
-        .value-card,
-        .ministry-card,
-        .donation-card,
-        .direction-card,
-        .faq-item
-    ):hover {
-        transform: translateY(-2px);
+        .home-button,
+        .cta-button,
+        .directions-btn,
+        .resource-link,
+        .ministry-link,
+        .contact-links a,
+        .contact-info a,
+        .service-contact-actions a,
+        .page-home-link
+    ):active {
+        transform: translateY(0);
     }
 
 }
@@ -215,12 +257,12 @@
    match, so they always show the page as authored. */
 @media screen and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
     html.site-motion-ready [data-site-reveal] {
-        animation: oht-reveal-text 600ms var(--motion-ease-lux) backwards paused;
+        animation: oht-reveal-text 380ms var(--motion-ease-lux) backwards paused;
     }
 
     html.site-motion-ready [data-site-reveal='heading'] {
         animation-name: oht-reveal-heading;
-        animation-duration: 640ms;
+        animation-duration: 420ms;
     }
 
     html.site-motion-ready [data-site-reveal='item'] {
@@ -229,17 +271,17 @@
 
     html.site-motion-ready [data-site-reveal='media'] {
         animation-name: oht-reveal-media;
-        animation-duration: 650ms;
+        animation-duration: 460ms;
     }
 
     html.site-motion-ready [data-site-reveal='trace'] {
         animation-name: oht-reveal-trace;
-        animation-duration: 520ms;
+        animation-duration: 340ms;
     }
 
     html.site-motion-ready [data-site-reveal='fade'] {
         animation-name: oht-reveal-fade;
-        animation-duration: 520ms;
+        animation-duration: 320ms;
     }
 
     /* The hairline is redrawn in its own color and weight, then handed back to the border. */
@@ -261,7 +303,7 @@
         content: '';
         pointer-events: none;
         transform-origin: left center;
-        animation: oht-reveal-rule 880ms var(--motion-ease-lux) backwards paused;
+        animation: oht-reveal-rule 480ms var(--motion-ease-lux) backwards paused;
     }
 
     html.site-motion-ready .is-site-revealing,

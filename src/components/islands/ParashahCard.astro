@@ -96,12 +96,36 @@ import Editable from '../content/Editable.astro';
     }
 
     .reading-cycle-toggle {
+        position: relative;
         gap: 0;
         padding: 0;
         border: 0;
         border-bottom: 1px solid var(--home-line, rgba(13, 51, 91, 0.16));
         border-radius: 0;
         background: transparent;
+    }
+
+    /* One underline that travels to the chosen tab (set up by the script below). */
+    .reading-cycle-toggle[data-indicator]::after {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: var(--tab-w, 0px);
+        height: 2px;
+        background: var(--home-gold-500, #d0a33d);
+        content: '';
+        pointer-events: none;
+        transform: translateX(var(--tab-x, 0px));
+        transition: transform 220ms var(--motion-ease-lux, cubic-bezier(0.22, 1, 0.36, 1)), width 220ms var(--motion-ease-lux, cubic-bezier(0.22, 1, 0.36, 1));
+    }
+
+    .reading-cycle-toggle[data-indicator] .cycle-btn.active,
+    .reading-cycle-toggle[data-indicator] .cycle-btn.active:hover {
+        border-bottom-color: transparent;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reading-cycle-toggle[data-indicator]::after { transition: none; }
     }
 
     .cycle-btn {
@@ -471,6 +495,24 @@ import Editable from '../content/Editable.astro';
 
     // Initialize triennial toggle
     const toggleButtons = document.querySelectorAll<HTMLButtonElement>('.cycle-btn');
+    const cycleToggle = document.querySelector<HTMLElement>('.reading-cycle-toggle');
+    const quietMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const placeIndicator = () => {
+        const active = cycleToggle?.querySelector<HTMLElement>('.cycle-btn.active');
+        if (!cycleToggle || !active) return;
+        cycleToggle.style.setProperty('--tab-x', `${active.offsetLeft}px`);
+        cycleToggle.style.setProperty('--tab-w', `${active.offsetWidth}px`);
+        cycleToggle.setAttribute('data-indicator', '');
+    };
+
+    // Tabs change width when the triennial tab appears, so watch them as well as the row.
+    if (cycleToggle && 'ResizeObserver' in window) {
+        const indicatorObserver = new ResizeObserver(placeIndicator);
+        indicatorObserver.observe(cycleToggle);
+        toggleButtons.forEach((button) => indicatorObserver.observe(button));
+    }
+
     const selectCycle = (cycle: 'annual' | 'triennial') => {
         const annualSection = document.getElementById('annual-readings');
         const triennialSection = document.getElementById('triennial-readings');
@@ -482,8 +524,14 @@ import Editable from '../content/Editable.astro';
             button.setAttribute('aria-selected', String(selected));
         });
 
+        const shown = cycle === 'annual' ? annualSection : triennialSection;
+        const changed = Boolean(shown?.hidden);
         if (annualSection) annualSection.hidden = cycle !== 'annual';
         if (triennialSection) triennialSection.hidden = cycle !== 'triennial';
+        placeIndicator();
+        if (changed && shown && !quietMotion.matches) {
+            shown.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: 'ease-out' });
+        }
         if (triennialYearInfo) {
             triennialYearInfo.hidden = cycle !== 'triennial'
                 || triennialYearInfo.dataset.yearReady !== 'true';

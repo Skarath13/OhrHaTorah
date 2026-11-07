@@ -180,6 +180,8 @@ export async function mountHeroScroll(host: HTMLElement) {
     host.dataset.heroScroll = 'playing';
 
     await nextVisible(host);
+    // Once seen, later home visits this session show the finished logo at once.
+    try { window.sessionStorage.setItem('oht-hero-scroll-seen', '1'); } catch { /* storage unavailable */ }
     await new Promise<void>((resolve) => {
         let start = 0;
         renderer.setAnimationLoop((now) => {

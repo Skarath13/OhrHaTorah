@@ -65,6 +65,13 @@
   .submit-btn.loading .btn-text { display: none; }
   @keyframes spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .loading-spinner { animation: none; } }
+  /* The card settles in from 0.96 while the backdrop fades; both short. */
+  @media (prefers-reduced-motion: no-preference) {
+    .login-modal.visible .login-modal-backdrop { animation: login-fade 180ms ease-out both; }
+    .login-modal.visible .login-modal-content { animation: login-settle 200ms var(--motion-ease-lux, cubic-bezier(0.22, 1, 0.36, 1)) both; }
+    @keyframes login-fade { from { opacity: 0; } }
+    @keyframes login-settle { from { opacity: 0; transform: scale(0.96); } }
+  }
 </style>
 
 <script is:inline>

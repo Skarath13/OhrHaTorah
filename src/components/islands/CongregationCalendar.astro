@@ -447,6 +447,15 @@
             const previouslyVisible = visibleDateLimit;
             visibleDateLimit = Math.min(dateGroups.length, visibleDateLimit + defaultDateLimit);
             renderDateGroups();
+            // The new dates rise in reading order: 200ms each, 30ms apart, at most six staggered.
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                Array.from(calendarElement.children).slice(previouslyVisible).forEach((card, index) => {
+                    card.animate(
+                        [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
+                        { duration: 200, delay: Math.min(index, 5) * 30, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'backwards' },
+                    );
+                });
+            }
             calendarElement
                 .querySelector<HTMLButtonElement>(`.kehilat-calendar-date-card:nth-child(${previouslyVisible + 1}) .kehilat-calendar-event-button`)
                 ?.focus();

@@ -110,7 +110,6 @@ import Editable from '../content/Editable.astro';
         document.documentElement.classList.remove('mobile-nav-open');
         mobileNavButton?.setAttribute('aria-expanded', 'false');
         mobileNavButton?.setAttribute('aria-label', 'Open navigation menu');
-        mobileNavGroups.forEach(group => { group.open = false; });
 
         if (mobileNavRestoreFocus) {
             mobileNavPreviousFocus?.focus({ preventScroll: true });

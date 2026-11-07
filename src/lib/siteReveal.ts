@@ -12,7 +12,7 @@ export const SITE_REVEAL_QUERY = 'screen and (prefers-reduced-motion: no-prefere
 
 // Start just before content rises past the lower edge; settle anything just above the top.
 const ROOT_MARGIN = '12% 0px 6% 0px';
-const STAGGER_MS = 70;
+const STAGGER_MS = 40;
 const MAX_STAGGER_STEPS = 3;
 // Siblings whose tops sit this close share a visual row and arrive together.
 const ROW_TOLERANCE = 40;
@@ -227,7 +227,7 @@ export function startSiteReveal(): void {
     // Anything on screen, above it after a scroll restore, or on the way to a fragment's target
     // (which the browser may glide to after load) stays exactly as rendered.
     const foldLine = settledUntil();
-    const pending = planSiteReveals(document.querySelectorAll('main, .site-footer'))
+    const pending = planSiteReveals(document.querySelectorAll('main'))
         .filter((target) => target.top >= foldLine);
 
     if (pending.length > 0) new SiteReveal(motionQuery, pending);
