@@ -8,9 +8,10 @@ This file provides project-specific guidance for the Chuck directory containing 
 - **Type**: Astro SSR site with Cloudflare Pages
 - **Tech Stack**: Astro 5.x, TypeScript, Cloudflare Workers/Pages, D1, R2
 - **Development Server**: `npm run dev` (port 3002)
-- **Production URL**: https://ohrhatorah.pages.dev
+- **Legacy Production URL**: https://ohrhatorah.pages.dev (rollback only until an approved domain cutover)
+- **Chuck Staging URL**: https://kehilat-ohr-hatorah-chuck-staging.pages.dev
 - **Repository**: https://github.com/Skarath13/OhrHaTorah.git
-- **Branch**: `master` (auto-deploys to Cloudflare Pages on push)
+- **Primary Branch**: `main`. `master` is the legacy branch attached to the old Dylan Pages project; do not push or deploy it as the current site.
 
 ### Project Structure
 ```
@@ -54,7 +55,7 @@ OhrHaTorah/
 - `images` - Uploaded image metadata
 
 ### Deployment
-- **Auto-deploy**: Push to `master` triggers Cloudflare Pages build
+- **Deploy**: pushing `master` deploys the legacy Pages project only; do not use it. Staging deploys the isolated artifact in `docs/cloudflare-staging.md`.
 - **Build command**: `npm run build`
 - **Output directory**: `dist`
 - **Manual deploy**: `npx wrangler pages deploy dist --project-name ohrhatorah`
@@ -156,9 +157,9 @@ npm run preview  # Preview production build
 
 ### Repository Management
 - **Origin**: https://github.com/Skarath13/OhrHaTorah.git
-- **Primary Branch**: `master`
+- **Primary Branch**: `main` (`master` is legacy)
 - **Commits**: Descriptive messages for content and code changes
-- **Push**: `git push origin master` (triggers auto-deploy)
+- **Push**: `git push origin main`
 
 ---
 

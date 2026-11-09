@@ -1,0 +1,158 @@
+@font-face {
+  font-family: "Source Serif";
+  src: url("/fonts/source-serif-4-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans";
+  src: url("/fonts/source-sans-3-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  font-family: "Source Sans", sans-serif;
+  background: #fff;
+  color: #263434;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+::selection { color: #263434; background: #dce7e6; }
+
+main {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 64px 24px 104px;
+}
+
+.construction {
+  width: 100%;
+  max-width: 580px;
+  text-align: center;
+}
+
+.construction-mark {
+  display: block;
+  width: 104px;
+  height: 104px;
+  margin: 0 auto 38px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 1.15px;
+}
+
+.mark-foundation { stroke: #e3e9e8; }
+.mark-line {
+  stroke: #657e7b;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: take-shape 12s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+.mark-line-second { animation-delay: .4s; }
+
+h1 {
+  margin: 0;
+  font-family: "Source Serif", Georgia, serif;
+  font-size: clamp(32px, 3.4vw, 46px);
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.headline-word { display: inline-block; white-space: nowrap; }
+.headline-letter {
+  animation: text-light 12s ease-in-out infinite;
+
+}
+
+p {
+  margin: 17px 0 0;
+  color: #65716f;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+footer {
+  position: absolute;
+  top: calc(100svh - 58px);
+  width: 100%;
+  padding: 0 24px 24px;
+  color: #65716f;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  letter-spacing: .035em;
+}
+
+@keyframes take-shape {
+  0%, 100% { stroke-dashoffset: 1; }
+  40%, 65% { stroke-dashoffset: 0; }
+}
+
+.headline-letter[data-letter="1"] { animation-delay: 65ms; }
+.headline-letter[data-letter="2"] { animation-delay: 130ms; }
+.headline-letter[data-letter="3"] { animation-delay: 195ms; }
+.headline-letter[data-letter="4"] { animation-delay: 260ms; }
+.headline-letter[data-letter="5"] { animation-delay: 325ms; }
+.headline-letter[data-letter="6"] { animation-delay: 390ms; }
+.headline-letter[data-letter="7"] { animation-delay: 455ms; }
+.headline-letter[data-letter="8"] { animation-delay: 520ms; }
+.headline-letter[data-letter="9"] { animation-delay: 585ms; }
+.headline-letter[data-letter="10"] { animation-delay: 650ms; }
+.headline-letter[data-letter="11"] { animation-delay: 715ms; }
+.headline-letter[data-letter="12"] { animation-delay: 780ms; }
+.headline-letter[data-letter="13"] { animation-delay: 845ms; }
+.headline-letter[data-letter="14"] { animation-delay: 910ms; }
+.headline-letter[data-letter="15"] { animation-delay: 975ms; }
+.headline-letter[data-letter="16"] { animation-delay: 1040ms; }
+.headline-letter[data-letter="17"] { animation-delay: 1105ms; }
+
+@keyframes text-light {
+  0%, 8%, 24%, 100% { color: #263434; }
+  16% { color: #657e7b; }
+}
+
+.motion-toggle, .motion-control {
+  position: fixed;
+  right: 16px;
+  bottom: 12px;
+  width: 44px;
+  height: 44px;
+}
+.motion-toggle { opacity: 0; margin: 0; z-index: 2; cursor: pointer; }
+.motion-control {
+  display: grid;
+  place-items: center;
+  color: #65716f;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.motion-control svg { width: 14px; height: 14px; }
+.motion-play { display: none; }
+.motion-toggle:focus-visible + .motion-control { outline: 2px solid #65716f; outline-offset: -3px; }
+.motion-toggle:hover + .motion-control { background: #f3f6f5; }
+.motion-toggle:checked + .motion-control .motion-pause { display: none; }
+.motion-toggle:checked + .motion-control .motion-play { display: block; }
+body:has(.motion-toggle:checked) :is(.mark-line, .headline-letter) { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mark-line { animation: none; stroke-dashoffset: 0; }
+  .headline-letter { animation: none; }
+  .motion-toggle, .motion-control { display: none; }
+}
+
+@media (max-height: 440px) {
+  main { min-height: 400px; padding-top: 32px; }
+  .construction-mark { width: 76px; height: 76px; margin-bottom: 24px; }
+  footer { top: 360px; }
+}

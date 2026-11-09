@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T12:09:22Z",
+  "title": "Design System: Public construction surface",
+  "extensions": {
+    "colorMeta": {
+      "canvas": {
+        "role": "neutral",
+        "displayName": "White canvas"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Headline ink"
+      },
+      "muted-text": {
+        "role": "neutral",
+        "displayName": "Muted supporting text"
+      },
+      "mark-line": {
+        "role": "primary",
+        "displayName": "Muted mark accent"
+      },
+      "mark-foundation": {
+        "role": "neutral",
+        "displayName": "Pale mark foundation"
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Text selection"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Construction headline",
+        "purpose": "The single balanced headline."
+      },
+      "body": {
+        "displayName": "Supporting sentence",
+        "purpose": "The single vague supporting sentence."
+      },
+      "label": {
+        "displayName": "Domain label",
+        "purpose": "Small non-interactive footer domain."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "take-shape",
+        "value": "12s cubic-bezier(.45, 0, .2, 1) infinite",
+        "purpose": "Continuously trace, hold, and retrace the triangles."
+      },
+      {
+        "name": "second-triangle-delay",
+        "value": ".4s",
+        "purpose": "Offset the second triangle within the loop."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; stroke-dashoffset: 0",
+        "purpose": "Display the completed static mark immediately."
+      },
+      {
+        "name": "text-light",
+        "value": "12s ease-in-out infinite; 65ms letter stagger",
+        "purpose": "A readable ink-to-sage light wave across the headline; pause with the star."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "short-viewport",
+        "value": "(max-height: 440px)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Construction mark",
+      "kind": "custom",
+      "refersTo": "construction-mark",
+      "description": "Decorative Star of David with a continuous trace and pause control.",
+      "html": "<svg class=\"ds-construction-mark\" viewBox=\"0 0 120 120\" fill=\"none\" aria-hidden=\"true\"><path class=\"ds-foundation\" d=\"M60 22 93 79H27L60 22ZM60 98 27 41H93L60 98Z\"/><path class=\"ds-line\" pathLength=\"1\" d=\"M60 22 93 79H27L60 22Z\"/><path class=\"ds-line ds-second\" pathLength=\"1\" d=\"M60 98 27 41H93L60 98Z\"/></svg>",
+      "css": ".ds-construction-mark{display:block;width:104px;height:104px;margin:0 auto 38px;stroke-linejoin:round;stroke-linecap:round;stroke-width:1.15px}.ds-foundation{stroke:#e3e9e8}.ds-line{stroke:#657e7b;stroke-dasharray:1;stroke-dashoffset:1;animation:ds-take-shape 12s cubic-bezier(.45,0,.2,1) infinite}.ds-second{animation-delay:.4s}@keyframes ds-take-shape{0%,100%{stroke-dashoffset:1}40%,65%{stroke-dashoffset:0}}@media(prefers-reduced-motion:reduce){.ds-line{animation:none;stroke-dashoffset:0}}@media(max-height:440px){.ds-construction-mark{width:76px;height:76px;margin-bottom:24px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "White space and quiet type",
+    "overview": "A bright white page centers a thin Star of David above a serif headline and one supporting sentence. Generous empty space, restrained colors, and a small domain label provide the entire visual hierarchy. This records the approved holding surface only.",
+    "keyCharacteristics": [
+      "Generous white space.",
+      "Centered serif headline and sans-serif supporting text.",
+      "Thin SVG mark with a continuous trace and restrained headline light wave."
+    ],
+    "rules": [],
+    "dos": [
+      "Do preserve the generous white space and centered hierarchy.",
+      "Do preserve the looping trace, pause control, and reduced-motion static state."
+    ],
+    "donts": [
+      "Don't expand the visible body beyond the approved vague construction message."
+    ]
+  }
+}
